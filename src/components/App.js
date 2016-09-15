@@ -22,9 +22,9 @@ export default class App extends React.Component
                     {this.props.children}
                 </div>
                 <div className="row footer">
-                    Built with {' '}
-                    <a href="https://github.com/catalin-luntraru/react-redux-minimal-starter" target="_blank">
-                        React Redux minimal boilerplate (starter kit)
+                    Simple users app built with {' '}
+                    <a href="https://github.com/catalin-luntraru/redux-minimal" target="_blank">
+                        redux-minimal
                     </a>
                 </div>
             </div>
