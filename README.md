@@ -65,7 +65,7 @@ Here are the npm packages that redux-minimal installs:
 |Unit tests|[`mocha`](https://github.com/mochajs/mocha)|Simple javascript test framework|
 |Sass|[`node-sass`](https://github.com/sass/node-sass)|Mature, stable, and powerful CSS extension language|
 |Webpack|[`webpack`](https://github.com/webpack/webpack)|A bundler for javascript, css and others|
-||[`webpack-dev-server`](https://github.com/webpack/webpack-dev-server)|Serves the app at http://localhost:8080/|
+||[`webpack-dev-server`](https://github.com/webpack/webpack-dev-server)|Serves the app at [http://localhost:8080/](http://localhost:8080/)|
 ||[`extract-text-webpack-plugin`](https://github.com/webpack/extract-text-webpack-plugin)|Webpack plugin that builds the css bundle file|
 ||[`style-loader`](https://github.com/webpack/style-loader)|Webpack module to load styles|
 ||[`css-loader`](https://github.com/webpack/css-loader)|Webpack module to load css styles|
