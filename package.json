@@ -1,7 +1,7 @@
 {
   "name": "redux-minimal",
   "version": "1.0.0",
-  "description": "A minimalist react-redux starter kit (boilerplate) which let's you build rich real world apps",
+  "description": "Start building complex react-redux apps today, with this minimalist easy to understand starter kit (boilerplate)",
   "keywords": [
     "react",
     "redux",
