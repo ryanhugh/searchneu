@@ -35,7 +35,7 @@ Redux-Minimal contains the minimum npm packages you need to have installed in or
 * a proper file/folder structure
 * pages (routes)
 * forms with validation
-* real-world API async requests
+* real-world API asynchronous requests
 * unit tests
 * bootstrap react components
 * sass
@@ -51,10 +51,10 @@ Here are the npm packages that redux-minimal installs:
 
 |Feature|Packages|Benefits|
 |-------|--------|--------|
-|React|[`react`]((https://github.com/facebook/react))|A declarative, efficient, and flexible JavaScript library for building user interfaces|
+|React|[`react`](https://github.com/facebook/react)|A declarative, efficient, and flexible JavaScript library for building user interfaces|
 ||[`react-dom`](https://www.npmjs.com/package/react-dom)|Serves as the entry point of the DOM-related rendering paths|
 ||[`react-hot-loader`](https://github.com/gaearon/react-hot-loader)|Tweak React components in real time when developing|
-|Redux|[`redux`]((https://github.com/reactjs/redux))|A predictable state container for JavaScript apps|
+|Redux|[`redux`](https://github.com/reactjs/redux)|A predictable state container for JavaScript apps|
 ||[`react-redux`](https://github.com/reactjs/react-redux)|React bindings for Redux|
 |Router|[`react-router`](https://github.com/ReactTraining/react-router)|Declarative routing for React. Your app has pages now|
 ||[`react-router-redux`](https://github.com/reactjs/react-router-redux)|Simple bindings to keep react-router and redux in sync|
