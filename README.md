@@ -3,7 +3,7 @@
 [![Join the chat at https://gitter.im/catalin-luntraru/redux-minimal](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/catalin-luntraru/redux-minimal?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/catalin-luntraru/redux-minimal.svg?branch=master)](https://travis-ci.org/catalin-luntraru/redux-minimal?branch=master)
 [![dependencies](https://david-dm.org/catalin-luntraru/redux-minimal.svg)](https://david-dm.org/catalin-luntraru/redux-minimal)
-[![devDependency Status](https://david-dm.org/catalin-luntraru/redux-minimal/dev-status.svg)](https://david-dm.org/catalin-luntraru/redux-minimal#info=devDependencies)
+[![devDependency Status](https://david-dm.org/catalin-luntraru/redux-minimal/dev-status.svg)](https://david-dm.org/catalin-luntraru/redux-minimal?type=dev)
 
 Redux-Minimal is a minimalist react-redux starter kit (boilerplate) which let's you build rich real world apps. 
 It's not as light as some starter kits which only let you write a simple hello world app and then you have to struggle with installing all the other stuff yourself. 
