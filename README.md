@@ -22,7 +22,7 @@ The code and implementation is minimal, which lets you focus on the real app, no
 
 This boilerplate also contains a small app which can be found here:
 
-[http://redux-minimal.catalin-luntraru.com](http://redux-minimal.catalin-luntraru.com)
+[http://redux-minimal-app.catalin-luntraru.com](http://redux-minimal-app.catalin-luntraru.com)
 
 # Start
 
@@ -81,4 +81,4 @@ This boilerplate (starter kit) also contains a simple starting app that let's yo
 This little app contains basically most of the things you will need when building a new real-world app.
 
 The demo for the app can be found here: 
-[http://redux-minimal.catalin-luntraru.com](http://redux-minimal.catalin-luntraru.com)
+[http://redux-minimal-app.catalin-luntraru.com](http://redux-minimal-app.catalin-luntraru.com)
