@@ -14,7 +14,7 @@ A demo of the app can be seen here: [http://redux-minimal-app.catalin-luntraru.c
 * [NodeJs and Npm](https://nodejs.org/en/download/current/)
 * an IDE to write js code in, for example [Webstorm](https://www.jetbrains.com/webstorm/download/)
 
-2) Once your environment is prepared, open a terminal and type in the following
+2) Once your environment is prepared, open a command prompt (terminal) and type in the following
 
 ```sh
 cd C:\js\node\apps
