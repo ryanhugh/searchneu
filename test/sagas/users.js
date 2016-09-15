@@ -1,8 +1,8 @@
 import { call, put } from 'redux-saga/effects';
 import assert from 'assert';
 
-import { usersFetchList, usersAdd, usersEdit, usersDelete }  from '../../src/sagas/users';
-import ApiUsers from '../../src/api/users';
+import { usersFetchList, usersAdd, usersEdit, usersDelete }  from '../../src_users/sagas/users';
+import ApiUsers from '../../src_users/api/users';
 
 // unit tests for the users saga
 describe('Users saga', () => {

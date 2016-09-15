@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import users from '../../src/reducers/users';
+import users from '../../src_users/reducers/users';
 
 // unit tests for the users reducers
 // mocha - http://mochajs.org/#getting-started

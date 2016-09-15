@@ -7,29 +7,31 @@ And it's also not as packed as other starter kits which confuse you massively wi
 Redux-Minimal contains the bare minimum to develop a real world complex app and it also comes with a small users app that will show you how to code certain features.
 A demo of the app can be seen here: [http://redux-minimal-app.catalin-luntraru.com](http://redux-minimal-app.catalin-luntraru.com)
 
+
 # Getting started
 
-1) Before you start working with redux-minimal, you first need to setup your environment. Make sure you have the following installed:
-* [Git](https://git-scm.com/downloads)
-* [NodeJs and Npm](https://nodejs.org/en/download/current/)
-* an IDE to write js code in, for example [Webstorm](https://www.jetbrains.com/webstorm/download/)
+1. Before you start working with redux-minimal, you first need to setup your environment. Make sure you have the following installed:
+    * [Git](https://git-scm.com/downloads)
+    * [NodeJs and Npm](https://nodejs.org/en/download/current/)
+    * an IDE to write js code in, for example [Webstorm](https://www.jetbrains.com/webstorm/download/)
 
-2) Once your environment is prepared, open a command prompt (terminal) and type in the following:
+2. Once your environment is prepared, open a command prompt (terminal) and type in the following:
 
-```sh
-cd C:\js\node\apps
-git clone https://github.com/catalin-luntraru/redux-minimal.git hello-world
-cd hello-world
-npm install
-npm start
-```
+    ```sh
+    cd C:\js\node\apps
+    git clone https://github.com/catalin-luntraru/redux-minimal.git hello-world
+    cd hello-world
+    npm install
+    npm start
+    ```
 
-3) Then open your [http://localhost:8080/](http://localhost:8080/) to see the included small users app. 
+3. Then open your [http://localhost:8080/](http://localhost:8080/) to see the included small users app. 
 Congratulations! You can now write react redux code.
 
-4) For more productivity you can install Chrome's [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en) and [Redux Dev Tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
+4. For more productivity you can install Chrome's [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en) and [Redux Dev Tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
 
-# What you get
+
+# Why use this?
 
 Redux-Minimal contains the minimum npm packages you need to have installed in order to build a react redux real-world app containing:
 * a proper file/folder structure
@@ -44,6 +46,7 @@ Redux-Minimal contains the minimum npm packages you need to have installed in or
 * js and css bundle files built for development or production
 
 The code and implementation are minimal, which lets you focus on the real app, not the webpack, babel, gulp etc boilerplate files, which honestly you shouldn't even bother with.
+
 
 # Installed packages
 
@@ -77,6 +80,7 @@ Here are the npm packages that redux-minimal installs:
 ||[`babel-plugin-transform-regenerator`](https://babeljs.io/docs/plugins/transform-regenerator/)|Let's you use ES2015 generator functions which you need for redux-saga|
 ||[`babel-plugin-transform-runtime`](https://babeljs.io/docs/plugins/transform-runtime/)|Automatically polyfils your code without polluting globals, needed for the ES2015 generator functions|
 
+
 # Sample app
 
 Redux-Minimal also contains a small sample app that let's you manage some users with the following features:
@@ -89,3 +93,30 @@ The sample app provides you with basically most of the things you will need when
 
 The demo for the app can be found here: 
 [http://redux-minimal-app.catalin-luntraru.com](http://redux-minimal-app.catalin-luntraru.com)
+
+
+# Build your own app
+
+1. Open `webpack.config.js` and change the `app_root` value from `src_users` to `src`
+
+2. Run `npm start`
+
+3. Congratulations! You now have a blank `Hello world` starting app
+
+
+# Scripts
+
+Besides the `start` script, there are also other scripts
+
+|`npm run <script>`|What it does|
+|------------------|------------|
+|`start`|Starts the app at [http://localhost:8080/](http://localhost:8080/). The bundle js/css files are stored in memory|
+|`test`|Starts the unit testing using all the files found in the `test` folder|
+|`test-watch`| Starts the unit testing and watches for changes to re-run the tests|
+|`build-dev`|Builds the js/css bundle files in the `public` folder. Adds debugging code for development|
+|`build-prod`|Builds the js/css bundle minified files in the `public` folder|
+
+
+# License
+
+This project is licensed under the MIT license, Copyright (c) 2016 Catalin Luntraru.

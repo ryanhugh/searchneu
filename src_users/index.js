@@ -11,6 +11,7 @@ import { reducers } from './reducers/index';
 import { sagas } from './sagas/index';
 import App from './components/App';
 import Home from './pages/Home';
+import UserEdit from './pages/UserEdit';
 import NotFound from './pages/NotFound';
 
 
@@ -31,6 +32,7 @@ ReactDOM.render(
         <Router history={history}>
             <Route path="/" component={App}>
                 <IndexRoute component={Home}/>
+                <Route path="user-edit(/:id)" component={UserEdit}/>
                 <Route path="*" component={NotFound}/>
             </Route>
         </Router>

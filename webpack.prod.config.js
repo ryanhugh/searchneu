@@ -3,7 +3,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = require('./webpack.config.js');    // inherit from the main config file
 
 // disable the hot reload
-module.exports.entry = __dirname + '/src/index.js';
+module.exports.entry = __dirname + '/' + module.exports.app_root + '/index.js';
 
 //module.exports.devServer = {};  // doesn't seem to do anything
 //module.exports.devtool = 'cheap-module-source-map'; // doesn't seem to do anything

@@ -1,9 +1,9 @@
 import React from 'react';
 
 /**
- * Home page component
+ * Not found page component
  */
-export default class Home extends React.Component
+export default class NotFound extends React.Component
 {
     /**
      * Render
@@ -13,8 +13,8 @@ export default class Home extends React.Component
     render()
     {
         return(
-            <div className="page-home">
-                <h4>Hello world!</h4>
+            <div className="page-not-found">
+                <h4>Page not found</h4>
             </div>
         );
     }

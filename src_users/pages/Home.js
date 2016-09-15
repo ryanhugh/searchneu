@@ -1,5 +1,7 @@
 import React from 'react';
 
+import UserList from '../components/UserList';
+
 /**
  * Home page component
  */
@@ -14,7 +16,7 @@ export default class Home extends React.Component
     {
         return(
             <div className="page-home">
-                <h4>Hello world!</h4>
+                <UserList/>
             </div>
         );
     }
