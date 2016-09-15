@@ -67,9 +67,9 @@ Here are the npm packages that redux-minimal installs:
 |Webpack|[`webpack`](https://github.com/webpack/webpack)|A bundler for javascript, css and others|
 ||[`webpack-dev-server`](https://github.com/webpack/webpack-dev-server)|Serves the app at [http://localhost:8080/](http://localhost:8080/)|
 ||[`extract-text-webpack-plugin`](https://github.com/webpack/extract-text-webpack-plugin)|Webpack plugin that builds the css bundle file|
-||[`style-loader`](https://github.com/webpack/style-loader)|Webpack module to load styles|
-||[`css-loader`](https://github.com/webpack/css-loader)|Webpack module to load css styles|
-||[`sass-loader`](https://github.com/jtangelder/sass-loader)|Webpack module to load sass styles|
+||[`style-loader`](https://github.com/webpack/style-loader)|Webpack module that loads styles|
+||[`css-loader`](https://github.com/webpack/css-loader)|Webpack module that loads css styles|
+||[`sass-loader`](https://github.com/jtangelder/sass-loader)|Webpack module that loads sass styles|
 |Babel|[`babel-preset-es2015`](http://babeljs.io/docs/plugins/preset-es2015/)|Let's you use [ES2015 Javascript syntax](http://www.ecma-international.org/ecma-262/6.0/ECMA-262.pdf)|
 ||[`babel-preset-react`](http://babeljs.io/docs/plugins/preset-react/)|Let's you use React's [JSX syntax](https://facebook.github.io/jsx/)|
 ||[`babel-core`](https://github.com/babel/babel/tree/master/packages/babel-core)|Compiler that helps webpack to compile the new javascript syntax|
