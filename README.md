@@ -11,7 +11,7 @@ A demo of the app can be seen here: [http://redux-minimal-app.catalin-luntraru.c
 
 1) Before you start working with redux-minimal, you first need to setup your environment. Make sure you have the following installed:
 * [Git](https://git-scm.com/downloads)
-* [NodeJs](https://nodejs.org/en/download/current/)
+* [NodeJs and Npm](https://nodejs.org/en/download/current/)
 * an IDE to write js code in, for example [Webstorm](https://www.jetbrains.com/webstorm/download/)
 
 2) Once your environment is prepared, open a terminal and type in the following
@@ -24,7 +24,7 @@ npm install
 npm start
 ```
 
-3) Then open [http://localhost:8080/](http://localhost:8080/) to see the included small users app. 
+3) Then open your [http://localhost:8080/](http://localhost:8080/) to see the included small users app. 
 Congratulations! You can now write react redux code.
 
 4) For more productivity you can install Chrome's [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en) and [Redux Dev Tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
@@ -43,7 +43,7 @@ Redux-Minimal contains the minimum npm packages you need to have installed in or
 * redux tools
 * js and css bundle files built for development or production
 
-The code and implementation is minimal, which lets you focus on the real app, not the webpack, babel, gulp etc boilerplate files, which honestly you shouldn't even bother with.
+The code and implementation are minimal, which lets you focus on the real app, not the webpack, babel, gulp etc boilerplate files, which honestly you shouldn't even bother with.
 
 # Installed packages
 
@@ -70,8 +70,8 @@ Here are the npm packages that redux-minimal installs:
 ||[`style-loader`](https://github.com/webpack/style-loader)|Webpack module to load styles|
 ||[`css-loader`](https://github.com/webpack/css-loader)|Webpack module to load css styles|
 ||[`sass-loader`](https://github.com/jtangelder/sass-loader)|Webpack module to load sass styles|
-|Babel|[`babel-preset-es2015`](http://babeljs.io/docs/plugins/preset-es2015/)|Let's you can use [ES2015 Javascript syntax](http://www.ecma-international.org/ecma-262/6.0/ECMA-262.pdf)|
-||[`babel-preset-react`](http://babeljs.io/docs/plugins/preset-react/)|Let's you can use React's [JSX syntax](https://facebook.github.io/jsx/)|
+|Babel|[`babel-preset-es2015`](http://babeljs.io/docs/plugins/preset-es2015/)|Let's you use [ES2015 Javascript syntax](http://www.ecma-international.org/ecma-262/6.0/ECMA-262.pdf)|
+||[`babel-preset-react`](http://babeljs.io/docs/plugins/preset-react/)|Let's you use React's [JSX syntax](https://facebook.github.io/jsx/)|
 ||[`babel-core`](https://github.com/babel/babel/tree/master/packages/babel-core)|Compiler that helps webpack to compile the new javascript syntax|
 ||[`babel-loader`](https://github.com/babel/babel-loader)|Plugin that helps webpack to compile the new javascript syntax|
 ||[`babel-plugin-transform-regenerator`](https://babeljs.io/docs/plugins/transform-regenerator/)|Let's you use ES2015 generator functions which you need for redux-saga|
