@@ -2,7 +2,7 @@
 
 Redux-Minimal is a minimalist react-redux starter kit (boilerplate) which let's you build rich real world apps. 
 It's not as light as some starter kits which only let you write a simple hello world app and then you have to struggle with installing all the other stuff yourself. 
-And it's also not as packed as other starter kits which then confuses you massively with its folder/file structure and arcane scripts.
+And it's also not as packed as other starter kits which confuse you massively with its folder/file structure and arcane scripts.
 
 Redux-Minimal contains the bare minimum to develop a real world complex app and it also comes with a small users app that will show you how to code certain features.
 A demo of the app can be seen here: [http://redux-minimal-app.catalin-luntraru.com](http://redux-minimal-app.catalin-luntraru.com)
