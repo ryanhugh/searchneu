@@ -3,8 +3,7 @@ node_js:
   - "6"
 
 notifications:
-  email:
-    never
+  email: false
 
 cache:
   directories:
