@@ -2,6 +2,10 @@ language: node_js
 node_js:
   - "6"
 
+notifications:
+  email:
+    never
+
 cache:
   directories:
     - node_modules
