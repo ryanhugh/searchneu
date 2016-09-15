@@ -1,5 +1,8 @@
 # React Redux minimal starter kit (boilerplate)
 
+
+[![Join the chat at https://gitter.im/catalin-luntraru/redux-minimal](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/catalin-luntraru/redux-minimal?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Redux-Minimal is a minimalist react-redux starter kit (boilerplate) which let's you build rich real world apps. 
 It's not as light as some starter kits which only let you write a simple hello world app and then you have to struggle with installing all the other stuff yourself. 
 And it's also not as packed as other starter kits which confuse you massively with its folder/file structure and arcane scripts.
