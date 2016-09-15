@@ -1,5 +1,7 @@
 # React Redux minimal boilerplate (starter kit)
 
+Redux-Minimal is a minimalist react-redux starter kit (boilerplate) which let's you build rich real world apps.
+
 This boilerplate (starter kit) contains the minimum packages you need to have installed in order to build a react redux real-world app containing:
 * a file/folder structure for your app
 * pages (routes)
