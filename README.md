@@ -1,7 +1,7 @@
 # React Redux minimal starter kit (boilerplate)
 
 
-<br><a href="http://redux-minimal.js.org/"><img src="http://redux-minimal.js.org/logo/redux-minimal-logo-blue.svg"></a><br>
+<br><a href="http://redux-minimal.js.org/"><img src="http://redux-minimal.js.org/logo/redux-minimal-logo-blue.svg"></a><br><br>
 
 
 [![Join the chat at https://gitter.im/catalin-luntraru/redux-minimal](https://badges.gitter.im/catalin-luntraru/redux-minimal.svg)](https://gitter.im/catalin-luntraru/redux-minimal?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
