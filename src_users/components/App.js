@@ -23,7 +23,7 @@ export default class App extends React.Component
                 </div>
                 <div className="row footer">
                     Simple users app built with {' '}
-                    <a href="https://github.com/catalin-luntraru/redux-minimal" target="_blank">
+                    <a href="http://redux-minimal.js.org/" target="_blank">
                         redux-minimal
                     </a>
                 </div>

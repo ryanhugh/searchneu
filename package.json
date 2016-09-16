@@ -10,6 +10,7 @@
     "boilerplate"
   ],
   "main": "index.js",
+  "homepage": "http://redux-minimal.js.org/",
   "repository": {
     "type": "git",
     "url": "https://github.com/catalin-luntraru/redux-minimal"

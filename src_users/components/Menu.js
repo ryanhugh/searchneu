@@ -26,7 +26,7 @@ export default class Menu extends React.Component
                         Add User <Glyphicon glyph="plus-sign"/>
                     </NavItem>
                 </LinkContainer>
-                <NavItem href="https://github.com/catalin-luntraru/redux-minimal" target="_blank">
+                <NavItem href="http://redux-minimal.js.org/" target="_blank">
                     redux-minimal
                 </NavItem>
             </Nav>
