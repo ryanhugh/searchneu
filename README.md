@@ -75,6 +75,8 @@ Here are the npm packages that redux-minimal installs:
 |Forms|[`redux-form`](https://github.com/erikras/redux-form)|A Higher Order Component using react-redux to keep form state in a Redux store|
 |Asynchronous|[`redux-saga`](https://github.com/yelouafi/redux-saga)|Asynchronous API calls made easy with Saga|
 |Unit tests|[`mocha`](https://github.com/mochajs/mocha)|Simple javascript test framework|
+||[`enzyme`](https://github.com/airbnb/enzyme)|JavaScript Testing utilities for React components|
+||[`react-addons-test-utils`](https://facebook.github.io/react/docs/test-utils.html)|Required by enzyme. Makes it easy to test React components|
 |Sass|[`node-sass`](https://github.com/sass/node-sass)|Mature, stable, and powerful CSS extension language|
 |Webpack|[`webpack`](https://github.com/webpack/webpack)|A bundler for javascript, css and others|
 ||[`webpack-dev-server`](https://github.com/webpack/webpack-dev-server)|Serves the app at [http://localhost:8080/](http://localhost:8080/)|

@@ -5,7 +5,7 @@ import { Modal, Button } from 'react-bootstrap';
 /**
  * User delete component
  */
-class UserDelete extends React.Component
+export class UserDelete extends React.Component
 {
     /**
      * Constructor

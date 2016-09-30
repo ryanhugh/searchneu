@@ -9,7 +9,7 @@ import UserDelete from './UserDelete';
 /**
  * User list component
  */
-class UserList extends React.Component
+export class UserList extends React.Component
 {
     /**
      * Constructor
@@ -71,7 +71,7 @@ class UserList extends React.Component
                     </Table>
 
                     <Pagination className="users-pagination pull-right" bsSize="medium" maxButtons={10} first last next prev
-                                boundaryLinks items={pages} activePage={current_page} onSelect={this.changePage}/>
+                        boundaryLinks items={pages} activePage={current_page} onSelect={this.changePage}/>
 
                     <UserDelete/>
                 </div>

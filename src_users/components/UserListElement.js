@@ -6,7 +6,7 @@ import { Button, Glyphicon } from 'react-bootstrap';
 /**
  * User List Element component
  */
-class UserListElement extends React.Component
+export class UserListElement extends React.Component
 {
     /**
      * Constructor
@@ -22,6 +22,18 @@ class UserListElement extends React.Component
     }
 
     /**
+     * Make sure we have all the props
+     *
+     * @returns {}
+     */
+    static get propTypes()
+    {
+        return {
+            id: React.PropTypes.number.isRequired,
+        };
+    }
+
+    /**
      * Render
      *
      * @returns {XML}
@@ -31,7 +43,7 @@ class UserListElement extends React.Component
         // get the user element data
         let user;
         for (const val of this.props.users) {
-            if (val.id === Number(this.props.own_props.id)) {
+            if (val.id === Number(this.props.id)) {
                 user = val;
                 break;
             }
@@ -77,16 +89,11 @@ class UserListElement extends React.Component
     }
 }
 
-// make sure we have all the props
-UserListElement.propTypes = {
-    id: React.PropTypes.number.isRequired,
-}
-
 // export the connected class
 function mapStateToProps(state, own_props) {
     return {
         users: state.users.list || [],
-        own_props: own_props,
+        id: own_props.id,
     }
 }
 export default connect(mapStateToProps)(UserListElement);

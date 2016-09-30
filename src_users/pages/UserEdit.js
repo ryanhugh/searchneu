@@ -2,12 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { goBack } from 'react-router-redux';
 import { Field, reduxForm } from 'redux-form';
-import { PageHeader, Form, FormGroup, Col, FormControl, InputGroup, Glyphicon, Button, HelpBlock } from 'react-bootstrap';
+import { PageHeader, Form, FormGroup, Col, Button } from 'react-bootstrap';
+
+import UserEditUsername from '../components/UserEditUsername';
+import UserEditJob from '../components/UserEditJob';
 
 /**
  * User add/edit page component
  */
-class UserEdit extends React.Component
+export class UserEdit extends React.Component
 {
     // Current form type: add or edit
     form_type;
@@ -39,8 +42,8 @@ class UserEdit extends React.Component
             <div className="page-user-edit">
                 <PageHeader>{'edit' === this.form_type ? 'User edit' : 'User add'}</PageHeader>
                 <Form horizontal onSubmit={this.props.handleSubmit(this.formSubmit)}>
-                    <Field name="username" component={UserEdit.renderUsername}/>
-                    <Field name="job" component={UserEdit.renderJob}/>
+                    <Field name="username" component={UserEditUsername}/>
+                    <Field name="job" component={UserEditJob}/>
                     <FormGroup>
                         <Col smOffset={2} sm={8}>
                             <Button type="submit" disabled={this.props.invalid || this.props.submitting}>
@@ -50,50 +53,6 @@ class UserEdit extends React.Component
                     </FormGroup>
                 </Form>
             </div>
-        );
-    }
-
-    /**
-     * Render the username form field
-     * http://redux-form.com/6.0.2/docs/api/Field.md/
-     *
-     * @param props
-     * @returns {XML}
-     */
-    static renderUsername(props)
-    {
-        return (
-            <FormGroup validationState={!props.meta.touched ? null : (props.meta.error ? 'error' : 'success')}>
-                <Col sm={2}>Username</Col>
-                <Col sm={8}>
-                    <FormControl {...props.input} id="username" type="text" placeholder="Username"/>
-                    <FormControl.Feedback/>
-                    <HelpBlock>{props.meta.touched && props.meta.error ? props.meta.error : null}</HelpBlock>
-                </Col>
-            </FormGroup>
-        );
-    }
-
-    /**
-     * Render the job form field
-     *
-     * @param props
-     * @returns {XML}
-     */
-    static renderJob(props)
-    {
-        return (
-            <FormGroup>
-                <Col sm={2}> Job</Col>
-                <Col sm={8}>
-                    <InputGroup>
-                        <FormControl {...props.input} id="job" type="text" placeholder="Job"/>
-                        <InputGroup.Addon>
-                            <Glyphicon glyph="briefcase"/>
-                        </InputGroup.Addon>
-                    </InputGroup>
-                </Col>
-            </FormGroup>
         );
     }
 
@@ -127,7 +86,7 @@ class UserEdit extends React.Component
 }
 
 // decorate the form component
-UserEdit = reduxForm({
+const UserEditForm = reduxForm({
     form: 'user_edit',
     validate: function(values){
         const errors = {};
@@ -158,4 +117,4 @@ function mapStateToProps(state, own_props) {
         initialValues: form_data,
     };
 }
-export default connect(mapStateToProps)(UserEdit);
+export default connect(mapStateToProps)(UserEditForm);
