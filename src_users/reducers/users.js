@@ -25,9 +25,12 @@ class reducerClass
      */
     static add(new_state, action)
     {
+        // set the user id
+        const id = action.id ? action.id : Number((Math.random() * 1000000).toPrecision(6));
+
         // add the user
         new_state.list.push({
-            id: Number((Math.random() * 1000000).toPrecision(6)),   // generate a new id
+            id: id,
             username: action.username,
             job: action.job,
         });
