@@ -90,6 +90,7 @@ Here are the npm packages that redux-minimal installs:
 ||[`babel-loader`](https://github.com/babel/babel-loader)|Plugin that helps webpack to compile the new javascript syntax|
 ||[`babel-plugin-transform-regenerator`](https://babeljs.io/docs/plugins/transform-regenerator/)|Let's you use ES2015 generator functions which you need for redux-saga|
 ||[`babel-plugin-transform-runtime`](https://babeljs.io/docs/plugins/transform-runtime/)|Automatically polyfils your code without polluting globals, needed for the ES2015 generator functions|
+||[`babel-runtime`](https://www.npmjs.com/package/babel-runtime)|Needed for node v4|
 
 
 # Sample app
