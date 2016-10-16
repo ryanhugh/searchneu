@@ -6,7 +6,7 @@ import users from '../../src_users/reducers/users';
 // mocha - http://mochajs.org/#getting-started
 // assert - https://nodejs.org/api/assert.html#assert_assert_deepequal_actual_expected_message
 describe('Users reducer', () => {
-    describe('add()', () => {
+    describe('USERS_ADD', () => {
         it('should return a new user array element', () => {
             assert.deepEqual(
                 users({
@@ -18,7 +18,7 @@ describe('Users reducer', () => {
                         }
                     ]
                 }, {
-                    type: 'users.add',
+                    type: 'USERS_ADD',
                     id: 2,
                     username: 'Other name',
                     job: 'Other job',
@@ -39,7 +39,7 @@ describe('Users reducer', () => {
         });
     });
 
-    describe('edit()', () => {
+    describe('USERS_EDIT', () => {
         it('should return an edited user array element', () => {
             assert.deepEqual(
                 users({
@@ -55,7 +55,7 @@ describe('Users reducer', () => {
                         }
                     ]
                 }, {
-                    type: 'users.edit',
+                    type: 'USERS_EDIT',
                     id: 2,
                     username: 'Changed name',
                     job: 'Changed job',
@@ -76,7 +76,7 @@ describe('Users reducer', () => {
         });
     });
 
-    describe('delete()', () => {
+    describe('USERS_DELETE', () => {
         it('should return the user array without the deleted element', () => {
             assert.deepEqual(
                 users({
@@ -92,7 +92,7 @@ describe('Users reducer', () => {
                         }
                     ]
                 }, {
-                    type: 'users.delete',
+                    type: 'USERS_DELETE',
                     id: 2,
                 }), {
                     list: [
@@ -107,11 +107,11 @@ describe('Users reducer', () => {
         });
     });
 
-    describe('modalDeleteShow()', () => {
+    describe('USERS_MODAL_DELETE_SHOW', () => {
         it('should set the list_delete data when its undefined', () => {
             assert.deepEqual(
                 users({}, {
-                    type: 'users.modalDeleteShow',
+                    type: 'USERS_MODAL_DELETE_SHOW',
                     id: 2,
                     username: 'John',
                 }), {
@@ -136,7 +136,7 @@ describe('Users reducer', () => {
                         }
                     }
                 }, {
-                    type: 'users.modalDeleteShow',
+                    type: 'USERS_MODAL_DELETE_SHOW',
                     id: 2,
                     username: 'John',
                 }), {
@@ -152,7 +152,7 @@ describe('Users reducer', () => {
         });
     });
 
-    describe('modalDeleteHide()', () => {
+    describe('USERS_MODAL_DELETE_HIDE', () => {
         it('should set the list_delete data', () => {
             assert.deepEqual(
                 users({
@@ -164,7 +164,7 @@ describe('Users reducer', () => {
                         }
                     }
                 }, {
-                    type: 'users.modalDeleteHide',
+                    type: 'USERS_MODAL_DELETE_HIDE',
                 }), {
                     modal: {
                         list_delete: {
@@ -178,11 +178,11 @@ describe('Users reducer', () => {
         });
     });
 
-    describe('fetchListSuccess()', () => {
+    describe('USERS_FETCH_LIST_SUCCESS', () => {
         it('should return a list of users', () => {
             assert.deepEqual(
                 users({}, {
-                    type: 'users.fetchListSuccess',
+                    type: 'USERS_FETCH_LIST_SUCCESS',
                     users: [{
                         id: 1,
                         username: 'Some name',

@@ -11,8 +11,8 @@ describe('Users saga', () => {
         it('should return the ApiUsers.getList call', () => {
             assert.deepEqual(generator.next().value, call(ApiUsers.getList));
         });
-        it('should return the users.fetchListSuccess action', () => {
-            assert.deepEqual(generator.next().value, put({type: 'users.fetchListSuccess', users: undefined,}));
+        it('should return the USERS_FETCH_LIST_SUCCESS action', () => {
+            assert.deepEqual(generator.next().value, put({type: 'USERS_FETCH_LIST_SUCCESS', users: undefined,}));
         });
         it('should be finished', () => {
             assert.equal(generator.next().done, true);

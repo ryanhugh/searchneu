@@ -1,126 +1,74 @@
-import { reducerCall } from './index';
-
 /**
  * Users reducer
  *
  * @param state
  * @param action
- * @returns {*}
+ * @returns {}
  */
-export default function users(state = {}, action) {
-    return reducerCall(state, action, reducerClass);
-}
+export default function suggest(state = {}, action) {
+    let new_state = JSON.parse(JSON.stringify(state));
+    switch (action.type) {
 
-/**
- * Users reducer static class
- */
-class reducerClass
-{
-    /**
-     * Add a user
-     *
-     * @param new_state
-     * @param action
-     * @returns {*}
-     */
-    static add(new_state, action)
-    {
-        // set the user id
-        const id = action.id ? action.id : Math.floor(Math.random() * (9999 - 1000 +1)) + 1000;
+        // add a user
+        case 'USERS_ADD':
+            const id = action.id ? action.id : Math.floor(Math.random() * (9999 - 1000 +1)) + 1000;
+            new_state.list.push({
+                id: id,
+                username: action.username,
+                job: action.job,
+            });
+            break;
 
-        // add the user
-        new_state.list.push({
-            id: id,
-            username: action.username,
-            job: action.job,
-        });
-        return new_state;
-    }
-
-    /**
-     * Edit a user
-     *
-     * @param new_state
-     * @param action
-     * @returns {*}
-     */
-    static edit(new_state, action)
-    {
-        for (const user of new_state.list) {
-            if (user.id === action.id) {
-                Object.assign(user, {
-                    username: action.username,
-                    job: action.job,
-                });
-                break;
+        // edit a user
+        case 'USERS_EDIT':
+            for (const user of new_state.list) {
+                if (user.id === action.id) {
+                    Object.assign(user, {
+                        username: action.username,
+                        job: action.job,
+                    });
+                    break;
+                }
             }
-        }
-        return new_state;
-    }
+            break;
 
-    /**
-     * Delete a user
-     *
-     * @param new_state
-     * @param action
-     * @returns {*}
-     */
-    static delete(new_state, action)
-    {
-        for (const index in new_state.list) {
-            if (new_state.list[index].id === action.id) {
-                new_state.list.splice(index, 1);   // delete new_state.list[index] leaves a hole in the array
-                break;
+        // delete a user
+        case 'USERS_DELETE':
+            for (const index in new_state.list) {
+                if (new_state.list[index].id === action.id) {
+                    new_state.list.splice(index, 1);   // delete new_state.list[index] leaves a hole in the array
+                    break;
+                }
             }
-        }
-        return new_state;
-    }
+            break;
 
-    /**
-     * Show the delete confirmation for the user
-     *
-     * @param new_state
-     * @param action
-     * @returns {*}
-     */
-    static modalDeleteShow(new_state, action)
-    {
-        new_state.modal = new_state.modal ? new_state.modal : {};
-        new_state.modal.list_delete = {
-            show: true,
-            id: action.id,
-            username: action.username,
-        }
-        return new_state;
-    }
+        // show the delete confirmation for the user
+        case 'USERS_MODAL_DELETE_SHOW':
+            new_state.modal = new_state.modal ? new_state.modal : {};
+            new_state.modal.list_delete = {
+                show: true,
+                id: action.id,
+                username: action.username,
+            }
+            break;
 
-    /**
-     * Hide the delete confirmation for the user
-     *
-     * @param new_state
-     * @param action
-     * @returns {*}
-     */
-    static modalDeleteHide(new_state, action)
-    {
-        new_state.modal.list_delete = {
-            show: false,
-            id: 0,
-            username: '',
-        }
-        return new_state;
-    }
+        // hide the delete confirmation for the user
+        case 'USERS_MODAL_DELETE_HIDE':
+            new_state.modal.list_delete = {
+                show: false,
+                id: 0,
+                username: '',
+            }
+            break;
 
-    /**
-     * The users list saga fetching was a success
-     *
-     * @param new_state
-     * @param action
-     * @returns {*}
-     */
-    static fetchListSuccess(new_state, action)
-    {
-        new_state.list = action.users;
-        return new_state;
+        // the users list saga fetching was a success
+        case 'USERS_FETCH_LIST_SUCCESS':
+            new_state.list = action.users;
+            break;
+
+        // initial
+        default:
+            return state;
     }
+    return new_state;
 }

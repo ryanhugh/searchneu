@@ -51,7 +51,7 @@ export class UserDelete extends React.Component
     modalDeleteHide(event)
     {
         this.props.dispatch({
-            type: 'users.modalDeleteHide',
+            type: 'USERS_MODAL_DELETE_HIDE',
         });
     }
 
@@ -64,19 +64,19 @@ export class UserDelete extends React.Component
     {
         // delete the user with the api
         this.props.dispatch({
-            type: 'usersDelete',
+            type: 'USERS_DELETE_SAVE',
             id: this.props.modal_delete.id,
         });
 
         // delete the user from the state
         this.props.dispatch({
-            type: 'users.delete',
+            type: 'USERS_DELETE',
             id: this.props.modal_delete.id, // taken from the modal state
         });
 
         // hide the modal
         this.props.dispatch({
-            type: 'users.modalDeleteHide',
+            type: 'USERS_MODAL_DELETE_HIDE',
         });
     }
 }

@@ -82,7 +82,7 @@ export class UserListElement extends React.Component
         const user_id = Number(event.target.dataset.id);
         const username = event.target.dataset.username;
         this.props.dispatch({
-            type: 'users.modalDeleteShow',
+            type: 'USERS_MODAL_DELETE_SHOW',
             id: user_id,
             username: username,
         });

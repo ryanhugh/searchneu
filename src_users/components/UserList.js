@@ -22,7 +22,7 @@ export class UserList extends React.Component
 
         // when we don't have any users, update the state with the users list taken from the api
         if (0 === this.props.users.length) {
-            this.props.dispatch({type: 'usersFetchList'});
+            this.props.dispatch({type: 'USERS_FETCH_LIST'});
         }
 
         // bind <this> to the event method

@@ -13,7 +13,7 @@ export function* usersFetchList(action) {
 
     // dispatch the success action with the users attached
     yield put({
-        type: 'users.fetchListSuccess',
+        type: 'USERS_FETCH_LIST_SUCCESS',
         users: users,
     });
 }
@@ -23,7 +23,7 @@ export function* usersFetchList(action) {
  *
  * @param action
  */
-export function* usersAdd(action) {
+export function* usersAddSave(action) {
     yield call(ApiUsers.add, action);
 }
 
@@ -32,7 +32,7 @@ export function* usersAdd(action) {
  *
  * @param action
  */
-export function* usersEdit(action) {
+export function* usersEditSave(action) {
     yield call(ApiUsers.edit, action);
 }
 
@@ -41,6 +41,6 @@ export function* usersEdit(action) {
  *
  * @param action
  */
-export function* usersDelete(action) {
+export function* usersDeleteSave(action) {
     yield call(ApiUsers.delete, action);
 }
