@@ -18,7 +18,7 @@ import NotFound from './pages/NotFound';
 const sagaMiddleware = createSagaMiddleware();
 let middleware = applyMiddleware(routerMiddleware(browserHistory), sagaMiddleware);
 if (process.env.NODE_ENV !== 'production' && window.devToolsExtension) {
-    middleware = compose(middleware, window.devToolsExtension && window.devToolsExtension());
+    middleware = compose(middleware, window.devToolsExtension());
 }
 const store = createStore(reducers, middleware);
 const history = syncHistoryWithStore(browserHistory, store);
