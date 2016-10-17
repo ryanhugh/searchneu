@@ -3,7 +3,7 @@ import React from 'react';
 import Menu from './common/Menu';
 
 // css
-import './stylesheets/main.scss';
+import '../stylesheets/main.scss';
 
 /**
  * App component

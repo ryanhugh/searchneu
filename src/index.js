@@ -6,9 +6,11 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 
-import './stylesheets/main.scss';
+// app handlers
 import { reducers } from './reducers/index';
 import { sagas } from './sagas/index';
+
+// route components
 import App from './components/App';
 import Home from './components/Home';
 import NotFound from './components/NotFound';
