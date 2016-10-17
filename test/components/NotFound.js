@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import assert from 'assert';
 
-import NotFound from '../../src_users/pages/NotFound';
+import NotFound from '../../src_users/components/NotFound';
 
 // unit tests for the NotFound component
 describe('NotFound component', () => {

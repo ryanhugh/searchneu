@@ -10,9 +10,9 @@ import './stylesheets/main.scss';
 import { reducers } from './reducers/index';
 import { sagas } from './sagas/index';
 import App from './components/App';
-import Home from './pages/Home';
-import UserEdit from './pages/UserEdit';
-import NotFound from './pages/NotFound';
+import Home from './components/Home';
+import UserEdit from './components/UserEdit';
+import NotFound from './components/NotFound';
 
 
 // create the store

@@ -4,8 +4,7 @@ import { goBack } from 'react-router-redux';
 import { Field, reduxForm } from 'redux-form';
 import { PageHeader, Form, FormGroup, Col, Button } from 'react-bootstrap';
 
-import UserEditUsername from '../components/UserEditUsername';
-import UserEditJob from '../components/UserEditJob';
+import FormField from './common/FormField';
 
 /**
  * User add/edit page component
@@ -42,8 +41,9 @@ export class UserEdit extends React.Component
             <div className="page-user-edit">
                 <PageHeader>{'edit' === this.form_type ? 'User edit' : 'User add'}</PageHeader>
                 <Form horizontal onSubmit={this.props.handleSubmit(this.formSubmit)}>
-                    <Field name="username" component={UserEditUsername}/>
-                    <Field name="job" component={UserEditJob}/>
+                    <Field component={FormField} name="username" label="Username" validate={true}/>
+                    <Field component={FormField} name="job" label="Job"/>
+
                     <FormGroup>
                         <Col smOffset={2} sm={8}>
                             <Button type="submit" disabled={this.props.invalid || this.props.submitting}>

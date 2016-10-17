@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { ProgressBar, Table, Pagination } from 'react-bootstrap';
 
-import UserListElement from './UserListElement';
-import UserDelete from './UserDelete';
+import UserListElement from './common/UserListElement';
+import UserDelete from './common/UserDelete';
 
 /**
  * User list component

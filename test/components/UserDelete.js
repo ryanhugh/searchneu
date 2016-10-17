@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import assert from 'assert';
 
-import { UserDelete } from '../../src_users/components/UserDelete';
+import { UserDelete } from '../../src_users/components/common/UserDelete';
 
 // unit tests for the UserDelete component
 describe('UserDelete component', () => {
