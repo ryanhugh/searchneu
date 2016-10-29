@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { Button, Glyphicon } from 'react-bootstrap';
 
 /**
- * User List Element component.
+ * User List Element component
  */
 export class UserListElement extends React.Component
 {
