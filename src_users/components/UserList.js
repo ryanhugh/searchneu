@@ -6,16 +6,10 @@ import { ProgressBar, Table, Pagination } from 'react-bootstrap';
 import UserListElement from './common/UserListElement';
 import UserDelete from './common/UserDelete';
 
-/**
- * User list component
- */
+// User list component
 export class UserList extends React.Component
 {
-    /**
-     * Constructor
-     *
-     * @param props
-     */
+    // constructor
     constructor(props)
     {
         super(props);
@@ -29,11 +23,7 @@ export class UserList extends React.Component
         this.changePage = this.changePage.bind(this);
     }
 
-    /**
-     * Render
-     *
-     * @returns {XML}
-     */
+    // render
     render()
     {
         // pagination
@@ -84,9 +74,7 @@ export class UserList extends React.Component
         }
     }
 
-    /**
-     * Change the user lists' current page
-     */
+    // change the user lists' current page
     changePage(page)
     {
         this.props.dispatch(push('/?page=' + page));

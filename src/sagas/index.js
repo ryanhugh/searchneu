@@ -1,6 +1,4 @@
-/**
- * Main saga generator
- */
+// main saga generators
 export function* sagas() {
     //yield [];
 }

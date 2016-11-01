@@ -6,19 +6,13 @@ import { PageHeader, Form, FormGroup, Col, Button } from 'react-bootstrap';
 
 import FormField from './common/FormField';
 
-/**
- * User add/edit page component
- */
+// User add/edit page component
 export class UserEdit extends React.Component
 {
-    // Current form type: add or edit
+    // current form type: add or edit
     form_type;
 
-    /**
-     * Constructor
-     *
-     * @param props
-     */
+    // constructor
     constructor(props)
     {
         super(props);
@@ -30,11 +24,7 @@ export class UserEdit extends React.Component
         this.formSubmit = this.formSubmit.bind(this);
     }
 
-    /**
-     * Render
-     *
-     * @returns {XML}
-     */
+    // render
     render()
     {
         return(
@@ -56,11 +46,7 @@ export class UserEdit extends React.Component
         );
     }
 
-    /**
-     * Submit the form
-     *
-     * @param values
-     */
+    // submit the form
     formSubmit(values)
     {
         // add/edit the user in the api

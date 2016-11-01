@@ -5,9 +5,7 @@ import { reducer as formReducer } from 'redux-form';
 import users from './users';
 
 
-/**
- * Reducers
- */
+// main reducers
 export const reducers = combineReducers({
     routing: routerReducer,
     form: formReducer,

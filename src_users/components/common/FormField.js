@@ -1,16 +1,10 @@
 import React from 'react';
 import { FormGroup, ControlLabel, FormControl, HelpBlock, Row, Col } from 'react-bootstrap';
 
-/**
- * Form field component
- */
+// Form field component
 export default class FormField extends React.Component
 {
-    /**
-     * Make sure we have all the props
-     *
-     * @returns {}
-     */
+    // prop checks
     static get propTypes()
     {
         return {
@@ -24,11 +18,7 @@ export default class FormField extends React.Component
         };
     }
 
-    /**
-     * Render
-     *
-     * @returns {XML}
-     */
+    // render
     render()
     {
         if (this.props.validate) {
@@ -48,11 +38,7 @@ export default class FormField extends React.Component
         }
     }
 
-    /**
-     * The field content
-     *
-     * @returns {XML}
-     */
+    // the field content
     content()
     {
         if ('other_theme' === this.props.theme) {

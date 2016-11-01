@@ -1,15 +1,9 @@
 import React from 'react';
 
-/**
- * Not found page component
- */
+// Not found page component
 export default class NotFound extends React.Component
 {
-    /**
-     * Render
-     *
-     * @returns {XML}
-     */
+    // render
     render()
     {
         return(

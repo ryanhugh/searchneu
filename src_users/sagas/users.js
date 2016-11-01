@@ -2,11 +2,7 @@ import { call, put } from 'redux-saga/effects';
 
 import ApiUsers from '../api/users';
 
-/**
- * Fetch the user's list
- *
- * @param action
- */
+// fetch the user's list
 export function* usersFetchList(action) {
     // call the api to get the users list
     const users = yield call(ApiUsers.getList);
@@ -18,29 +14,17 @@ export function* usersFetchList(action) {
     });
 }
 
-/**
- * Add a user
- *
- * @param action
- */
+// add a user
 export function* usersAddSave(action) {
     yield call(ApiUsers.add, action);
 }
 
-/**
- * Edit a user
- *
- * @param action
- */
+// edit a user
 export function* usersEditSave(action) {
     yield call(ApiUsers.edit, action);
 }
 
-/**
- * Delete a user
- *
- * @param action
- */
+// delete a user
 export function* usersDeleteSave(action) {
     yield call(ApiUsers.delete, action);
 }

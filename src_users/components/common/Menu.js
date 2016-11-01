@@ -3,16 +3,10 @@ import React from 'react';
 import { Nav, NavItem, Glyphicon } from 'react-bootstrap';
 import { IndexLinkContainer, LinkContainer } from 'react-router-bootstrap';
 
-/**
- * Menu component
- */
+// Menu component
 export default class Menu extends React.Component
 {
-    /**
-     * Render
-     *
-     * @returns {XML}
-     */
+    // render
     render()
     {
         return(

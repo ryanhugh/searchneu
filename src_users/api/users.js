@@ -1,15 +1,7 @@
-/**
- * API Users static class
- * Normally you would call fetch() to access the api, but this dummy data is good for enough for our app
- */
+// API Users static class
 export default class ApiUsers
 {
-    /**
-     * Get a list of users
-     *
-     * @param action
-     * @returns {Array}
-     */
+    // get a list of users
     static getList(action)
     {
         const timeout = 1000;   // 1 second delay
@@ -29,31 +21,19 @@ export default class ApiUsers
         });
     }
 
-    /**
-     * Add a user
-     *
-     * @param action
-     */
+    // add a user
     static add(action)
     {
         // call some api url
     }
 
-    /**
-     * Edit a user
-     *
-     * @param action
-     */
+    // edit a user
     static edit(action)
     {
         // call some api url
     }
 
-    /**
-     * Delete a user
-     *
-     * @param action
-     */
+    // delete a user
     static delete(action)
     {
         // call some api url

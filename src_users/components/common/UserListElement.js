@@ -3,16 +3,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Button, Glyphicon } from 'react-bootstrap';
 
-/**
- * User List Element component
- */
+// User List Element component
 export class UserListElement extends React.Component
 {
-    /**
-     * Constructor
-     *
-     * @param props
-     */
+    // constructor
     constructor(props)
     {
         super(props);
@@ -21,11 +15,7 @@ export class UserListElement extends React.Component
         this.modalDeleteShow = this.modalDeleteShow.bind(this);
     }
 
-    /**
-     * Make sure we have all the props
-     *
-     * @returns {}
-     */
+    // prop checks
     static get propTypes()
     {
         return {
@@ -33,11 +23,7 @@ export class UserListElement extends React.Component
         };
     }
 
-    /**
-     * Render
-     *
-     * @returns {XML}
-     */
+    // render
     render()
     {
         // get the user element data
@@ -72,11 +58,7 @@ export class UserListElement extends React.Component
         );
     }
 
-    /**
-     * Prompt to delete the user
-     *
-     * @param event
-     */
+    // prompt to delete the user
     modalDeleteShow(event)
     {
         const user_id = Number(event.target.dataset.id);

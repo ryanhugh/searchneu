@@ -1,10 +1,4 @@
-/**
- * Users reducer
- *
- * @param state
- * @param action
- * @returns {}
- */
+// users reducer
 export default function suggest(state = {}, action) {
     let new_state = JSON.parse(JSON.stringify(state));
     switch (action.type) {

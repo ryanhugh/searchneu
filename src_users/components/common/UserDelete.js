@@ -2,16 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 
-/**
- * User delete component
- */
+// User delete component
 export class UserDelete extends React.Component
 {
-    /**
-     * Constructor
-     *
-     * @param props
-     */
+    // constructor
     constructor(props)
     {
         super(props);
@@ -21,11 +15,7 @@ export class UserDelete extends React.Component
         this.userDelete = this.userDelete.bind(this);
     }
 
-    /**
-     * Render
-     *
-     * @returns {XML}
-     */
+    // render
     render()
     {
         return (
@@ -43,11 +33,7 @@ export class UserDelete extends React.Component
         );
     }
 
-    /**
-     * Close the delete modal
-     *
-     * @param event
-     */
+    // close the delete modal
     modalDeleteHide(event)
     {
         this.props.dispatch({
@@ -55,11 +41,7 @@ export class UserDelete extends React.Component
         });
     }
 
-    /**
-     * Delete a user
-     *
-     * @param event
-     */
+    // delete a user
     userDelete(event)
     {
         // delete the user with the api

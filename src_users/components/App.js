@@ -2,19 +2,12 @@ import React from 'react';
 
 import Menu from './common/Menu';
 
-// css
 import '../stylesheets/main.scss';
 
-/**
- * App component
- */
+// App component
 export default class App extends React.Component
 {
-    /**
-     * Render
-     *
-     * @returns {XML}
-     */
+    // render
     render()
     {
         return (

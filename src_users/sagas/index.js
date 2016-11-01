@@ -3,9 +3,7 @@ import { fork } from 'redux-saga/effects';
 
 import { usersFetchList, usersAddSave, usersEditSave, usersDeleteSave } from './users';
 
-/**
- * Main saga generator
- */
+// main saga generators
 export function* sagas() {
     yield [
         fork(takeLatest, 'USERS_FETCH_LIST', usersFetchList),
