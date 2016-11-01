@@ -63,6 +63,7 @@
     "node-sass": "^3.10.1",
     "react-addons-test-utils": "^15.3.2",
     "react-hot-loader": "^3.0.0-beta.5",
+    "redux-freeze": "^0.1.5",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2",
