@@ -2,8 +2,8 @@ import React from "react";
 import {connect} from "react-redux";
 import {push} from "react-router-redux";
 import {ProgressBar, Table, Pagination} from "react-bootstrap";
-import UserListElement from "./common/UserListElement";
-import UserDelete from "./common/UserDelete";
+import UserListElement from "./UserListElement";
+import UserDelete from "./UserDelete";
 
 // User list component
 export class UserList extends React.Component {

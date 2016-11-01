@@ -6,6 +6,14 @@ export default function suggest(state = {}, action) {
         // add a user
         case 'USERS_ADD':
             const id = action.id ? action.id : Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+            /*return [
+                ...state.list,
+                {
+                    id: id,
+                    username: action.username,
+                    job: action.job,
+                }
+            ];*/
             new_state.list.push({
                 id: id,
                 username: action.username,
