@@ -6,6 +6,7 @@ export default function suggest(state = {}, action) {
         // add a user
         case 'USERS_ADD':
             const id = action.id ? action.id : Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+            // https://github.com/reactjs/redux/blob/master/examples/todomvc/src/reducers/todos.js
             /*return [
                 ...state.list,
                 {
