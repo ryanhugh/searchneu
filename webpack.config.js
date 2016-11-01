@@ -10,6 +10,7 @@ module.exports = {
         // http://gaearon.github.io/react-hot-loader/getstarted/
         'webpack-dev-server/client?http://localhost:8080',
         'webpack/hot/only-dev-server',
+        'babel-polyfill',
         __dirname + '/' + app_root + '/index.js',
     ],
     output: {
@@ -28,6 +29,10 @@ module.exports = {
                 // https://github.com/jtangelder/sass-loader
                 test: /\.scss$/,
                 loaders: ['style', 'css', 'sass'],
+            },
+            {
+                test: /\.css$/,
+                loaders: ['style', 'css'],
             }
         ],
     },
@@ -35,10 +40,10 @@ module.exports = {
         contentBase: __dirname + '/public',
     },
     plugins: [
-        new CleanWebpackPlugin(['css', 'js'], {
+        new CleanWebpackPlugin(['css/main.css', 'js/bundle.js'], {
             root: __dirname + '/public',
             verbose: true,
             dry: false, // true for simulation
-        })
+        }),
     ],
 };
