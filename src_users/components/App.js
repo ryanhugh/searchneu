@@ -1,15 +1,11 @@
-import React from 'react';
-
-import Menu from './common/Menu';
-
-import '../stylesheets/main.scss';
+import React from "react";
+import Menu from "./common/Menu";
+import "../stylesheets/main.scss";
 
 // App component
-export default class App extends React.Component
-{
+export default class App extends React.Component {
     // render
-    render()
-    {
+    render() {
         return (
             <div className="container">
                 <div className="row">

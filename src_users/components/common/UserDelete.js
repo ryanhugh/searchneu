@@ -1,13 +1,11 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Modal, Button } from 'react-bootstrap';
+import React from "react";
+import {connect} from "react-redux";
+import {Modal, Button} from "react-bootstrap";
 
 // User delete component
-export class UserDelete extends React.Component
-{
+export class UserDelete extends React.Component {
     // constructor
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
 
         // bind <this> to the event method
@@ -16,8 +14,7 @@ export class UserDelete extends React.Component
     }
 
     // render
-    render()
-    {
+    render() {
         return (
             <Modal show={this.props.modal_delete.show}>
                 <Modal.Header>
@@ -34,16 +31,14 @@ export class UserDelete extends React.Component
     }
 
     // close the delete modal
-    modalDeleteHide(event)
-    {
+    modalDeleteHide(event) {
         this.props.dispatch({
             type: 'USERS_MODAL_DELETE_HIDE',
         });
     }
 
     // delete a user
-    userDelete(event)
-    {
+    userDelete(event) {
         // delete the user with the api
         this.props.dispatch({
             type: 'USERS_DELETE_SAVE',

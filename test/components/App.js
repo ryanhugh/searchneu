@@ -1,8 +1,7 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import assert from 'assert';
-
-import App from '../../src_users/components/App';
+import React from "react";
+import {shallow} from "enzyme";
+import assert from "assert";
+import App from "../../src_users/components/App";
 
 // unit tests for the App component
 describe('App component', () => {

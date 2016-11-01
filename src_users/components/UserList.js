@@ -1,17 +1,14 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import { ProgressBar, Table, Pagination } from 'react-bootstrap';
-
-import UserListElement from './common/UserListElement';
-import UserDelete from './common/UserDelete';
+import React from "react";
+import {connect} from "react-redux";
+import {push} from "react-router-redux";
+import {ProgressBar, Table, Pagination} from "react-bootstrap";
+import UserListElement from "./common/UserListElement";
+import UserDelete from "./common/UserDelete";
 
 // User list component
-export class UserList extends React.Component
-{
+export class UserList extends React.Component {
     // constructor
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
 
         // when we don't have any users, update the state with the users list taken from the api
@@ -24,8 +21,7 @@ export class UserList extends React.Component
     }
 
     // render
-    render()
-    {
+    render() {
         // pagination
         const per_page = 10;
         const pages = Math.ceil(this.props.users.length / per_page);
@@ -36,7 +32,7 @@ export class UserList extends React.Component
         // render
         if (this.props.users.length) {
             // show the list of users
-            return(
+            return (
                 <div>
                     <Table bordered hover responsive striped>
                         <thead>
@@ -60,23 +56,22 @@ export class UserList extends React.Component
                         </tbody>
                     </Table>
 
-                    <Pagination className="users-pagination pull-right" bsSize="medium" maxButtons={10} first last next prev
-                        boundaryLinks items={pages} activePage={current_page} onSelect={this.changePage}/>
+                    <Pagination className="users-pagination pull-right" bsSize="medium" maxButtons={10} first last next
+                                prev boundaryLinks items={pages} activePage={current_page} onSelect={this.changePage}/>
 
                     <UserDelete/>
                 </div>
             );
         } else {
             // show the loading state
-            return(
+            return (
                 <ProgressBar active now={100}/>
             );
         }
     }
 
     // change the user lists' current page
-    changePage(page)
-    {
+    changePage(page) {
         this.props.dispatch(push('/?page=' + page));
     }
 }

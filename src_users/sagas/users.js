@@ -1,6 +1,5 @@
-import { call, put } from 'redux-saga/effects';
-
-import ApiUsers from '../api/users';
+import {call, put} from "redux-saga/effects";
+import ApiUsers from "../api/users";
 
 // fetch the user's list
 export function* usersFetchList(action) {

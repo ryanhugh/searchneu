@@ -1,8 +1,7 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import assert from 'assert';
-
-import { UserListElement } from '../../src_users/components/common/UserListElement';
+import React from "react";
+import {shallow} from "enzyme";
+import assert from "assert";
+import {UserListElement} from "../../src_users/components/common/UserListElement";
 
 // unit tests for the UserListElement component
 describe('UserListElement component', () => {

@@ -1,14 +1,12 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import { Button, Glyphicon } from 'react-bootstrap';
+import React from "react";
+import {connect} from "react-redux";
+import {Link} from "react-router";
+import {Button, Glyphicon} from "react-bootstrap";
 
 // User List Element component
-export class UserListElement extends React.Component
-{
+export class UserListElement extends React.Component {
     // constructor
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
 
         // bind <this> to the event method
@@ -16,16 +14,14 @@ export class UserListElement extends React.Component
     }
 
     // prop checks
-    static get propTypes()
-    {
+    static get propTypes() {
         return {
             id: React.PropTypes.number.isRequired,
         };
     }
 
     // render
-    render()
-    {
+    render() {
         // get the user element data
         let user;
         for (const val of this.props.users) {
@@ -42,7 +38,7 @@ export class UserListElement extends React.Component
                 <td>{user.username}</td>
                 <td>{user.job}</td>
                 <td>
-                    <Link to={'user-edit/'+user.id}>
+                    <Link to={'user-edit/' + user.id}>
                         <Button bsSize="xsmall">
                             Edit <Glyphicon glyph="edit"/>
                         </Button>
@@ -50,7 +46,7 @@ export class UserListElement extends React.Component
                 </td>
                 <td>
                     <Button bsSize="xsmall" className="user-delete" data-id={user.id} data-username={user.username}
-                        onClick={this.modalDeleteShow}>
+                            onClick={this.modalDeleteShow}>
                         Delete <Glyphicon glyph="remove-circle"/>
                     </Button>
                 </td>
@@ -59,8 +55,7 @@ export class UserListElement extends React.Component
     }
 
     // prompt to delete the user
-    modalDeleteShow(event)
-    {
+    modalDeleteShow(event) {
         const user_id = Number(event.target.dataset.id);
         const username = event.target.dataset.username;
         this.props.dispatch({

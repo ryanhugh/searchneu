@@ -1,8 +1,7 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import assert from 'assert';
-
-import { UserEdit } from '../../src_users/components/UserEdit';
+import React from "react";
+import {shallow} from "enzyme";
+import assert from "assert";
+import {UserEdit} from "../../src_users/components/UserEdit";
 
 // unit tests for the UserEdit component
 describe('UserEdit component', () => {
@@ -12,7 +11,8 @@ describe('UserEdit component', () => {
                 initialValues: {
                     id: 0,
                 },
-                handleSubmit: () => {},
+                handleSubmit: () => {
+                },
                 invalid: true,
                 submitting: false,
             }
@@ -27,7 +27,8 @@ describe('UserEdit component', () => {
                 initialValues: {
                     id: 1,
                 },
-                handleSubmit: () => {},
+                handleSubmit: () => {
+                },
                 invalid: false,
                 submitting: false,
             }

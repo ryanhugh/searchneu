@@ -1,20 +1,17 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { goBack } from 'react-router-redux';
-import { Field, reduxForm } from 'redux-form';
-import { PageHeader, Form, FormGroup, Col, Button } from 'react-bootstrap';
-
-import FormField from './common/FormField';
+import React from "react";
+import {connect} from "react-redux";
+import {goBack} from "react-router-redux";
+import {Field, reduxForm} from "redux-form";
+import {PageHeader, Form, FormGroup, Col, Button} from "react-bootstrap";
+import FormField from "./common/FormField";
 
 // User add/edit page component
-export class UserEdit extends React.Component
-{
+export class UserEdit extends React.Component {
     // current form type: add or edit
     form_type;
 
     // constructor
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
 
         // set the current form type
@@ -25,9 +22,8 @@ export class UserEdit extends React.Component
     }
 
     // render
-    render()
-    {
-        return(
+    render() {
+        return (
             <div className="page-user-edit">
                 <PageHeader>{'edit' === this.form_type ? 'User edit' : 'User add'}</PageHeader>
                 <Form horizontal onSubmit={this.props.handleSubmit(this.formSubmit)}>
@@ -47,8 +43,7 @@ export class UserEdit extends React.Component
     }
 
     // submit the form
-    formSubmit(values)
-    {
+    formSubmit(values) {
         // add/edit the user in the api
         const upper_form_type = this.form_type.toUpperCase();   // ADD or EDIT
         this.props.dispatch({
@@ -74,7 +69,7 @@ export class UserEdit extends React.Component
 // decorate the form component
 const UserEditForm = reduxForm({
     form: 'user_edit',
-    validate: function(values){
+    validate: function (values) {
         const errors = {};
         if (!values.username) {
             errors.username = 'Username is required';

@@ -37,7 +37,7 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(['css', 'js'], {
             root: __dirname + '/public',
-            verbose: true, 
+            verbose: true,
             dry: false, // true for simulation
         })
     ],
