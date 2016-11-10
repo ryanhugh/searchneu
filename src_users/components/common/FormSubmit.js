@@ -1,4 +1,4 @@
-import React from "react";
+import React, {PropTypes} from "react";
 import {FormGroup, HelpBlock, Button} from "react-bootstrap";
 
 // Form submit component
@@ -27,9 +27,9 @@ export default class FormSubmit extends React.Component {
 
 // prop checks
 FormSubmit.propTypes = {
-  error: React.PropTypes.string,  // redux-form general `_error` message
-  invalid: React.PropTypes.bool,  // redux-form invalid prop
-  submitting: React.PropTypes.bool,   // redux-form invalid submitting
-  buttonSaveLoading: React.PropTypes.string, // save button loading text, default is "Saving..."
-  buttonSave: React.PropTypes.string,    // save button text, default is "Save"
+  error: PropTypes.string,  // redux-form general `_error` message
+  invalid: PropTypes.bool,  // redux-form invalid prop
+  submitting: PropTypes.bool,   // redux-form invalid submitting
+  buttonSaveLoading: PropTypes.string, // save button loading text, default is "Saving..."
+  buttonSave: PropTypes.string,    // save button text, default is "Save"
 };

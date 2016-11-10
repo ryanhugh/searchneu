@@ -1,4 +1,4 @@
-import React from "react";
+import React, {PropTypes} from "react";
 import {Link} from "react-router";
 import {Button, Glyphicon} from "react-bootstrap";
 
@@ -31,6 +31,6 @@ export default class UserListElement extends React.Component {
 
 // prop checks
 UserListElement.propTypes = {
-  user: React.PropTypes.object.isRequired,
-  showDelete: React.PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  showDelete: PropTypes.func.isRequired,
 }

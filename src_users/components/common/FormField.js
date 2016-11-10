@@ -1,4 +1,4 @@
-import React from "react";
+import React, {PropTypes} from "react";
 import {FormGroup, ControlLabel, FormControl, HelpBlock, Row, Col} from "react-bootstrap";
 
 // Form field component
@@ -55,13 +55,13 @@ export default class FormField extends React.Component {
 
 // prop checks
 FormField.propTypes = {
-  meta: React.PropTypes.object,
-  input: React.PropTypes.object,
-  theme: React.PropTypes.string,  // 2col (default), etc
-  validate: React.PropTypes.bool, // true or false
-  label: React.PropTypes.any,  // the field text or a react component if we have html inside (empty string by default)
-  componentClass: React.PropTypes.string, // input (by default), textarea, select
-  type: React.PropTypes.string,   // input type: text (by default), password
-  placeholder: React.PropTypes.string,    // input placeholder (empty string by default)
-  className: React.PropTypes.string,  // the class name (empty string by default)
+  meta: PropTypes.object,
+  input: PropTypes.object,
+  theme: PropTypes.string,  // 2col (default), etc
+  validate: PropTypes.bool, // true or false
+  label: PropTypes.any,  // the field text or a react component if we have html inside (empty string by default)
+  componentClass: PropTypes.string, // input (by default), textarea, select
+  type: PropTypes.string,   // input type: text (by default), password
+  placeholder: PropTypes.string,    // input placeholder (empty string by default)
+  className: PropTypes.string,  // the class name (empty string by default)
 }
