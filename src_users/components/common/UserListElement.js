@@ -4,14 +4,6 @@ import {Button, Glyphicon} from "react-bootstrap";
 
 // User List Element component
 export default class UserListElement extends React.Component {
-    // prop checks
-    static get propTypes() {
-        return {
-            user: React.PropTypes.object.isRequired,
-            showDelete: React.PropTypes.func.isRequired,
-        };
-    }
-
     // render
     render() {
         const {user, showDelete} = this.props;
@@ -35,4 +27,10 @@ export default class UserListElement extends React.Component {
             </tr>
         );
     }
+}
+
+// prop checks
+UserListElement.propTypes = {
+  user: React.PropTypes.object.isRequired,
+  showDelete: React.PropTypes.func.isRequired,
 }

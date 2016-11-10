@@ -3,21 +3,6 @@ import {FormGroup, ControlLabel, FormControl, HelpBlock, Row, Col} from "react-b
 
 // Form field component
 export default class FormField extends React.Component {
-    // prop checks
-    static get propTypes() {
-        return {
-            meta: React.PropTypes.object,
-            input: React.PropTypes.object,
-            theme: React.PropTypes.string,  // 2col (default), etc
-            validate: React.PropTypes.bool, // true or false
-            label: React.PropTypes.any,  // the field text or a react component if we have html inside (empty string by default)
-            componentClass: React.PropTypes.string, // input (by default), textarea, select
-            type: React.PropTypes.string,   // input type: text (by default), password
-            placeholder: React.PropTypes.string,    // input placeholder (empty string by default)
-            className: React.PropTypes.string,  // the class name (empty string by default)
-        };
-    }
-
     // render
     render() {
         const {className, validate, meta} = this.props;
@@ -66,4 +51,17 @@ export default class FormField extends React.Component {
             </FormControl>
         );
     }
+}
+
+// prop checks
+FormField.propTypes = {
+  meta: React.PropTypes.object,
+  input: React.PropTypes.object,
+  theme: React.PropTypes.string,  // 2col (default), etc
+  validate: React.PropTypes.bool, // true or false
+  label: React.PropTypes.any,  // the field text or a react component if we have html inside (empty string by default)
+  componentClass: React.PropTypes.string, // input (by default), textarea, select
+  type: React.PropTypes.string,   // input type: text (by default), password
+  placeholder: React.PropTypes.string,    // input placeholder (empty string by default)
+  className: React.PropTypes.string,  // the class name (empty string by default)
 }

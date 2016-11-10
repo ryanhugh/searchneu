@@ -3,16 +3,6 @@ import {Modal, Button} from "react-bootstrap";
 
 // User delete component
 export default class UserDelete extends React.Component {
-    // prop checks
-    static get propTypes() {
-        return {
-            show: React.PropTypes.bool.isRequired,
-            user: React.PropTypes.object.isRequired,
-            hideDelete: React.PropTypes.func.isRequired,
-            userDelete: React.PropTypes.func.isRequired,
-        };
-    }
-
     // render
     render() {
         const {show, user, hideDelete, userDelete} = this.props;
@@ -30,4 +20,12 @@ export default class UserDelete extends React.Component {
             </Modal>
         );
     }
+}
+
+// prop checks
+UserDelete.propTypes = {
+  show: React.PropTypes.bool.isRequired,
+  user: React.PropTypes.object.isRequired,
+  hideDelete: React.PropTypes.func.isRequired,
+  userDelete: React.PropTypes.func.isRequired,
 }
