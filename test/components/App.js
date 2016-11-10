@@ -7,9 +7,8 @@ import App from "../../src_users/components/App";
 describe('App component', () => {
     describe('render()', () => {
         it('should render the component', () => {
-            const wrapper = shallow(<App/>);
+            const wrapper = shallow(<App/>);console.log(wrapper);
             assert.equal(wrapper.find('.container').length, 1);
-            assert.equal(wrapper.find('.row').length, 3);
             assert.equal(wrapper.find('.footer a').length, 1);
         });
     });

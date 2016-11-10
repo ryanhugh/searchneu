@@ -1,8 +1,7 @@
 // API Users static class
 export default class ApiUsers {
     // get a list of users
-    static getList(action) {
-        const timeout = 1000;   // 1 second delay
+    static getList() {
         return new Promise(resolve => {
             setTimeout(() => {
                 // build some dummy users list
@@ -15,22 +14,27 @@ export default class ApiUsers {
                     });
                 }
                 resolve(users);
-            }, timeout);
+            }, 1000);
         });
     }
 
-    // add a user
-    static add(action) {
-        // call some api url
-    }
-
-    // edit a user
-    static edit(action) {
-        // call some api url
+    // add/edit a user
+    static addEdit() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                // do something here
+                resolve();
+            }, 1000);
+        });
     }
 
     // delete a user
-    static delete(action) {
-        // call some api url
+    static delete() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                // do something here
+                resolve();
+            }, 1000);
+        });
     }
 }

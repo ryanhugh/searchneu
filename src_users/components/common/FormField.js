@@ -10,26 +10,31 @@ export default class FormField extends React.Component {
             input: React.PropTypes.object,
             theme: React.PropTypes.string,  // 2col (default), etc
             validate: React.PropTypes.bool, // true or false
-            label: React.PropTypes.string,  // the field text (empty string by default)
+            label: React.PropTypes.any,  // the field text or a react component if we have html inside (empty string by default)
             componentClass: React.PropTypes.string, // input (by default), textarea, select
             type: React.PropTypes.string,   // input type: text (by default), password
+            placeholder: React.PropTypes.string,    // input placeholder (empty string by default)
+            className: React.PropTypes.string,  // the class name (empty string by default)
         };
     }
 
     // render
     render() {
-        if (this.props.validate) {
+        const {className, validate, meta} = this.props;
+        if (validate) {
             return (
-                <FormGroup
-                    validationState={!this.props.meta.touched ? null : (this.props.meta.error ? 'error' : 'success')}>
+                <FormGroup className={className}
+                           validationState={!meta.touched ? null : (meta.error ? 'error' : 'success')}>
                     {this.content()}
                     <FormControl.Feedback/>
-                    <HelpBlock>{this.props.meta.touched && this.props.meta.error ? this.props.meta.error : null}</HelpBlock>
+                    <HelpBlock>
+                        {meta.touched && meta.error ? meta.error : null}
+                    </HelpBlock>
                 </FormGroup>
             );
         } else {
             return (
-                <FormGroup>
+                <FormGroup className={className}>
                     {this.content()}
                 </FormGroup>
             );
@@ -38,21 +43,27 @@ export default class FormField extends React.Component {
 
     // the field content
     content() {
-        if ('other_theme' === this.props.theme) {
+        const {theme, label} = this.props;
+        if ('other_theme' === theme) {
             // layout for some other theme
         } else {
             // default theme: 2col
             return (
                 <Row>
-                    <Col sm={2}>{this.props.label}</Col>
-                    <Col sm={10}>
-                        <FormControl {...this.props.input} componentClass={this.props.componentClass}
-                                     type={this.props.type}>
-                            {this.props.children}
-                        </FormControl>
-                    </Col>
+                    <Col sm={3}>{label}</Col>
+                    <Col sm={9}>{this.field()}</Col>
                 </Row>
             );
         }
+    }
+
+    // the field itself
+    field() {
+        const {input, componentClass, type, placeholder, children} = this.props;
+        return (
+            <FormControl {...input} componentClass={componentClass} type={type} placeholder={placeholder}>
+                {children}
+            </FormControl>
+        );
     }
 }
