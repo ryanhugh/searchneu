@@ -34,7 +34,7 @@ export default class ApiUsers {
       setTimeout(() => {
         // do something here
         resolve();
-      }, 1000);
+      }, 500);
     });
   }
 }

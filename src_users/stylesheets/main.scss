@@ -1,11 +1,25 @@
-.footer {
-  clear: both;
-  margin-bottom: 50px;
-  text-align: center;
+.progress {
+  margin: 10px auto;
+  width: 300px;
 }
 
 .nav {
   margin: 30px 0 20px 0;
+}
+
+.footer {
+  clear: both;
+  margin-bottom: 50px;
+  text-align: center;
+
+  img {
+    width: 40px;
+    padding-right: 5px;
+  }
+
+  span {
+    vertical-align: middle;
+  }
 }
 
 .users-pagination {
@@ -15,9 +29,4 @@
 .page-user-edit form {
   width: 500px;
   margin-top: 40px;
-}
-
-.progress {
-  margin: 10px auto;
-  width: 300px;
 }

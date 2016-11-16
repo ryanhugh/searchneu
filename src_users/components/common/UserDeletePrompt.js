@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import { Modal, Button } from "react-bootstrap";
 
 // User delete component
-export default class UserDelete extends React.Component {
+export default class UserDeletePrompt extends React.Component {
   // render
   render() {
     const {show, user, hideDelete, userDelete} = this.props;
@@ -23,7 +23,7 @@ export default class UserDelete extends React.Component {
 }
 
 // prop checks
-UserDelete.propTypes = {
+UserDeletePrompt.propTypes = {
   show: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
   hideDelete: PropTypes.func.isRequired,

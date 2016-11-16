@@ -8,7 +8,7 @@ describe('NotFound component', () => {
   describe('render()', () => {
     it('should render the component', () => {
       const wrapper = shallow(<NotFound/>);
-      assert.equal(wrapper.find('.page-not-found').length, 1);
+      assert.equal(wrapper.length, 1);
     });
   });
 });

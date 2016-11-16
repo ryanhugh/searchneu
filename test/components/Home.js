@@ -8,7 +8,7 @@ describe('Home component', () => {
   describe('render()', () => {
     it('should render the component', () => {
       const wrapper = shallow(<Home/>);
-      assert.equal(wrapper.find('.page-home').length, 1);
+      assert.equal(wrapper.length, 1);
     });
   });
 });
