@@ -103,6 +103,10 @@ Here are the npm packages that redux-minimal installs:
 ||[`whatwg-fetch`](https://github.com/github/fetch)|Helps the browser to use fetch|
 
 
+# Express branch
+
+You can use the [express branch](https://github.com/catalin-luntraru/redux-minimal/tree/express) if you want to use express instead of webpack-dev-server.
+
 
 # Sample app
 
