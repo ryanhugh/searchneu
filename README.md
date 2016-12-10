@@ -110,7 +110,7 @@ You can use the [express branch](https://github.com/catalin-luntraru/redux-minim
 
 # Change host and/or port
 
-If you don't want to use localhost on port 8080, you can change it in `package.json` and `webpack.config.js`
+If you don't want to use localhost on port 8080, you can change it in `package.json` and `webpack.config.js`.
 
 
 # Sample app
