@@ -129,7 +129,7 @@ The demo for the app can be found here:
 
 # Build your own app
 
-1. Open `webpack.config.js` and change the `app_root` value from `src_users` to `src`
+1. Open `webpack.config.js` and change the `app_root` value from `src_users` to `src`.
 
 2. Run `npm start`
 
