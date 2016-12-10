@@ -23,7 +23,7 @@ export class UserEdit extends React.Component {
       <div className="page-user-edit">
         <PageHeader>{'User ' + (user.id ? 'edit' : 'add')}</PageHeader>
         <Form horizontal onSubmit={handleSubmit(this.formSubmit)}>
-          <Field component={FormField} name="username" label="Username" validate={true}/>
+          <Field component={FormField} name="username" label="Username" doValidate={true}/>
           <Field component={FormField} name="job" label="Job"/>
           <FormSubmit error={error} invalid={invalid} submitting={submitting} buttonSaveLoading="Saving..."
             buttonSave="Save User"/>

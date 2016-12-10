@@ -5,8 +5,8 @@ import { FormGroup, FormControl, HelpBlock, Row, Col } from "react-bootstrap";
 export default class FormField extends React.Component {
   // render
   render() {
-    const {className, validate, meta} = this.props;
-    if (validate) {
+    const {className, doValidate, meta} = this.props;
+    if (doValidate) {
       return (
         <FormGroup className={className}
           validationState={!meta.touched ? null : (meta.error ? 'error' : 'success')}>
@@ -58,7 +58,7 @@ FormField.propTypes = {
   meta: PropTypes.object,
   input: PropTypes.object,
   theme: PropTypes.string,  // 2col (default), etc
-  validate: PropTypes.bool, // true or false
+  doValidate: PropTypes.bool, // true or false
   label: PropTypes.any,  // the field text or a react component if we have html inside (empty string by default)
   componentClass: PropTypes.string, // input (by default), textarea, select
   type: PropTypes.string,   // input type: text (by default), password
