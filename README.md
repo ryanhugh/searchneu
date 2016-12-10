@@ -37,7 +37,7 @@ A demo of the app can be seen here: [http://redux-minimal-app.catalin-luntraru.c
 3. Then open your [http://localhost:8080/](http://localhost:8080/) to see the included small users app. 
 Congratulations! You can now write react redux code.
 
-4. For more productivity you can install Chrome's [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en) and [Redux Dev Tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en).
+4. For more productivity you can install Chrome's [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en) and [Redux Dev Tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
 
 
 # Video tutorial
@@ -129,11 +129,11 @@ The demo for the app can be found here:
 
 # Build your own app
 
-1. Open `webpack.config.js` and change the `app_root` value from `src_users` to `src`.
+1. Open `webpack.config.js` and change the `app_root` value from `src_users` to `src`
 
 2. Run `npm start`
 
-3. Congratulations! You now have a blank `Hello world` starting app.
+3. Congratulations! You now have a blank `Hello world` starting app
 
 
 # Scripts
