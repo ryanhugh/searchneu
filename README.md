@@ -133,7 +133,7 @@ The demo for the app can be found here:
 
 2. Run `npm start`
 
-3. Congratulations! You now have a blank `Hello world` starting app
+3. Congratulations! You now have a blank `Hello world` starting app.
 
 
 # Scripts
