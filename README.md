@@ -108,6 +108,11 @@ Here are the npm packages that redux-minimal installs:
 You can use the [express branch](https://github.com/catalin-luntraru/redux-minimal/tree/express) if you want to use express instead of webpack-dev-server.
 
 
+# Change host and/or port
+
+If you don't want to use localhost on port 8080, you can change it in `package.json` and `webpack.config.js`
+
+
 # Sample app
 
 Redux-Minimal also contains a small sample app that let's you manage some users with the following features:
