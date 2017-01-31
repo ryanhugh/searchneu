@@ -1,6 +1,6 @@
 // http://webpack.github.io/docs/configuration.html
 // http://webpack.github.io/docs/webpack-dev-server.html
-var app_root = 'src_users'; // the app root folder: src, src_users, etc
+var app_root = 'src'; // the app root folder: src, src_users, etc
 var path = require('path');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -19,22 +19,21 @@ module.exports = {
     filename: 'bundle.js',
   },
   module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        loaders: ['react-hot', 'babel'],
-        exclude: /node_modules/,
-      },
-      {
-        // https://github.com/jtangelder/sass-loader
-        test: /\.scss$/,
-        loaders: ['style', 'css', 'sass'],
-      },
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css'],
-      }
-    ],
+    loaders: [{
+      test: /\.js$/,
+      loaders: ['react-hot', 'babel'],
+      exclude: /node_modules/,
+    }, {
+      // https://github.com/jtangelder/sass-loader
+      test: /\.scss$/,
+      loaders: ['style', 'css', 'sass'],
+    }, {
+      test: /\.css$/,
+      loaders: [
+        'style',
+        'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
+      ]
+    }],
   },
   devServer: {
     contentBase: __dirname + '/public',
