@@ -1,13 +1,19 @@
 import React from "react";
+import CSSModules from 'react-css-modules';
+import css from './home.css'
+
+console.log(css)
 
 // Home page component
-export default class Home extends React.Component {
+class Home extends React.Component {
   // render
   render() {
     return (
       <div className="page-home">
-        <h4>Hello world!</h4>
+        <h4 className={css.test}>Hello world!</h4>
       </div>
     );
   }
 }
+
+export default CSSModules(Home, css);
