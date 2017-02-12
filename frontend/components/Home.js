@@ -56,7 +56,7 @@ class Home extends React.Component {
 		super(props);
 
 		this.state = {
-			searchValue: '',
+			searchValue: 'ad',
 			searchResults: []
 		}
 		console.log('running constructor')
@@ -131,7 +131,7 @@ class Home extends React.Component {
 			        </div>
 			    </div>
 
-			    <div className="ui stackable grid container">
+			    <div className={"ui container " + css.resultsContainer}>
 			        <div className="five column row">
 				        <div className="page-home">
 					        <Results classes={this.state.classes}/>
