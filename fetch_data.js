@@ -27,6 +27,19 @@ async function fireRequest(url, body = {}, method = "POST") {
 	return await request(options)
 }
 
+//TODO: this needs to be a Key.js not this ghetto thing
+function getHash(obj) {
+	var keys = ['host', 'termId', 'subject', 'classUid', 'crn']
+	var retVal = [];
+	keys.forEach(function (key) {
+		if (!obj[key]) {
+			return;
+		}
+		retVal.push(obj[key].replace('/', '_'))
+	})
+	return retVal.join('/')
+}
+
 
 async function main() {
 
@@ -37,7 +50,7 @@ async function main() {
 
 	hosts.forEach(function (host) {
 		promises.push(fireRequest('/listTerms', {
-			host: host.host
+			host: host.host.replace('/', '_')
 		}))
 	})
 
@@ -48,8 +61,8 @@ async function main() {
 	promises = []
 
 	terms.forEach(function (term) {
-		promises.push(mkdirp(path.join(PUBLIC_DIR, 'listClasses', term.host)))
-		promises.push(mkdirp(path.join(PUBLIC_DIR, 'listSections', term.host)))
+		promises.push(mkdirp(path.join(PUBLIC_DIR, 'getClassesMap', term.host)))
+		promises.push(mkdirp(path.join(PUBLIC_DIR, 'getSectionMap', term.host)))
 		promises.push(mkdirp(path.join(PUBLIC_DIR, 'getSearchIndex', term.host)))
 	})
 
@@ -62,12 +75,26 @@ async function main() {
 
 
 		promises.push(fireRequest('/listClasses/' + term.host + '/' + term.termId, {}, "GET").then(function (response) {
-			fs.writeFile(path.join(PUBLIC_DIR, 'listClasses', term.host, term.termId), JSON.stringify(response))
+
+			// Make a map of the hash to the classes
+			var classMap = {}
+			response.forEach(function (aClass) {
+				classMap[getHash(aClass)] = aClass;
+			})
+
+			fs.writeFile(path.join(PUBLIC_DIR, 'getClassesMap', term.host, term.termId), JSON.stringify(classMap))
 		}))
 
 
 		promises.push(fireRequest('/listSections/' + term.host + '/' + term.termId, {}, "GET").then(function (response) {
-			fs.writeFile(path.join(PUBLIC_DIR, 'listSections', term.host, term.termId), JSON.stringify(response))
+
+			// Make a map of the hash to the sections
+			var sectionMap = {}
+			response.forEach(function (section) {
+				sectionMap[getHash(section)] = section;
+			})
+
+			fs.writeFile(path.join(PUBLIC_DIR, 'getSectionMap', term.host, term.termId), JSON.stringify(sectionMap))
 		}))
 
 
