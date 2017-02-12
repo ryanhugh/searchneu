@@ -10,7 +10,7 @@ export default {
 
 	entry: [
 		'babel-polyfill',
-		... macros.DEV ? [
+		...macros.DEV ? [
 			'react-hot-loader/patch',
 			'webpack-hot-middleware/client',
 		] : [],
@@ -30,7 +30,7 @@ export default {
 			inject: 'body',
 			filename: 'index.html',
 		}),
-		... macros.DEV ? [
+		...macros.DEV ? [
 			new webpack.HotModuleReplacementPlugin(),
 		] : [
 			new webpack.DefinePlugin({
@@ -82,7 +82,16 @@ export default {
 		}, {
 			test: /\.css$/,
 			include: [
-				path.join(rootDir, 'frontend'),
+				path.join(rootDir, 'frontend', 'lib'),
+			],
+			loaders: [
+				"style-loader",
+				"css-loader?localIdentName=[path]___[name]__[local]___[hash:base64:5]",
+			]
+		}, {
+			test: /\.css$/,
+			include: [
+				path.join(rootDir, 'frontend', 'components'),
 			],
 			loaders: [
 				"style-loader",
