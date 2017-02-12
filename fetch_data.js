@@ -3,6 +3,8 @@ import fs from 'mz/fs'
 import mkdirp from 'mkdirp-promise'
 import request from 'request-promise-native'
 
+const PUBLIC_DIR = 'compiled_frontend'
+
 
 async function fireRequest(url, body = {}, method = "POST") {
 	console.log(url, method)
@@ -46,9 +48,9 @@ async function main() {
 	promises = []
 
 	terms.forEach(function (term) {
-		promises.push(mkdirp(path.join('public', 'listClasses', term.host)))
-		promises.push(mkdirp(path.join('public', 'listSections', term.host)))
-		promises.push(mkdirp(path.join('public', 'getSearchIndex', term.host)))
+		promises.push(mkdirp(path.join(PUBLIC_DIR, 'listClasses', term.host)))
+		promises.push(mkdirp(path.join(PUBLIC_DIR, 'listSections', term.host)))
+		promises.push(mkdirp(path.join(PUBLIC_DIR, 'getSearchIndex', term.host)))
 	})
 
 	await Promise.all(promises)
@@ -60,30 +62,26 @@ async function main() {
 
 
 		promises.push(fireRequest('/listClasses/' + term.host + '/' + term.termId, {}, "GET").then(function (response) {
-			fs.writeFile(path.join('public', 'listClasses', term.host, term.termId), JSON.stringify(response))
+			fs.writeFile(path.join(PUBLIC_DIR, 'listClasses', term.host, term.termId), JSON.stringify(response))
 		}))
 
 
 		promises.push(fireRequest('/listSections/' + term.host + '/' + term.termId, {}, "GET").then(function (response) {
-			fs.writeFile(path.join('public', 'listSections', term.host, term.termId), JSON.stringify(response))
+			fs.writeFile(path.join(PUBLIC_DIR, 'listSections', term.host, term.termId), JSON.stringify(response))
 		}))
 
 
 		promises.push(fireRequest('/getSearchIndex/' + term.host + '/' + term.termId, {}, "GET").then(function (response) {
-			fs.writeFile(path.join('public', 'getSearchIndex', term.host, term.termId), JSON.stringify(response))
+			fs.writeFile(path.join(PUBLIC_DIR, 'getSearchIndex', term.host, term.termId), JSON.stringify(response))
 		}))
 
 
 	})
 
 
-
-
 	await Promise.all(promises)
+	console.log('All Done.')
 
 }
-
-
-
 
 main()
