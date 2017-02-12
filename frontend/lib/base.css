@@ -27,6 +27,9 @@ html, body {
 	box-sizing: border-box;
 	height: 100%;
 }
+html {
+	font-size: 18px;
+}
 *, *:before, *:after {
 	-webkit-box-sizing: inherit;
 	-moz-box-sizing: inherit;
