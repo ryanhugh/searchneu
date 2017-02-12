@@ -46,9 +46,11 @@
     "redux": "^3.6.0",
     "redux-form": "^6.4.3",
     "redux-saga": "^0.14.3",
+    "request": "^2.79.0",
     "request-promise-native": "^1.0.3",
     "resolve-url-loader": "^1.6.1",
     "semantic-ui-css": "^2.2.4",
+    "superagent": "^3.4.1",
     "webpack-hot-middleware": "^2.16.1"
   },
   "devDependencies": {

@@ -1,11 +1,54 @@
-import React from "react";
-import CSSModules from 'react-css-modules';
-import css from './home.css'
-import Row from './Row.js'
+import React from "react"
+import CSSModules from 'react-css-modules'
 import he from 'he'
 import elasticlunr from 'elasticlunr'
 import 'semantic-ui-css/semantic.min.css'
+import request from 'superagent'
 import '../lib/base.css'
+import css from './home.css'
+import Results from './Results.js'
+
+
+var searchConfig = {
+	"desc": {
+		"boost": 1,
+		"bool": "OR",
+		"expand": false
+	},
+	"name": {
+		"boost": 1,
+		"bool": "OR",
+		"expand": true
+	},
+	"classId": {
+		"boost": 1,
+		"bool": "OR",
+		"expand": true
+	},
+	"subject": {
+		"boost": 1,
+		"bool": "OR",
+		"expand": true
+	},
+	"profs": {
+		"boost": 1,
+		"bool": "OR",
+		"expand": true
+	},
+	"locations": {
+		"boost": 1,
+		"bool": "OR",
+		"expand": true
+	},
+	"crns": {
+		"boost": 1,
+		"bool": "OR",
+		"expand": false
+	},
+	expand: true
+}
+
+
 
 // Home page component
 class Home extends React.Component {
@@ -13,26 +56,72 @@ class Home extends React.Component {
 		super(props);
 
 		this.state = {
-			searchValue: ''
+			searchValue: '',
+			searchResults: []
 		}
 		console.log('running constructor')
+
+		this.loadData();
 	}
 
+	async loadData() {
+
+		// TODO: parallize this shizz
+		this.searchIndex = elasticlunr.Index.load(JSON.parse((await request('/getSearchIndex/neu.edu/201730')).text))
+		this.classMap = JSON.parse((await request('/getClassesMap/neu.edu/201730')).text)
+		this.sectionMap = JSON.parse((await request('/getSectionMap/neu.edu/201730')).text)
+		// console.log(this.classMap)
+
+	}
+
+
+	// TODO: if data has not been loaded, wait for it to load
 	onClick(event) {
-	    this.setState({searchValue: event.target.value});
+		if (!event.target.value) {
+			this.setState({
+				searchResults: []
+			})
+			return;
+		}
+
+		// Returns an array of objects that has a .ref and a .score
+		// The array is sorted by score (with the highest matching closest to the beginning)
+		// eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
+		var results = this.searchIndex.search(event.target.value, searchConfig)
+
+		results = results.slice(0, 50)
+
+		var classes = []
+
+		results.forEach(function(result) {
+			classes.push(this.classMap[result.ref])
+		}.bind(this))
+
+		console.log(classes.length, 'results')
+
+		if (classes.length != 0) {
+			console.log('first one is ',classes[0].name)
+		}
+
+
+
+		this.setState({
+			classes: classes
+		})
+
+
+
+	    // this.setState({searchValue: event.target.value});
 	}
 
     render() {
 
 
-    	console.log(this.state.searchValue, 'here')
-
-
 	    return (
 	    	<div>
 			    <div id="top-header" className="ui center aligned icon header">
-			        <h1 style={{fontSize:"50px"}}>Employee Directory</h1>
-			        <h3 style={{color:"grey", fontSize:'29px', paddingBottom:"30px"}}>For Northeastern</h3>
+			        <h1 className={css.title}>Employee Directory</h1>
+			        <h3 className={css.subtitle}>For Northeastern</h3>
 			        
 			        <div id="search-wrapper" className="sub header">
 			            <label>
@@ -45,30 +134,8 @@ class Home extends React.Component {
 			    <div className="ui stackable grid container">
 			        <div className="five column row">
 				        <div className="page-home">
-					        <table className="ui celled table content-wrapper" id="main_results_table_id" style={{display:"none"}}>
-					            <thead>
-						            <tr>
-						                <th className="single line four wide">
-						                    <h3>Professor/Employee</h3>
-						                </th>
-						                <th className="two wide">Phone</th>
-						                <th className="two wide">Email</th>
-						                <th className="two wide">Primary Appointment</th>
-						                <th className="two wide">Primary Department</th>
-						            </tr>
-						        </thead>
-						        <tbody>
-						            <tr className="template_class_name" style={{display:"none"}}>
-						                <td className="main name"></td>
-						                <td className="icon phone"></td>
-						                <td className="icon email"></td>
-						                <td className="icon primaryappointment"></td>
-						                <td className="icon primarydepartment"></td>
-						            </tr>
-
-						        </tbody>
-						    </table>
-					     </div>
+					        <Results classes={this.state.classes}/>
+			            </div>
 			        </div>
 			    </div>
 		    </div>
@@ -76,5 +143,4 @@ class Home extends React.Component {
     }
 }
 
-// <Row/>
 export default CSSModules(Home, css);
