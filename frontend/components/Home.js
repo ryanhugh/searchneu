@@ -2,8 +2,6 @@ import React from "react";
 import CSSModules from 'react-css-modules';
 import css from './home.css'
 
-console.log(css)
-
 // Home page component
 class Home extends React.Component {
   // render
