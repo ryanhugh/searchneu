@@ -16,6 +16,16 @@ class Results extends React.Component {
 
 
 		var elements = this.props.classes.map(function (aClass) {
+
+			var sections = [];
+			if (aClass.crns) {
+				aClass.crns.forEach(function(crn) {
+					
+				})
+			}
+
+
+
 	    	return (
 				<div key={aClass._id} className={css.container + " ui segment"}> 
 					<div className={css.header}>
@@ -27,15 +37,17 @@ class Results extends React.Component {
 					</div>
 
 
-				  	<table className="ui celled striped table">
+				  	<table className={"ui celled striped table " + css.resultsTable}>
 				      <thead>
-				        <tr><th colSpan="3">
-				          Git Repository
-				        </th>
-				      </tr></thead>
-				      <tbody>
 				        <tr>
-				          <td className="collapsing">
+					        <th> Git Repository </th>
+					        <th> Git Repository </th>
+					        <th> Git Repository </th>
+					      </tr>
+				      </thead>
+				      <tbody>
+				        <tr style={{display:'none'}}>
+				          <td className="collapsing" >
 				            <i className="folder icon"></i> node_modules
 				          </td>
 				          <td>Initial commit</td>
