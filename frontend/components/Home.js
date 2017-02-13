@@ -72,22 +72,18 @@ class Home extends React.Component {
 		this.sectionMap = JSON.parse((await request('/getSectionMap/neu.edu/201730')).text)
 		// console.log(this.classMap)
 
+		this.search('da')
 	}
 
-
 	// TODO: if data has not been loaded, wait for it to load
-	onClick(event) {
-		if (!event.target.value) {
-			this.setState({
-				searchResults: []
-			})
-			return;
-		}
+	search(searchTerm) {
+
+		console.log(this)
 
 		// Returns an array of objects that has a .ref and a .score
 		// The array is sorted by score (with the highest matching closest to the beginning)
 		// eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
-		var results = this.searchIndex.search(event.target.value, searchConfig)
+		var results = this.searchIndex.search(searchTerm, searchConfig)
 
 		results = results.slice(0, 50)
 
@@ -108,15 +104,22 @@ class Home extends React.Component {
 		this.setState({
 			classes: classes
 		})
-
-
-
-	    // this.setState({searchValue: event.target.value});
 	}
 
+
+	onClick(event) {
+		if (!event.target.value) {
+			this.setState({
+				searchResults: []
+			})
+			return;
+		}
+
+		this.search(event.target.value)
+	}
+
+
     render() {
-
-
 	    return (
 	    	<div>
 			    <div id="top-header" className="ui center aligned icon header">
@@ -134,7 +137,7 @@ class Home extends React.Component {
 			    <div className={"ui container " + css.resultsContainer}>
 			        <div className="five column row">
 				        <div className="page-home">
-					        <Results classes={this.state.classes}/>
+					        <Results classes={this.state.classes} sectionMap = {this.sectionMap}/>
 			            </div>
 			        </div>
 			    </div>
