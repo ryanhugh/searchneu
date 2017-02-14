@@ -7,6 +7,7 @@ import request from 'superagent'
 import '../lib/base.css'
 import css from './home.css'
 import Results from './Results.js'
+import Class from './models/Class'
 
 
 var searchConfig = {
@@ -68,8 +69,7 @@ class Home extends React.Component {
 
 		// TODO: parallize this shizz
 		this.searchIndex = elasticlunr.Index.load(JSON.parse((await request('/getSearchIndex/neu.edu/201730')).text))
-		this.classMap = JSON.parse((await request('/getClassesMap/neu.edu/201730')).text)
-		this.sectionMap = JSON.parse((await request('/getSectionMap/neu.edu/201730')).text)
+		Class.load(JSON.parse((await request('/getTermDump/neu.edu/201730')).text))
 		// console.log(this.classMap)
 
 		this.search('da')
@@ -77,8 +77,6 @@ class Home extends React.Component {
 
 	// TODO: if data has not been loaded, wait for it to load
 	search(searchTerm) {
-
-		console.log(this)
 
 		// Returns an array of objects that has a .ref and a .score
 		// The array is sorted by score (with the highest matching closest to the beginning)
@@ -90,7 +88,11 @@ class Home extends React.Component {
 		var classes = []
 
 		results.forEach(function(result) {
-			classes.push(this.classMap[result.ref])
+
+
+
+
+			classes.push(this.termDump.classMap[result.ref])
 		}.bind(this))
 
 		console.log(classes.length, 'results')

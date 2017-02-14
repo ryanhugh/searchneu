@@ -61,8 +61,7 @@ async function main() {
 	promises = []
 
 	terms.forEach(function (term) {
-		promises.push(mkdirp(path.join(PUBLIC_DIR, 'getClassesMap', term.host)))
-		promises.push(mkdirp(path.join(PUBLIC_DIR, 'getSectionMap', term.host)))
+		promises.push(mkdirp(path.join(PUBLIC_DIR, 'getTermDump', term.host)))
 		promises.push(mkdirp(path.join(PUBLIC_DIR, 'getSearchIndex', term.host)))
 	})
 
@@ -73,28 +72,40 @@ async function main() {
 
 	terms.forEach(function (term) {
 
+		var termDumpPromises = []
 
-		promises.push(fireRequest('/listClasses/' + term.host + '/' + term.termId, {}, "GET").then(function (response) {
+		var termDump = {
+			classMap: {},
+			sectionMap: {},
+			subjectMap: {},
+			termId: term.termId,
+			host: term.host
+		}
+
+		termDumpPromises.push(fireRequest('/listClasses/' + term.host + '/' + term.termId, {}, "GET").then(function (response) {
 
 			// Make a map of the hash to the classes
-			var classMap = {}
 			response.forEach(function (aClass) {
-				classMap[getHash(aClass)] = aClass;
+				termDump.classMap[getHash(aClass)] = aClass;
 			})
-
-			fs.writeFile(path.join(PUBLIC_DIR, 'getClassesMap', term.host, term.termId), JSON.stringify(classMap))
 		}))
 
 
-		promises.push(fireRequest('/listSections/' + term.host + '/' + term.termId, {}, "GET").then(function (response) {
+		termDumpPromises.push(fireRequest('/listSections/' + term.host + '/' + term.termId, {}, "GET").then(function (response) {
 
 			// Make a map of the hash to the sections
-			var sectionMap = {}
 			response.forEach(function (section) {
-				sectionMap[getHash(section)] = section;
+				termDump.sectionMap[getHash(section)] = section;
 			})
+		}))
 
-			fs.writeFile(path.join(PUBLIC_DIR, 'getSectionMap', term.host, term.termId), JSON.stringify(sectionMap))
+
+		termDumpPromises.push(fireRequest('/listSubjects/' + term.host + '/' + term.termId, {}, "GET").then(function (response) {
+
+			// Make a map of the hash to the subjects
+			response.forEach(function (subject) {
+				termDump.subjectMap[getHash(subject)] = subject;
+			})
 		}))
 
 
@@ -103,7 +114,12 @@ async function main() {
 		}))
 
 
+		promises.push(Promise.all(termDumpPromises).then(function () {
+			fs.writeFile(path.join(PUBLIC_DIR, 'getTermDump', term.host, term.termId), JSON.stringify(termDump))
+		}))
 	})
+
+
 
 
 	await Promise.all(promises)
