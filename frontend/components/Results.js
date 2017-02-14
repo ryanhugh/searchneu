@@ -2,6 +2,8 @@ import React from "react";
 import CSSModules from 'react-css-modules';
 import css from './results.css'
 
+import Class from './models/Class'
+
 
 // Results page component
 class Results extends React.Component {
