@@ -4,10 +4,13 @@ import he from 'he'
 import elasticlunr from 'elasticlunr'
 import 'semantic-ui-css/semantic.min.css'
 import request from 'superagent'
+
 import '../lib/base.css'
 import css from './home.css'
+
 import Results from './Results.js'
 import Class from './models/Class'
+import CourseProData from './models/DataLib'
 
 
 var searchConfig = {
@@ -69,7 +72,8 @@ class Home extends React.Component {
 
 		// TODO: parallize this shizz
 		this.searchIndex = elasticlunr.Index.load(JSON.parse((await request('/getSearchIndex/neu.edu/201730')).text))
-		Class.load(JSON.parse((await request('/getTermDump/neu.edu/201730')).text))
+		this.termData = CourseProData.loadData(JSON.parse((await request('/getTermDump/neu.edu/201730')).text))
+
 		// console.log(this.classMap)
 
 		this.search('da')
@@ -83,16 +87,17 @@ class Home extends React.Component {
 		// eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
 		var results = this.searchIndex.search(searchTerm, searchConfig)
 
-		results = results.slice(0, 50)
+		results = results.slice(0, 20)
 
 		var classes = []
 
 		results.forEach(function(result) {
 
-
-
-
-			classes.push(this.termDump.classMap[result.ref])
+			classes.push(this.termData.createClass({
+				hash: result.ref,
+				host: 'neu.edu',
+				termId: '201710'
+			}))
 		}.bind(this))
 
 		console.log(classes.length, 'results')
@@ -100,7 +105,6 @@ class Home extends React.Component {
 		if (classes.length != 0) {
 			console.log('first one is ',classes[0].name)
 		}
-
 
 
 		this.setState({
@@ -139,7 +143,7 @@ class Home extends React.Component {
 			    <div className={"ui container " + css.resultsContainer}>
 			        <div className="five column row">
 				        <div className="page-home">
-					        <Results classes={this.state.classes} sectionMap = {this.sectionMap}/>
+					        <Results classes={this.state.classes} termData = {this.termData}/>
 			            </div>
 			        </div>
 			    </div>

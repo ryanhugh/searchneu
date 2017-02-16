@@ -44,6 +44,13 @@ Section.requiredPath = ['host', 'termId', 'subject', 'classUid']
 Section.optionalPath = ['crn']
 Section.API_ENDPOINT = '/listSections'
 
+
+Section.create = function (config) {
+	var instance = new this(config);
+	instance.updateWithData(config);
+	return instance
+}
+
 Section.prototype.meetsOnWeekends = function () {
 
 	for (var i = 0; i < this.meetings.length; i++) {
@@ -226,7 +233,6 @@ Section.prototype.getHasWaitList = function () {
 
 
 Section.prototype.updateWithData = function (data) {
-	BaseData.prototype.updateWithData.call(this, data);
 
 
 	if (data.meetings) {

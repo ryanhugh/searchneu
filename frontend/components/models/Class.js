@@ -20,6 +20,7 @@
 var _ = require('lodash')
 var he = require('he')
 var moment = require('moment')
+import Keys from './Keys'
 
 var Section = require('./Section')
 var RequisiteBranch = require('./RequisiteBranch')
@@ -40,9 +41,6 @@ function Class(config) {
 
 	//instances of Section()
 	this.sections = []
-
-	//loading status of the sections
-	this.sectionsLoadingStatus = macros.DATASTATUS_NOTSTARTED;
 
 	this.prereqs = {
 		type: 'or',
@@ -66,14 +64,6 @@ Class.optionalPath = ['classUid']
 Class.API_ENDPOINT = '/listClasses'
 
 
-// TODO: make this not ghetto, put it somewhere all the datas can access
-window.termDumps = {
-	classMap: {},
-	subjectMap: {},
-	sectionMap: {}
-}
-
-
 //TODO here
 //abstrat away some of the checks that are the same accross fns here
 
@@ -93,35 +83,28 @@ Class.isValidCreatingData = function (config) {
 	return BaseData.isValidCreatingData.apply(this, arguments);
 };
 
-Class.create = function (config) {
-	if (config.isString) {
-		var instance = new this(config);
-		instance.updateWithData(config);
-		return instance
+Class.create = function (config, termDump, loadChildren = true) {
+	var instance = new this(config);
+	instance.updateWithData(config);
+	if (loadChildren) {
+		instance.loadPrereqs(termDump.classMap)
+		instance.loadSections(termDump.sectionMap)
 	}
-	return BaseData.create.call(this, config)
+	return instance
 }
 
+Class.prototype.loadFromClassMap = function (classMap) {
+	var keys = Keys.create(this)
 
-Class.load = function (termDump) {
-	if (!termDump.classMap || !termDump.sectionMap) {
-		console.error('invalid termDump')
-		return;
-	}
-	console.time('hi')
-	Object.assign(window.termDumps.classMap, termDump.classMap)
-	Object.assign(window.termDumps.sectionMap, termDump.sectionMap)
-	Object.assign(window.termDumps.subjectMap, termDump.subjectMap)
-	console.timeEnd('hi')
-}
-
+	this.updateWithData(classMap[keys.getHash()])
+};
 
 
 Class.prototype.convertServerRequisites = function (data) {
 	var retVal = {};
 
 	//already processed node, just process the prereqs and coreqs
-	if (data instanceof BaseData) {
+	if (data instanceof Class) {
 		retVal = data;
 
 		var newCoreqs = [];
@@ -180,7 +163,7 @@ Class.prototype.convertServerRequisites = function (data) {
 		}
 
 
-		retVal = this.constructor.create(data, false)
+		retVal = this.constructor.create(data, {}, false)
 
 	}
 
@@ -191,37 +174,6 @@ Class.prototype.convertServerRequisites = function (data) {
 
 	return retVal;
 }
-
-Class.prototype.download = function (callback) {
-	if (!callback) {
-		callback = function () {}
-	}
-
-	if (this.isString) {
-		var errorMsg = "class.download called on string"
-		elog(errorMsg, this)
-		return callback(errorMsg)
-	}
-	
-	if (this.prereqs.length > 0 || this.desc || this.lastUpdateTime !== undefined || this.isString) {
-		this.dataStatus = macros.DATASTATUS_DONE
-		return callback(null, this)
-	}
-
-	if (this.dataStatus === macros.DATASTATUS_FAIL) {
-		return callback(null, this)
-	}
-
-
-	BaseData.prototype.download.call(this, function (err, body) {
-		if (err) {
-			elog('http error...', err);
-			return callback(err)
-		}
-		callback(null, this)
-	}.bind(this))
-}
-
 
 Class.prototype.removeMissingClasses = function (data) {
 	if (data.values) {
@@ -239,7 +191,7 @@ Class.prototype.removeMissingClasses = function (data) {
 					return;
 				}
 				subClassesHash[key] = true;
-			}	
+			}
 
 
 			subData = this.removeMissingClasses(subData);
@@ -263,8 +215,8 @@ Class.prototype.removeMissingClasses = function (data) {
 	return data;
 };
 
-Class.prototype.flattenCoreqs = function() {
-	
+Class.prototype.flattenCoreqs = function () {
+
 	var stack = this.coreqs.values.slice(0);
 	var curr;
 	var classes = []
@@ -487,14 +439,11 @@ Class.prototype.sectionsHaveExam = function () {
 
 Class.prototype.getPrereqsString = function () {
 	var retVal = [];
+	console.log(this.prereqs)
 	this.prereqs.values.forEach(function (childBranch) {
 		if (!(childBranch instanceof RequisiteBranch)) {
 			if (childBranch.isString) {
 				retVal.push(childBranch.desc)
-			}
-			else if (childBranch.dataStatus !== macros.DATASTATUS_DONE) {
-				elog(childBranch)
-				retVal.push('some ' + childBranch.subject + ' class')
 			}
 			else {
 				retVal.push(childBranch.subject + ' ' + childBranch.classId)
@@ -533,10 +482,6 @@ Class.prototype.getCoreqsString = function () {
 			if (childBranch.isString) {
 				retVal.push(childBranch.desc)
 			}
-			else if (childBranch.dataStatus !== macros.DATASTATUS_DONE) {
-				elog(childBranch)
-				retVal.push('some ' + childBranch.subject + ' class')
-			}
 			else {
 				retVal.push(childBranch.subject + ' ' + childBranch.classId)
 			}
@@ -569,77 +514,55 @@ Class.prototype.loadSections = function (sectionMap) {
 		return callback('!class or string')
 	};
 
-	//need to load this class first, then can load sections
-	//if already loaded this class, callback is called immediately
-	this.download(function (err) {
-		if (err) {
-			elog("error download a class" + err)
-			return callback(err)
-		}
-
-		this.sectionsLoadingStatus = macros.DATASTATUS_LOADING;
-
-		var q = queue();
-
-		this.sections.forEach(function (section) {
-
-			q.defer(function (callback) {
-				section.download(function (err, instance) {
-					callback(err, instance, section)
-				}.bind(this))
-			}.bind(this))
-
-		}.bind(this))
-
-		q.awaitAll(function (err) {
-			if (err) {
-				elog('error loading a class section' + err)
-				return callback(err);
-			}
+	this.sections = []
 
 
-			this.sectionsLoadingStatus = macros.DATASTATUS_DONE;
+	this.crns.forEach((crn) => {
+		var keys = Keys.create({
+			host: this.host,
+			termId: this.termId,
+			subject: this.subject,
+			classUid: this.classUid,
+			crn: crn
+		})
 
-			var hasWaitList = 0;
-			this.sections.forEach(function (section) {
-				hasWaitList += section.hasWaitList;
-			}.bind(this))
-
-			if (hasWaitList > this.sections.length / 2) {
-				this.hasWaitList = true;
-			}
-			else {
-				this.hasWaitList = false;
-			}
-
-
-			//sort sections
-			this.sections.sort(function (a, b) {
-				return a.compareTo(b);
-			}.bind(this))
+		var serverData = sectionMap[keys.getHash()]
+		var section = Section.create(serverData)
+		this.sections.push(section)
+	})
 
 
-			callback(err)
-		}.bind(this))
+	var hasWaitList = 0;
+	this.sections.forEach(function (section) {
+		hasWaitList += section.hasWaitList;
 	}.bind(this))
-};
+
+	if (hasWaitList > this.sections.length / 2) {
+		this.hasWaitList = true;
+	}
+	else {
+		this.hasWaitList = false;
+	}
+
+
+	//sort sections
+	this.sections.sort(function (a, b) {
+		return a.compareTo(b);
+	}.bind(this))
+}
+
 
 
 // Downloads the first layer of prereqs
-Class.prototype.downloadPrereqs = async function (classMap) {
-
-	var promises = [];
-
+Class.prototype.loadPrereqs = async function (classMap) {
 	this.prereqs.values.forEach(function (childBranch) {
 		if (childBranch instanceof RequisiteBranch) {
-			promises.push(childBranch.downloadPrereqs(classMap))
+			childBranch.loadPrereqs(classMap)
 		}
 		else if (!childBranch.isString) {
-			promises.push(childBranch.download(classMap))
+			childBranch.loadFromClassMap(classMap)
 		}
 	}.bind(this))
-
-	return Promise.all(promises);
 };
 
 
