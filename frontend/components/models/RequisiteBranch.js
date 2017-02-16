@@ -88,10 +88,6 @@ RequisiteBranch.prototype.getPrereqsString = function () {
 			if (childBranch.isString) {
 				retVal.push(childBranch.desc)
 			}
-			else if (childBranch.dataStatus !== macros.DATASTATUS_DONE) {
-				elog(childBranch)
-				retVal.push('some ' + childBranch.subject + ' class')
-			}
 			else {
 				retVal.push(childBranch.subject + ' ' + childBranch.classId)
 			}
@@ -122,21 +118,17 @@ RequisiteBranch.prototype.getPrereqsString = function () {
 
 
 // Downloads the first layer of prereqs
-RequisiteBranch.prototype.downloadPrereqs = async function (classMap) {
-
-	var promises = []
-
+RequisiteBranch.prototype.loadPrereqs = async function (classMap) {
 	this.prereqs.values.forEach(function (childBranch) {
 		if (childBranch instanceof RequisiteBranch) {
-			promises.push(childBranch.downloadPrereqs(classMap))
+			childBranch.loadPrereqs(classMap)
 		}
 		else if (!childBranch.isString) {
-			promises.push(childBranch.download(classMap))
+			childBranch.loadFromClassMap(classMap)
 		}
 	}.bind(this))
-
-	return Promise.all(promises)
 };
+
 
 
 

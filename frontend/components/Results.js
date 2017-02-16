@@ -19,6 +19,10 @@ class Results extends React.Component {
 
 		var elements = this.props.classes.map(function (aClass) {
 
+			console.log(aClass)
+
+			// aClass.loadPrereqs(this.props.termData.termDump.classMap)
+
 			var sections = [];
 			if (aClass.crns) {
 				aClass.crns.forEach(function(crn) {
@@ -35,7 +39,7 @@ class Results extends React.Component {
 					</div>
 
 					<div className={css.body}>
-						{aClass.desc}
+						{aClass.desc} {aClass.getPrereqsString()}
 					</div>
 
 
@@ -87,7 +91,7 @@ class Results extends React.Component {
 				    </table>
 			    </div>
 		    )
-	    })
+	    }.bind(this))
 
 	    return (
 	    	<div>
