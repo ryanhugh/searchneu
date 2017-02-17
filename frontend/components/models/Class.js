@@ -527,7 +527,6 @@ Class.prototype.loadSections = function (sectionMap) {
 
 		var serverData = sectionMap[keys.getHash()]
 		var section = Section.create(serverData)
-		debugger
 		this.sections.push(section)
 	})
 

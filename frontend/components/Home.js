@@ -129,7 +129,7 @@ class Home extends React.Component {
 	    return (
 	    	<div>
 			    <div id="top-header" className="ui center aligned icon header">
-			        <h1 className={css.title}>Employee Directory</h1>
+			        <h1 className={css.title}>Class Search</h1>
 			        <h3 className={css.subtitle}>For Northeastern</h3>
 			        
 			        <div id="search-wrapper" className="sub header">
