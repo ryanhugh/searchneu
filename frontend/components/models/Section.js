@@ -233,7 +233,13 @@ Section.prototype.getHasWaitList = function () {
 
 
 Section.prototype.updateWithData = function (data) {
-
+	for (var attrName in data) {
+		if ((typeof data[attrName]) == 'function') {
+			elog('given fn??', data, this, this.constructor.name);
+			continue;
+		}
+		this[attrName] = data[attrName]
+	}
 
 	if (data.meetings) {
 		var newMeetings = []
