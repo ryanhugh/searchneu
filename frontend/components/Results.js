@@ -1,5 +1,6 @@
 import React from "react";
 import CSSModules from 'react-css-modules';
+import ReactTooltip from 'react-tooltip'
 
 import globe from './globe.svg'
 import css from './results.css'
@@ -45,7 +46,7 @@ class Results extends React.Component {
 				        		<tr key={section._id}>
 						          <td> {section.crn} </td>
 						          <td> {section.getProfs().join(', ')} </td>
-						          <td> 
+						          <td data-tip="hello world"> 
 						          	{(function () {
 						          		var booleans = section.getWeekDaysAsBooleans();
 						          		if (!section.meetsOnWeekends()) {
@@ -94,6 +95,7 @@ class Results extends React.Component {
 
 	    return (
 	    	<div>
+		    	<ReactTooltip />
 	    		{elements}
     		</div>
     	)
