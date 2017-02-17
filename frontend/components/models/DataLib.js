@@ -23,6 +23,8 @@ export default class DataLib {
 	}
 
 
+	// Right now only the class that is created and its prereqs are loaded. Need to add loading on demand later for times when you go prereq.prereq.prereq...
+	// That is not needed for this project, however. 
 	createClass(config) {
 		var keys = Keys.createWithHash(config)
 		if (!keys) {
@@ -36,8 +38,6 @@ export default class DataLib {
 			console.error('wtf')
 			return;
 		}
-
-		console.log(serverData)
 
 		var aClass = Class.create(serverData, this.termDump)
 

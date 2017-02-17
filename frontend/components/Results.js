@@ -1,7 +1,8 @@
 import React from "react";
 import CSSModules from 'react-css-modules';
-import css from './results.css'
 
+import globe from './globe.svg'
+import css from './results.css'
 import Class from './models/Class'
 
 
@@ -15,22 +16,65 @@ class Results extends React.Component {
 	  		return null;
 	  	}
 
+		var elements = this.props.classes.map((aClass) => {
 
 
-		var elements = this.props.classes.map(function (aClass) {
+			var sectionTable = null;
 
-			console.log(aClass)
+			if (aClass.sections && aClass.sections.length > 0) {
+				sectionTable = (
+					<table className={"ui celled striped table " + css.resultsTable}>
+				      <thead>
+				        <tr>
+						    {/* TODO waitlist, if they have it. */}
+					        <th> CRN </th>
+					        <th> Professors </th>
+					        <th> Weekdays </th>
+					        <th> Start </th>
+					        <th> End </th>
+					        <th> Location </th>
+					        <th> Seats </th>
+					        <th> Link </th>
+					      </tr>
+				      </thead>
+				      <tbody>
+					    {/* This tr is so the first row is a dark stripe instead of a light stripe. */}
+				        <tr style={{display:'none'}}></tr>
+				        {aClass.sections.map(function(section) {
+				        	return (
+				        		<tr key={section._id}>
+						          <td> {section.crn} </td>
+						          <td> {section.getProfs().join(', ')} </td>
+						          <td> 
+						          	{(function () {
+						          		var booleans = section.getWeekDaysAsBooleans();
+						          		if (!section.meetsOnWeekends()) {
+						          			booleans = booleans.slice(1, 6)
+						          		}
 
-			// aClass.loadPrereqs(this.props.termData.termDump.classMap)
+  						          		return booleans.map(function (meets) {
+					          				return (
+					          					<div className={(meets?css.weekDayBoxChecked:"") + " " + css.weekDayBox}></div>
+				          					)
+  						          		})
 
-			var sections = [];
-			if (aClass.crns) {
-				aClass.crns.forEach(function(crn) {
-					
-				})
+
+      						        })()} 
+  						          </td>
+						          
+		                          <td>{section.getUniqueStartTimes().join(", ")}</td>
+		                          <td>{section.getUniqueEndTimes().join(", ")}</td>
+		                          <td>{section.getLocations().join(", ")}</td>
+		                          <td> {section.seatsRemaining}/{section.seatsCapacity} </td>
+		                          <td> <a target='_blank' rel="noopener noreferrer" href={section.prettyUrl || section.url}> <img src={globe} /> </a> </td>
+						        </tr>
+			        		)
+				        })}
+				      </tbody>
+				    </table>
+
+				)
 			}
-
-
 
 	    	return (
 				<div key={aClass._id} className={css.container + " ui segment"}> 
@@ -39,59 +83,14 @@ class Results extends React.Component {
 					</div>
 
 					<div className={css.body}>
-						{aClass.desc} {aClass.getPrereqsString()}
+						{aClass.desc} 
+						<br />
+						{aClass.getPrereqsString()}
 					</div>
-
-
-				  	<table className={"ui celled striped table " + css.resultsTable}>
-				      <thead>
-				        <tr>
-					        <th> Git Repository </th>
-					        <th> Git Repository </th>
-					        <th> Git Repository </th>
-					      </tr>
-				      </thead>
-				      <tbody>
-				        <tr style={{display:'none'}}>
-				          <td className="collapsing" >
-				            <i className="folder icon"></i> node_modules
-				          </td>
-				          <td>Initial commit</td>
-				          <td className="right aligned collapsing">10 hours ago</td>
-				        </tr>
-				        <tr>
-				          <td>
-				            <i className="folder icon"></i> test
-				          </td>
-				          <td>Initial commit</td>
-				          <td className="right aligned">10 hours ago</td>
-				        </tr>
-				        <tr>
-				          <td>
-				            <i className="folder icon"></i> build
-				          </td>
-				          <td>Initial commit</td>
-				          <td className="right aligned">10 hours ago</td>
-				        </tr>
-				        <tr>
-				          <td>
-				            <i className="file outline icon"></i> package.json
-				          </td>
-				          <td>Initial commit</td>
-				          <td className="right aligned">10 hours ago</td>
-				        </tr>
-				        <tr>
-				          <td>
-				            <i className="file outline icon"></i> Gruntfile.js
-				          </td>
-				          <td>Initial commit</td>
-				          <td className="right aligned">10 hours ago</td>
-				        </tr>
-				      </tbody>
-				    </table>
+					{sectionTable}
 			    </div>
 		    )
-	    }.bind(this))
+	    })
 
 	    return (
 	    	<div>

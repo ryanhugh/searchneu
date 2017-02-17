@@ -439,7 +439,6 @@ Class.prototype.sectionsHaveExam = function () {
 
 Class.prototype.getPrereqsString = function () {
 	var retVal = [];
-	console.log(this.prereqs)
 	this.prereqs.values.forEach(function (childBranch) {
 		if (!(childBranch instanceof RequisiteBranch)) {
 			if (childBranch.isString) {
@@ -528,6 +527,7 @@ Class.prototype.loadSections = function (sectionMap) {
 
 		var serverData = sectionMap[keys.getHash()]
 		var section = Section.create(serverData)
+		debugger
 		this.sections.push(section)
 	})
 
