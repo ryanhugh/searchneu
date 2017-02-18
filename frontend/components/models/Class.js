@@ -524,6 +524,10 @@ Class.prototype.loadSections = function (sectionMap) {
 			classUid: this.classUid,
 			crn: crn
 		})
+		if (!keys) {
+			console.error('Keys are null!')
+			debugger
+		}
 
 		var serverData = sectionMap[keys.getHash()]
 		var section = Section.create(serverData)
@@ -550,7 +554,14 @@ Class.prototype.loadSections = function (sectionMap) {
 	}.bind(this))
 }
 
-
+Class.prototype.getHasWaitList = function () {
+	for (var i = this.sections.length - 1; i >= 0; i--) {
+		if (this.sections[i].getHasWaitList()) {
+			return true
+		}
+	}
+	return false
+}
 
 // Downloads the first layer of prereqs
 Class.prototype.loadPrereqs = async function (classMap) {
