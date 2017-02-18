@@ -22,6 +22,10 @@ export default class DataLib {
 		return new this(termDump)
 	}
 
+	getSubjects() {
+		return Object.values(this.termDump.subjectMap)
+	}
+
 
 	// Right now only the class that is created and its prereqs are loaded. Need to add loading on demand later for times when you go prereq.prereq.prereq...
 	// That is not needed for this project, however. 

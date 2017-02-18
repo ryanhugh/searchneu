@@ -88,6 +88,7 @@ Class.create = function (config, termDump, loadChildren = true) {
 	instance.updateWithData(config);
 	if (loadChildren) {
 		instance.loadPrereqs(termDump.classMap)
+		instance.loadCoreqs(termDump.classMap)
 		instance.loadSections(termDump.sectionMap)
 	}
 	return instance
@@ -530,7 +531,18 @@ Class.prototype.loadSections = function (sectionMap) {
 		}
 
 		var serverData = sectionMap[keys.getHash()]
+		if (!serverData) {
+			console.error('unable to find section in seciton map', this, crn)
+			return;
+		}
+
 		var section = Section.create(serverData)
+
+		if (!section) {
+			console.error('could not make section with', serverData)
+			return;
+		}
+
 		this.sections.push(section)
 	})
 
@@ -568,6 +580,19 @@ Class.prototype.loadPrereqs = async function (classMap) {
 	this.prereqs.values.forEach(function (childBranch) {
 		if (childBranch instanceof RequisiteBranch) {
 			childBranch.loadPrereqs(classMap)
+		}
+		else if (!childBranch.isString) {
+			childBranch.loadFromClassMap(classMap)
+		}
+	}.bind(this))
+};
+
+
+// Downloads the first layer of prereqs
+Class.prototype.loadCoreqs = async function (classMap) {
+	this.coreqs.values.forEach(function (childBranch) {
+		if (childBranch instanceof RequisiteBranch) {
+			console.error('meh')
 		}
 		else if (!childBranch.isString) {
 			childBranch.loadFromClassMap(classMap)
