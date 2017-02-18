@@ -287,7 +287,4 @@ class Results extends React.Component {
     }
 }
 
-// <Infinite containerHeight={200} elementHeight={40} useWindowAsScrollContainer onInfiniteLoad={this.handleInfiniteLoad}>
-	    		// </Infinite>
-
 export default Results;
