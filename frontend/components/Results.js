@@ -1,35 +1,92 @@
 import React from "react";
 import CSSModules from 'react-css-modules';
 import ReactTooltip from 'react-tooltip'
+import classNames from 'classnames/bind'
+import Infinite from 'react-infinite'
 
 import globe from './globe.svg'
 import css from './results.css'
 import Class from './models/Class'
 import macros from './macros'
 
+const cx = classNames.bind(css);
+
 
 // Results page component
 class Results extends React.Component {
 
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			classes: this.props.classes.slice(0, 10)
+		}
+
+		this.alreadyLoadedAt = {}
+
+		this.handleInfiniteLoad = this.handleInfiniteLoad.bind(this)
+	}
+
+	handleInfiniteLoad() {
+		var resultsBottom = this.refs.elementsContainer.offsetHeight + this.refs.elementsContainer.offsetTop
+
+		var diff = window.scrollY + 2000 + window.innerHeight - resultsBottom 
+
+		// Assume about 300 px per class
+		if (diff > 0 && this.props.classes.length > this.state.classes.length && !this.alreadyLoadedAt[this.state.classes.length]) {
+			this.alreadyLoadedAt[this.state.classes.length] = true
+			this.setState({
+				classes: this.props.classes.slice(0, 10 + this.state.classes.length)
+			})
+		}
+	}
+
+	componentDidMount() {
+		window.addEventListener('scroll', this.handleInfiniteLoad);
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener('scroll', this.handleInfiniteLoad)
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.alreadyLoadedAt = {}
+		this.setState({
+			classes: nextProps.classes.slice(0, 10)
+		})
+	}
+
 	componentDidUpdate(prevProps, prevState) {
 		ReactTooltip.rebuild()
+		console.log('did update')
 	}
 
     render() {
-	  	if (!this.props.classes || this.props.classes.length == 0) {
+	  	if (!this.state.classes || this.state.classes.length == 0) {
 	  		return null;
 	  	}
 
-		var elements = this.props.classes.map((aClass) => {
+		var elements = this.state.classes.map((aClass) => {
 
 			// Render the section table if this class has sections
 			var sectionTable = null;
 			if (aClass.sections && aClass.sections.length > 0) {
+
+
+				// Add the Exam column headers if there is any section in this class that has exam listed
+				var examColumnHeaders = null
+				if (aClass.sectionsHaveExam()) {
+					examColumnHeaders = [
+						<th key="1">Exam start</th>,
+	                    <th key="2">Exam end</th>,
+	                    <th key="3">Exam date</th>
+                    ]
+				}
+
 				sectionTable = (
 					<table className={"ui celled striped table " + css.resultsTable}>
 				      <thead>
 				        <tr>
-						    {/* TODO waitlist, if they have it. */}
 					        <th> 
 					        	<div className = {css.inlineBlock} data-tip="Course Reference Number">
 					        		CRN
@@ -39,13 +96,21 @@ class Results extends React.Component {
 					        <th> Weekdays </th>
 					        <th> Start </th>
 					        <th> End </th>
+				            {examColumnHeaders}
 					        <th> Location </th>
 					        <th> Seats </th>
+
+					        <th className={cx({
+					        	displayNone: !aClass.getHasWaitList()
+					        })}> Waitlist seats </th>
 					        <th> Link </th>
 					      </tr>
+
+
 				      </thead>
 				      <tbody>
-					    {/* This tr is so the first row is a dark stripe instead of a light stripe. */}
+					    {/* The CSS applied to the table stripes every other row, starting with the second one. 
+					    	This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
 				        <tr style={{display:'none'}}></tr>
 				        {aClass.sections.map(function(section) {
 
@@ -67,7 +132,10 @@ class Results extends React.Component {
 
 				          	var booleanElements = booleans.map(function (meets, index) {
 		          				return (
-		          					<div key={index} className={(meets?css.weekDayBoxChecked:"") + " " + css.weekDayBox}></div>
+		          					<div key={index} className={cx({
+		          						weekDayBoxChecked: meets,
+		          						weekDayBox: true
+		          					})}></div>
 	          					)
 			          		})
 
@@ -77,7 +145,6 @@ class Results extends React.Component {
 			          			var buildingName
 			          			if (location.match(/\d+\s*$/i)) {
 			          				buildingName = location.replace(/\d+\s*$/i, '')
-			          				console.log(buildingName)
 			          			}
 			          			else {
 			          				buildingName = location
@@ -99,13 +166,33 @@ class Results extends React.Component {
 			          			}
 
 		          				return (
-		          					<span>
-			          					<a href={`https://maps.google.com/?q=${macros.collegeName} ${buildingName}`}>
+		          					<span key={location}>
+			          					<a target='_blank' rel="noopener noreferrer" href={`https://maps.google.com/?q=${macros.collegeName} ${buildingName}`}>
 			          						{location}
 		          						</a> {optionalComma}
 		          					</span>
 	          					)
 			          		})
+
+			          		// Calculate the exam elements in each row
+			          		var examElements = null
+			          		if (aClass.sectionsHaveExam()) {
+			          			var examMoments = section.getExamMoments()
+			          			if (examMoments) {
+			          				examElements = [
+				          				  <td key="1">{examMoments.start.format('h:mm a')}</td>,
+			                              <td key="2">{examMoments.end.format('h:mm a')}</td>,
+			                              <td key="3">{examMoments.start.format('MMM Do')}</td>
+			          				]
+			          			}
+			          			else {
+			          				examElements = [
+				          				  <td key="1"></td>,
+			                              <td key="2"></td>,
+			                              <td key="3"></td>
+		          					]
+			          			}
+			          		}
 
 
 				        	return (
@@ -120,6 +207,7 @@ class Results extends React.Component {
 						          
 		                          <td>{section.getUniqueStartTimes().join(", ")}</td>
 		                          <td>{section.getUniqueEndTimes().join(", ")}</td>
+		                          {examElements}
 		                          <td>
 		                          	{locationElements}
 		                          </td>
@@ -128,6 +216,15 @@ class Results extends React.Component {
 			                          {section.seatsRemaining}/{section.seatsCapacity} 
 		                          	</div> 
 		                          </td>
+
+								  <td className={cx({
+							        	displayNone: !aClass.getHasWaitList()
+							        })}>
+		                          	<div data-tip="Open/Total Waitlist Seats" className={css.inlineBlock}>
+			                          {section.waitRemaining}/{section.waitCapacity} 
+		                          	</div> 
+		                          </td>
+
 		                          <td> 
 		                          	<a target='_blank' rel="noopener noreferrer" className={css.inlineBlock} data-tip={"View on " + section.host} href={section.prettyUrl || section.url}> 
 		                          		<img src={globe} /> 
@@ -182,7 +279,7 @@ class Results extends React.Component {
 	    })
 
 	    return (
-	    	<div>
+	    	<div ref='elementsContainer'>
 	    		{elements}
 		    	<ReactTooltip effect="solid"/>
     		</div>
@@ -190,5 +287,8 @@ class Results extends React.Component {
 
     }
 }
+
+// <Infinite containerHeight={200} elementHeight={40} useWindowAsScrollContainer onInfiniteLoad={this.handleInfiniteLoad}>
+	    		// </Infinite>
 
 export default Results;

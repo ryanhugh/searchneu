@@ -60,34 +60,47 @@ class Home extends React.Component {
 		super(props);
 
 		this.state = {
-			searchValue: 'ad',
+			searchValue: '',
 			searchResults: []
 		}
-		console.log('running constructor')
+
+		this.dataPromise = null;
 
 		this.loadData();
 	}
 
 	async loadData() {
 
-		// TODO: parallize this shizz
-		this.searchIndex = elasticlunr.Index.load(JSON.parse((await request('/getSearchIndex/neu.edu/201730')).text))
-		this.termData = CourseProData.loadData(JSON.parse((await request('/getTermDump/neu.edu/201730')).text))
+		var promises = []
 
-		// console.log(this.classMap)
+		promises.push(request('/getSearchIndex/neu.edu/201730').then((res) => {
+			this.searchIndex = elasticlunr.Index.load(JSON.parse(res.text))
+		}))
 
+		promises.push(request('/getTermDump/neu.edu/201730').then((res) => {
+			this.termData = CourseProData.loadData(JSON.parse(res.text))
+		}))
+
+		this.dataPromise = Promise.all(promises)
+	}
+
+	// TODO This is just for testing
+	async componentDidMount() {
+		await this.dataPromise
 		this.search('da')
 	}
 
 	// TODO: if data has not been loaded, wait for it to load
-	search(searchTerm) {
+	async search(searchTerm) {
+
+		await this.dataPromise
 
 		// Returns an array of objects that has a .ref and a .score
 		// The array is sorted by score (with the highest matching closest to the beginning)
 		// eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
 		var results = this.searchIndex.search(searchTerm, searchConfig)
 
-		results = results.slice(0, 20)
+		results = results.slice(0, 100)
 
 		var classes = []
 
@@ -99,13 +112,6 @@ class Home extends React.Component {
 				termId: '201710'
 			}))
 		}.bind(this))
-
-		console.log(classes.length, 'results')
-
-		if (classes.length != 0) {
-			console.log('first one is ',classes[0].name)
-		}
-
 
 		this.setState({
 			classes: classes
@@ -126,6 +132,21 @@ class Home extends React.Component {
 
 
     render() {
+
+    	var resultsContainer = null
+    	if (this.state.classes && this.state.classes.length > 0) {
+    		resultsContainer = (
+    			<div className={"ui container " + css.resultsContainer}>
+			        <div className="five column row">
+				        <div className="page-home">
+					        <Results classes={this.state.classes} termData = {this.termData}/>
+			            </div>
+			        </div>
+			    </div>
+    		)
+    	}
+
+
 	    return (
 	    	<div>
 			    <div id="top-header" className="ui center aligned icon header">
@@ -139,14 +160,7 @@ class Home extends React.Component {
 			            <input autoFocus type="search" id="seach_id" placeholder="Search Professors and Employees" autoComplete="off" spellCheck="false" tabIndex="0" onChange={this.onClick.bind(this)}/>
 			        </div>
 			    </div>
-
-			    <div className={"ui container " + css.resultsContainer}>
-			        <div className="five column row">
-				        <div className="page-home">
-					        <Results classes={this.state.classes} termData = {this.termData}/>
-			            </div>
-			        </div>
-			    </div>
+			    {resultsContainer}
 		    </div>
 	    );
     }
