@@ -2,7 +2,6 @@ import React from "react";
 import CSSModules from 'react-css-modules';
 import ReactTooltip from 'react-tooltip'
 import classNames from 'classnames/bind'
-import Infinite from 'react-infinite'
 
 import globe from './globe.svg'
 import css from './results.css'
