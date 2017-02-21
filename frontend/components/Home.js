@@ -58,9 +58,9 @@ class Home extends React.Component {
 
 		this.dataPromise = Promise.all(promises).then(function(argument) {
 			
-
-
-			// XXX test go through classes and make sure they are all in sections?
+			// TODO remove
+			// test go through classes and make sure they are all in sections?
+			// 3 invalid crns (or missing sections?) were found with this code
 			Object.values(this.termData.termDump.classMap).forEach(function (aClass) {
 				
 				if (!aClass.crns) {
