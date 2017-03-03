@@ -2,11 +2,7 @@
   "name": "redux-minimal",
   "version": "1.0.0",
   "scripts": {
-    "start": "webpack-dev-server --inline --hot --history-api-fallback --host localhost --port 8080 --display-error-details",
-    "build-dev": "webpack --config backend/webpack.config.babel.js --display-error-details",
-    "build-prod": "webpack -p --config webpack.prod.config.js",
-    "test": "mocha --recursive --compilers js:babel-register --require babel-polyfill --require ignore-styles",
-    "test-watch": "npm test -- --watch"
+    "start": "babel-node backend/server.js"
   },
   "babel": {
     "presets": [
@@ -26,6 +22,7 @@
     }
   },
   "dependencies": {
+    "another-name-parser": "^0.0.4",
     "babel-preset-stage-1": "^6.22.0",
     "classnames": "^2.2.5",
     "csvdata": "^1.3.0",
@@ -53,6 +50,7 @@
     "request": "^2.79.0",
     "request-promise-native": "^1.0.3",
     "resolve-url-loader": "^1.6.1",
+    "rmp-api": "^1.2.5",
     "semantic-ui-css": "^2.2.4",
     "superagent": "^3.4.1",
     "urijs": "^1.18.7",
