@@ -1,12 +1,11 @@
-const request = require('request');
-const htmlparser = require('htmlparser2');
-const domutils = require('domutils');
-const _ = require('lodash');
-const elasticlunr = require('elasticlunr');
-const fs = require('fs-promise');
-const async = require('async');
-const cookie = require('cookie');
-const retry = require('promise-retry');
+import request from 'request';
+import htmlparser from 'htmlparser2';
+import domutils from 'domutils';
+import _ from 'lodash';
+import elasticlunr from 'elasticlunr';
+import fs from 'fs-promise';
+import cookie from 'cookie';
+import retry from 'promise-retry';
 import mkdirp from 'mkdirp-promise';
 import path from 'path';
 
@@ -94,7 +93,7 @@ index.addField('primaryappointment');
 index.addField('primarydepartment');
 
 
-const getCookie = async.memoize((callback) => {
+const cookiePromise = new Promise((resolve, reject) => {
   request({
     url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/main.action',
     headers: {
@@ -102,13 +101,13 @@ const getCookie = async.memoize((callback) => {
     },
   }, (err, resp) => {
     if (err) {
-      callback(err);
+      reject(err);
       return;
     }
 
     const cookieString = resp.headers['set-cookie'][0];
     const cookies = cookie.parse(cookieString);
-    callback(null, cookies.JSESSIONID);
+    resolve(cookies.JSESSIONID);
   });
 });
 
@@ -144,76 +143,71 @@ function hitWithLetters(lastNameStart, jsessionCookie) {
 
 
 function get(lastNameStart) {
-  return new Promise((resolve, reject) => {
-    getCookie(async (err, jsessionCookie) => {
-      if (err) {
-        reject(err);
-        return;
-      }
+  return new Promise(async (resolve, reject) => {
+    const jsessionCookie = await cookiePromise;
 
-      const body = await hitWithLetters(lastNameStart, jsessionCookie);
+    const body = await hitWithLetters(lastNameStart, jsessionCookie);
 
-      handleRequestResponce(body, (err, dom) => {
-        const elements = domutils.getElementsByTagName('table', dom);
+    handleRequestResponce(body, (err, dom) => {
+      const elements = domutils.getElementsByTagName('table', dom);
 
-        for (let i = 0; i < elements.length; i++) {
-          const element = elements[i];
+      for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
 
-          const goal = {
-            width: '100%',
-          };
+        const goal = {
+          width: '100%',
+        };
 
-          if (_.isEqual(element.attribs, goal)) {
+        if (_.isEqual(element.attribs, goal)) {
             // Delete one of the elements that is before the header that would mess stuff up
-            domutils.removeElement(element.children[1].children[1]);
+          domutils.removeElement(element.children[1].children[1]);
 
-            const parsedTable = parseTable(element);
-            if (!parsedTable) {
+          const parsedTable = parseTable(element);
+          if (!parsedTable) {
               // console.log('Warning Unable to parse table:', lastNameStart)
-              return resolve();
+            return resolve();
+          }
+          console.log('Found', parsedTable._rowCount, ' people on page ', lastNameStart);
+
+          for (let j = 0; j < parsedTable._rowCount; j++) {
+            const person = {};
+            person.name = parsedTable.name[j].split('\n\n')[0];
+
+            const idMatch = parsedTable.name[j].match(/.hrefparameter\s+=\s+"id=(\d+)";/i);
+            if (!idMatch) {
+              console.warn('Warn: unable to parse id, using random number', person.name);
+              person.id = String(Math.random());
+            } else {
+              person.id = idMatch[1];
             }
-            console.log('Found', parsedTable._rowCount, ' people on page ', lastNameStart);
 
-            for (let j = 0; j < parsedTable._rowCount; j++) {
-              const person = {};
-              person.name = parsedTable.name[j].split('\n\n')[0];
-
-              const idMatch = parsedTable.name[j].match(/.hrefparameter\s+=\s+"id=(\d+)";/i);
-              if (!idMatch) {
-                console.warn('Warn: unable to parse id, using random number', person.name);
-                person.id = String(Math.random());
-              } else {
-                person.id = idMatch[1];
-              }
-
-              let phone = parsedTable.phone[j];
-              phone = phone.replace(/\D/g, '');
+            let phone = parsedTable.phone[j];
+            phone = phone.replace(/\D/g, '');
 
 
               // Maybe add support for guesing area code if it is ommitted and most of the other ones have the same area code
-              if (phone.length === 10) {
-                person.phone = phone;
-              }
-
-              person.email = parsedTable.email[j];
-              person.primaryappointment = parsedTable.primaryappointment[j];
-              person.primarydepartment = parsedTable.primarydepartment[j];
-              people.push(person);
-              index.addDoc(person);
-              if (peopleMap[person.id]) {
-                console.log('Error, person already in the people map?', person.id);
-              }
-              peopleMap[person.id] = person;
+            if (phone.length === 10) {
+              person.phone = phone;
             }
-            return resolve();
+
+            person.email = parsedTable.email[j];
+            person.primaryappointment = parsedTable.primaryappointment[j];
+            person.primarydepartment = parsedTable.primarydepartment[j];
+            people.push(person);
+            index.addDoc(person);
+            if (peopleMap[person.id]) {
+              console.log('Error, person already in the people map?', person.id);
+            }
+            peopleMap[person.id] = person;
           }
+          return resolve();
         }
+      }
 
-        console.log('YOOOOO it didnt find the table');
-        console.log(body);
+      console.log('YOOOOO it didnt find the table');
+      console.log(body);
 
-        return reject('nope');
-      });
+      return reject('nope');
     });
   });
 }
@@ -250,7 +244,3 @@ exports.go = main;
 if (require.main === module) {
   main();
 }
-
-// getCookie(function (err, cookie) {
-//  console.log(err, cookie);
-// }.bind(this))

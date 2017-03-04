@@ -1,4 +1,5 @@
-{
+
+module.exports = {
   "parser": "babel-eslint",
   "extends": [
     "airbnb"
@@ -28,6 +29,9 @@
     "object-curly-spacing": [2, "always"],
     "react/forbid-prop-types": 0,
     "react/no-danger": 1,
+
+    // This rule allways triggers on Windows...
+    "import/no-unresolved": Number(process.env.OS !== 'Windows_NT') * 2,
     "spaced-comment": 0,
     "react/prefer-stateless-function": [1],
     "react/jsx-filename-extension": [1, {
