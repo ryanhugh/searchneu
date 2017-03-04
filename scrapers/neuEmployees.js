@@ -8,8 +8,7 @@ import cookie from 'cookie';
 import retry from 'promise-retry';
 import mkdirp from 'mkdirp-promise';
 import path from 'path';
-
-const alphabet = 'aqwertyuiopsdfghjklzxcvbnm';
+import macros from './macros'
 
 function handleRequestResponce(body, callback) {
   const handler = new htmlparser.DomHandler(callback);
@@ -93,23 +92,35 @@ index.addField('primaryappointment');
 index.addField('primarydepartment');
 
 
-const cookiePromise = new Promise((resolve, reject) => {
-  request({
-    url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/main.action',
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143',
-    },
-  }, (err, resp) => {
-    if (err) {
-      reject(err);
-      return;
-    }
+let cookiePromise = null
 
-    const cookieString = resp.headers['set-cookie'][0];
-    const cookies = cookie.parse(cookieString);
-    resolve(cookies.JSESSIONID);
+async function getCookiePromise() {
+  if (cookiePromise) {
+    return cookiePromise
+  }
+
+  cookiePromise = new Promise((resolve, reject) => {
+    request({
+      url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/main.action',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143',
+      },
+    }, (err, resp) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      const cookieString = resp.headers['set-cookie'][0];
+      const cookies = cookie.parse(cookieString);
+      resolve(cookies.JSESSIONID);
+    });
   });
-});
+
+  return cookiePromise
+}
+
+
 
 
 function hitWithLetters(lastNameStart, jsessionCookie) {
@@ -144,7 +155,7 @@ function hitWithLetters(lastNameStart, jsessionCookie) {
 
 function get(lastNameStart) {
   return new Promise(async (resolve, reject) => {
-    const jsessionCookie = await cookiePromise;
+    const jsessionCookie = await getCookiePromise();
 
     const body = await hitWithLetters(lastNameStart, jsessionCookie);
 
@@ -215,8 +226,8 @@ function get(lastNameStart) {
 async function main() {
   const promises = [];
 
-  alphabet.split('').forEach((firstLetter) => {
-    alphabet.split('').forEach((secondLetter) => {
+  macros.ALPHABET.split('').forEach((firstLetter) => {
+    macros.ALPHABET.split('').forEach((secondLetter) => {
       promises.push(get(firstLetter + secondLetter));
     });
   });
@@ -224,15 +235,13 @@ async function main() {
 
   await Promise.all(promises);
 
-  const rootFolder = path.join('..', 'compiled_frontend', 'getEmployees', 'neu.edu');
+  const rootFolder = path.join(macros.PUBLIC_DIR, 'getEmployees', 'neu.edu');
 
   await mkdirp(rootFolder);
 
   await fs.writeFile(path.join(rootFolder, 'data.json'), JSON.stringify(people));
 
-
   await fs.writeFile(path.join(rootFolder, 'searchIndex.json'), JSON.stringify(index.toJSON()));
-
 
   await fs.writeFile(path.join(rootFolder, 'map.json'), JSON.stringify(peopleMap));
 
