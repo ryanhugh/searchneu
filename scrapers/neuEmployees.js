@@ -3,12 +3,14 @@ var htmlparser = require('htmlparser2');
 var domutils = require('domutils');
 var _ = require('lodash')
 var elasticlunr = require('elasticlunr')
-var fs = require('fs');
-var queue = require('d3-queue').queue
+var fs = require('fs-promise');
 var async = require('async')
 var cookie = require('cookie')
+var retry = require('promise-retry')
+import mkdirp from 'mkdirp-promise'
+import path from 'path'
 
-var alphabet = 'qwertyuiopasdfghjklzxcvbnm';
+var alphabet = 'aqwertyuiopsdfghjklzxcvbnm';
 
 function handleRequestResponce(body, callback) {
 	var handler = new htmlparser.DomHandler(callback);
@@ -31,7 +33,6 @@ function parseTable(table) {
 	var rows = domutils.getElementsByTagName('tr', table);
 
 	if (rows.length === 0) {
-		console.warn('zero rows???')
 		return;
 	};
 
@@ -118,26 +119,47 @@ var getCookie = async.memoize(function _getCookie(callback) {
 })
 
 
-function get(lastNameStart, callback) {
+function hitWithLetters(lastNameStart, cookie) {
 
-	getCookie(function (err, cookie) {
-		if (err) {
-			return callback(err)
-		}
+	return retry({
+		factor: 1,
+		maxTimeout: 5000
+	}, function (retry, num) {
+		return new Promise(function (resolve, reject) {
+			var body = 'searchBy=Last+Name&queryType=begins+with&searchText=' + lastNameStart + '&deptText=&addrText=&numText=&divText=&facStaff=1'
+			request({
+				url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/searchEmployees.action',
+				method: 'POST',
+				headers: {
+					'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143',
+					'Content-Type': 'application/x-www-form-urlencoded',
+					'Cookie': 'JSESSIONID=' + cookie,
+					'Referer': 'https://prod-web.neu.edu/wasapp/employeelookup/public/searchEmployees.action'
+				},
+				body: body
+			}, function (err, resp, body) {
+				if (err) {
+					console.log("Failed to get letters", err, num)
+					reject(error)
+					return;
+				}
+				resolve(body)
+			})
+		}).catch(retry);
+	})
 
-		var body = 'searchBy=Last+Name&queryType=begins+with&searchText=' + lastNameStart + '&deptText=&addrText=&numText=&divText=&facStaff=1'
+}
 
-		request({
-			url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/searchEmployees.action',
-			method: 'POST',
-			headers: {
-				'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143',
-				'Content-Type': 'application/x-www-form-urlencoded',
-				'Cookie': 'JSESSIONID=' + cookie,
-				'Referer': 'https://prod-web.neu.edu/wasapp/employeelookup/public/searchEmployees.action'
-			},
-			body: body
-		}, function (err, resp, body) {
+
+
+function get(lastNameStart) {
+	return new Promise(function (resolve, reject) {
+		getCookie(async function (err, cookie) {
+			if (err) {
+				return reject(err)
+			}
+
+			var body = await hitWithLetters(lastNameStart, cookie)
 
 			handleRequestResponce(body, function (err, dom) {
 				var elements = domutils.getElementsByTagName('table', dom)
@@ -156,8 +178,8 @@ function get(lastNameStart, callback) {
 
 						var parsedTable = parseTable(element)
 						if (!parsedTable) {
-							console.log('Warning Unable to parse table:', lastNameStart)
-							return callback()
+							// console.log('Warning Unable to parse table:', lastNameStart)
+							return resolve()
 						}
 						console.log('Found', parsedTable._rowCount, ' people on page ', lastNameStart)
 
@@ -190,75 +212,54 @@ function get(lastNameStart, callback) {
 							index.addDoc(person)
 							peopleMap[person.id] = person
 						}
-						return callback();
+						return resolve();
 					}
 				}
 
 				console.log('YOOOOO it didnt find the table')
 				console.log(body)
 
-				return callback('nope');
+				return reject('nope');
 
 			}.bind(this))
 		}.bind(this))
-	}.bind(this))
+	})
+
 }
 
-function main() {
+async function main() {
 
-	var q = queue(5)
-
+	var promises = []
 
 	alphabet.split('').forEach(function (firstLetter) {
 		alphabet.split('').forEach(function (secondLetter) {
-
-			q.defer(function (callback) {
-
-				get(firstLetter + secondLetter, function (err) {
-					callback()
-				}.bind(this))
-			}.bind(this))
-
+			promises.push(get(firstLetter + secondLetter))
 		}.bind(this))
 	}.bind(this))
 
 
-	q.awaitAll(function (err) {
-		if (err) {
-			console.log(err);
-			return;
-		}
+	await Promise.all(promises)
 
-		fs.writeFile("data.json", JSON.stringify(people), function (err) {
-			if (err) {
-				return console.log(err);
-			}
+	var rootFolder = path.join('..', 'compiled_frontend', 'getEmployees', 'neu.edu')
 
-			console.log("The file was saved!");
-		});
+	await mkdirp(rootFolder)
+
+	await fs.writeFile(path.join(rootFolder, "data.json"), JSON.stringify(people))
 
 
-		fs.writeFile("searchIndex.json", JSON.stringify(index.toJSON()), function (err) {
-			if (err) {
-				return console.log(err);
-			}
-
-			console.log("The search index was saved!");
-		});
+	await fs.writeFile(path.join(rootFolder, "searchIndex.json"), JSON.stringify(index.toJSON()))
 
 
-		fs.writeFile("map.json", JSON.stringify(peopleMap), function (err) {
-			if (err) {
-				return console.log(err);
-			}
+	await fs.writeFile(path.join(rootFolder, "map.json"), JSON.stringify(peopleMap))
 
-			console.log("The people map was saved!");
-		});
-
-	}.bind(this))
+	console.log("All 3 files saved!");
 }
 
 exports.go = main
+
+if (require.main === module) {
+	main()
+}
 
 // getCookie(function (err, cookie) {
 // 	console.log(err, cookie);

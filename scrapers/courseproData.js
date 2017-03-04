@@ -1,5 +1,5 @@
 import path from 'path'
-import fs from 'mz/fs'
+import fs from 'fs-promise'
 import mkdirp from 'mkdirp-promise'
 import request from 'request-promise-native'
 
@@ -108,12 +108,13 @@ async function main() {
 			})
 		}))
 
-
+		// Download the search indexies and put them in their own dump
 		promises.push(fireRequest('/getSearchIndex/' + term.host + '/' + term.termId, {}, "GET").then(function (response) {
 			fs.writeFile(path.join(PUBLIC_DIR, 'getSearchIndex', term.host, term.termId), JSON.stringify(response))
 		}))
 
 
+		// Wait for all the term dump promises and then put them in a different file
 		promises.push(Promise.all(termDumpPromises).then(function () {
 			fs.writeFile(path.join(PUBLIC_DIR, 'getTermDump', term.host, term.termId), JSON.stringify(termDump))
 		}))
