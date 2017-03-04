@@ -2,8 +2,7 @@ import path from 'path';
 import fs from 'fs-promise';
 import mkdirp from 'mkdirp-promise';
 import request from 'request-promise-native';
-
-const PUBLIC_DIR = 'compiled_frontend';
+import macros from './macros';
 
 
 async function fireRequest(url, body = {}, method = 'POST') {
@@ -60,8 +59,8 @@ async function main() {
   promises = [];
 
   terms.forEach((term) => {
-    promises.push(mkdirp(path.join(PUBLIC_DIR, 'getTermDump', term.host)));
-    promises.push(mkdirp(path.join(PUBLIC_DIR, 'getSearchIndex', term.host)));
+    promises.push(mkdirp(path.join(macros.PUBLIC_DIR, 'getTermDump', term.host)));
+    promises.push(mkdirp(path.join(macros.PUBLIC_DIR, 'getSearchIndex', term.host)));
   });
 
   await Promise.all(promises);
@@ -105,13 +104,13 @@ async function main() {
 
     // Download the search indexies and put them in their own dump
     promises.push(fireRequest(`/getSearchIndex/${term.host}/${term.termId}`, {}, 'GET').then((response) => {
-      fs.writeFile(path.join(PUBLIC_DIR, 'getSearchIndex', term.host, term.termId), JSON.stringify(response));
+      fs.writeFile(path.join(macros.PUBLIC_DIR, 'getSearchIndex', term.host, term.termId), JSON.stringify(response));
     }));
 
 
     // Wait for all the term dump promises and then put them in a different file
     promises.push(Promise.all(termDumpPromises).then(() => {
-      fs.writeFile(path.join(PUBLIC_DIR, 'getTermDump', term.host, term.termId), JSON.stringify(termDump));
+      fs.writeFile(path.join(macros.PUBLIC_DIR, 'getTermDump', term.host, term.termId), JSON.stringify(termDump));
     }));
   });
 
@@ -120,4 +119,7 @@ async function main() {
   console.log('All Done.');
 }
 
-main();
+
+if (require.main === module) {
+  main();
+}
