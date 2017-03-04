@@ -3143,7 +3143,7 @@ mkdir-promise@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/mkdir-promise/-/mkdir-promise-1.0.0.tgz#81ad385e69e493ce385316b9c18a2f14289e333e"
 
-mkdirp-promise@^5.0.0:
+mkdirp-promise@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/mkdirp-promise/-/mkdirp-promise-5.0.1.tgz#e9b8f68e552c68a9c1713b84883f7a1dd039b8a1"
   dependencies:
