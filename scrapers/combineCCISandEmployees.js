@@ -1,5 +1,7 @@
 import removeAccents from 'remove-accents';
 import mkdirp from 'mkdirp-promise';
+import elasticlunr from 'elasticlunr';
+
 
 import fs from 'fs-promise';
 import path from 'path';
@@ -17,6 +19,8 @@ import neuEmployees from './neuEmployees';
 // Could keep both, or keep the output of the first name/last name logic
 // Or maybe if keeping employee name put the first name first so it is in the same order as the ccis name
 // Names on the output from this file are "bob smith" and not "smith, bob", even if there was no match
+
+// Could also keep both emails if used different ones on each site
 
 // Possible checks:
 // How often people have conflicting data field when merging (eg different phone numbers)
@@ -222,6 +226,38 @@ async function main() {
   await mkdirp(macros.PUBLIC_DIR);
 
   await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employees.json'), JSON.stringify(output));
+
+
+
+  
+
+  // Add IDs to people that don't have them (when only from the ccis directory)
+  output.forEach(function(person, index) {
+    if (person.id) {
+      return;
+    }
+
+    output[index].id = String(index) + String(Math.random()) + person.name
+  })
+
+  // Make a search index
+  const index = elasticlunr();
+  index.saveDocument(false);
+
+  index.setRef('id');
+  index.addField('name');
+  index.addField('phone');
+  index.addField('email');
+  index.addField('office');
+  index.addField('primaryappointment');
+  index.addField('primarydepartment');
+
+
+  output.forEach(function (row) {
+    index.addDoc(row)
+  })
+
+  await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeesSearchIndex.json'), JSON.stringify(index.toJSON()));
 
   return output;
 }
