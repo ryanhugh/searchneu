@@ -10,6 +10,32 @@ import mkdirp from 'mkdirp-promise';
 import path from 'path';
 import macros from './macros'
 
+
+// Scrapes from here: https://prod-web.neu.edu/wasapp/employeelookup/public/main.action
+
+// Scraped info:
+
+// Name is always scraped. This can vary slightly between different data sources.
+// This name will never include accents, which the CCIS site does
+// "name": "Hauck, Heather", 
+
+// Id of each employee. Always scraped. 
+  // "id": "000120097",
+
+// Phone number. Some people had them posted and others did not. Sometimes present, sometimes not. 
+// The same phone number can be listed as one person's phone number on this data source and a different person on a different data source.
+// Don't have a great idea on how to handle that. 
+  // "phone": "6173737821",
+
+// Email. Sometimes present, sometimes not.
+  // "email": "h.hauck@northeastern.edu",
+
+// Other. Always scraped. 
+  // "primaryappointment": "Asst Dir &amp; Assoc Coop Coord",
+  // "primarydepartment": "DMSB Co-op"
+
+
+
 function handleRequestResponce(body, callback) {
   const handler = new htmlparser.DomHandler(callback);
   const parser = new htmlparser.Parser(handler);
@@ -154,7 +180,7 @@ function hitWithLetters(lastNameStart, jsessionCookie) {
 
 
 function get(lastNameStart) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise(async(resolve, reject) => {
     const jsessionCookie = await getCookiePromise();
 
     const body = await hitWithLetters(lastNameStart, jsessionCookie);
@@ -170,12 +196,12 @@ function get(lastNameStart) {
         };
 
         if (_.isEqual(element.attribs, goal)) {
-            // Delete one of the elements that is before the header that would mess stuff up
+          // Delete one of the elements that is before the header that would mess stuff up
           domutils.removeElement(element.children[1].children[1]);
 
           const parsedTable = parseTable(element);
           if (!parsedTable) {
-              // console.log('Warning Unable to parse table:', lastNameStart)
+            // console.log('Warning Unable to parse table:', lastNameStart)
             return resolve();
           }
           console.log('Found', parsedTable._rowCount, ' people on page ', lastNameStart);
@@ -188,7 +214,8 @@ function get(lastNameStart) {
             if (!idMatch) {
               console.warn('Warn: unable to parse id, using random number', person.name);
               person.id = String(Math.random());
-            } else {
+            }
+            else {
               person.id = idMatch[1];
             }
 
@@ -196,7 +223,7 @@ function get(lastNameStart) {
             phone = phone.replace(/\D/g, '');
 
 
-              // Maybe add support for guesing area code if it is ommitted and most of the other ones have the same area code
+            // Maybe add support for guesing area code if it is ommitted and most of the other ones have the same area code
             if (phone.length === 10) {
               person.phone = phone;
             }
@@ -224,6 +251,18 @@ function get(lastNameStart) {
 }
 
 async function main() {
+
+  const outputFile = path.join(macros.DEV_DATA_DIR, 'employees.json')
+
+  // if this is dev and this data is already scraped, just return the data
+  if (macros.DEV) {
+    var exists = await fs.exists(outputFile)
+    if (exists) {
+      return require(outputFile)
+    }
+  }
+
+
   const promises = [];
 
   macros.ALPHABET.split('').forEach((firstLetter) => {
@@ -235,17 +274,18 @@ async function main() {
 
   await Promise.all(promises);
 
-  const rootFolder = path.join(macros.PUBLIC_DIR, 'getEmployees', 'neu.edu');
+  let rootFolder
 
-  await mkdirp(rootFolder);
+  if (macros.DEV) {
 
-  await fs.writeFile(path.join(rootFolder, 'data.json'), JSON.stringify(people));
+    await mkdirp(macros.DEV_DATA_DIR);
 
-  await fs.writeFile(path.join(rootFolder, 'searchIndex.json'), JSON.stringify(index.toJSON()));
+    await fs.writeFile(outputFile, JSON.stringify(people));
 
-  await fs.writeFile(path.join(rootFolder, 'map.json'), JSON.stringify(peopleMap));
+    console.log('employees file saved!');
+  }
 
-  console.log('All 3 files saved!');
+  return people
 }
 
 exports.go = main;

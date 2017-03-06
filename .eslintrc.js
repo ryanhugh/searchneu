@@ -19,6 +19,7 @@ module.exports = {
     "key-spacing": 0,
     "no-mixed-operators": 0,
     "no-param-reassign": 0,
+    'no-constant-condition': ["error", { "checkLoops": false }],
     "no-plusplus": [0, {
       "allowForLoopAfterthoughts": true
     }],
