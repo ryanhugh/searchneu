@@ -8,32 +8,40 @@ import cookie from 'cookie';
 import retry from 'promise-retry';
 import mkdirp from 'mkdirp-promise';
 import path from 'path';
-import macros from './macros'
+import macros from './macros';
+import he from 'he'
 
 
 // Scrapes from here: https://prod-web.neu.edu/wasapp/employeelookup/public/main.action
 
-// Scraped info:
+// TODO:
+// Some of the phone numbers are not 10 digits. Might be able to guess area code, but it is not allways 215 just because some people have offices outside of Boston. 
+// Phone numbers that are not 10 digits are ignored right now. 
+
+
+// Currently: 
 
 // Name is always scraped. This can vary slightly between different data sources.
 // This name will never include accents, which the CCIS site does
-// "name": "Hauck, Heather", 
+// Also, multiple people have the same name so this can not be used as a primary key
+// "name": "Hauck, Heather",
 
-// Id of each employee. Always scraped. 
-  // "id": "000120097",
+// Id of each employee. Always scraped.
+// "id": "000120097",
 
-// Phone number. Some people had them posted and others did not. Sometimes present, sometimes not. 
+// Phone number. Some people had them posted and others did not. Sometimes present, sometimes not.
 // The same phone number can be listed as one person's phone number on this data source and a different person on a different data source.
-// Don't have a great idea on how to handle that. 
-  // "phone": "6173737821",
+// Don't have a great idea on how to handle that.
+// "phone": "6173737821",
 
 // Email. Sometimes present, sometimes not.
-  // "email": "h.hauck@northeastern.edu",
+// "email": "h.hauck@northeastern.edu",
 
-// Other. Always scraped. 
-  // "primaryappointment": "Asst Dir &amp; Assoc Coop Coord",
-  // "primarydepartment": "DMSB Co-op"
+// Sometimes present, sometimes not. Often heavily abbreviated. (like this example)
+// "primaryappointment": "Asst Dir &amp; Assoc Coop Coord",
 
+// Always scraped.
+// "primarydepartment": "DMSB Co-op"
 
 
 function handleRequestResponce(body, callback) {
@@ -118,11 +126,11 @@ index.addField('primaryappointment');
 index.addField('primarydepartment');
 
 
-let cookiePromise = null
+let cookiePromise = null;
 
 async function getCookiePromise() {
   if (cookiePromise) {
-    return cookiePromise
+    return cookiePromise;
   }
 
   cookiePromise = new Promise((resolve, reject) => {
@@ -143,10 +151,8 @@ async function getCookiePromise() {
     });
   });
 
-  return cookiePromise
+  return cookiePromise;
 }
-
-
 
 
 function hitWithLetters(lastNameStart, jsessionCookie) {
@@ -228,9 +234,27 @@ function get(lastNameStart) {
               person.phone = phone;
             }
 
-            person.email = parsedTable.email[j];
-            person.primaryappointment = parsedTable.primaryappointment[j];
-            person.primarydepartment = parsedTable.primarydepartment[j];
+            // Scrape the email from the table
+            const email = parsedTable.email[j];
+            if (email && email !== 'Not Available') {
+              person.email = parsedTable.email[j];
+
+              if (person.email.endsWith('@neu.edu')) {
+                person.email = `${person.email.split('@')[0]}@northeastern.edu`;
+              }
+
+            }
+
+            // Scrape the primaryappointment
+            const primaryappointment = parsedTable.primaryappointment[j];
+            if (primaryappointment && primaryappointment !== 'Not Available') {
+              person.primaryappointment = he.decode(parsedTable.primaryappointment[j])
+            }
+
+            // Scrape the primarydepartment
+            person.primarydepartment = he.decode(parsedTable.primarydepartment[j]);
+
+            // Add it to the index and the people list
             people.push(person);
             index.addDoc(person);
             if (peopleMap[person.id]) {
@@ -251,14 +275,13 @@ function get(lastNameStart) {
 }
 
 async function main() {
-
-  const outputFile = path.join(macros.DEV_DATA_DIR, 'employees.json')
+  const outputFile = path.join(macros.DEV_DATA_DIR, 'employees.json');
 
   // if this is dev and this data is already scraped, just return the data
-  if (macros.DEV) {
-    var exists = await fs.exists(outputFile)
+  if (macros.DEV && require.main !== module) {
+    const exists = await fs.exists(outputFile);
     if (exists) {
-      return require(outputFile)
+      return require(outputFile);
     }
   }
 
@@ -274,10 +297,7 @@ async function main() {
 
   await Promise.all(promises);
 
-  let rootFolder
-
   if (macros.DEV) {
-
     await mkdirp(macros.DEV_DATA_DIR);
 
     await fs.writeFile(outputFile, JSON.stringify(people));
@@ -285,7 +305,7 @@ async function main() {
     console.log('employees file saved!');
   }
 
-  return people
+  return people;
 }
 
 exports.go = main;
