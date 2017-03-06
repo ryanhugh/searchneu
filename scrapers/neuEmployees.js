@@ -2,14 +2,14 @@ import request from 'request';
 import htmlparser from 'htmlparser2';
 import domutils from 'domutils';
 import _ from 'lodash';
-import elasticlunr from 'elasticlunr';
 import fs from 'fs-promise';
 import cookie from 'cookie';
 import retry from 'promise-retry';
 import mkdirp from 'mkdirp-promise';
 import path from 'path';
-import macros from './macros';
 import he from 'he'
+
+import macros from './macros';
 
 
 // Scrapes from here: https://prod-web.neu.edu/wasapp/employeelookup/public/main.action
@@ -114,17 +114,6 @@ function parseTable(table) {
 
 const people = [];
 const peopleMap = {};
-
-const index = elasticlunr();
-index.saveDocument(false);
-
-index.setRef('id');
-index.addField('name');
-index.addField('phone');
-index.addField('email');
-index.addField('primaryappointment');
-index.addField('primarydepartment');
-
 
 let cookiePromise = null;
 
@@ -256,7 +245,7 @@ function get(lastNameStart) {
 
             // Add it to the index and the people list
             people.push(person);
-            index.addDoc(person);
+            
             if (peopleMap[person.id]) {
               console.log('Error, person already in the people map?', person.id);
             }
