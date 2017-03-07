@@ -110,7 +110,8 @@ class Results extends React.Component {
                 This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
               <tr style={{ display:'none' }} />
               {aClass.sections.map((section) => {
-                  // Calculate the "Meets on Tuesday, Friday" or "No Meetings found" string that hovers over the weekday boxes
+                
+                // Calculate the "Meets on Tuesday, Friday" or "No Meetings found" string that hovers over the weekday boxes
                 const meetingDays = section.getWeekDaysAsStringArray();
                 let meetingString;
                 if (meetingDays.length == 0) {
@@ -119,7 +120,7 @@ class Results extends React.Component {
                   meetingString = `Meets on ${meetingDays.join(', ')}`;
                 }
 
-                  // Calculate the weekday boxes eg [][x][][][x] for Tuesday Friday
+                // Calculate the weekday boxes eg [][x][][][x] for Tuesday Friday
                 let booleans = section.getWeekDaysAsBooleans();
                 if (!section.meetsOnWeekends()) {
                   booleans = booleans.slice(1, 6);
@@ -136,7 +137,7 @@ class Results extends React.Component {
                   );
                 });
 
-                    // Calculate the Google Maps links
+                // Calculate the Google Maps links
                 const locationElements = section.getLocations().map((location, index, locations) => {
                   let buildingName;
                   if (location.match(/\d+\s*$/i)) {
@@ -167,7 +168,7 @@ class Results extends React.Component {
                   );
                 });
 
-                    // Calculate the exam elements in each row
+                // Calculate the exam elements in each row
                 let examElements = null;
                 if (aClass.sectionsHaveExam()) {
                   const examMoments = section.getExamMoments();
