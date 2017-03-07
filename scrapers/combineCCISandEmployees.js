@@ -240,6 +240,22 @@ async function main() {
     output[index].id = String(index) + String(Math.random()) + person.name
   })
 
+
+  // Create a map so the frontend is faster
+  var employeeMap = {}
+  output.forEach(function (person) {
+    if (employeeMap[person.id]) {
+      console.log("Error, duplicate id!", person.id)
+    }
+    employeeMap[person.id] = person
+  })
+
+
+  await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMap.json'), JSON.stringify(employeeMap));
+
+
+
+
   // Make a search index
   const index = elasticlunr();
   index.saveDocument(false);

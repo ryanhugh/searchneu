@@ -52,7 +52,7 @@ class Home extends React.Component {
 
     this.dataPromise = null;
 
-    this.onClick = this.onClick.bind(this)
+    this.onClick = this.onClick.bind(this);
 
     this.loadData();
   }
@@ -66,6 +66,14 @@ class Home extends React.Component {
 
     promises.push(request('/getTermDump/neu.edu/201730').then((res) => {
       this.termData = CourseProData.loadData(JSON.parse(res.text));
+    }));
+
+    promises.push(request('/employeeMap.json').then((res) => {
+      this.employeeMap = JSON.parse(res.text);
+    }));
+
+    promises.push(request('/employeesSearchIndex.json').then((res) => {
+      this.employeesSearchIndex = elasticlunr.Index.load(JSON.parse(res.text));
     }));
 
     this.dataPromise = Promise.all(promises).then((argument) => {
@@ -128,7 +136,8 @@ class Home extends React.Component {
 
         if (!match || match.length < 3) {
           break;
-        } else {
+        }
+        else {
           searchTerm = `${searchTerm.slice(0, subject.subject.length)} ${searchTerm.slice(subject.subject.length)}`;
         }
         break;
@@ -139,21 +148,70 @@ class Home extends React.Component {
     // Returns an array of objects that has a .ref and a .score
     // The array is sorted by score (with the highest matching closest to the beginning)
     // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
-    let results = this.searchIndex.search(searchTerm, searchConfig);
-    results = results.slice(0, 100);
+    let classResults = this.searchIndex.search(searchTerm, searchConfig);
+    classResults = classResults.slice(0, 100);
 
-    const classes = [];
+    const employeeResults = this.employeesSearchIndex.search(searchTerm, {});
 
-    results.forEach((result) => {
-      classes.push(this.termData.createClass({
-        hash: result.ref,
-        host: 'neu.edu',
-        termId: '201710',
-      }));
-    });
+
+    let output = []
+
+    while (output.length < 100) {
+
+      if (classResults.length == 0 && employeeResults.length === 0) {
+        break;
+      }
+
+      if (classResults.length == 0) {
+        output.push(this.employeeMap[employeeResults[0].ref])
+        employeeResults.splice(0, 1)
+        continue;
+      }
+
+      if (employeeResults.length == 0) {
+        output.push(this.termData.createClass({
+          hash: classResults[0].ref,
+          host: 'neu.edu',
+          termId: '201710',
+        }))
+        classResults.splice(0, 1)
+        continue;
+      }
+
+      if (classResults[0].score > employeeResults[0].score) {
+        output.push(this.termData.createClass({
+          hash: classResults[0].ref,
+          host: 'neu.edu',
+          termId: '201710',
+        }))
+        classResults.splice(0, 1)
+        continue
+      }
+
+      if (classResults[0].score <= employeeResults[0].score) {
+        output.push(this.employeeMap[employeeResults[0].ref])
+        employeeResults.splice(0, 1)
+      }
+    }
+
+    // console.log()
+
+
+    // employeeResults.forEach((result) => {
+    //   console.log(this.employeeMap[result.ref]);
+    // });
+
+    // // console.log(employeeResults)
+
+
+    // const classes = [];
+
+    // classResults.forEach((result) => {
+    //   classes.push();
+    // });
 
     this.setState({
-      classes: classes,
+      classes: output,
     });
   }
 
@@ -173,43 +231,47 @@ class Home extends React.Component {
   render() {
     let resultsContainer = null;
     if (this.state.classes && this.state.classes.length > 0) {
-      resultsContainer = (
-        <div className={ `ui container ${css.resultsContainer}` }>
-          <div className='five column row'>
-            <div className='page-home'>
-              <Results classes={ this.state.classes } termData={ this.termData } />
-            </div>
-          </div>
-        </div>
+      resultsContainer = ( < div className = {
+          `ui container ${css.resultsContainer}`
+        } >
+        < div className = 'five column row' >
+        < div className = 'page-home' >
+        < Results classes = {
+          this.state.classes
+        }
+        termData = {
+          this.termData
+        }
+        /> < /div > < /div> < /div >
       );
     }
 
 
-    return (
-      <div>
-        <div id='top-header' className='ui center aligned icon header'>
-          <h1 className={ css.title }>Class Search</h1>
-          <h3 className={ css.subtitle }>For Northeastern</h3>
-          <div id='search-wrapper' className='sub header'>
-            <label>
-              <i className='search icon' />
-            </label>
-            <input
-              autoFocus
-              type='search'
-              id='seach_id'
-              placeholder='Search Professors and Employees'
-              autoComplete='off'
-              spellCheck='false'
-              tabIndex='0'
-              onChange={ this.onClick }
-            />
-          </div>
-        </div>
-        { resultsContainer }
-      </div>
-    );
-  }
+    return ( < div >
+      < div id = 'top-header'
+      className = 'ui center aligned icon header' >
+      < h1 className = {
+        css.title
+      } > Class Search < /h1> < h3 className = {
+      css.subtitle
+    } > For Northeastern < /h3> < div id = 'search-wrapper'
+    className = 'sub header' >
+      < label >
+      < i className = 'search icon' / >
+      < /label> < input autoFocus type = 'search'
+    id = 'seach_id'
+    placeholder = 'Search Classes, Professors, and Employees'
+    autoComplete = 'off'
+    spellCheck = 'false'
+    tabIndex = '0'
+    onChange = {
+      this.onClick
+    }
+    /> < /div > < /div> {
+    resultsContainer
+  } < /div>
+);
+}
 }
 
 export default CSSModules(Home, css);
