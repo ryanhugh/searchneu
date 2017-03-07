@@ -3,9 +3,9 @@ import cheerio from 'cheerio';
 import fs from 'fs-promise';
 import mkdirp from 'mkdirp-promise';
 import path from 'path';
-import macros from './macros';
 import URI from 'urijs';
 import Throttle from 'superagent-throttle'
+import macros from './macros';
 
 
 

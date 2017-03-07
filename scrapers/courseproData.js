@@ -1,29 +1,54 @@
 import path from 'path';
 import fs from 'fs-promise';
 import mkdirp from 'mkdirp-promise';
-import request from 'request-promise-native';
+import request from 'superagent';
+import Throttle from 'superagent-throttle'
+
 import macros from './macros';
 
 
+
+
+let throttle = new Throttle({
+  active: true,     // set false to pause queue
+  rate: 20,          // how many requests can be sent every `ratePer`
+  ratePer: 10000,   // number of ms in which `rate` requests may be sent
+  concurrent: 1     // how many requests can be sent concurrently
+})
+.on('sent', (request) => { console.log('sent') }) // sent a request
+.on('received', (request) => { console.log('received') }) // received a response
+.on('drained', () => { console.log('drained') }) // received last response
+
+
+
+
 async function fireRequest(url, body = {}, method = 'POST') {
-  console.log(url, method);
 
-  url = `https://coursepro.io${url}`;
+  var actualUrl = `https://coursepro.io${url}`;
+  let resp
 
-  const options = {
-    method: method,
-    headers: {
-      'user-agent': 'hi there',
-    },
-    json: true,
-    url: url,
-  };
-
-  if (method === 'POST') {
-    options.body = body;
+  if (method === 'GET') {
+    resp = await request(actualUrl).set('user-agent', 'hi there').use(throttle.plugin()).retry(5)
+  }
+  else {
+    resp = await request.post(actualUrl).set('user-agent', 'hi there').send(body).use(throttle.plugin()).retry(5)
   }
 
-  return request(options);
+  // ghetto af retry logic
+  if (!resp.text) {
+    console.log(actualUrl, 'FAILED', resp.status)
+    return new Promise(function (resolve, reject) {
+      setTimeout(function () {
+        resolve(fireRequest(url, body, method))
+      }, 1000)
+    })
+  }
+
+  var output = JSON.parse(resp.text)
+
+  console.log(resp.text.length, ' downloaded')
+
+  return output
 }
 
 //TODO: this needs to be a Key.js not this ghetto thing
