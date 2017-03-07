@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames/bind';
@@ -25,6 +25,14 @@ class Results extends React.Component {
     this.handleInfiniteLoad = this.handleInfiniteLoad.bind(this);
   }
 
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleInfiniteLoad);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleInfiniteLoad);
+  }
+
   handleInfiniteLoad() {
     const resultsBottom = this.refs.elementsContainer.offsetHeight + this.refs.elementsContainer.offsetTop;
 
@@ -39,14 +47,6 @@ class Results extends React.Component {
     }
   }
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleInfiniteLoad);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleInfiniteLoad);
-  }
-
   componentWillReceiveProps(nextProps) {
     this.alreadyLoadedAt = {};
     this.setState({
@@ -54,17 +54,22 @@ class Results extends React.Component {
     });
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     ReactTooltip.rebuild();
-    console.log('did update');
   }
 
   render() {
-    if (!this.state.classes || this.state.classes.length == 0) {
-      return null;
-    }
-
     const elements = this.state.classes.map((aClass) => {
+
+      if (aClass.id) {
+        return (
+          <div key = {aClass.id}>
+            {aClass.name}
+          </div>
+          )
+      }
+
+
       // Render the section table if this class has sections
       let sectionTable = null;
       if (aClass.sections && aClass.sections.length > 0) {
@@ -110,11 +115,10 @@ class Results extends React.Component {
                 This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
               <tr style={{ display:'none' }} />
               {aClass.sections.map((section) => {
-                
                 // Calculate the "Meets on Tuesday, Friday" or "No Meetings found" string that hovers over the weekday boxes
                 const meetingDays = section.getWeekDaysAsStringArray();
                 let meetingString;
-                if (meetingDays.length == 0) {
+                if (meetingDays.length === 0) {
                   meetingString = 'No Meetings found';
                 } else {
                   meetingString = `Meets on ${meetingDays.join(', ')}`;
@@ -222,7 +226,7 @@ class Results extends React.Component {
 
                     <td>
                       <a target='_blank' rel='noopener noreferrer' className={ css.inlineBlock } data-tip={ `View on ${section.host}` } href={ section.prettyUrl || section.url }>
-                        <img src={ globe } />
+                        <img src={ globe } alt='globe' />
                       </a>
                     </td>
                   </tr>
@@ -281,4 +285,9 @@ class Results extends React.Component {
   }
 }
 
-export default Results;
+Results.propTypes = {
+  classes: PropTypes.array.isRequired,
+};
+
+
+export default CSSModules(Results, css);
