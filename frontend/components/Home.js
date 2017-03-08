@@ -155,6 +155,10 @@ class Home extends React.Component {
 
     const output = [];
 
+
+    // This takes no time at all, never more than 2ms and usally <1ms
+    console.time('33')
+
     while (output.length < 100) {
       if (classResults.length == 0 && employeeResults.length === 0) {
         break;
@@ -192,6 +196,8 @@ class Home extends React.Component {
       }
     }
 
+    console.timeEnd('33')
+
     // console.log()
 
 
@@ -228,7 +234,7 @@ class Home extends React.Component {
 
   render() {
     let resultsContainer = null;
-    
+
     if (this.state.classes && this.state.classes.length > 0) {
       resultsContainer = (
       <div className={ `ui container ${css.resultsContainer}` }>
