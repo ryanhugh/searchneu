@@ -136,8 +136,7 @@ class Home extends React.Component {
 
         if (!match || match.length < 3) {
           break;
-        }
-        else {
+        } else {
           searchTerm = `${searchTerm.slice(0, subject.subject.length)} ${searchTerm.slice(subject.subject.length)}`;
         }
         break;
@@ -154,17 +153,16 @@ class Home extends React.Component {
     const employeeResults = this.employeesSearchIndex.search(searchTerm, {});
 
 
-    let output = []
+    const output = [];
 
     while (output.length < 100) {
-
       if (classResults.length == 0 && employeeResults.length === 0) {
         break;
       }
 
       if (classResults.length == 0) {
-        output.push(this.employeeMap[employeeResults[0].ref])
-        employeeResults.splice(0, 1)
+        output.push(this.employeeMap[employeeResults[0].ref]);
+        employeeResults.splice(0, 1);
         continue;
       }
 
@@ -173,8 +171,8 @@ class Home extends React.Component {
           hash: classResults[0].ref,
           host: 'neu.edu',
           termId: '201710',
-        }))
-        classResults.splice(0, 1)
+        }));
+        classResults.splice(0, 1);
         continue;
       }
 
@@ -183,14 +181,14 @@ class Home extends React.Component {
           hash: classResults[0].ref,
           host: 'neu.edu',
           termId: '201710',
-        }))
-        classResults.splice(0, 1)
-        continue
+        }));
+        classResults.splice(0, 1);
+        continue;
       }
 
       if (classResults[0].score <= employeeResults[0].score) {
-        output.push(this.employeeMap[employeeResults[0].ref])
-        employeeResults.splice(0, 1)
+        output.push(this.employeeMap[employeeResults[0].ref]);
+        employeeResults.splice(0, 1);
       }
     }
 
@@ -231,47 +229,47 @@ class Home extends React.Component {
   render() {
     let resultsContainer = null;
     if (this.state.classes && this.state.classes.length > 0) {
-      resultsContainer = ( < div className = {
-          `ui container ${css.resultsContainer}`
-        } >
-        < div className = 'five column row' >
-        < div className = 'page-home' >
-        < Results classes = {
-          this.state.classes
-        }
-        termData = {
-          this.termData
-        }
-        /> < /div > < /div> < /div >
+      resultsContainer = (<div
+        className={ `ui container ${css.resultsContainer}` }
+      >
+        <div className='five column row' >
+          <div className='page-home' >
+            <Results
+              classes={ this.state.classes }
+              termData={ this.termData }
+            /> </div > </div> </div >
       );
     }
 
 
-    return ( < div >
-      < div id = 'top-header'
-      className = 'ui center aligned icon header' >
-      < h1 className = {
-        css.title
-      } > Class Search < /h1> < h3 className = {
-      css.subtitle
-    } > For Northeastern < /h3> < div id = 'search-wrapper'
-    className = 'sub header' >
-      < label >
-      < i className = 'search icon' / >
-      < /label> < input autoFocus type = 'search'
-    id = 'seach_id'
-    placeholder = 'Search Classes, Professors, and Employees'
-    autoComplete = 'off'
-    spellCheck = 'false'
-    tabIndex = '0'
-    onChange = {
-      this.onClick
-    }
-    /> < /div > < /div> {
-    resultsContainer
-  } < /div>
-);
-}
+    return (
+      <div>
+        <div id='top-header' className='ui center aligned icon header'>
+          <h1 className={ css.title }> 
+            Class Search 
+          </h1>
+          <h3 className={ css.subtitle }>
+           For Northeastern
+          </h3>
+          <div id='search-wrapper' className='sub header'>
+            <label>
+              <i className='search icon' />
+            </label> 
+            <input
+              autoFocus type='search'
+              id='seach_id'
+              placeholder='Search Classes, Professors, and Employees'
+              autoComplete='off'
+              spellCheck='false'
+              tabIndex='0'
+              onChange={ this.onClick }
+            /> 
+          </div>
+        </div>
+      { resultsContainer }
+      </div>
+    );
+  }
 }
 
 export default CSSModules(Home, css);
