@@ -228,16 +228,16 @@ class Home extends React.Component {
 
   render() {
     let resultsContainer = null;
+    
     if (this.state.classes && this.state.classes.length > 0) {
-      resultsContainer = (<div
-        className={ `ui container ${css.resultsContainer}` }
-      >
+      resultsContainer = (
+      <div className={ `ui container ${css.resultsContainer}` }>
         <div className='five column row' >
           <div className='page-home' >
-            <Results
-              classes={ this.state.classes }
-              termData={ this.termData }
-            /> </div > </div> </div >
+            <Results classes={ this.state.classes } termData={ this.termData }/>
+          </div>
+        </div>
+      </div>
       );
     }
 
