@@ -10,8 +10,8 @@ import macros from './macros';
 const cx = classNames.bind(css);
 
 
-// Results page component
-class Results extends React.Component {
+// ClassPanel page component
+class ClassPanel extends React.Component {
 
   componentDidUpdate() {
     ReactTooltip.rebuild();
@@ -226,9 +226,9 @@ class Results extends React.Component {
   }
 }
 
-Results.propTypes = {
+ClassPanel.propTypes = {
   aClass: PropTypes.object.isRequired,
 };
 
 
-export default CSSModules(Results, css);
+export default CSSModules(ClassPanel, css);
