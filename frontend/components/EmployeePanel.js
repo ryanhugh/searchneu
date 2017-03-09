@@ -27,22 +27,22 @@ class EmployeePanel extends React.Component {
         </div>
 
         <div className={ css.body }>
-          {employee.positions ? employee.positions[0] : employee.primaryappointment}
-          <br />
-          {employee.primarydepartment}
-          <br />
-          {employee.email}
-          <br />
-          {employee.phone}
-        </div>
-        <div>
-
-          {lines[0]}
-          <br />
-          {lines[1]}
-          <br />
-          {lines[2]}
-
+          <div className={css.inlineBlock}>
+            {employee.positions ? employee.positions[0] : employee.primaryappointment}
+            <br />
+            {employee.primarydepartment}
+            <br />
+            {employee.email}
+            <br />
+            {employee.phone}
+          </div>
+          <div className={css.inlineBlock +' ' + css.addressBox}>
+            {lines[0]}
+            <br />
+            {lines[1]}
+            <br />
+            {lines[2]}
+          </div>
         </div>
       </div>
     );
