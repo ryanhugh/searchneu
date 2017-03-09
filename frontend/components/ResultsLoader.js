@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 
+import EmployeePanel from './EmployeePanel';
 import ClassPanel from './ClassPanel';
 import css from './ResultsLoader.css';
 
@@ -124,12 +125,13 @@ class ResultsLoader extends React.Component {
               if (obj.type === 'class') {
                 return <ClassPanel id={ obj.data._id } aClass={ obj.data } />;
               }
-              // else if (obj.type === 'employee') {
-              //   return <EmployeePanel id = {obj.data.id} employee = {obj.data} />
-              // }
-
-                // console.log('Uknown type', obj.type)
-              return null;
+              else if (obj.type === 'employee') {
+                return <EmployeePanel id = {obj.data.id} employee = {obj.data} />
+              }
+              else {
+                console.log('Uknown type', obj.type)
+                return null;
+              }
             })}
           </div>
         </div>

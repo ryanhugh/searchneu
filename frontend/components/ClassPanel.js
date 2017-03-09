@@ -4,7 +4,7 @@ import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames/bind';
 
 import globe from './globe.svg';
-import css from './results.css';
+import css from './ClassPanel.css';
 import macros from './macros';
 
 const cx = classNames.bind(css);
@@ -200,7 +200,7 @@ class ClassPanel extends React.Component {
 
 
     return (
-      <div key={ aClass._id } className={ `${css.container} ui segment` }>
+      <div className={ `${css.container} ui segment` }>
         <div className={ css.header }>
           {aClass.subject} {aClass.classId}: {aClass.name}
         </div>
