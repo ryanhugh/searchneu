@@ -152,7 +152,6 @@ class Home extends React.Component {
     // The array is sorted by score (with the highest matching closest to the beginning)
     // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
     let classResults = this.searchIndex.search(searchTerm, searchConfig);
-    classResults = classResults.slice(0, 100);
 
     const employeeResults = this.employeesSearchIndex.search(searchTerm, {});
 
@@ -162,7 +161,7 @@ class Home extends React.Component {
     // This takes no time at all, never more than 2ms and usally <1ms
     console.time('33')
 
-    while (output.length < 100) {
+    while (true) {
       if (classResults.length == 0 && employeeResults.length === 0) {
         break;
       }
@@ -206,7 +205,7 @@ class Home extends React.Component {
     }
 
     console.timeEnd('33')
-    
+
     this.setState({
       results: output,
     });

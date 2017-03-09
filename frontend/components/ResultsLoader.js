@@ -10,13 +10,10 @@ class ResultsLoader extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log('loader constructor');
-
     this.state = {
       show: 0,
       visibleObjects: [],
     };
-
 
     this.alreadyLoadedAt = {};
 
@@ -33,9 +30,20 @@ class ResultsLoader extends React.Component {
   }
 
   addMoreObjects() {
+
+    var delta
+    // When the user is typing in the search box we only need to render enough to go past the bottom of the screen
+    // want to render as few as possible between key presses in the search box. 
+    if (this.state.show === 0) {
+      delta = 4
+    }
+    else {
+      delta = 10
+    }
+
     const newObjects = [];
 
-    const toLoad = this.props.results.slice(this.state.show, 10);
+    const toLoad = this.props.results.slice(this.state.show, this.state.show + delta);
 
 
     toLoad.forEach((result) => {
@@ -62,8 +70,10 @@ class ResultsLoader extends React.Component {
       }
     });
 
+    // console.log('adding ', newObjects.length, 'now at ', this.state.show, toLoad.length, 'hi')
+
     this.setState({
-      show: this.state.show + 10,
+      show: this.state.show + delta,
       visibleObjects: this.state.visibleObjects.concat(newObjects),
     });
   }
@@ -71,7 +81,6 @@ class ResultsLoader extends React.Component {
   handleInfiniteLoad() {
     console.log('results loader handleInfiniteLoad', this.props.results.length, this.state.visibleObjects.length);
     if (this.props.results.length === 0) {
-      // console.log('not rendering ')
       return;
     }
 
@@ -80,8 +89,9 @@ class ResultsLoader extends React.Component {
     const diff = window.scrollY + 2000 + window.innerHeight - resultsBottom;
 
     // Assume about 300 px per class
-    if (diff > 0 && this.state.visibleObjects.length > this.state.visibleObjects.length && !this.alreadyLoadedAt[this.state.visibleObjects.length]) {
+    if (diff > 0 && this.props.results.length > this.state.visibleObjects.length && !this.alreadyLoadedAt[this.state.visibleObjects.length]) {
       this.alreadyLoadedAt[this.state.visibleObjects.length] = true;
+      console.log('triggered')
 
       this.addMoreObjects();
     }
@@ -117,7 +127,13 @@ class ResultsLoader extends React.Component {
               if (obj.type === 'class') {
                 return <ClassPanel id = {obj.data._id} aClass={ obj.data } />;
               }
-              return <div> hi there </div>;
+              // else if (obj.type === 'employee') {
+              //   return <EmployeePanel id = {obj.data.id} employee = {obj.data} />
+              // }
+              else {
+                // console.log('Uknown type', obj.type)
+                return null;
+              }
             })}
           </div>
         </div>
