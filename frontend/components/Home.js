@@ -157,10 +157,7 @@ class Home extends React.Component {
 
     const output = [];
 
-
     // This takes no time at all, never more than 2ms and usally <1ms
-    console.time('33')
-
     while (true) {
       if (classResults.length == 0 && employeeResults.length === 0) {
         break;
@@ -203,8 +200,6 @@ class Home extends React.Component {
         employeeResults.splice(0, 1);
       }
     }
-
-    console.timeEnd('33')
 
     this.setState({
       results: output,

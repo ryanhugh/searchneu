@@ -4,7 +4,7 @@ import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames/bind';
 
 import globe from './globe.svg';
-import css from './results.css';
+import css from './EmployeePanel.css';
 import macros from './macros';
 
 const cx = classNames.bind(css);
@@ -13,24 +13,40 @@ const cx = classNames.bind(css);
 // EmployeePanel page component
 class EmployeePanel extends React.Component {
 
-  componentDidUpdate() {
-    ReactTooltip.rebuild();
-  }
+// name, id, phone, email, primaryappointment, primarydepartment, link, positions, office, personalSite, bigPictureLink
 
   render() {
     const employee = this.props.employee;
+
+    var lines = []
+    if (employee.office) {
+      lines = employee.office.split('\r\n')
+    }
    
     return (
-      <div key={ aClass._id } className={ `${css.container} ui segment` }>
+      <div className={ `${css.container} ui segment` }>
         <div className={ css.header }>
-          {aClass.subject} {aClass.classId}: {aClass.name}
+          {employee.name}
         </div>
 
         <div className={ css.body }>
-         
+          {employee.positions?employee.positions[0]:employee.primaryappointment}
+          <br />
+          {employee.primarydepartment}
+          <br />
+          {employee.email}
+          <br />
+          {employee.phone}
+        </div>
+        <div> 
 
+          {lines[0]}
+          <br/>
+          {lines[1]}
+          <br/>
+          {lines[2]}
 
-
+        </div>
       </div>
     );
   }
