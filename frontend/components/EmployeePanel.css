@@ -13,3 +13,11 @@
 .body {
     padding: 20px;
 }
+
+.inlineBlock{
+	display: inline-block;
+}
+
+.addressBox {
+	padding-left: 100px;
+}
