@@ -7,7 +7,7 @@ import request from 'superagent';
 import '../lib/base.css';
 import css from './home.css';
 
-import Results from './Results';
+import ResultsLoader from './ResultsLoader';
 import CourseProData from './models/DataLib';
 import Keys from './models/Keys';
 
@@ -46,11 +46,15 @@ class Home extends React.Component {
     super(props);
 
     this.state = {
-      searchValue: '',
-      searchResults: [],
+      results: [],
     };
 
     this.dataPromise = null;
+
+    this.searchIndex = null;
+    this.termData = null;
+    this.employeeMap = null;
+    this.employeesSearchIndex = null;
 
     this.onClick = this.onClick.bind(this);
 
@@ -152,7 +156,6 @@ class Home extends React.Component {
 
     const employeeResults = this.employeesSearchIndex.search(searchTerm, {});
 
-
     const output = [];
 
 
@@ -165,57 +168,47 @@ class Home extends React.Component {
       }
 
       if (classResults.length == 0) {
-        output.push(this.employeeMap[employeeResults[0].ref]);
+        output.push({
+          ref: employeeResults[0].ref,
+          type: 'employee'
+        });
         employeeResults.splice(0, 1);
         continue;
       }
 
       if (employeeResults.length == 0) {
-        output.push(this.termData.createClass({
-          hash: classResults[0].ref,
-          host: 'neu.edu',
-          termId: '201710',
-        }));
+
+        output.push({
+          type: 'class',
+          ref: classResults[0].ref
+        });
+
         classResults.splice(0, 1);
         continue;
       }
 
       if (classResults[0].score > employeeResults[0].score) {
-        output.push(this.termData.createClass({
-          hash: classResults[0].ref,
-          host: 'neu.edu',
-          termId: '201710',
-        }));
+        output.push({
+          type: 'class',
+          ref: classResults[0].ref
+        });
         classResults.splice(0, 1);
         continue;
       }
 
       if (classResults[0].score <= employeeResults[0].score) {
-        output.push(this.employeeMap[employeeResults[0].ref]);
+         output.push({
+          ref: employeeResults[0].ref,
+          type: 'employee'
+        });
         employeeResults.splice(0, 1);
       }
     }
 
     console.timeEnd('33')
-
-    // console.log()
-
-
-    // employeeResults.forEach((result) => {
-    //   console.log(this.employeeMap[result.ref]);
-    // });
-
-    // // console.log(employeeResults)
-
-
-    // const classes = [];
-
-    // classResults.forEach((result) => {
-    //   classes.push();
-    // });
-
+    
     this.setState({
-      classes: output,
+      results: output,
     });
   }
 
@@ -233,21 +226,6 @@ class Home extends React.Component {
 
 
   render() {
-    let resultsContainer = null;
-
-    if (this.state.classes && this.state.classes.length > 0) {
-      resultsContainer = (
-      <div className={ `ui container ${css.resultsContainer}` }>
-        <div className='five column row' >
-          <div className='page-home' >
-            <Results classes={ this.state.classes } termData={ this.termData }/>
-          </div>
-        </div>
-      </div>
-      );
-    }
-
-
     return (
       <div>
         <div id='top-header' className='ui center aligned icon header'>
@@ -272,7 +250,11 @@ class Home extends React.Component {
             /> 
           </div>
         </div>
-      { resultsContainer }
+        <ResultsLoader 
+          results = {this.state.results }
+          termData = {this.termData}
+          employeeMap = {this.employeeMap}
+        />
       </div>
     );
   }
