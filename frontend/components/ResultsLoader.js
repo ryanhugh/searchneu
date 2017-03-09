@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import ClassPanel from './ClassPanel';
 import CSSModules from 'react-css-modules';
 
+import ClassPanel from './ClassPanel';
 import css from './ResultsLoader.css';
 
 // Home page component
@@ -25,20 +25,52 @@ class ResultsLoader extends React.Component {
     this.handleInfiniteLoad();
   }
 
+
+  componentWillReceiveProps() {
+    this.alreadyLoadedAt = {};
+    this.setState({
+      show: 0,
+      visibleObjects: [],
+    });
+  }
+
+  componentDidUpdate() {
+    if (this.state.show === 0) {
+      this.addMoreObjects();
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleInfiniteLoad);
   }
 
-  addMoreObjects() {
-
-    var delta
-    // When the user is typing in the search box we only need to render enough to go past the bottom of the screen
-    // want to render as few as possible between key presses in the search box. 
-    if (this.state.show === 0) {
-      delta = 4
+  handleInfiniteLoad() {
+    console.log('results loader handleInfiniteLoad', this.props.results.length, this.state.visibleObjects.length);
+    if (this.props.results.length === 0) {
+      return;
     }
-    else {
-      delta = 10
+
+    const resultsBottom = this.refs.elementsContainer.offsetHeight + this.refs.elementsContainer.offsetTop;
+
+    const diff = window.scrollY + 2000 + window.innerHeight - resultsBottom;
+
+    // Assume about 300 px per class
+    if (diff > 0 && this.props.results.length > this.state.visibleObjects.length && !this.alreadyLoadedAt[this.state.visibleObjects.length]) {
+      this.alreadyLoadedAt[this.state.visibleObjects.length] = true;
+      console.log('triggered');
+
+      this.addMoreObjects();
+    }
+  }
+
+  addMoreObjects() {
+    let delta;
+    // When the user is typing in the search box we only need to render enough to go past the bottom of the screen
+    // want to render as few as possible between key presses in the search box.
+    if (this.state.show === 0) {
+      delta = 4;
+    } else {
+      delta = 10;
     }
 
     const newObjects = [];
@@ -78,41 +110,6 @@ class ResultsLoader extends React.Component {
     });
   }
 
-  handleInfiniteLoad() {
-    console.log('results loader handleInfiniteLoad', this.props.results.length, this.state.visibleObjects.length);
-    if (this.props.results.length === 0) {
-      return;
-    }
-
-    const resultsBottom = this.refs.elementsContainer.offsetHeight + this.refs.elementsContainer.offsetTop;
-
-    const diff = window.scrollY + 2000 + window.innerHeight - resultsBottom;
-
-    // Assume about 300 px per class
-    if (diff > 0 && this.props.results.length > this.state.visibleObjects.length && !this.alreadyLoadedAt[this.state.visibleObjects.length]) {
-      this.alreadyLoadedAt[this.state.visibleObjects.length] = true;
-      console.log('triggered')
-
-      this.addMoreObjects();
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log('results loader componentWillReceiveProps');
-    this.alreadyLoadedAt = {};
-    this.setState({
-      show: 0,
-      visibleObjects: [],
-    });
-  }
-
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.show === 0) {
-      this.addMoreObjects();
-    }
-  }
-
 
   render() {
     if (this.props.results.length === 0) {
@@ -125,15 +122,14 @@ class ResultsLoader extends React.Component {
           <div className='page-home' ref='elementsContainer'>
             {this.state.visibleObjects.map((obj) => {
               if (obj.type === 'class') {
-                return <ClassPanel id = {obj.data._id} aClass={ obj.data } />;
+                return <ClassPanel id={ obj.data._id } aClass={ obj.data } />;
               }
               // else if (obj.type === 'employee') {
               //   return <EmployeePanel id = {obj.data.id} employee = {obj.data} />
               // }
-              else {
+
                 // console.log('Uknown type', obj.type)
-                return null;
-              }
+              return null;
             })}
           </div>
         </div>
@@ -142,8 +138,10 @@ class ResultsLoader extends React.Component {
   }
 }
 
-ResultsLoader.PropTypes = {
+ResultsLoader.propTypes = {
   results: PropTypes.array.isRequired,
+  employeeMap: PropTypes.object.isRequired,
+  termData: PropTypes.object.isRequired,
 };
 
 
