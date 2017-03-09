@@ -1,11 +1,8 @@
 import React, { PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
-import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames/bind';
 
-import globe from './globe.svg';
 import css from './EmployeePanel.css';
-import macros from './macros';
 
 const cx = classNames.bind(css);
 
@@ -18,11 +15,11 @@ class EmployeePanel extends React.Component {
   render() {
     const employee = this.props.employee;
 
-    var lines = []
+    let lines = [];
     if (employee.office) {
-      lines = employee.office.split('\r\n')
+      lines = employee.office.split('\r\n');
     }
-   
+
     return (
       <div className={ `${css.container} ui segment` }>
         <div className={ css.header }>
@@ -30,7 +27,7 @@ class EmployeePanel extends React.Component {
         </div>
 
         <div className={ css.body }>
-          {employee.positions?employee.positions[0]:employee.primaryappointment}
+          {employee.positions ? employee.positions[0] : employee.primaryappointment}
           <br />
           {employee.primarydepartment}
           <br />
@@ -38,12 +35,12 @@ class EmployeePanel extends React.Component {
           <br />
           {employee.phone}
         </div>
-        <div> 
+        <div>
 
           {lines[0]}
-          <br/>
+          <br />
           {lines[1]}
-          <br/>
+          <br />
           {lines[2]}
 
         </div>
@@ -53,7 +50,7 @@ class EmployeePanel extends React.Component {
 }
 
 EmployeePanel.propTypes = {
-  aClass: PropTypes.object.isRequired,
+  employee: PropTypes.object.isRequired,
 };
 
 
