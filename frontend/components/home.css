@@ -1,4 +1,4 @@
-.test {
+\.test {
 	background: blue
 }
 .title {
@@ -8,8 +8,4 @@
 	color: "grey";
 	font-size: '29px';
 	padding-bottom: "30px";
-}
-
-.resultsContainer {
-	width: 82% !important;
 }
