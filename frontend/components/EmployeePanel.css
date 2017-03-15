@@ -18,6 +18,11 @@
 	display: inline-block;
 }
 
+.contactBox {
+    vertical-align: top;
+    min-width: 300px;
+}
+
 .addressBox {
 	padding-left: 100px;
 }

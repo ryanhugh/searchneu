@@ -114,7 +114,7 @@ class Home extends React.Component {
   // TODO This is just for testing
   async componentDidMount() {
     await this.dataPromise;
-    this.search('da');
+    this.search('huntington');
   }
 
 
