@@ -242,6 +242,9 @@ async function main() {
   for (var i = 0; i < output.length; i++) {
     var person = output[i]
     if (person.email) {
+      if (person.emails) {
+        console.warn("Person already has emails array???", person)
+      }
       person.emails = [person.email]
       person.email = undefined
     }
@@ -261,10 +264,7 @@ async function main() {
 
   // Save the file 
   await mkdirp(macros.PUBLIC_DIR);
-
   await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employees.json'), JSON.stringify(output));
-
-
 
 
   // Create a map so the frontend is faster
@@ -277,8 +277,8 @@ async function main() {
   })
 
 
+  // And save that too
   await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMap.json'), JSON.stringify(employeeMap));
-
 
 
 
