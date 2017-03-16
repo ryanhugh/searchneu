@@ -3,6 +3,9 @@ import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
 
 import css from './EmployeePanel.css';
+import globe from './globe.svg';
+
+
 
 const cx = classNames.bind(css);
 
@@ -69,11 +72,25 @@ class EmployeePanel extends React.Component {
       }
     }
 
+    let linkElement = null
+    if (employee.link) {
+      linkElement = (
+        <span className = {css.link}> 
+          <a target='_blank' rel='noopener noreferrer' className={ css.inlineBlock } href={ employee.link }>
+            <img src={ globe } alt='globe' />
+          </a>
+        </span>
+      )
+    }
+
+
+    // data-tip={ `View on ${section.host}` }
 
     return (
       <div className={ `${css.container} ui segment` }>
         <div className={ css.header }>
           {employee.name}
+          {linkElement}
         </div>
 
         <div className={ css.body }>

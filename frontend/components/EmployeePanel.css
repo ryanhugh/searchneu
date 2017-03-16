@@ -26,3 +26,8 @@
 .addressBox {
 	padding-left: 100px;
 }
+
+.link {
+    opacity: .8;
+    float: right;
+}
