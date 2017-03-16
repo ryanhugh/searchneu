@@ -107,12 +107,6 @@ class EmployeePanel extends React.Component {
 
     links = this.constructor.injectBRs(links)
 
-  // "link": "http://www.ccis.northeastern.edu/people/amal-ahmed/",
-  // "personalSite": "http://www.ccs.neu.edu/home/amal/",
-  // 'https://scholar.google.com/citations?user=' + googleScholarId + '&hl=en&oi=ao'
-  // "googleScholarId": "Y1C007wAAAAJ",
-
-
     // data-tip={ `View on ${section.host}` }
 
     return (
