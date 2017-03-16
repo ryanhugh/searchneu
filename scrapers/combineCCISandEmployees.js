@@ -20,8 +20,6 @@ import neuEmployees from './neuEmployees';
 // Or maybe if keeping employee name put the first name first so it is in the same order as the ccis name
 // Names on the output from this file are "bob smith" and not "smith, bob", even if there was no match
 
-// Could also keep both emails if used different ones on each site
-
 // Possible checks:
 // How often people have conflicting data field when merging (eg different phone numbers)
 
