@@ -13,6 +13,21 @@ const cx = classNames.bind(css);
 // name, id, phone, emails, primaryappointment, primarydepartment, link, positions, office, personalSite, bigPictureLink
 class EmployeePanel extends React.Component {
 
+  static injectBRs(arr) {
+    let retVal = []
+
+    // Add <br/>s between the elements
+    for (let i = 0; i < arr.length; i++) {
+      const element = arr[i];
+      retVal.push(element);
+      if (arr.length - 1 !== i) {
+        retVal.push(<br key={ i } />);
+      }
+    }
+
+    return retVal
+  }
+
   render() {
     const employee = this.props.employee;
 
@@ -62,17 +77,8 @@ class EmployeePanel extends React.Component {
       contactText.push(<a href={ `tel:${phoneText}` }>{phoneText}</a>);
     }
 
-    const contactElements = [];
-
-
     // Add <br/>s between the elements
-    for (let i = 0; i < contactText.length; i++) {
-      const element = contactText[i];
-      contactElements.push(element);
-      if (contactText.length - 1 !== i) {
-        contactElements.push(<br key={ i } />);
-      }
-    }
+    const contactElements = this.constructor.injectBRs(contactText)
 
     let linkElement = null
     if (employee.link) {
@@ -84,6 +90,27 @@ class EmployeePanel extends React.Component {
         </span>
       )
     }
+
+
+    var links = []
+    if (employee.link) {
+      links.push(<a target='_blank' rel='noopener noreferrer' href={employee.link}>CCIS Profile</a>)
+    }
+
+    if (employee.personalSite) {
+      links.push(<a target='_blank' rel='noopener noreferrer' href={employee.personalSite}>Personal Website</a>)
+    }
+
+    if (employee.googleScholarId) {
+      links.push(<a target='_blank' rel='noopener noreferrer' href={'https://scholar.google.com/citations?user=' + employee.googleScholarId + '&hl=en&oi=ao'}>Google Scholar</a>)
+    }
+
+    links = this.constructor.injectBRs(links)
+
+  // "link": "http://www.ccis.northeastern.edu/people/amal-ahmed/",
+  // "personalSite": "http://www.ccs.neu.edu/home/amal/",
+  // 'https://scholar.google.com/citations?user=' + googleScholarId + '&hl=en&oi=ao'
+  // "googleScholarId": "Y1C007wAAAAJ",
 
 
     // data-tip={ `View on ${section.host}` }
@@ -101,6 +128,9 @@ class EmployeePanel extends React.Component {
           </div>
           <div className={ css.inlineBlock +' '+ css.addressBox }>
             {officeElements}
+          </div>
+          <div className={ css.inlineBlock +' '+ css.addressBox }>
+            {links}
           </div>
         </div>
       </div>
