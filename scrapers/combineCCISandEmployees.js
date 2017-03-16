@@ -112,10 +112,25 @@ function mergePeople(ccisProf, employee) {
 
   const output = {};
 
+  var ccisEmail = ccisProf.email
+  var employeeEmail = employee.email
+
   // Name is taken from the ccis profile because it is better data source.
   // For people with multiple middle names and such, it seems to include just the importiant ones.
-
   Object.assign(output, employee, ccisProf);
+
+  // Clear out the email, because we are going to save an array of both instead
+  output.email = undefined
+
+  // Keep both emails
+  output.emails = []
+  if (ccisEmail) {
+    output.emails.push(ccisEmail)
+  }
+
+  if (employeeEmail && employeeEmail !== ccisEmail) {
+    output.emails.push(employeeEmail)
+  }
 
   return output;
 }
@@ -223,12 +238,14 @@ async function main() {
 
   console.log(output.length, employees.length, ccis.length);
 
-  await mkdirp(macros.PUBLIC_DIR);
-
-  await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employees.json'), JSON.stringify(output));
-
-
-
+  // Swap the single email to an array to match with the people who were matched between ccis and employee
+  for (var i = 0; i < output.length; i++) {
+    var person = output[i]
+    if (person.email) {
+      person.emails = [person.email]
+      person.email = undefined
+    }
+  }
   
 
   // Add IDs to people that don't have them (when only from the ccis directory)
@@ -239,6 +256,15 @@ async function main() {
 
     output[index].id = String(index) + String(Math.random()) + person.name
   })
+
+
+
+  // Save the file 
+  await mkdirp(macros.PUBLIC_DIR);
+
+  await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employees.json'), JSON.stringify(output));
+
+
 
 
   // Create a map so the frontend is faster
