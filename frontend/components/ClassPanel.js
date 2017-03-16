@@ -195,7 +195,7 @@ class ClassPanel extends React.Component {
     if (aClass.maxCredits === aClass.minCredits) {
       creditsString = `${aClass.minCredits} credits`;
     } else {
-      creditsString = `${aClass.maxCredits} to ${aClass.minCredits} credits`;
+      creditsString = `${aClass.minCredits} to ${aClass.maxCredits} credits`;
     }
 
 
