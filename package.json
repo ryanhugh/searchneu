@@ -2,7 +2,8 @@
   "name": "redux-minimal",
   "version": "1.0.0",
   "scripts": {
-    "start": "babel-node backend/server.js"
+    "start": "babel-node backend/server.js",
+    "scrape": "babel-node scrapers/main.js"
   },
   "babel": {
     "presets": [
