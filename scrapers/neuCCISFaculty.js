@@ -191,7 +191,6 @@ async function main() {
     }
   }
 
-
   const peopleObjects = await scrapePeopleList();
 
   const promises = [];
