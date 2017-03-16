@@ -10,7 +10,7 @@ import globe from './globe.svg';
 const cx = classNames.bind(css);
 
 
-// name, id, phone, email, primaryappointment, primarydepartment, link, positions, office, personalSite, bigPictureLink
+// name, id, phone, emails, primaryappointment, primarydepartment, link, positions, office, personalSite, bigPictureLink
 class EmployeePanel extends React.Component {
 
   render() {
@@ -43,8 +43,10 @@ class EmployeePanel extends React.Component {
     if (employee.primarydepartment) {
       contactText.push(employee.primarydepartment);
     }
-    if (employee.email) {
-      contactText.push(<a href={ `mailto:${employee.email}` }>{employee.email}</a>);
+    if (employee.emails) {
+      employee.emails.forEach(function(email, index) {
+        contactText.push(<a href={ `mailto:${email}` }>{email}</a>);
+      })
     }
 
     if (employee.phone) {

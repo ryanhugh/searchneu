@@ -2,6 +2,8 @@ import combineCCISandEmployees from './combineCCISandEmployees'
 import courseproData from './courseproData'
 import neuClubs from './neuClubs'
 
+// Main file for scraping
+// Run this to run all the scrapers
 
 
 if (process.env.TRAVIS_EVENT_TYPE != 'cron' && process.env.TRAVIS) {
