@@ -45,7 +45,7 @@ class EmployeePanel extends React.Component {
     }
     if (employee.emails) {
       employee.emails.forEach(function(email, index) {
-        contactText.push(<a href={ `mailto:${email}` }>{email}</a>);
+        contactText.push(<a key={email} href={ `mailto:${email}` }>{email}</a>);
       })
     }
 
