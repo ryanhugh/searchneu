@@ -224,7 +224,7 @@ class Home extends React.Component {
       <div>
         <div id='top-header' className='ui center aligned icon header'>
           <h1 className={ css.title }> 
-            Class Search 
+            Search 
           </h1>
           <h3 className={ css.subtitle }>
            For Northeastern
