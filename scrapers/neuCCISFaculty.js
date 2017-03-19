@@ -5,6 +5,8 @@ import mkdirp from 'mkdirp-promise';
 import path from 'path';
 import URI from 'urijs';
 import Throttle from 'superagent-throttle'
+
+import utils from './utils'
 import macros from './macros';
 
 
@@ -78,19 +80,16 @@ async function scrapePeopleList() {
 
     // also email
     if (emailElements.length > 0) {
-      const email = emailElements.text().trim();
-      let mailto = emailElements.attr('href').trim();
+      const email = utils.standardizeEmail(emailElements.text().trim());
+      let mailto = utils.standardizeEmail(emailElements.attr('href').trim());
 
 
-      if (mailto.startsWith('mailto:')) {
-        mailto = mailto.slice('mailto:'.length);
+      if (!mailto || !email || mailto !== email) {
+        console.log("Warning: bad emails?", email, mailto, obj.name)
       }
-
-      if (mailto !== email) {
-        console.log('Error bad emails?', email, mailto);
+      else {
+        obj.email = email;
       }
-
-      obj.email = email;
     }
 
 
@@ -101,21 +100,14 @@ async function scrapePeopleList() {
 
       let tel = phoneElements.attr('href').trim();
 
-      if (tel.startsWith('tel:')) {
-        tel = tel.slice('tel:');
-      }
+      tel = utils.standardizePhone(tel)
+      phone = utils.standardizePhone(phone)
 
-      phone = phone.replace(/[^0-9]/gi, '');
-      tel = tel.replace(/[^0-9]/gi, '');
-
-      if (tel.length !== 0 || phone.length !== 0) {
-        if (tel !== phone) {
+      if (tel || phone) {
+        if (!tel || !phone || tel !== phone) {
           console.log('phone tel mismatch', tel, phone, obj);
         }
-
-        if (phone.length !== 10) {
-          console.log('?????', phone, tel);
-        } else if (phone) {
+        else {
           obj.phone = phone;
         }
       }

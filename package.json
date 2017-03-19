@@ -59,7 +59,7 @@
     "redux-form": "^6.4.3",
     "redux-saga": "^0.14.3",
     "remove-accents": "^0.4.0",
-    "request": "^2.79.0",
+    "request": "^2.81.0",
     "request-promise-native": "^1.0.3",
     "resolve-url-loader": "^1.6.1",
     "rmp-api": "^1.2.5",
