@@ -7,6 +7,14 @@ import path from 'path';
 import macros from './macros';
 
 
+// TODO
+// might be able to scrape events off facebook pages for more info on when they are meeting
+// looks like a lot of them havae outdated/missing/incorrect/unparssable timestamps of when they are meeting on here ewwww
+// but there is probably enough to get a proof of concept working
+// could email to verify
+// 
+
+// http://neu.orgsync.com/student_orgs
 // Example schema:
 //   { audience: 'Undergraduate',
 //     organizationemailaddress: '[redacted]@gmail.com',
@@ -102,8 +110,8 @@ async function scrapeDetails(url) {
 }
 
 
-async function scrapeLetter(letter) {
-  const resp = await request.post(`http://neu.orgsync.com/search/get_orgs_by_letter/${letter.toUpperCase()}`);
+async function scrapeLetterAndPage(letter, pageNum) {
+ const resp = await request.post(`http://neu.orgsync.com/search/get_orgs_by_letter/${letter.toUpperCase()}?page=${pageNum}`);
 
   // Abstract Syntax Trees are the data structure that is used to parse programming languages (like javascript)
   // Like, the first step of running a programming language is to parse it into a AST
@@ -144,6 +152,31 @@ async function scrapeLetter(letter) {
 }
 
 
+async function scrapeLetter(letter) {
+  var totalOrgs = []
+
+  var pageNum = 1
+
+  // Each letter is pagenated
+  // Increment the page number until hit a page with no results
+  while (true) {
+    var orgs = await scrapeLetterAndPage(letter, pageNum)
+    console.log(letter, 'page#', pageNum, 'had', orgs.length, 'orgs now at ', orgs.length);
+    pageNum ++
+    if (orgs.length === 0) {
+      return totalOrgs
+    }
+
+    if (pageNum > 30) {
+      console.log('Warning! Hit 30 page max, returning')
+      return totalOrgs
+    }
+
+    totalOrgs = totalOrgs.concat(orgs)
+  }
+}
+
+
 async function main() {
   let orgs = [];
 
@@ -151,7 +184,6 @@ async function main() {
 
   macros.ALPHABET.split('').forEach((letter) => {
     promises.push(scrapeLetter(letter).then((someOrgs) => {
-      console.log(letter, 'had', someOrgs.length, 'orgs now at ', orgs.length);
       orgs = orgs.concat(someOrgs);
     }));
   });
