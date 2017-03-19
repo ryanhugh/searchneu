@@ -2,3 +2,4 @@ node_modules/
 yarn-error.log
 compiled_frontend
 dev_data_dir
+test.js
