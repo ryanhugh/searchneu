@@ -25,9 +25,13 @@ import dns from 'dns-then';
 // Attributes are added to this object when it is used
 // This is the total number of requests per host
 // https://github.com/request/request
-const separateReqPool = { maxSockets: 10000, keepAlive: true, maxFreeSockets: 10000 };
+const separateReqDefaultPool = { maxSockets: 10000, keepAlive: true, maxFreeSockets: 10000 };
 
-const MAX_RETRY_COUNT = 3;
+const separateReqPools = {
+  'www.ccis.northeastern.edu': { maxSockets: 10, keepAlive: true, maxFreeSockets: 10 }
+}
+
+const MAX_RETRY_COUNT = 35;
 
 const RETRY_DELAY = 20000
 const RETRY_DELAY_DELTA = 15000
@@ -88,12 +92,15 @@ class Request {
   async fireRequest(config) {
     config = this.standardizeInputConfig(config);
 
+
     // Default to JSON for POST bodies
     if (config.method === 'POST' && !config.headers['Content-Type']) {
       config.headers['Content-Type'] = 'application/json';
     }
 
     const urlParsed = new URI(config.url);
+
+    const hostname = urlParsed.hostname()
 
     const dnsResults = await this.getDns(urlParsed.hostname());
 
@@ -128,8 +135,12 @@ class Request {
     }
 
     // Enable keep-alive to make sequential requests faster
-    // config.forever = true
-    defaultConfig.pool = separateReqPool;
+    if (separateReqPools[hostname]) {
+      defaultConfig.pool = separateReqPools[hostname];
+    }
+    else {
+      defaultConfig.pool = separateReqDefaultPool;
+    }
 
     //Ten min
     defaultConfig.timeout = 60 * 10000;
@@ -144,7 +155,9 @@ class Request {
 
     // Set the host in the header to the hostname on the url.
     // This is not done automatically because of the application layer dns caching (it would be set to the ip instead)
-    defaultConfig.headers.Host = urlParsed.hostname();
+    defaultConfig.headers.Host = hostname
+
+    defaultConfig.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:24.0) Gecko/20100101 Firefox/24.0'
 
 
     //trololololol
@@ -211,7 +224,7 @@ class Request {
         } catch (err) {
           // Most sites just give a ECONNRESET or ETIMEDOUT, but dccc also gives a EPROTO and ECONNREFUSED.
           // This will retry for any error code.
-          console.log('Try#:', tryCount, 'Code:', err, ' Open request count: ', this.openRequests, 'Url:', config.url);
+          console.log('Try#:', tryCount, 'Code:', err.statusCode || err, ' Open request count: ', this.openRequests, 'Url:', config.url);
           callback(err);
           return;
         }

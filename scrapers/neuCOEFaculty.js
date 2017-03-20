@@ -22,7 +22,7 @@ import macros from './macros';
 async function scrapeDetailpage(obj) {
   const resp = await request.get('http://www.ece.neu.edu/people/erdogmus-deniz');
 
-  const $ = cheerio.load(resp.text);
+  const $ = cheerio.load(resp.body);
   debugger;
 
   // full resolution image
@@ -65,7 +65,7 @@ async function scrapeDetailpage(obj) {
 async function scrapeLetter(letter) {
   const resp = await request.get(`http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=${letter.toUpperCase()}`)
 
-  const $ = cheerio.load(resp.text);
+  const $ = cheerio.load(resp.body);
 
   const peopleElements = $('div.item-list > ul > li.views-row');
 
