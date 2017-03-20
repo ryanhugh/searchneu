@@ -1,11 +1,11 @@
-import request from 'superagent';
+// import request from 'superagent';
 import cheerio from 'cheerio';
 import fs from 'fs-promise';
 import mkdirp from 'mkdirp-promise';
 import path from 'path';
 import URI from 'urijs';
-import Throttle from 'superagent-throttle';
 
+import request from './request'
 import utils from './utils';
 import macros from './macros';
 
@@ -14,21 +14,6 @@ import macros from './macros';
 
 // Could parse a lot more from each page
 // Phone numbers with extentions are not parsed http://www.civ.neu.edu/people/patterson-mark
-
-
-
-
-let throttle = new Throttle({
-  active: true,     // set false to pause queue
-  rate: 20,          // how many requests can be sent every `ratePer`
-  ratePer: 10000,   // number of ms in which `rate` requests may be sent
-  concurrent: 5     // how many requests can be sent concurrently
-})
-.on('sent', (request) => { console.log('sent') }) // sent a request
-.on('received', (request) => { console.log('received') }) // received a response
-.on('drained', () => { console.log('drained') }) // received last response
-
-
 
 
 // http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=A
@@ -78,7 +63,7 @@ async function scrapeDetailpage(obj) {
 
 
 async function scrapeLetter(letter) {
-  const resp = await request.get(`http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=${letter.toUpperCase()}`).use(throttle.plugin());
+  const resp = await request.get(`http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=${letter.toUpperCase()}`)
 
   const $ = cheerio.load(resp.text);
 
