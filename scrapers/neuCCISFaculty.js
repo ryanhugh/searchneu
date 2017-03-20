@@ -1,11 +1,10 @@
-import request from 'superagent';
 import cheerio from 'cheerio';
 import fs from 'fs-promise';
 import mkdirp from 'mkdirp-promise';
 import path from 'path';
 import URI from 'urijs';
-import Throttle from 'superagent-throttle'
 
+import request from './request';
 import utils from './utils'
 import macros from './macros';
 
@@ -29,18 +28,6 @@ import macros from './macros';
   // "bigPictureLink": "http://www.ccis.northeastern.edu/wp-content/uploads/2016/03/Amal-Ahmed-hero-image.jpg"
 
 
-
-let throttle = new Throttle({
-  active: true,     // set false to pause queue
-  rate: 20,          // how many requests can be sent every `ratePer`
-  ratePer: 10000,   // number of ms in which `rate` requests may be sent
-  concurrent: 5     // how many requests can be sent concurrently
-})
-.on('sent', (request) => { console.log('sent') }) // sent a request
-.on('received', (request) => { console.log('received') }) // received a response
-.on('drained', () => { console.log('drained') }) // received last response
-
-
 // There were a few people that put non-google urls on the google url field. 
 // These links are ignored at the moment. 
 // They could be used in place of the personal website link, but there were only a few professors and most of them had personal website links too. 
@@ -48,9 +35,9 @@ let throttle = new Throttle({
 
 
 async function scrapePeopleList() {
-  const resp = await request('http://www.ccis.northeastern.edu/people-view-all/');
+  const resp = await request.get('http://www.ccis.northeastern.edu/people-view-all/');
 
-  const $ = cheerio.load(resp.text);
+  const $ = cheerio.load(resp.body);
 
   const output = [];
 
@@ -125,22 +112,11 @@ async function scrapePeopleList() {
   return output;
 }
 
-var count = 0
 
 async function scrapeDetailpage(obj) {
-  count ++
-  console.log('count is ', count)
-  let resp
-  try {
-    resp = await request(obj.link).use(throttle.plugin()).retry(10)
-  }
-  catch (e) {
-    console.log(e)
-  }
+  let resp = await request.get(obj.link)
 
-  count --
-
-  const $ = cheerio.load(resp.text);
+  const $ = cheerio.load(resp.body);
 
   const office = $('div.contact-block > div.address > p').text();
   if (office) {
@@ -176,7 +152,7 @@ async function main() {
   const outputFile = path.join(macros.DEV_DATA_DIR, 'ccis.json')
 
   // if this is dev and this data is already scraped, just return the data
-  if (macros.DEV) {
+  if (macros.DEV && require.main !== module) {
     var exists = await fs.exists(outputFile)
     if (exists) {
       return require(outputFile)
