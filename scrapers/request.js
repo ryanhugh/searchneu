@@ -218,7 +218,6 @@ class Request {
       }, async (callback) => {
         let response;
         tryCount++;
-        console.log('firing request to ', config.url)
         try {
           response = await this.fireRequest(config);
         } catch (err) {
@@ -234,7 +233,7 @@ class Request {
           console.log('Try#:', tryCount, 'Warning, body did not contain specified text', response.body.length, response.statusCode, this.openRequests, config.url);
           callback('Body missing required text.');
           return;
-        } else if (response.body.length < 4000) {
+        } else if (response.body.length < 4000 && !config.shortBodyWarning === false) {
           console.log('Warning, short body', config.url, response.body, this.openRequests);
         }
 
