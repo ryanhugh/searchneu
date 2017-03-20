@@ -1,9 +1,10 @@
-import request from 'superagent';
 import * as acorn from 'acorn';
 import cheerio from 'cheerio';
 import fs from 'fs-promise';
 import mkdirp from 'mkdirp-promise';
 import path from 'path';
+
+import request from './request';
 import macros from './macros';
 
 
@@ -12,7 +13,7 @@ import macros from './macros';
 // looks like a lot of them havae outdated/missing/incorrect/unparssable timestamps of when they are meeting on here ewwww
 // but there is probably enough to get a proof of concept working
 // could email to verify
-// 
+//
 
 // http://neu.orgsync.com/student_orgs
 // Example schema:
@@ -36,7 +37,10 @@ async function scrapeDetails(url) {
   console.log(url);
 
   // Fire a get to that url
-  const detailHtml = (await request.get(url)).text;
+  const detailHtml = (await request.get({
+    url: url,
+    shortBodyWarning: false,
+  })).body;
 
   // load the new html
   const $ = cheerio.load(detailHtml);
@@ -111,7 +115,10 @@ async function scrapeDetails(url) {
 
 
 async function scrapeLetterAndPage(letter, pageNum) {
- const resp = await request.post(`http://neu.orgsync.com/search/get_orgs_by_letter/${letter.toUpperCase()}?page=${pageNum}`);
+  const resp = await request.post({
+    shortBodyWarning: false,
+    url: `http://neu.orgsync.com/search/get_orgs_by_letter/${letter.toUpperCase()}?page=${pageNum}`,
+  });
 
   // Abstract Syntax Trees are the data structure that is used to parse programming languages (like javascript)
   // Like, the first step of running a programming language is to parse it into a AST
@@ -119,7 +126,7 @@ async function scrapeLetterAndPage(letter, pageNum) {
   // and then compile it to machine code (if it is something like C)
   // or just run the AST directly (like python or js)
   // google for more info, feel free to log this directly
-  const ast = acorn.parse(resp.text);
+  const ast = acorn.parse(resp.body);
 
   // The reponse that we get back from that url is two lines of JS code
   // We are looking for the string arguments in the second line
@@ -153,26 +160,26 @@ async function scrapeLetterAndPage(letter, pageNum) {
 
 
 async function scrapeLetter(letter) {
-  var totalOrgs = []
+  let totalOrgs = [];
 
-  var pageNum = 1
+  let pageNum = 1;
 
   // Each letter is pagenated
   // Increment the page number until hit a page with no results
   while (true) {
-    var orgs = await scrapeLetterAndPage(letter, pageNum)
+    const orgs = await scrapeLetterAndPage(letter, pageNum);
     console.log(letter, 'page#', pageNum, 'had', orgs.length, 'orgs now at ', orgs.length);
-    pageNum ++
+    pageNum++;
     if (orgs.length === 0) {
-      return totalOrgs
+      return totalOrgs;
     }
 
     if (pageNum > 30) {
-      console.log('Warning! Hit 30 page max, returning')
-      return totalOrgs
+      console.log('Warning! Hit 30 page max, returning');
+      return totalOrgs;
     }
 
-    totalOrgs = totalOrgs.concat(orgs)
+    totalOrgs = totalOrgs.concat(orgs);
   }
 }
 
