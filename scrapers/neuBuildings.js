@@ -1,4 +1,3 @@
-import request from 'superagent';
 import cheerio from 'cheerio';
 import fs from 'fs-promise';
 import mkdirp from 'mkdirp-promise';
@@ -7,6 +6,7 @@ import URI from 'urijs';
 import tj from '@mapbox/togeojson';
 import DOMParser from 'xmldom';
 
+import request from './request';
 import macros from './macros';
 
 
@@ -63,7 +63,7 @@ async function main() {
 
   const resp = await request.get('www.northeastern.edu/neuhome/about/maps.html');
 
-  const $ = cheerio.load(resp.text);
+  const $ = cheerio.load(resp.body);
 
   const googleMapSrc = $('#campus-map > iframe').attr('src');
 
@@ -71,7 +71,7 @@ async function main() {
 
   const kmlRequest = await request.get(`https://www.google.com/maps/d/u/0/kml?forcekml=1&mid=${mid}`);
 
-  const json = tj.kml(new DOMParser.DOMParser().parseFromString(kmlRequest.text));
+  const json = tj.kml(new DOMParser.DOMParser().parseFromString(kmlRequest.body));
 
   console.log(json.features.length);
 
