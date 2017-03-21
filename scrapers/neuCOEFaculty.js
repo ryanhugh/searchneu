@@ -1,4 +1,3 @@
-// import request from 'superagent';
 import cheerio from 'cheerio';
 import fs from 'fs-promise';
 import mkdirp from 'mkdirp-promise';
