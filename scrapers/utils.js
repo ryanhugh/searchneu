@@ -44,3 +44,14 @@ exports.standardizePhone = function standardizePhone(phone) {
 
   return digitsOnly;
 };
+
+exports.parseGoogleScolarLink = function parseGoogleScolarLink(link) {
+  if (googleScholarLink) {
+    const userId = new URI(googleScholarLink).query(true).user;
+    if (!userId && googleScholarLink) {
+      console.log('Error parsing google url', googleScholarLink);
+    } else {
+      obj.googleScholarId = userId;
+    }
+  }
+}

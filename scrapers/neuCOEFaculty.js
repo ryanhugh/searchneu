@@ -26,39 +26,50 @@ async function scrapeDetailpage(obj) {
   debugger;
 
   // full resolution image
-  $('#faculty-profile > div.upper-content > div > div.left-content > a').attr('href');
+  obj.profilePic = $('#faculty-profile > div.upper-content > div > div.left-content > a').attr('href');
 
 
   // linkedin link
-  $('div.field-name-field-nucoe-social-link-url > div > div > a.linkedin').attr('href');
+  obj.linkedin = $('div.field-name-field-nucoe-social-link-url > div > div > a.linkedin').attr('href');
 
-  $('div.field-name-field-nucoe-social-link-url > div > div > a.googlescholar').attr('href');
+  const googleScholarLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.googlescholar').attr('href');
+
+  const userId = utils.parseGoogleScolarLink(googleScholarLink);
+  if (userId) {
+    obj.googleScholarId = userId;
+  }
 
 
-  $('div.field-name-field-nucoe-social-link-url > div > div > a.youtube').attr('href');
+  obj.youtubeLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.youtube').attr('href');
 
   // example of person who has multiple roles in departments
   // http://www.che.neu.edu/people/ebong-eno
   // Position and department
-  $('div.field-collection-container > div.faculty-roles > div.faculty-roles__role', $(items[0]));
+  var roles = $('div.field-collection-container > div.faculty-roles > div.faculty-roles__role');
+  for (var i = 0; i < roles.length; i++) {
 
-  // position (includes trailing comma)
-  $('div.field-collection-container > div.faculty-roles > div.faculty-roles__role', $(items[0]))[0].children[0].data;
+    const position = roles[i].children[0].data
+    const department = $('a', $(roles[i])).text()
+    console.log(postition, department)
+  }
 
-
-  // department
-  $('div.field-collection-container > div.faculty-roles > div.faculty-roles__role > a', $(items[0])).text();
-
-// address
-  $('div.faculty-profile__address').text().trim().replace(/[\n\r]+\s*/gi, '\n');
+  // address
+  obj.office = $('div.faculty-profile__address').text().trim().replace(/[\n\r]+\s*/gi, '\n');
 
     // might be more than one of these, need to check .text() for each one
     // if text matches Faculty Website then get href
     // also need to do head checks or get checks to make sure their site is up
-  $($('div.field-name-field-faculty-links a')[0]).text();
 
+    let links = $('div.field-name-field-faculty-links a')
+    for (var i = 0; i < links.length; i++) {
 
-  debugger;
+      const href = $('a', $(links[i])).attr('href')
+      const text = $(links[i]).text()
+
+      console.log(href, text)
+    }
+
+    console.log(obj)
 }
 
 
@@ -155,5 +166,5 @@ async function main() {
 exports.go = main;
 
 if (require.main === module) {
-  main();
+  scrapeDetailpage()
 }
