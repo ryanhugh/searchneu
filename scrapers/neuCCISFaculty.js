@@ -129,13 +129,10 @@ async function scrapeDetailpage(obj) {
   }
 
   const googleScholarLink = $('div.contact-block > div.contact-links > p.google-scholar > a').attr('href');
-  if (googleScholarLink) {
-    const userId = new URI(googleScholarLink).query(true).user;
-    if (!userId && googleScholarLink) {
-      console.log('Error parsing google url', googleScholarLink);
-    } else {
-      obj.googleScholarId = userId;
-    }
+
+  const userId = utils.parseGoogleScolarLink(googleScholarLink);
+  if (userId) {
+    obj.googleScholarId = userId;
   }
 
   obj.bigPictureLink = $('header.people-header > div.section-inner > img').attr('src');
