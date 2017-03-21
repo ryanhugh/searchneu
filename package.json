@@ -4,7 +4,7 @@
   "scripts": {
     "start": "babel-node backend/server.js",
     "scrape": "babel-node scrapers/main.js",
-    "build": "cross-env NODE_ENV=prod webpack --config ./backend/webpack.config.babel.js --profile --colors",
+    "build": "cross-env NODE_ENV=prod webpack --config ./backend/webpack.config.babel.js --profile --colors"
   },
   "babel": {
     "presets": [
