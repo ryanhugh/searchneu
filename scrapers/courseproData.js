@@ -44,7 +44,6 @@ function getHash(obj) {
 async function main() {
   const hosts = await fireRequest('/listColleges');
 
-  console.log(hosts);
   let promises = [];
 
   hosts.forEach((host) => {

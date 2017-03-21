@@ -64,11 +64,11 @@ class Home extends React.Component {
   async loadData() {
     const promises = [];
 
-    promises.push(request('/getSearchIndex/neu.edu/201730').then((res) => {
+    promises.push(request('/getSearchIndex/neu.edu/201810').then((res) => {
       this.searchIndex = elasticlunr.Index.load(JSON.parse(res.text));
     }));
 
-    promises.push(request('/getTermDump/neu.edu/201730').then((res) => {
+    promises.push(request('/getTermDump/neu.edu/201810').then((res) => {
       this.termData = CourseProData.loadData(JSON.parse(res.text));
     }));
 
@@ -80,7 +80,7 @@ class Home extends React.Component {
       this.employeesSearchIndex = elasticlunr.Index.load(JSON.parse(res.text));
     }));
 
-    this.dataPromise = Promise.all(promises).then((argument) => {
+    this.dataPromise = Promise.all(promises).then(() => {
       // TODO remove
       // test go through classes and make sure they are all in sections?
       // 3 invalid crns (or missing sections?) were found with this code
@@ -151,7 +151,7 @@ class Home extends React.Component {
     // Returns an array of objects that has a .ref and a .score
     // The array is sorted by score (with the highest matching closest to the beginning)
     // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
-    let classResults = this.searchIndex.search(searchTerm, searchConfig);
+    const classResults = this.searchIndex.search(searchTerm, searchConfig);
 
     const employeeResults = this.employeesSearchIndex.search(searchTerm, {});
 
@@ -159,24 +159,23 @@ class Home extends React.Component {
 
     // This takes no time at all, never more than 2ms and usally <1ms
     while (true) {
-      if (classResults.length == 0 && employeeResults.length === 0) {
+      if (classResults.length === 0 && employeeResults.length === 0) {
         break;
       }
 
-      if (classResults.length == 0) {
+      if (classResults.length === 0) {
         output.push({
           ref: employeeResults[0].ref,
-          type: 'employee'
+          type: 'employee',
         });
         employeeResults.splice(0, 1);
         continue;
       }
 
-      if (employeeResults.length == 0) {
-
+      if (employeeResults.length === 0) {
         output.push({
           type: 'class',
-          ref: classResults[0].ref
+          ref: classResults[0].ref,
         });
 
         classResults.splice(0, 1);
@@ -186,16 +185,16 @@ class Home extends React.Component {
       if (classResults[0].score > employeeResults[0].score) {
         output.push({
           type: 'class',
-          ref: classResults[0].ref
+          ref: classResults[0].ref,
         });
         classResults.splice(0, 1);
         continue;
       }
 
       if (classResults[0].score <= employeeResults[0].score) {
-         output.push({
+        output.push({
           ref: employeeResults[0].ref,
-          type: 'employee'
+          type: 'employee',
         });
         employeeResults.splice(0, 1);
       }
@@ -223,8 +222,8 @@ class Home extends React.Component {
     return (
       <div>
         <div id='top-header' className='ui center aligned icon header'>
-          <h1 className={ css.title }> 
-            Search 
+          <h1 className={ css.title }>
+            Search
           </h1>
           <h3 className={ css.subtitle }>
            For Northeastern
@@ -232,7 +231,7 @@ class Home extends React.Component {
           <div id='search-wrapper' className='sub header'>
             <label>
               <i className='search icon' />
-            </label> 
+            </label>
             <input
               autoFocus type='search'
               id='seach_id'
@@ -241,13 +240,13 @@ class Home extends React.Component {
               spellCheck='false'
               tabIndex='0'
               onChange={ this.onClick }
-            /> 
+            />
           </div>
         </div>
-        <ResultsLoader 
-          results = {this.state.results }
-          termData = {this.termData}
-          employeeMap = {this.employeeMap}
+        <ResultsLoader
+          results={ this.state.results }
+          termData={ this.termData }
+          employeeMap={ this.employeeMap }
         />
       </div>
     );

@@ -84,7 +84,7 @@ class ResultsLoader extends React.Component {
         const aClass = this.props.termData.createClass({
           hash: result.ref,
           host: 'neu.edu',
-          termId: '201710',
+          termId: '201810',
         });
 
         newObjects.push({
