@@ -1,8 +1,9 @@
 import path from 'path'
 
-exports.PUBLIC_DIR = path.join('..', 'compiled_frontend')
+exports.PUBLIC_DIR = path.join('..', 'data_dir')
 exports.DEV_DATA_DIR = path.join('..', 'dev_data_dir')
 
+// For iterating over every letter in a couple different places in the code
 exports.ALPHABET = 'qwertyuiopasdfghjklzxcvbnm';
 
 // whether the scrapers are running in prod mode or not. 

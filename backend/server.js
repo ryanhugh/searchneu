@@ -28,13 +28,14 @@ const middleware = webpackMiddleware(compiler, {
 })
 
 
-app.use(express.static('compiled_frontend'))
+app.use(express.static('.'))
 
 
 app.use(middleware)
 app.use(webpackHotMiddleware(compiler))
 
 app.get('*', (req, res) => {
+	console.log(req.url)
 	res.write(middleware.fileSystem.readFileSync(path.join(webpackConfig.output.path, 'index.html')))
 	res.end()
 })

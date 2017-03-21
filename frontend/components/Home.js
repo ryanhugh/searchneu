@@ -64,19 +64,19 @@ class Home extends React.Component {
   async loadData() {
     const promises = [];
 
-    promises.push(request('/getSearchIndex/neu.edu/201810').then((res) => {
+    promises.push(request('/data/getSearchIndex/neu.edu/201810').then((res) => {
       this.searchIndex = elasticlunr.Index.load(JSON.parse(res.text));
     }));
 
-    promises.push(request('/getTermDump/neu.edu/201810').then((res) => {
+    promises.push(request('/data/getTermDump/neu.edu/201810').then((res) => {
       this.termData = CourseProData.loadData(JSON.parse(res.text));
     }));
 
-    promises.push(request('/employeeMap.json').then((res) => {
+    promises.push(request('/data/employeeMap.json').then((res) => {
       this.employeeMap = JSON.parse(res.text);
     }));
 
-    promises.push(request('/employeesSearchIndex.json').then((res) => {
+    promises.push(request('/data/employeesSearchIndex.json').then((res) => {
       this.employeesSearchIndex = elasticlunr.Index.load(JSON.parse(res.text));
     }));
 
