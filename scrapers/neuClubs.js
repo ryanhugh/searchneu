@@ -99,14 +99,44 @@ async function scrapeDetails(url) {
   }
 
   // Slurp up the name
-  const name = $('#full_profile > h2').text().trim();
-  obj.name = name;
+  obj.name = $('#full_profile > h2').text().trim();
 
   // and get link jawn too
-  const site = $('#org_extranet_url > a');
-  if (site.length > 0) {
-    obj.site = site[0].attribs.href;
+  obj.site = $('#org_extranet_url > a').attr('href')
+
+  // Scrape the organization portal link too. 
+  obj.orgPortalLink = $('#org-portal-link > strong > a').attr('href')
+
+
+  // Scrape description and category
+  const possibleElements = $('#org_profile_info > ul > li')
+  for (var i = 0; i < possibleElements.length; i++) {
+    if (possibleElements[i].attribs.id) {
+      continue;
+    }
+
+    var strong = $('strong', $(possibleElements[i]))
+
+    if (!strong[0].next) {
+      continue
+    }
+
+    const strongText = strong.text().trim().replace(/:/gi, '').toLowerCase()
+
+    let value = strong[0].next.data.trim()
+
+    if (strongText === 'category') {
+      obj.category = value
+    }
+    else if (strongText === 'description') {
+      obj.description = value
+    }
+    else {
+      console.log('Unknown info box prop', strongText)
+    }
+
   }
+
 
   if (Object.keys(obj).length < 3) {
     console.log('Error', url);
@@ -204,7 +234,7 @@ async function main() {
   await mkdirp(outputPath);
 
   await fs.writeFile(path.join(outputPath, 'data.json'), JSON.stringify(orgs));
-  console.log('done!', orgs.length);
+  console.log('done!', orgs.length, outputPath);
 }
 
 if (require.main === module) {
