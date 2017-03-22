@@ -247,8 +247,8 @@ class Request {
       const exists = await fs.exists(filePath);
 
       if (exists) {
-        const contents = await fs.readFile(filePath);
-        console.log('Loaded ', contents.length, 'from cache', config.url);
+        const contents = JSON.parse((await fs.readFile(filePath)).toString())
+        // console.log('Loaded ', contents.body.length, 'from cache', config.url);
         return contents;
       }
     }
@@ -325,6 +325,18 @@ class Request {
     config.method = 'POST';
     return this.request(config);
   }
+
+  async head(config) {
+    if (typeof config === 'string') {
+      return this.request({
+        url: config,
+        method: 'HEAD',
+      });
+    }
+
+    config.method = 'HEAD';
+    return this.request(config);
+  }
 }
 
 
@@ -344,9 +356,6 @@ async function test() {
 
 
 const instance = new Request();
-
-
-instance.get('https://google.com');
 
 export default instance;
 
