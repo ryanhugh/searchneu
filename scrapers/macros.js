@@ -1,6 +1,6 @@
 import path from 'path'
 
-exports.PUBLIC_DIR = path.join('..', 'data_dir')
+exports.PUBLIC_DIR = path.join('..', 'data')
 exports.DEV_DATA_DIR = path.join('..', 'dev_data_dir')
 
 // For iterating over every letter in a couple different places in the code

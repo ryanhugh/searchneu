@@ -18,8 +18,27 @@
 
 import request from 'request-promise-native';
 import URI from 'urijs';
+import fs from 'fs-promise';
 import async from 'async';
 import dns from 'dns-then';
+import mkdirp from 'mkdirp';
+import objectHash from 'object-hash';
+import path from 'path';
+
+import macros from './macros';
+
+// This file is a transparent wrapper around the request library that changes some default settings so scraping is a lot faster.
+// This file adds:
+// Automatic retry, with a delay in between reqeusts.
+// Limit the max number of simultaneous requests (this used to be done with d3-queue, but is now done with agent.maxSockets)
+// Application layer DNS cacheing. The request library (and the built in http library) will do a separate DNS lookup for each request
+//    This DNS cacheing will do one DNS lookup per hostname (www.ccis.northeastern.edu, wl11gp.neu.edu) and cache the result.
+//    This however, does change the URL that is sent to the request library (hostname -> pre-fetched ip), which means that the https verificaton will be comparing
+//    the URL in the cert with the IP in the url, which will fail. Need to disable https verification for this to work.
+// Keep-alive connections. Keep TCP connections open between requests. This significantly speeds up scraping speeds (1hr -> 20min)
+// Ignore invalid HTTPS certificates and outdated ciphers. Some school sites have really old and outdated sites. We want to scrape them even if their https is misconfigured.
+
+// In progress: save all pages to disk so development of parsers is faster and don't need to hit prod to test updates for scrapers
 
 // This object must be created once per process
 // Attributes are added to this object when it is used
@@ -27,14 +46,17 @@ import dns from 'dns-then';
 // https://github.com/request/request
 const separateReqDefaultPool = { maxSockets: 10000, keepAlive: true, maxFreeSockets: 10000 };
 
+// Specific limits for some sites. CCIS will reject request if too many are made too quickly.
+// Some other schools' servers will crash/slow to a crawl if too many requests are sent too quickly.
 const separateReqPools = {
-  'www.ccis.northeastern.edu': { maxSockets: 10, keepAlive: true, maxFreeSockets: 10 }
-}
+  'www.ccis.northeastern.edu': { maxSockets: 10, keepAlive: true, maxFreeSockets: 10 },
+};
 
 const MAX_RETRY_COUNT = 35;
 
-const RETRY_DELAY = 20000
-const RETRY_DELAY_DELTA = 15000
+// These numbers are in ms.
+const RETRY_DELAY = 20000;
+const RETRY_DELAY_DELTA = 15000;
 
 class Request {
 
@@ -100,7 +122,7 @@ class Request {
 
     const urlParsed = new URI(config.url);
 
-    const hostname = urlParsed.hostname()
+    const hostname = urlParsed.hostname();
 
     const dnsResults = await this.getDns(urlParsed.hostname());
 
@@ -137,8 +159,7 @@ class Request {
     // Enable keep-alive to make sequential requests faster
     if (separateReqPools[hostname]) {
       defaultConfig.pool = separateReqPools[hostname];
-    }
-    else {
+    } else {
       defaultConfig.pool = separateReqDefaultPool;
     }
 
@@ -155,9 +176,9 @@ class Request {
 
     // Set the host in the header to the hostname on the url.
     // This is not done automatically because of the application layer dns caching (it would be set to the ip instead)
-    defaultConfig.headers.Host = hostname
+    defaultConfig.headers.Host = hostname;
 
-    defaultConfig.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:24.0) Gecko/20100101 Firefox/24.0'
+    defaultConfig.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:24.0) Gecko/20100101 Firefox/24.0';
 
 
     //trololololol
@@ -202,11 +223,35 @@ class Request {
   }
 
 
-  request(config) {
+  async request(config) {
     config = this.standardizeInputConfig(config);
 
 
     const urlParsed = new URI(config.url);
+
+    let folder;
+    let filename;
+    let filePath;
+
+
+    if (macros.DEV) {
+      folder = path.join('request_cache', urlParsed.hostname());
+
+      // Ensure only letters and numbers and dots and limit char length
+      filename = urlParsed.path().replace(/[^A-Za-z0-9.]/gi, '_').trim().slice(0, 25) + objectHash(config);
+
+      await mkdirp(folder);
+
+      filePath = path.join(folder, filename);
+
+      const exists = await fs.exists(filePath);
+
+      if (exists) {
+        const contents = await fs.readFile(filePath);
+        console.log('Loaded ', contents.length, 'from cache', config.url);
+        return contents;
+      }
+    }
 
 
     let tryCount = 0;
@@ -238,11 +283,17 @@ class Request {
         }
 
         callback(null, response);
-      }, (err, response) => {
+      }, async (err, response) => {
         if (err) {
           reject(err);
           return;
         }
+
+        debugger;
+        if (macros.DEV) {
+          await fs.writeFile(filePath, JSON.stringify(response.toJSON()))
+        }
+
 
         console.log('Parsed', response.body.length, 'from ', config.url);
         resolve(response);
@@ -251,33 +302,30 @@ class Request {
   }
 
   // Helpers for get and post
-  get(config) {
-    if (typeof config == 'string') {
+  async get(config) {
+    if (typeof config === 'string') {
       return this.request({
         url: config,
-        method: 'GET'
-      })
+        method: 'GET',
+      });
     }
-    else {
-      config.method = 'GET'
-      return this.request(config)
-    }
+
+    config.method = 'GET';
+    return this.request(config);
   }
 
-  post(config) {
-    if (typeof config == 'string') {
+  async post(config) {
+    if (typeof config === 'string') {
       return this.request({
         url: config,
-        method: 'POST'
-      })
+        method: 'POST',
+      });
     }
-    else {
-      config.method = 'POST'
-      return this.request(config)
-    }
+
+    config.method = 'POST';
+    return this.request(config);
   }
 }
-
 
 
 async function test() {
@@ -295,7 +343,10 @@ async function test() {
 }
 
 
-// test()
+const instance = new Request();
 
-export default new Request();
+
+instance.get('https://google.com');
+
+export default instance;
 
