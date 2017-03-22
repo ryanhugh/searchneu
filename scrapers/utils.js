@@ -1,14 +1,6 @@
 
-// Need to abstract the retry and throttle logic too
-// max number of simultaneous requests
-// auto retry with linear backoff
-// application layer dns caching
-// keep-alive connections (forever: true in request)
-// ignore invalid https certs (rejectUnauthorized: false) and outdated ciphers (ciphers: 'ALL')
-  
-      
 
-
+import URI from 'urijs';
 
 
 exports.standardizeEmail = function standardizeEmail(email) {
@@ -17,7 +9,7 @@ exports.standardizeEmail = function standardizeEmail(email) {
   }
 
   if (!email.includes('@')) {
-  	return null
+    return null;
   }
 
   return email;
@@ -25,33 +17,33 @@ exports.standardizeEmail = function standardizeEmail(email) {
 
 
 exports.standardizePhone = function standardizePhone(phone) {
-  phone = phone.trim()
+  phone = phone.trim();
 
   if (phone.startsWith('tel:')) {
-    phone = phone.slice('tel:').trim()
+    phone = phone.slice('tel:').trim();
   }
 
   let digitsOnly = phone.replace(/[^0-9]/gi, '');
 
 
   if (phone.startsWith('+1') && digitsOnly.length === 11) {
-    digitsOnly = digitsOnly.slice(1)
+    digitsOnly = digitsOnly.slice(1);
   }
 
-  if (digitsOnly.length != 10) {
-  	return null
+  if (digitsOnly.length !== 10) {
+    return null;
   }
 
   return digitsOnly;
 };
 
 exports.parseGoogleScolarLink = function parseGoogleScolarLink(link) {
-  if (googleScholarLink) {
-    const userId = new URI(googleScholarLink).query(true).user;
-    if (!userId && googleScholarLink) {
-      console.log('Error parsing google url', googleScholarLink);
+  if (link) {
+    const userId = new URI(link).query(true).user;
+    if (!userId && link) {
+      console.log('Error parsing google url', link);
     } else {
-      obj.googleScholarId = userId;
+      return userId;
     }
   }
-}
+};

@@ -2,9 +2,8 @@ import cheerio from 'cheerio';
 import fs from 'fs-promise';
 import mkdirp from 'mkdirp-promise';
 import path from 'path';
-import URI from 'urijs';
 
-import request from './request'
+import request from './request';
 import utils from './utils';
 import macros from './macros';
 
@@ -44,12 +43,11 @@ async function scrapeDetailpage(obj) {
   // example of person who has multiple roles in departments
   // http://www.che.neu.edu/people/ebong-eno
   // Position and department
-  var roles = $('div.field-collection-container > div.faculty-roles > div.faculty-roles__role');
-  for (var i = 0; i < roles.length; i++) {
-
-    const position = roles[i].children[0].data
-    const department = $('a', $(roles[i])).text()
-    console.log(postition, department)
+  const roles = $('div.field-collection-container > div.faculty-roles > div.faculty-roles__role');
+  for (let i = 0; i < roles.length; i++) {
+    const position = roles[i].children[0].data;
+    const department = $('a', $(roles[i])).text();
+    console.log(position, department);
   }
 
   // address
@@ -59,21 +57,20 @@ async function scrapeDetailpage(obj) {
     // if text matches Faculty Website then get href
     // also need to do head checks or get checks to make sure their site is up
 
-    let links = $('div.field-name-field-faculty-links a')
-    for (var i = 0; i < links.length; i++) {
+  const links = $('div.field-name-field-faculty-links a');
+  for (let i = 0; i < links.length; i++) {
+    const href = $(links[i]).attr('href')
+    const text = $(links[i]).text();
 
-      const href = $('a', $(links[i])).attr('href')
-      const text = $(links[i]).text()
+    console.log(href, text);
+  }
 
-      console.log(href, text)
-    }
-
-    console.log(obj)
+  console.log(obj);
 }
 
 
 async function scrapeLetter(letter) {
-  const resp = await request.get(`http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=${letter.toUpperCase()}`)
+  const resp = await request.get(`http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=${letter.toUpperCase()}`);
 
   const $ = cheerio.load(resp.body);
 
@@ -85,7 +82,7 @@ async function scrapeLetter(letter) {
 
     const $personElement = $(personElement);
 
-    var obj = {};
+    const obj = {};
 
     // thumbnail image of them
     obj.picThumbnail = $('h4 > a > img', $personElement).attr('src');
@@ -126,7 +123,7 @@ async function scrapeLetter(letter) {
       }
     });
 
-    people.push(obj)
+    people.push(obj);
   }
 
   return people;
@@ -134,13 +131,11 @@ async function scrapeLetter(letter) {
 
 
 async function main() {
-
-  const outputFile = path.join(macros.DEV_DATA_DIR, 'coe.json')
+  const outputFile = path.join(macros.DEV_DATA_DIR, 'coe.json');
 
 
   const promises = [];
   let people = [];
-
 
 
   macros.ALPHABET.split('').forEach((letter) => {
@@ -156,14 +151,14 @@ async function main() {
 
   if (macros.DEV) {
     await fs.writeFile(outputFile, JSON.stringify(people));
-    console.log('saved file')
+    console.log('saved file');
   }
-  return people
+  return people;
 }
 
 
 exports.go = main;
 
 if (require.main === module) {
-  scrapeDetailpage()
+  scrapeDetailpage({});
 }

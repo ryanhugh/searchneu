@@ -10,10 +10,13 @@ import macros from './macros';
 
 // TODO
 // might be able to scrape events off facebook pages for more info on when they are meeting
+// also hit the orgsync profile to get more information about meetings
+// clean up the parsed data right now. Only parse links out of values for whitelisted values.
+// CLean up twitter handles, and make sure that all of the fields are standardized. 
 // looks like a lot of them havae outdated/missing/incorrect/unparssable timestamps of when they are meeting on here ewwww
 // but there is probably enough to get a proof of concept working
 // could email to verify
-//
+// 
 
 // http://neu.orgsync.com/student_orgs
 // Example schema:
@@ -34,7 +37,6 @@ import macros from './macros';
 
 
 async function scrapeDetails(url) {
-  console.log(url);
 
   // Fire a get to that url
   const detailHtml = (await request.get({
