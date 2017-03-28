@@ -134,7 +134,6 @@ async function scrapeDetails(url) {
     else {
       console.log('Unknown info box prop', strongText)
     }
-
   }
 
 

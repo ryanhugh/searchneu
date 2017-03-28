@@ -289,11 +289,10 @@ class Request {
           return;
         }
 
-        debugger;
+        // Save the response to a file for development
         if (macros.DEV) {
           await fs.writeFile(filePath, JSON.stringify(response.toJSON()))
         }
-
 
         console.log('Parsed', response.body.length, 'from ', config.url);
         resolve(response);
@@ -303,6 +302,10 @@ class Request {
 
   // Helpers for get and post
   async get(config) {
+    if (!config) {
+      console.log('Warning, request called with no config')
+      return;
+    }
     if (typeof config === 'string') {
       return this.request({
         url: config,
@@ -315,6 +318,10 @@ class Request {
   }
 
   async post(config) {
+    if (!config) {
+      console.log('Warning, request called with no config')
+      return;
+    }
     if (typeof config === 'string') {
       return this.request({
         url: config,
@@ -327,6 +334,10 @@ class Request {
   }
 
   async head(config) {
+    if (!config) {
+      console.log('Warning, request called with no config')
+      return;
+    }
     if (typeof config === 'string') {
       return this.request({
         url: config,
@@ -337,6 +348,15 @@ class Request {
     config.method = 'HEAD';
     return this.request(config);
   }
+
+  // Do a head request. If that fails, do a get request. If that fails, the site is down and return false
+  // need to turn off high retry count
+  async isPageUp(config) {
+    throw 'this does not work yet'
+    this.head(config)
+  }
+
+
 }
 
 
@@ -356,6 +376,8 @@ async function test() {
 
 
 const instance = new Request();
+
+
 
 export default instance;
 
