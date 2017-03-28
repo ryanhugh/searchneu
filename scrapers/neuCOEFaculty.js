@@ -18,7 +18,8 @@ import macros from './macros';
 
 
 async function scrapeDetailpage(obj) {
-  const resp = await request.get('http://www.ece.neu.edu/people/erdogmus-deniz');
+  const resp = await request.get(obj.link);
+  // const resp = await request.get('http://www.ece.neu.edu/people/erdogmus-deniz');
 
   const $ = cheerio.load(resp.body);
   debugger;
@@ -44,28 +45,68 @@ async function scrapeDetailpage(obj) {
   // http://www.che.neu.edu/people/ebong-eno
   // Position and department
   const roles = $('div.field-collection-container > div.faculty-roles > div.faculty-roles__role');
+  let positions = []
   for (let i = 0; i < roles.length; i++) {
-    const position = roles[i].children[0].data;
+    let role = roles[i].children[0].data.trim();
     const department = $('a', $(roles[i])).text();
-    console.log(position, department);
+
+    if (role.endsWith(',')) {
+      role = role.slice(0, role.length - 1)
+    }
+
+    positions.push({
+      role: role,
+      department: department
+    })
+  }
+
+  if (positions.length > 0) {
+    obj.positions = positions
   }
 
   // address
   obj.office = $('div.faculty-profile__address').text().trim().replace(/[\n\r]+\s*/gi, '\n');
 
-    // might be more than one of these, need to check .text() for each one
-    // if text matches Faculty Website then get href
-    // also need to do head checks or get checks to make sure their site is up
-
+  // might be more than one of these, need to check .text() for each one
+  // if text matches Faculty Website then get href
+  // also need to do head checks or get checks to make sure their site is up
   const links = $('div.field-name-field-faculty-links a');
+  const otherLinks = []
   for (let i = 0; i < links.length; i++) {
     const href = $(links[i]).attr('href')
     const text = $(links[i]).text();
 
-    console.log(href, text);
+    const compareText = text.toLowerCase()
+    if (compareText == 'faculty website' || compareText == 'faculty website & cv') {
+      obj.personalSite = href
+    }
+    else {
+
+      // If it is a link to Google Scholar, parse it.
+      // If already parsed a google scholar link for this person, log a warning and ignore this one. 
+      if (href.includes('scholar.google.com')) {
+        let otherGoogleId = utils.parseGoogleScolarLink(href)
+        if (!obj.googleScholarId) {
+          obj.googleScholarId = userId
+        }
+        else if (obj.googleScholarId !== otherGoogleId) {
+          console.log('Employee had 2 google id links pointing to different IDs, ignoring the second one.', obj.link, obj.googleScholarId, otherGoogleId)
+        }
+      }
+      else {
+        otherLinks.push({
+          link: href,
+          text: text
+        })
+      }
+    }
   }
 
-  console.log(obj);
+  if (otherLinks.length > 0) {
+    obj.otherLinks = otherLinks
+  }
+
+  return obj
 }
 
 
@@ -89,6 +130,9 @@ async function scrapeLetter(letter) {
 
     // link to their page
     obj.link = $('h4 > a', $personElement).attr('href');
+    if (!obj.link) {
+      console.log('Error, could not parse link for', obj)
+    }
 
     // name of prof
     obj.name = $('div.views-field.views-field-field-faculty-last-name > h4 > a', $personElement).text().trim();
@@ -149,6 +193,13 @@ async function main() {
   console.log(people.length);
 
 
+  let detailPeopleList = await Promise.all(people.map(function(person) {
+    return scrapeDetailpage(person)
+  }))
+
+  console.log(detailPeopleList.length)
+
+
   if (macros.DEV) {
     await fs.writeFile(outputFile, JSON.stringify(people));
     console.log('saved file');
@@ -160,5 +211,5 @@ async function main() {
 exports.go = main;
 
 if (require.main === module) {
-  scrapeDetailpage({});
+  main();
 }
