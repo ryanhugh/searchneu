@@ -155,7 +155,7 @@ function findMatchByName(employees, ccisProf) {
 
 
 async function main() {
-  const ccis = await ccisFaculty.go();
+  const ccis = await ccisFaculty.main();
   const employees = await neuEmployees.go();
 
   const emailMap = {};
