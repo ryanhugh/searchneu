@@ -71,7 +71,7 @@ class neuCCISFaculty {
 
 
         if (!mailto || !email || mailto !== email) {
-          console.log("Warning: bad emails?", email, mailto, obj.name)
+          utils.log("Warning: bad emails?", email, mailto, obj.name)
         }
         else {
           obj.email = email;
@@ -91,7 +91,7 @@ class neuCCISFaculty {
 
         if (tel || phone) {
           if (!tel || !phone || tel !== phone) {
-            console.log('phone tel mismatch', tel, phone, obj);
+            utils.log('phone tel mismatch', tel, phone, obj);
           }
           else {
             obj.phone = phone;
@@ -102,7 +102,7 @@ class neuCCISFaculty {
 
       ['name', 'link', 'positions', 'email'].forEach((attrName) => {
         if (!obj[attrName]) {
-          console.log('Missing', attrName, 'for', obj.name);
+          utils.log('Missing', attrName, 'for', obj.name);
         }
       });
 
@@ -173,10 +173,10 @@ class neuCCISFaculty {
 
     if (macros.DEV) {
       await fs.writeFile(outputFile, JSON.stringify(output));
-      console.log('saved file')
+      utils.log('saved file')
     }
 
-    console.log('done!');
+    utils.log('done!');
     return output
   }
 }

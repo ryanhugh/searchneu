@@ -22,7 +22,7 @@ if (process.env.TRAVIS && macros.DEV) {
 
 async function main() {
 	
-	var promises = [combineCCISandEmployees(), courseproData(), neuClubs()]
+	var promises = [combineCCISandEmployees.main(), courseproData(), neuClubs()]
 
 	await Promise.all(promises)
 	console.log('done')
