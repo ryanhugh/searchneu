@@ -36,13 +36,7 @@ import macros from './macros';
 // Not scraping right now: Description and some other stuff. No reason, just haven't had a reason to add it yet :P
 
 
-async function scrapeDetails(url) {
-
-  // Fire a get to that url
-  const detailHtml = (await request.get({
-    url: url,
-    shortBodyWarning: false,
-  })).body;
+function parseDetails(detailHtml) {
 
   // load the new html
   const $ = cheerio.load(detailHtml);
@@ -145,11 +139,7 @@ async function scrapeDetails(url) {
 }
 
 
-async function scrapeLetterAndPage(letter, pageNum) {
-  const resp = await request.post({
-    shortBodyWarning: false,
-    url: `http://neu.orgsync.com/search/get_orgs_by_letter/${letter.toUpperCase()}?page=${pageNum}`,
-  });
+function parseLetterAndPage(resp) {
 
   // Abstract Syntax Trees are the data structure that is used to parse programming languages (like javascript)
   // Like, the first step of running a programming language is to parse it into a AST
@@ -171,6 +161,7 @@ async function scrapeLetterAndPage(letter, pageNum) {
 
   const orgs = [];
   const promises = [];
+  const detailsPageLinks = []
 
   // Look through all the below elements
   for (let i = elements.length - 1; i >= 0; i--) {
@@ -178,16 +169,12 @@ async function scrapeLetterAndPage(letter, pageNum) {
       continue;
     }
 
-    promises.push(scrapeDetails(elements[i].attribs.href).then((org) => {
-      orgs.push(org);
-    }));
+    detailsPageLinks.push(elements[i].attribs.href)
   }
 
-
-  await Promise.all(promises);
-
-  return orgs;
+  return detailsPageLinks;
 }
+
 
 
 async function scrapeLetter(letter) {
@@ -198,7 +185,31 @@ async function scrapeLetter(letter) {
   // Each letter is pagenated
   // Increment the page number until hit a page with no results
   while (true) {
-    const orgs = await scrapeLetterAndPage(letter, pageNum);
+
+    // Scape the list of orgs from each page
+    const resp = await request.post({
+      shortBodyWarning: false,
+      url: `http://neu.orgsync.com/search/get_orgs_by_letter/${letter.toUpperCase()}?page=${pageNum}`,
+    });
+
+    // And parse the results
+    const detailsPageUrls = parseLetterAndPage(resp);
+
+    // Parse the details from each link on the list of clubs page
+    let promises = detailsPageUrls.map(function(url) {
+      return request.get({
+        url: url,
+        shortBodyWarning: false,
+      }).then(function(resp) {
+
+        // And parse the results for each org
+        return parseDetails(resp.body)
+      })
+    })
+
+    // Wait for all the orgs to finish requesting and parsing
+    const orgs = await Promise.all(promises)
+
     console.log(letter, 'page#', pageNum, 'had', orgs.length, 'orgs now at ', orgs.length);
     pageNum++;
     if (orgs.length === 0) {
@@ -206,7 +217,7 @@ async function scrapeLetter(letter) {
     }
 
     if (pageNum > 30) {
-      console.log('Warning! Hit 30 page max, returning');
+      console.error('Warning! Hit 30 page max, returning');
       return totalOrgs;
     }
 

@@ -1,5 +1,8 @@
 import URI from 'urijs';
 
+// Standardizes email addresses found across different pages
+// Removes a 'mailto:' from the beginning
+// Ensures the email contains a @
 exports.standardizeEmail = function standardizeEmail(email) {
   if (email.startsWith('mailto:')) {
     email = email.slice('mailto:'.length);

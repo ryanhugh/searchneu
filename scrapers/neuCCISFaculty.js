@@ -34,8 +34,7 @@ import macros from './macros';
 
 
 
-async function scrapePeopleList() {
-  const resp = await request.get('http://www.ccis.northeastern.edu/people-view-all/');
+function parsePeopleList(resp) {
 
   const $ = cheerio.load(resp.body);
 
@@ -113,9 +112,7 @@ async function scrapePeopleList() {
 }
 
 
-async function scrapeDetailpage(obj) {
-  let resp = await request.get(obj.link)
-
+async function parseDetailpage(resp, obj) {
   const $ = cheerio.load(resp.body);
 
   const office = $('div.contact-block > div.address > p').text();
@@ -156,17 +153,20 @@ async function main() {
     }
   }
 
-  const peopleObjects = await scrapePeopleList();
+
+  const resp = await request.get('http://www.ccis.northeastern.edu/people-view-all/');
+  const peopleObjects = parsePeopleList(resp);
+
 
   const promises = [];
   const output = [];
 
   // Cool, parsed all of the info from the first page
   // Now scrape each profile
-  peopleObjects.forEach((obj) => {
-    promises.push(scrapeDetailpage(obj).then((detailPage) => {
-      output.push(detailPage);
-    }));
+  peopleObjects.forEach(async (obj) => {
+    promises.push(request.get(obj.link).then(function(personResponse) {
+      output.push(parseDetailpage(personResponse, obj))
+    }))
   });
 
   await Promise.all(promises);
