@@ -48,7 +48,7 @@ class CombineCCISandEmployees {
     }
     this.couldNotFindNameList[logMatchString] = true;
 
-    console.log('Could not find name from list:', list);
+    utils.log('Could not find name from list:', list);
     return null;
   }
 
@@ -80,7 +80,7 @@ class CombineCCISandEmployees {
   }
 
   mergePeople(ccisProf, employee) {
-    console.log('going to merge ', ccisProf.name, 'and ', employee.name);
+    utils.log('going to merge ', ccisProf.name, 'and ', employee.name);
 
     const output = {};
 
@@ -137,7 +137,7 @@ class CombineCCISandEmployees {
     employees.forEach((employee) => {
       if (employee.email && employee.email !== 'Not Available') {
         if (emailMap[employee.email]) {
-          console.log('two employees had same email??', employee.email);
+          utils.log('two employees had same email??', employee.email);
         }
 
         emailMap[employee.email] = employee;
@@ -175,7 +175,7 @@ class CombineCCISandEmployees {
     });
 
 
-    console.log('Now matching by name');
+    utils.log('Now matching by name');
 
     // Now try to match by name
     matchedEmails = {};
@@ -202,13 +202,13 @@ class CombineCCISandEmployees {
       }
     });
 
-    console.log('Unable to match ', finalUnmatchedProfs.length, '/', ccis.length);
-    console.log(phdStudentCount, 'of the unmatched people are PhD students who are usually not in the employee directory.');
+    utils.log('Unable to match ', finalUnmatchedProfs.length, '/', ccis.length);
+    utils.log(phdStudentCount, 'of the unmatched people are PhD students who are usually not in the employee directory.');
 
 
     const output = unmatchedEmployes.concat(finalUnmatchedProfs).concat(matchedPeople);
 
-    console.log(output.length, employees.length, ccis.length);
+    utils.log(output.length, employees.length, ccis.length);
 
     // Swap the single email to an array to match with the people who were matched between ccis and employee
     for (let i = 0; i < output.length; i++) {
@@ -242,7 +242,7 @@ class CombineCCISandEmployees {
     const employeeMap = {};
     output.forEach((person) => {
       if (employeeMap[person.id]) {
-        console.log('Error, duplicate id!', person.id);
+        utils.log('Error, duplicate id!', person.id);
       }
       employeeMap[person.id] = person;
     });
