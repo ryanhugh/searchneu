@@ -22,11 +22,9 @@ async function scrapeDetailpage(obj) {
   // const resp = await request.get('http://www.ece.neu.edu/people/erdogmus-deniz');
 
   const $ = cheerio.load(resp.body);
-  debugger;
 
   // full resolution image
   obj.profilePic = $('#faculty-profile > div.upper-content > div > div.left-content > a').attr('href');
-
 
   // linkedin link
   obj.linkedin = $('div.field-name-field-nucoe-social-link-url > div > div > a.linkedin').attr('href');
