@@ -20,14 +20,3 @@ fit('parseLetterAndPage should work', async function(done) {
 	done()
 });
  
-
-// it('parseDetailpage', async function(done) {
-// 	var data = await fs.readFile('scrapers/tests/data/neuClubs/person.json')
-// 	var resp = JSON.parse(data)
-
-// 	let output = neuClubs.parseDetailpage(resp)
-
-// 	expect(output).toMatchSnapshot()  
-// 	done()
-// });
- 
