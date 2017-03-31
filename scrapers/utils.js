@@ -81,7 +81,7 @@ exports.occurrences = function occurrences(string, subString, allowOverlapping) 
 // Will log stack trace
 // and cause CI to fail
 // so CI will send an email
-exports.elog = function(... args) {
+exports.error = function(... args) {
   if (process.env.NODE_ENV === 'test') {
     return;
   }
