@@ -4,7 +4,7 @@ node_js:
 script:
   - npm run test
 
-deploy:
+after_success:
   - npm run build
   - bash travis_deploy.sh
 
