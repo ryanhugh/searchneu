@@ -14,6 +14,8 @@ mkdir ~/.ssh 2> /dev/null
 echo $GIT_PRIVATE_KEY | base64 --decode > ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 ssh-add ~/.ssh/id_rsa
+git config --global user.email "ryanhughes624+gitbot@gmail.com"
+git config --global user.name "data-updater-bot"
 node node_modules/gh-pages/bin/gh-pages -d public
 
 # git remote remove origin
