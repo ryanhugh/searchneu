@@ -4,4 +4,8 @@ node_js:
 script:
   - npm run test
 
+deploy:
+  - npm run build
+  - bash travis_deploy.sh
+
 cache: yarn
