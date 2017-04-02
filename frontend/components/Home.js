@@ -226,33 +226,56 @@ class Home extends React.Component {
 
     return (
       <div>
-        <div id='top-header' className='ui center aligned icon header'>
-          <h1 className={ css.title }>
+        <div className={ css.topPadding } />
+        <div>
+          <div id='top-header' className='ui center aligned icon header'>
+            <h1 className={ css.title }>
             Search
           </h1>
-          <h3 className={ css.subtitle }>
+            <h3 className={ css.subtitle }>
            For Northeastern
           </h3>
-          <div id='search-wrapper' className='sub header'>
-            <label>
-              <i className='search icon' />
-            </label>
-            <input
-              autoFocus type='search'
-              id='seach_id'
-              placeholder='Search Classes, Professors, and Employees'
-              autoComplete='off'
-              spellCheck='false'
-              tabIndex='0'
-              onChange={ this.onClick }
-            />
+            <div id='search-wrapper' className='sub header'>
+              <label>
+                <i className='search icon' />
+              </label>
+              <input
+                autoFocus type='search'
+                id='seach_id'
+                placeholder='Search Classes, Professors, and Employees'
+                autoComplete='off'
+                spellCheck='false'
+                tabIndex='0'
+                onChange={ this.onClick }
+              />
+            </div>
           </div>
+          <ResultsLoader
+            results={ this.state.results }
+            termData={ this.termData }
+            employeeMap={ this.employeeMap }
+          />
         </div>
-        <ResultsLoader
-          results={ this.state.results }
-          termData={ this.termData }
-          employeeMap={ this.employeeMap }
-        />
+        <div className={ css.botttomPadding } />
+
+
+        <div className='ui divider' />
+
+        <div className='footer ui basic center aligned segment'>
+          See an issue or want to add to this website? Fork it or create an issue on
+          <a href='https://github.com/ryanhugh/course_search'>GitHub</a>.
+        </div>
+
+        <div className='ui divider' />
+
+        <div className='footer ui basic center aligned segment'>
+          Made with
+          <i className='rocket circular small icon' />
+          by
+          <a href='http://github.com/ryanhugh'>Ryan Hughes</a>
+          and UI borrowed from
+          <a href='https://github.com/2factorauth/twofactorauth'>Two Factor Authenticaton</a>.
+        </div>
       </div>
     );
   }

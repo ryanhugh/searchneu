@@ -6,3 +6,11 @@
 	font-size: '29px';
 	padding-bottom: "30px";
 }
+
+.top-padding {
+	height: '50px';
+}
+
+.bottom-padding {
+	height: '20px';
+}
