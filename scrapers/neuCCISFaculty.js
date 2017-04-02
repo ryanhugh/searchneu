@@ -152,7 +152,7 @@ async function main() {
   if (macros.DEV && require.main !== module) {
     var exists = await fs.exists(outputFile)
     if (exists) {
-      return require(outputFile)
+      return require('../' + outputFile)
     }
   }
 

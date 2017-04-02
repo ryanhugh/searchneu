@@ -219,6 +219,11 @@ class Home extends React.Component {
 
 
   render() {
+    if (!this.employeeMap || !this.termData) {
+      return null;
+    }
+
+
     return (
       <div>
         <div id='top-header' className='ui center aligned icon header'>
