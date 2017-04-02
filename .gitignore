@@ -5,3 +5,4 @@ dev_data_dir
 data
 test.js
 request_cache
+public

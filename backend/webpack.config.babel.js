@@ -19,7 +19,7 @@ export default {
   ],
 
   output: {
-    path: path.join(rootDir, '/public/compiled_frontend/'),
+    path: path.join(rootDir, '/public/'),
     filename: '[id]-[hash].js',
     chunkFilename: '[id]-[hash].js',
     publicPath: macros.host,
