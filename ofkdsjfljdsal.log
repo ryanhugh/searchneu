@@ -1,155 +1,0 @@
-[2J[3J[H
- RUNS  ...neuCCISFaculty.test.js
- RUNS  ...combineCCISandEmployees.test.js
- RUNS  ...utils.test.js
-
-Test Suites: 0 of 3 total
-Tests:       0 total
-Snapshots:   0 total
-Time:        0s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
- RUNS  ...combineCCISandEmployees.test.js
- RUNS  ...utils.test.js
-
-Test Suites: 0 of 3 total
-Tests:       0 total
-Snapshots:   0 total
-Time:        1s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
- RUNS  ...combineCCISandEmployees.test.js
- RUNS  ...utils.test.js
-
-Test Suites: 0 of 3 total
-Tests:       0 total
-Snapshots:   0 total
-Time:        1s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
- RUNS  ...combineCCISandEmployees.test.js
-
-Test Suites: 1 passed, 1 of 3 total
-Tests:       4 passed, 4 total
-Snapshots:   0 total
-Time:        1s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
- RUNS  ...combineCCISandEmployees.test.js
-
-Test Suites: 1 passed, 1 of 3 total
-Tests:       4 passed, 4 total
-Snapshots:   0 total
-Time:        1s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
-
-Test Suites: 2 passed, 2 of 3 total
-Tests:       5 passed, 5 total
-Snapshots:   0 total
-Time:        2s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
-
-Test Suites: 2 passed, 2 of 3 total
-Tests:       5 passed, 5 total
-Snapshots:   0 total
-Time:        3s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
-
-Test Suites: 2 passed, 2 of 3 total
-Tests:       5 passed, 5 total
-Snapshots:   0 total
-Time:        4s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
-
-Test Suites: 2 passed, 2 of 3 total
-Tests:       5 passed, 5 total
-Snapshots:   0 total
-Time:        5s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
-
-Test Suites: 2 passed, 2 of 3 total
-Tests:       5 passed, 5 total
-Snapshots:   0 total
-Time:        6s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
-
-Test Suites: 2 passed, 2 of 3 total
-Tests:       5 passed, 5 total
-Snapshots:   0 total
-Time:        7s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
-
-Test Suites: 2 passed, 2 of 3 total
-Tests:       5 passed, 5 total
-Snapshots:   0 total
-Time:        8s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
-
-Test Suites: 2 passed, 2 of 3 total
-Tests:       5 passed, 5 total
-Snapshots:   0 total
-Time:        9s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
-
-Test Suites: 2 passed, 2 of 3 total
-Tests:       5 passed, 5 total
-Snapshots:   0 total
-Time:        10s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
-
-Test Suites: 2 passed, 2 of 3 total
-Tests:       5 passed, 5 total
-Snapshots:   0 total
-Time:        11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
-
-Test Suites: 2 passed, 2 of 3 total
-Tests:       5 passed, 5 total
-Snapshots:   0 total
-Time:        11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
-
-Test Suites: 2 passed, 2 of 3 total
-Tests:       5 passed, 5 total
-Snapshots:   0 total
-Time:        11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
-Watch Usage
- › Press o to only run tests related to changed files.
- › Press p to filter by a filename regex pattern.
- › Press t to filter by a test name regex pattern.
- › Press q to quit watch mode.
- › Press Enter to trigger a test run.
-[2J[3J[H
- RUNS  ...neuCCISFaculty.test.js
- RUNS  ...combineCCISandEmployees.test.js
- RUNS  ...utils.test.js
-
-Test Suites: 0 of 3 total
-Tests:       0 total
-Snapshots:   0 total
-Time:        0s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
- RUNS  ...combineCCISandEmployees.test.js
- RUNS  ...utils.test.js
-
-Test Suites: 0 of 3 total
-Tests:       0 total
-Snapshots:   0 total
-Time:        1s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
- RUNS  ...combineCCISandEmployees.test.js
- RUNS  ...utils.test.js
-
-Test Suites: 0 of 3 total
-Tests:       0 total
-Snapshots:   0 total
-Time:        1s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
- RUNS  ...neuCCISFaculty.test.js
- RUNS  ...combineCCISandEmployees.test.js
-
-Test Suites: 1 passed, 1 of 3 total
-Tests:       4 passed, 4 total
-Snapshots:   0 total
-Time:        1s, estimated 11s[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A
-Watch Usage
- › Press o to only run tests related to changed files.
- › Press p to filter by a filename regex pattern.
- › Press t to filter by a test name regex pattern.
- › Press q to quit watch mode.
- › Press Enter to trigger a test run.
