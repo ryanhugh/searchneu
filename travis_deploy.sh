@@ -17,13 +17,11 @@ git config --global user.email "ryanhughes624+gitbot@gmail.com"
 git config --global user.name "data-updater-bot"
 git remote remove origin
 git remote add origin git@github.com:ryanhugh/neusearch.git
-node node_modules/gh-pages/bin/gh-pages -d public
+node node_modules/gh-pages/bin/gh-pages -d public -a
 
 # git pull origin master
 # git pull origin gh-pages
 # git checkout gh-pages
-# git config --global user.email "ryanhughes624+gitbot@gmail.com"
-# git config --global user.name "data-updater-bot"
 # git merge master --no-edit
 # git commit -a -m "Merged the latest changes into gh-pages"
 # # node main.js	
