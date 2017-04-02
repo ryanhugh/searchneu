@@ -2,7 +2,7 @@ node_modules/
 yarn-error.log
 compiled_frontend
 dev_data_dir
-data
+/data
 test.js
 request_cache
 sandbox.js
