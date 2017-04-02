@@ -4,14 +4,9 @@
   "scripts": {
     "start": "babel-node backend/server.js",
     "scrape": "babel-node scrapers/main.js",
-<<<<<<< HEAD
     "build": "cross-env NODE_ENV=prod webpack --config ./backend/webpack.config.babel.js --profile --colors",
-    "test": "jest --watchAll"
-=======
-    "test": "echo hi there",
-    "build": "cross-env NODE_ENV=prod webpack --config ./backend/webpack.config.babel.js --profile --colors",
+    "test": "echo lolol",
     "deploy": "gh-pages -d public"
->>>>>>> master
   },
   "babel": {
     "presets": [
@@ -76,7 +71,6 @@
     "request": "^2.81.0",
     "request-promise-native": "^1.0.3",
     "resolve-url-loader": "^1.6.1",
-    "rmp-api": "^1.2.5",
     "semantic-ui-css": "^2.2.4",
     "superagent": "^3.4.1",
     "urijs": "^1.18.8",
