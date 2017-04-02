@@ -7,7 +7,6 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     exit 0
 fi
 
-rm test
 
 eval "$(ssh-agent -s)"
 mkdir ~/.ssh 2> /dev/null
@@ -16,10 +15,10 @@ chmod 600 ~/.ssh/id_rsa
 ssh-add ~/.ssh/id_rsa
 git config --global user.email "ryanhughes624+gitbot@gmail.com"
 git config --global user.name "data-updater-bot"
+git remote remove origin
+git remote add origin git@github.com:ryanhugh/neusearch.git
 node node_modules/gh-pages/bin/gh-pages -d public
 
-# git remote remove origin
-# git remote add origin git@github.com:ryanhugh/neusearch.git
 # git pull origin master
 # git pull origin gh-pages
 # git checkout gh-pages
