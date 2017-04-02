@@ -17,7 +17,7 @@ while (1) {
 
 
 
-exports.PUBLIC_DIR = path.join('data')
+exports.PUBLIC_DIR = path.join('public', 'data')
 exports.DEV_DATA_DIR = path.join('dev_data_dir')
 
 // For iterating over every letter in a couple different places in the code

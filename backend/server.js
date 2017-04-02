@@ -1,5 +1,3 @@
-// import "babel-core/register"
-// import "babel-polyfill"
 import path from 'path'
 import express from 'express'
 import webpack from 'webpack'
@@ -16,19 +14,18 @@ const app = express()
 
 const middleware = webpackMiddleware(compiler, {
 	publicPath: webpackConfig.output.publicPath,
-	contentBase: 'src',
 	stats: {
 		colors: true,
-		hash: false,
 		timings: true,
-		chunks: false,
+		hash: false,
+		chunksM: false,
 		chunkModules: false,
 		modules: false,
 	},
 })
 
 
-app.use(express.static('.'))
+app.use(express.static('public'))
 
 
 app.use(middleware)

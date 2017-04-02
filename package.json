@@ -4,8 +4,14 @@
   "scripts": {
     "start": "babel-node backend/server.js",
     "scrape": "babel-node scrapers/main.js",
+<<<<<<< HEAD
     "build": "cross-env NODE_ENV=prod webpack --config ./backend/webpack.config.babel.js --profile --colors",
     "test": "jest --watchAll"
+=======
+    "test": "echo hi there",
+    "build": "cross-env NODE_ENV=prod webpack --config ./backend/webpack.config.babel.js --profile --colors",
+    "deploy": "gh-pages -d public"
+>>>>>>> master
   },
   "babel": {
     "presets": [
@@ -42,6 +48,7 @@
     "express-async-wrap": "^1.0.0",
     "file-loader": "^0.10.0",
     "fs-promise": "^2.0.0",
+    "gh-pages": "^0.12.0",
     "he": "^1.1.1",
     "html-webpack-plugin": "^2.28.0",
     "htmlparser2": "^3.9.2",
@@ -90,11 +97,9 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "ignore-styles": "^5.0.1",
     "mocha": "^3.2.0",
-    "node-sass": "^4.3.0",
     "react-addons-test-utils": "^15.4.2",
     "react-hot-loader": "^3.0.0-beta.2",
     "redux-freeze": "^0.1.5",
-    "sass-loader": "^5.0.1",
     "style-loader": "^0.13.1",
     "webpack": "^2.1.1",
     "webpack-dev-server": "^2",

@@ -1,8 +1,30 @@
 .title {
-	font-size: 50px;
+    font-size: 50px;
 }
+
 .subtitle {
-	color: "grey";
-	font-size: '29px';
-	padding-bottom: "30px";
+    color: "grey";
+    font-size: '29px';
+    padding-bottom: "30px";
+}
+
+.top-padding {
+    height: '50px';
+}
+
+.bottom-padding {
+    height: '20px';
+}
+
+.githubCornerIcon {
+    fill: #39CCCC;
+    color: #FFFFFF;
+    position: absolute;
+    top: 0;
+    border: 0;
+    right: 0;
+}
+
+.octopusArm {
+	transform-origin: 130px 106px;
 }
