@@ -4,7 +4,7 @@ import elasticlunr from 'elasticlunr';
 import 'semantic-ui-css/semantic.min.css';
 import request from 'superagent';
 
-import '../lib/base.css';
+import '../css/base.css';
 import css from './home.css';
 
 import ResultsLoader from './ResultsLoader';
