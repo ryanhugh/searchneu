@@ -12,11 +12,11 @@ import macros from './macros';
 // might be able to scrape events off facebook pages for more info on when they are meeting
 // also hit the orgsync profile to get more information about meetings
 // clean up the parsed data right now. Only parse links out of values for whitelisted values.
-// CLean up twitter handles, and make sure that all of the fields are standardized. 
+// CLean up twitter handles, and make sure that all of the fields are standardized.
 // looks like a lot of them havae outdated/missing/incorrect/unparssable timestamps of when they are meeting on here ewwww
 // but there is probably enough to get a proof of concept working
 // could email to verify
-// 
+//
 
 // http://neu.orgsync.com/student_orgs
 // Example schema:
@@ -37,7 +37,6 @@ import macros from './macros';
 
 
 function parseDetails(detailHtml) {
-
   // load the new html
   const $ = cheerio.load(detailHtml);
 
@@ -96,43 +95,41 @@ function parseDetails(detailHtml) {
   obj.name = $('#full_profile > h2').text().trim();
 
   // and get link jawn too
-  obj.site = $('#org_extranet_url > a').attr('href')
+  obj.site = $('#org_extranet_url > a').attr('href');
 
-  // Scrape the organization portal link too. 
-  obj.orgPortalLink = $('#org-portal-link > strong > a').attr('href')
+  // Scrape the organization portal link too.
+  obj.orgPortalLink = $('#org-portal-link > strong > a').attr('href');
 
 
   // Scrape description and category
-  const possibleElements = $('#org_profile_info > ul > li')
-  for (var i = 0; i < possibleElements.length; i++) {
+  const possibleElements = $('#org_profile_info > ul > li');
+  for (let i = 0; i < possibleElements.length; i++) {
     if (possibleElements[i].attribs.id) {
       continue;
     }
 
-    var strong = $('strong', $(possibleElements[i]))
+    const strong = $('strong', $(possibleElements[i]));
 
     if (!strong[0].next) {
-      continue
+      continue;
     }
 
-    const strongText = strong.text().trim().replace(/:/gi, '').toLowerCase()
+    const strongText = strong.text().trim().replace(/:/gi, '').toLowerCase();
 
-    let value = strong[0].next.data.trim()
+    const value = strong[0].next.data.trim();
 
     if (strongText === 'category') {
-      obj.category = value
-    }
-    else if (strongText === 'description') {
-      obj.description = value
-    }
-    else {
-      console.log('Unknown info box prop', strongText)
+      obj.category = value;
+    } else if (strongText === 'description') {
+      obj.description = value;
+    } else {
+      console.log('Unknown info box prop', strongText);
     }
   }
 
 
   if (Object.keys(obj).length < 3) {
-    console.log('Error', url);
+    console.log('Error', detailHtml);
   }
 
   return obj;
@@ -140,7 +137,6 @@ function parseDetails(detailHtml) {
 
 
 function parseLetterAndPage(resp) {
-
   // Abstract Syntax Trees are the data structure that is used to parse programming languages (like javascript)
   // Like, the first step of running a programming language is to parse it into a AST
   // then preform a bunch of optimizations on it
@@ -159,9 +155,7 @@ function parseLetterAndPage(resp) {
   // Get all the a elements from it
   const elements = $('a');
 
-  const orgs = [];
-  const promises = [];
-  const detailsPageLinks = []
+  const detailsPageLinks = [];
 
   // Look through all the below elements
   for (let i = elements.length - 1; i >= 0; i--) {
@@ -169,12 +163,11 @@ function parseLetterAndPage(resp) {
       continue;
     }
 
-    detailsPageLinks.push(elements[i].attribs.href)
+    detailsPageLinks.push(elements[i].attribs.href);
   }
 
   return detailsPageLinks;
 }
-
 
 
 async function scrapeLetter(letter) {
@@ -184,31 +177,37 @@ async function scrapeLetter(letter) {
 
   // Each letter is pagenated
   // Increment the page number until hit a page with no results
-  while (true) {
 
+  // Note about the eslint-disable comments:
+  // This code scrapes the multiple pages for each letter. In the following order:
+  // 1. scrape the list of clubs on page 1
+  // 2. scrape all the details for all those clubs in parallel
+  // 3. scrape the list of clubs on page 2
+  // etc..
+  while (true) {
     // Scape the list of orgs from each page
-    const resp = await request.post({
+    const resp = await request.post({  // eslint-disable-line no-await-in-loop
       shortBodyWarning: false,
       url: `http://neu.orgsync.com/search/get_orgs_by_letter/${letter.toUpperCase()}?page=${pageNum}`,
     });
+
 
     // And parse the results
     const detailsPageUrls = parseLetterAndPage(resp);
 
     // Parse the details from each link on the list of clubs page
-    let promises = detailsPageUrls.map(function(url) {
+    const promises = detailsPageUrls.map((url) => {
       return request.get({
         url: url,
         shortBodyWarning: false,
-      }).then(function(resp) {
-
+      }).then((detailResp) => {
         // And parse the results for each org
-        return parseDetails(resp.body)
-      })
-    })
+        return parseDetails(detailResp.body);
+      });
+    });
 
     // Wait for all the orgs to finish requesting and parsing
-    const orgs = await Promise.all(promises)
+    const orgs = await Promise.all(promises); // eslint-disable-line no-await-in-loop
 
     console.log(letter, 'page#', pageNum, 'had', orgs.length, 'orgs now at ', orgs.length);
     pageNum++;

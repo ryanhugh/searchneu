@@ -2,16 +2,14 @@ import cheerio from 'cheerio';
 import fs from 'fs-promise';
 import mkdirp from 'mkdirp-promise';
 import path from 'path';
-import URI from 'urijs';
 
 import request from './request';
-import utils from './utils'
+import utils from './utils';
 import macros from './macros';
 
 
-
 // http://www.ccis.northeastern.edu/people-view-all/
-// Scraped info: 
+// Scraped info:
   // "name": "Amal Ahmed",
   // "link": "http://www.ccis.northeastern.edu/people/amal-ahmed/",
   // "positions": ["Assistant Professor"],
@@ -22,20 +20,19 @@ import macros from './macros';
   // This varies a lot. Some have links to their page on other schools, some have self hosted sites, etc
   // "personalSite": "http://www.ccs.neu.edu/home/amal/",
 
-  // Link to some google site. Get url with: 
+  // Link to some google site. Get url with:
   // 'https://scholar.google.com/citations?user=' + googleScholarId + '&hl=en&oi=ao'
   // "googleScholarId": "Y1C007wAAAAJ",
   // "bigPictureLink": "http://www.ccis.northeastern.edu/wp-content/uploads/2016/03/Amal-Ahmed-hero-image.jpg"
 
 
-// There were a few people that put non-google urls on the google url field. 
-// These links are ignored at the moment. 
-// They could be used in place of the personal website link, but there were only a few professors and most of them had personal website links too. 
+// There were a few people that put non-google urls on the google url field.
+// These links are ignored at the moment.
+// They could be used in place of the personal website link, but there were only a few professors and most of them had personal website links too.
 
-class neuCCISFaculty {
+class NeuCCISFaculty {
 
   parsePeopleList(resp) {
-
     const $ = cheerio.load(resp.body);
 
     const output = [];
@@ -67,13 +64,12 @@ class neuCCISFaculty {
       // also email
       if (emailElements.length > 0) {
         const email = utils.standardizeEmail(emailElements.text().trim());
-        let mailto = utils.standardizeEmail(emailElements.attr('href').trim());
+        const mailto = utils.standardizeEmail(emailElements.attr('href').trim());
 
 
         if (!mailto || !email || mailto !== email) {
-          utils.log("Warning: bad emails?", email, mailto, obj.name)
-        }
-        else {
+          utils.log('Warning: bad emails?', email, mailto, obj.name);
+        } else {
           obj.email = email;
         }
       }
@@ -86,14 +82,13 @@ class neuCCISFaculty {
 
         let tel = phoneElements.attr('href').trim();
 
-        tel = utils.standardizePhone(tel)
-        phone = utils.standardizePhone(phone)
+        tel = utils.standardizePhone(tel);
+        phone = utils.standardizePhone(phone);
 
         if (tel || phone) {
           if (!tel || !phone || tel !== phone) {
             utils.log('phone tel mismatch', tel, phone, obj);
-          }
-          else {
+          } else {
             obj.phone = phone;
           }
         }
@@ -142,14 +137,14 @@ class neuCCISFaculty {
 
 
   async main() {
-
-    const outputFile = path.join(macros.DEV_DATA_DIR, 'ccis.json')
+    const outputFile = path.join(macros.DEV_DATA_DIR, 'ccis.json');
 
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module) {
-      var exists = await fs.exists(outputFile)
+      await mkdirp(macros.DEV_DATA_DIR);
+      const exists = await fs.exists(outputFile);
       if (exists) {
-        return JSON.parse(await fs.readFile(outputFile))
+        return JSON.parse(await fs.readFile(outputFile));
       }
     }
 
@@ -163,28 +158,26 @@ class neuCCISFaculty {
     // Now scrape each profile
     peopleObjects.forEach(async (obj) => {
       promises.push(request.get(obj.link).then((personResponse) => {
-        output.push(this.parseDetailpage(personResponse, obj))
-      }))
+        output.push(this.parseDetailpage(personResponse, obj));
+      }));
     });
 
     await Promise.all(promises);
 
     if (macros.DEV) {
       await fs.writeFile(outputFile, JSON.stringify(output));
-      utils.log('saved file')
+      utils.log('saved file');
     }
 
     utils.log('done!');
-    return output
+    return output;
   }
 }
 
-const instance = new neuCCISFaculty()
-
-module.exports = instance;
+const instance = new NeuCCISFaculty();
+export default instance;
 
 if (require.main === module) {
   instance.main();
 }
-
 
