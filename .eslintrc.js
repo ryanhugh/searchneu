@@ -20,6 +20,9 @@ module.exports = {
     "no-mixed-operators": 0,
     "no-param-reassign": 0,
 
+    // Allow for-of loops. 
+    "no-restricted-syntax": 0,
+
     // This rule requires that all class methods use this. 
     // Disabling this allows making class methods that do not reference "this", which is helpful for private helper functions. 
     "class-methods-use-this": 0,

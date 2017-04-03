@@ -353,9 +353,7 @@ class Request {
   // Do a head request. If that fails, do a get request. If that fails, the site is down and return false
   // need to turn off high retry count
   async isPageUp() {
-    throw {
-      msg: 'This does not work yet.',
-    };
+    throw new Error('This does not work yet.');
     // this.head(config);
   }
 }
