@@ -273,9 +273,9 @@ async function main() {
 
   // if this is dev and this data is already scraped, just return the data
   if (macros.DEV && require.main !== module) {
-    const exists = await fs.exists(outputFile);
-    if (exists) {
-      return JSON.parse(await fs.readFile(outputFile));
+    const devData = await utils.loadDevData(outputFile)
+    if (devData) {
+      return devData;
     }
   }
 
@@ -292,10 +292,7 @@ async function main() {
   await Promise.all(promises);
 
   if (macros.DEV) {
-    await mkdirp(macros.DEV_DATA_DIR);
-
-    await fs.writeFile(outputFile, JSON.stringify(people));
-
+    await utils.saveDevData(outputFile, people);
     console.log('employees file saved!');
   }
 

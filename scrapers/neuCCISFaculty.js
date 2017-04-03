@@ -141,10 +141,9 @@ class NeuCCISFaculty {
 
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module) {
-      await mkdirp(macros.DEV_DATA_DIR);
-      const exists = await fs.exists(outputFile);
-      if (exists) {
-        return JSON.parse(await fs.readFile(outputFile));
+      const devData = await utils.loadDevData(outputFile)
+      if (devData) {
+        return devData;
       }
     }
 
@@ -156,7 +155,7 @@ class NeuCCISFaculty {
 
     // Cool, parsed all of the info from the first page
     // Now scrape each profile
-    peopleObjects.forEach(async (obj) => {
+    peopleObjects.forEach((obj) => {
       promises.push(request.get(obj.link).then((personResponse) => {
         output.push(this.parseDetailpage(personResponse, obj));
       }));
@@ -165,8 +164,8 @@ class NeuCCISFaculty {
     await Promise.all(promises);
 
     if (macros.DEV) {
-      await fs.writeFile(outputFile, JSON.stringify(output));
-      utils.log('saved file');
+      await utils.saveDevData(outputFile, people);
+      console.log('coe file saved!');
     }
 
     utils.log('done!');

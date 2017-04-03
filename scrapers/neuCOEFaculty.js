@@ -169,6 +169,13 @@ async function scrapeLetter(letter) {
 async function main() {
   const outputFile = path.join(macros.DEV_DATA_DIR, 'coe.json');
 
+  // if this is dev and this data is already scraped, just return the data
+  if (macros.DEV && require.main !== module) {
+    const devData = await utils.loadDevData(outputFile)
+    if (devData) {
+      return devData;
+    }
+  }
 
   const promises = [];
   let people = [];
@@ -191,11 +198,11 @@ async function main() {
 
   console.log(detailPeopleList.length);
 
-
   if (macros.DEV) {
-    await fs.writeFile(outputFile, JSON.stringify(people));
-    console.log('saved file');
+    await utils.saveDevData(outputFile, people);
+    console.log('coe file saved!');
   }
+
   return people;
 }
 
