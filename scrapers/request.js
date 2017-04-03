@@ -21,7 +21,7 @@ import URI from 'urijs';
 import fs from 'fs-promise';
 import async from 'async';
 import dns from 'dns-then';
-import mkdirp from 'mkdirp';
+import mkdirp from 'mkdirp-promise';
 import objectHash from 'object-hash';
 import path from 'path';
 
