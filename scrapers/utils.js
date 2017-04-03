@@ -73,36 +73,35 @@ exports.occurrences = function occurrences(string, subString, allowOverlapping) 
     }
   }
   return n;
-}
-
+};
 
 
 // Use this for stuff that should never happen
 // Will log stack trace
 // and cause CI to fail
 // so CI will send an email
-exports.elog = function(... args) {
+exports.elog = function elog(...args) {
   if (process.env.NODE_ENV === 'test') {
     return;
   }
 
-  console.error.apply(console.error, args)
-  console.trace()
+  console.error.apply(console.error, args);
+  console.trace();
 
   // So I get an email about it
   if (process.env.CI) {
-    process.exit(1)
+    process.exit(1);
   }
-}
+};
 
 // Use console.warn to log stuff during testing
 
 // Use this for normal logging
 // Will log as normal, but stays silent during testing
-exports.log = function(... args) {
-   if (process.env.NODE_ENV === 'test') {
+exports.log = function log(...args) {
+  if (process.env.NODE_ENV === 'test') {
     return;
   }
 
-  console.log.apply(console.log, args)
-}
+  console.log.apply(console.log, args);
+};

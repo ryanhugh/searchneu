@@ -25,6 +25,7 @@ import mkdirp from 'mkdirp-promise';
 import objectHash from 'object-hash';
 import path from 'path';
 
+import utils from './utils';
 import macros from './macros';
 
 // This file is a transparent wrapper around the request library that changes some default settings so scraping is a lot faster.
@@ -75,7 +76,7 @@ class Request {
 
     // Just the host + subdomains are needed, eg blah.google.com
     if (hostname.startsWith('http://') || hostname.startsWith('https://')) {
-      elog(hostname);
+      utils.elog(hostname);
     }
 
     const promise = dns.lookup(hostname, {
@@ -129,7 +130,7 @@ class Request {
 
     let ip;
     if (dnsResults.length === 0) {
-      elog('DNS lookup returned 0 results!', JSON.stringify(config));
+      utils.elog('DNS lookup returned 0 results!', JSON.stringify(config));
       return null;
     } else if (dnsResults.length === 1) {
       ip = dnsResults[0].address;
@@ -247,7 +248,7 @@ class Request {
       const exists = await fs.exists(filePath);
 
       if (exists) {
-        const contents = JSON.parse((await fs.readFile(filePath)).toString())
+        const contents = JSON.parse((await fs.readFile(filePath)).toString());
         // console.log('Loaded ', contents.body.length, 'from cache', config.url);
         return contents;
       }
@@ -259,7 +260,7 @@ class Request {
     return new Promise((resolve, reject) => {
       async.retry({
         times: MAX_RETRY_COUNT,
-        interval: RETRY_DELAY + parseInt(Math.random() * RETRY_DELAY_DELTA),
+        interval: RETRY_DELAY + Math.round(Math.random() * RETRY_DELAY_DELTA),
       }, async (callback) => {
         let response;
         tryCount++;
@@ -291,7 +292,7 @@ class Request {
 
         // Save the response to a file for development
         if (macros.DEV) {
-          await fs.writeFile(filePath, JSON.stringify(response.toJSON()))
+          await fs.writeFile(filePath, JSON.stringify(response.toJSON()));
         }
 
         console.log('Parsed', response.body.length, 'from ', config.url);
@@ -303,8 +304,8 @@ class Request {
   // Helpers for get and post
   async get(config) {
     if (!config) {
-      console.log('Warning, request called with no config')
-      return;
+      console.log('Warning, request called with no config');
+      return null;
     }
     if (typeof config === 'string') {
       return this.request({
@@ -319,8 +320,8 @@ class Request {
 
   async post(config) {
     if (!config) {
-      console.log('Warning, request called with no config')
-      return;
+      console.log('Warning, request called with no config');
+      return null;
     }
     if (typeof config === 'string') {
       return this.request({
@@ -335,8 +336,8 @@ class Request {
 
   async head(config) {
     if (!config) {
-      console.log('Warning, request called with no config')
-      return;
+      console.log('Warning, request called with no config');
+      return null;
     }
     if (typeof config === 'string') {
       return this.request({
@@ -352,32 +353,32 @@ class Request {
   // Do a head request. If that fails, do a get request. If that fails, the site is down and return false
   // need to turn off high retry count
   async isPageUp(config) {
-    throw 'this does not work yet'
-    this.head(config)
-  }
-
-
-}
-
-
-async function test() {
-  const it = new Request();
-
-  try {
-    const d = await it.request({
-      url:'http://localhost',
-    });
-
-    console.log(d.body, 'NO CRASH');
-  } catch (e) {
-    console.log(e, 'HERE');
+    throw {
+      msg: 'This does not work yet.'
+    };
+    // this.head(config);
   }
 }
 
 
-const instance = new Request();
+// import request from '../request';
+
+// TOOD, tests for this file. There are none from coursepro
+
+// async function test() {
+
+//   try {
+//     const d = await request.request({
+//       url:'http://localhost',
+//     });
+
+//     console.log(d.body, 'NO CRASH');
+//   } catch (e) {
+//     console.log(e, 'HERE');
+//   }
+// }
 
 
 
-export default instance;
+export default new Request();
 
