@@ -30,7 +30,6 @@ import macros from './macros';
 // www.northeastern.edu/neuhome/about/maps.html
 
 
-
 // This site has info on classrooms
 // https://classroom.neu.edu/
 
