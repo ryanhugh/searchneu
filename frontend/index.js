@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import "babel-polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -11,13 +12,25 @@ import Home from "./components/Home";
 // // <Router history={ browserHistory }>
         //   { router }
         // </Router>
+=======
+import 'babel-polyfill';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
+
+import Home from './components/Home';
+>>>>>>> master
 
 const root = document.getElementById('app');
 function createApp() {
   return (
+<<<<<<< HEAD
       <Provider store={ store }>
       <Home />
       </Provider>
+=======
+    <Home />
+>>>>>>> master
   );
 }
 
@@ -40,4 +53,8 @@ if (process.env.NODE_ENV === 'production') {
       ), root);
     });
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> master

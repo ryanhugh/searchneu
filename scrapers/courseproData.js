@@ -6,25 +6,22 @@ import request from './request';
 import macros from './macros';
 
 
-
 async function fireRequest(url, body = {}, method = 'POST') {
-
-  var actualUrl = `https://coursepro.io${url}`;
-  let resp
+  const actualUrl = `https://coursepro.io${url}`;
+  let resp;
 
   if (method === 'GET') {
-    resp = await request.get(actualUrl)
-  }
-  else {
+    resp = await request.get(actualUrl);
+  } else {
     resp = await request.post({
       url: actualUrl,
-      body: JSON.stringify(body)
-    })
+      body: JSON.stringify(body),
+    });
   }
 
-  var output = JSON.parse(resp.body)
+  const output = JSON.parse(resp.body);
 
-  return output
+  return output;
 }
 
 //TODO: this needs to be a Key.js not this ghetto thing

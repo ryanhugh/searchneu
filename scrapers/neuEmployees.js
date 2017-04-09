@@ -7,7 +7,7 @@ import cookie from 'cookie';
 import retry from 'promise-retry';
 import mkdirp from 'mkdirp-promise';
 import path from 'path';
-import he from 'he'
+import he from 'he';
 
 import macros from './macros';
 
@@ -20,7 +20,6 @@ import macros from './macros';
 
 
 // Currently: 
-
 // Name is always scraped. This can vary slightly between different data sources.
 // This name will never include accents, which the CCIS site does
 // Also, multiple people have the same name so this can not be used as a primary key
@@ -68,9 +67,7 @@ function parseTable(table) {
   }
 
 
-  const retVal = {
-    _rowCount: rows.length - 1,
-  };
+  const retVal = {};
   const heads = [];
 
   //the headers
@@ -109,7 +106,10 @@ function parseTable(table) {
       retVal[heads[index]].push('');
     }
   });
-  return retVal;
+  return {
+    rowCount: rows.length - 1,
+    parsedTable: retVal,
+  };
 }
 
 const people = [];
@@ -175,7 +175,7 @@ function hitWithLetters(lastNameStart, jsessionCookie) {
 
 
 function get(lastNameStart) {
-  return new Promise(async(resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const jsessionCookie = await getCookiePromise();
 
     const body = await hitWithLetters(lastNameStart, jsessionCookie);
@@ -194,14 +194,19 @@ function get(lastNameStart) {
           // Delete one of the elements that is before the header that would mess stuff up
           domutils.removeElement(element.children[1].children[1]);
 
-          const parsedTable = parseTable(element);
-          if (!parsedTable) {
-            // console.log('Warning Unable to parse table:', lastNameStart)
+          const tableData = parseTable(element);
+
+
+          if (!tableData) {
             return resolve();
           }
-          console.log('Found', parsedTable._rowCount, ' people on page ', lastNameStart);
 
-          for (let j = 0; j < parsedTable._rowCount; j++) {
+          const parsedTable = tableData.parsedTable;
+          const rowCount = tableData.rowCount;
+
+          console.log('Found', rowCount, ' people on page ', lastNameStart);
+
+          for (let j = 0; j < rowCount; j++) {
             const person = {};
             person.name = parsedTable.name[j].split('\n\n')[0];
 
@@ -209,8 +214,7 @@ function get(lastNameStart) {
             if (!idMatch) {
               console.warn('Warn: unable to parse id, using random number', person.name);
               person.id = String(Math.random());
-            }
-            else {
+            } else {
               person.id = idMatch[1];
             }
 
@@ -231,13 +235,12 @@ function get(lastNameStart) {
               if (person.email.endsWith('@neu.edu')) {
                 person.email = `${person.email.split('@')[0]}@northeastern.edu`;
               }
-
             }
 
             // Scrape the primaryappointment
             const primaryappointment = parsedTable.primaryappointment[j];
             if (primaryappointment && primaryappointment !== 'Not Available') {
-              person.primaryappointment = he.decode(parsedTable.primaryappointment[j])
+              person.primaryappointment = he.decode(parsedTable.primaryappointment[j]);
             }
 
             // Scrape the primarydepartment
@@ -245,7 +248,6 @@ function get(lastNameStart) {
 
             // Add it to the index and the people list
             people.push(person);
-            
             if (peopleMap[person.id]) {
               console.log('Error, person already in the people map?', person.id);
             }
@@ -268,9 +270,9 @@ async function main() {
 
   // if this is dev and this data is already scraped, just return the data
   if (macros.DEV && require.main !== module) {
-    const exists = await fs.exists(outputFile);
-    if (exists) {
-      return JSON.parse(await fs.readFile(outputFile))
+    const devData = await utils.loadDevData(outputFile)
+    if (devData) {
+      return devData;
     }
   }
 
@@ -287,10 +289,7 @@ async function main() {
   await Promise.all(promises);
 
   if (macros.DEV) {
-    await mkdirp(macros.DEV_DATA_DIR);
-
-    await fs.writeFile(outputFile, JSON.stringify(people));
-
+    await utils.saveDevData(outputFile, people);
     console.log('employees file saved!');
   }
 

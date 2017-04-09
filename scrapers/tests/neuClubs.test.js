@@ -1,22 +1,25 @@
-import fs from 'fs-promise'
+import fs from 'fs-promise';
 
 import neuClubs from '../neuClubs';
 
-fit('parseDetails should work', async function(done) {
-	var data = await fs.readFile('scrapers/tests/data/neuClubs/club.json')
-	var resp = JSON.parse(data)
-	let output = neuClubs.parseDetails(resp.body)
 
-	expect(output).toMatchSnapshot()
-	done()
-});
- 
-fit('parseLetterAndPage should work', async function(done) {
-	var data = await fs.readFile('scrapers/tests/data/neuClubs/letter.json')
-	var resp = JSON.parse(data)
-	let output = neuClubs.parseLetterAndPage(resp)
+it('should parse all people', async (done) => {
+  const data = await fs.readFile('scrapers/tests/data/neuCCISFaculty/view_all_people.json');
+  const resp = JSON.parse(data);
+  const output = neuCCISFaculty.parsePeopleList(resp);
 
-	expect(output).toMatchSnapshot()
-	done()
+  expect(output).toMatchSnapshot();
+  done();
 });
- 
+
+
+it('parseDetailpage', async (done) => {
+  const data = await fs.readFile('scrapers/tests/data/neuCCISFaculty/person.json');
+  const resp = JSON.parse(data);
+
+  const output = neuCCISFaculty.parseDetailpage(resp);
+
+  expect(output).toMatchSnapshot();
+  done();
+});
+

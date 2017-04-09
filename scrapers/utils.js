@@ -1,4 +1,7 @@
 import URI from 'urijs';
+import mkdirp from 'mkdirp-promise'
+
+import macros from './macros'
 
 // Standardizes email addresses found across different pages
 // Removes a 'mailto:' from the beginning
@@ -73,9 +76,35 @@ exports.occurrences = function occurrences(string, subString, allowOverlapping) 
     }
   }
   return n;
+};
+
+exports.loadDevData = async function loadDevData(path) {
+  if (!macros.DEV) {
+    exports.elog('Called load dev data while not in dev mode.');
+    return null;
+  }
+
+  await mkdirp(macros.DEV_DATA_DIR);
+  const exists = await fs.exists(path);
+  if (exists) {
+    return JSON.parse(await fs.readFile(path));
+  }
+  else {
+    return null;
+  }
 }
 
+exports.saveDevData = async function saveDevData(path, data) {
+   if (!macros.DEV) {
+    exports.elog('Called save dev data while not in dev mode.');
+    return null;
+  }
 
+  await mkdirp(macros.DEV_DATA_DIR);
+  await fs.writeFile(path, JSON.stringify(data));
+  
+  return;
+}
 
 // Use this for stuff that should never happen
 // Will log stack trace
@@ -93,16 +122,16 @@ exports.error = function(... args) {
   if (process.env.CI) {
     process.exit(1)
   }
-}
+};
 
 // Use console.warn to log stuff during testing
 
 // Use this for normal logging
 // Will log as normal, but stays silent during testing
-exports.log = function(... args) {
-   if (process.env.NODE_ENV === 'test') {
+exports.log = function log(...args) {
+  if (process.env.NODE_ENV === 'test') {
     return;
   }
 
-  console.log.apply(console.log, args)
-}
+  console.log.apply(console.log, args);
+};

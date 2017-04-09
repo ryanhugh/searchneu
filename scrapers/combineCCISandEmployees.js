@@ -4,7 +4,7 @@ import elasticlunr from 'elasticlunr';
 
 import fs from 'fs-promise';
 import path from 'path';
-import utils from './utils'
+import utils from './utils';
 import macros from './macros';
 import ccisFaculty from './neuCCISFaculty';
 import neuEmployees from './neuEmployees';
@@ -25,8 +25,7 @@ import neuEmployees from './neuEmployees';
 
 class CombineCCISandEmployees {
 
-  constructor(props) {
-
+  constructor() {
     this.couldNotFindNameList = {};
   }
 

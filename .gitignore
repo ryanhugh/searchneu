@@ -1,8 +1,19 @@
 node_modules/
 yarn-error.log
+<<<<<<< HEAD
 compiled_frontend
 dev_data_dir
 data
 test.js
 request_cache
 sandbox.js
+=======
+dev_data_dir
+/public
+request_cache
+sandbox.js
+public
+yarn.lock
+
+
+>>>>>>> master
