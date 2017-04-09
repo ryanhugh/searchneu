@@ -1,6 +1,5 @@
 import cheerio from 'cheerio';
 import fs from 'fs-promise';
-// import mkdirp from 'mkdirp-promise';
 import path from 'path';
 
 import request from './request';

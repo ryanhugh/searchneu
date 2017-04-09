@@ -1,14 +1,14 @@
-import "babel-polyfill";
-import React from "react";
-import ReactDOM from "react-dom";
+import 'babel-polyfill';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import { Router, browserHistory } from 'react-router';
-import Home from "./components/Home";
+
+import Home from './components/Home';
 
 const root = document.getElementById('app');
 function createApp() {
   return (
-      <Home />
+    <Home />
   );
 }
 
