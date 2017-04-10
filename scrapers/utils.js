@@ -133,3 +133,10 @@ exports.log = function log(...args) {
 
   console.log.apply(console.log, args);
 };
+
+
+process.on('unhandledRejection', (err, p) => {
+  console.log('An unhandledRejection occurred');
+  console.log(`Rejected Promise: ${p}`);
+  console.log(`Rejection: ${err.stack}`);
+});
