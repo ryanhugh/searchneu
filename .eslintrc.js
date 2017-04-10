@@ -21,7 +21,17 @@ module.exports = {
     "no-param-reassign": 0,
 
     // Allow for-of loops. 
-    "no-restricted-syntax": 0,
+    "no-restricted-syntax": [
+      'error',
+      {
+        selector: 'LabeledStatement',
+        message: 'Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.',
+      },
+      {
+        selector: 'WithStatement',
+        message: '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
+      },
+    ],
 
     // This rule requires that all class methods use this. 
     // Disabling this allows making class methods that do not reference "this", which is helpful for private helper functions. 

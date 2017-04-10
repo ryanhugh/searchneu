@@ -2,13 +2,12 @@ import request from 'request';
 import htmlparser from 'htmlparser2';
 import domutils from 'domutils';
 import _ from 'lodash';
-import fs from 'fs-promise';
 import cookie from 'cookie';
 import retry from 'promise-retry';
-import mkdirp from 'mkdirp-promise';
 import path from 'path';
 import he from 'he';
 
+import utils from './utils'
 import macros from './macros';
 
 

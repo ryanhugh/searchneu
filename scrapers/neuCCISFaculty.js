@@ -1,6 +1,4 @@
 import cheerio from 'cheerio';
-import fs from 'fs-promise';
-import mkdirp from 'mkdirp-promise';
 import path from 'path';
 
 import request from './request';
@@ -164,7 +162,7 @@ class NeuCCISFaculty {
     await Promise.all(promises);
 
     if (macros.DEV) {
-      await utils.saveDevData(outputFile, people);
+      await utils.saveDevData(outputFile, output);
       console.log('coe file saved!');
     }
 

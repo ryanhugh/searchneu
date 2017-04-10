@@ -179,7 +179,7 @@ class NeuClubs {
     // Increment the page number until hit a page with no results
     while (true) {
       // Scape the list of orgs from each page
-      const resp = await request.post({
+      const resp = await request.post({ // eslint-disable-line no-await-in-loop
         shortBodyWarning: false,
         url: `http://neu.orgsync.com/search/get_orgs_by_letter/${letter.toUpperCase()}?page=${pageNum}`,
       });
@@ -199,7 +199,7 @@ class NeuClubs {
       });
 
       // Wait for all the orgs to finish requesting and parsing
-      const orgs = await Promise.all(promises);
+      const orgs = await Promise.all(promises); // eslint-disable-line no-await-in-loop
 
       utils.log(letter, 'page#', pageNum, 'had', orgs.length, 'orgs now at ', orgs.length);
       pageNum++;

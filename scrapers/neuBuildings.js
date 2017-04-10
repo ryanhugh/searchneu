@@ -1,38 +1,21 @@
 import cheerio from 'cheerio';
-<<<<<<< HEAD
-import fs from 'fs-promise';
-import mkdirp from 'mkdirp-promise';
-import path from 'path';
-=======
->>>>>>> master
 import URI from 'urijs';
 import tj from '@mapbox/togeojson';
 import DOMParser from 'xmldom';
 
 import request from './request';
-<<<<<<< HEAD
-import macros from './macros';
-=======
->>>>>>> master
 
 
 // Downloads building data from the interactive Google map of Northeastern Buildings that NEU provides
 // Google Maps has a fantastic download option, so this file is pretty small :)
 // However, this data source does not have a lot of information on each building
 // Example output. 121 buildings are on this link
-<<<<<<< HEAD
-=======
 /* eslint-disable max-len */
->>>>>>> master
 // "properties": {
 //         "name": "West Village A South",
 //         "styleUrl": "#icon-503-DB4436",
 //         "styleHash": "3abf6c24",
-<<<<<<< HEAD
 //         "description": "<img src=\"https://lh6.googleusercontent.com/proxy/FG9MSt3YcIuMEXuSCisC1u98M9IcBVcqc80N2YOp2OVxSDNjwNL2pAS-7RY4dIXOLrCuxFAjQuZ04LItPoBPq3KGz9TGL9LreZvdloVqXtTI24RnvSdtPG05UQ8\" height=\"200\" width=\"auto\" /><br><br>42.33671: 42.3372592<br>-71.08623: -71.0932206<br>Residence Hall: Residence Hall<br>About:: With distinctive curved facades, vaulted archways, and high-rise towers that provide spectacular views of Boston, the West Village residence halls are among the most popular living options for upperclass students.<br>Read more: : http://www.northeastern.edu/reslife/",
-=======
-//         "description": "<img src=\"https://lh6.googleusercontent.com/proxy/FG9MSt3YcIuMEXuSCisC1u98M9IcBVcqc80N2YOp2OVxSDNjwNL2pAS-7RY4dIXOLrCuxFAjQuZ04LItPoBPq3KGz9TGL9LreZvdloVqXtTI24RnvSdtPG05UQ8\" height=\"200\" width=\"auto\" /><br><br>42.33671: 42.3372592<br>-71.08623: -71.0932206<br>Residence Hall: Residence Hall<br>About:: With distinctive curved facades, vaulted archways, and high-rise towers that provide spectacular views of Boston, the West Village residence halls are among the most popular living options for upperclass students.<br>Read more: : http://www.northeastern.edu/reslife/", // eslint-disable-line max-len
->>>>>>> master
 //         "42.33671": "42.3372592",
 //         "-71.08623": "-71.0932206",
 //         "Residence Hall": "Residence Hall",
@@ -41,17 +24,10 @@ import macros from './macros';
 //         "gx_media_links": "https://lh6.googleusercontent.com/proxy/FG9MSt3YcIuMEXuSCisC1u98M9IcBVcqc80N2YOp2OVxSDNjwNL2pAS-7RY4dIXOLrCuxFAjQuZ04LItPoBPq3KGz9TGL9LreZvdloVqXtTI24RnvSdtPG05UQ8"
 //     }
 // },
-<<<<<<< HEAD
-// www.northeastern.edu/neuhome/about/maps.html
 
-
-
-=======
 /* eslint-enable max-len */
 // www.northeastern.edu/neuhome/about/maps.html
 
-
->>>>>>> master
 // This site has info on classrooms
 // https://classroom.neu.edu/
 
@@ -79,12 +55,7 @@ import macros from './macros';
 
 
 async function main() {
-<<<<<<< HEAD
-  const promises = [];
 
-
-=======
->>>>>>> master
   const resp = await request.get('www.northeastern.edu/neuhome/about/maps.html');
 
   const $ = cheerio.load(resp.body);
