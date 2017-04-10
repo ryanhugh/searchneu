@@ -97,7 +97,7 @@ exports.loadDevData = async function loadDevData(path) {
 exports.saveDevData = async function saveDevData(path, data) {
   if (!macros.DEV) {
     exports.elog('Called save dev data while not in dev mode.');
-    return null;
+    return;
   }
 
   await mkdirp(macros.DEV_DATA_DIR);
@@ -108,7 +108,7 @@ exports.saveDevData = async function saveDevData(path, data) {
 // Will log stack trace
 // and cause CI to fail
 // so CI will send an email
-exports.error = function (...args) {
+exports.error = function error(...args) {
   if (process.env.NODE_ENV === 'test') {
     return;
   }
