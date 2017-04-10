@@ -168,7 +168,7 @@ async function main() {
   const outputFile = path.join(macros.DEV_DATA_DIR, 'coe.json');
 
   if (macros.DEV && require.main !== module) {
-    const devData = await utils.loadDevData(outputFile)
+    const devData = await utils.loadDevData(outputFile);
     if (devData) {
       return devData;
     }

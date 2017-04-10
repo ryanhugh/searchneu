@@ -10,7 +10,6 @@ it('standardize email works', () => {
 
 
 it('standardizePhone works', () => {
-
   const input = utils.standardizePhone('tel:5612547896');
   expect(input).toEqual('5612547896');
 

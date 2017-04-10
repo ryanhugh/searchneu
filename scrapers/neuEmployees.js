@@ -7,18 +7,18 @@ import retry from 'promise-retry';
 import path from 'path';
 import he from 'he';
 
-import utils from './utils'
+import utils from './utils';
 import macros from './macros';
 
 
 // Scrapes from here: https://prod-web.neu.edu/wasapp/employeelookup/public/main.action
 
 // TODO:
-// Some of the phone numbers are not 10 digits. Might be able to guess area code, but it is not allways 215 just because some people have offices outside of Boston. 
-// Phone numbers that are not 10 digits are ignored right now. 
+// Some of the phone numbers are not 10 digits. Might be able to guess area code, but it is not allways 215 just because some people have offices outside of Boston.
+// Phone numbers that are not 10 digits are ignored right now.
 
 
-// Currently: 
+// Currently:
 // Name is always scraped. This can vary slightly between different data sources.
 // This name will never include accents, which the CCIS site does
 // Also, multiple people have the same name so this can not be used as a primary key
@@ -269,7 +269,7 @@ async function main() {
 
   // if this is dev and this data is already scraped, just return the data
   if (macros.DEV && require.main !== module) {
-    const devData = await utils.loadDevData(outputFile)
+    const devData = await utils.loadDevData(outputFile);
     if (devData) {
       return devData;
     }

@@ -1,8 +1,8 @@
 import URI from 'urijs';
-import mkdirp from 'mkdirp-promise'
+import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
 
-import macros from './macros'
+import macros from './macros';
 
 // Standardizes email addresses found across different pages
 // Removes a 'mailto:' from the beginning
@@ -90,38 +90,35 @@ exports.loadDevData = async function loadDevData(path) {
   if (exists) {
     return JSON.parse(await fs.readFile(path));
   }
-  else {
-    return null;
-  }
-}
+
+  return null;
+};
 
 exports.saveDevData = async function saveDevData(path, data) {
-   if (!macros.DEV) {
+  if (!macros.DEV) {
     exports.elog('Called save dev data while not in dev mode.');
     return null;
   }
 
   await mkdirp(macros.DEV_DATA_DIR);
   await fs.writeFile(path, JSON.stringify(data));
-  
-  return;
-}
+};
 
 // Use this for stuff that should never happen
 // Will log stack trace
 // and cause CI to fail
 // so CI will send an email
-exports.error = function(... args) {
+exports.error = function (...args) {
   if (process.env.NODE_ENV === 'test') {
     return;
   }
 
-  console.error.apply(console.error, args)
-  console.trace()
+  console.error.apply(console.error, args);
+  console.trace();
 
   // So I get an email about it
   if (process.env.CI) {
-    process.exit(1)
+    process.exit(1);
   }
 };
 

@@ -139,7 +139,7 @@ class NeuCCISFaculty {
 
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module) {
-      const devData = await utils.loadDevData(outputFile)
+      const devData = await utils.loadDevData(outputFile);
       if (devData) {
         return devData;
       }

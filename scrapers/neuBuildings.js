@@ -55,7 +55,6 @@ import request from './request';
 
 
 async function main() {
-
   const resp = await request.get('www.northeastern.edu/neuhome/about/maps.html');
 
   const $ = cheerio.load(resp.body);
