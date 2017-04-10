@@ -74,7 +74,7 @@ class EmployeePanel extends React.Component {
 
       const phoneText = phone.join('');
 
-      contactText.push(<a href={ `tel:${phoneText}` }>{phoneText}</a>);
+      contactText.push(<a key="tel" href={ `tel:${phoneText}` }>{phoneText}</a>);
     }
 
     // Add <br/>s between the elements
@@ -84,7 +84,7 @@ class EmployeePanel extends React.Component {
     if (employee.link) {
       linkElement = (
         <span className = {css.link}> 
-          <a target='_blank' rel='noopener noreferrer' className={ css.inlineBlock } href={ employee.link }>
+          <a key="jfdalsj" target='_blank' rel='noopener noreferrer' className={ css.inlineBlock } href={ employee.link }>
             <img src={ globe } alt='globe' />
           </a>
         </span>
@@ -94,15 +94,15 @@ class EmployeePanel extends React.Component {
 
     var links = []
     if (employee.link) {
-      links.push(<a target='_blank' rel='noopener noreferrer' href={employee.link}>CCIS Profile</a>)
+      links.push(<a key="link" target='_blank' rel='noopener noreferrer' href={employee.link}>CCIS Profile</a>)
     }
 
     if (employee.personalSite) {
-      links.push(<a target='_blank' rel='noopener noreferrer' href={employee.personalSite}>Personal Website</a>)
+      links.push(<a key="personalSite" target='_blank' rel='noopener noreferrer' href={employee.personalSite}>Personal Website</a>)
     }
 
     if (employee.googleScholarId) {
-      links.push(<a target='_blank' rel='noopener noreferrer' href={'https://scholar.google.com/citations?user=' + employee.googleScholarId + '&hl=en&oi=ao'}>Google Scholar</a>)
+      links.push(<a key="googleScholarId" target='_blank' rel='noopener noreferrer' href={'https://scholar.google.com/citations?user=' + employee.googleScholarId + '&hl=en&oi=ao'}>Google Scholar</a>)
     }
 
     links = this.constructor.injectBRs(links)

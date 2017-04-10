@@ -123,10 +123,10 @@ class ResultsLoader extends React.Component {
           <div className='page-home' ref='elementsContainer'>
             {this.state.visibleObjects.map((obj) => {
               if (obj.type === 'class') {
-                return <ClassPanel id={ obj.data._id } aClass={ obj.data } />;
+                return <ClassPanel key={ obj.data._id } aClass={ obj.data } />;
               }
               else if (obj.type === 'employee') {
-                return <EmployeePanel id = {obj.data.id} employee = {obj.data} />
+                return <EmployeePanel key = {obj.data.id} employee = {obj.data} />
               }
               else {
                 console.log('Uknown type', obj.type)
