@@ -273,18 +273,24 @@ class Home extends React.Component {
 
         <div className='footer ui basic center aligned segment'>
           See an issue or want to add to this website? Fork it or create an issue on
-          <a href='https://github.com/ryanhugh/neusearch'>GitHub</a>.
+          <a href='https://github.com/ryanhugh/neusearch'>
+            &nbsp;GitHub
+          </a>.
         </div>
 
         <div className='ui divider' />
 
         <div className='footer ui basic center aligned segment'>
-          Made with
+          Made with 
           <i className='rocket circular small icon' />
-          by
-          <a href='http://github.com/ryanhugh'>Ryan Hughes</a>
-          and UI borrowed from
-          <a href='https://github.com/2factorauth/twofactorauth'>Two Factor Authenticaton</a>.
+          &nbsp;by&nbsp; 
+          <a href='http://github.com/ryanhugh'>
+            Ryan Hughes
+          </a>
+          &nbsp;and UI borrowed from&nbsp;
+          <a href='https://github.com/2factorauth/twofactorauth'>
+            Two Factor Authenticaton
+          </a>.
         </div>
       </div>
     );
