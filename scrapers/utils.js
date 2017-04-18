@@ -134,6 +134,15 @@ exports.log = function log(...args) {
   console.log.apply(console.log, args);
 };
 
+exports.verbose = function verbose(...args) {
+  if (!process.env.VERBOSE) {
+    return;
+  }
+
+  console.log.apply(console.log, args);
+}
+
+exports.verbose('Starting in verbose mode');
 
 process.on('unhandledRejection', (err, p) => {
   console.log('An unhandledRejection occurred');

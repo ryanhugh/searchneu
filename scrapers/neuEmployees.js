@@ -3,7 +3,6 @@ import htmlparser from 'htmlparser2';
 import domutils from 'domutils';
 import _ from 'lodash';
 import cookie from 'cookie';
-import retry from 'promise-retry';
 import path from 'path';
 import he from 'he';
 
@@ -120,68 +119,52 @@ async function getCookiePromise() {
   if (cookiePromise) {
     return cookiePromise;
   }
+  
+  utils.verbose('neu employee getting cookie');
 
-  cookiePromise = new Promise((resolve, reject) => {
-    request.get({
-      url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/main.action',
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143',
-      },
-    }, (err, resp) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-
-      const cookieString = resp.headers['set-cookie'][0];
-      const cookies = cookie.parse(cookieString);
-      resolve(cookies.JSESSIONID);
-    });
-  });
-
-  return cookiePromise;
+  cookiePromise = request.get({
+    url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/main.action'
+  }).then(function (resp) {
+    
+    // Parse the cookie from the response
+    const cookieString = resp.headers['set-cookie'][0];
+    const cookies = cookie.parse(cookieString);
+    utils.verbose('got cookie')
+    return cookies.JSESSIONID  
+  })
+  
+  return cookiePromise
 }
 
 
 function hitWithLetters(lastNameStart, jsessionCookie) {
-  return retry({
-    factor: 1,
-    maxTimeout: 5000,
-  }, (retryCount, num) => {
-    return new Promise((resolve, reject) => {
-      const reqBody = `searchBy=Last+Name&queryType=begins+with&searchText=${lastNameStart}&deptText=&addrText=&numText=&divText=&facStaff=1`;
-      request.post({
-        url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/searchEmployees.action',
-        method: 'POST',
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143',
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Cookie: `JSESSIONID=${jsessionCookie}`,
-          Referer: 'https://prod-web.neu.edu/wasapp/employeelookup/public/searchEmployees.action',
-        },
-        body: reqBody,
-      }, (err, resp, body) => {
-        if (err) {
-          console.log('Failed to get letters', err, num, lastNameStart);
-          reject(err);
-          return;
-        }
-        resolve(body);
-      });
-    }).catch(retry);
-  });
+  jsessionCookie = '0000yanSt9GeC_JZ_t5ahPOOnlQ:188q12kdr'
+  const reqBody = `searchBy=Last+Name&queryType=begins+with&searchText=${lastNameStart}&deptText=&addrText=&numText=&divText=&facStaff=1`;
+  return request.post({
+    url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/searchEmployees.action',
+    method: 'POST',
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Cookie: `JSESSIONID=${jsessionCookie}`,
+      Referer: 'https://prod-web.neu.edu/wasapp/employeelookup/public/searchEmployees.action',
+    },
+    body: reqBody,
+  })
 }
 
 
 function get(lastNameStart) {
   return new Promise(async (resolve, reject) => {
     const jsessionCookie = await getCookiePromise();
+    
+    utils.verbose('neu employee got cookie', jsessionCookie);
 
     const body = await hitWithLetters(lastNameStart, jsessionCookie);
 
-    handleRequestResponce(body, (err, dom) => {
+    handleRequestResponce(body.body, (err, dom) => {
       const elements = domutils.getElementsByTagName('table', dom);
-
+      
       for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
 
@@ -256,9 +239,8 @@ function get(lastNameStart) {
         }
       }
 
-      console.log('YOOOOO it didnt find the table');
-      console.log(body);
-
+      console.error('YOOOOO it didnt find the table', body.body.length);
+      console.error(body.body);
       return reject('nope');
     });
   });
@@ -278,20 +260,26 @@ async function main() {
 
   const promises = [];
 
-  macros.ALPHABET.split('').forEach((firstLetter) => {
-    macros.ALPHABET.split('').forEach((secondLetter) => {
-      promises.push(get(firstLetter + secondLetter));
-    });
-  });
+  const alphabetArray = macros.ALPHABET.split('')
+  
+  for (const firstLetter of alphabetArray) {
+    for (const secondLetter of alphabetArray) {
+      // promises.push()
+      await get(firstLetter + secondLetter);
+    } 
+  }
+  // utils.verbose('Done all employee requests')
 
-
-  await Promise.all(promises);
+  await Promise.all(promises);	
+  
+  utils.verbose('Done all employee requests')
+    
 
   if (macros.DEV) {
     await utils.saveDevData(outputFile, people);
     console.log('employees file saved!');
   }
-
+  
   return people;
 }
 

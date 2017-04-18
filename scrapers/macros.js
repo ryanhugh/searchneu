@@ -18,7 +18,7 @@ exports.PUBLIC_DIR = path.join('public', 'data');
 exports.DEV_DATA_DIR = path.join('dev_data_dir');
 
 // For iterating over every letter in a couple different places in the code
-exports.ALPHABET = 'qwertyuiopasdfghjklzxcvbnm';
+exports.ALPHABET = 'maqwertyuiopsdfghjklzxcvbn';
 
 // whether the scrapers are running in prod mode or not.
 // When in dev mode, each file will save its outputs to a file

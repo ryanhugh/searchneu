@@ -19,7 +19,7 @@
 import request from 'request-promise-native';
 import URI from 'urijs';
 import fs from 'fs-promise';
-import async from 'async';
+import asyncjs from 'async';
 import dns from 'dns-then';
 import mkdirp from 'mkdirp-promise';
 import objectHash from 'object-hash';
@@ -45,7 +45,7 @@ import macros from './macros';
 // Attributes are added to this object when it is used
 // This is the total number of requests per host
 // https://github.com/request/request
-const separateReqDefaultPool = { maxSockets: 10000, keepAlive: true, maxFreeSockets: 10000 };
+const separateReqDefaultPool = { maxSockets: 1, keepAlive: true, maxFreeSockets: 1 };
 
 // Specific limits for some sites. CCIS will reject request if too many are made too quickly.
 // Some other schools' servers will crash/slow to a crawl if too many requests are sent too quickly.
@@ -73,6 +73,8 @@ class Request {
     if (this.dnsPromises[hostname]) {
       return this.dnsPromises[hostname];
     }
+    
+    utils.verbose('Hitting dns lookup for', hostname);
 
     // Just the host + subdomains are needed, eg blah.google.com
     if (hostname.startsWith('http://') || hostname.startsWith('https://')) {
@@ -201,6 +203,8 @@ class Request {
     output.url = urlWithIp;
     output.headers = headers;
 
+    utils.verbose('Firing request to', output.url);
+
     this.openRequests++;
     let response;
     try {
@@ -227,6 +231,7 @@ class Request {
   async request(config) {
     config = this.standardizeInputConfig(config);
 
+    utils.verbose('Request hitting', config);
 
     const urlParsed = new URI(config.url);
 
@@ -236,6 +241,7 @@ class Request {
 
 
     if (macros.DEV) {
+      
       folder = path.join('request_cache', urlParsed.hostname());
 
       // Ensure only letters and numbers and dots and limit char length
@@ -249,7 +255,7 @@ class Request {
 
       if (exists) {
         const contents = JSON.parse((await fs.readFile(filePath)).toString());
-        // console.log('Loaded ', contents.body.length, 'from cache', config.url);
+        utils.verbose('Loaded ', contents.body.length, 'from cache', config.url);
         return contents;
       }
     }
@@ -258,7 +264,7 @@ class Request {
     let tryCount = 0;
 
     return new Promise((resolve, reject) => {
-      async.retry({
+      asyncjs.retry({
         times: MAX_RETRY_COUNT,
         interval: RETRY_DELAY + Math.round(Math.random() * RETRY_DELAY_DELTA),
       }, async (callback) => {

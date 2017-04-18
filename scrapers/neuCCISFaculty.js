@@ -136,17 +136,21 @@ class NeuCCISFaculty {
 
   async main() {
     const outputFile = path.join(macros.DEV_DATA_DIR, 'ccis.json');
+    console.log('hi2')
 
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module) {
       const devData = await utils.loadDevData(outputFile);
       if (devData) {
+      	console.log('hi4')
         return devData;
       }
     }
 
     const resp = await request.get('http://www.ccis.northeastern.edu/people-view-all/');
     const peopleObjects = this.parsePeopleList(resp);
+
+	console.log('hi3')
 
     const promises = [];
     const output = [];
