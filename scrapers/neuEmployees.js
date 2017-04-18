@@ -1,4 +1,4 @@
-import request from 'request';
+import request from './request';
 import htmlparser from 'htmlparser2';
 import domutils from 'domutils';
 import _ from 'lodash';
@@ -122,7 +122,7 @@ async function getCookiePromise() {
   }
 
   cookiePromise = new Promise((resolve, reject) => {
-    request({
+    request.get({
       url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/main.action',
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143',
@@ -150,7 +150,7 @@ function hitWithLetters(lastNameStart, jsessionCookie) {
   }, (retryCount, num) => {
     return new Promise((resolve, reject) => {
       const reqBody = `searchBy=Last+Name&queryType=begins+with&searchText=${lastNameStart}&deptText=&addrText=&numText=&divText=&facStaff=1`;
-      request({
+      request.post({
         url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/searchEmployees.action',
         method: 'POST',
         headers: {
@@ -162,7 +162,7 @@ function hitWithLetters(lastNameStart, jsessionCookie) {
         body: reqBody,
       }, (err, resp, body) => {
         if (err) {
-          console.log('Failed to get letters', err, num);
+          console.log('Failed to get letters', err, num, lastNameStart);
           reject(err);
           return;
         }
