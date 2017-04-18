@@ -138,16 +138,13 @@ async function getCookiePromise() {
 
 
 function hitWithLetters(lastNameStart, jsessionCookie) {
-  jsessionCookie = '0000yanSt9GeC_JZ_t5ahPOOnlQ:188q12kdr'
   const reqBody = `searchBy=Last+Name&queryType=begins+with&searchText=${lastNameStart}&deptText=&addrText=&numText=&divText=&facStaff=1`;
   return request.post({
     url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/searchEmployees.action',
     method: 'POST',
     headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143',
       'Content-Type': 'application/x-www-form-urlencoded',
       Cookie: `JSESSIONID=${jsessionCookie}`,
-      Referer: 'https://prod-web.neu.edu/wasapp/employeelookup/public/searchEmployees.action',
     },
     body: reqBody,
   })
