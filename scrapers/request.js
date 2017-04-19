@@ -45,7 +45,7 @@ import macros from './macros';
 // Attributes are added to this object when it is used
 // This is the total number of requests per host
 // https://github.com/request/request
-const separateReqDefaultPool = { maxSockets: 1, keepAlive: true, maxFreeSockets: 1 };
+const separateReqDefaultPool = { maxSockets: 10000, keepAlive: true, maxFreeSockets: 10000 };
 
 // Specific limits for some sites. CCIS will reject request if too many are made too quickly.
 // Some other schools' servers will crash/slow to a crawl if too many requests are sent too quickly.
@@ -256,6 +256,7 @@ class Request {
       if (exists) {
         const contents = JSON.parse((await fs.readFile(filePath)).toString());
         utils.verbose('Loaded ', contents.body.length, 'from cache', config.url);
+        contents.cacheHit = true;
         return contents;
       }
     }
