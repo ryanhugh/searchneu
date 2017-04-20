@@ -38,8 +38,11 @@ import macros from './macros';
 //    the URL in the cert with the IP in the url, which will fail. Need to disable https verification for this to work.
 // Keep-alive connections. Keep TCP connections open between requests. This significantly speeds up scraping speeds (1hr -> 20min)
 // Ignore invalid HTTPS certificates and outdated ciphers. Some school sites have really old and outdated sites. We want to scrape them even if their https is misconfigured.
+// Saves all pages to disk in development so parsers are faster and don't need to hit actuall websites to test updates for scrapers
+// see the request function for details about input (same as request input + some more stuff) and output (same as request 'response' object + more stuff)
 
-// In progress: save all pages to disk so development of parsers is faster and don't need to hit prod to test updates for scrapers
+// useCache: whether to use the local cache or not. This setting only affects dev. Prod is allways false. Default: true
+
 
 // This object must be created once per process
 // Attributes are added to this object when it is used
@@ -227,7 +230,8 @@ class Request {
     return false;
   }
 
-
+  // Outputs a response object. Get the body of this object with ".body". 
+  // Also returns a cacheHit response for whether the request hit the local cache or not
   async request(config) {
     config = this.standardizeInputConfig(config);
 
@@ -240,7 +244,7 @@ class Request {
     let filePath;
 
 
-    if (macros.DEV) {
+    if (macros.DEV && config.useCache !== false) {
       
       folder = path.join('request_cache', urlParsed.hostname());
 
@@ -277,6 +281,7 @@ class Request {
           // Most sites just give a ECONNRESET or ETIMEDOUT, but dccc also gives a EPROTO and ECONNREFUSED.
           // This will retry for any error code.
           console.log('Try#:', tryCount, 'Code:', err.statusCode || err, ' Open request count: ', this.openRequests, 'Url:', config.url);
+          utils.verbose(err.response.body)
           callback(err);
           return;
         }
@@ -303,6 +308,7 @@ class Request {
         }
 
         console.log('Parsed', response.body.length, 'from ', config.url);
+        response.cacheHit = false;
         resolve(response);
       });
     });

@@ -150,16 +150,9 @@ function hitWithLetters(lastNameStart, jsessionCookie) {
   })
 }
 
-
-function get(lastNameStart) {
-  return new Promise(async (resolve, reject) => {
-    const jsessionCookie = await getCookiePromise();
-    
-    utils.verbose('neu employee got cookie', jsessionCookie);
-
-    const body = await hitWithLetters(lastNameStart, jsessionCookie);
-
-    handleRequestResponce(body.body, (err, dom) => {
+function parseLettersResponse(response) {
+  return new Promise((resolve, reject) => {
+    handleRequestResponce(response.body, (err, dom) => {
       const elements = domutils.getElementsByTagName('table', dom);
       
       for (let i = 0; i < elements.length; i++) {
@@ -183,7 +176,7 @@ function get(lastNameStart) {
           const parsedTable = tableData.parsedTable;
           const rowCount = tableData.rowCount;
 
-          console.log('Found', rowCount, ' people on page ', lastNameStart);
+          console.log('Found', rowCount, ' people on page ', response.request.uri.href);
 
           for (let j = 0; j < rowCount; j++) {
             const person = {};
@@ -236,11 +229,23 @@ function get(lastNameStart) {
         }
       }
 
-      console.error('YOOOOO it didnt find the table', body.body.length);
-      console.error(body.body);
+      console.error('YOOOOO it didnt find the table', response.body.length);
+      console.error(response.body);
       return reject('nope');
     });
   });
+}
+
+
+async function get(lastNameStart) {
+
+    const jsessionCookie = await getCookiePromise();
+    
+    utils.verbose('neu employee got cookie', jsessionCookie);
+
+    const response = await hitWithLetters(lastNameStart, jsessionCookie);
+    
+    return parseLettersResponse(response)
 }
 
 async function main() {
