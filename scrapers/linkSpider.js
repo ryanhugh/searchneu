@@ -5,60 +5,77 @@ import request from './request';
 
 class LinkSpider {
   
-  async main(url, depth) {
+  async main(inputUrl, depth = 1) {
     
-    const inputHost = new URI(url).hostname()
-    console.log(inputHost)
+    const inputHost = new URI(inputUrl).hostname()
     
     let history = {}
-    
-    
+    let urlStack = [inputUrl]
     let newUrls = []
     
-    const resp = await request.get(url)
-    
-    const $ = cheerio.load(resp.body);
-    
-    let elements = $('a')
-    for (let i = 0; i < elements.length; i++) {
-      const element = elements[i];
-      let url = $(element).attr('href')
-      let newHost = new URI(url).hostname()
+    while (depth > 0) {
       
-      // If this link is to a different site, ignore. 
-      if (newHost !== inputHost) {
-        continue;
+      let promises = []
+      
+      // Get all the links from all of the URLs
+      for (let url of urlStack) {
+        promises.push(request.get(url))
       }
       
-      // Already saw this url, continue
-      if (history[url]) {
-        continue;
-      }
+      let responses = await Promise.all(promises)
       
-      history[url] = true;
+      let linksOnPages = []
+      
+      responses.forEach(function(resp) {
+        
+        const $ = cheerio.load(resp.body);
+        let elements = $('a')
+        for (let i = 0; i < elements.length; i++) {
+          const element = elements[i];
+          let url = $(element).attr('href')
+          if  (!url) {
+            continue;
+          }
+          let newHost = new URI(url).hostname()
+            
+            
+          // If this link is to a different site, ignore. 
+          if (newHost !== inputHost) {
+            continue;
+          }
+          
+          // Already saw this url, continue
+          if (history[url]) {
+            continue;
+          }
+          
+          history[url] = true;
+        
+          linksOnPages.push(url)
+        }
+      })
+      
+      urlStack = linksOnPages;
+      depth --;
       
       
-      newUrls.push(url)
-      
-      
-      // new URI(googleMapSrc).
     }
     
-    
-    // console.log(a)
-    
-    
-    
-    
-    
-    
+    return urlStack
   }
-  
-  
 }
 
 
 
 const instance = new LinkSpider()
 
-instance.main('https://camd.northeastern.edu/artdesign/community/faculty-staff/')
+
+async function main() {
+  
+  let a  = await instance.main('https://camd.northeastern.edu/artdesign/community/faculty-staff/')
+  
+  console.log(JSON.stringify(a, null, 4))  
+}
+
+main()
+
