@@ -39,9 +39,8 @@ import macros from './macros';
 // Keep-alive connections. Keep TCP connections open between requests. This significantly speeds up scraping speeds (1hr -> 20min)
 // Ignore invalid HTTPS certificates and outdated ciphers. Some school sites have really old and outdated sites. We want to scrape them even if their https is misconfigured.
 // Saves all pages to disk in development so parsers are faster and don't need to hit actuall websites to test updates for scrapers
+// ignores request cookies when matching request for caching
 // see the request function for details about input (same as request input + some more stuff) and output (same as request 'response' object + more stuff)
-
-// useCache: whether to use the local cache or not. This setting only affects dev. Prod is allways false. Default: true
 
 
 // This object must be created once per process
@@ -231,7 +230,6 @@ class Request {
   }
 
   // Outputs a response object. Get the body of this object with ".body". 
-  // Also returns a cacheHit response for whether the request hit the local cache or not
   async request(config) {
     config = this.standardizeInputConfig(config);
 
@@ -244,12 +242,21 @@ class Request {
     let filePath;
 
 
-    if (macros.DEV && config.useCache !== false) {
+  if (macros.DEV) {
       
       folder = path.join('request_cache', urlParsed.hostname());
+      
+      // Make a new requeset without the cookies
+      let headersWithoutCookie = {};
+      Object.assign(headersWithoutCookie, config.headers)
+      headersWithoutCookie.Cookie = undefined
+      
+      let configToHash = {}
+      Object.assign(configToHash, config)
+      configToHash.headers = headersWithoutCookie
 
       // Ensure only letters and numbers and dots and limit char length
-      filename = urlParsed.path().replace(/[^A-Za-z0-9.]/gi, '_').trim().slice(0, 25) + objectHash(config);
+      filename = urlParsed.path().replace(/[^A-Za-z0-9.]/gi, '_').trim().slice(0, 25) + objectHash(configToHash);
 
       await mkdirp(folder);
 
@@ -260,7 +267,6 @@ class Request {
       if (exists) {
         const contents = JSON.parse((await fs.readFile(filePath)).toString());
         utils.verbose('Loaded ', contents.body.length, 'from cache', config.url);
-        contents.cacheHit = true;
         return contents;
       }
     }
@@ -308,7 +314,6 @@ class Request {
         }
 
         console.log('Parsed', response.body.length, 'from ', config.url);
-        response.cacheHit = false;
         resolve(response);
       });
     });
@@ -379,7 +384,10 @@ class Request {
 
 //   try {
 //     const d = await it.request({
-//       url:'http://localhost',
+//       url:'http://google.com',
+//       headers: {
+//         Cookie: 'jfjdklasjfldkasjlkf'
+//       }
 //     });
 
 //     console.log(d.body, 'NO CRASH');
@@ -388,6 +396,7 @@ class Request {
 //   }
 // }
 
+// test()
 
 const instance = new Request();
 
