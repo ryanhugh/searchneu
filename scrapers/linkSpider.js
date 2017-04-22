@@ -5,13 +5,13 @@ import request from './request';
 
 class LinkSpider {
   
-  async main(inputUrl, depth = 1) {
+  async main(inputUrl, depth = 2) {
     
     const inputHost = new URI(inputUrl).hostname()
     
     let history = {}
     let urlStack = [inputUrl]
-    let newUrls = []
+    let returnUrls = []
     
     while (depth > 0) {
       
@@ -52,6 +52,7 @@ class LinkSpider {
           history[url] = true;
         
           linksOnPages.push(url)
+          returnUrls.push(url)
         }
       })
       
@@ -61,7 +62,7 @@ class LinkSpider {
       
     }
     
-    return urlStack
+    return returnUrls
   }
 }
 
@@ -74,7 +75,7 @@ async function main() {
   
   let a  = await instance.main('https://camd.northeastern.edu/artdesign/community/faculty-staff/')
   
-  console.log(JSON.stringify(a, null, 4))  
+  console.log(JSON.stringify(a, null, 4), a.length)  
 }
 
 main()
