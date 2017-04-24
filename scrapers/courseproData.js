@@ -7,7 +7,7 @@ import macros from './macros';
 
 
 async function fireRequest(url, body = {}, method = 'POST') {
-  const actualUrl = `https://coursepro.io${url}`;
+  const actualUrl = `https://localhost${url}`;
   let resp;
 
   if (method === 'GET') {
