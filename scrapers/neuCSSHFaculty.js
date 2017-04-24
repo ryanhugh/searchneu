@@ -6,7 +6,7 @@ import linkSpider from './linkSpider';
 import request from './request';
 
 
-class Camd {
+class Cssh {
   
   
   getShallowText(elements) {
@@ -36,25 +36,31 @@ class Camd {
     const $ = cheerio.load(resp.body);
     
     
-    obj.name = $('#main > div.pagecenter > div > div > div > div > div.col10.last.right > h1.entry-title').text().trim()
+    obj.name = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > h1').text().trim()
     
     
-    // obj.image = $('#main > div.pagecenter > div > div > div > div > div.col5 > img')
-    obj.image = $('#main > div.pagecenter > div > div > div > div > div.col5 > img.wp-post-image').attr('src').trim()
+    obj.image = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > img.headshot').attr('src').trim()
     
     // Job Title
-    // "Associate Professor – Design, Interactive Media"
-    obj.title = $('#main > div.pagecenter > div > div > div > div > div.col10 > p.introp').text().trim()
+    // "Assistant Professor Sociology and Health Science"
+    obj.title = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > div.fac-single-title').text().trim()
+    
+    // Parse out the email. Parse both the email it is linked to and the email that is displayed to ensure they are the same
+    let emailElements = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > p > a')
+    
+    let mailto = utils.standardizeEmail(emailElements.attr('href'))
+    let email = utils.standardizeEmail(emailElements.text().trim())
+    if ((mailto || email) && mailto !== email) {
+      console.log('Warning; mailto !== email, skipping', mailto, email)
+    }
+    else if (mailto === email && email) {
+      obj.email = email;
+    }
+    
     
     // Phone number and office location are just both in a <p> element separated by <br>. 
     // Dump all the text and then figure out where the phone and office is. 
     let descriptionElements = $('#main div.pagecenter div.gdcenter div.col16 > div.col5 > p.smallp')[0].children
-    
-    let email = $('#main > div.pagecenter > div > div > div > div:nth-child(1) > div.col5 > p > a').text().trim()
-    email = utils.standardizeEmail(email)
-    if (email) {
-      obj.email = email;
-    }
     
     let texts = this.getShallowText(descriptionElements)
     
@@ -71,7 +77,7 @@ class Camd {
       }
       
       // Might be office
-      else if (text.length > 5) {
+      else if (text.length > 6) {
         if (obj.office) {
           console.log('dup office???', obj.office, text)
         }
@@ -91,15 +97,8 @@ class Camd {
   
   
   async main() {
-    
-    let startingLinks = ['https://camd.northeastern.edu/architecture/faculty-staff',
-    'https://camd.northeastern.edu/artdesign/faculty-staff',
-    'https://camd.northeastern.edu/commstudies/faculty-staff',
-    'https://camd.northeastern.edu/gamedesign/faculty-staff',
-    'https://camd.northeastern.edu/journalism/faculty-staff',
-    'https://camd.northeastern.edu/mscr/faculty-staff',
-    'https://camd.northeastern.edu/music/faculty-staff',
-    'https://camd.northeastern.edu/theatre/faculty-staff']
+    https://www.northeastern.edu/cssh/faculty
+    let startingLinks = ['https://www.northeastern.edu/cssh/faculty']
     
     
     let urls = await linkSpider.main(startingLinks)
@@ -107,9 +106,9 @@ class Camd {
     let profileUrls = []
     
     // Filter all the urls found to just profile urls
-    //  'https://camd.northeastern.edu/artdesign/people/magy-seif-el-nasr-2/',
+    //  'https://www.northeastern.edu/cssh/faculty/noemi-daniel-voionmaa',
     urls.forEach(function(url){
-      if (url.match(/https:\/\/camd.northeastern.edu\/(architecture|artdesign|commstudies|gamedesign|journalism|mscr|music|theatre)\/people\/[\w\d-]+\/?/i)) {
+      if (url.match(/https:\/\/www.northeastern.edu\/cssh\/faculty\/[\d\w-]+\/?/i)) {
         profileUrls.push(url)
       }
     })
@@ -133,7 +132,7 @@ class Camd {
 
 
 
-const instance = new Camd()
+const instance = new Cssh()
 
 instance.main()
 
