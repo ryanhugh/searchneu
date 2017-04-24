@@ -5,16 +5,21 @@ import request from './request';
 
 class LinkSpider {
   
-  async main(inputUrl, depth = 2) {
-    if (!inputUrl) {
+  async main(inputUrls, depth = 1) {
+    if (!inputUrls || inputUrls.length === 0) {
       console.error("Link Spider needs a starting url")
       return null;
     }
     
-    const inputHost = new URI(inputUrl).hostname()
+    let validHostnames = {}
+    
+    inputUrls.forEach(function (url) {
+      validHostnames[new URI(url).hostname()] = true;
+    })
+    
     
     let history = {}
-    let urlStack = [inputUrl]
+    let urlStack = inputUrls.slice(0)
     let returnUrls = []
     
     while (depth > 0) {
@@ -44,7 +49,7 @@ class LinkSpider {
             
             
           // If this link is to a different site, ignore. 
-          if (newHost !== inputHost) {
+          if (!validHostnames[newHost]) {
             continue;
           }
           

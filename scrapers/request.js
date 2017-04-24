@@ -93,7 +93,7 @@ class Request {
     const result = await promise;
 
     if (result.length > 1) {
-      console.log('INFO: more than 1 dns result', result);
+      console.log('INFO: more than 1 dns result', result, hostname);
     }
 
     return result;
@@ -265,9 +265,15 @@ class Request {
       const exists = await fs.exists(filePath);
 
       if (exists) {
-        const contents = JSON.parse((await fs.readFile(filePath)).toString());
-        utils.verbose('Loaded ', contents.body.length, 'from cache', config.url);
-        return contents;
+        let body = await fs.readFile(filePath)
+        if (body.length === 0) {
+          console.log('Warning, empty cache file, skipping!', filePath)
+        }
+        else {
+          const contents = JSON.parse((body).toString());
+          utils.verbose('Loaded ', contents.body.length, 'from cache', config.url);
+          return contents;  
+        }
       }
     }
 
@@ -286,8 +292,14 @@ class Request {
         } catch (err) {
           // Most sites just give a ECONNRESET or ETIMEDOUT, but dccc also gives a EPROTO and ECONNREFUSED.
           // This will retry for any error code.
-          console.log('Try#:', tryCount, 'Code:', err.statusCode || err, ' Open request count: ', this.openRequests, 'Url:', config.url);
-          utils.verbose(err.response.body)
+          console.log('Try#:', tryCount, 'Code:', err.statusCode || err.RequestError || err.Error || err.message || err, ' Open request count: ', this.openRequests, 'Url:', config.url);
+          if (err.response) {
+            utils.verbose(err.response.body)  
+          }
+          else {
+            utils.verbose(err.message)
+          }
+          
           callback(err);
           return;
         }
