@@ -6,6 +6,10 @@ import request from './request';
 class LinkSpider {
   
   async main(inputUrl, depth = 2) {
+    if (!inputUrl) {
+      console.error("Link Spider needs a starting url")
+      return null;
+    }
     
     const inputHost = new URI(inputUrl).hostname()
     
@@ -71,12 +75,13 @@ class LinkSpider {
 const instance = new LinkSpider()
 
 
-async function main() {
+// async function main() {
   
-  let a  = await instance.main('https://camd.northeastern.edu/artdesign/community/faculty-staff/')
+//   let a  = await instance.main('https://camd.northeastern.edu/artdesign/community/faculty-staff/')
   
-  console.log(JSON.stringify(a, null, 4), a.length)  
-}
+//   console.log(JSON.stringify(a, null, 4), a.length)  
+// }
 
-main()
+// main()
 
+export default instance;
