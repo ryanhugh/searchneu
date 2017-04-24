@@ -40,7 +40,10 @@ class Camd {
     
     
     // obj.image = $('#main > div.pagecenter > div > div > div > div > div.col5 > img')
-    obj.image = $('#main > div.pagecenter > div > div > div > div > div.col5 > img.wp-post-image').attr('src').trim()
+    obj.image = $('#main > div.pagecenter > div > div > div > div > div.col5 > img.wp-post-image').attr('src')
+    if (obj.image) {
+      obj.image = obj.image.trim()
+    }
     
     // Job Title
     // "Associate Professor – Design, Interactive Media"
