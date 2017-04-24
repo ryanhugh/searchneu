@@ -31,24 +31,44 @@ class Cssh {
 
     const $ = cheerio.load(resp.body);
 
-
+    // Scrape the name from a h1
     obj.name = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > h1').text().trim();
 
-
+    // Scrape the picture of the prof
     obj.image = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > img.headshot').attr('src').trim();
 
     // Job Title
     // "Assistant Professor Sociology and Health Science"
     obj.title = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > div.fac-single-title').text().trim();
 
-    // Parse out the email. Parse both the email it is linked to and the email that is displayed to ensure they are the same
-    const emailElements = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > p > a');
+    // Parse out the email. 
+    let emailElements = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > p > a');
 
-    const mailto = utils.standardizeEmail(emailElements.attr('href')).trim();
-    const email = utils.standardizeEmail(emailElements.text().trim()).trim();
+    let emailElement = null;
+    for (var i = 0; i < emailElements.length; i++) {
+      const element = emailElements[i];
+      if (element.attribs.href.startsWith('mailto')) {
+        if (emailElement) {
+          console.log('Error, already saw a email element')
+        }
+        else {
+          emailElement = element
+        }
+      }
+    }
+
+    emailElement = $(emailElement)
+
+    // Parse both the email it is linked to and the email that is displayed to ensure they are the same.
+    const mailto = utils.standardizeEmail(emailElement.attr('href')).trim();
+    const email = utils.standardizeEmail(emailElement.text().trim()).trim();
+
+    // If they are different, log a warning and skip this email.
     if ((mailto || email) && mailto !== email) {
       console.log('Warning; mailto !== email, skipping', mailto, email, 'done yo');
     } else if (mailto === email && email) {
+
+      // If they are the same and they are not an empty string or undefined, keep the email.
       obj.email = email;
     }
 
@@ -64,70 +84,62 @@ class Cssh {
 
       if (element.type === 'text') {
 
-        
+        // Discard all text elements until the start of the first category
         if (category === null) {
           return;
         }
+
+        // Discard empty text elements
         if (element.data.trim().length === 0) {
           return;
         }
 
-
+        // Add lines that are a part of the address category to the address field.
         if (category === 'Mailing Address') {
           const newText = element.data.trim();
           if (newText) {
             address.push(newText);
           }
-        } else if (category === 'Contact:') {
+        }
+
+        // The phone number is under the contact field
+        else if (category === 'Contact:') {
           console.log(element.data.trim(), 'phone??');
         }
-      } else if (element.type === 'tag') {
+      } 
+
+      // Behaviors for hitting tags
+      else if (element.type === 'tag') {
+
+        // If hit a valid h4 element, change the category to the text in the h4 element
         if (element.name === 'h4') {
+
+          // If an h4 element but not a category, log an error
           if (element.children.length !== 1 || element.children[0].type !== 'text') {
             console.log('error finding category text', element.children);
-          } else {
-            const h4Text = element.children[0].data.trim();
-            if (h4Text.length > 0) {
-              category = h4Text;
-            } else {
-              console.log('Found h4 with no text?', element.children);
-            }
+            return;
           }
-        } else if (element.name === 'br' || element.name === 'script') {
+
+          // Ensure that its children is valid too. 
+          const h4Text = element.children[0].data.trim();
+          if (h4Text.length < 0) {
+            console.log('Found h4 with no text?', element.children);
+            return;
+          }
+
+          category = h4Text;
+        }
+
+        // Ignore a couple other types of elements
+        else if (element.name === 'br') {
           return;
         }
-      } else {
-        console.error('!!!', element.type);
+      } else if (element.type !== 'script') {
+        console.error('Unknown type of element.', element.type);
       }
     });
+
     console.log(address, obj);
-    process.exit();
-
-    const texts = this.getShallowText(descriptionElements);
-
-    texts.forEach((text) => {
-      text = text.trim();
-      const possiblePhone = utils.standardizePhone(text);
-      if (possiblePhone) {
-        if (obj.phone) {
-          console.log('duplicate phone??', obj.phone, possiblePhone);
-        }
-
-        obj.phone = possiblePhone;
-
-      // Might be office
-      } else if (text.length > 6) {
-        if (obj.office) {
-          console.log('dup office???', obj.office, text);
-        }
-        if (text.startsWith('Office: ')) {
-          text = text.slice('Office: '.length);
-        }
-        obj.office = text;
-      } else {
-        console.log('Warn: unknown prop in description', text);
-      }
-    });
 
     return obj;
   }
@@ -144,14 +156,14 @@ class Cssh {
     let profileUrls = [];
 
     // Filter all the urls found to just profile urls
-    //  'https://www.northeastern.edu/cssh/faculty/noemi-daniel-voionmaa',
+    // 'https://www.northeastern.edu/cssh/faculty/noemi-daniel-voionmaa',
     urls.forEach((url) => {
       if (url.match(/https:\/\/www.northeastern.edu\/cssh\/faculty\/[\d\w-]+\/?/i)) {
         profileUrls.push(url);
       }
     });
 
-    profileUrls = profileUrls.slice(0, 1);
+    profileUrls = profileUrls.slice(0, 10);
 
 
     const promises = [];
