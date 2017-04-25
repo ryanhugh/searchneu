@@ -257,7 +257,6 @@ class CombineCCISandEmployees {
 
           if (peopleListIndex > 1) {
             console.log('Adding', person.firstName, person.lastName)
-            // console.log(person)
           }
 
           mergedPeopleList.push(newMatchPerson);
