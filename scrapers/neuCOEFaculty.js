@@ -127,19 +127,28 @@ async function scrapeLetter(letter) {
     // name of prof
     obj.name = $('div.views-field.views-field-field-faculty-last-name > h4 > a', $personElement).text().trim();
 
+    // Parse the first name and the last name from the given name
+    let {firstName, lastName} = utils.parseNameWithSpaces(obj.name)
+
+    if (firstName && lastName) {
+      obj.firstName = firstName;
+      obj.lastName = lastName;
+    }
+
     // interests
     obj.interests = $('div.field-name-field-faculty-interests', $personElement).text().trim();
 
     // Parse email
     let email = $('div.views-field-field-faculty-email > div.field-content > a', $personElement).attr('href');
-
     email = utils.standardizeEmail(email);
 
-    if (!email) {
+    if (email) {
+      obj.emails = [email];
+    }
+    else {
       console.log('Could not parse email');
     }
 
-    obj.email = email;
 
     // Phone
     let phone = $('div.views-field-field-faculty-phone > div.field-content', $personElement).text();
@@ -151,7 +160,7 @@ async function scrapeLetter(letter) {
     }
 
 
-    ['picThumbnail', 'link', 'name', 'interests', 'email', 'phone'].forEach((attr) => {
+    ['picThumbnail', 'link', 'name', 'interests', 'emails', 'phone'].forEach((attr) => {
       if (!obj[attr]) {
         console.log('obj missing ', attr, obj.name);
       }
@@ -204,7 +213,7 @@ async function main() {
 }
 
 
-exports.go = main;
+exports.main = main;
 
 if (require.main === module) {
   main();

@@ -33,6 +33,14 @@ class Cssh {
     // Scrape the name from a h1
     obj.name = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > h1').text().trim();
 
+    // Parse the first name and the last name from the given name
+    let {firstName, lastName} = utils.parseNameWithSpaces(obj.name)
+
+    if (firstName && lastName) {
+      obj.firstName = firstName;
+      obj.lastName = lastName;
+    }
+
     // Scrape the picture of the prof
     obj.image = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > img.headshot').attr('src').trim();
 
@@ -68,7 +76,7 @@ class Cssh {
     } else if (mailto === email && email) {
 
       // If they are the same and they are not an empty string or undefined, keep the email.
-      obj.email = email;
+      obj.emails = [email];
     }
 
 
@@ -140,8 +148,6 @@ class Cssh {
 
     obj.office = office;
 
-    console.log(obj);
-
     return obj;
   }
 
@@ -170,9 +176,6 @@ class Cssh {
         profileUrls.push(url);
       }
     });
-
-    // profileUrls = profileUrls.slice(0, 10);
-
 
     const promises = [];
 

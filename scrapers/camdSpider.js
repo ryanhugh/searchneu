@@ -36,7 +36,15 @@ class Camd {
     const $ = cheerio.load(resp.body);
 
     // Name of person
-    obj.name = $('#main > div.pagecenter > div > div > div > div > div.col10.last.right > h1.entry-title').text().trim();
+    obj.name = $('#main > div.pagecenter > div > div > div > div > div.col10.last.right > h1.entry-title').text().trim().split(',')[0];
+
+    // Parse the first name and the last name from the given name
+    let {firstName, lastName} = utils.parseNameWithSpaces(obj.name)
+
+    if (firstName && lastName) {
+      obj.firstName = firstName;
+      obj.lastName = lastName;
+    }
 
     obj.image = $('#main > div.pagecenter > div > div > div > div > div.col5 > img.wp-post-image').attr('src');
     if (obj.image) {
@@ -54,7 +62,7 @@ class Camd {
     let email = $('#main > div.pagecenter > div > div > div > div:nth-child(1) > div.col5 > p > a').text().trim();
     email = utils.standardizeEmail(email);
     if (email) {
-      obj.email = email;
+      obj.emails = [email];
     }
 
     const texts = this.getShallowText(descriptionElements);
@@ -71,9 +79,9 @@ class Camd {
       }
 
       // If the email was not hyperlinked, it would not be picked up by the prior email parsing and instead would appear here. 
-      else if (text.match(/[\w\d-.]+@[\w\d-.]+/) && !obj.email) {
+      else if (text.match(/[\w\d-.]+@[\w\d-.]+/) && !obj.emails) {
         console.warn('Parsing plain text as email:', text)
-        obj.email = text;
+        obj.emails = [text];
       }
 
       // If phone did not match, check office.

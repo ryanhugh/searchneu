@@ -4,6 +4,35 @@ import fs from 'fs-promise';
 
 import macros from './macros';
 
+exports.parseNameWithSpaces = function parseNameWithSpaces(name) {
+
+  // Standardize spaces.
+  name = name.replace(/\s+/gi, ' ')
+
+  // Generate first name and last name
+  let spaceCount = exports.occurrences(name, ' ', false);
+  const splitName = name.split(' ')
+
+
+  if (spaceCount === 0) {
+    console.log('0 spaces found in name', name)
+  }
+
+  // Handles firstName, lastName and firstName, middleName, lastName
+  else {
+    if (spaceCount > 2) {
+      console.log(name, 'has more than 1 space in their name. Using first and last word.');
+    }
+
+    let obj = {}
+
+    obj.firstName = splitName[0]
+    obj.lastName = splitName[splitName.length - 1]
+
+    return obj;
+  }
+}
+
 // Standardizes email addresses found across different pages
 // Removes a 'mailto:' from the beginning
 // Ensures the email contains a @
@@ -20,7 +49,7 @@ exports.standardizeEmail = function standardizeEmail(email) {
     email = `${email.split('@')[0]}@northeastern.edu`;
   }
 
-  return email;
+  return email.toLowerCase();
 };
 
 

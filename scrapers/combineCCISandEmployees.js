@@ -9,6 +9,9 @@ import utils from './utils';
 import macros from './macros';
 import ccisFaculty from './neuCCISFaculty';
 import neuEmployees from './neuEmployees';
+import coeFaculty from './neuCOEFaculty';
+import csshFaculty from './neuCSSHFaculty';
+import camdFaculty from './camdSpider';
 
 // This file combines the data from the ccis website and the NEU Employees site
 // If there is a match, the data from the ccis site has priority over the data from the employee site.
@@ -30,6 +33,13 @@ import neuEmployees from './neuEmployees';
 // if they are in the same index don't match
 
 class CombineCCISandEmployees {
+
+  constructor() {
+
+    // Keep track of things that can happen during matching.
+    // Output analytics and some statistics after merging each list.
+    this.analytics = {}
+  }
 
   mergePeople(ccisProf, employee) {
     utils.log('going to merge ', ccisProf.name, 'and ', employee.name);
@@ -80,11 +90,57 @@ class CombineCCISandEmployees {
   }
 
 
+  resetAnalytics() {
+    this.analytics = {}
+  }
+
+  logAnalyticsEvent(eventName) {
+    if (this.analytics[eventName] === undefined) {
+      this.analytics[eventName] = 0
+    }
+    this.analytics[eventName] ++;
+  }
+
+
+  okToMatch(matchObj, person, peopleListIndex) {
+    if (person.emails) {
+      let emailDomainMap = {}
+
+      matchObj.emails.forEach(function (email) {
+        let domain = email.split('@')[1]
+        emailDomainMap[domain] = email
+      })
+
+      for (let email of person.emails) {
+        let domain = email.split('@')[1]
+        if (emailDomainMap[domain] && emailDomainMap[domain] !== email) {
+
+          this.logAnalyticsEvent('emailDomainMismatch');
+
+          console.log('Not matching people because they had different emails on the same domain.', emailDomainMap[domain], email)
+          return false;
+        }
+      }
+    }
+
+    if (matchObj.peopleListIndexMatches[peopleListIndex]) {
+      this.logAnalyticsEvent('sameListNotMatching');
+      console.log('Not matching ', matchObj.firstName, matchObj.lastName, 'and ', person.name,'because they came from the same list.')
+      return false;
+    }
+
+    return true;
+  }
+
+
   async main(peopleLists) {
     const ccis = await ccisFaculty.main();
     const employees = await neuEmployees.go();
+    const coe = await coeFaculty.main();
+    const cssh = await csshFaculty.main();
+    const camd = await camdFaculty.main();
 
-    peopleLists = [employees, ccis];
+    peopleLists = [employees, ccis, coe, cssh, camd];
 
     const mergedPeopleList = [];
 
@@ -95,31 +151,49 @@ class CombineCCISandEmployees {
     for (const peopleList of peopleLists) {
       peopleListIndex ++;
       console.log('At people list index', peopleListIndex)
+
+      this.resetAnalytics();
+
       for (const person of peopleList) {
         let matchesFound = 0;
+        this.logAnalyticsEvent('people');
+
 
         // Attempt to match by email
         if (person.emails) {
           for (const matchedPerson of mergedPeopleList) {
-            if (_.intersection(matchedPerson.emails, person.emails).length > 0) {
-              // Cool, found a match. Stop here
-              matchedPerson.matches.push(person);
 
-              // Update the emails array with the new emails from this person.
-              matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
+            // Emails did not overlap at all. Go do next person.
+            if (_.intersection(matchedPerson.emails, person.emails).length === 0) {
+              continue;
+            }
 
-              // There should only be one match per person. Log a warning if there are more.
-              matchesFound++;
-              if (matchesFound > 1) {
-                console.log('Warning 1: ', matchesFound, 'matches found', matchedPerson, person);
-              }
+            // Final checks to see if it is ok to declare a match. 
+            if (!this.okToMatch(matchedPerson, person, peopleListIndex)) {
+              console.log('Not ok to match 1.', matchedPerson.firstName, matchedPerson.lastName, person.name)
+              continue;
+            }
+
+
+            // Found a match.
+            matchedPerson.matches.push(person);
+
+            // Update the emails array with the new emails from this person.
+            matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
+
+            // There should only be one match per person. Log a warning if there are more.
+            matchesFound++;
+            this.logAnalyticsEvent('matchedByEmail');
+            if (matchesFound > 1) {
+              console.log('Warning 1: ', matchesFound, 'matches found', matchedPerson, person);
             }
           }
         }
 
         // The rest of this code requires both a first name and a last name
         if (!person.firstName || !person.lastName) {
-          console.log("Don't have person first name or last name. Not creating new matching person", person);
+          this.logAnalyticsEvent('missingNameUnmatchedEmail');
+          console.log("Don't have person first name or last name and did not match with email.", person);
           continue;
         }
 
@@ -129,40 +203,40 @@ class CombineCCISandEmployees {
           // Now try to match by name
           // Every data source must have a person name, so no need to check if it is here or not.
           for (const matchedPerson of mergedPeopleList) {
-            // const personCompareName = removeAccents(person.name);
 
-            const firstMatch = person.firstName.includes(matchedPerson.firstName) || matchedPerson.firstName.includes(person.firstName);
-            const lastMatch = person.lastName.includes(matchedPerson.lastName) || matchedPerson.lastName.includes(person.lastName);
+            const personFirstNameLower = person.firstName.toLowerCase()
+            const personLastNameLower = person.lastName.toLowerCase()
 
-            // It would be better to split each name into first name and last name
-            // And compare those individually
-            // But a good chunk of names would fail if we did that instead of just a .includes
-            // eg. going to merge  [Panagiotos (Pete) Manolios](ccis) and  [Manolios, Pete](employee)
-            if (firstMatch && lastMatch) {
-              // Cool, found a match. Stop here
-              matchedPerson.matches.push(person);
+            const matchedPersonFirstNameLower = matchedPerson.firstName.toLowerCase()
+            const matchedPersonLastNameLower = matchedPerson.lastName.toLowerCase()
 
-              console.log('Matching:', person.firstName, person.lastName, matchedPerson.firstName, matchedPerson.lastName);
+            const firstMatch = personFirstNameLower.includes(matchedPersonFirstNameLower) || matchedPersonFirstNameLower.includes(personFirstNameLower);
+            const lastMatch = personLastNameLower.includes(matchedPersonLastNameLower) || matchedPersonLastNameLower.includes(personLastNameLower);
 
-              // There should only be one match per person. Log a warning if there are more.
-              matchesFound++;
-              if (matchesFound > 1) {
-                console.log('Warning 2: ', matchesFound, 'matches found', matchedPerson, person);
-              }
+            // If both the first names and last names did not match, go to next person
+            if (!firstMatch || !lastMatch) {
+              continue;
+            }
+
+            // Final checks to see if it is ok to declare a match. 
+            if (!this.okToMatch(matchedPerson, person, peopleListIndex)) {
+              console.log('Not ok to match 2.', matchedPerson.firstName, matchedPerson.lastName, person.name)
+              continue;
+            }
+
+            // Found a match.
+            matchedPerson.matches.push(person);
+
+            console.log('Matching:', person.firstName, person.lastName, ':', matchedPerson.firstName, matchedPerson.lastName);
+
+            // There should only be one match per person. Log a warning if there are more.
+            this.logAnalyticsEvent('matchedByName');
+            matchesFound++;
+            if (matchesFound > 1) {
+              console.log('Warning 2: ', matchesFound, 'matches found', matchedPerson, person);
             }
           }
         }
-
-        if (peopleListIndex === 1 && matchesFound > 0) {
-          console.log('Found a match with 2 employees?', person.name)
-        }
-
-        // for (let person of mergedPeopleList) {
-        //   if (person.matches.length > 2) {
-        //     console.log('More than 2 matches!', person)
-        //   }
-        // }
-
 
         // If still has no match, add to the end of the matchedArray and generate phone and matching lastName and firstName
         // If there was a match, update the list of emails to match with
@@ -172,8 +246,10 @@ class CombineCCISandEmployees {
             emails: [],
             firstName: person.firstName,
             lastName: person.lastName,
+            peopleListIndexMatches: {}
           };
 
+          newMatchPerson.peopleListIndexMatches[peopleListIndex] = true
 
           if (person.emails) {
             newMatchPerson.emails = person.emails.slice(0);
@@ -181,11 +257,21 @@ class CombineCCISandEmployees {
 
           if (peopleListIndex > 1) {
             console.log('Adding', person.firstName, person.lastName)
+            // console.log(person)
           }
 
           mergedPeopleList.push(newMatchPerson);
         }
       }
+
+      if (this.analytics.matchedByEmail !== undefined && this.analytics.matchedByName !== undefined) {
+        this.analytics.matched = this.analytics.matchedByEmail + this.analytics.matchedByName
+        this.analytics.unmatched = this.analytics.people - this.analytics.matched   
+      }
+      console.log(JSON.stringify(this.analytics, null, 4))
+
+
+
     }
 
     // console.log(JSON.stringify(mergedPeopleList.slice(0, 10), null, 4));

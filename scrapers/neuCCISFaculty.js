@@ -50,27 +50,15 @@ class NeuCCISFaculty {
 
       obj.name = $('h3.person-name', $personElement).text().trim();
 
-      // Generate first name and last name
-      let spaceCount = utils.occurrences(obj.name, ' ', false);
-      const splitName = obj.name.split(' ')
+      // Parse the first name and the last name from the given name
+      let {firstName, lastName} = utils.parseNameWithSpaces(obj.name)
 
-
-      if (spaceCount === 0) {
-        console.log('0 spaces found in name', obj.name)
+      if (firstName && lastName) {
+        obj.firstName = firstName;
+        obj.lastName = lastName;
       }
 
-      // Handles firstName, lastName and firstName, middleName, lastName
-      else {
-        if (spaceCount > 2) {
-          console.log(obj.name, 'has more than 1 space in their name. Using first and last word.');
-        }
-
-        obj.firstName = splitName[0]
-        obj.lastName = splitName[splitName.length - 1]
-      }
-
-
-      // Link to profile
+      // Link to profile.
       obj.link = $('h3.person-name > a', $personElement).attr('href').trim();
 
       // positions at neu (eg PhD Student)
