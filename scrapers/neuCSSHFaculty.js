@@ -8,6 +8,19 @@ import linkSpider from './linkSpider';
 import request from './request';
 
 
+// Wrote all of this, then found out that CSSH has a hidden, undocumented API
+
+// All of the faculty are returned by hitting these 4 links that return json:
+// https://www.northeastern.edu/cssh/wp-json/wp/v2/faculty?per_page=100&page=1
+// https://www.northeastern.edu/cssh/wp-json/wp/v2/faculty?per_page=100&page=2
+// https://www.northeastern.edu/cssh/wp-json/wp/v2/faculty?per_page=100&page=3
+// https://www.northeastern.edu/cssh/wp-json/wp/v2/faculty?per_page=100&page=4
+
+// One of the APIs returns details on what can be returned (looks like it is mostly faculty and blog posts)
+// https://www.northeastern.edu/cssh/wp-json/wp/v2
+
+// Also looks like CSSH uses wordpress blog posts to keep track of their employees (so each employee's profile is a different blog post lol)
+
 class Cssh {
 
   parseDetailpage(url, resp) {
