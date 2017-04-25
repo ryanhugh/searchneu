@@ -44,6 +44,26 @@ class NeuCCISFaculty {
 
       obj.name = $('h3.person-name', $personElement).text().trim();
 
+      // Generate first name and last name
+      let spaceCount = utils.occurrences(obj.name, ' ', false);
+      const splitName = obj.name.split(' ')
+
+
+      if (spaceCount === 0) {
+        console.log('0 spaces found in name', obj.name)
+      }
+
+      // Handles firstName, lastName and firstName, middleName, lastName
+      else {
+        if (spaceCount > 2) {
+          console.log(obj.name, 'has more than 1 space in their name. Using first and last word.');
+        }
+
+        obj.firstName = splitName[0]
+        obj.lastName = splitName[splitName.length - 1]
+      }
+
+
       // Link to profile
       obj.link = $('h3.person-name > a', $personElement).attr('href').trim();
 
@@ -68,7 +88,7 @@ class NeuCCISFaculty {
         if (!mailto || !email || mailto !== email) {
           utils.log('Warning: bad emails?', email, mailto, obj.name);
         } else {
-          obj.email = email;
+          obj.emails = [email];
         }
       }
 
@@ -93,7 +113,7 @@ class NeuCCISFaculty {
       }
 
 
-      ['name', 'link', 'positions', 'email'].forEach((attrName) => {
+      ['name', 'link', 'positions', 'emails'].forEach((attrName) => {
         if (!obj[attrName]) {
           utils.log('Missing', attrName, 'for', obj.name);
         }
@@ -163,7 +183,7 @@ class NeuCCISFaculty {
 
     if (macros.DEV) {
       await utils.saveDevData(outputFile, output);
-      console.log('coe file saved!');
+      console.log('ccis file saved!');
     }
 
     utils.log('done!');

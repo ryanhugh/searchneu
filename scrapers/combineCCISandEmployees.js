@@ -1,6 +1,7 @@
 import removeAccents from 'remove-accents';
 import mkdirp from 'mkdirp-promise';
 import elasticlunr from 'elasticlunr';
+import _ from 'lodash';
 
 import fs from 'fs-promise';
 import path from 'path';
@@ -24,59 +25,6 @@ import neuEmployees from './neuEmployees';
 // How often people have conflicting data field when merging (eg different phone numbers)
 
 class CombineCCISandEmployees {
-
-  constructor() {
-    this.couldNotFindNameList = {};
-  }
-
-  // Given a list of things, will find the first one that is longer than 1 letter (a-z)
-  findName(list) {
-    for (let i = 0; i < list.length; i++) {
-      const noSymbols = list[i].toLowerCase().replace(/[^0-9a-zA-Z]/gi, '');
-
-      if (noSymbols.length > 1 && !['ii', 'iii', 'jr', 'sr', 'dr'].includes(noSymbols)) {
-        return list[i];
-      }
-    }
-
-
-    // Only log each warning once, just to not spam the console. This method is called a lot.
-    const logMatchString = list.join('');
-    if (this.couldNotFindNameList[logMatchString]) {
-      return null;
-    }
-    this.couldNotFindNameList[logMatchString] = true;
-
-    utils.log('Could not find name from list:', list);
-    return null;
-  }
-
-  getFirstLastName(employeeObj) {
-    const retVal = {};
-
-    let name = employeeObj.name;
-
-    if (name.match(/jr.?,/gi)) {
-      name = name.replace(/, jr.?,/gi, ',');
-    }
-
-    if (utils.occurrences(name, ',') !== 1) {
-      utils.log('Name has != commas', name);
-      return null;
-    }
-
-    const splitOnComma = name.split(',');
-
-    const beforeCommaSplit = splitOnComma[1].trim().split(' ');
-    const firstName = this.findName(beforeCommaSplit);
-
-    const afterCommaSplit = splitOnComma[0].trim().split(' ').reverse();
-    const lastname = this.findName(afterCommaSplit);
-
-    retVal.firstName = firstName;
-    retVal.lastName = lastname;
-    return retVal;
-  }
 
   mergePeople(ccisProf, employee) {
     utils.log('going to merge ', ccisProf.name, 'and ', employee.name);
@@ -127,9 +75,100 @@ class CombineCCISandEmployees {
   }
 
 
-  async main() {
+  async main(peopleLists) {
     const ccis = await ccisFaculty.main();
     const employees = await neuEmployees.go();
+
+    peopleLists = [employees, ccis];
+
+    const mergedPeopleList = [];
+
+
+    // First, match people from the different data sources. The merging happens after the matching
+    for (const peopleList of peopleLists) {
+      for (const person of peopleList) {
+        let matchesFound = 0;
+
+        // Attempt to match by email
+        if (person.emails) {
+          for (const matchedPerson of mergedPeopleList) {
+            if (_.intersection(matchedPerson.emails, person.emails).length > 0) {
+              // Cool, found a match. Stop here
+              matchedPerson.matches.push(person);
+
+              // Update the emails array with the new emails from this person.
+              matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
+
+              // There should only be one match per person. Log a warning if there are more.
+              matchesFound++;
+              if (matchesFound > 1) {
+                console.log('Warning: ', matchesFound, 'matches found', matchedPerson, person);
+              }
+            }
+          }
+        }
+
+        // If a match was not found yet, try to match by name
+        if (matchesFound === 0) {
+          // Now try to match by name
+          // Every data source must have a person name, so no need to check if it is here or not.
+          for (const matchedPerson of mergedPeopleList) {
+            const personCompareName = removeAccents(person.name);
+
+            // It would be better to split each name into first name and last name
+            // And compare those individually
+            // But a good chunk of names would fail if we did that instead of just a .includes
+            // eg. going to merge  [Panagiotos (Pete) Manolios](ccis) and  [Manolios, Pete](employee)
+            if (personCompareName.includes(matchedPerson.firstName) && personCompareName.includes(matchedPerson.lastName)) {
+              // Cool, found a match. Stop here
+              matchedPerson.matches.push(person);
+
+              // There should only be one match per person. Log a warning if there are more.
+              matchesFound++;
+              if (matchesFound > 1) {
+                console.log('Warning: ', matchesFound, 'matches found', matchedPerson, person);
+              }
+            }
+          }
+        }
+
+
+        // If still has no match, add to the end of the matchedArray and generate phone and matching lastName and firstName
+        // If there was a match, update the list of emails to match with
+        if (matchesFound === 0) {
+          if (!person.firstName || !person.lastName) {
+            console.log("Don't have person first name or last name. Not creating new matching person", person);
+            continue;
+          }
+
+
+          const newMatchPerson = {
+            matches: [person],
+            emails: [],
+            firstName: person.firstName,
+            lastName: person.lastName,
+          };
+
+
+          if (person.emails) {
+            newMatchPerson.emails = person.emails.slice(0);
+          }
+
+          mergedPeopleList.push(newMatchPerson);
+        }
+      }
+    }
+
+    console.log(JSON.stringify(mergedPeopleList.slice(0, 10), null, 4));
+    return;
+
+
+
+
+
+
+
+
 
     const emailMap = {};
 
@@ -269,7 +308,7 @@ class CombineCCISandEmployees {
     });
 
     await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeesSearchIndex.json'), JSON.stringify(index.toJSON()));
-    console.log('wrote employee json files')
+    console.log('wrote employee json files');
 
     return output;
   }

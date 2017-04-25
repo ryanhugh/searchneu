@@ -149,7 +149,61 @@ function hitWithLetters(lastNameStart, jsessionCookie) {
   })
 }
 
-function parseLettersResponse(response) {
+
+let couldNotFindNameList = {};
+
+// Given a list of things, will find the first one that is longer than 1 letter (a-z)
+function findName(list) {
+    for (let i = 0; i < list.length; i++) {
+      const noSymbols = list[i].toLowerCase().replace(/[^0-9a-zA-Z]/gi, '');
+
+      if (noSymbols.length > 1 && !['ii', 'iii', 'jr', 'sr', 'dr'].includes(noSymbols)) {
+        return list[i];
+      }
+    }
+
+
+    // Only log each warning once, just to not spam the console. This method is called a lot.
+    const logMatchString = list.join('');
+    if (couldNotFindNameList[logMatchString]) {
+      return null;
+    }
+    couldNotFindNameList[logMatchString] = true;
+
+    utils.log('Could not find name from list:', list);
+    return null;
+  }
+
+
+
+function getFirstLastName(employeeObj) {
+  let name = employeeObj.name;
+
+  if (name.match(/jr.?,/gi)) {
+    name = name.replace(/, jr.?,/gi, ',');
+  }
+
+  if (utils.occurrences(name, ',') !== 1) {
+    utils.log('Name has != commas', name);
+    return null;
+  }
+
+  const splitOnComma = name.split(',');
+
+  const beforeCommaSplit = splitOnComma[1].trim().split(' ');
+  const firstName = findName(beforeCommaSplit);
+
+  const afterCommaSplit = splitOnComma[0].trim().split(' ').reverse();
+  const lastName = findName(afterCommaSplit);
+
+  employeeObj.firstName = firstName;
+  employeeObj.lastName = lastName;
+  return employeeObj;
+}
+
+
+
+function parseLettersResponse(response, lastNameStart) {
   return new Promise((resolve, reject) => {
     handleRequestResponce(response.body, (err, dom) => {
       const elements = domutils.getElementsByTagName('table', dom);
@@ -175,11 +229,14 @@ function parseLettersResponse(response) {
           const parsedTable = tableData.parsedTable;
           const rowCount = tableData.rowCount;
 
-          console.log('Found', rowCount, ' people on page ', response.request.uri.href);
+          console.log('Found', rowCount, ' people on page ', lastNameStart);
 
           for (let j = 0; j < rowCount; j++) {
-            const person = {};
+            let person = {};
             person.name = parsedTable.name[j].split('\n\n')[0];
+
+            // Generate first name and last name from the name on the person
+            person = getFirstLastName(person)
 
             const idMatch = parsedTable.name[j].match(/.hrefparameter\s+=\s+"id=(\d+)";/i);
             if (!idMatch) {
@@ -199,13 +256,9 @@ function parseLettersResponse(response) {
             }
 
             // Scrape the email from the table
-            const email = parsedTable.email[j];
-            if (email && email !== 'Not Available') {
-              person.email = parsedTable.email[j];
-
-              if (person.email.endsWith('@neu.edu')) {
-                person.email = `${person.email.split('@')[0]}@northeastern.edu`;
-              }
+            const email = utils.standardizeEmail(parsedTable.email[j]);
+            if (email) {
+              person.emails = [email]
             }
 
             // Scrape the primaryappointment
@@ -244,7 +297,7 @@ async function get(lastNameStart) {
 
     const response = await hitWithLetters(lastNameStart, jsessionCookie);
     
-    return parseLettersResponse(response)
+    return parseLettersResponse(response, lastNameStart)
 }
 
 async function main() {

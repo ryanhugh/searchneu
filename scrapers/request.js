@@ -49,10 +49,11 @@ import macros from './macros';
 // https://github.com/request/request
 const separateReqDefaultPool = { maxSockets: 10000, keepAlive: true, maxFreeSockets: 10000 };
 
-// Specific limits for some sites. CCIS will reject request if too many are made too quickly.
+// Specific limits for some sites. CCIS has active measures against one IP making too many requests
+// and will reject request if too many are made too quickly.
 // Some other schools' servers will crash/slow to a crawl if too many requests are sent too quickly.
 const separateReqPools = {
-  'www.ccis.northeastern.edu': { maxSockets: 10, keepAlive: true, maxFreeSockets: 10 },
+  'www.ccis.northeastern.edu': { maxSockets: 8, keepAlive: true, maxFreeSockets: 8 },
 
   // Needed for https://www.northeastern.edu/cssh/faculty 
   // Looks like northeastern.edu is just a request redirector and sends any requests for /cssh to another server

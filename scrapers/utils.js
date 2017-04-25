@@ -12,8 +12,12 @@ exports.standardizeEmail = function standardizeEmail(email) {
     email = email.slice('mailto:'.length);
   }
 
-  if (!email.includes('@')) {
+  if (!email.includes('@') || email.includes(' ')) {
     return null;
+  }
+
+  if (email.endsWith('@neu.edu')) {
+    email = `${email.split('@')[0]}@northeastern.edu`;
   }
 
   return email;
