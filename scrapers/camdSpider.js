@@ -167,6 +167,8 @@ class Camd {
 
 const instance = new Camd();
 
-instance.main();
+if (require.main === module) {
+ instance.main();
+}
 
 export default instance;

@@ -77,7 +77,7 @@ class Cssh {
     const descriptionElements = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single')[0].children;
 
     let category = null;
-    const address = [];
+    const office = [];
 
     descriptionElements.forEach((element) => {
 
@@ -93,11 +93,11 @@ class Cssh {
           return;
         }
 
-        // Add lines that are a part of the address category to the address field.
+        // Add lines that are a part of the Address category to the office field.
         if (category === 'Mailing Address') {
           const newText = element.data.trim();
           if (newText) {
-            address.push(newText);
+            office.push(newText);
           }
         }
 
@@ -138,7 +138,9 @@ class Cssh {
       }
     });
 
-    console.log(address, obj);
+    obj.office = office;
+
+    console.log(obj);
 
     return obj;
   }
@@ -195,6 +197,8 @@ class Cssh {
 
 const instance = new Cssh();
 
-instance.main();
+if (require.main === module) {
+ instance.main();
+}
 
 export default instance;
