@@ -28,6 +28,12 @@ import macros from './macros';
 // These links are ignored at the moment.
 // They could be used in place of the personal website link, but there were only a few professors and most of them had personal website links too.
 
+// TODO: also could clean up the first name and last name parsing.
+// For 3 people in all of CCIS, they have names like [Panagiotos (Pete) Manolios]
+// Currently the first word is used as the first name and the last one is used as the last name
+// But we could use the middle one as the first name if it starts and ends with parens
+
+
 class NeuCCISFaculty {
 
   parsePeopleList(resp) {

@@ -24,6 +24,11 @@ import neuEmployees from './neuEmployees';
 // Possible checks:
 // How often people have conflicting data field when merging (eg different phone numbers)
 
+
+// TODO
+// if they have 2 different emails on the same domain don't match
+// if they are in the same index don't match
+
 class CombineCCISandEmployees {
 
   mergePeople(ccisProf, employee) {
@@ -83,9 +88,13 @@ class CombineCCISandEmployees {
 
     const mergedPeopleList = [];
 
+    let peopleListIndex = 0
+
 
     // First, match people from the different data sources. The merging happens after the matching
     for (const peopleList of peopleLists) {
+      peopleListIndex ++;
+      console.log('At people list index', peopleListIndex)
       for (const person of peopleList) {
         let matchesFound = 0;
 
@@ -102,46 +111,62 @@ class CombineCCISandEmployees {
               // There should only be one match per person. Log a warning if there are more.
               matchesFound++;
               if (matchesFound > 1) {
-                console.log('Warning: ', matchesFound, 'matches found', matchedPerson, person);
+                console.log('Warning 1: ', matchesFound, 'matches found', matchedPerson, person);
               }
             }
           }
         }
+
+        // The rest of this code requires both a first name and a last name
+        if (!person.firstName || !person.lastName) {
+          console.log("Don't have person first name or last name. Not creating new matching person", person);
+          continue;
+        }
+
 
         // If a match was not found yet, try to match by name
         if (matchesFound === 0) {
           // Now try to match by name
           // Every data source must have a person name, so no need to check if it is here or not.
           for (const matchedPerson of mergedPeopleList) {
-            const personCompareName = removeAccents(person.name);
+            // const personCompareName = removeAccents(person.name);
+
+            const firstMatch = person.firstName.includes(matchedPerson.firstName) || matchedPerson.firstName.includes(person.firstName);
+            const lastMatch = person.lastName.includes(matchedPerson.lastName) || matchedPerson.lastName.includes(person.lastName);
 
             // It would be better to split each name into first name and last name
             // And compare those individually
             // But a good chunk of names would fail if we did that instead of just a .includes
             // eg. going to merge  [Panagiotos (Pete) Manolios](ccis) and  [Manolios, Pete](employee)
-            if (personCompareName.includes(matchedPerson.firstName) && personCompareName.includes(matchedPerson.lastName)) {
+            if (firstMatch && lastMatch) {
               // Cool, found a match. Stop here
               matchedPerson.matches.push(person);
+
+              console.log('Matching:', person.firstName, person.lastName, matchedPerson.firstName, matchedPerson.lastName);
 
               // There should only be one match per person. Log a warning if there are more.
               matchesFound++;
               if (matchesFound > 1) {
-                console.log('Warning: ', matchesFound, 'matches found', matchedPerson, person);
+                console.log('Warning 2: ', matchesFound, 'matches found', matchedPerson, person);
               }
             }
           }
         }
 
+        if (peopleListIndex === 1 && matchesFound > 0) {
+          console.log('Found a match with 2 employees?', person.name)
+        }
+
+        // for (let person of mergedPeopleList) {
+        //   if (person.matches.length > 2) {
+        //     console.log('More than 2 matches!', person)
+        //   }
+        // }
+
 
         // If still has no match, add to the end of the matchedArray and generate phone and matching lastName and firstName
         // If there was a match, update the list of emails to match with
         if (matchesFound === 0) {
-          if (!person.firstName || !person.lastName) {
-            console.log("Don't have person first name or last name. Not creating new matching person", person);
-            continue;
-          }
-
-
           const newMatchPerson = {
             matches: [person],
             emails: [],
@@ -154,20 +179,17 @@ class CombineCCISandEmployees {
             newMatchPerson.emails = person.emails.slice(0);
           }
 
+          if (peopleListIndex > 1) {
+            console.log('Adding', person.firstName, person.lastName)
+          }
+
           mergedPeopleList.push(newMatchPerson);
         }
       }
     }
 
-    console.log(JSON.stringify(mergedPeopleList.slice(0, 10), null, 4));
+    // console.log(JSON.stringify(mergedPeopleList.slice(0, 10), null, 4));
     return;
-
-
-
-
-
-
-
 
 
     const emailMap = {};
