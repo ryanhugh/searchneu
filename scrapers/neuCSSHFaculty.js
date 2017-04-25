@@ -1,28 +1,14 @@
 import cheerio from 'cheerio';
+import path from 'path';
 
+
+import macros from './macros';
 import utils from './utils';
 import linkSpider from './linkSpider';
 import request from './request';
 
 
 class Cssh {
-
-
-  getShallowText(elements) {
-    const retVal = [];
-    elements.forEach((element) => {
-      if (element.type !== 'text') {
-        return;
-      }
-
-      const text = element.data.trim();
-      if (text.length > 0) {
-        retVal.push(text);
-      }
-    });
-    return retVal;
-  }
-
 
   parseDetailpage(url, resp) {
     const obj = {};
@@ -146,10 +132,17 @@ class Cssh {
 
 
   async main() {
-    // console.log('starting ccs')
-    // https://www.northeastern.edu/cssh/faculty
-    const startingLinks = ['https://www.northeastern.edu/cssh/faculty'];
 
+    const outputFile = path.join(macros.DEV_DATA_DIR, 'cssh.json');
+
+    if (macros.DEV && require.main !== module) {
+      const devData = await utils.loadDevData(outputFile);
+      if (devData) {
+        return devData;
+      }
+    }
+
+    const startingLinks = ['https://www.northeastern.edu/cssh/faculty'];
 
     const urls = await linkSpider.main(startingLinks);
 
@@ -163,7 +156,7 @@ class Cssh {
       }
     });
 
-    profileUrls = profileUrls.slice(0, 10);
+    // profileUrls = profileUrls.slice(0, 10);
 
 
     const promises = [];
@@ -175,6 +168,11 @@ class Cssh {
     });
 
     const people = await Promise.all(promises);
+
+    if (macros.DEV) {
+      await utils.saveDevData(outputFile, people);
+      console.log('cssh file saved!');
+    }
 
     return people;
   }

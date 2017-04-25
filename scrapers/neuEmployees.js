@@ -141,7 +141,6 @@ function hitWithLetters(lastNameStart, jsessionCookie) {
   const reqBody = `searchBy=Last+Name&queryType=begins+with&searchText=${lastNameStart}&deptText=&addrText=&numText=&divText=&facStaff=1`;
   return request.post({
     url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/searchEmployees.action',
-    method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       Cookie: `JSESSIONID=${jsessionCookie}`,
