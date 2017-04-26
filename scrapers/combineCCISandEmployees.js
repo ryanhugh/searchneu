@@ -31,6 +31,8 @@ import camdFaculty from './camdSpider';
 // TODO
 // standardize fields from the different parses
 // next up: office
+// officeRoom: 435 Ryder Hall
+// officeStreetAddress: 177 Huntington Ave
 
 class CombineCCISandEmployees {
 
@@ -297,7 +299,7 @@ class CombineCCISandEmployees {
 
 
 
-    // Add IDs to people that don't have them (when only from the ccis directory)
+    // Add IDs to people that don't have them (IDs are only scraped from employee directory)
     // output.forEach((person, index) => {
     //   if (person.id) {
     //     return;

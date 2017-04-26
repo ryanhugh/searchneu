@@ -98,7 +98,7 @@ class Camd {
           // This rarely happens, but the longer the string is the more likely it is to be an office location.
           // In all of CAMD, there are only 2 instance where this helps
           if (obj.office.length < text.length) {
-            obj.office = text
+            obj.officeRoom = text
           }
 
           return;

@@ -67,7 +67,9 @@ async function scrapeDetailpage(obj) {
   }
 
   // address
-  obj.office = $('div.faculty-profile__address').text().trim().replace(/[\n\r]+\s*/gi, '\n');
+  const officeSplit = $('div.faculty-profile__address').text().trim().replace(/[\n\r]+\s*/gi, '\n').split('\n');
+  obj.officeRoom = officeSplit[0];
+  obj.officeStreetAddress = officeSplit[1];
 
   // might be more than one of these, need to check .text() for each one
   // if text matches Faculty Website then get href

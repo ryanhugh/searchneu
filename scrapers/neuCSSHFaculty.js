@@ -146,7 +146,9 @@ class Cssh {
       }
     });
 
-    obj.office = office;
+
+    obj.officeRoom = office[0];
+    obj.officeStreetAddress = office[1];
 
     return obj;
   }

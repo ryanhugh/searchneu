@@ -127,7 +127,11 @@ class NeuCCISFaculty {
 
     const office = $('div.contact-block > div.address > p').text();
     if (office) {
-      obj.office = office.replace(/\r\n/gi, '\n').trim();
+
+      let officeSplit = office.replace(/\r\n/gi, '\n').trim().split('\n');
+
+      obj.officeRoom = officeSplit[1]
+      obj.officeStreetAddress = officeSplit[0]
     }
 
     obj.personalSite = $('div.contact-block > div.contact-links > p.personal-site > a').attr('href');
