@@ -16,7 +16,7 @@ import macros from './macros';
 
 
 async function scrapeDetailpage(obj) {
-  const resp = await request.get(obj.link);
+  const resp = await request.get(obj.url);
   // const resp = await request.get('http://www.ece.neu.edu/people/erdogmus-deniz');
 
   const $ = cheerio.load(resp.body);
@@ -57,6 +57,9 @@ async function scrapeDetailpage(obj) {
   }
 
   if (positions.length > 0) {
+
+    obj.primaryRole = positions[0].role
+    obj.primaryDepartment = positions[0].department
     obj.positions = positions;
   }
 
@@ -82,7 +85,7 @@ async function scrapeDetailpage(obj) {
       if (!obj.googleScholarId) {
         obj.googleScholarId = userId;
       } else if (obj.googleScholarId !== otherGoogleId) {
-        console.log('Employee had 2 google id links pointing to different IDs, ignoring the second one.', obj.link, obj.googleScholarId, otherGoogleId);
+        console.log('Employee had 2 google id links pointing to different IDs, ignoring the second one.', obj.url, obj.googleScholarId, otherGoogleId);
       }
     } else {
       otherLinks.push({
@@ -119,9 +122,9 @@ async function scrapeLetter(letter) {
     obj.picThumbnail = $('h4 > a > img', $personElement).attr('src');
 
     // link to their page
-    obj.link = $('h4 > a', $personElement).attr('href');
-    if (!obj.link) {
-      console.log('Error, could not parse link for', obj);
+    obj.url = $('h4 > a', $personElement).attr('href');
+    if (!obj.url) {
+      console.log('Error, could not parse url for', obj);
     }
 
     // name of prof
@@ -160,7 +163,7 @@ async function scrapeLetter(letter) {
     }
 
 
-    ['picThumbnail', 'link', 'name', 'interests', 'emails', 'phone'].forEach((attr) => {
+    ['picThumbnail', 'url', 'name', 'interests', 'emails', 'phone'].forEach((attr) => {
       if (!obj[attr]) {
         console.log('obj missing ', attr, obj.name);
       }

@@ -264,11 +264,11 @@ function parseLettersResponse(response, lastNameStart) {
             // Scrape the primaryappointment
             const primaryappointment = parsedTable.primaryappointment[j];
             if (primaryappointment && primaryappointment !== 'Not Available') {
-              person.primaryappointment = he.decode(parsedTable.primaryappointment[j]);
+              person.primaryRole = he.decode(parsedTable.primaryappointment[j]);
             }
 
-            // Scrape the primarydepartment
-            person.primarydepartment = he.decode(parsedTable.primarydepartment[j]);
+            // Scrape the primary department
+            person.primaryDepartment = he.decode(parsedTable.primarydepartment[j]);
 
             // Add it to the index and the people list
             people.push(person);

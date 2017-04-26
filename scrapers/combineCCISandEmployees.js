@@ -29,8 +29,10 @@ import camdFaculty from './camdSpider';
 
 
 // TODO
-// if they have 2 different emails on the same domain don't match
-// if they are in the same index don't match
+// standardize fields from the different parses
+// next up: link -> url
+// then: primaryRole
+// and : primaryDepartment
 
 class CombineCCISandEmployees {
 
@@ -180,6 +182,7 @@ class CombineCCISandEmployees {
 
             // Update the emails array with the new emails from this person.
             matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
+            matchedPerson.peopleListIndexMatches[peopleListIndex] = true
 
             // There should only be one match per person. Log a warning if there are more.
             matchesFound++;
@@ -226,6 +229,10 @@ class CombineCCISandEmployees {
 
             // Found a match.
             matchedPerson.matches.push(person);
+
+            // Update the emails array with the new emails from this person.
+            matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
+            matchedPerson.peopleListIndexMatches[peopleListIndex] = true
 
             console.log('Matching:', person.firstName, person.lastName, ':', matchedPerson.firstName, matchedPerson.lastName);
 
@@ -274,118 +281,51 @@ class CombineCCISandEmployees {
     }
 
     // console.log(JSON.stringify(mergedPeopleList.slice(0, 10), null, 4));
-    return;
 
+    // TODO analytics on how many ccis PhD students there are (biggest reason why some are not matched)
+    // and make ids for everything before save as json file
 
-    const emailMap = {};
+    // PhD code
+    // let phdStudentCount = 0;
 
-    employees.forEach((employee) => {
-      if (employee.email && employee.email !== 'Not Available') {
-        if (emailMap[employee.email]) {
-          utils.log('two employees had same email??', employee.email);
-        }
+    // finalUnmatchedProfs.forEach((prof) => {
+    //   if (prof.positions && prof.positions.length === 1 && prof.positions[0] === 'PhD Student') {
+    //     phdStudentCount++;
+    //   }
+    // });
 
-        emailMap[employee.email] = employee;
-      }
-    });
+    // utils.log('Unable to match ', finalUnmatchedProfs.length, '/', ccis.length);
+    // utils.log(phdStudentCount, 'of the unmatched people are PhD students who are usually not in the employee directory.');
 
-    const matchedPeople = [];
-
-    // Match by email. Keep track of the employees and ccis people that were not matched.
-    const unmatchedProfs = [];
-    const unmatchedEmployes = [];
-    let matchedEmails = {};
-
-    ccis.forEach((prof) => {
-      // For some reason, some different people across the different data sources can have the same phone number. Cannot match by phone number
-
-      if (prof.email && prof.email.endsWith('@neu.edu')) {
-        prof.email = `${prof.email.split('@')[0]}@northeastern.edu`;
-      }
-
-
-      if (prof.email && emailMap[prof.email]) {
-        matchedEmails[prof.email] = true;
-        matchedPeople.push(this.mergePeople(prof, emailMap[prof.email]));
-        return;
-      }
-
-      unmatchedProfs.push(prof);
-    });
-
-    employees.forEach((employee) => {
-      if (!employee.email || !matchedEmails[employee.email]) {
-        unmatchedEmployes.push(employee);
-      }
-    });
-
-
-    utils.log('Now matching by name');
-
-    // Now try to match by name
-    matchedEmails = {};
-    const finalUnmatchedProfs = [];
-
-    for (const ccisProf of unmatchedProfs) {
-      const employee = this.findMatchByName(unmatchedEmployes, ccisProf);
-
-      if (employee) {
-        matchedPeople.push(this.mergePeople(ccisProf, employee));
-        const index = unmatchedEmployes.indexOf(employee);
-        unmatchedEmployes.splice(index, 1);
-      } else {
-        finalUnmatchedProfs.push(ccisProf);
-      }
-    }
-
-
-    let phdStudentCount = 0;
-
-    finalUnmatchedProfs.forEach((prof) => {
-      if (prof.positions && prof.positions.length === 1 && prof.positions[0] === 'PhD Student') {
-        phdStudentCount++;
-      }
-    });
-
-    utils.log('Unable to match ', finalUnmatchedProfs.length, '/', ccis.length);
-    utils.log(phdStudentCount, 'of the unmatched people are PhD students who are usually not in the employee directory.');
-
-
-    const output = unmatchedEmployes.concat(finalUnmatchedProfs).concat(matchedPeople);
-
-    utils.log(output.length, employees.length, ccis.length);
-
-    // Swap the single email to an array to match with the people who were matched between ccis and employee
-    for (let i = 0; i < output.length; i++) {
-      const person = output[i];
-      if (person.email) {
-        if (person.emails) {
-          console.warn('Person already has emails array???', person);
-        }
-        person.emails = [person.email];
-        person.email = undefined;
-      }
-    }
 
 
     // Add IDs to people that don't have them (when only from the ccis directory)
-    output.forEach((person, index) => {
-      if (person.id) {
-        return;
-      }
+    // output.forEach((person, index) => {
+    //   if (person.id) {
+    //     return;
+    //   }
 
-      output[index].id = String(index) + String(Math.random()) + person.name;
-    });
+    //   output[index].id = String(index) + String(Math.random()) + person.name;
+    // });
+
+
+
 
 
     // Save the file
     await mkdirp(macros.PUBLIC_DIR);
-    await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employees.json'), JSON.stringify(output));
+    await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMatches.json'), JSON.stringify(mergedPeopleList, null, 4));
+
+    return;
+
 
 
     // Create a map so the frontend is faster
     const employeeMap = {};
     output.forEach((person) => {
+      if (!person.id) {
+        console.error('Error, need id to make map!', person)
+      }
       if (employeeMap[person.id]) {
         utils.log('Error, duplicate id!', person.id);
       }

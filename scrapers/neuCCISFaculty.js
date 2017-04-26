@@ -9,7 +9,7 @@ import macros from './macros';
 // http://www.ccis.northeastern.edu/people-view-all/
 // Scraped info:
   // "name": "Amal Ahmed",
-  // "link": "http://www.ccis.northeastern.edu/people/amal-ahmed/",
+  // "url": "http://www.ccis.northeastern.edu/people/amal-ahmed/",
   // "positions": ["Assistant Professor"],
   // "email": "amal@ccs.neu.edu",
   // "phone": "6173732076",
@@ -21,12 +21,12 @@ import macros from './macros';
   // Link to some google site. Get url with:
   // 'https://scholar.google.com/citations?user=' + googleScholarId + '&hl=en&oi=ao'
   // "googleScholarId": "Y1C007wAAAAJ",
-  // "bigPictureLink": "http://www.ccis.northeastern.edu/wp-content/uploads/2016/03/Amal-Ahmed-hero-image.jpg"
+  // "bigPictureUrl": "http://www.ccis.northeastern.edu/wp-content/uploads/2016/03/Amal-Ahmed-hero-image.jpg"
 
 
 // There were a few people that put non-google urls on the google url field.
 // These links are ignored at the moment.
-// They could be used in place of the personal website link, but there were only a few professors and most of them had personal website links too.
+// They could be used in place of the personal website url, but there were only a few professors and most of them had personal website links too.
 
 // TODO: also could clean up the first name and last name parsing.
 // For 3 people in all of CCIS, they have names like [Panagiotos (Pete) Manolios]
@@ -59,7 +59,7 @@ class NeuCCISFaculty {
       }
 
       // Link to profile.
-      obj.link = $('h3.person-name > a', $personElement).attr('href').trim();
+      obj.url = $('h3.person-name > a', $personElement).attr('href').trim();
 
       // positions at neu (eg PhD Student)
       const positions = $('div.position-list > span.position', $personElement);
@@ -107,7 +107,7 @@ class NeuCCISFaculty {
       }
 
 
-      ['name', 'link', 'positions', 'emails'].forEach((attrName) => {
+      ['name', 'url', 'positions', 'emails'].forEach((attrName) => {
         if (!obj[attrName]) {
           utils.log('Missing', attrName, 'for', obj.name);
         }
@@ -132,16 +132,16 @@ class NeuCCISFaculty {
       obj.personalSite = obj.personalSite.trim();
     }
 
-    const googleScholarLink = $('div.contact-block > div.contact-links > p.google-scholar > a').attr('href');
+    const googleScholarUrl = $('div.contact-block > div.contact-links > p.google-scholar > a').attr('href');
 
-    const userId = utils.parseGoogleScolarLink(googleScholarLink);
+    const userId = utils.parseGoogleScolarLink(googleScholarUrl);
     if (userId) {
       obj.googleScholarId = userId;
     }
 
-    obj.bigPictureLink = $('header.people-header > div.section-inner > img').attr('src');
-    if (obj.bigPictureLink) {
-      obj.bigPictureLink = obj.bigPictureLink.trim();
+    obj.bigPictureUrl = $('header.people-header > div.section-inner > img').attr('src');
+    if (obj.bigPictureUrl) {
+      obj.bigPictureUrl = obj.bigPictureUrl.trim();
     }
 
     return obj;
@@ -168,7 +168,7 @@ class NeuCCISFaculty {
     // Cool, parsed all of the info from the first page
     // Now scrape each profile
     peopleObjects.forEach((obj) => {
-      promises.push(request.get(obj.link).then((personResponse) => {
+      promises.push(request.get(obj.url).then((personResponse) => {
         output.push(this.parseDetailpage(personResponse, obj));
       }));
     });
