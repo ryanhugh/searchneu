@@ -91,20 +91,20 @@ class Camd {
           text = text.slice('Office: '.length);
         }
 
-       if (obj.office) {
+       if (obj.officeRoom) {
           console.log('Two matches for office, keeping the longer one', obj.office, text);
 
           // Only update the office if the new office is longer.
           // This rarely happens, but the longer the string is the more likely it is to be an office location.
           // In all of CAMD, there are only 2 instance where this helps
-          if (obj.office.length < text.length) {
+          if (obj.officeRoom.length < text.length) {
             obj.officeRoom = text
           }
 
           return;
         }
 
-        obj.office = text;
+        obj.officeRoom = text;
 
       } else {
         console.log('Warn: unknown prop in description', text);

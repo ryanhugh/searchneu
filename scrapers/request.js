@@ -87,7 +87,7 @@ class Request {
 
     // Just the host + subdomains are needed, eg blah.google.com
     if (hostname.startsWith('http://') || hostname.startsWith('https://')) {
-      utils.elog(hostname);
+      utils.error(hostname);
     }
 
     const promise = dns.lookup(hostname, {
@@ -141,7 +141,7 @@ class Request {
 
     let ip;
     if (dnsResults.length === 0) {
-      utils.elog('DNS lookup returned 0 results!', JSON.stringify(config));
+      utils.error('DNS lookup returned 0 results!', JSON.stringify(config));
       return null;
     } else if (dnsResults.length === 1) {
       ip = dnsResults[0].address;

@@ -114,7 +114,7 @@ exports.occurrences = function occurrences(string, subString, allowOverlapping) 
 
 exports.loadDevData = async function loadDevData(path) {
   if (!macros.DEV) {
-    exports.elog('Called load dev data while not in dev mode.');
+    exports.error('Called load dev data while not in dev mode.');
     return null;
   }
 
@@ -129,7 +129,7 @@ exports.loadDevData = async function loadDevData(path) {
 
 exports.saveDevData = async function saveDevData(path, data) {
   if (!macros.DEV) {
-    exports.elog('Called save dev data while not in dev mode.');
+    exports.error('Called save dev data while not in dev mode.');
     return;
   }
 

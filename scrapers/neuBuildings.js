@@ -2,7 +2,10 @@ import cheerio from 'cheerio';
 import URI from 'urijs';
 import tj from '@mapbox/togeojson';
 import DOMParser from 'xmldom';
+import path from 'path';
 
+import macros from './macros';
+import utils from './utils';
 import request from './request';
 
 
@@ -55,7 +58,7 @@ import request from './request';
 
 
 async function main() {
-  const resp = await request.get('www.northeastern.edu/neuhome/about/maps.html');
+  const resp = await request.get('http://www.northeastern.edu/neuhome/about/maps.html');
 
   const $ = cheerio.load(resp.body);
 
@@ -67,7 +70,14 @@ async function main() {
 
   const json = tj.kml(new DOMParser.DOMParser().parseFromString(kmlRequest.body));
 
-  console.log(json.features.length);
+  console.log(json.features);
+
+  const outputFile = path.join(macros.DEV_DATA_DIR, 'buildings.json');
+
+  if (macros.DEV) {
+    await utils.saveDevData(outputFile, json.features);
+    console.log('buildings file saved!');
+  }
 
 
   // await Promise.all(promises);
