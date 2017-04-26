@@ -62,12 +62,15 @@ class NeuCCISFaculty {
       obj.url = $('h3.person-name > a', $personElement).attr('href').trim();
 
       // positions at neu (eg PhD Student)
-      const positions = $('div.position-list > span.position', $personElement);
-      if (positions.length > 0) {
-        obj.positions = [];
-        for (let j = 0; j < positions.length; j++) {
-          obj.positions.push($(positions[j]).text().trim());
+      const positionElements = $('div.position-list > span.position', $personElement);
+      if (positionElements.length > 0) {
+        let positions = [];
+        for (let j = 0; j < positionElements.length; j++) {
+          positions.push($(positionElements[j]).text().trim());
         }
+
+        // Hold off on keeping the positions array for now. Need to ensure it is the same schema as COE (and other parser that are scraping positions).
+        obj.primaryRole = positions[0];
       }
 
       // email
@@ -107,7 +110,7 @@ class NeuCCISFaculty {
       }
 
 
-      ['name', 'url', 'positions', 'emails'].forEach((attrName) => {
+      ['name', 'url', 'emails'].forEach((attrName) => {
         if (!obj[attrName]) {
           utils.log('Missing', attrName, 'for', obj.name);
         }

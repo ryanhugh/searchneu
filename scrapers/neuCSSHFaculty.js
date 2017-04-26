@@ -46,7 +46,7 @@ class Cssh {
 
     // Job Title
     // "Assistant Professor Sociology and Health Science"
-    obj.title = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > div.fac-single-title').text().trim();
+    obj.primaryRole = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > div.fac-single-title').text().trim();
 
     // Parse out the email. 
     let emailElements = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > p > a');

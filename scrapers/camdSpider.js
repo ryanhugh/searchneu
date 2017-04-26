@@ -51,9 +51,9 @@ class Camd {
       obj.image = obj.image.trim();
     }
 
-    // Job Title
+    // Primary Role
     // "Associate Professor – Design, Interactive Media"
-    obj.title = $('#main > div.pagecenter > div > div > div > div > div.col10 > p.introp').text().trim();
+    obj.primaryRole = $('#main > div.pagecenter > div > div > div > div > div.col10 > p.introp').text().trim();
 
     // Phone number and office location are just both in a <p> element separated by <br>.
     // Dump all the text and then figure out where the phone and office is.

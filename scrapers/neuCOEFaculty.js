@@ -60,7 +60,10 @@ async function scrapeDetailpage(obj) {
 
     obj.primaryRole = positions[0].role
     obj.primaryDepartment = positions[0].department
-    obj.positions = positions;
+
+    // Hold off on keeping the positions for now.
+    // Need to ensure it is the same schema as CCIS (which does not have department for each role).
+    // obj.positions = positions;
   }
 
   // address

@@ -30,9 +30,7 @@ import camdFaculty from './camdSpider';
 
 // TODO
 // standardize fields from the different parses
-// next up: link -> url
-// then: primaryRole
-// and : primaryDepartment
+// next up: office
 
 class CombineCCISandEmployees {
 
