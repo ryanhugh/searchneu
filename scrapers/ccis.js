@@ -130,8 +130,13 @@ class NeuCCISFaculty {
 
       let officeSplit = office.replace(/\r\n/gi, '\n').trim().split('\n');
 
-      obj.officeRoom = officeSplit[1]
-      obj.officeStreetAddress = officeSplit[0]
+      obj.officeRoom = officeSplit[1].trim();
+      obj.officeStreetAddress = officeSplit[0].trim();
+
+      // Need to remove trailing commas
+      // if (obj.officeRoom.endsWith(',')) {
+      //   obj.officeRoom.slice()
+      // }
     }
 
     obj.personalSite = $('div.contact-block > div.contact-links > p.personal-site > a').attr('href');

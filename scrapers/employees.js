@@ -175,9 +175,10 @@ function findName(list) {
   }
 
 
+// This splits the employee name by the comma in the middle and the name after the comma is the first name and the name before is the last name
+// The util function for this does not split the name by the comma, it assumes that the name is just separated by spaces. 
+function getFirstLastName(name) {
 
-function getFirstLastName(employeeObj) {
-  let name = employeeObj.name;
 
   if (name.match(/jr.?,/gi)) {
     name = name.replace(/, jr.?,/gi, ',');
@@ -196,9 +197,10 @@ function getFirstLastName(employeeObj) {
   const afterCommaSplit = splitOnComma[0].trim().split(' ').reverse();
   const lastName = findName(afterCommaSplit);
 
-  employeeObj.firstName = firstName;
-  employeeObj.lastName = lastName;
-  return employeeObj;
+  let retVal = {}
+  retVal.firstName = firstName;
+  retVal.lastName = lastName;
+  return retVal;
 }
 
 
@@ -233,14 +235,39 @@ function parseLettersResponse(response, lastNameStart) {
 
           for (let j = 0; j < rowCount; j++) {
             let person = {};
-            person.name = parsedTable.name[j].split('\n\n')[0];
+            let nameWithComma = parsedTable.name[j].split('\n\n')[0];
+
+            let commaNameSplit = nameWithComma.split(',')
+
+            for (var i = 0; i < commaNameSplit.length; i++) {
+              commaNameSplit[i] = commaNameSplit[i].trim()
+            }
+
+
+            // Remove Jr and Jr.
+            _.pull(commaNameSplit, 'Jr', 'Jr.');
+
+
+             if (commaNameSplit.length > 2) {
+              console.log('Warning: has more than one comma skipping.', commaNameSplit)
+              person.name = nameWithComma
+            }
+            else {
+              person.name = commaNameSplit[1].trim() + ' ' + commaNameSplit[0].trim()
+            }
+
 
             // Generate first name and last name from the name on the person
-            person = getFirstLastName(person)
+            let {firstName, lastName} = getFirstLastName(nameWithComma)
+            if (firstName && lastName) {
+              person.firstName = firstName;
+              person.lastName = lastName;
+            }
+
 
             const idMatch = parsedTable.name[j].match(/.hrefparameter\s+=\s+"id=(\d+)";/i);
             if (!idMatch) {
-              console.warn('Warn: unable to parse id, using random number', person.name);
+              console.warn('Warn: unable to parse id, using random number', nameWithComma);
               person.id = String(Math.random());
             } else {
               person.id = idMatch[1];
@@ -275,7 +302,7 @@ function parseLettersResponse(response, lastNameStart) {
             if (peopleMap[person.id]) {
               console.log('Error, person already in the people map?', person.id);
             }
-            peopleMap[person.id] = person;
+            peopleMap[person.id] = true;
           }
           return resolve();
         }

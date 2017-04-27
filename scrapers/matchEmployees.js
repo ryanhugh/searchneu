@@ -30,7 +30,22 @@ import camdFaculty from './camd';
 
 // TODO
 // standardize fields from the different parses
-// next up: office
+
+// name
+
+// url. 
+
+// Phone. Many people have one database say one phone and a different data source have a different phone. idk. 
+// phone: '6175586587'
+
+// List of emails. Can be on any domain. Many people list personal emails. Duplicates are removed. 
+// emails : ['bob@northeastern.edu']
+
+// primaryRole. What their job is. eg: Professor
+
+// What department they work in. eg: CCIS
+// primaryDepartment
+
 // officeRoom: 435 Ryder Hall
 // officeStreetAddress: 177 Huntington Ave
 
@@ -299,35 +314,87 @@ class CombineCCISandEmployees {
 
 
 
-    // Add IDs to people that don't have them (IDs are only scraped from employee directory)
-    // output.forEach((person, index) => {
-    //   if (person.id) {
-    //     return;
+
+    // let toSave = []
+
+
+    // mergedPeopleList.forEach(function(item) {
+    //   if (item.matches.length > 1) {
+    //     toSave.push(item)
     //   }
+    // })
 
-    //   output[index].id = String(index) + String(Math.random()) + person.name;
-    // });
+    // Save the file
+    // await mkdirp(macros.PUBLIC_DIR);
+    // await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMatches.json'), JSON.stringify(toSave, null, 4));
 
 
 
+
+    let mergedEmployees = [];
+
+
+    mergedPeopleList.forEach(function (person) {
+      if (person.matches.length === 1) {
+        mergedEmployees.push(person.matches[0])
+        return;
+      }
+
+
+      let output = {}
+      for (let profile of person.matches) {
+
+        for (let attrName in profile) {
+
+          // Merge emails
+          if (attrName === 'emails') {
+            if (output.emails) {
+              output.emails = _.uniq(output.emails.concat(profile.emails));
+            }
+            else {
+              output.emails = profile.emails
+            }
+            continue;
+          }
+
+
+          if (output[attrName] && output[attrName] != profile[attrName]) {
+            console.log('Overriding ', output[attrName], '\twith', profile[attrName])
+          }
+
+
+
+          output[attrName] = profile[attrName]
+        }
+      }
+
+      mergedEmployees.push(output)
+    })
+
+
+    // Add IDs to people that don't have them (IDs are only scraped from employee directory)
+    mergedEmployees.forEach((person, index) => {
+      if (person.id) {
+        return;
+      }
+
+      mergedEmployees[index].id = String(index) + String(Math.random()) + person.name;
+    });
 
 
     // Save the file
     await mkdirp(macros.PUBLIC_DIR);
-    await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMatches.json'), JSON.stringify(mergedPeopleList, null, 4));
-
-    return;
-
+    await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employees.json'), JSON.stringify(mergedEmployees, null, 4));
 
 
     // Create a map so the frontend is faster
     const employeeMap = {};
-    output.forEach((person) => {
+    mergedEmployees.forEach((person) => {
       if (!person.id) {
         console.error('Error, need id to make map!', person)
       }
       if (employeeMap[person.id]) {
-        utils.log('Error, duplicate id!', person.id);
+        utils.error('Error, duplicate id!', person.id);
       }
       employeeMap[person.id] = person;
     });
@@ -344,20 +411,21 @@ class CombineCCISandEmployees {
     index.setRef('id');
     index.addField('name');
     index.addField('phone');
-    index.addField('email');
-    index.addField('office');
-    index.addField('primaryappointment');
-    index.addField('primarydepartment');
+    index.addField('emails');
+    index.addField('officeRoom');
+    index.addField('officeStreetAddress');
+    index.addField('primaryRole');
+    index.addField('primaryDepartment');
+    index.saveDocument(false);
 
-
-    output.forEach((row) => {
+    mergedEmployees.forEach((row) => {
       index.addDoc(row);
     });
 
     await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeesSearchIndex.json'), JSON.stringify(index.toJSON()));
     console.log('wrote employee json files');
 
-    return output;
+    return mergedEmployees;
   }
 }
 

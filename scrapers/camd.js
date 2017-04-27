@@ -53,7 +53,7 @@ class Camd {
 
     // Primary Role
     // "Associate Professor – Design, Interactive Media"
-    obj.primaryRole = $('#main > div.pagecenter > div > div > div > div > div.col10 > p.introp').text().trim();
+    obj.primaryRole = $('#main > div.pagecenter > div > div > div > div > div.col10 > p.introp').text().trim().split(';')[0];
 
     // Phone number and office location are just both in a <p> element separated by <br>.
     // Dump all the text and then figure out where the phone and office is.
