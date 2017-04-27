@@ -283,6 +283,9 @@ class CombineCCISandEmployees {
 
           mergedPeopleList.push(newMatchPerson);
         }
+        else if (matchesFound > 1) {
+          console.error(matchesFound, 'matches found for ', person.name, '!!!!')
+        }
       }
 
       if (this.analytics.matchedByEmail !== undefined && this.analytics.matchedByName !== undefined) {
@@ -315,18 +318,18 @@ class CombineCCISandEmployees {
 
 
 
-    // let toSave = []
+    let toSave = []
 
 
-    // mergedPeopleList.forEach(function(item) {
-    //   if (item.matches.length > 1) {
-    //     toSave.push(item)
-    //   }
-    // })
+    mergedPeopleList.forEach(function(item) {
+      if (item.matches.length > 1) {
+        toSave.push(item)
+      }
+    })
 
     // Save the file
-    // await mkdirp(macros.PUBLIC_DIR);
-    // await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMatches.json'), JSON.stringify(toSave, null, 4));
+    await mkdirp(macros.PUBLIC_DIR);
+    await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMatches.json'), JSON.stringify(toSave, null, 4));
 
 
 
@@ -357,11 +360,9 @@ class CombineCCISandEmployees {
             continue;
           }
 
-
           if (output[attrName] && output[attrName] != profile[attrName]) {
             console.log('Overriding ', output[attrName], '\twith', profile[attrName])
           }
-
 
 
           output[attrName] = profile[attrName]

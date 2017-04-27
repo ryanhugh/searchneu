@@ -10,7 +10,9 @@ import globe from './globe.svg';
 const cx = classNames.bind(css);
 
 
-// name, id, phone, emails, primaryappointment, primarydepartment, link, positions, office, personalSite, bigPictureLink
+// name, id, phone, emails, primaryRole, primaryDepartment, url, officeRoom, officeStreetAddress
+
+// not standardized yet: personalSite, bigPictureLink
 class EmployeePanel extends React.Component {
 
   static injectBRs(arr) {
@@ -32,31 +34,35 @@ class EmployeePanel extends React.Component {
     const employee = this.props.employee;
 
     // Create the address box
-    const officeElements = [];
-    if (employee.office) {
-      const lines = employee.office.split('\r\n');
+    let officeElements = [];
 
-      lines.forEach((line, index) => {
-        officeElements.push(line);
-        if (lines.length - 1 !== index) {
-          officeElements.push(<br key={ index } />);
-        }
-      });
+    if (employee.officeRoom) {
+      officeElements.push(employee.officeRoom)
     }
+
+    // if (employee.office) {
+    //   const lines = employee.office.split('\r\n');
+
+    //   lines.forEach((line, index) => {
+    //     officeElements.push(line);
+    //     if (lines.length - 1 !== index) {
+    //       officeElements.push(<br key={ index } />);
+    //     }
+    //   });
+    // }
+
+
+    officeElements = this.constructor.injectBRs(officeElements)
 
 
     const contactText = [];
 
-    if (employee.positions) {
-      employee.positions.forEach((position) => {
-        contactText.push(position);
-      });
-    } else if (employee.primaryappointment) {
-      contactText.push(employee.primaryappointment);
+     if (employee.primaryRole) {
+      contactText.push(employee.primaryRole);
     }
 
-    if (employee.primarydepartment) {
-      contactText.push(employee.primarydepartment);
+    if (employee.primaryDepartment) {
+      contactText.push(employee.primaryDepartment);
     }
     if (employee.emails) {
       employee.emails.forEach(function(email, index) {
@@ -81,10 +87,10 @@ class EmployeePanel extends React.Component {
     const contactElements = this.constructor.injectBRs(contactText)
 
     let linkElement = null
-    if (employee.link) {
+    if (employee.url) {
       linkElement = (
         <span className = {css.link}> 
-          <a key="jfdalsj" target='_blank' rel='noopener noreferrer' className={ css.inlineBlock } href={ employee.link }>
+          <a key="jfdalsj" target='_blank' rel='noopener noreferrer' className={ css.inlineBlock } href={ employee.url }>
             <img src={ globe } alt='globe' />
           </a>
         </span>
@@ -93,8 +99,8 @@ class EmployeePanel extends React.Component {
 
 
     var links = []
-    if (employee.link) {
-      links.push(<a key="link" target='_blank' rel='noopener noreferrer' href={employee.link}>CCIS Profile</a>)
+    if (employee.url) {
+      links.push(<a key="link" target='_blank' rel='noopener noreferrer' href={employee.url}>NEU Profile</a>)
     }
 
     if (employee.personalSite) {

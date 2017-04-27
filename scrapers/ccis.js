@@ -134,9 +134,9 @@ class NeuCCISFaculty {
       obj.officeStreetAddress = officeSplit[0].trim();
 
       // Need to remove trailing commas
-      // if (obj.officeRoom.endsWith(',')) {
-      //   obj.officeRoom.slice()
-      // }
+      if (obj.officeRoom.endsWith(',')) {
+        obj.officeRoom = obj.officeRoom.slice(0, obj.officeRoom.length - 1);
+      }
     }
 
     obj.personalSite = $('div.contact-block > div.contact-links > p.personal-site > a').attr('href');

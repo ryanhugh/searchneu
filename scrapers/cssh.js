@@ -147,9 +147,18 @@ class Cssh {
       }
     });
 
+    if (office.length > 0) {
+      
+      obj.officeRoom = office[0];
 
-    obj.officeRoom = office[0];
-    obj.officeStreetAddress = office[1];
+      // Need to remove trailing commas
+      if (obj.officeRoom.endsWith(',')) {
+        obj.officeRoom = obj.officeRoom.slice(0, obj.officeRoom.length - 1);
+      }
+
+      obj.officeStreetAddress = office[1];
+      
+    }
 
     return obj;
   }
