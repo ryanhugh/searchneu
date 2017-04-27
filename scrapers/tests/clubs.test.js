@@ -1,20 +1,20 @@
 import fs from 'fs-promise';
 
-import neuClubs from '../neuClubs';
+import clubs from '../clubs';
 
 fit('parseDetails should work', async (done) => {
-  const data = await fs.readFile('scrapers/tests/data/neuClubs/club.json');
+  const data = await fs.readFile('scrapers/tests/data/clubs/club.json');
   const resp = JSON.parse(data);
-  const output = neuClubs.parseDetails(resp.body);
+  const output = clubs.parseDetails(resp.body);
 
   expect(output).toMatchSnapshot();
   done();
 });
 
 fit('parseLetterAndPage should work', async (done) => {
-  const data = await fs.readFile('scrapers/tests/data/neuClubs/letter.json');
+  const data = await fs.readFile('scrapers/tests/data/clubs/letter.json');
   const resp = JSON.parse(data);
-  const output = neuClubs.parseLetterAndPage(resp);
+  const output = clubs.parseLetterAndPage(resp);
 
   expect(output).toMatchSnapshot();
   done();

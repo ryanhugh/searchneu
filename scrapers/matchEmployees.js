@@ -7,11 +7,11 @@ import fs from 'fs-promise';
 import path from 'path';
 import utils from './utils';
 import macros from './macros';
-import ccisFaculty from './neuCCISFaculty';
-import neuEmployees from './neuEmployees';
-import coeFaculty from './neuCOEFaculty';
-import csshFaculty from './neuCSSHFaculty';
-import camdFaculty from './camdSpider';
+import ccisFaculty from './ccis';
+import neuEmployees from './employees';
+import coeFaculty from './coe';
+import csshFaculty from './cssh';
+import camdFaculty from './camd';
 
 // This file combines the data from the ccis website and the NEU Employees site
 // If there is a match, the data from the ccis site has priority over the data from the employee site.

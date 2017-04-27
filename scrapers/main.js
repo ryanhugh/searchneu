@@ -1,7 +1,6 @@
-import combineCCISandEmployees from './combineCCISandEmployees';
+import matchEmployees from './matchEmployees';
 import courseproData from './courseproData';
-import neuClubs from './neuClubs';
-
+import clubs from './clubs';
 import macros from './macros';
 
 // Main file for scraping
@@ -21,7 +20,7 @@ if (process.env.TRAVIS && macros.DEV) {
 
 
 async function main() {
-  const promises = [combineCCISandEmployees.main(), courseproData(), neuClubs.main()];
+  const promises = [matchEmployees.main(), courseproData(), clubs.main()];
 
   await Promise.all(promises);
   console.log('done');
