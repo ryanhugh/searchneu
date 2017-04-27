@@ -46,7 +46,6 @@ class ResultsLoader extends React.Component {
   }
 
   handleInfiniteLoad() {
-    console.log('results loader handleInfiniteLoad', this.props.results.length, this.state.visibleObjects.length);
     if (this.props.results.length === 0) {
       return;
     }
