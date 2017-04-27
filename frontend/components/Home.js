@@ -5,12 +5,13 @@ import 'semantic-ui-css/semantic.min.css';
 import request from 'superagent';
 
 import '../css/base.css';
+import '../css/pace.css';
 import css from './home.css';
 
+import Pace from './pace';
 import ResultsLoader from './ResultsLoader';
 import CourseProData from './models/DataLib';
 import Keys from './models/Keys';
-
 
 const searchConfig = {
   fields: {
@@ -114,6 +115,9 @@ class Home extends React.Component {
   // TODO This is just for testing
   async componentDidMount() {
     await this.dataPromise;
+
+    Pace.stop()
+
     this.search('huntington');
   }
 
@@ -220,7 +224,7 @@ class Home extends React.Component {
 
   render() {
 
-    if (!this.employeeMap || !this.termData) {
+    if (!this.searchIndex || !this.termData || !this.employeeMap || !this.employeesSearchIndex) {
       return null;
     }
 
