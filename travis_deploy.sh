@@ -19,13 +19,3 @@ git remote remove origin
 git remote add origin git@github.com:ryanhugh/neusearch.git
 node node_modules/gh-pages/bin/gh-pages -d public -a
 
-# git pull origin master
-# git pull origin gh-pages
-# git checkout gh-pages
-# git merge master --no-edit
-# git commit -a -m "Merged the latest changes into gh-pages"
-# # node main.js	
-# # git commit -a -m "Updated data"
-# git remote add deploy git@github.com:ryanhugh/neusearch.git
-# git config --global push.default simple
-# git push git@github.com:ryanhugh/neusearch.git gh-pages
