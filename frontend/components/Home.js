@@ -196,7 +196,7 @@ class Home extends React.Component {
 
     Pace.stop()
 
-    this.search('huntington');
+    // this.search('huntington');
   }
 
 
@@ -302,10 +302,15 @@ class Home extends React.Component {
 
   render() {
 
-    if (!this.searchIndex || !this.termData || !this.employeeMap || !this.employeesSearchIndex) {
-      return null;
-    }
+    let resultsLoader = null;
 
+    if (this.termData && this.state.results && this.employeeMap) {
+      resultsLoader = (<ResultsLoader
+          results={ this.state.results }
+          termData={ this.termData }
+          employeeMap={ this.employeeMap }
+        />)
+    }
 
     return (
       <div>
@@ -342,11 +347,7 @@ class Home extends React.Component {
               />
             </div>
           </div>
-          <ResultsLoader
-            results={ this.state.results }
-            termData={ this.termData }
-            employeeMap={ this.employeeMap }
-          />
+          {resultsLoader}
         </div>
         <div className={ css.botttomPadding } />
 

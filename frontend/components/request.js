@@ -95,52 +95,38 @@ class Request {
     }
 
 
-    let internetPromise = this.getFromInternet(config.url).then(function(value) {
-      return {
-        type: 'internet',
-        value: value
-      }
-    })
+    let idbValue = await this.getFromCache(config.url);
 
-    let idbPromise = this.getFromCache(config.url).then(function(value) {
-      return {
-        type: 'idb',
-        value: value
-      }
-    })
+    if (idbValue) {
 
+      // need to check to see if this is too old to use before showing to user
 
-    let firstResult = await Promise.race([internetPromise, idbPromise])
+      const MS_PER_DAY = 86400000;
+      // const MS_PER_DAY = 2;
 
-    // The expected result
-    if (firstResult.type === 'idb') {
-      if (firstResult.value) {
+      let now = new Date().getTime()
 
-        // Wait for the internet value and store it in the cache
-        // this.waitForPromiseThenSave(internetPromise, config.url);
+      const age = now - idbValue.timestamp
 
-        console.log('returning', firstResult.value)
-        return firstResult.value;
-      }
-      else {
+      console.log('File is ', age, 'ms old')
 
-        let internetValue = await internetPromise;
-        idb.set(config.url, internetValue.value);
-        return internetValue.value;
+      // More than a day old, just get the latest version
+      if (age < MS_PER_DAY) {
+        return idbValue.value;
       }
     }
-    else if (firstResult.type === 'internet') {
-      console.log('Internet was faster than idb?')
 
-      // Store value in idb, but don't wait for it to save before returning
-      idb.set(config.url, firstResult.value);
 
-      return firstResult.value;
+    let internetValue = await this.getFromInternet(config.url);
 
-    }
-    else {
-      console.error('ERROR?')
-    }
+    setTimeout(function saveTimeout() {
+        idb.set(config.url, {
+          value: internetValue,
+          timestamp: new Date().getTime()
+        })
+    }, 2000)
+
+    return internetValue;
   }
 }
 

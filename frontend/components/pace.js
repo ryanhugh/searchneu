@@ -294,6 +294,7 @@
     };
 
     Bar.prototype.render = function() {
+
       var el, key, progressStr, transform, _j, _len1, _ref2;
       if (document.querySelector(options.target) == null) {
         return false;
@@ -301,6 +302,7 @@
       if (!Pace.running) {
         return;
       }
+      console.log('rendering', Pace.running)
       el = this.getElement();
       transform = "translate3d(" + this.progress + "%, 0, 0)";
       _ref2 = ['webkitTransform', 'msTransform', 'transform'];
