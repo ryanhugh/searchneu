@@ -67,98 +67,52 @@ class Home extends React.Component {
   // AND DEDUP IT
   // AND MAKE SURE NO LOADING BAR POPS UP WHEN 100% LOADING FROM IDB (IT SHOULD JUST WORK THO CAUSE YAY)
 
-
-  async getClassSearchIndex() {
-    var start = new Date().getTime();
-
-    let existingValue = await i.get('searchIndex')
-
-    var end = new Date().getTime();
-
-
-    // console.timeEnd('get')
-    if (existingValue) {
-      console.log((end-start) + 'diff' + existingValue.length);
-      return existingValue;
-    }
-    else {
-      // Need to make network request
-      let resp = await request.get('data/getSearchIndex/neu.edu/201810')
-
-      let data = (resp)
-
-      // Don't wait for cache write to complete
-      i.set('searchIndex', data)
-
-      console.log('no existing value')
-      return data  
-    }
-  }
-
-  async getJawns() {
-    var start = new Date().getTime();
-
-    let existingValue = await i.get('jawdn')
-
-    var end = new Date().getTime();
-
-    // setTimeout(function() {
-    //     var end = new Date().getTime();        
-    //     console.log("HERJEKRJLKE", (end-start))
-    // },5000)
-
-
-    // console.timeEnd('get')
-    if (existingValue) {
-      console.log((end-start) + 'dif2f' + existingValue.length);
-      return existingValue;
-    }
-    else {
-      // Need to make network request
-      let resp = await request.get('data/getTermDump/neu.edu/201810')
-
-      let data = (resp)
-
-      // Don't wait for cache write to complete
-      i.set('jawn', data)
-
-      console.log('no existing value2')
-      return data  
-    }
-  }
-
   async loadData() {
     const promises = [];
 
+
+    const classesSearchIndexUrl = 'data/getSearchIndex/neu.edu/201810';
+    const classesDataUrl = 'data/getTermDump/neu.edu/201810'
+
+    const employeesDataUrl = 'data/employeeMap.json'
+    const employeesSearchIndexUrl = 'data/employeesSearchIndex.json'
+
+    this.loadingFromCache = request.cacheIsUpdatedForKeys([classesSearchIndexUrl, classesDataUrl, employeesDataUrl, employeesSearchIndexUrl]);
+
     promises.push(request.get({
-      url:'data/getSearchIndex/neu.edu/201810',
+      url:classesSearchIndexUrl,
       useCache: true
     }).then((res) => {
       this.searchIndex = elasticlunr.Index.load(res);
     }));
 
     promises.push(request.get({
-      url:'data/getTermDump/neu.edu/201810',
+      url:classesDataUrl,
       useCache:true
     }).then((res) => {
       this.termData = CourseProData.loadData(res);
     }));
 
     promises.push(request.get({
-      url: 'data/employeeMap.json',
+      url: employeesDataUrl,
       useCache: true
     }).then((res) => {
       this.employeeMap = (res);
     }));
 
     promises.push(request.get({
-      url:'data/employeesSearchIndex.json',
+      url:employeesSearchIndexUrl,
       useCache: true
     }).then((res) => {
       this.employeesSearchIndex = elasticlunr.Index.load((res));
     }));
 
     this.dataPromise = Promise.all(promises).then(() => {
+
+      console.log('Loaded everything!')
+      Pace.stop();
+      this.forceUpdate();
+
       // TODO remove
       // test go through classes and make sure they are all in sections?
       // 3 invalid crns (or missing sections?) were found with this code
@@ -192,9 +146,7 @@ class Home extends React.Component {
   // TODO This is just for testing
   async componentDidMount() {
     await this.dataPromise;
-    console.log('done!!')
-
-    Pace.stop()
+   
 
     // this.search('huntington');
   }
@@ -301,6 +253,11 @@ class Home extends React.Component {
 
 
   render() {
+    if (!this.loadingFromCache && (!this.termData || !this.employeeMap || !this.state.results)) {
+      console.log('returning early', this.loadingFromCache)
+      return null;
+    }
+    console.log('rendering')
 
     let resultsLoader = null;
 

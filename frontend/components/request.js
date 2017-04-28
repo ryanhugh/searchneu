@@ -1,7 +1,11 @@
 import idb from 'idb-keyval';
 
 
+const LOCALSTORAGE_PREFIX = 'request_cache'
+const MS_PER_DAY = 86400000;
+
 class Request {
+
 
 
   async getFromCache(url) {
@@ -20,6 +24,46 @@ class Request {
     }
 
     return existingValue;
+  }
+
+  async saveToCache (url, value) {
+
+    var start = new Date().getTime();
+
+    let existingValue = await idb.set(url, value)
+
+    var end = new Date().getTime();
+
+    console.log('Saving took', (end-start), 'ms')
+    window.localStorage[LOCALSTORAGE_PREFIX + url] = new Date().getTime();
+  }
+
+
+  isKeyUpdated(key) {
+    const storedValue = window.localStorage[LOCALSTORAGE_PREFIX + key]
+
+    if (!storedValue) {
+      return false;
+    }
+
+    let now = new Date().getTime()
+
+    if (now - parseInt(storedValue) > MS_PER_DAY) {
+      return false;
+    }
+    return true;
+  }
+
+  // Returns true if the cache has all of the keys specified, and they are all < 24 Hr old.
+  // If this returns false, the request code will go directly to the internet
+  cacheIsUpdatedForKeys(keys) {
+    for (const key of keys) {
+      if (!this.isKeyUpdated(key)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
 
@@ -63,21 +107,6 @@ class Request {
     });
   }
 
-  async waitForPromiseThenSave (internetPromise, url) {
-    return;
-
-    // let internetValue = await internetPromise.value
-
-
-    var start = new Date().getTime();
-
-    idb.set(url, ((await internetPromise).value))
-
-    var end = new Date().getTime();
-
-    console.log('Saving ',url,'took', (end-start),'ms')
-
-  }
 
   async get(config) {
     if (typeof config === 'string') {
@@ -95,38 +124,20 @@ class Request {
     }
 
 
-    let idbValue = await this.getFromCache(config.url);
+    if (this.isKeyUpdated(config.url)) {
+      return this.getFromCache(config.url);
+    }
+    else {
+      let internetValue = await this.getFromInternet(config.url);
 
-    if (idbValue) {
+      setTimeout(() => {
+        this.saveToCache(config.url, internetValue)
+      }, 2000)
 
-      // need to check to see if this is too old to use before showing to user
-
-      const MS_PER_DAY = 86400000;
-      // const MS_PER_DAY = 2;
-
-      let now = new Date().getTime()
-
-      const age = now - idbValue.timestamp
-
-      console.log('File is ', age, 'ms old')
-
-      // More than a day old, just get the latest version
-      if (age < MS_PER_DAY) {
-        return idbValue.value;
-      }
+      return internetValue;
     }
 
 
-    let internetValue = await this.getFromInternet(config.url);
-
-    setTimeout(function saveTimeout() {
-        idb.set(config.url, {
-          value: internetValue,
-          timestamp: new Date().getTime()
-        })
-    }, 2000)
-
-    return internetValue;
   }
 }
 
