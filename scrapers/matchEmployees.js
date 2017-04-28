@@ -242,6 +242,7 @@ class CombineCCISandEmployees {
         }
       }
 
+      // Do some final calculations on the analytics and then log them
       if (this.analytics.matchedByEmail !== undefined && this.analytics.matchedByName !== undefined) {
         this.analytics.matched = this.analytics.matchedByEmail + this.analytics.matchedByName
         this.analytics.unmatched = this.analytics.people - this.analytics.matched   
