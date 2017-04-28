@@ -15,7 +15,7 @@ export default class DataLib {
 
 	static loadData(termDump) {
 		if (!termDump.classMap || !termDump.sectionMap) {
-			console.error('invalid termDump')
+			console.error('invalid termDump', termDump)
 			return;
 		}
 

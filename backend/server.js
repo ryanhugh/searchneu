@@ -24,17 +24,17 @@ const middleware = webpackMiddleware(compiler, {
 });
 
 
-app.use(express.static('public'));
-
-
 app.use(middleware);
 app.use(webpackHotMiddleware(compiler));
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   console.log(req.url);
   res.write(middleware.fileSystem.readFileSync(path.join(webpackConfig.output.path, 'index.html')));
   res.end();
 });
+
+app.use(express.static('public'));
+
 
 app.listen(macros.port, '0.0.0.0', (err) => {
   if (err) console.log(err);

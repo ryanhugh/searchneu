@@ -2,8 +2,7 @@ import React from 'react';
 import CSSModules from 'react-css-modules';
 import elasticlunr from 'elasticlunr';
 import 'semantic-ui-css/semantic.min.css';
-import request from 'superagent';
-import i from 'idb-keyval';
+import request from './request';
 
 import '../css/base.css';
 import '../css/pace.css';
@@ -62,24 +61,7 @@ class Home extends React.Component {
     this.onClick = this.onClick.bind(this);
 
     this.loadData();
-    // this.test()
   }
-
-  // async test() {
-
-  //   console.log('jfdlsajflksdjflksdjlkfj')
-
-  //   let a = ''
-  //   while (a.length < 1e3) {
-  //     a += 'b'
-  //   }
-
-  //   console.log('hi')
-
-  //   // console.time('get')
-
-
-  // }
 
   // MOVE THIS CODE INTO REQUEST
   // AND DEDUP IT
@@ -101,9 +83,9 @@ class Home extends React.Component {
     }
     else {
       // Need to make network request
-      let resp = await request('data/getSearchIndex/neu.edu/201810')
+      let resp = await request.get('data/getSearchIndex/neu.edu/201810')
 
-      let data = JSON.parse(resp.text)
+      let data = (resp)
 
       // Don't wait for cache write to complete
       i.set('searchIndex', data)
@@ -116,14 +98,14 @@ class Home extends React.Component {
   async getJawns() {
     var start = new Date().getTime();
 
-    let existingValue = await i.get('jawn')
+    let existingValue = await i.get('jawdn')
 
     var end = new Date().getTime();
 
-    setTimeout(function() {
-        var end = new Date().getTime();        
-        console.log("HERJEKRJLKE", (end-start))
-    },5000)
+    // setTimeout(function() {
+    //     var end = new Date().getTime();        
+    //     console.log("HERJEKRJLKE", (end-start))
+    // },5000)
 
 
     // console.timeEnd('get')
@@ -133,9 +115,9 @@ class Home extends React.Component {
     }
     else {
       // Need to make network request
-      let resp = await request('data/getTermDump/neu.edu/201810')
+      let resp = await request.get('data/getTermDump/neu.edu/201810')
 
-      let data = JSON.parse(resp.text)
+      let data = (resp)
 
       // Don't wait for cache write to complete
       i.set('jawn', data)
@@ -148,20 +130,32 @@ class Home extends React.Component {
   async loadData() {
     const promises = [];
 
-    promises.push(this.getClassSearchIndex().then((res) => {
+    promises.push(request.get({
+      url:'data/getSearchIndex/neu.edu/201810',
+      useCache: true
+    }).then((res) => {
       this.searchIndex = elasticlunr.Index.load(res);
     }));
 
-    promises.push(this.getJawns().then((res) => {
+    promises.push(request.get({
+      url:'data/getTermDump/neu.edu/201810',
+      useCache:true
+    }).then((res) => {
       this.termData = CourseProData.loadData(res);
     }));
 
-    promises.push(request('data/employeeMap.json').then((res) => {
-      this.employeeMap = JSON.parse(res.text);
+    promises.push(request.get({
+      url: 'data/employeeMap.json',
+      useCache: true
+    }).then((res) => {
+      this.employeeMap = (res);
     }));
 
-    promises.push(request('data/employeesSearchIndex.json').then((res) => {
-      this.employeesSearchIndex = elasticlunr.Index.load(JSON.parse(res.text));
+    promises.push(request.get({
+      url:'data/employeesSearchIndex.json',
+      useCache: true
+    }).then((res) => {
+      this.employeesSearchIndex = elasticlunr.Index.load((res));
     }));
 
     this.dataPromise = Promise.all(promises).then(() => {
@@ -198,6 +192,7 @@ class Home extends React.Component {
   // TODO This is just for testing
   async componentDidMount() {
     await this.dataPromise;
+    console.log('done!!')
 
     Pace.stop()
 

@@ -61,7 +61,6 @@
     "request-promise-native": "^1.0.3",
     "resolve-url-loader": "^2.0.2",
     "semantic-ui-css": "^2.2.4",
-    "superagent": "^3.4.1",
     "urijs": "^1.18.8",
     "xmldom": "^0.1.27"
   },
