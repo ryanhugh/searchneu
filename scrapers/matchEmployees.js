@@ -58,55 +58,6 @@ class CombineCCISandEmployees {
     this.analytics = {}
   }
 
-  mergePeople(ccisProf, employee) {
-    utils.log('going to merge ', ccisProf.name, 'and ', employee.name);
-
-    const output = {};
-
-    const ccisEmail = ccisProf.email;
-    const employeeEmail = employee.email;
-
-    // Name is taken from the ccis profile because it is better data source.
-    // For people with multiple middle names and such, it seems to include just the importiant ones.
-    Object.assign(output, employee, ccisProf);
-
-    // Clear out the email, because we are going to save an array of both instead
-    output.email = undefined;
-
-    // Keep both emails
-    output.emails = [];
-    if (ccisEmail) {
-      output.emails.push(ccisEmail);
-    }
-
-    if (employeeEmail && employeeEmail !== ccisEmail) {
-      output.emails.push(employeeEmail);
-    }
-
-    return output;
-  }
-
-  findMatchByName(employees, ccisProf) {
-    for (const employee of employees) {
-      const ccisCompareName = removeAccents(ccisProf.name);
-
-      const {
-        firstName,
-        lastName,
-      } = this.getFirstLastName(employee);
-
-      // It would be better to split each name into first name and last name
-      // And compare those individually
-      // But a good chunk of names would fail if we did that instead of just a .includes
-      // eg. going to merge  [Panagiotos (Pete) Manolios](ccis) and  [Manolios, Pete](employee)
-      if (ccisCompareName.includes(firstName) && ccisCompareName.includes(lastName)) {
-        return employee;
-      }
-    }
-    return null;
-  }
-
-
   resetAnalytics() {
     this.analytics = {}
   }
@@ -152,7 +103,7 @@ class CombineCCISandEmployees {
 
   async main(peopleLists) {
     const ccis = await ccisFaculty.main();
-    const employees = await neuEmployees.go();
+    const employees = await neuEmployees.main();
     const coe = await coeFaculty.main();
     const cssh = await csshFaculty.main();
     const camd = await camdFaculty.main();
@@ -280,6 +231,9 @@ class CombineCCISandEmployees {
           if (peopleListIndex > 1) {
             console.log('Adding', person.firstName, person.lastName)
           }
+          if (person.primaryRole === 'PhD Student') {
+            this.logAnalyticsEvent('unmatched PhD Student')
+          }
 
           mergedPeopleList.push(newMatchPerson);
         }
@@ -292,46 +246,24 @@ class CombineCCISandEmployees {
         this.analytics.matched = this.analytics.matchedByEmail + this.analytics.matchedByName
         this.analytics.unmatched = this.analytics.people - this.analytics.matched   
       }
+
       console.log(JSON.stringify(this.analytics, null, 4))
-
-
 
     }
 
-    // console.log(JSON.stringify(mergedPeopleList.slice(0, 10), null, 4));
+    // This file is just used for debugging. Used to see which profiles are going to be merged with which other profiles. 
+    if (macros.DEV) {
+      let toSave = []
 
-    // TODO analytics on how many ccis PhD students there are (biggest reason why some are not matched)
-    // and make ids for everything before save as json file
-
-    // PhD code
-    // let phdStudentCount = 0;
-
-    // finalUnmatchedProfs.forEach((prof) => {
-    //   if (prof.positions && prof.positions.length === 1 && prof.positions[0] === 'PhD Student') {
-    //     phdStudentCount++;
-    //   }
-    // });
-
-    // utils.log('Unable to match ', finalUnmatchedProfs.length, '/', ccis.length);
-    // utils.log(phdStudentCount, 'of the unmatched people are PhD students who are usually not in the employee directory.');
-
-
-
-
-    let toSave = []
-
-
-    mergedPeopleList.forEach(function(item) {
-      if (item.matches.length > 1) {
-        toSave.push(item)
-      }
-    })
-
-    // Save the file
-    await mkdirp(macros.PUBLIC_DIR);
-    await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMatches.json'), JSON.stringify(toSave, null, 4));
-
-
+      mergedPeopleList.forEach(function(item) {
+        if (item.matches.length > 1) {
+          toSave.push(item)
+        }
+      })
+    
+      await mkdirp(macros.PUBLIC_DIR);
+      await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMatches.json'), JSON.stringify(toSave, null, 4));
+    }
 
 
     let mergedEmployees = [];
