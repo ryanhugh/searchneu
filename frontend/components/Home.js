@@ -81,6 +81,10 @@ class Home extends React.Component {
 
   // }
 
+  // MOVE THIS CODE INTO REQUEST
+  // AND DEDUP IT
+  // AND MAKE SURE NO LOADING BAR POPS UP WHEN 100% LOADING FROM IDB (IT SHOULD JUST WORK THO CAUSE YAY)
+
 
   async getClassSearchIndex() {
     var start = new Date().getTime();
@@ -93,18 +97,19 @@ class Home extends React.Component {
     // console.timeEnd('get')
     if (existingValue) {
       console.log((end-start) + 'diff' + existingValue.length);
-      console.log('existing value was ' + existingValue.length + 'long!')
       return existingValue;
     }
     else {
       // Need to make network request
       let resp = await request('data/getSearchIndex/neu.edu/201810')
 
+      let data = JSON.parse(resp.text)
+
       // Don't wait for cache write to complete
-      i.set('searchIndex', resp.text)
+      i.set('searchIndex', data)
 
       console.log('no existing value')
-      return resp.text  
+      return data  
     }
   }
 
@@ -124,18 +129,19 @@ class Home extends React.Component {
     // console.timeEnd('get')
     if (existingValue) {
       console.log((end-start) + 'dif2f' + existingValue.length);
-      console.log('2existing value was ' + existingValue.length + 'long!')
       return existingValue;
     }
     else {
       // Need to make network request
       let resp = await request('data/getTermDump/neu.edu/201810')
 
+      let data = JSON.parse(resp.text)
+
       // Don't wait for cache write to complete
-      i.set('jawn', resp.text)
+      i.set('jawn', data)
 
       console.log('no existing value2')
-      return resp.text  
+      return data  
     }
   }
 
@@ -143,11 +149,11 @@ class Home extends React.Component {
     const promises = [];
 
     promises.push(this.getClassSearchIndex().then((res) => {
-      this.searchIndex = elasticlunr.Index.load(JSON.parse(res));
+      this.searchIndex = elasticlunr.Index.load(res);
     }));
 
     promises.push(this.getJawns().then((res) => {
-      this.termData = CourseProData.loadData(JSON.parse(res));
+      this.termData = CourseProData.loadData(res);
     }));
 
     promises.push(request('data/employeeMap.json').then((res) => {
