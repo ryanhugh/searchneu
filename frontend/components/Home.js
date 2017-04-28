@@ -3,6 +3,7 @@ import CSSModules from 'react-css-modules';
 import elasticlunr from 'elasticlunr';
 import 'semantic-ui-css/semantic.min.css';
 import request from 'superagent';
+import i from 'idb-keyval';
 
 import '../css/base.css';
 import '../css/pace.css';
@@ -46,6 +47,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
 
+
     this.state = {
       results: [],
     };
@@ -60,17 +62,92 @@ class Home extends React.Component {
     this.onClick = this.onClick.bind(this);
 
     this.loadData();
+    // this.test()
+  }
+
+  // async test() {
+
+  //   console.log('jfdlsajflksdjflksdjlkfj')
+
+  //   let a = ''
+  //   while (a.length < 1e3) {
+  //     a += 'b'
+  //   }
+
+  //   console.log('hi')
+
+  //   // console.time('get')
+
+
+  // }
+
+
+  async getClassSearchIndex() {
+    var start = new Date().getTime();
+
+    let existingValue = await i.get('searchIndex')
+
+    var end = new Date().getTime();
+
+
+    // console.timeEnd('get')
+    if (existingValue) {
+      console.log((end-start) + 'diff' + existingValue.length);
+      console.log('existing value was ' + existingValue.length + 'long!')
+      return existingValue;
+    }
+    else {
+      // Need to make network request
+      let resp = await request('data/getSearchIndex/neu.edu/201810')
+
+      // Don't wait for cache write to complete
+      i.set('searchIndex', resp.text)
+
+      console.log('no existing value')
+      return resp.text  
+    }
+  }
+
+  async getJawns() {
+    var start = new Date().getTime();
+
+    let existingValue = await i.get('jawn')
+
+    var end = new Date().getTime();
+
+    setTimeout(function() {
+        var end = new Date().getTime();        
+        console.log("HERJEKRJLKE", (end-start))
+    },5000)
+
+
+    // console.timeEnd('get')
+    if (existingValue) {
+      console.log((end-start) + 'dif2f' + existingValue.length);
+      console.log('2existing value was ' + existingValue.length + 'long!')
+      return existingValue;
+    }
+    else {
+      // Need to make network request
+      let resp = await request('data/getTermDump/neu.edu/201810')
+
+      // Don't wait for cache write to complete
+      i.set('jawn', resp.text)
+
+      console.log('no existing value2')
+      return resp.text  
+    }
   }
 
   async loadData() {
     const promises = [];
 
-    promises.push(request('data/getSearchIndex/neu.edu/201810').then((res) => {
-      this.searchIndex = elasticlunr.Index.load(JSON.parse(res.text));
+    promises.push(this.getClassSearchIndex().then((res) => {
+      this.searchIndex = elasticlunr.Index.load(JSON.parse(res));
     }));
 
-    promises.push(request('data/getTermDump/neu.edu/201810').then((res) => {
-      this.termData = CourseProData.loadData(JSON.parse(res.text));
+    promises.push(this.getJawns().then((res) => {
+      this.termData = CourseProData.loadData(JSON.parse(res));
     }));
 
     promises.push(request('data/employeeMap.json').then((res) => {

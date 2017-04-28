@@ -2757,6 +2757,10 @@ icss-replace-symbols@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/icss-replace-symbols/-/icss-replace-symbols-1.0.2.tgz#cb0b6054eb3af6edc9ab1d62d01933e2d4c8bfa5"
 
+idb-keyval@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/idb-keyval/-/idb-keyval-2.3.0.tgz#4d444b80c3f86fcbcd51321b4dcbc9247c5948c0"
+
 ieee754@^1.1.4:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.8.tgz#be33d40ac10ef1926701f6f08a2d86fbfd1ad3e4"
