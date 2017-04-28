@@ -46,7 +46,6 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
 
-
     this.state = {
       results: [],
     };
@@ -62,10 +61,6 @@ class Home extends React.Component {
 
     this.loadData();
   }
-
-  // MOVE THIS CODE INTO REQUEST
-  // AND DEDUP IT
-  // AND MAKE SURE NO LOADING BAR POPS UP WHEN 100% LOADING FROM IDB (IT SHOULD JUST WORK THO CAUSE YAY)
 
   async loadData() {
     const promises = [];
@@ -109,7 +104,8 @@ class Home extends React.Component {
 
     this.dataPromise = Promise.all(promises).then(() => {
 
-      console.log('Loaded everything!')
+      console.log('Loadedd everything!')
+      this.loadingFromCache = false;
       Pace.stop();
       this.forceUpdate();
 
@@ -147,8 +143,7 @@ class Home extends React.Component {
   async componentDidMount() {
     await this.dataPromise;
    
-
-    // this.search('huntington');
+    this.search('huntington');
   }
 
 
@@ -253,11 +248,11 @@ class Home extends React.Component {
 
 
   render() {
+    // If we are loading from AJAX show nothing on the screen here.
+    // Pace.js will show a loading bar until the AJAX requests are done. 
     if (!this.loadingFromCache && (!this.termData || !this.employeeMap || !this.state.results)) {
-      console.log('returning early', this.loadingFromCache)
       return null;
     }
-    console.log('rendering')
 
     let resultsLoader = null;
 
