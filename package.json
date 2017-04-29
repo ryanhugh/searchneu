@@ -4,7 +4,7 @@
   "scripts": {
     "start": "babel-node backend/server.js",
     "scrape": "babel-node scrapers/main.js",
-    "build": "cp frontend/404.html public/404.html; cross-env NODE_ENV=prod webpack --config ./backend/webpack.config.babel.js --profile --colors",
+    "build": "mkdir public; cp frontend/404.html public/404.html; cross-env NODE_ENV=prod webpack --config ./backend/webpack.config.babel.js --profile --colors",
     "lint": "eslint scrapers",
     "test": "jest",
     "deploy": "gh-pages -d public"
