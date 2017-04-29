@@ -1,4 +1,3 @@
-import idb from 'idb-keyval';
 import URI from 'urijs';
 
 
@@ -6,38 +5,6 @@ const LOCALSTORAGE_PREFIX = 'request_cache'
 const MS_PER_DAY = 86400000;
 
 class Request {
-
-
-
-  async getFromCache(url) {
-
-    var start = new Date().getTime();
-
-    let existingValue = await idb.get(url)
-
-    var end = new Date().getTime();
-
-    if (existingValue) {
-      console.log('Lookup for',url,'found ',existingValue.length,'in', (end - start),'ms');      
-    }
-    else {
-      console.log('Lookup for',url,'not found in', (end - start),'ms');       
-    }
-
-    return existingValue;
-  }
-
-  async saveToCache (url, value) {
-
-    var start = new Date().getTime();
-
-    let existingValue = await idb.set(url, value)
-
-    var end = new Date().getTime();
-
-    console.log('Saving took', (end-start), 'ms')
-    window.localStorage[LOCALSTORAGE_PREFIX + url] = new Date().getTime();
-  }
 
 
   isKeyUpdated(key) {
@@ -129,10 +96,11 @@ class Request {
 
     // Add a key that tells the service worker whether the cache is up to date. 
     let isKeyUpdated = this.isKeyUpdated(config.url)
-    const newUrl = new URI(config.url).query({'loadFromCache':isKeyUpdated}).toString();
+    const newUrl = new URI(config.url).query({'loadFromCache': isKeyUpdated}).toString();
 
-    return this.getFromInternet(newUrl);
-
+    let internetValue =  await this.getFromInternet(newUrl);
+    window.localStorage[LOCALSTORAGE_PREFIX + config.url] = new Date().getTime();
+    return internetValue;
   }
 }
 

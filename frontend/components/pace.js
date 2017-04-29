@@ -299,7 +299,7 @@
       if (document.querySelector(options.target) == null) {
         return false;
       }
-      if (!Pace.running) {
+      if (Pace.stopForever) {
         return;
       }
       console.log('rendering', Pace.running)
@@ -863,6 +863,7 @@
 
   Pace.stop = function() {
     Pace.trigger('stop');
+    Pace.stopForever = true;
     Pace.running = false;
     bar.destroy();
     cancelAnimation = true;

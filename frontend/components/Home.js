@@ -88,6 +88,9 @@ class Home extends React.Component {
     const employeesSearchIndexUrl = 'data/employeesSearchIndex.json'
 
     this.loadingFromCache = request.cacheIsUpdatedForKeys([classesSearchIndexUrl, classesDataUrl, employeesDataUrl, employeesSearchIndexUrl]);
+    console.log('loadingFromCache', this.loadingFromCache)
+    Pace.stop();
+
 
     promises.push(request.get({
       url:classesSearchIndexUrl,
