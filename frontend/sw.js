@@ -31,7 +31,6 @@ addEventListener('install', (event) => {
 // Fetches a request and caches the response in the cache if it is a valid response.
 // If the response is needed elsewhere, set shouldReturnResponse to true to return the reponse too.
 function fetchAndCache(request, cache, shouldReturnResponse) {
-  return;
   //update the cache
   return fetch(request).then((response) => {
     // responses from the same domain. See https://fetch.spec.whatwg.org/#concept-response-type
