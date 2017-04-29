@@ -52,3 +52,16 @@
 .displayNone {
     display: none;
 }
+
+
+
+.listIconTooltip {
+    font-size: 14px !important;
+    z-index: 999999;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 7px;
+    white-space: nowrap !important;
+}

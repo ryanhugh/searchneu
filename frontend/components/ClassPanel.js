@@ -14,10 +14,12 @@ const cx = classNames.bind(css);
 class ClassPanel extends React.Component {
 
   componentDidUpdate() {
-    ReactTooltip.rebuild();
+    console.log('hi')
+    
   }
 
   render() {
+    ReactTooltip.rebuild();
     const aClass = this.props.aClass;
     // Render the section table if this class has sections
     let sectionTable = null;
@@ -188,8 +190,6 @@ class ClassPanel extends React.Component {
     }
 
 
-    // Render each class
-
     // Figure out the credits string
     let creditsString;
     if (aClass.maxCredits === aClass.minCredits) {
@@ -221,6 +221,7 @@ class ClassPanel extends React.Component {
           </div>
         </div>
         {sectionTable}
+        <ReactTooltip effect="solid" className = {css.listIconTooltip}/>
       </div>
     );
   }

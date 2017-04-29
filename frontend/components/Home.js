@@ -143,7 +143,7 @@ class Home extends React.Component {
   async componentDidMount() {
     await this.dataPromise;
    
-    this.search('huntington');
+    this.search('cs');
   }
 
 
