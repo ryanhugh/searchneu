@@ -2,8 +2,15 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
+import URI from 'urijs';
 
 import Home from './components/Home';
+
+
+// Redirect to HTTPS if did not go directly to an IP address
+if (location.protocol != 'https:' && !parseInt(location.href.slice('http://'.length)[0])) {
+  location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+}
 
 
 // Single Page Apps for GitHub Pages
@@ -35,6 +42,7 @@ import Home from './components/Home';
 }(window.location))
 
 
+// Register the Service Worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').then(function (reg) {
    // Registration worked.
