@@ -2,12 +2,12 @@ import React from 'react';
 import CSSModules from 'react-css-modules';
 import elasticlunr from 'elasticlunr';
 import 'semantic-ui-css/semantic.min.css';
-import request from './request';
 
 import '../css/base.css';
 import '../css/pace.css';
 import css from './home.css';
 
+import request from './request';
 import Pace from './pace';
 import ResultsLoader from './ResultsLoader';
 import CourseProData from './models/DataLib';
@@ -351,6 +351,7 @@ class Home extends React.Component {
             Two Factor Authenticaton
           </a>.
         </div>
+        
       </div>
     );
   }

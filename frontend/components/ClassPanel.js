@@ -14,8 +14,7 @@ const cx = classNames.bind(css);
 class ClassPanel extends React.Component {
 
   componentDidUpdate() {
-    console.log('hi')
-    
+    console.log('hi');
   }
 
   render() {
@@ -198,30 +197,31 @@ class ClassPanel extends React.Component {
       creditsString = `${aClass.minCredits} to ${aClass.maxCredits} credits`;
     }
 
-
     return (
-      <div className={ `${css.container} ui segment` }>
-        <div className={ css.header }>
-          {aClass.subject} {aClass.classId}: {aClass.name}
-        </div>
+      <div>
+        <ReactTooltip effect='solid' className={ css.listIconTooltip } />
+        <div className={ `${css.container} ui segment` }>
+          <div className={ css.header }>
+            {aClass.subject} {aClass.classId}: {aClass.name}
+          </div>
 
-        <div className={ css.body }>
-          {aClass.desc}
-          <br />
-          <br />
-          <div className={ css.leftPanel }>
-            Prerequisites: {aClass.getPrereqsString()}
+          <div className={ css.body }>
+            {aClass.desc}
             <br />
-            Corequisites: {aClass.getCoreqsString()}
-          </div>
-          <div className={ css.rightPanel }>
-            Updated {aClass.getLastUpdateString()}
             <br />
-            {creditsString}
+            <div className={ css.leftPanel }>
+              Prerequisites: {aClass.getPrereqsString()}
+              <br />
+              Corequisites: {aClass.getCoreqsString()}
+            </div>
+            <div className={ css.rightPanel }>
+              Updated {aClass.getLastUpdateString()}
+              <br />
+              {creditsString}
+            </div>
           </div>
+          {sectionTable}
         </div>
-        {sectionTable}
-        <ReactTooltip effect="solid" className = {css.listIconTooltip}/>
       </div>
     );
   }

@@ -58,10 +58,10 @@
 .listIconTooltip {
     font-size: 14px !important;
     z-index: 999999;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 7px;
+    padding-top: 6px  !important;
+    padding-bottom: 6px  !important;
+    padding-left: 10px  !important;
+    padding-right: 10px  !important;
+    border-radius: 7px  !important;
     white-space: nowrap !important;
 }
