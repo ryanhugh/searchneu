@@ -110,7 +110,7 @@ addEventListener('fetch', (event) => {
     return;
   }
 
-  if (url.includes('localhost:5000/data')) {
+  if (url.includes('localhost:5000/data') || url.includes('courseboard.io/data')) {
     console.log('caching ', url)
     event.respondWith(go(event.request));
   }
