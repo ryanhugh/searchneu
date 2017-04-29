@@ -46,10 +46,10 @@ const employeeSearchConfig = {
       boost: 2,
     },
     primaryRole: {
-      boost: 1.5,
+      boost: 1,
     },
     primaryDepartment: {
-      boost: 1.5,
+      boost: 1,
     }
   },
   expand: true,
@@ -154,17 +154,31 @@ class Home extends React.Component {
     });
   }
 
-  // TODO This is just for testing
   async componentDidMount() {
     await this.dataPromise;
-   
-    this.search('cs');
+
+    if (location.pathname.length > 1) {
+      let searchQuery = decodeURIComponent(location.pathname.slice(1))
+      console.log('going to serach for ', searchQuery)
+      const ele = document.getElementById('seach_id')
+      if (ele) {
+        ele.value = searchQuery;
+      }
+      this.search(searchQuery)
+    }
+
+    // TODO This is just for testing
+    else {
+      this.search('cs');
+    }
   }
 
 
   async search(searchTerm) {
     // Ensure that the data has loaded
     await this.dataPromise;
+
+    history.pushState(null, null, searchTerm);
 
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject

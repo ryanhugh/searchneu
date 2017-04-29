@@ -35,6 +35,11 @@ app.get('/', (req, res) => {
 
 app.use(express.static('public'));
 
+app.get('*', (req, res) => {
+  console.log(req.url,' is a 404.');
+  res.sendFile(path.join(__dirname , '..', 'frontend', "404.html"));
+});
+
 
 app.listen(macros.port, '0.0.0.0', (err) => {
   if (err) console.log(err);
