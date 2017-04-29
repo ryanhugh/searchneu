@@ -130,13 +130,19 @@ class NeuCCISFaculty {
 
       let officeSplit = office.replace(/\r\n/gi, '\n').trim().split('\n');
 
-      obj.officeRoom = officeSplit[1].trim();
-      obj.officeStreetAddress = officeSplit[0].trim();
+      let officeRoom = officeSplit[1];
+      
+      if (officeRoom) {
+        officeRoom = officeRoom.trim();
 
-      // Need to remove trailing commas
-      if (obj.officeRoom.endsWith(',')) {
-        obj.officeRoom = obj.officeRoom.slice(0, obj.officeRoom.length - 1);
+         // Need to remove trailing commas
+        if (officeRoom.endsWith(',')) {
+          officeRoom = officeRoom.slice(0, officeRoom.length - 1);
+        }
+        obj.officeRoom = officeRoom;
       }
+
+      obj.officeStreetAddress = officeSplit[0].trim();
     }
 
     obj.personalSite = $('div.contact-block > div.contact-links > p.personal-site > a').attr('href');

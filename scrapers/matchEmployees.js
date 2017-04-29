@@ -102,13 +102,7 @@ class CombineCCISandEmployees {
 
 
   async main(peopleLists) {
-    const ccis = await ccisFaculty.main();
-    const employees = await neuEmployees.main();
-    const coe = await coeFaculty.main();
-    const cssh = await csshFaculty.main();
-    const camd = await camdFaculty.main();
-
-    peopleLists = [employees, ccis, coe, cssh, camd];
+    peopleLists = await Promise.all([neuEmployees.main(), ccisFaculty.main(), coeFaculty.main(), csshFaculty.main(), camdFaculty.main()]);
 
     const mergedPeopleList = [];
 
