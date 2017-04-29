@@ -13,8 +13,27 @@ const cx = classNames.bind(css);
 // ClassPanel page component
 class ClassPanel extends React.Component {
 
-  componentDidUpdate() {
-    console.log('hi');
+  constructor(props) {
+    super(props);
+  
+    this.state = {
+      renderedSections: props.aClass.sections.slice(0, 3),
+      unrenderedSections: props.aClass.sections.slice(3)
+    }
+
+
+    this.onShowMoreClick = this.onShowMoreClick.bind(this);
+  }
+
+  onShowMoreClick() {
+    console.log('Adding more sections to the bottom.');
+
+    let newElements = this.state.unrenderedSections.splice(0, 5);
+
+    this.setState({
+      unrenderedSections: this.state.unrenderedSections,
+      renderedSections: this.state.renderedSections.concat(newElements)
+    })
   }
 
   render() {
@@ -64,7 +83,7 @@ class ClassPanel extends React.Component {
             {/* The CSS applied to the table stripes every other row, starting with the second one.
               This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
             <tr style={{ display:'none' }} />
-            {aClass.sections.map((section) => {
+            {this.state.renderedSections.map((section) => {
               // Calculate the "Meets on Tuesday, Friday" or "No Meetings found" string that hovers over the weekday boxes
               const meetingDays = section.getWeekDaysAsStringArray();
               let meetingString;
@@ -185,7 +204,18 @@ class ClassPanel extends React.Component {
           </tbody>
         </table>
 
+        
       );
+    }
+
+    let showMoreSections = null;
+
+    // Render the Show More.. Button
+    if (this.state.unrenderedSections.length > 0) {
+      showMoreSections = (<div className={css.showMoreButton} onClick={this.onShowMoreClick}>
+        Show More...
+      </div>)
+
     }
 
 
@@ -221,6 +251,7 @@ class ClassPanel extends React.Component {
             </div>
           </div>
           {sectionTable}
+          {showMoreSections}
         </div>
       </div>
     );
