@@ -12,7 +12,9 @@ class Request {
 
     var start = new Date().getTime();
 
+    console.log('Starting fetch of item', url)
     let existingValue = await idb.get(url)
+    console.log('Ending fetch of item', url)
 
     var end = new Date().getTime();
 
