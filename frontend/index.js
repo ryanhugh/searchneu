@@ -8,7 +8,7 @@ import Home from './components/Home';
 
 
 // Redirect to HTTPS if did not go directly to an IP address
-if (location.protocol != 'https:' && !parseInt(location.href.slice('http://'.length)[0])) {
+if (location.protocol != 'https:' && !parseInt(location.href.slice('http://'.length)[0]) && window.location.hostname != 'localhost') {
   location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
 }
 
