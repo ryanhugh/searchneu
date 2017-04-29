@@ -22,6 +22,31 @@ export default class DataLib {
 		return new this(termDump)
 	}
 
+	// Returns a list of the keys in a subject, sorted by classId
+	// Usually takes ~ 5ms and does not instantiate any instances of Class or Subject
+	getClassesInSubject(subject) {
+		let keys = Object.keys(this.termDump.classMap)
+
+		console.time('start')
+		let retVal = [];
+		for (const key of keys) {
+			const row = this.termDump.classMap[key]
+			if (row.subject === subject) {
+				retVal.push(key)
+			}
+		}
+
+		// Sort the classes
+		retVal.sort((a,b) => {
+			return parseInt(this.termDump.classMap[a].classId) - parseInt(this.termDump.classMap[b].classId)
+		})
+		console.timeEnd('start')
+
+
+		return retVal;
+	}
+
+
 	getSubjects() {
 		return Object.values(this.termDump.subjectMap)
 	}
@@ -51,4 +76,3 @@ export default class DataLib {
 }
 
 
-// console.log(module.exports.default.loadData({}))

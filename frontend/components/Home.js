@@ -153,12 +153,36 @@ class Home extends React.Component {
 
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
     const subjects = this.termData.getSubjects();
 
     for (let i = 0; i < subjects.length; i++) {
       const subject = subjects[i];
-      if (lowerCaseSearchTerm.startsWith(subject.subject.toLowerCase())) {
+      const lowerCaseSubject = subject.subject.toLowerCase();
+      const lowerCaseText = subject.text.toLowerCase();
+
+      // Perfect match for a subject, list all the classes in the subject
+      if (lowerCaseSubject === lowerCaseSearchTerm || lowerCaseSearchTerm === lowerCaseText) {
+        console.log('Perfect match for subject!', subject.subject)
+
+        let results = this.termData.getClassesInSubject(subject.subject);
+
+        let output = []
+        results.forEach(function(result) {
+          output.push({
+            ref: result,
+            type: 'class'
+          })
+        })
+
+        this.setState({
+          results: output
+        })
+        return;
+      }
+
+
+      if (lowerCaseSearchTerm.startsWith(subject.subject)) {
         const remainingSearch = searchTerm.slice(subject.subject.length);
 
         // Only rewrite the search if the rest of the query has a high probability of being a classId.
