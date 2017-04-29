@@ -89,7 +89,10 @@ class Home extends React.Component {
 
     this.loadingFromCache = request.cacheIsUpdatedForKeys([classesSearchIndexUrl, classesDataUrl, employeesDataUrl, employeesSearchIndexUrl]);
     console.log('loadingFromCache', this.loadingFromCache)
-    Pace.stop();
+    if (this.loadingFromCache) {
+      Pace.stopForever = true;
+      Pace.stop();
+    }
 
 
     promises.push(request.get({
@@ -181,7 +184,6 @@ class Home extends React.Component {
     // Ensure that the data has loaded
     await this.dataPromise;
 
-    history.pushState(null, null, searchTerm);
 
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
@@ -292,6 +294,7 @@ class Home extends React.Component {
 
 
   onClick(event) {
+    history.pushState(null, null, '/' + event.target.value);
     if (!event.target.value) {
       this.setState({
         searchResults: [],

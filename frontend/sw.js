@@ -54,16 +54,18 @@ function fetchAndCache(request, cache, shouldReturnResponse) {
 function go(request) {
   var startTime = new Date().getTime()
 
-  // If the cache is not updated, hit the internet and return from the cache
-  const urlSplit = request.url.split('?')
-  if (urlSplit.length > 1 && urlSplit[1].includes('loadFromCache=false')) {
-    console.log("Was told there was nothing in the cache, skipping.")
-    return fetchAndCache(request, cache, true);
-  }
+  
 
   return caches.open(CACHE_NAME).then((cache) => {
     var cacheOpen = new Date().getTime()
     console.log('it took ', (cacheOpen - startTime), ' to open the cache for', request.url);
+
+    // If the cache is not updated, hit the internet and return from the cache
+    const urlSplit = request.url.split('?')
+    if (urlSplit.length > 1 && urlSplit[1].includes('loadFromCache=false')) {
+      console.log("Was told there was nothing in the cache, skipping.")
+      return fetchAndCache(request, cache, true);
+    }
 
     return cache.match(request).then((response) => {
       var matched = new Date().getTime()

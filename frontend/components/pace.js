@@ -224,7 +224,7 @@
   options = Pace.options = extend({}, defaultOptions, window.paceOptions, getFromDOM());
   console.log('Using:', options)
 
-  _ref = ['ajax', 'document', 'eventLag', 'elements'];
+  _ref = ['ajax', 'document', 'elements'];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     source = _ref[_i];
     if (options[source] === true) {
@@ -294,15 +294,14 @@
     };
 
     Bar.prototype.render = function() {
-
       var el, key, progressStr, transform, _j, _len1, _ref2;
       if (document.querySelector(options.target) == null) {
         return false;
       }
       if (Pace.stopForever) {
+        Pace.stop();
         return;
       }
-      console.log('rendering', Pace.running)
       el = this.getElement();
       transform = "translate3d(" + this.progress + "%, 0, 0)";
       _ref2 = ['webkitTransform', 'msTransform', 'transform'];
@@ -739,7 +738,7 @@
           samples.shift();
         }
         avg = avgAmplitude(samples);
-        if (++points >= options.eventLag.minSamples && avg < options.eventLag.lagThreshold) {
+        if (++points >= options.eventLag.minSamples && avg < options.eventLag.lagThreshold || Pace.stopForever) {
           _this.progress = 100;
           return clearInterval(interval);
         } else {
@@ -838,13 +837,12 @@
     ajax: AjaxMonitor,
     elements: ElementMonitor,
     document: DocumentMonitor,
-    eventLag: EventLagMonitor
   };
 
   (init = function() {
     var type, _j, _k, _len1, _len2, _ref2, _ref3, _ref4;
     Pace.sources = sources = [];
-    _ref2 = ['ajax', 'elements', 'document', 'eventLag'];
+    _ref2 = ['ajax', 'elements', 'document'];
     for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
       type = _ref2[_j];
       if (options[type] !== false) {
@@ -863,7 +861,6 @@
 
   Pace.stop = function() {
     Pace.trigger('stop');
-    Pace.stopForever = true;
     Pace.running = false;
     bar.destroy();
     cancelAnimation = true;
@@ -932,7 +929,7 @@
     } catch (_error) {
       NoTargetError = _error;
     }
-    if (!document.querySelector('.pace')) {
+    if (!document.querySelector('.pace') && !Pace.stopForever) {
       return setTimeout(Pace.start, 50);
     } else {
       Pace.trigger('start');
