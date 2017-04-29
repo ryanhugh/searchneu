@@ -35,6 +35,10 @@ app.get('/', (req, res) => {
 
 app.use(express.static('public'));
 
+app.get('/sw.js', (req, res) => {
+  res.sendFile(path.join(__dirname , '..', 'frontend', "sw.js"));
+});
+
 app.get('*', (req, res) => {
   console.log(req.url,' is a 404.');
   res.sendFile(path.join(__dirname , '..', 'frontend', "404.html"));

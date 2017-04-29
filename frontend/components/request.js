@@ -1,4 +1,5 @@
 import idb from 'idb-keyval';
+import URI from 'urijs';
 
 
 const LOCALSTORAGE_PREFIX = 'request_cache'
@@ -92,7 +93,10 @@ class Request {
           return;
         }
 
+        let startParse = new Date().getTime();
         const response = JSON.parse(xmlhttp.response);
+        let endParse = new Date().getTime();
+        console.log('Parsing took ',(endParse - startParse), 'for url', url);
 
         if (response.error) {
           console.warn('ERROR networking error bad reqeust?', url);
@@ -123,20 +127,11 @@ class Request {
       return this.getFromInternet(config.url)
     }
 
+    // Add a key that tells the service worker whether the cache is up to date. 
+    let isKeyUpdated = this.isKeyUpdated(config.url)
+    const newUrl = new URI(config.url).query({'loadFromCache':isKeyUpdated}).toString();
 
-    if (this.isKeyUpdated(config.url)) {
-      return this.getFromCache(config.url);
-    }
-    else {
-      let internetValue = await this.getFromInternet(config.url);
-
-      setTimeout(() => {
-        this.saveToCache(config.url, internetValue)
-      }, 2000)
-
-      return internetValue;
-    }
-
+    return this.getFromInternet(newUrl);
 
   }
 }

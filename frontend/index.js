@@ -35,6 +35,20 @@ import Home from './components/Home';
 }(window.location))
 
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(function (reg) {
+   // Registration worked.
+   console.log('Registration succeeded. Scope is', reg.scope);
+  }).catch(function (error) {
+   // Registration failed.
+   elog('Service worker registration failed with ', error);
+  });
+}
+else {
+  console.log("Browser does not support Service Worker.")
+}
+
+
 const root = document.getElementById('app');
 function createApp() {
   return (
