@@ -13,7 +13,7 @@ import ResultsLoader from './ResultsLoader';
 import CourseProData from './models/DataLib';
 import Keys from './models/Keys';
 
-const searchConfig = {
+const classSearchConfig = {
   fields: {
     classId: {
       boost: 4,
@@ -36,6 +36,21 @@ const searchConfig = {
     crns: {
       boost: 1,
     },
+  },
+  expand: true,
+};
+
+const employeeSearchConfig = {
+  fields: {
+    name: {
+      boost: 2,
+    },
+    primaryRole: {
+      boost: 1.5,
+    },
+    primaryDepartment: {
+      boost: 1.5,
+    }
   },
   expand: true,
 };
@@ -204,9 +219,9 @@ class Home extends React.Component {
     // Returns an array of objects that has a .ref and a .score
     // The array is sorted by score (with the highest matching closest to the beginning)
     // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
-    const classResults = this.searchIndex.search(searchTerm, searchConfig);
+    const classResults = this.searchIndex.search(searchTerm, classSearchConfig);
 
-    const employeeResults = this.employeesSearchIndex.search(searchTerm, {});
+    const employeeResults = this.employeesSearchIndex.search(searchTerm, employeeSearchConfig);
 
     const output = [];
 
