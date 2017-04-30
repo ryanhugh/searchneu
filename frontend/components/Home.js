@@ -5,7 +5,7 @@ import 'semantic-ui-css/semantic.min.css';
 import PaceBar from './PaceBar';
 
 import '../css/base.css';
-import '../css/pace.css';
+
 import css from './home.css';
 
 import request from './request';
@@ -83,6 +83,12 @@ class Home extends React.Component {
     this.employeeMap = null;
     this.employeesSearchIndex = null;
 
+    // Value to set the search box to after the search box is rendered. 
+    this.searchFor = decodeURIComponent(location.pathname.slice(1));
+
+
+    // Used to keep track of the ongoing networking requests
+    // To determine how much progress to show on the loading bar
     this.networkRequestsProgress = {};
 
     this.onClick = this.onClick.bind(this);
@@ -105,8 +111,7 @@ class Home extends React.Component {
       PaceBar.finish();
       PaceBar.destroy();
     } else {
-      PaceBar.progress = percent;
-      PaceBar.render();
+      PaceBar.update(percent);
     }
   }
 
@@ -180,7 +185,6 @@ class Home extends React.Component {
     this.dataPromise = Promise.all(promises).then(() => {
       console.log('Loadedd everything!');
       this.loadingFromCache = false;
-      this.forceUpdate();
 
       // TODO remove
       // test go through classes and make sure they are all in sections?
@@ -212,23 +216,34 @@ class Home extends React.Component {
     });
   }
 
+  checkSearchBox() {
+    if (!this.searchFor) {
+      return;
+    }
+    const ele = document.getElementById('seach_id');
+    if (ele) {
+      ele.value = this.searchFor;
+      this.searchFor = null;
+    }
+  }
+
   async componentDidMount() {
     await this.dataPromise;
 
-    if (location.pathname.length > 1) {
-      const searchQuery = decodeURIComponent(location.pathname.slice(1));
-      console.log('going to serach for ', searchQuery);
-      const ele = document.getElementById('seach_id');
-      if (ele) {
-        ele.value = searchQuery;
-      }
-      this.search(searchQuery);
+    if (this.searchFor) {
+      console.log('going to serach for ', this.searchFor);
+      this.search(this.searchFor);
+      this.checkSearchBox();
     }
 
     // TODO This is just for testing
     else {
       this.search('cs');
     }
+  }
+
+  componentDidUpdate() {
+    this.checkSearchBox();
   }
 
 

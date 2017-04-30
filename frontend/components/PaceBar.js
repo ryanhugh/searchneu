@@ -1,3 +1,13 @@
+import '../css/pace.css';
+
+// This was taken from this project
+// http://github.hubspot.com/pace/docs/welcome/
+
+// The full pace.js project intercepts network connections 
+// and other reporters and tries to automatically determine when to appear, how much progress to show, and when to go away
+
+// This is just the rendering part from that, and the progress is set to the progress of the four xhr requests in Home.js
+
 function Bar() {
   this.progress = 0;
 }
