@@ -256,6 +256,8 @@ Section.prototype.updateWithData = function (data) {
 
 Section.prototype.compareTo = function (other) {
 
+
+
 	if (this.meetings.length == 0 && other.meetings.length === 0) {
 		return 0;
 	}
@@ -266,6 +268,37 @@ Section.prototype.compareTo = function (other) {
 		return 1
 	}
 
+	// If both sections have meetings, then sort alphabetically by professor.
+	const thisProfs = this.getProfs()
+	const otherProfs = other.getProfs()
+	const thisOnlyTBA = thisProfs.length === 1 && thisProfs[0] === 'TBA';
+	const otherOnlyTBA = otherProfs.length === 1 && otherProfs[0] === 'TBA';
+
+	if (thisProfs.length > 0 || otherProfs.length > 0) {
+
+		if (thisProfs.length === 0) {
+			return -1;
+		}
+		if (otherProfs.length === 0) {
+			return 1
+		}
+
+		if (thisOnlyTBA && !otherOnlyTBA) {
+			return 1;
+		}
+		if (!thisOnlyTBA && otherOnlyTBA) {
+			return -1;
+		}
+
+		if (thisProfs[0] > otherProfs[0]) {
+			return 1;
+		}
+		if (otherProfs[0] > thisProfs[0]) {
+			return -1;
+		}
+	}
+
+	// Then, sort by the starting time of the section.
 	if (this.meetings[0].times.length === 0) {
 		return 1;
 	}
