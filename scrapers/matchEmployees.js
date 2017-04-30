@@ -341,13 +341,33 @@ class CombineCCISandEmployees {
     index.addField('phone');
     index.addField('emails');
     index.addField('officeRoom');
-    index.addField('officeStreetAddress');
     index.addField('primaryRole');
     index.addField('primaryDepartment');
     index.saveDocument(false);
 
     mergedEmployees.forEach((row) => {
-      index.addDoc(row);
+
+      let docToIndex = {}
+      Object.assign(docToIndex, row)
+      
+      if (docToIndex.emails) {
+        for (var i = 0; i < docToIndex.emails.length; i++) {
+
+          // Remove the @northeastern.edu and @neu.edu from the index to prevent indexing unnecessary stuff.
+          if (docToIndex.emails[i].endsWith('northeastern.edu')) {
+            docToIndex.emails[i] = docToIndex.emails[i].slice(0, docToIndex.emails[i].indexOf('@northeastern.edu'))
+          }
+
+          if (docToIndex.emails[i].endsWith('neu.edu')) {
+            docToIndex.emails[i] = docToIndex.emails[i].slice(0, docToIndex.emails[i].indexOf('@neu.edu'))
+          }
+        }
+
+        docToIndex.emails = docToIndex.emails.join(' ')
+      }
+
+
+      index.addDoc(docToIndex);
     });
 
     await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeesSearchIndex.json'), JSON.stringify(index.toJSON()));

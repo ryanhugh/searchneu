@@ -50,6 +50,15 @@ const employeeSearchConfig = {
     },
     primaryDepartment: {
       boost: 1,
+    },
+    emails: {
+      boost: 1,
+    },
+    phone: {
+      boost: 1,
+    },
+    officeRoom: {
+      boost: 1
     }
   },
   expand: true,
@@ -233,6 +242,9 @@ class Home extends React.Component {
         break;
       }
     }
+
+    // Check to see if the search is for an email, and if so remove the @northeastern.edu and @neu.edu
+    searchTerm = searchTerm.replace(/@northeastern\.edu/gi,'').replace(/@neu\.edu/gi,'')
 
 
     // Returns an array of objects that has a .ref and a .score
