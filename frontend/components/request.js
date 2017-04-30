@@ -1,22 +1,21 @@
 import URI from 'urijs';
 
 
-const LOCALSTORAGE_PREFIX = 'request_cache'
+const LOCALSTORAGE_PREFIX = 'request_cache';
 const MS_PER_DAY = 86400000;
 
 class Request {
 
-
   isKeyUpdated(key) {
-    const storedValue = window.localStorage[LOCALSTORAGE_PREFIX + key]
+    const storedValue = window.localStorage[LOCALSTORAGE_PREFIX + key];
 
     if (!storedValue) {
       return false;
     }
 
-    let now = new Date().getTime()
+    const now = new Date().getTime();
 
-    if (now - parseInt(storedValue) > MS_PER_DAY) {
+    if (now - parseInt(storedValue, 10) > MS_PER_DAY) {
       return false;
     }
     return true;
@@ -35,7 +34,7 @@ class Request {
   }
 
 
-  async getFromInternet(url) {
+  async getFromInternet(url, config) {
     return new Promise((resolve, reject) => {
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = function onreadystatechange() {
@@ -60,10 +59,10 @@ class Request {
           return;
         }
 
-        let startParse = new Date().getTime();
+        const startParse = new Date().getTime();
         const response = JSON.parse(xmlhttp.response);
-        let endParse = new Date().getTime();
-        console.log('Parsing took ',(endParse - startParse), 'for url', url);
+        const endParse = new Date().getTime();
+        console.log('Parsing took ', (endParse - startParse), 'for url', url);
 
         if (response.error) {
           console.warn('ERROR networking error bad reqeust?', url);
@@ -71,6 +70,14 @@ class Request {
 
         resolve(response);
       };
+
+      if (config.progressCallback) {
+        xmlhttp.addEventListener('progress', (evt) => {
+          if (evt.lengthComputable) {
+            config.progressCallback(evt.loaded, evt.total);
+          }
+        }, false);
+      }
 
 
       xmlhttp.open('GET', url, true);
@@ -84,22 +91,30 @@ class Request {
       config = {
         url: config,
       };
-    }
-    else if (Object.keys(config).length > 2) {
-      console.error('Nothing is supported except JSON GET requests with an option for caching in idb.', config);
+    } else if (Object.keys(config).length > 3) {
+      console.error('Nothing is supported except JSON GET requests with an option for caching in sw (and progress callback).', config);
     }
 
 
     if (!config.useCache) {
-      return this.getFromInternet(config.url)
+      return this.getFromInternet(config.url);
     }
 
-    // Add a key that tells the service worker whether the cache is up to date. 
-    let isKeyUpdated = this.isKeyUpdated(config.url)
-    const newUrl = new URI(config.url).query({'loadFromCache': isKeyUpdated}).toString();
+    let url = config.url;
 
-    let internetValue =  await this.getFromInternet(newUrl);
-    window.localStorage[LOCALSTORAGE_PREFIX + config.url] = new Date().getTime();
+    // Add a key that tells the service worker whether the cache is up to date.
+    if (config.useCache) {
+      const isKeyUpdated = this.isKeyUpdated(config.url);
+      url = new URI(config.url).query({ loadFromCache: isKeyUpdated }).toString();
+    }
+
+    const internetValue = await this.getFromInternet(url, config);
+
+    if (config.useCache) {
+      window.localStorage[LOCALSTORAGE_PREFIX + config.url] = new Date().getTime();
+    }
+
+
     return internetValue;
   }
 }

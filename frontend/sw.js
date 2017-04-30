@@ -44,31 +44,28 @@ function fetchAndCache(request, cache, shouldReturnResponse) {
     if (retVal) {
       return retVal;
     }
-    else {
-      return null;
-    }
+
+    return null;
   });
 }
 
 
 function go(request) {
-  var startTime = new Date().getTime()
-
-  
+  const startTime = new Date().getTime();
 
   return caches.open(CACHE_NAME).then((cache) => {
-    var cacheOpen = new Date().getTime()
+    const cacheOpen = new Date().getTime();
     console.log('it took ', (cacheOpen - startTime), ' to open the cache for', request.url);
 
     // If the cache is not updated, hit the internet and return from the cache
-    const urlSplit = request.url.split('?')
+    const urlSplit = request.url.split('?');
     if (urlSplit.length > 1 && urlSplit[1].includes('loadFromCache=false')) {
-      console.log("Was told there was nothing in the cache, skipping.")
+      console.log('Was told there was nothing in the cache, skipping.');
       return fetchAndCache(request, cache, true);
     }
 
     return cache.match(request).then((response) => {
-      var matched = new Date().getTime()
+      const matched = new Date().getTime();
       console.log('it took ', (matched - cacheOpen), ' to load a match for', request.url);
 
 
@@ -80,7 +77,7 @@ function go(request) {
         return response;
       }
 
-      console.error("Thought there was something in the cache but there wasent?", request.url)
+      console.error('Thought there was something in the cache but there wasent?', request.url);
       return fetchAndCache(request, cache, true);
     }).catch((error) => {
       // This catch() will handle exceptions that arise from the match() or fetch() operations.
@@ -112,8 +109,7 @@ addEventListener('fetch', (event) => {
   }
 
   if (url.includes('localhost:5000/data') || url.includes('courseboard.io/data')) {
-    console.log('caching ', url)
+    console.log('caching ', url);
     event.respondWith(go(event.request));
   }
-
 });
