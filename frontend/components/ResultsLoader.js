@@ -16,7 +16,7 @@ class ResultsLoader extends React.Component {
       visibleObjects: [],
     };
 
-    // Class objects that are already instantiated. 
+    // Keep a cache of class objects that are already instantiated. 
     // Don't need something similar for employees because there is no object that takes a couple ms to instantiate. 
     this.loadedClassObjects = {}
 
