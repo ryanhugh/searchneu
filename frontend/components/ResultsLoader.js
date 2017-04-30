@@ -16,6 +16,14 @@ class ResultsLoader extends React.Component {
       visibleObjects: [],
     };
 
+    // Class objects that are already instantiated. 
+    // Don't need something similar for employees because there is no object that takes a couple ms to instantiate. 
+    this.loadedClassObjects = {}
+
+    // Number of results that were loaded when handleInfiniteLoad was called.
+    // If handleInfiniteLoad is called two different times and the number of components is the same for both,
+    // Assume that the first call is still processing and we can safety ignore the second call.
+    // This prevents loading twice the number of elements in this case. 
     this.alreadyLoadedAt = {};
 
     this.handleInfiniteLoad = this.handleInfiniteLoad.bind(this);
@@ -80,11 +88,20 @@ class ResultsLoader extends React.Component {
 
     toLoad.forEach((result) => {
       if (result.type === 'class') {
-        const aClass = this.props.termData.createClass({
-          hash: result.ref,
-          host: 'neu.edu',
-          termId: '201810',
-        });
+
+        let aClass;
+        if (this.loadedClassObjects[result.ref]) {
+          aClass = this.loadedClassObjects[result.ref]
+        }
+        else {
+          console.log('resusing ', result.ref)
+          aClass = this.props.termData.createClass({
+            hash: result.ref,
+            host: 'neu.edu',
+            termId: '201810',
+          });
+          this.loadedClassObjects[result.ref] = aClass;
+        }
 
         newObjects.push({
           type: 'class',
