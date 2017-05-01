@@ -185,6 +185,9 @@ class Home extends React.Component {
     this.dataPromise = Promise.all(promises).then(() => {
       console.log('Loadedd everything!');
       this.loadingFromCache = false;
+      
+      PaceBar.finish();
+      PaceBar.destroy();
 
       // TODO remove
       // test go through classes and make sure they are all in sections?
