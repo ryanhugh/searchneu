@@ -379,7 +379,7 @@ class Home extends React.Component {
     let resultsElement = null;
 
     if (this.termData && this.state.results && this.employeeMap) {
-      if (this.state.results.length === 0) {
+      if (this.state.results.length === 0 && this.state.searchTerm.length > 0) {
         resultsElement = (
           <div className = {css.noResultsContainer}>
             <h3>No Results</h3>

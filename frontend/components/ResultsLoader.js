@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 
 import EmployeePanel from './EmployeePanel';
@@ -62,7 +63,6 @@ class ResultsLoader extends React.Component {
     // Assume about 300 px per class
     if (diff > 0 && this.props.results.length > this.state.visibleObjects.length && !this.alreadyLoadedAt[this.state.visibleObjects.length]) {
       this.alreadyLoadedAt[this.state.visibleObjects.length] = true;
-      console.log('triggered');
 
       this.addMoreObjects();
     }
@@ -91,7 +91,6 @@ class ResultsLoader extends React.Component {
           aClass = this.constructor.loadedClassObjects[result.ref]
         }
         else {
-          console.log('resusing ', result.ref)
           aClass = this.props.termData.createClass({
             hash: result.ref,
             host: 'neu.edu',
