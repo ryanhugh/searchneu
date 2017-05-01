@@ -29,7 +29,7 @@ import camdFaculty from './camd';
 
 
 // TODO
-// standardize fields from the different parses
+// Skip processing for the first peopleList, and go straight to the inserting phase. Will probably save 1 min or so. 
 
 // name
 

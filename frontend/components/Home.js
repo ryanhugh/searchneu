@@ -367,7 +367,7 @@ class Home extends React.Component {
     history.pushState(null, null, `/${event.target.value}`);
     if (!event.target.value) {
       this.setState({
-        searchResults: [],
+        results: [],
       });
       return;
     }
