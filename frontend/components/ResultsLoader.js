@@ -16,9 +16,6 @@ class ResultsLoader extends React.Component {
       visibleObjects: [],
     };
 
-    // Keep a cache of class objects that are already instantiated. 
-    // Don't need something similar for employees because there is no object that takes a couple ms to instantiate. 
-    this.loadedClassObjects = {}
 
     // Number of results that were loaded when handleInfiniteLoad was called.
     // If handleInfiniteLoad is called two different times and the number of components is the same for both,
@@ -90,8 +87,8 @@ class ResultsLoader extends React.Component {
       if (result.type === 'class') {
 
         let aClass;
-        if (this.loadedClassObjects[result.ref]) {
-          aClass = this.loadedClassObjects[result.ref]
+        if (this.constructor.loadedClassObjects[result.ref]) {
+          aClass = this.constructor.loadedClassObjects[result.ref]
         }
         else {
           console.log('resusing ', result.ref)
@@ -100,7 +97,7 @@ class ResultsLoader extends React.Component {
             host: 'neu.edu',
             termId: '201810',
           });
-          this.loadedClassObjects[result.ref] = aClass;
+          this.constructor.loadedClassObjects[result.ref] = aClass;
         }
 
         newObjects.push({
@@ -118,8 +115,6 @@ class ResultsLoader extends React.Component {
         console.error('wtf is type', result.type);
       }
     });
-
-    // console.log('adding ', newObjects.length, 'now at ', this.state.show, toLoad.length, 'hi')
 
     this.setState({
       show: this.state.show + delta,
@@ -155,6 +150,10 @@ class ResultsLoader extends React.Component {
     );
   }
 }
+
+// Keep a cache of class objects that are already instantiated. 
+// Don't need something similar for employees because there is no object that takes a couple ms to instantiate. 
+ResultsLoader.loadedClassObjects = {}
 
 ResultsLoader.propTypes = {
   results: PropTypes.array.isRequired,

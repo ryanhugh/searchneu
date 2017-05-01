@@ -29,3 +29,22 @@
 .octopusArm {
 	transform-origin: 130px 106px;
 }
+
+.noResultsContainer {
+    font-size: 19px;
+    padding-top: 30px;
+    text-align: center;
+    padding-bottom: 100px;
+}
+
+.noResultsInputText {
+    display: inline-block !important;
+    padding: 5px !important;
+    padding-left: 9px !important;
+    padding-right: 9px !important;
+    font-size: inherit !important;
+}
+
+.noResultsBottomLine {
+    padding-top: 7px;
+}

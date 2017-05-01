@@ -74,6 +74,10 @@ class Home extends React.Component {
 
     this.state = {
       results: [],
+
+      // Value to set the search box to after the search box is rendered. 
+      // If the user navigates to a page, search for the query. 
+      searchTerm: decodeURIComponent(location.pathname.slice(1))
     };
 
     this.dataPromise = null;
@@ -82,9 +86,6 @@ class Home extends React.Component {
     this.termData = null;
     this.employeeMap = null;
     this.employeesSearchIndex = null;
-
-    // Value to set the search box to after the search box is rendered. 
-    this.searchFor = decodeURIComponent(location.pathname.slice(1));
 
 
     // Used to keep track of the ongoing networking requests
@@ -185,7 +186,7 @@ class Home extends React.Component {
     this.dataPromise = Promise.all(promises).then(() => {
       console.log('Loadedd everything!');
       this.loadingFromCache = false;
-      
+
       PaceBar.finish();
       PaceBar.destroy();
 
@@ -219,24 +220,13 @@ class Home extends React.Component {
     });
   }
 
-  checkSearchBox() {
-    if (!this.searchFor) {
-      return;
-    }
-    const ele = document.getElementById('seach_id');
-    if (ele) {
-      ele.value = this.searchFor;
-      this.searchFor = null;
-    }
-  }
 
   async componentDidMount() {
     await this.dataPromise;
 
-    if (this.searchFor) {
-      console.log('going to serach for ', this.searchFor);
-      this.search(this.searchFor);
-      this.checkSearchBox();
+    if (this.state.searchTerm) {
+      console.log('going to serach for ', this.state.searchTerm );
+      this.search(this.state.searchTerm);
     }
 
     // If testing locally, bring up some results without typing in anything.
@@ -246,15 +236,11 @@ class Home extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    this.checkSearchBox();
-  }
-
-
   async search(searchTerm) {
     // Ensure that the data has loaded
     await this.dataPromise;
 
+    const originalSearchTerm = searchTerm;
 
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
@@ -282,6 +268,7 @@ class Home extends React.Component {
 
         this.setState({
           results: output,
+          searchTerm: originalSearchTerm
         });
         return;
       }
@@ -363,6 +350,7 @@ class Home extends React.Component {
 
     this.setState({
       results: output,
+      searchTerm: originalSearchTerm
     });
   }
 
@@ -372,6 +360,7 @@ class Home extends React.Component {
     if (!event.target.value) {
       this.setState({
         results: [],
+        searchTerm: event.target.value
       });
       return;
     }
@@ -387,14 +376,24 @@ class Home extends React.Component {
       return null;
     }
 
-    let resultsLoader = null;
+    let resultsElement = null;
 
     if (this.termData && this.state.results && this.employeeMap) {
-      resultsLoader = (<ResultsLoader
-        results={ this.state.results }
-        termData={ this.termData }
-        employeeMap={ this.employeeMap }
-      />);
+      if (this.state.results.length === 0) {
+        resultsElement = (
+          <div className = {css.noResultsContainer}>
+            <h3>No Results</h3>
+            <div className = {css.noResultsBottomLine}>Want to <a href={"https://google.com?q=Northeastern University " + this.state.searchTerm}>search for <div className={"ui compact segment " + css.noResultsInputText}> <p> {this.state.searchTerm} </p> </div>  on Google</a>?</div>
+          </div>
+          )
+      }
+      else {
+        resultsElement = (<ResultsLoader
+          results={ this.state.results }
+          termData={ this.termData }
+          employeeMap={ this.employeeMap }
+        />);
+      }
     }
 
     return (
@@ -429,10 +428,11 @@ class Home extends React.Component {
                 spellCheck='false'
                 tabIndex='0'
                 onChange={ this.onClick }
+                defaultValue= { this.state.searchTerm }
               />
             </div>
           </div>
-          {resultsLoader}
+          {resultsElement}
         </div>
         <div className={ css.botttomPadding } />
 
