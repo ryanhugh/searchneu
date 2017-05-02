@@ -231,7 +231,7 @@ class Home extends React.Component {
 
     // If testing locally, bring up some results without typing in anything.
     // (This is just for testing, feel free to change it to whatever.)
-    else if (location.hostname == 'localhost') {
+    else if (process.env.NODE_ENV !== 'prod') {
       this.search('cs');
     }
   }
