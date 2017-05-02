@@ -39,11 +39,9 @@ var processors = [
 	require('./processors/addClassUids'),
 	require('./processors/prereqClassUids'),
 	require('./processors/termStartEndDate'),
-	require('./processors/termSearchHints'),
 
 	// // Add new processors here
-	// require('./processors/simplifyProfList'),
-	// require('./processors/notifyOnChanges'),
+	require('./processors/simplifyProfList'),
 	// require('./processors/databaseDumps'),
 	// require('./processors/createSearchIndex')
 ]
@@ -63,7 +61,7 @@ for (var parserName in parsersClasses) {
 		throw 'parser does not have a name!'
 	};
 
-	if (_(parserNames).includes(parser.name)) {
+	if (parserNames.includes(parser.name)) {
 
 		console.log(parser.constructor.name, parser.name)
 		throw 'two parsers have the same name! ' + parser.name
@@ -152,116 +150,29 @@ PageDataMgr.prototype.go = function (pageDatas, callback) {
 		}
 	}
 
+	if (pageDatas.length > 1) {
 
-	async.waterfall([
-		// function (callback) {
-
-		// 	var q = queue();
-
-		// 	pageDatas.forEach(function (pageData) {
-		// 		q.defer(function (callback) {
-		// 			pageData.loadFromDB(function (err) {
-		// 				if (err) {
-		// 					elog("error ", err);
-		// 					return callback(err);
-		// 				}
-		// 				callback()
-		// 			}.bind(this))
-		// 		}.bind(this))
-		// 	}.bind(this))
-
-		// 	q.awaitAll(function (err) {
-		// 		return callback(err)
-		// 	}.bind(this))
-
-		// }.bind(this),
-		// function (callback) {
-
-		// 	var updateQueries = [];
-
-		// 	pageDatas.forEach(function (pageData) {
-		// 		// If it has an _id, it was in the database and is currently being updated.
-		// 		// If not, this is the first time this is being parsed. 
-		// 		if (pageData.dbData._id) {
-		// 			var query = this.getQuery(pageData)
-		// 			updateQueries.push(query)
-		// 		}
-		// 	}.bind(this))
+		// In order to make this work, just run processPageData on each pageData in the array, and then
+		// Combine the outputs into one termDump.
+		console.error("More than 1 pagedata at a time is not supported yet. ")
+		return null;
+	}
 
 
 
-
-		// 	if (updateQueries.length > 0) {
-
-		// 		// Run the before update hook
-		// 		async.eachSeries(processors, function (processor, callback) {
-		// 			if (macros.DEVELOPMENT) {
-		// 				console.log("Running Pre update hook:", processor.constructor.name);
-		// 			}
-
-		// 			processor.preUpdateParse(updateQueries, function (err) {
-		// 				if (err) {
-		// 					console.log("ERROR processor", processor, 'errored out', err, ' on preUpdateParse');
-		// 					return callback(err)
-		// 				}
-		// 				return callback()
-		// 			}.bind(this))
-		// 		}.bind(this), function (err) {
-		// 			if (err) {
-		// 				console.log("ERROR some processor preUpdateParse failed, aborting", err);
-		// 			}
-		// 			callback(err)
-		// 		}.bind(this))
-		// 	}
-		// 	else {
-		// 		console.log("Not running preupdate hook for pageDatas");
-		// 		return callback()
-		// 	}
-
-		// }.bind(this),
-		function (callback) {
-
-			var q = queue();
-
-			pageDatas.forEach(function (pageData) {
-				q.defer(function (callback) {
-					// Run the parsing
-					this.processPageData(pageData, function (err, pageData) {
-						if (err) {
-							elog("err", err);
-							return callback(err)
-						}
-						let termDump = this.pageDataStructureToTermDump(pageData)
-						this.runPostProcessors(termDump);
-						console.log("DONE!!!!!!!!!!!!!!!!!!!!!!!!!")
-						return callback()
-					}.bind(this))
-				}.bind(this))
-			}.bind(this))
-
-			q.awaitAll(function (err) {
-				callback(err)
-			}.bind(this))
-
-		}.bind(this),
-		// function (callback) {
-		// 	var queries = [];
-
-		// 	pageDatas.forEach(function (pageData) {
-		// 		queries.push(this.getQuery(pageData))
-		// 	}.bind(this))
-
-
-		// 	this.runPostProcessors(queries, callback);
-		// }.bind(this)
-
-		// Done
-	], function (err) {
-		if (err) {
-			return callback(err);
-		}
-		callback(null, pageData)
-	}.bind(this))
+	return new Promise((resolve, reject) => {
+		// Run the parsing
+		this.processPageData(pageData, function (err, pageData) {
+			if (err) {
+				elog("err", err);
+				return callback(err)
+			}
+			let termDump = this.pageDataStructureToTermDump(pageData)
+			termDump = this.runPostProcessors(termDump);
+			console.log("DONE!!!!!!!!!!!!!!!!!!!!!!!!!")
+			resolve(termDump)
+		}.bind(this))
+	})
 };
 
 
@@ -377,7 +288,7 @@ PageDataMgr.prototype.pageDataStructureToTermDump = function(rootPageData) {
 		}
 	}
 
-	console.log(output)
+	// console.log(output)
 	return output
 
 };
@@ -386,8 +297,14 @@ PageDataMgr.prototype.pageDataStructureToTermDump = function(rootPageData) {
 // Called from the gulpfile with a list of college abbriviates to process
 // Get the urls from the file with the urls.
 // ['neu','gatech',...]
-PageDataMgr.prototype.processColleges = function (colllegeAbbrs) {
+PageDataMgr.prototype.processColleges = async function processColleges(colllegeAbbrs) {
 	var PageData = require('./PageData')
+
+	if (colllegeAbbrs.length > 1) {
+		// Need to check the processors... idk
+		console.warning('Unsure if can do more than one abbr at at time. Exiting. ')
+		return null;
+	}
 
 	var toLog = colllegeAbbrs.join(' ')
 
@@ -406,7 +323,7 @@ PageDataMgr.prototype.processColleges = function (colllegeAbbrs) {
 		primaryHost = primaryHost.split('.')[0]
 
 
-		if (_(colllegeAbbrs).includes(primaryHost)) {
+		if (colllegeAbbrs.includes(primaryHost)) {
 			_.pull(colllegeAbbrs, primaryHost)
 
 			urlsToProcess.push(url)
@@ -428,9 +345,11 @@ PageDataMgr.prototype.processColleges = function (colllegeAbbrs) {
 
 	}.bind(this))
 
-	this.go(pageDatas, function (err) {
-		console.log('all done!!', err, toLog)
-	}.bind(this));
+	let termDump = await this.go(pageDatas)
+
+	console.log('Done!');
+	return termDump;
+
 };
 
 

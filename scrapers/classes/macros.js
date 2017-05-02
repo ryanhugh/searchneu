@@ -18,10 +18,6 @@
 
 'use strict';
 var fs = require('fs')
-var _ = require('lodash')
-
-
- 
 
 
 
@@ -101,7 +97,7 @@ function Macros() {
 				this.SPIDER = true;
 			}
 		}
-		else if (_(command).includes('test') && command != 'testAllGraphs') {
+		else if (command.includes('test') && command != 'testAllGraphs') {
 			this.UNIT_TESTS = true;
 		}
 		else {

@@ -432,12 +432,12 @@ PageData.prototype.setData = function (name, value) {
 	}
 
 
-	if (_(['deps']).includes(name)) {
+	if (['deps'].includes(name)) {
 		elog('ERROR: html set tried to override', name);
 		return;
 	}
 
-	if (_(['_id']).includes(name) && this.dbData[name] !== undefined) {
+	if (['_id'].includes(name) && this.dbData[name] !== undefined) {
 		elog('ERROR: cant override', name, ' from value ', this.dbData[name], 'to value ', value)
 		return;
 	}

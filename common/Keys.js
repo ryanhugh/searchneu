@@ -36,10 +36,6 @@ var endpoints = []
 var minData = 2;
 
 function Keys(obj, endpoint, config) {
-	if (arguments.length > 1) {
-		console.log('ERROR!')
-		process.exit()
-	}
 	if (obj instanceof Keys || !obj || (obj._id && !obj.hash && !obj.host) || (obj.isString && !config.stringAllowed)) {
 		elog('welp', obj)
 	}
@@ -119,16 +115,24 @@ function Keys(obj, endpoint, config) {
 }
 
 Keys.create = function (obj, endpoint) {
+	if (arguments.length > 1) {
+		console.trace('ERROR!', obj, endpoint, config)
+		process.exit()
+	}
 	return new this(obj, endpoint, {});
 };
 
 Keys.createWithHash = function (obj, endpoint) {
+	console.trace('ERROR!', obj, endpoint, config)
+	process.exit()
 	return new this(obj, endpoint, {
 		hashAllowed: true
 	});
 };
 
 Keys.createWithString = function (obj) {
+	console.trace('ERROR!', obj, endpoint, config)
+	process.exit()
 	return new this(obj, null, {
 		stringAllowed: true
 	})

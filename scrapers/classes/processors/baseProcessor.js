@@ -149,13 +149,13 @@ BaseProcessor.prototype.groupSectionsByClass = function(sections) {
 	}.bind(this))
 
 
-	var retVal = [];
+	// var retVal = [];
 
-	for (var hash in classHash){
-		retVal.push(classHash[hash])
-	}
+	// for (var hash in classHash){
+	// 	retVal.push(classHash[hash])
+	// }
 
-	return retVal;
+	return Object.values(classHash);
 };
 
 
@@ -284,7 +284,7 @@ BaseProcessor.prototype.getClassHash = function (termDump, config = {}) {
 
 
 	}.bind(this));
-	
+
 	return keyToRows;
 		// return callback(null, keyToRows);
 	// }.bind(this))

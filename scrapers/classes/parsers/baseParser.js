@@ -18,15 +18,11 @@
 
 'use strict';
 var URI = require('urijs');
-var _ = require('lodash');
-var htmlparser = require('htmlparser2');
 var domutils = require('domutils');
 var fs = require('fs');
 
 var macros = require('../macros')
-// var request = require('../../request');
 import request from '../../request';
-// console.log(request)
 
 
 function BaseParser() {
@@ -59,14 +55,10 @@ BaseParser.prototype.parse = async function (pageData, callback) {
 	}
 
 
-	// console.log('Firing off', config.url)
 	let response = await request.request(config)
-	// console.log(response.body.length, typeof response.body)
 
 	request.handleRequestResponce(response.body, function(err, dom) {
 
-		// console.log(err, dom)	
-		
 		pageData.setData('lastUpdateTime', new Date().getTime());
 
 		this.parseDOM(pageData, dom);
@@ -437,7 +429,7 @@ BaseParser.prototype.splitEndings = function (name) {
 		name = name.slice(0, name.indexOf(dashEnding)).trim();
 
 		// standardize to one dash
-		while (_(dashEnding).startsWith('-')) {
+		while (dashEnding.startsWith('-')) {
 			dashEnding = dashEnding.slice(1).trim()
 		}
 
@@ -446,7 +438,7 @@ BaseParser.prototype.splitEndings = function (name) {
 
 	// remove things in parens at the end
 	// Intro to the Study Engr (hon)
-	while (_(name).endsWith(')')) {
+	while (name.endsWith(')')) {
 
 		//find the name at the end
 		var match = name.match(/\([\w\d]+\)$/i);
@@ -456,7 +448,7 @@ BaseParser.prototype.splitEndings = function (name) {
 
 		var subString = match[0];
 
-		if (!_(name).endsWith(subString)) {
+		if (!name.endsWith(subString)) {
 			console.log("Warning: string dosent end with match??", originalName, possibleMatches);
 			break;
 		}
@@ -519,7 +511,7 @@ BaseParser.prototype.standardizeClassName = function (originalName, possibleMatc
 	var endings = nameSplit.endings;
 
 	// if input is in possible matches, done
-	if (_(possibleMatches).includes(originalName) || possibleMatches.length === 0) {
+	if (possibleMatches.includes(originalName) || possibleMatches.length === 0) {
 		return (name + ' ' + endings.join(' ')).trim();
 	}
 
@@ -528,8 +520,6 @@ BaseParser.prototype.standardizeClassName = function (originalName, possibleMatc
 	// ok to mess with name from here on out, 
 	// but might return originalName or possibleMatch so don't mess with them
 	name = name.replace(/[^0-9a-zA-Z]/gi, '')
-
-
 
 
 
@@ -561,7 +551,7 @@ BaseParser.prototype.standardizeClassName = function (originalName, possibleMatc
 
 			// add the endings back on, but only if possible match dosent include them
 			for (var j = 0; j < endings.length; j++) {
-				if (!_(possibleMatch).includes(endings[j])) {
+				if (!possibleMatch.includes(endings[j])) {
 					possibleMatch += ' ' + endings[j]
 					possibleMatch = possibleMatch.trim()
 				}
