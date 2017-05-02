@@ -213,80 +213,81 @@ BaseProcessor.prototype.isUpdatingEntireTerm = function (queries) {
 // if !config.useClassId, will return {
 // 	'neu.edu201602STAT002_6876877897': aClass
 // }
-BaseProcessor.prototype.getClassHash = function (queries, configOrCallback, callback) {
-	var config;
-	if (typeof configOrCallback === 'function') {
-		callback = configOrCallback
-		config = {}
-	}
-	else {
-		config = configOrCallback
-	}
+BaseProcessor.prototype.getClassHash = function (termDump, config = {}) {
+	// var config;
+	// if (typeof configOrCallback === 'function') {
+	// 	callback = configOrCallback
+	// 	config = {}
+	// }
+	// else {
+	// 	config = configOrCallback
+	// }
 
-	if (!callback) {
-		elog('dont have callback?')
-	}
+	// if (!callback) {
+	// 	elog('dont have callback?')
+	// }
 
 
 	// and find all classes that could be matched
-	var queryOverlap = this.getCommonHostAndTerm(queries);
-	var matchingQuery = {
-		host: queryOverlap.host
-	}
+	// var queryOverlap = this.getCommonHostAndTerm(queries);
+	// var matchingQuery = {
+	// 	host: queryOverlap.host
+	// }
 
-	// if base query specified term, we can specify it here too and still find all the classes needed
-	if (queryOverlap.termId) {
-		matchingQuery.termId = queryOverlap.termId
-	}
+	// // if base query specified term, we can specify it here too and still find all the classes needed
+	// if (queryOverlap.termId) {
+	// 	matchingQuery.termId = queryOverlap.termId
+	// }
 
 
 	//make obj to find results here quickly
 	var keyToRows = {};
 
-	classesDB.find(matchingQuery, {
-		skipValidation: true
-	}, function (err, results) {
-		if (err) {
-			console.log(err);
-			return callback(err)
+	// classesDB.find(matchingQuery, {
+	// 	skipValidation: true
+	// }, function (err, results) {
+	// 	if (err) {
+	// 		console.log(err);
+	// 		return callback(err)
+	// 	}
+
+	termDump.classes.forEach(function (aClass) {
+		if (!aClass.host || !aClass.termId || !aClass.subject || !aClass.classUid) {
+			elog("ERROR class dosent have required fields??", aClass);
+			return;
 		}
 
-		results.forEach(function (aClass) {
-			if (!aClass.host || !aClass.termId || !aClass.subject || !aClass.classUid) {
-				elog("ERROR class dosent have required fields??", aClass);
-				return;
+		// multiple classes could have same key
+		var key = aClass.host + aClass.termId + aClass.subject;
+		if (config.useClassId) {
+			key += aClass.classId
+
+			if (!keyToRows[key]) {
+				keyToRows[key] = []
 			}
 
-			// multiple classes could have same key
-			var key = aClass.host + aClass.termId + aClass.subject;
-			if (config.useClassId) {
-				key += aClass.classId
+			// only need to keep subject and classUid
+			keyToRows[key].push(aClass)
+		}
+		else if (aClass.classUid) {
+			key += aClass.classUid
 
-				if (!keyToRows[key]) {
-					keyToRows[key] = []
-				}
-
-				// only need to keep subject and classUid
-				keyToRows[key].push(aClass)
-			}
-			else if (aClass.classUid) {
-				key += aClass.classUid
-
-				if (keyToRows[key]) {
-					elog('duplicate classUid???', keyToRows[key], aClass)
-				}
-
-				keyToRows[key] = aClass
-			}
-			else {
-				elog('Cant use classUid if dont have classUid!', aClass)
+			if (keyToRows[key]) {
+				elog('duplicate classUid???', keyToRows[key], aClass)
 			}
 
+			keyToRows[key] = aClass
+		}
+		else {
+			elog('Cant use classUid if dont have classUid!', aClass)
+		}
 
-		}.bind(this));
 
-		return callback(null, keyToRows);
-	}.bind(this))
+	}.bind(this));
+	
+	return keyToRows;
+		// return callback(null, keyToRows);
+	// }.bind(this))
 }
 
 

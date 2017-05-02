@@ -38,8 +38,8 @@ var parsersClasses = [
 var processors = [
 	require('./processors/addClassUids'),
 	require('./processors/prereqClassUids'),
-	// require('./processors/termStartEndDate'),
-	// require('./processors/termSearchHints'),
+	require('./processors/termStartEndDate'),
+	require('./processors/termSearchHints'),
 
 	// // Add new processors here
 	// require('./processors/simplifyProfList'),
@@ -102,7 +102,17 @@ PageDataMgr.prototype.runPostProcessors = function (termDump) {
 
 	for (let processor of processors){
 		termDump = processor.go(termDump);
+		console.log('Done processor', processor)
 	}
+	// console.log(termDump.classes)
+
+	// for (let aClass of termDump.classes.slice(0,500)) {
+	// 	if (aClass.prereqs) {
+	// 		console.log(JSON.stringify(aClass.prereqs.values, null, 4))
+	// 	}
+	// }
+
+
 	return termDump;
 
 	// Run the processors
@@ -338,6 +348,7 @@ PageDataMgr.prototype.finish = function (pageData, callback) {
 	}.bind(this));
 };
 
+// Converts the PageData data structure to a term dump. Term dump has a .classes and a .sections, etc, and is used in the processors
 PageDataMgr.prototype.pageDataStructureToTermDump = function(rootPageData) {
 	let output = {}
 
@@ -350,7 +361,14 @@ PageDataMgr.prototype.pageDataStructureToTermDump = function(rootPageData) {
 				output[dataType] = []
 			}
 
-			output[dataType].push(curr.dbData)
+			const item = {}
+
+			Object.assign(item, curr.dbData)
+
+			item.deps = undefined
+			item.updatedByParent = undefined
+
+			output[dataType].push(item)
 		}
 
 

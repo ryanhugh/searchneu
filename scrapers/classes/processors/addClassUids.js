@@ -85,7 +85,6 @@ AddClassUids.prototype.go = function (termDump) {
 
 		section.classUid = this.getClassUid(crnMap[section.crn].classId, crnMap[section.crn].name);
 	}
-	console.log(termDump, 'here')
 
 	return termDump
 };

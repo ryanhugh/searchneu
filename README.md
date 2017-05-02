@@ -1,4 +1,4 @@
-# neusearch [![Travis CI Builds](https://travis-ci.org/ryanhugh/neusearch.svg?branch=master)](https://travis-ci.org/ryanhugh/neusearch/)
+# searchneu [![Travis CI Builds](https://travis-ci.org/ryanhugh/searchneu.svg?branch=master)](https://travis-ci.org/ryanhugh/searchneu/)
 
 Still in development! Coming along pretty good, but still a lot of stuff to add
 

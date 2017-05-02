@@ -18,7 +18,7 @@
 
 'use strict';
 var macros = require('../macros')
-var classesDB = require('../databases/classesDB')
+// var classesDB = require('../databases/classesDB')
 var ellucianRequisitesParser = require('../parsers/ellucianRequisitesParser')
 var BaseProcessor = require('./baseProcessor').BaseProcessor
 
@@ -103,103 +103,39 @@ PrereqClassUids.prototype.updatePrereqs = function (prereqs, host, termId, keyTo
 // or if just one class {host, termId, subject, classId}
 PrereqClassUids.prototype.go = function (termDump) {
 
-	// for (var i = 0; i < baseQueries.length; i++) {
-	// 	var baseQuery = baseQueries[i]
-	// 	if (!baseQuery.host) {
-	// 		elog('no host in PrereqClassUids?')
-	// 		return callback('no')
-	// 	}
-	// }
+
+	var keyToRows = this.getClassHash(termDump, {
+		useClassId: true
+	})
 
 
-	var q = queue();
-	var classesToUpdate = [];
 
-	// find classes that need to be updated
-	q.defer(function (callback) {
-		this.getClasses(baseQueries, function (err, classes) {
-			if (err) {
-				return callback(err)
-			}
-			classesToUpdate = classes;
-			callback()
-		}.bind(this))
-	}.bind(this))
+	var updateQueue = queue()
 
-	var keyToRows = {};
-	q.defer(function (callback) {
-		this.getClassHash(baseQueries, {
-			useClassId: true
-		}, function (err, theKeyToRow) {
-			if (err) {
-				elog(err)
-				return callback(err)
-			}
-			keyToRows = theKeyToRow;
-			callback();
-		}.bind(this))
-	}.bind(this))
+	// loop through classes to update, and get the new data from all the classes
+	for (let aClass of termDump.classes) {
 
+		var toUpdate = {};
+		if (aClass.prereqs) {
+			let prereqs = this.updatePrereqs(aClass.prereqs, aClass.host, aClass.termId, keyToRows);
 
-	q.awaitAll(function (err) {
-		if (err) {
-			return callback(err)
+			// And simplify tree again
+			aClass.prereqs = ellucianRequisitesParser.simplifyRequirements(prereqs)
 		}
 
-
-		var updateQueue = queue()
-
-		// loop through classes to update, and get the new data from all the classes
-		classesToUpdate.forEach(function (aClass) {
-
-			var toUpdate = {};
-			if (aClass.prereqs) {
-				toUpdate.prereqs = this.updatePrereqs(aClass.prereqs, aClass.host, aClass.termId, keyToRows);
-
-				// console.log(JSON.stringify(toUpdate.prereqs));
-
-				// and simplify tree again
-				toUpdate.prereqs = ellucianRequisitesParser.simplifyRequirements(toUpdate.prereqs)
-				aClass.prereqs = toUpdate.prereqs
-			}
-
-			if (aClass.coreqs) {
-				toUpdate.coreqs = this.updatePrereqs(aClass.coreqs, aClass.host, aClass.termId, keyToRows);
-				toUpdate.coreqs = ellucianRequisitesParser.simplifyRequirements(toUpdate.coreqs)
+		if (aClass.coreqs) {
+			let coreqs = this.updatePrereqs(aClass.coreqs, aClass.host, aClass.termId, keyToRows);
+			aClass.coreqs = ellucianRequisitesParser.simplifyRequirements(coreqs)
 
 
-				// Remove honors coreqs from classes that are not honors
-				// This logic is currently in the frontend, but should be moved to the backend.
-				// and remove non honors coreqs if there is a hon lab with the same classId
-				// this isnt going to be 100% reliable across colleges, idk how to make it better, but want to error on the side of showing too many coreqs
+			// Remove honors coreqs from classes that are not honors
+			// This logic is currently in the frontend, but should be moved to the backend.
+			// and remove non honors coreqs if there is a hon lab with the same classId
+			// this isnt going to be 100% reliable across colleges, idk how to make it better, but want to error on the side of showing too many coreqs
 
-
-
-				aClass.coreqs = toUpdate.coreqs
-			}
-
-			if (toUpdate.prereqs || toUpdate.coreqs) {
-				updateQueue.defer(function (callback) {
-					// this came out of the db, so its going to have and _id and keys
-					classesDB.update({
-						_id: aClass._id
-					}, {
-						$set: toUpdate
-					}, {
-						shouldBeOnlyOne: true
-					}, function (err, docs) {
-						callback(err)
-					}.bind(this))
-				}.bind(this))
-			}
-
-		}.bind(this))
-
-
-		updateQueue.awaitAll(function (err) {
-			callback(err, classesToUpdate)
-		}.bind(this))
-	}.bind(this))
+		}
+	}
+	return termDump;
 };
 
 
