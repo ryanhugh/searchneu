@@ -1,0 +1,248 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/transitional.dtd">
+<HTML lang="en">
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<META HTTP-EQUIV="Pragma" NAME="Cache-Control" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" NAME="Cache-Control" CONTENT="no-cache">
+<LINK REL="stylesheet" HREF="/css/web_defaultapp.css" TYPE="text/css">
+<LINK REL="stylesheet" HREF="/css/web_defaultprint.css" TYPE="text/css" media="print">
+<TITLE>Dynamic Schedule</TITLE>
+<META HTTP-EQUIV="Content-Script-Type" NAME="Default_Script_Language" CONTENT="text/javascript">
+<SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">
+<!-- Hide JavaScript from older browsers 
+window.onunload = function() {submitcount=0;}
+var submitcount=0;
+function checkSubmit() {
+if (submitcount == 0)
+   {
+   submitcount++;
+   return true;
+   }
+else
+   {
+alert("Your changes have already been submitted.");
+   return false;
+   }
+}
+//  End script hiding -->
+</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">
+<!-- Hide JavaScript from older browsers 
+//  Function to open a window
+function windowOpen(window_url) {
+   helpWin = window.open(window_url,'','toolbar=yes,status=no,scrollbars=yes,menubar=yes,resizable=yes,directories=no,location=no,width=350,height=400');
+   if (document.images) { 
+       if (helpWin) helpWin.focus()
+   }
+}
+//  End script hiding -->
+</SCRIPT>
+</HEAD>
+<BODY>
+<DIV class="headerwrapperdiv">
+<DIV class="pageheaderdiv1">
+<A HREF="#main_content" onMouseover="window.status='Go to Main Content'; return true" onMouseout="window.status=''; return true" OnFocus="window.status='Go to Main Content'; return true" onBlur="window.status=''; return true" class="skiplinks">Go to Main Content</A>
+<H1>SCT WWW Information System</H1></DIV><DIV class="headerlinksdiv">
+</DIV>
+<TABLE  CLASS="plaintable" SUMMARY="This table displays Menu Items and Banner Search textbox."
+         WIDTH="100%">
+<TR>
+<TD CLASS="pldefault">
+<DIV class="headerlinksdiv2">
+&nbsp;
+</div>
+</TD>
+<TD CLASS="pldefault"><p class="rightaligntext"></p>
+<SPAN class="pageheaderlinks">
+<A HREF="/wtlhelp/twbhhelp.htm" accesskey="H" onClick="popup = window.open('/wtlhelp/twbhhelp.htm', 'PopupPage','height=500,width=450,scrollbars=yes,resizable=yes'); return false" target="_blank" onMouseOver="window.status='';  return true" onMouseOut="window.status=''; return true"onFocus="window.status='';  return true" onBlur="window.status=''; return true"  class="submenulinktext2">HELP</A>
+|
+<A HREF="twbkwbis.P_Logout" accesskey="3" class="submenulinktext2">EXIT</A>
+</span>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+<DIV class="pagetitlediv">
+<TABLE  CLASS="plaintable" SUMMARY="This table displays title and static header displays."
+   WIDTH="100%">
+<TR>
+<TD CLASS="pldefault">
+<H2>Dynamic Schedule</H2>
+</TD>
+<TD CLASS="pldefault">
+&nbsp;
+</TD>
+<TD CLASS="pldefault"><p class="rightaligntext"></p>
+<DIV class="staticheaders">
+</div>
+</TD>
+</TR>
+<TR>
+<TD class="bg3" width="100%" colSpan=3><IMG SRC="/wtlgifs/web_transparent.gif" ALT="Transparent Image" CLASS="headerImg" TITLE="Transparent Image"  NAME="web_transparent" HSPACE=0 VSPACE=0 BORDER=0 HEIGHT=3 WIDTH=10></TD>
+</TR>
+</TABLE>
+<a name="main_content"></a>
+</DIV>
+<DIV class="pagebodydiv">
+<!--  ** END OF twbkwbis.P_OpenDoc **  -->
+
+<FORM ACTION="/udcprod8/bwckgens.p_proc_term_date" METHOD="POST" onSubmit="return checkSubmit()">
+<INPUT TYPE="hidden" NAME="p_calling_proc" VALUE="bwckschd.p_disp_dyn_sched">
+<TABLE  CLASS="dataentrytable" summary="This layout table is used for term selection."width="100%"><CAPTION class="captiontext">Search by Term: </CAPTION>
+<TR>
+<TD CLASS="dedefault"><LABEL for=term_input_id><SPAN class="fieldlabeltextinvisible">Term</SPAN></LABEL>
+<SELECT NAME="p_term" SIZE="1"  ID="term_input_id">
+<OPTION VALUE="">None
+<OPTION VALUE="201718">Fall 2016 Law Quarter
+<OPTION VALUE="201715">Fall 2016 CPS Quarter
+<OPTION VALUE="201714">Fall 2016 CPS Semester
+<OPTION VALUE="201712">Fall 2016 Law Semester (View only)
+<OPTION VALUE="201710">Fall 2016 Semester
+<OPTION VALUE="201660">Summer 2 2016 Semester (View only)
+<OPTION VALUE="201658">Summer 2016 Law Quarter (View only)
+<OPTION VALUE="201655">Summer 2016 CPS Quarter (View only)
+<OPTION VALUE="201652">Summer 2016 Semester Law (View only)
+<OPTION VALUE="201650">Summer Full 2016 Semester (View only)
+<OPTION VALUE="201640">Summer 1 2016 Semester (View only)
+<OPTION VALUE="201638">Spring 2016 Law Quarter (View only)
+<OPTION VALUE="201635">Spring 2016 CPS Quarter (View only)
+<OPTION VALUE="201632">Spring 2016 Law Semester (View only)
+<OPTION VALUE="201630">Spring 2016 Semester (View only)
+<OPTION VALUE="201628">Winter 2016 Law Quarter (View only)
+<OPTION VALUE="201625">Winter 2016 CPS Quarter (View only)
+<OPTION VALUE="201618">Fall 2015 Law Quarter (View only)
+<OPTION VALUE="201615">Fall 2015 CPS Quarter (View only)
+<OPTION VALUE="201612">Fall 2015 Law Semester (View only)
+<OPTION VALUE="201610">Fall 2015 Semester (View only)
+<OPTION VALUE="201560">Summer 2 2015 Semester (View only)
+<OPTION VALUE="201558">Summer 2015 Law Quarter (View only)
+<OPTION VALUE="201555">Summer 2015 CPS Quarter (View only)
+<OPTION VALUE="201550">Summer Full 2015 Semester (View only)
+<OPTION VALUE="201540">Summer 1 2015 Semester (View only)
+<OPTION VALUE="201538">Spring 2015 Law Quarter (View only)
+<OPTION VALUE="201535">Spring 2015 CPS Quarter (View only)
+<OPTION VALUE="201532">Spring 2015 Law Semester (View only)
+<OPTION VALUE="201530">Spring 2015 Semester (View only)
+<OPTION VALUE="201528">Winter 2015 Law Quarter (View only)
+<OPTION VALUE="201525">Winter 2015 CPS Quarter (View only)
+<OPTION VALUE="201518">Fall 2014 Law Quarter (View only)
+<OPTION VALUE="201515">Fall 2014 CPS Quarter (View only)
+<OPTION VALUE="201512">Fall 2014 Law Semester (View only)
+<OPTION VALUE="201510">Fall 2014 Semester (View only)
+<OPTION VALUE="201460">Summer 2 2014 Semester (View only)
+<OPTION VALUE="201458">Summer 2014 Law Quarter (View only)
+<OPTION VALUE="201455">Summer 2014 CPS Quarter (View only)
+<OPTION VALUE="201450">Summer Full 2014 Semester (View only)
+<OPTION VALUE="201440">Summer 1 2014 Semester (View only)
+<OPTION VALUE="201438">Spring 2014 Law Quarter (View only)
+<OPTION VALUE="201435">Spring 2014 CPS Quarter (View only)
+<OPTION VALUE="201432">Spring 2014 Law Semester (View only)
+<OPTION VALUE="201430">Spring 2014 Semester (View only)
+<OPTION VALUE="201428">Winter 2014 Law Quarter (View only)
+<OPTION VALUE="201425">Winter 2014 CPS Quarter (View only)
+<OPTION VALUE="201418">Fall 2013 Law Quarter (View only)
+<OPTION VALUE="201415">Fall 2013 CPS Quarter (View only)
+<OPTION VALUE="201412">Fall 2013 Law Semester (View only)
+<OPTION VALUE="201410">Fall 2013 Semester (View only)
+<OPTION VALUE="201360">Summer 2 2013 Semester (View only)
+<OPTION VALUE="201358">Summer 2013 Law Quarter (View only)
+<OPTION VALUE="201355">Summer 2013 CPS Quarter (View only)
+<OPTION VALUE="201350">Summer Full 2013 Semester (View only)
+<OPTION VALUE="201340">Summer 1 2013 Semester (View only)
+<OPTION VALUE="201338">Spring 2013 Law Quarter (View only)
+<OPTION VALUE="201335">Spring 2013 CPS Quarter (View only)
+<OPTION VALUE="201332">Spring 2013 Law Semester (View only)
+<OPTION VALUE="201330">Spring 2013 Semester (View only)
+<OPTION VALUE="201328">Winter 2013 Law Quarter (View only)
+<OPTION VALUE="201325">Winter 2013 CPS Quarter (View only)
+<OPTION VALUE="201318">Fall 2012 Law Quarter (View only)
+<OPTION VALUE="201315">Fall 2012 CPS Quarter (View only)
+<OPTION VALUE="201312">Fall 2012 Law Semester (View only)
+<OPTION VALUE="201310">Fall 2012 Semester (View only)
+<OPTION VALUE="201260">Summer 2 2012 Semester (View only)
+<OPTION VALUE="201258">Summer 2012 Law Quarter (View only)
+<OPTION VALUE="201255">Summer 2012 CPS Quarter (View only)
+<OPTION VALUE="201250">Summer Full 2012 Semester (View only)
+<OPTION VALUE="201240">Summer 1 2012 Semester (View only)
+<OPTION VALUE="201238">Spring 2012 Law Quarter (View only)
+<OPTION VALUE="201235">Spring 2012 CPS Quarter (View only)
+<OPTION VALUE="201232">Spring 2012 Law Semester (View only)
+<OPTION VALUE="201230">Spring 2012 Semester (View only)
+<OPTION VALUE="201228">Winter 2012 Law Quarter (View only)
+<OPTION VALUE="201225">Winter 2012 CPS Quarter (View only)
+<OPTION VALUE="201218">Fall 2011 Law Quarter (View only)
+<OPTION VALUE="201215">Fall 2011 CPS Quarter (View only)
+<OPTION VALUE="201212">Fall 2011 Law Semester (View only)
+<OPTION VALUE="201210">Fall 2011 Semester (View only)
+<OPTION VALUE="201160">Summer 2 2011 Semester (View only)
+<OPTION VALUE="201158">Summer 2011 Law Quarter (View only)
+<OPTION VALUE="201155">Summer 2011 CPS Quarter (View only)
+<OPTION VALUE="201150">Summer Full 2011 Semester (View only)
+<OPTION VALUE="201140">Summer 1 2011 Semester (View only)
+<OPTION VALUE="201138">Spring 2011 Law Quarter (View only)
+<OPTION VALUE="201135">Spring 2011 CPS Quarter (View only)
+<OPTION VALUE="201132">Spring 2011 Law Semester (View only)
+<OPTION VALUE="201130">Spring 2011 Semester (View only)
+<OPTION VALUE="201128">Winter 2011 Law Quarter (View only)
+<OPTION VALUE="201125">Winter 2011 CPS Quarter (View only)
+<OPTION VALUE="201118">Fall 2010 Law Quarter (View only)
+<OPTION VALUE="201115">Fall 2010 CPS Quarter (View only)
+<OPTION VALUE="201112">Fall 2010 Law Semester (View only)
+<OPTION VALUE="201110">Fall 2010 Semester (View only)
+<OPTION VALUE="201060">Summer 2 2010 Semester (View only)
+<OPTION VALUE="201058">Summer 2010 Law Quarter (View only)
+<OPTION VALUE="201055">Summer 2010 CPS Quarter (View only)
+<OPTION VALUE="201050">Summer Full 2010 Semester (View only)
+<OPTION VALUE="201040">Summer 1 2010 Semester (View only)
+<OPTION VALUE="201038">Spring 2010 Law Quarter (View only)
+<OPTION VALUE="201035">Spring 2010 CPS Quarter (View only)
+<OPTION VALUE="201032">Spring 2010 Law Semester (View only)
+<OPTION VALUE="201030">Spring 2010 Semester (View only)
+<OPTION VALUE="201028">Winter 2010 Law Quarter (View only)
+<OPTION VALUE="201025">Winter 2010 CPS Quarter (View only)
+<OPTION VALUE="201018">Fall 2009 Law Quarter (View only)
+<OPTION VALUE="201015">Fall 2009 CPS Quarter (View only)
+<OPTION VALUE="201012">Fall 2009 Law Semester (View only)
+<OPTION VALUE="201010">Fall 2009 Semester (View only)
+</SELECT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<BR>
+<INPUT TYPE="submit" VALUE="Submit">
+<INPUT TYPE="reset" VALUE="Reset">
+</FORM>
+
+<!--  ** START OF twbkwbis.P_CloseDoc **  -->
+<TABLE  CLASS="plaintable" SUMMARY="This is table displays line separator at end of the page."
+                                             WIDTH="100%" cellSpacing=0 cellPadding=0 border=0><TR><TD class="bgtabon" width="100%" colSpan=2><IMG SRC="/wtlgifs/web_transparent.gif" ALT="Transparent Image" CLASS="headerImg" TITLE="Transparent Image"  NAME="web_transparent" HSPACE=0 VSPACE=0 BORDER=0 HEIGHT=3 WIDTH=10></TD></TR></TABLE>
+<A HREF="#top" onMouseover="window.status='Skip to top of page'; return true" onMouseout="window.status=''; return true" OnFocus="window.status='Skip to top of page'; return true" onBlur="window.status=''; return true" class="skiplinks">Skip to top of page</A>
+</DIV>
+<DIV class="footerbeforediv">
+
+</DIV>
+<DIV class="footerafterdiv">
+
+</DIV>
+<DIV class="globalafterdiv">
+
+</DIV>
+<DIV class="globalfooterdiv">
+
+</DIV>
+<DIV class="pagefooterdiv">
+<SPAN class="releasetext">Release: 8.5.1</SPAN>
+</DIV>
+<DIV class="poweredbydiv">
+</DIV>
+<DIV class="div1"></DIV>
+<DIV class="div2"></DIV>
+<DIV class="div3"></DIV>
+<DIV class="div4"></DIV>
+<DIV class="div5"></DIV>
+<DIV class="div6"></DIV>
+<div class="banner_copyright"> <br><h5>© 2016 Ellucian Company L.P. and its affiliates.<br></h5></div>
+</BODY>
+</HTML>

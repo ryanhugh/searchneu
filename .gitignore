@@ -6,3 +6,4 @@ request_cache
 sandbox.js
 public
 yarn.lock
+*.log

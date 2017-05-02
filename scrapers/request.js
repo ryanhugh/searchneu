@@ -24,6 +24,8 @@ import dns from 'dns-then';
 import mkdirp from 'mkdirp-promise';
 import objectHash from 'object-hash';
 import path from 'path';
+import htmlparser from 'htmlparser2';
+
 
 import utils from './utils';
 import macros from './macros';
@@ -43,11 +45,14 @@ import macros from './macros';
 // see the request function for details about input (same as request input + some more stuff) and output (same as request 'response' object + more stuff)
 
 
+// TODO: improve getBaseHost to use the list of top level domains
+
+
 // This object must be created once per process
 // Attributes are added to this object when it is used
 // This is the total number of requests per host
 // https://github.com/request/request
-const separateReqDefaultPool = { maxSockets: 10000, keepAlive: true, maxFreeSockets: 10000 };
+const separateReqDefaultPool = { maxSockets: 100, keepAlive: true, maxFreeSockets: 100 };
 
 // Specific limits for some sites. CCIS has active measures against one IP making too many requests
 // and will reject request if too many are made too quickly.
@@ -75,6 +80,34 @@ class Request {
 
     this.dnsPromises = {};
   }
+
+  // Gets the base hostname from a url. 
+  // fafjl.google.com -> google.com
+  // subdomain.bob.co -> bob.co
+  // bob.co -> bob.co
+  getBaseHost(url) {
+    var homepage = new URI(url).hostname();
+    if (!homepage || homepage == '') {
+      elog('ERROR: could not find homepage of', url);
+      return;
+    }
+
+    var match = homepage.match(/[^.]+\.[^.]+$/i);
+    if (!match) {
+      console.log('ERROR: homepage match failed...', homepage);
+      return;
+    }
+    return match[0];
+  }
+
+  // Transforms a HTML string into a htmlparser2 DOM
+  // Don't use for new code, only here for legacy coursepro code. 
+  handleRequestResponce(body, callback) {
+    var handler = new htmlparser.DomHandler(callback);
+    var parser = new htmlparser.Parser(handler);
+    parser.write(body);
+    parser.done();
+  };
 
   // By default, needle and nodejs does a DNS lookup for each request.
   // Avoid that by only doing a dns lookup once per domain

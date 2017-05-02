@@ -35,6 +35,7 @@
     "classnames": "^2.2.5",
     "cookie": "^0.3.1",
     "cross-env": "^4.0.0",
+    "d3-queue": "^3.0.5",
     "dns-then": "^0.1.0",
     "domutils": "1.5.1",
     "elasticlunr": "^0.9.5",
@@ -62,6 +63,7 @@
     "resolve-url-loader": "^2.0.2",
     "semantic-ui-css": "^2.2.4",
     "urijs": "^1.18.8",
+    "whois": "^2.3.9",
     "xmldom": "^0.1.27"
   },
   "devDependencies": {
