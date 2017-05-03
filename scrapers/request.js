@@ -365,7 +365,8 @@ class Request {
           await fs.writeFile(filePath, JSON.stringify(response.toJSON()));
         }
 
-        console.log('Parsed', response.body.length, 'from ', config.url);
+        // console.log('Parsed', response.body.length, 'from ', config.url);
+        console.log('Parsed', response.body.length);
         resolve(response);
       });
     });
