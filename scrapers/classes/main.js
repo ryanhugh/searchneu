@@ -1,7 +1,7 @@
 import elasticlunr from 'elasticlunr';
 import path from 'path';
-import mkdirp from 'mkdirp';
-import fs from 'fs';
+import mkdirp from 'mkdirp-promise';
+import fs from 'fs-promise';
 var queue = require('d3-queue').queue
 
 import pageDataMgr from './pageDataMgr';
@@ -13,6 +13,92 @@ import Keys from '../../common/Keys';
 const getSearchIndex = '/getSearchIndex'
 
 class Main {
+  
+  
+  async createDataDumps(termDump) {
+    
+    let termMapDump = {}
+    
+    
+    for (let aClass of termDump.classes) {
+      let hash = Keys.create(aClass).getHash()
+      
+			let termHash = Keys.create({
+				host: aClass.host,
+				termId: aClass.termId
+			}).getHash()
+
+      if (!termMapDump[termHash]) {
+        termMapDump[termHash] = {
+          classes: {},
+          sections: {},
+          subjects: {},
+          termId: aClass.termId,
+          host: aClass.host
+        }
+      } 
+
+      termMapDump[termHash].classes[hash] = aClass
+    }
+    
+    for (let subject of termDump.subjects) {
+      let hash = Keys.create(subject).getHash()
+      
+			let termHash = Keys.create({
+				host: subject.host,
+				termId: subject.termId
+			}).getHash()
+
+      if (!termMapDump[termHash]) {
+        console.log('Found subject with no class?')
+        termMapDump[termHash] = {
+          classes: {},
+          sections: {},
+          subjects: {},
+          termId: subject.termId,
+          host: subject.host
+        }
+      } 
+
+      termMapDump[termHash].subjects[hash] = subject
+    }
+    
+    for (let section of termDump.sections) {
+      let hash = Keys.create(section).getHash()
+       
+			let termHash = Keys.create({
+				host: section.host,
+				termId: section.termId
+			}).getHash()
+
+      if (!termMapDump[termHash]) {
+        console.log("Found section with no class?");
+        termMapDump[termHash] = {
+          classes: {},
+          sections: {},
+          subjects: {},
+          termId: section.termId,
+          host: section.host
+        }
+      } 
+
+      termMapDump[termHash].sections[hash] = section
+    }
+    
+    
+    for (let termHash in termMapDump) {
+      // Put them in a different file
+      if (!termHash.host || !termHash.termId) {
+        console.log(termHash)
+      }
+      const folderPath = path.join(macros.PUBLIC_DIR, 'getTermDump', termMapDump[termHash].host)
+      await mkdirp(folderPath)
+      const filePath = path.join(folderPath, termMapDump[termHash].termId);
+      console.log(filePath, folderPath)
+      await fs.writeFile(filePath, JSON.stringify(termMapDump[termHash]));
+    }
+    
+  }
   
   
   createSerchIndex(termDump) {
@@ -182,7 +268,8 @@ class Main {
     let termDump = await pageDataMgr.main(hostnames)
     console.log(termDump)
     console.log('HI', !!termDump)
-    this.createSerchIndex(termDump)
+    await this.createSerchIndex(termDump)
+    await this.createDataDumps(termDump)
     
     
     
