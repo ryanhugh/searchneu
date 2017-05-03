@@ -23,12 +23,8 @@ var fs = require('fs')
 var path = require('path')
 var _ = require('lodash')
 
-var macros = require('../macros')
+
 var BaseProcessor = require('./baseProcessor').BaseProcessor;
-// var classesDB = require('../databases/classesDB')
-// var sectionsDB = require('../databases/sectionsDB')
-// var subjectsDB = require('../databases/subjectsDB')
-// var Keys = require('../../../common/Keys')
 
 
 function SimplifyProfList() {
@@ -42,11 +38,6 @@ SimplifyProfList.prototype.constructor = SimplifyProfList;
 
 
 SimplifyProfList.prototype.go = function (termDump) {
-
-	// this.getSections(queries, function (err, sections) {
-	// 	if (err) {
-	// 		return callback(err)
-	// 	}
 
 	var updatedSections = []
 
@@ -137,63 +128,15 @@ SimplifyProfList.prototype.go = function (termDump) {
 
 		}.bind(this))
 	}.bind(this))
-
-
-		// var q = queue();
-
-		// updatedSections.forEach(function (section) {
-		// 	var obj = Keys.create(section).getObj();
-
-		// 	q.defer(function (callback) {
-		// 		sectionsDB.update(obj, section, {
-		// 			shouldBeOnlyOne: true
-		// 		}, function (err) {
-		// 			callback(err)
-		// 		}.bind(this))
-		// 	}.bind(this))
-
-		// }.bind(this))
-
-		// q.awaitAll(function (err) {
-		// 	if (err) {
-		// 		return callback(err)
-		// 	}
-		// 	callback(null, updatedSections)
-			
-		// }.bind(this))
-
-	// }.bind(this))
-
+	
+	return termDump;
 }
 
 
 
-
-
-
-SimplifyProfList.prototype.SimplifyProfList = SimplifyProfList;
 module.exports = new SimplifyProfList();
 
 
 if (require.main === module) {
-	module.exports.go([{
-		// host: 'neu.edu',
-		// termId: "201710",
-		// subject: 'PHYS',
-		// classUid: '1161_1407358072'
-	}], function (err, results) {
-		console.log("done,", err, results);
-
-		// console.log(results[0].meetings);
-
-	}.bind(this));
-
-
-	// module.exports.go({
-	// 	host: 'neu.edu',
-	// 	// termId: "201710"
-	// }, function (err, results) {
-	// 	console.log("done,", err, results);
-
-	// }.bind(this));
+	
 }

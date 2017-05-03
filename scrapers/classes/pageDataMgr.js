@@ -22,7 +22,7 @@ var fs = require('fs');
 var _ = require('lodash');
 var queue = require('d3-queue').queue
 var URI = require('urijs')
-var macros = require('./macros')
+
 
 
 var parsersClasses = [
@@ -100,7 +100,12 @@ PageDataMgr.prototype.runPostProcessors = function (termDump) {
 
 	for (let processor of processors){
 		termDump = processor.go(termDump);
-		console.log('Done processor', processor)
+		if (!termDump) {
+		  utils.error("Processor did not return anything!", processor);
+		}
+		else {
+  		console.log('Done processor', processor)
+		}
 	}
 	// console.log(termDump.classes)
 
@@ -164,8 +169,8 @@ PageDataMgr.prototype.go = function (pageDatas, callback) {
 		// Run the parsing
 		this.processPageData(pageData, function (err, pageData) {
 			if (err) {
-				elog("err", err);
-				return callback(err)
+				utils.error("err", err);
+				return reject(err)
 			}
 			let termDump = this.pageDataStructureToTermDump(pageData)
 			termDump = this.runPostProcessors(termDump);
@@ -195,7 +200,7 @@ PageDataMgr.prototype.processPageData = function (pageData, callback) {
 
 	//settting the parser should set the db
 	// if (!pageData.database) {
-	// 	elog('error dont have a url or a db', pageData);
+	// 	utils.error('error dont have a url or a db', pageData);
 	// 	return callback('no db');
 	// }
 
@@ -215,16 +220,16 @@ PageDataMgr.prototype.processPageAfterDbLoad = function (pageData, callback) {
 	//this will happen when parent loaded this from cache with just an _id
 	if (pageData.dbData.url && !pageData.parser) {
 		if (!pageData.findSupportingParser()) {
-			elog('error cant find parser after second try');
+			utils.error('error cant find parser after second try');
 			return callback("NOSUPPORT");
 		}
 	}
 
 	pageData.parser.parse(pageData, function (err) {
 		if (err) {
-			elog('Error, pagedata parse call failed', err)
+			utils.error('Error, pagedata parse call failed', err)
 			if (pageData.dbData.lastUpdateTime) {
-				elog('ERROR: url in cache but could not update', pageData.dbData.url, pageData.dbData)
+				utils.error('ERROR: url in cache but could not update', pageData.dbData.url, pageData.dbData)
 				return callback("NOUPDATE");
 			}
 			else {
@@ -240,7 +245,7 @@ PageDataMgr.prototype.processPageAfterDbLoad = function (pageData, callback) {
 PageDataMgr.prototype.finish = function (pageData, callback) {
 	pageData.processDeps(function (err) {
 		if (err) {
-			elog('ERROR processing deps', err)
+			utils.error('ERROR processing deps', err)
 			return callback(err)
 		}
 
@@ -248,7 +253,7 @@ PageDataMgr.prototype.finish = function (pageData, callback) {
 
 		// pageData.database.updateDatabaseFromPageData(pageData, function (err, newdbData) {
 		// 	if (err) {
-		// 		elog('error adding to db?', err);
+		// 		utils.error('error adding to db?', err);
 		// 		return callback(err);
 		// 	}
 		// 	pageData.dbData = newdbData;
@@ -297,7 +302,7 @@ PageDataMgr.prototype.pageDataStructureToTermDump = function(rootPageData) {
 // Called from the gulpfile with a list of college abbriviates to process
 // Get the urls from the file with the urls.
 // ['neu','gatech',...]
-PageDataMgr.prototype.processColleges = async function processColleges(colllegeAbbrs) {
+PageDataMgr.prototype.main = async function main(colllegeAbbrs) {
 	var PageData = require('./PageData')
 
 	if (colllegeAbbrs.length > 1) {
@@ -337,7 +342,7 @@ PageDataMgr.prototype.processColleges = async function processColleges(colllegeA
 	urlsToProcess.forEach(function (url) {
 		var pageData = PageData.createFromURL(url);
 		if (!PageData) {
-			elog()
+			utils.error()
 			console.error("ERRROR could not make page data from ", url, 'exiting')
 			process.exit()
 		}
@@ -355,10 +360,10 @@ PageDataMgr.prototype.processColleges = async function processColleges(colllegeA
 
 
 
-PageDataMgr.prototype.main = function () {
+PageDataMgr.prototype.manual = function () {
 	var PageData = require('./PageData')
 
-	this.processColleges(['presby'])
+	this.main(['presby'])
 
 	// console.log(process)
 
@@ -424,7 +429,7 @@ PageDataMgr.prototype.main = function () {
 	// })
 
 	// // if (!pageData) {
-	// // 	elog('ERROR unable to create page data with _id of ', classMongoId, '????')
+	// // 	utils.error('ERROR unable to create page data with _id of ', classMongoId, '????')
 	// // 	return callback('error')
 	// // }
 	// pageData.database = classesDB;
@@ -530,5 +535,5 @@ module.exports = instance
 
 
 if (require.main === module) {
-	instance.main();
+	instance.manual();
 }

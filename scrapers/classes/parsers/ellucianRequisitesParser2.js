@@ -23,6 +23,7 @@ var he = require('he');
 var URI = require('urijs');
 var _ = require('lodash');
 
+import utils from '../../utils';
 var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
 
 // This file parses the Prequisites and Corequisites section on the section and catalog page. This code is used from both EllucianCatalogParser.js and 
@@ -92,7 +93,7 @@ EllucianRequisitesParser.prototype.supportsPage = function (url) {
 };
 
 EllucianRequisitesParser.prototype.getDatabase = function (pageData) {
-	elog('Requistes parser get db was called?')
+	utils.error('Requistes parser get db was called?')
 	return null;
 };
 
@@ -191,12 +192,12 @@ EllucianRequisitesParser.prototype.getLogString = function (message) {
 
 
 EllucianRequisitesParser.prototype.logWarning = function (message) {
-	elogWithoutStack.apply(this, this.getLogString(message));
+	utils.log.apply(this, this.getLogString(message));
 };
 
 
 EllucianRequisitesParser.prototype.logError = function (message) {
-	elog.apply(this, this.getLogString(message));
+	utils.error.apply(this, this.getLogString(message));
 };
 
 
@@ -427,7 +428,7 @@ EllucianRequisitesParser.prototype.parse = function () {
 				this.currFrame.type = 'or'
 			}
 			else {
-				elog(this.currFrame)
+				utils.error(this.currFrame)
 			}
 		}
 
@@ -467,11 +468,11 @@ EllucianRequisitesParser.prototype.convertElementListToWideMode = function (elem
 				})
 			}
 			else {
-				elog('Skipping unknown element', element.name)
+				utils.error('Skipping unknown element', element.name)
 			}
 		}
 		else {
-			elog('Skipping unknown type:', element.type)
+			utils.error('Skipping unknown type:', element.type)
 		}
 	}.bind(this))
 
@@ -569,11 +570,11 @@ EllucianRequisitesParser.prototype.findRequisitesSection = function (classDetail
 
 EllucianRequisitesParser.prototype.init = function (pageData) {
 	if (this.pageData) {
-		elog('Already have a pageData in EllucianRequisitesParser.')
+		utils.error('Already have a pageData in EllucianRequisitesParser.')
 	}
 
 	if (this.buffer) {
-		elog('Already have a buffer in EllucianRequisitesParser')
+		utils.error('Already have a buffer in EllucianRequisitesParser')
 	}
 	this.pageData = pageData;
 	this.buffer = []

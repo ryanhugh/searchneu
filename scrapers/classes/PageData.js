@@ -17,12 +17,12 @@
  */
 
 'use strict';
-var async = require('async');
+var asyncjs = require('async');
 var URI = require('urijs');
 var _ = require('lodash');
 var queue = require('d3-queue').queue;
+import utils from '../utils';
 
-var macros = require('./macros')
 	// pageDataMgr needs to be here, but cannot be required due to circular dependencies...
 
 //this is called in 3 places
@@ -148,9 +148,7 @@ PageData.prototype.setParser = function (parser) {
 
 
 	this.parser = parser;
-	if (macros.VERBOSE) {
-		console.log('Using parser:', this.parser.constructor.name, 'for url', this.dbData.url, ' and name', parser.name);
-	}
+	utils.verbose('Using parser:', this.parser.constructor.name, 'for url', this.dbData.url, ' and name', parser.name);
 
 	this.database = null;
 
@@ -241,12 +239,12 @@ PageData.prototype.loadFromDB = function (callback) {
 
 
 			//log when the main pageData (the top of the tree) is done loading
-			if (!this.parent && macros.VERBOSE) {
+			if (!this.parent) {
 				if (this.parser) {
-					console.log('info pageData with no parent done loading!', this.parser.name);
+					utils.verbose('info pageData with no parent done loading!', this.parser.name);
 				}
 				else {
-					console.log('info pageData with no parent done loading!')
+					utils.verbose('info pageData with no parent done loading!')
 				}
 			};
 			return callback(null);
@@ -255,17 +253,6 @@ PageData.prototype.loadFromDB = function (callback) {
 	}.bind(this));
 };
 
-
-PageData.prototype.isUpdated = function () {
-
-	var fiveMinAgo = new Date().getTime() - macros.OLD_PAGEDATA;
-	if (this.dbData.lastUpdateTime !== undefined && this.dbData.lastUpdateTime > fiveMinAgo) {
-		return true;
-	}
-	else {
-		return false;
-	}
-};
 
 
 
@@ -278,7 +265,7 @@ PageData.prototype.processDeps = function (callback) {
 	this.dbData.deps = {};
 
 	//any dep data will be inserted into main PageData for dep
-	async.map(this.deps, function (depPageData, callback) {
+	asyncjs.map(this.deps, function (depPageData, callback) {
 		pageDataMgr.processPageData(depPageData, function (err, newDepData) {
 			if (err) {
 				elog('ERROR: processing deps:', err);

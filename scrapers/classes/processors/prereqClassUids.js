@@ -17,7 +17,7 @@
  */
 
 'use strict';
-var macros = require('../macros')
+// var macros = require('../macros')
 // var classesDB = require('../databases/classesDB')
 var ellucianRequisitesParser = require('../parsers/ellucianRequisitesParser')
 var BaseProcessor = require('./baseProcessor').BaseProcessor

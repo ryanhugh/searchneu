@@ -35,7 +35,7 @@
 
 'use strict';
 
-var macros = require('../macros')
+var macros = require('../../macros')
 var whois;
 
 if (macros.UNIT_TESTS) {
@@ -48,7 +48,7 @@ else {
 var he = require('he');
 var _ = require('lodash');
 var domutils = require('domutils');
-var async = require('async')
+var asyncjs = require('async')
 
 
 
@@ -195,6 +195,7 @@ CollegeNamesParser.prototype.hitPage = function (host, callback) {
 
 
 CollegeNamesParser.prototype.hitWhois = function (host, callback) {
+  return callback(null, 'test')
 
 
 	//each domain has a different format and would probably need a different regex
@@ -205,7 +206,7 @@ CollegeNamesParser.prototype.hitWhois = function (host, callback) {
 	}
 
 	// try calling apiMethod 3 times, waiting 200 ms between each retry
-	async.retry({
+	asyncjs.retry({
 			times: 30,
 			interval: 500 + parseInt(Math.random() * 1000)
 		},

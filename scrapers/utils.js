@@ -137,6 +137,8 @@ exports.saveDevData = async function saveDevData(path, data) {
   await fs.writeFile(path, JSON.stringify(data));
 };
 
+
+
 // Use this for stuff that should never happen
 // Will log stack trace
 // and cause CI to fail
@@ -175,7 +177,7 @@ exports.verbose = function verbose(...args) {
   console.log.apply(console.log, args);
 }
 
-exports.verbose('Starting in verbose mode');
+exports.verbose('Starting in verbose mode.');
 
 process.on('unhandledRejection', (err, p) => {
   console.log('An unhandledRejection occurred');

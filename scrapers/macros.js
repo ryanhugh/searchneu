@@ -23,5 +23,13 @@ exports.ALPHABET = 'maqwertyuiopsdfghjklzxcvbn';
 // whether the scrapers are running in prod mode or not.
 // When in dev mode, each file will save its outputs to a file
 // so can run the step after it without scraping each time
-exports.PROD = !!process.env.PROD;
-exports.DEV = !exports.PROD;
+if (process.env.NODE_ENV === 'test') {
+  exports.UNIT_TESTS = true;
+  exports.PROD = false;
+  exports.DEV = false;
+}
+else {
+  exports.PROD = !!process.env.PROD;
+  exports.DEV = !exports.PROD;
+}
+

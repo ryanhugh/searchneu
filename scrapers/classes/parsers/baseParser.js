@@ -21,7 +21,7 @@ var URI = require('urijs');
 var domutils = require('domutils');
 var fs = require('fs');
 
-var macros = require('../macros')
+
 import request from '../../request';
 
 

@@ -2,6 +2,7 @@ import matchEmployees from './matchEmployees';
 import courseproData from './courseproData';
 import clubs from './clubs';
 import macros from './macros';
+import pageDataMgr from './classes/pageDataMgr';
 
 // Main file for scraping
 // Run this to run all the scrapers
@@ -20,7 +21,7 @@ if (process.env.TRAVIS && macros.DEV) {
 
 
 async function main() {
-  const promises = [matchEmployees.main(), courseproData(), clubs.main()];
+  const promises = [matchEmployees.main(), pageDataMgr.main(), clubs.main()];
 
   await Promise.all(promises);
   console.log('done');

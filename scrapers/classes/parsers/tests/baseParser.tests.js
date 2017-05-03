@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
- var ellucianSectionParser = require('../ellucianSectionParser')
+var ellucianSectionParser = require('../ellucianSectionParser')
 var fs = require('fs')
 var baseParser = require('../baseParser')
 var pointer = require('../../pointer')
