@@ -176,12 +176,15 @@ class Main {
 				index.saveDocument(false)
 
 				index.setRef('key');
-				index.addField('desc');
+				// index.addField('desc');
 				index.addField('name');
 				index.addField('classId');
 				index.addField('subject');
 				index.addField('profs');
-				index.addField('locations');
+				
+				// Lets disable this until buildings are added to the index and the DB. 
+				// Dosen't make sense for classes in a building to come up when the building name is typed in the search box. 
+				// index.addField('locations');
 				index.addField('crns')
 
 				for (var attrName2 in termData.classHash) {
@@ -270,11 +273,6 @@ class Main {
     console.log('HI', !!termDump)
     await this.createSerchIndex(termDump)
     await this.createDataDumps(termDump)
-    
-    
-    
-    // Make the search index
-    
     
   }
   

@@ -340,7 +340,7 @@ class CombineCCISandEmployees {
     index.addField('name');
     index.addField('phone');
     index.addField('emails');
-    index.addField('officeRoom');
+    // index.addField('officeRoom');
     index.addField('primaryRole');
     index.addField('primaryDepartment');
     index.saveDocument(false);

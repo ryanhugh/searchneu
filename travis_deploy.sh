@@ -7,6 +7,9 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     exit 0
 fi
 
+cd scrapers
+babel-node main
+exit
 
 eval "$(ssh-agent -s)"
 mkdir ~/.ssh 2> /dev/null
