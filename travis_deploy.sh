@@ -8,6 +8,7 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
 fi
 
 cd scrapers
+npm -g install babel-cli
 babel-node main
 exit
 
