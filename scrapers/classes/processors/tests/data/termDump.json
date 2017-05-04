@@ -1,4 +1,12 @@
 {
+  "terms": [
+    {
+      "_id": "57265a89d4a30537f913dc2d",
+      "termId": "201602",
+      "text": "Spring 2016",
+      "host": "swarthmore.edu"
+    }
+  ],
   "classes": [
     {
       "_id": "57265896d4a30537f91392aa",

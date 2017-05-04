@@ -13,21 +13,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>. 
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
- var fs = require('fs')
-var termStartEndDate = require('../termStartEndDate')
+import testData from './testData';
+
+const termStartEndDate = require('../termStartEndDate');
 
 
-it('works', function () {
+fit('works', async (done) => {
+  const termDump = await testData.loadTermDump();
 
-	termStartEndDate.go([{
-		host: 'swarthmore.edu'
-	}], function (err, results) {
-
-		expect(results.length).toBe(1)
-		expect(results[0].startDate).toBe('16819')
-		expect(results[0].endDate).toBe('16935')
-	}.bind(this))
+  termStartEndDate.go(termDump);
+  expect(termDump.terms.length).toBe(1)
+  expect(termDump.terms[0].startDate).toBe('16819');
+  expect(termDump.terms[0].endDate).toBe('16935');
+  done();
 });

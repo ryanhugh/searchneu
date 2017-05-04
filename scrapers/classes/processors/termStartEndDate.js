@@ -17,9 +17,9 @@
  */
 
 
+import utils from '../../utils'
 const BaseProcessor = require('./baseProcessor').BaseProcessor;
 const _ = require('lodash');
-// const queue = require('d3-queue').queue;
 
 
 // This file adds startDate and endDate to each term based on the start and end dates in sections in that term
@@ -82,7 +82,7 @@ TermStartEndDate.prototype.runOnTerm = function runOnTerm(termDump, term) {
 
   // Pick the first day if nothing was decisive.
   if (!finalStartDate) {
-    console.log('Warning, no start date was definitive', term.termId, startDates);
+    utils.log('Warning, no start date was definitive', term.termId, startDates);
     finalStartDate = startDateKeys[0];
   }
 
@@ -104,14 +104,14 @@ TermStartEndDate.prototype.runOnTerm = function runOnTerm(termDump, term) {
   // Pick the last day if nothing was decisive.
   // (the endDateKeys are in reverse chronological order)
   if (!finalEndDate) {
-    console.log('Warning, no end date was definitive', term.termId, endDates);
+    utils.log('Warning, no end date was definitive', term.termId, endDates);
     finalEndDate = endDateKeys[0];
   }
 
 
   term.startDate = finalStartDate;
   term.endDate = finalEndDate;
-  console.log(JSON.stringify(term, null, 4));
+  utils.log(JSON.stringify(term, null, 4));
   return term;
 };
 
