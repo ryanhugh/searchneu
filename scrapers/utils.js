@@ -155,7 +155,7 @@ exports.error = function error(...args) {
     return;
   }
 
-  console.error.apply(console.error, args);
+  console.error.apply(console.error, ['Error:'].concat(args));
   console.trace();
 
   // So I get an email about it

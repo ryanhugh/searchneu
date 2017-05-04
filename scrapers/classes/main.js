@@ -70,7 +70,7 @@ class Main {
       }).getHash();
 
       if (!termMapDump[termHash]) {
-        console.log('Found section with no class?');
+        console.log('Found section with no class?', termHash, hash);
         termMapDump[termHash] = {
           classes: {},
           sections: {},
@@ -85,15 +85,15 @@ class Main {
 
 
     for (const termHash in termMapDump) {
-      // Put them in a different file
+
+      // Put them in a different file.
       if (!termHash.host || !termHash.termId) {
-        console.log(termHash);
+        utils.error('No host or Id?', termHash);
       }
+
       const folderPath = path.join(macros.PUBLIC_DIR, 'getTermDump', termMapDump[termHash].host);
       await mkdirp(folderPath);
-      const filePath = path.join(folderPath, termMapDump[termHash].termId);
-      console.log(filePath, folderPath);
-      await fs.writeFile(filePath, JSON.stringify(termMapDump[termHash]));
+      await fs.writeFile(path.join(folderPath, termMapDump[termHash].termId), JSON.stringify(termMapDump[termHash]));
     }
   }
 
