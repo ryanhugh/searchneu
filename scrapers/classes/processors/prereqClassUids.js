@@ -108,7 +108,7 @@ PrereqClassUids.prototype.go = function (termDump) {
 		useClassId: true
 	})
 
-
+	let updatedClasses = []
 
 	var updateQueue = queue()
 
@@ -133,8 +133,11 @@ PrereqClassUids.prototype.go = function (termDump) {
 			// this isnt going to be 100% reliable across colleges, idk how to make it better, but want to error on the side of showing too many coreqs
 
 		}
+		if (aClass.coreqs || aClass.prereqs) {
+			updatedClasses.push(aClass)
+		}
 	}
-	return termDump;
+	return updatedClasses;
 };
 
 

@@ -18,7 +18,8 @@
 
 var fs = require('fs')
 var prereqClassUids = require('../prereqClassUids')
-const termDump = require('./data/termDump');
+// const termDump = require('.');
+import testData from './testData'
 
 
 it('can substitute one line', function () {
@@ -180,23 +181,16 @@ var termDump = {
 });
 
 
-it('can swap coreqs', function (done) {
-
-	var baseQuery = {
-		"classUid": "017_1314190396",
-		"host": "swarthmore.edu",
-		"termId": "201602",
-		"subject": "EDUC"
-	}
-
-	prereqClassUids.go([baseQuery], function (err, updatedClasses) {
-		expect(updatedClasses.length).toBe(1)
-		console.log(updatedClasses[0].coreqs);
-		expect(updatedClasses[0].coreqs.values[0].classUid).toBe('016_1711862930')
-		done()
-	}.bind(this))
+it('can swap coreqs', async function (done) {
 
 
+	var termDump = await testData.loadTermDump()
+
+	const updatedClasses = prereqClassUids.go(termDump)
+	expect(updatedClasses.length).toBe(1)
+	expect(updatedClasses[0].coreqs.values[0].classUid).toBe('016_1711862930')
+	
+	done()
 });
 
 

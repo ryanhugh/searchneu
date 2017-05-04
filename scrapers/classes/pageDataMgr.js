@@ -91,12 +91,8 @@ PageDataMgr.prototype.getQuery = function getQuery(pageData) {
 PageDataMgr.prototype.runPostProcessors = function runPostProcessors(termDump) {
   // Run the processors, sequentially
   for (const processor of processors) {
-    termDump = processor.go(termDump);
-    if (!termDump) {
-      utils.error('Processor did not return anything!', processor);
-    } else {
-      console.log('Done processor', processor);
-    }
+    processor.go(termDump);
+    utils.log('Done processor', processor);
   }
 
 

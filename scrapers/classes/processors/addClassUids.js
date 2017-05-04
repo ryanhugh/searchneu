@@ -63,7 +63,7 @@ AddClassUids.prototype.getClassUid = function (classId, title) {
 // if an entire college needs to be updated, it could be just {host:'neu.edu'}
 // at minimum it will be a host
 // or if just one class {host, termId, subject, classId}
-AddClassUids.prototype.go = function (termDump) {
+AddClassUids.prototype.go = function go(termDump) {
 
 	let crnMap = {}
 
@@ -85,8 +85,6 @@ AddClassUids.prototype.go = function (termDump) {
 
 		section.classUid = this.getClassUid(crnMap[section.crn].classId, crnMap[section.crn].name);
 	}
-
-	return termDump
 };
 
 
