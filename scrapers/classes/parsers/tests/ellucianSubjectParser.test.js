@@ -16,26 +16,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
- var ellucianCatalogParser = require('../ellucianCatalogParser')
+
+import path from 'path';
+import request from '../../../request';
+
 var ellucianSubjectParser = require('../ellucianSubjectParser')
-var MockPageData = require('../../MockPageData')
 var fs = require('fs')
-var pointer = require('../../pointer')
 var PageData = require('../../PageData')
 var URI = require('urijs')
-
-
-
-// EllucianSubjectParser.prototype.tests = function () {
 
 
 it('should work', function (done) {
 
 
-	fs.readFile('backend/parsers/tests/data/ellucianSubjectParser/1.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianSubjectParser', '1.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			var url = 'https://bannerweb.upstate.edu/isis/bwckgens.p_proc_term_date';
