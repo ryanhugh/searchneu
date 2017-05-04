@@ -72,6 +72,7 @@ for (var parserName in parsersClasses) {
 }
 
 
+
 function PageDataMgr() {
 
 }
