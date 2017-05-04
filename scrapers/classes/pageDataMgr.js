@@ -13,64 +13,55 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>. 
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-var async = require('async');
-var fs = require('fs');
-var _ = require('lodash');
-var queue = require('d3-queue').queue
-var URI = require('urijs')
+import utils from '../utils';
+const _ = require('lodash');
+const URI = require('urijs');
 
 
+const parsersClasses = [
+  require('./parsers/collegeNamesParser'),
+  require('./parsers/ellucianCatalogParser'),
+  require('./parsers/ellucianClassListParser'),
+  require('./parsers/ellucianClassParser'),
+  require('./parsers/ellucianSectionParser'),
+  require('./parsers/ellucianSubjectParser'),
+  require('./parsers/ellucianTermsParser'),
+];
 
-var parsersClasses = [
-	require('./parsers/collegeNamesParser'),
-	require('./parsers/ellucianCatalogParser'),
-	require('./parsers/ellucianClassListParser'),
-	require('./parsers/ellucianClassParser'),
-	require('./parsers/ellucianSectionParser'),
-	require('./parsers/ellucianSubjectParser'),
-	require('./parsers/ellucianTermsParser')
-]
+const processors = [
+  require('./processors/addClassUids'),
+  require('./processors/prereqClassUids'),
+  require('./processors/termStartEndDate'),
 
-var processors = [
-	require('./processors/addClassUids'),
-	require('./processors/prereqClassUids'),
-	require('./processors/termStartEndDate'),
+  // // Add new processors here
+  require('./processors/simplifyProfList'),
+];
 
-	// // Add new processors here
-	require('./processors/simplifyProfList'),
-	// require('./processors/databaseDumps'),
-	// require('./processors/createSearchIndex')
-]
-
-var differentCollegeUrls = require('./differentCollegeUrls');
+const differentCollegeUrls = require('./differentCollegeUrls');
 
 
-
-var parserNames = [];
-var parsers = [];
+const parserNames = [];
+const parsers = [];
 //create a list of parser objects
-for (var parserName in parsersClasses) {
-	var parser = parsersClasses[parserName]
+for (const parserName in parsersClasses) {
+  const parser = parsersClasses[parserName];
 
-	if (!parser.name) {
-		console.log(parser)
-		throw 'parser does not have a name!'
-	};
+  if (!parser.name) {
+    console.log(parser);
+    utils.critical('Parser does not have a name!', parser);
+  }
 
-	if (parserNames.includes(parser.name)) {
+  if (parserNames.includes(parser.name)) {
+    console.log(parser.constructor.name, parser.name);
+    utils.critical(`Two parsers have the same name! ${parser.name}`);
+  }
 
-		console.log(parser.constructor.name, parser.name)
-		throw 'two parsers have the same name! ' + parser.name
-	}
-
-	parsers.push(parser)
-	parserNames.push(parser.name);
+  parsers.push(parser);
+  parserNames.push(parser.name);
 }
-
 
 
 function PageDataMgr() {
@@ -78,225 +69,178 @@ function PageDataMgr() {
 }
 
 
-PageDataMgr.prototype.getParsers = function () {
-	return parsers;
+PageDataMgr.prototype.getParsers = function getParsers() {
+  return parsers;
 };
 
 
-PageDataMgr.prototype.getQuery = function (pageData) {
-	var query = {
-		host: pageData.dbData.host
-	}
-	var toCopy = ['termId', 'subject', 'classId', 'crn'];
-	toCopy.forEach(function (term) {
-		if (pageData.dbData[term]) {
-			query[term] = pageData.dbData[term]
-		}
-	}.bind(this))
-	return query;
+PageDataMgr.prototype.getQuery = function getQuery(pageData) {
+  const query = {
+    host: pageData.dbData.host,
+  };
+  const toCopy = ['termId', 'subject', 'classId', 'crn'];
+  toCopy.forEach((term) => {
+    if (pageData.dbData[term]) {
+      query[term] = pageData.dbData[term];
+    }
+  });
+  return query;
 };
 
 
-PageDataMgr.prototype.runPostProcessors = function (termDump) {
-
-	for (let processor of processors){
-		termDump = processor.go(termDump);
-		if (!termDump) {
-		  utils.error("Processor did not return anything!", processor);
-		}
-		else {
-  		console.log('Done processor', processor)
-		}
-	}
-	// console.log(termDump.classes)
-
-	// for (let aClass of termDump.classes.slice(0,500)) {
-	// 	if (aClass.prereqs) {
-	// 		console.log(JSON.stringify(aClass.prereqs.values, null, 4))
-	// 	}
-	// }
+PageDataMgr.prototype.runPostProcessors = function runPostProcessors(termDump) {
+  // Run the processors, sequentially
+  for (const processor of processors) {
+    termDump = processor.go(termDump);
+    if (!termDump) {
+      utils.error('Processor did not return anything!', processor);
+    } else {
+      console.log('Done processor', processor);
+    }
+  }
 
 
-	return termDump;
-
-	// Run the processors
-	// async.eachSeries(processors, function (processor, callback) {
-	// 	if (macros.DEVELOPMENT) {
-	// 		console.log("Running", processor.constructor.name);
-	// 	}
-
-	// 	processor.go(queries, function (err) {
-	// 		if (err) {
-	// 			console.log("ERROR processor", processor, 'errored out', err);
-	// 			return callback(err)
-	// 		}
-	// 		return callback()
-	// 	}.bind(this))
-	// }.bind(this), function (err) {
-	// 	if (err) {
-	// 		console.log("ERROR some processor failed, aborting", err);
-	// 	}
-	// 	callback(err)
-	// }.bind(this))
+  return termDump;
 };
 
-// This is the main starting point for processing a page data. 
+// This is the main starting point for processing a page data.
 // this completes in three large steps:
 // 1. If updated the data in the DB (aka not the first time this data has been parsed) run the preUpdateParse hook
 // 1. parse the website (~20-120 min)
 // 2. run the processors (~1 min per processor)
-PageDataMgr.prototype.go = function (pageDatas, callback) {
+PageDataMgr.prototype.go = function go(pageDatas, callback) {
+  for (let i = 0; i < pageDatas.length; i++) {
+    const pageData = pageDatas[i];
 
-	for (var i = 0; i < pageDatas.length; i++) {
-		var pageData = pageDatas[i]
+    //unless this is the initial starting point the parser will be set when loading from db or from parent
+    if (!pageData.parser && pageData.dbData.url && pageData.findSupportingParser() === false) {
+      return callback('Need parser, or url to get parser and a supporting parser to parse this pagedata', pageData.dbData);
+    }
+  }
 
-		//unless this is the initial starting point the parser will be set when loading from db or from parent
-		if (!pageData.parser && pageData.dbData.url && pageData.findSupportingParser() === false) {
-			return callback("Need parser, or url to get parser and a supporting parser to parse this pagedata", pageData.dbData);
-		}
-	}
+  if (pageDatas.length > 1) {
+    // In order to make this work, just run processPageData on each pageData in the array, and then
+    // Combine the outputs into one termDump.
+    console.error('More than 1 pagedata at a time is not supported yet.');
+    return null;
+  }
 
-	if (pageDatas.length > 1) {
-
-		// In order to make this work, just run processPageData on each pageData in the array, and then
-		// Combine the outputs into one termDump.
-		console.error("More than 1 pagedata at a time is not supported yet. ")
-		return null;
-	}
+  const inputPageData = pageDatas[0];
 
 
-
-	return new Promise((resolve, reject) => {
-		// Run the parsing
-		this.processPageData(pageData, function (err, pageData) {
-			if (err) {
-				utils.error("err", err);
-				return reject(err)
-			}
-			let termDump = this.pageDataStructureToTermDump(pageData)
-			termDump = this.runPostProcessors(termDump);
-			console.log("DONE!!!!!!!!!!!!!!!!!!!!!!!!!")
-			resolve(termDump)
-		}.bind(this))
-	})
+  return new Promise((resolve, reject) => {
+    // Run the parsing
+    this.processPageData(inputPageData, (err, pageData) => {
+      if (err) {
+        utils.error(err);
+        reject(err);
+        return;
+      }
+      if (inputPageData !== pageData) {
+        utils.error('Input page data was different than output?', inputPageData, pageData);
+      }
+      let termDump = this.pageDataStructureToTermDump(pageData);
+      termDump = this.runPostProcessors(termDump);
+      console.log('DONE!!!!!!!!!!!!!!!!!!!!!!!!!');
+      resolve(termDump);
+    });
+  });
 };
 
 
 //main starting point for parsing urls
 //startingData.url or startingData._id is required
 //callback = function (err,pageData) {}
-PageDataMgr.prototype.processPageData = function (pageData, callback) {
-	if (!callback) {
-		callback = function () {};
-	}
+PageDataMgr.prototype.processPageData = function processPageData(pageData, callback) {
+  if (!callback) {
+    callback = function () {};
+  }
 
-	if (pageData.dbData.updatedByParent) {
-		return this.finish(pageData, callback);
-	}
+  if (pageData.dbData.updatedByParent) {
+    return this.finish(pageData, callback);
+  }
 
-	//unless this is the initial starting point the parser will be set when loading from db or from parent
-	if (!pageData.parser && pageData.dbData.url && pageData.findSupportingParser() === false) {
-		return callback("NOSUPPORT");
-	}
+  //unless this is the initial starting point the parser will be set when loading from db or from parent
+  if (!pageData.parser && pageData.dbData.url && pageData.findSupportingParser() === false) {
+    return callback('NOSUPPORT');
+  }
 
-	//settting the parser should set the db
-	// if (!pageData.database) {
-	// 	utils.error('error dont have a url or a db', pageData);
-	// 	return callback('no db');
-	// }
-
-	//main control flow for processing a url
-
-	//load, then continue
-	return this.processPageAfterDbLoad(pageData, callback);
+  //load, then continue
+  return this.processPageAfterDbLoad(pageData, callback);
 };
 
-PageDataMgr.prototype.processPageAfterDbLoad = function (pageData, callback) {
-	if (!pageData.dbData.url) {
-		console.log('started pageData without url and could not find it in db!', pageData);
-		return callback('cant find dep');
-	}
+PageDataMgr.prototype.processPageAfterDbLoad = function processPageAfterDbLoad(pageData, callback) {
+  if (!pageData.dbData.url) {
+    console.log('started pageData without url and could not find it in db!', pageData);
+    return callback('cant find dep');
+  }
 
-	//if haven't found the parser yet, try again
-	//this will happen when parent loaded this from cache with just an _id
-	if (pageData.dbData.url && !pageData.parser) {
-		if (!pageData.findSupportingParser()) {
-			utils.error('error cant find parser after second try');
-			return callback("NOSUPPORT");
-		}
-	}
+  //if haven't found the parser yet, try again
+  //this will happen when parent loaded this from cache with just an _id
+  if (pageData.dbData.url && !pageData.parser) {
+    if (!pageData.findSupportingParser()) {
+      utils.error('error cant find parser after second try');
+      return callback('NOSUPPORT');
+    }
+  }
 
-	pageData.parser.parse(pageData, function (err) {
-		if (err) {
-			utils.error('Error, pagedata parse call failed', err)
-			if (pageData.dbData.lastUpdateTime) {
-				utils.error('ERROR: url in cache but could not update', pageData.dbData.url, pageData.dbData)
-				return callback("NOUPDATE");
-			}
-			else {
-				return callback("ENOTFOUND");
-			}
-		}
-		this.finish(pageData, callback);
-	}.bind(this));
-}
+  pageData.parser.parse(pageData, (err) => {
+    if (err) {
+      utils.error('Error, pagedata parse call failed', err);
+      if (pageData.dbData.lastUpdateTime) {
+        utils.error('ERROR: url in cache but could not update', pageData.dbData.url, pageData.dbData);
+        return callback('NOUPDATE');
+      }
 
+      return callback('ENOTFOUND');
+    }
+    this.finish(pageData, callback);
+  });
+};
 
 
-PageDataMgr.prototype.finish = function (pageData, callback) {
-	pageData.processDeps(function (err) {
-		if (err) {
-			utils.error('ERROR processing deps', err)
-			return callback(err)
-		}
+PageDataMgr.prototype.finish = function finish(pageData, callback) {
+  pageData.processDeps((err) => {
+    if (err) {
+      utils.error('ERROR processing deps', err);
+      return callback(err);
+    }
 
-
-
-		// pageData.database.updateDatabaseFromPageData(pageData, function (err, newdbData) {
-		// 	if (err) {
-		// 		utils.error('error adding to db?', err);
-		// 		return callback(err);
-		// 	}
-		// 	pageData.dbData = newdbData;
-
-			callback(null, pageData);
-		// });
-
-	}.bind(this));
+    callback(null, pageData);
+  });
 };
 
 // Converts the PageData data structure to a term dump. Term dump has a .classes and a .sections, etc, and is used in the processors
-PageDataMgr.prototype.pageDataStructureToTermDump = function(rootPageData) {
-	let output = {}
+PageDataMgr.prototype.pageDataStructureToTermDump = function pageDataStructureToTermDump(rootPageData) {
+  const output = {};
 
-	let stack = [rootPageData]
-	let curr = null;
-	while (curr = stack.pop()) {
-		const dataType = curr.parser.getDataType();
-		if (dataType) {
-			if (!output[dataType]) {
-				output[dataType] = []
-			}
+  let stack = [rootPageData];
+  let curr = null;
+  while ((curr = stack.pop())) {
+    const dataType = curr.parser.getDataType();
+    if (dataType) {
+      if (!output[dataType]) {
+        output[dataType] = [];
+      }
 
-			const item = {}
+      const item = {};
 
-			Object.assign(item, curr.dbData)
+      Object.assign(item, curr.dbData);
 
-			item.deps = undefined
-			item.updatedByParent = undefined
+      item.deps = undefined;
+      item.updatedByParent = undefined;
 
-			output[dataType].push(item)
-		}
+      output[dataType].push(item);
+    }
 
 
-		if (curr.deps) {
-			stack = stack.concat(curr.deps)
-		}
-	}
+    if (curr.deps) {
+      stack = stack.concat(curr.deps);
+    }
+  }
 
-	// console.log(output)
-	return output
-
+  // console.log(output)
+  return output;
 };
 
 
@@ -304,237 +248,221 @@ PageDataMgr.prototype.pageDataStructureToTermDump = function(rootPageData) {
 // Get the urls from the file with the urls.
 // ['neu','gatech',...]
 PageDataMgr.prototype.main = async function main(colllegeAbbrs) {
-	var PageData = require('./PageData')
+  const PageData = require('./PageData');
 
-	if (colllegeAbbrs.length > 1) {
-		// Need to check the processors... idk
-		console.warning('Unsure if can do more than one abbr at at time. Exiting. ')
-		return null;
-	}
-
-	var toLog = colllegeAbbrs.join(' ')
-
-	var urlsToProcess = []
-
-	differentCollegeUrls.forEach(function (url) {
-
-		var urlParsed = new URI(url)
-
-		var primaryHost = urlParsed.hostname().slice(urlParsed.subdomain().length)
-
-		if (primaryHost.startsWith('.')) {
-			primaryHost = primaryHost.slice(1)
-		}
-
-		primaryHost = primaryHost.split('.')[0]
+  if (colllegeAbbrs.length > 1) {
+    // Need to check the processors... idk
+    console.warning('Unsure if can do more than one abbr at at time. Exiting. ');
+    return null;
+  }
 
 
-		if (colllegeAbbrs.includes(primaryHost)) {
-			_.pull(colllegeAbbrs, primaryHost)
+  const urlsToProcess = [];
 
-			urlsToProcess.push(url)
-		}
-	}.bind(this))
+  differentCollegeUrls.forEach((url) => {
+    const urlParsed = new URI(url);
 
-	console.log("Processing ", urlsToProcess);
+    let primaryHost = urlParsed.hostname().slice(urlParsed.subdomain().length);
 
-	var pageDatas = []
+    if (primaryHost.startsWith('.')) {
+      primaryHost = primaryHost.slice(1);
+    }
 
-	urlsToProcess.forEach(function (url) {
-		var pageData = PageData.createFromURL(url);
-		if (!PageData) {
-			utils.error()
-			console.error("ERRROR could not make page data from ", url, 'exiting')
-			process.exit()
-		}
-		pageDatas.push(pageData);
+    primaryHost = primaryHost.split('.')[0];
 
-	}.bind(this))
 
-	let termDump = await this.go(pageDatas)
+    if (colllegeAbbrs.includes(primaryHost)) {
+      _.pull(colllegeAbbrs, primaryHost);
 
-	console.log('Done!');
-	return termDump;
+      urlsToProcess.push(url);
+    }
+  });
 
+  console.log('Processing ', urlsToProcess);
+
+  const pageDatas = [];
+
+  urlsToProcess.forEach((url) => {
+    const pageData = PageData.createFromURL(url);
+    if (!PageData) {
+      utils.error();
+      console.error('ERRROR could not make page data from ', url, 'exiting');
+      process.exit();
+    }
+    pageDatas.push(pageData);
+  });
+
+  const termDump = await this.go(pageDatas);
+
+  console.log('Done!');
+  return termDump;
 };
 
 
+PageDataMgr.prototype.manual = function manual() {
+  const PageData = require('./PageData');
+
+  this.main(['presby']);
+
+  // console.log(process)
+
+  // dbUpdater.updateClassFromMongoId('5683fb2f36b66840e86bab4a',function (err) {
+  //  console.log("all done!",err)
+  // }.bind(this))
+  // return;
+
+  // this.runPostProcessors([{
+  //  host: 'neu.edu'
+  // }], function (err) {
+  //  console.log('DONE!', err);
+  // }.bind(this))
 
 
-PageDataMgr.prototype.manual = function () {
-	var PageData = require('./PageData')
+  // this.createFromURL('https://selfservice.mypurdue.purdue.edu/prod/bwckschd.p_disp_dyn_sched')
+  // this.createFromURL('https://ssb.ccsu.edu/pls/ssb_cPROD/bwckctlg.p_display_courses?term_in=201610&one_subj=MUS&sel_crse_strt=147A&sel_crse_end=147A&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
+  // this.createFromURL('https://ssb.ccsu.edu/pls/ssb_cPROD/bwckctlg.p_display_courses?term_in=201610&one_subj=VTE&sel_crse_strt=113&sel_crse_end=113&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
+  // this.createFromURL('https://ssb.ccsu.edu/pls/ssb_cPROD/bwckctlg.p_display_courses?term_in=201610&one_subj=TH&sel_crse_strt=488&sel_crse_end=488&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
+  // this.createFromURL('https://ssb.ccsu.edu/pls/ssb_cPROD/bwckctlg.p_display_courses?term_in=201610&one_subj=ENG&sel_crse_strt=522&sel_crse_end=522&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
+  // this.createFromURL('https://ssb.ccsu.edu/pls/ssb_cPROD/bwckctlg.p_display_courses?term_in=201610&one_subj=TH&sel_crse_strt=488&sel_crse_end=488&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
+  // this.createFromURL('https://sisssb.clemson.edu/sisbnprd/bwckctlg.p_display_courses?term_in=201508&one_subj=AL&sel_crse_strt=3510&sel_crse_end=3510&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
+  // this.createFromURL('https://nssb-p.adm.fit.edu/prod/bwckctlg.p_display_courses?term_in=201505&one_subj=AVF&sel_crse_strt=1001&sel_crse_end=1001&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr= ')
+  // this.createFromURL('https://www2.augustatech.edu/pls/ban8/bwckschd.p_disp_detail_sched?term_in=201614&crn_in=10057 ')
+  // this.createFromURL('http://google.com:443/bwckschd.p_disp_detail_sched')
+  // this.createFromURL('https://tturedss1.tntech.edu/pls/PROD/bwckschd.p_disp_detail_sched?term_in=201580&crn_in=81020')
+  // this.createFromURL('https://bannerweb.upstate.edu/isis/bwckschd.p_disp_detail_sched?term_in=201580&crn_in=83813')
+  // this.createFromURL('https://bannerweb.upstate.edu/isis/bwckschd.p_disp_detail_sched?term_in=201580&crn_in=83882')
+  // this.createFromURL('https://bappas2.gram.edu:9000/pls/gram/bwckctlg.p_disp_course_detail?cat_term_in=201610&subj_code_in=ACCT&crse_numb_in=405')
+  // this.createFromURL('https://genisys.regent.edu/pls/prod/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=10847')
+  // this.createFromURL('https://banweb.wm.edu/pls/PROD/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=10068')
+  // this.createFromURL('https://jweb.kettering.edu/cku1/bwckschd.p_disp_detail_sched?term_in=201504&crn_in=42746')
+  // this.createFromURL('https://bannerweb.upstate.edu/isis/bwckschd.p_disp_detail_sched?term_in=201580&crn_in=83848') // 1 and (2 or 3) prerequs
+  // this.createFromURL('https://bannerweb.upstate.edu/isis/bwckctlg.p_disp_listcrse?term_in=201610&subj_in=FAMP&crse_in=1650&schd_in=9') //2 profs
+  // this.createFromURL('https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_detail_sched?term_in=201508&crn_in=90660') //lots of prerequs and 1 coreq
+  // this.createFromURL('https://oscar.gatech.edu/pls/bprod/bwckctlg.p_display_courses?term_in=201508&one_subj=AE&sel_crse_strt=2610&sel_crse_end=2610&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=') //lots of prerequs and 1 coreq
+  // this.createFromURL('https://www2.augustatech.edu/pls/ban8/bwckctlg.p_display_courses?term_in=201614&one_subj=WELD&sel_crse_strt=2010&sel_crse_end=2010&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
+  // this.createFromURL('https://www2.augustatech.edu/pls/ban8/bwckctlg.p_display_courses?term_in=201614&one_subj=AIRC&sel_crse_strt=1030&sel_crse_end=1030&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
+  // this.createFromURL('https://www2.augustatech.edu/pls/ban8/bwckctlg.p_display_courses?term_in=201614&one_subj=AIRC&sel_crse_strt=1030&sel_crse_end=1030&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
+  // this.createFromURL('https://genisys.regent.edu/pls/prod/bwckctlg.p_display_courses?term_in=201540&one_subj=PSYC&sel_crse_strt=411&sel_crse_end=411&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=%20found%20in%20email')
+  // this.createFromURL('https://genisys.regent.edu/pls/prod/bwckctlg.p_display_courses?term_in=201610&one_subj=MATH&sel_crse_strt=102&sel_crse_end=102&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=  ')
+  // this.createFromURL('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=15633')
+  // this.createFromURL('https://prod-ssb-01.dccc.edu/PROD/bwckctlg.p_display_courses?term_in=201509&one_subj=ESS&sel_crse_strt=102&sel_crse_end=102&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
+  // this.createFromURL('https://prod-ssb-01.dccc.edu/PROD/bwckschd.p_disp_dyn_sched',function(){
+  // this.createFromURL('https://ssb.sju.edu/pls/PRODSSB/bwckschd.p_disp_dyn_sched',function(){
+  // this.createFromURL('https://bannerweb.upstate.edu/isis/bwckschd.p_disp_dyn_sched',function (){
+  // this.createFromURL('https://tturedss1.tntech.edu/pls/PROD/bwckschd.p_disp_dyn_sched',function (){
+  // this.createFromURL('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201530&subj_in=MATH&crse_in=1252&schd_in=%25',function () {
 
-	this.main(['presby'])
-
-	// console.log(process)
-
-	// dbUpdater.updateClassFromMongoId('5683fb2f36b66840e86bab4a',function (err) {
-	// 	console.log("all done!",err)
-	// }.bind(this))
-	// return;
-
-	// this.runPostProcessors([{
-	// 	host: 'neu.edu'
-	// }], function (err) {
-	// 	console.log('DONE!', err);
-	// }.bind(this))
-
-
-
-	// this.createFromURL('https://selfservice.mypurdue.purdue.edu/prod/bwckschd.p_disp_dyn_sched')
-	// this.createFromURL('https://ssb.ccsu.edu/pls/ssb_cPROD/bwckctlg.p_display_courses?term_in=201610&one_subj=MUS&sel_crse_strt=147A&sel_crse_end=147A&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
-	// this.createFromURL('https://ssb.ccsu.edu/pls/ssb_cPROD/bwckctlg.p_display_courses?term_in=201610&one_subj=VTE&sel_crse_strt=113&sel_crse_end=113&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
-	// this.createFromURL('https://ssb.ccsu.edu/pls/ssb_cPROD/bwckctlg.p_display_courses?term_in=201610&one_subj=TH&sel_crse_strt=488&sel_crse_end=488&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
-	// this.createFromURL('https://ssb.ccsu.edu/pls/ssb_cPROD/bwckctlg.p_display_courses?term_in=201610&one_subj=ENG&sel_crse_strt=522&sel_crse_end=522&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
-	// this.createFromURL('https://ssb.ccsu.edu/pls/ssb_cPROD/bwckctlg.p_display_courses?term_in=201610&one_subj=TH&sel_crse_strt=488&sel_crse_end=488&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
-	// this.createFromURL('https://sisssb.clemson.edu/sisbnprd/bwckctlg.p_display_courses?term_in=201508&one_subj=AL&sel_crse_strt=3510&sel_crse_end=3510&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
-	// this.createFromURL('https://nssb-p.adm.fit.edu/prod/bwckctlg.p_display_courses?term_in=201505&one_subj=AVF&sel_crse_strt=1001&sel_crse_end=1001&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr= ')
-	// this.createFromURL('https://www2.augustatech.edu/pls/ban8/bwckschd.p_disp_detail_sched?term_in=201614&crn_in=10057 ')
-	// this.createFromURL('http://google.com:443/bwckschd.p_disp_detail_sched')
-	// this.createFromURL('https://tturedss1.tntech.edu/pls/PROD/bwckschd.p_disp_detail_sched?term_in=201580&crn_in=81020')
-	// this.createFromURL('https://bannerweb.upstate.edu/isis/bwckschd.p_disp_detail_sched?term_in=201580&crn_in=83813')
-	// this.createFromURL('https://bannerweb.upstate.edu/isis/bwckschd.p_disp_detail_sched?term_in=201580&crn_in=83882')
-	// this.createFromURL('https://bappas2.gram.edu:9000/pls/gram/bwckctlg.p_disp_course_detail?cat_term_in=201610&subj_code_in=ACCT&crse_numb_in=405')
-	// this.createFromURL('https://genisys.regent.edu/pls/prod/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=10847')
-	// this.createFromURL('https://banweb.wm.edu/pls/PROD/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=10068')
-	// this.createFromURL('https://jweb.kettering.edu/cku1/bwckschd.p_disp_detail_sched?term_in=201504&crn_in=42746')
-	// this.createFromURL('https://bannerweb.upstate.edu/isis/bwckschd.p_disp_detail_sched?term_in=201580&crn_in=83848') // 1 and (2 or 3) prerequs
-	// this.createFromURL('https://bannerweb.upstate.edu/isis/bwckctlg.p_disp_listcrse?term_in=201610&subj_in=FAMP&crse_in=1650&schd_in=9') //2 profs
-	// this.createFromURL('https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_detail_sched?term_in=201508&crn_in=90660') //lots of prerequs and 1 coreq
-	// this.createFromURL('https://oscar.gatech.edu/pls/bprod/bwckctlg.p_display_courses?term_in=201508&one_subj=AE&sel_crse_strt=2610&sel_crse_end=2610&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=') //lots of prerequs and 1 coreq
-	// this.createFromURL('https://www2.augustatech.edu/pls/ban8/bwckctlg.p_display_courses?term_in=201614&one_subj=WELD&sel_crse_strt=2010&sel_crse_end=2010&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
-	// this.createFromURL('https://www2.augustatech.edu/pls/ban8/bwckctlg.p_display_courses?term_in=201614&one_subj=AIRC&sel_crse_strt=1030&sel_crse_end=1030&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
-	// this.createFromURL('https://www2.augustatech.edu/pls/ban8/bwckctlg.p_display_courses?term_in=201614&one_subj=AIRC&sel_crse_strt=1030&sel_crse_end=1030&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
-	// this.createFromURL('https://genisys.regent.edu/pls/prod/bwckctlg.p_display_courses?term_in=201540&one_subj=PSYC&sel_crse_strt=411&sel_crse_end=411&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=%20found%20in%20email')
-	// this.createFromURL('https://genisys.regent.edu/pls/prod/bwckctlg.p_display_courses?term_in=201610&one_subj=MATH&sel_crse_strt=102&sel_crse_end=102&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=  ')
-	// this.createFromURL('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=15633')
-	// this.createFromURL('https://prod-ssb-01.dccc.edu/PROD/bwckctlg.p_display_courses?term_in=201509&one_subj=ESS&sel_crse_strt=102&sel_crse_end=102&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
-	// this.createFromURL('https://prod-ssb-01.dccc.edu/PROD/bwckschd.p_disp_dyn_sched',function(){
-	// this.createFromURL('https://ssb.sju.edu/pls/PRODSSB/bwckschd.p_disp_dyn_sched',function(){
-	// this.createFromURL('https://bannerweb.upstate.edu/isis/bwckschd.p_disp_dyn_sched',function (){
-	// this.createFromURL('https://tturedss1.tntech.edu/pls/PROD/bwckschd.p_disp_dyn_sched',function (){
-	// this.createFromURL('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201530&subj_in=MATH&crse_in=1252&schd_in=%25',function () {
-
-	// this.createFromURL('https://ssb.sju.edu/pls/PRODSSB/bwckschd.p_disp_dyn_sched', function () {
-	// 	console.log('all done!! sju')
-	// }.bind(this))
+  // this.createFromURL('https://ssb.sju.edu/pls/PRODSSB/bwckschd.p_disp_dyn_sched', function () {
+  //  console.log('all done!! sju')
+  // }.bind(this))
 
 
+  // var pageData = PageData.create({
+  //  dbData: {
+  //    _id: '574e401731d808f038eaa79c'
+
+  //  }
+  // })
+
+  // // if (!pageData) {
+  // //   utils.error('ERROR unable to create page data with _id of ', classMongoId, '????')
+  // //   return callback('error')
+  // // }
+  // pageData.database = classesDB;
+
+  // this.go(pageData,function (err) {
+  //  console.log("DONEE",err);
+  // }.bind(this))
 
 
-	// var pageData = PageData.create({
-	// 	dbData: {
-	// 		_id: '574e401731d808f038eaa79c'
+  // this.go(PageData.createFromURL('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched'), function () {
+  //  console.log('all done!! neu')
 
-	// 	}
-	// })
-
-	// // if (!pageData) {
-	// // 	utils.error('ERROR unable to create page data with _id of ', classMongoId, '????')
-	// // 	return callback('error')
-	// // }
-	// pageData.database = classesDB;
-
-	// this.go(pageData,function (err) {
-	// 	console.log("DONEE",err);
-	// }.bind(this))
+  // }.bind(this));
 
 
+  // var pageData = PageData.createFromURL('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201710&subj_code_in=EECE&crse_numb_in=2160');
+  // var pageData = PageData.createFromURL('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?schd_in=%&term_in=201710&subj_in=EECE&crse_in=2160');
 
-	// this.go(PageData.createFromURL('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched'), function () {
-	// 	console.log('all done!! neu')
+  // pageData.dbData.termId = '201710';
+  // pageData.dbData.host = 'neu.edu'
+  // pageData.dbData.subject = 'EECE'
 
-	// }.bind(this));
-	
-
-	// var pageData = PageData.createFromURL('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201710&subj_code_in=EECE&crse_numb_in=2160');
-	// var pageData = PageData.createFromURL('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?schd_in=%&term_in=201710&subj_in=EECE&crse_in=2160');
-
-	// pageData.dbData.termId = '201710';
-	// pageData.dbData.host = 'neu.edu'
-	// pageData.dbData.subject = 'EECE'
-
-	// // pageData.database = linksDB;
-	// pageData.findSupportingParser()
+  // // pageData.database = linksDB;
+  // pageData.findSupportingParser()
 
 
-	// console.log(pageData);
+  // console.log(pageData);
 
-	// this.go([pageData], function () {
-	// 	console.log('all done!! neu')
+  // this.go([pageData], function () {
+  //  console.log('all done!! neu')
 
-	// }.bind(this));
-	// 
-	// 
-
-
-
-	// this.go([PageData.createFromURL('https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_dyn_sched')], function () {
-	// 	console.log('all done!! gatech')
-	// }.bind(this));
-
-	// 	console.log('all done!! neu')
-	// }.bind(this))
-
-	// this.createFromURL('https://ssb.banner.usu.edu/zprod/bwckschd.p_disp_dyn_sched', function () {
-	// this.createFromURL('https://banners.presby.edu/prod/bwckschd.p_disp_dyn_sched', function () {
-	// this.createFromURL('https://sail.oakland.edu/PROD/bwckschd.p_disp_dyn_sched', function () {
-
-	// this.createFromURL('https://tturedss1.tntech.edu/pls/PROD/bwckschd.p_disp_dyn_sched', function () {
-	// 	console.log('all done!! tntech')
-	// }.bind(this))
-
-	// this.createFromURL('https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_dyn_sched', function () {
-	// 	console.log('all done!! gatech')
-	// }.bind(this))
+  // }.bind(this));
+  //
+  //
 
 
-	// this.createFromURL('https://myswat.swarthmore.edu/pls/bwckschd.p_disp_dyn_sched', function() {
-	// 	console.log('all done!! swarthmore')
-	// }.bind(this))
+  // this.go([PageData.createFromURL('https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_dyn_sched')], function () {
+  //  console.log('all done!! gatech')
+  // }.bind(this));
+
+  //  console.log('all done!! neu')
+  // }.bind(this))
+
+  // this.createFromURL('https://ssb.banner.usu.edu/zprod/bwckschd.p_disp_dyn_sched', function () {
+  // this.createFromURL('https://banners.presby.edu/prod/bwckschd.p_disp_dyn_sched', function () {
+  // this.createFromURL('https://sail.oakland.edu/PROD/bwckschd.p_disp_dyn_sched', function () {
+
+  // this.createFromURL('https://tturedss1.tntech.edu/pls/PROD/bwckschd.p_disp_dyn_sched', function () {
+  //  console.log('all done!! tntech')
+  // }.bind(this))
+
+  // this.createFromURL('https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_dyn_sched', function () {
+  //  console.log('all done!! gatech')
+  // }.bind(this))
 
 
-
-	// this.createFromURL('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201640&subj_code_in=BIOE&crse_numb_in=5410',function () {
-	// var pageData = PageData.create({
-	// 	dbData: {
-	// 		url: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201640&subj_code_in=BIOE&crse_numb_in=5410',
-	// 		termId: '201640',
-	// 		subject: 'BIOE'
-	// 	}
-	// });
-	// pageDataMgr.go([pageData], function () {
-	// 	console.log('done!!')
-	// })
+  // this.createFromURL('https://myswat.swarthmore.edu/pls/bwckschd.p_disp_dyn_sched', function() {
+  //  console.log('all done!! swarthmore')
+  // }.bind(this))
 
 
+  // this.createFromURL('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201640&subj_code_in=BIOE&crse_numb_in=5410',function () {
+  // var pageData = PageData.create({
+  //  dbData: {
+  //    url: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201640&subj_code_in=BIOE&crse_numb_in=5410',
+  //    termId: '201640',
+  //    subject: 'BIOE'
+  //  }
+  // });
+  // pageDataMgr.go([pageData], function () {
+  //  console.log('done!!')
+  // })
 
-	// this.createFromURL('https://myswat.swarthmore.edu/pls/bwckctlg.p_display_courses?term_in=201502&one_subj=MATH&sel_crse_strt=&sel_crse_end=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=',function () {
-	// this.createFromURL('https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_listcrse?term_in=201502&subj_in=PHYS&crse_in=013&schd_in=%25') //sections have diff names
-	// this.createFromURL('https://genisys.regent.edu/pls/prod/bwckctlg.p_disp_listcrse?term_in=201540&subj_in=LAW&crse_in=575&schd_in=%25') //sections have diff names
-	// this.createFromURL('https://prd-wlssb.temple.edu/prod8/bwckctlg.p_display_courses?term_in=201503&one_subj=AIRF&sel_crse_strt=&sel_crse_end=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
-	// this.createFromURL('https://myswat.swarthmore.edu/pls/bwckctlg.p_display_courses?term_in=201502&one_subj=MATH&sel_crse_strt=&sel_crse_end=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
-	// this.createFromURL('https://myswat.swarthmore.edu/pls/bwckctlg.p_display_courses?term_in=201502&one_subj=MATH&sel_crse_strt=044&sel_crse_end=044&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
 
-	// this.createFromURL('https://myswat.swarthmore.edu/pls/bwckschd.p_disp_dyn_sched')
+  // this.createFromURL('https://myswat.swarthmore.edu/pls/bwckctlg.p_display_courses?term_in=201502&one_subj=MATH&sel_crse_strt=&sel_crse_end=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=',function () {
+  // this.createFromURL('https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_listcrse?term_in=201502&subj_in=PHYS&crse_in=013&schd_in=%25') //sections have diff names
+  // this.createFromURL('https://genisys.regent.edu/pls/prod/bwckctlg.p_disp_listcrse?term_in=201540&subj_in=LAW&crse_in=575&schd_in=%25') //sections have diff names
+  // this.createFromURL('https://prd-wlssb.temple.edu/prod8/bwckctlg.p_display_courses?term_in=201503&one_subj=AIRF&sel_crse_strt=&sel_crse_end=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
+  // this.createFromURL('https://myswat.swarthmore.edu/pls/bwckctlg.p_display_courses?term_in=201502&one_subj=MATH&sel_crse_strt=&sel_crse_end=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
+  // this.createFromURL('https://myswat.swarthmore.edu/pls/bwckctlg.p_display_courses?term_in=201502&one_subj=MATH&sel_crse_strt=044&sel_crse_end=044&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
 
-	// this.createFromURL('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched')
-	// this.createFromURL('https://myswat.swarthmore.edu/pls/bwckschd.p_disp_detail_sched?term_in=201502&crn_in=22075')
-	// return;
+  // this.createFromURL('https://myswat.swarthmore.edu/pls/bwckschd.p_disp_dyn_sched')
+
+  // this.createFromURL('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched')
+  // this.createFromURL('https://myswat.swarthmore.edu/pls/bwckschd.p_disp_detail_sched?term_in=201502&crn_in=22075')
+  // return;
 };
 
 
-
-var instance = new PageDataMgr();
-
+const instance = new PageDataMgr();
 
 
 PageDataMgr.prototype.PageDataMgr = PageDataMgr;
 global.pageDataMgr = instance;
-module.exports = instance
-
+module.exports = instance;
 
 
 if (require.main === module) {
-	instance.manual();
+  instance.manual();
 }

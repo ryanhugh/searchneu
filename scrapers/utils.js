@@ -138,8 +138,15 @@ exports.saveDevData = async function saveDevData(path, data) {
 };
 
 
+// This is for programming errors. This will cause the program to exit anywhere. 
+// This *should* never be called.
+exports.critical = function critical(...args) {
+  exports.error.apply(exports.error, args)
+  process.exit(1);
+}
 
-// Use this for stuff that should never happen
+// Use this for stuff that should never happen, but does not mean the program cannot continue.
+// This will continue running in dev, but will exit on CI
 // Will log stack trace
 // and cause CI to fail
 // so CI will send an email

@@ -39,6 +39,7 @@ module.exports = {
 
     // This config disallows if(true) but allows while(true)
     "no-constant-condition": ["error", { "checkLoops": false }],
+    "no-cond-assign": ["error", "except-parens"],
     "no-plusplus": [0, {
       "allowForLoopAfterthoughts": true
     }],
