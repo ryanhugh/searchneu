@@ -21,8 +21,6 @@ var URI = require('urijs')
 var fs = require('fs')
 
 var ellucianBaseParser = require('../ellucianBaseParser')
-var MockPageData = require('../../MockPageData')
-var pointer = require('../../pointer')
 
 
 it('getBaseURL', function () {
