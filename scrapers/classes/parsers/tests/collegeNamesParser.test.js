@@ -16,11 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
- var collegeNamesParser = require('../collegeNamesParser')
-var MockPageData = require('../../MockPageData')
-var fs = require('fs')
+var collegeNamesParser = require('../collegeNamesParser')
 var baseParser = require('../baseParser')
-var pointer = require('../../pointer')
 var async = require('async')
 
 it('standardizeNames', function () {
@@ -32,7 +29,7 @@ it('standardizeNames', function () {
 
 describe('the retry is called in mock whois', function () {
 
-	// would use jasmine.clock, but it dosen't work with async.retry
+	// Would use jasmine.clock, but it dosen't work with async.retry
 	var _setTimeout = setTimeout;
 	beforeEach(function () {
 		global.setTimeout = function (func, time) {

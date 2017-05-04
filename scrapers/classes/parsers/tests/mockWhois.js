@@ -97,7 +97,8 @@ var neuData = "database contains ONLY .EDU domains. \n" +
 
 
 MockWhois.prototype.lookup = function (host, callback) {
-	// the whois fails a lot, so here lets say it fails the first time
+	
+	// The whois lookup fails a lot, so lets test the retry logic by having it fail for the first time here.
 	if (!this.tryCount[host]) {
 		this.tryCount[host] = 1
 		return callback('lololol')
