@@ -16,21 +16,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
- var ellucianCatalogParser = require('../ellucianCatalogParser')
+import request from '../../../request'
+import path from 'path'
+
+var ellucianCatalogParser = require('../ellucianCatalogParser')
 var ellucianClassParser = require('../ellucianClassParser')
 var ellucianClassListParser = require('../ellucianClassListParser')
-var MockPageData = require('../../MockPageData')
 var PageData = require('../../PageData')
 var fs = require('fs')
-var pointer = require('../../pointer')
 var URI = require('urijs')
 
 it('should behave...', function(done) {
 	
-	fs.readFile('backend/parsers/tests/data/ellucianClassListParser/2.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianClassListParser', '2.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			var url = 'https://bannerweb.upstate.edu/isis/bwckctlg.p_display_courses?term_in=201580&one_subj=MDCN&sel_crse_strt=2064&sel_crse_end=2064&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=';
@@ -53,5 +54,5 @@ it('should behave...', function(done) {
 			expect(pageData.deps[0].dbData.url).toBe(catalogURL)
 			done()
 		});
-	}); 
-});
+	});
+}); 
