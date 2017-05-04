@@ -121,7 +121,7 @@ PageDataMgr.prototype.go = function go(pageDatas, callback) {
   if (pageDatas.length > 1) {
     // In order to make this work, just run processPageData on each pageData in the array, and then
     // Combine the outputs into one termDump.
-    console.error('More than 1 pagedata at a time is not supported yet.');
+    utils.critical('More than 1 pagedata at a time is not supported yet.');
     return null;
   }
 
@@ -239,14 +239,13 @@ PageDataMgr.prototype.pageDataStructureToTermDump = function pageDataStructureTo
     }
   }
 
-  // console.log(output)
   return output;
 };
 
 
 // Called from the gulpfile with a list of college abbriviates to process
 // Get the urls from the file with the urls.
-// ['neu','gatech',...]
+// ['neu', 'gatech', ...]
 PageDataMgr.prototype.main = async function main(colllegeAbbrs) {
   const PageData = require('./PageData');
 
