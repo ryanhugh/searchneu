@@ -16,7 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
-'use strict';
+
+import utils from '../../utils';
+
 var URI = require('urijs');
 var fs = require('fs');
 

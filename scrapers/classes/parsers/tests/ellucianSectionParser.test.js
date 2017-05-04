@@ -16,10 +16,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
- var ellucianSectionParser = require('../ellucianSectionParser')
-var MockPageData = require('../../MockPageData')
+import path from 'path';
+import request from '../../../request';
+
+var ellucianSectionParser = require('../ellucianSectionParser')
+var MockPageData = require('./MockPageData')
 var fs = require('fs')
-var pointer = require('../../pointer')
 var PageData = require('../../PageData')
 
 
@@ -27,23 +29,21 @@ it('parse prereqs and coreqs and seat data from 1.html', function (done) {
 
 	//the pre and co requs html here has been modified
 	//this contains the same pre requs as prereqs10
-	fs.readFile('backend/parsers/tests/data/ellucianSectionParser/1.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianSectionParser', '1.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			var url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=15633';
 
 			expect(ellucianSectionParser.supportsPage(url)).toBe(true);
 
-			var dummyParent = new MockPageData();
-
 			var pageData = PageData.create({
 				dbData: {
 					url: url
 				},
-				parent: dummyParent
+				parent: new MockPageData()
 			});
 
 			expect(pageData).not.toBe(null);
@@ -142,33 +142,28 @@ it('parse prereqs and coreqs and seat data from 1.html', function (done) {
 
 it('should not find honors when not honors', function (done) {
 
-	fs.readFile('backend/parsers/tests/data/ellucianSectionParser/honors.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianSectionParser', 'honors.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
 
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			var url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=15633';
 
 			expect(ellucianSectionParser.supportsPage(url)).toBe(true);
 
-			var dummyParent = new MockPageData();
-
 			var pageData = PageData.create({
 				dbData: {
 					url: url
 				},
-				parent: dummyParent
+				parent: new MockPageData()
 			});
 
 			expect(pageData).not.toBe(null);
-			console.log(dom);
 
 			ellucianSectionParser.parseDOM(pageData, dom);
-
-			console.log(pageData);
 
 			expect(pageData.parent.data.honors).toBe(true)
 			done()
