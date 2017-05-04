@@ -203,7 +203,6 @@ it('can simplify', async (done) => {
 
   const termDump = await testData.loadTermDump();
 
-
   prereqClassUids.go(termDump);
 
   // Find the class that we are checking
