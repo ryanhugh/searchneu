@@ -13,210 +13,215 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>. 
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-var fs = require('fs')
-var prereqClassUids = require('../prereqClassUids')
-// const termDump = require('.');
-import testData from './testData'
+import testData from './testData';
+const prereqClassUids = require('../prereqClassUids');
 
 
-it('can substitute one line', function () {
+it('can substitute one line', () => {
+  const keyToRows = {
+    'neu.edu201770MATH2500': [{
+      subject: 'MATH',
+      classUid: '2500_34343',
+    }],
+  };
 
-	var keyToRows = {
-		'neu.edu201770MATH2500': [{
-			subject: 'MATH',
-			classUid: '2500_34343'
-		}]
-	}
-
-	var prereqs = {
-		type: 'or',
-		values: [
-			'dd', {
-				classId: '2500',
-				subject: 'MATH'
-			}
-		]
-	}
-
-	var output = prereqClassUids.updatePrereqs(prereqs, 'neu.edu', '201770', keyToRows)
-
-	expect(output).toEqual({
-		type: 'or',
-		values: ['dd', {
-			subject: 'MATH',
-			classUid: '2500_34343'
-		}]
-	})
-});
-
-it('can insert a missing if cant find in db', function () {
-
-	var keyToRows = {}
-
-	var prereqs = {
-		type: 'or',
-		values: [{
-			classId: '2500',
-			subject: 'MATH'
-		}]
-	}
-
-	var output = prereqClassUids.updatePrereqs(prereqs, 'neu.edu', '201770', keyToRows)
-
-	expect(output).toEqual({
-		type: 'or',
-		values: [{
-			subject: 'MATH',
-			classId: '2500',
-			missing: true
-		}]
-	})
-});
-
-
-
-it('can replace a class with multiple matches with an "or"', function () {
-
-	var prereqs = {
-		type: 'or',
-		values: [
-			'dd', {
-				classId: '2500',
-				subject: 'MATH'
-			}
-		]
-	}
-
-	var keyToRows = {
-		'neu.edu201770MATH2500': [{
-			subject: 'MATH',
-			classUid: '2500_77777'
-		}, {
-			subject: 'MATH',
-			classUid: '2500_1222121'
-		}]
-	}
-
-	var output = prereqClassUids.updatePrereqs(prereqs, 'neu.edu', '201770', keyToRows)
-
-
-	expect(output).toEqual({
-		"type": "or",
-		"values": ["dd", {
-			"type": "or",
-			"values": [{
-				"subject": "MATH",
-				"classUid": "2500_77777"
-			}, {
-				"subject": "MATH",
-				"classUid": "2500_1222121"
-			}]
-		}]
-	})
-});
-
-
-it('go should work', function () {
-
-
-	// var baseQuery = {
-	// 	"classId": "061",
-	// 	"host": "swarthmore.edu",
-	// 	"termId": "201602",
-	// 	"subject": "STAT"
-	// }
-
-	var aClass = {
-    "_id": "5726589fd4a30537f9139321",
-    "desc": "",
-    "classId": "061",
-    "prettyUrl": "https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_course_detail?cat_term_in=201602&subj_code_in=STAT&crse_numb_in=061",
-    "name": "Mathematical Statistics I",
-    "url": "https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_listcrse?schd_in=%25&term_in=201602&subj_in=STAT&crse_in=061",
-    "prereqs": {
-        "type": "or",
-        "values": [{
-            "classId": "023",
-            "subject": "MATH"
-        }, {
-            "classId": "033",
-            "subject": "MATH"
-        }, {
-            "classId": "034",
-            "subject": "MATH"
-        }]
-    },
-    "host": "swarthmore.edu",
-    "termId": "201602",
-    "subject": "STAT",
-    "crns": [
-        "25846",
-        "25862"
+  const prereqs = {
+    type: 'or',
+    values: [
+      'dd', {
+        classId: '2500',
+        subject: 'MATH',
+      },
     ],
-    "lastUpdateTime": 1462130844694,
-    "deps": {
-        "EllucianSectionParser": [
-            "5726589dd4a30537f9139302",
-            "5726589ed4a30537f913931e"
-        ]
+  };
+
+  const output = prereqClassUids.updatePrereqs(prereqs, 'neu.edu', '201770', keyToRows);
+
+  expect(output).toEqual({
+    type: 'or',
+    values: ['dd', {
+      subject: 'MATH',
+      classUid: '2500_34343',
+    }],
+  });
+});
+
+it('can insert a missing if cant find in db', () => {
+  const keyToRows = {};
+
+  const prereqs = {
+    type: 'or',
+    values: [{
+      classId: '2500',
+      subject: 'MATH',
+    }],
+  };
+
+  const output = prereqClassUids.updatePrereqs(prereqs, 'neu.edu', '201770', keyToRows);
+
+  expect(output).toEqual({
+    type: 'or',
+    values: [{
+      subject: 'MATH',
+      classId: '2500',
+      missing: true,
+    }],
+  });
+});
+
+
+it('can replace a class with multiple matches with an "or"', () => {
+  const prereqs = {
+    type: 'or',
+    values: [
+      'dd', {
+        classId: '2500',
+        subject: 'MATH',
+      },
+    ],
+  };
+
+  const keyToRows = {
+    'neu.edu201770MATH2500': [{
+      subject: 'MATH',
+      classUid: '2500_77777',
+    }, {
+      subject: 'MATH',
+      classUid: '2500_1222121',
+    }],
+  };
+
+  const output = prereqClassUids.updatePrereqs(prereqs, 'neu.edu', '201770', keyToRows);
+
+
+  expect(output).toEqual({
+    type: 'or',
+    values: ['dd', {
+      type: 'or',
+      values: [{
+        subject: 'MATH',
+        classUid: '2500_77777',
+      }, {
+        subject: 'MATH',
+        classUid: '2500_1222121',
+      }],
+    }],
+  });
+});
+
+
+it('go should work', async (done) => {
+ 
+  const termDump = await testData.loadTermDump();
+
+  prereqClassUids.go(termDump);
+
+  // Find the class that we are checking
+  let matchCount = 0;
+  for (const aClass of termDump.classes) {
+    if (aClass._id === '5726589fd4a30537f9139321') {
+      matchCount++;
+
+      expect(aClass.prereqs.values[0].classUid).toBe('023_1049977931');
+      expect(aClass.prereqs.values[0].classId).toBe(undefined);
+      expect(aClass.prereqs.values.length).toBe(3);
+    }
+  }
+
+  expect(matchCount).toBe(1);
+  done();
+});
+
+
+it('can swap coreqs', async (done) => {
+  const termDump = {
+    classes: [{
+      _id: '572658f9d4a30537f9139666',
+      desc: '',
+      classId: '017',
+      prettyUrl: 'https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_course_detail?cat_term_in=201602&subj_code_in=EDUC&crse_numb_in=017',
+      name: 'Curriculum & Methods Seminar',
+      url: 'https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_listcrse?schd_in=%25&term_in=201602&subj_in=EDUC&crse_in=017',
+      coreqs: {
+        type: 'and',
+        values: [
+          {
+            classId: '016',
+            subject: 'EDUC',
+          },
+        ],
+      },
+      host: 'swarthmore.edu',
+      termId: '201602',
+      subject: 'EDUC',
+      crns: [],
+      lastUpdateTime: 1462130937867,
+      deps: {},
+      updatedByParent: false,
+      classUid: '017_1314190396',
     },
-    "minCredits": 1,
-    "maxCredits": 1,
-    "updatedByParent": false,
-    "classUid": "061_1925216900"
-}
-var termDump = {
-	classes: [aClass]
-}
+    {
+      _id: '57265926d4a30537f9139820',
+      desc: '',
+      classId: '016',
+      prettyUrl: 'https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_course_detail?cat_term_in=201602&subj_code_in=EDUC&crse_numb_in=016',
+      name: 'Practice Teaching',
+      url: 'https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_listcrse?schd_in=%25&term_in=201602&subj_in=EDUC&crse_in=016',
+      coreqs: {
+        type: 'and',
+        values: [
+          {
+            classId: '017',
+            subject: 'EDUC',
+          },
+        ],
+      },
+      host: 'swarthmore.edu',
+      termId: '201602',
+      subject: 'EDUC',
+      crns: [],
+      lastUpdateTime: 1462130982330,
+      deps: {},
+      updatedByParent: false,
+      classUid: '016_1711862930',
+    }],
+    sections: [],
+  };
 
 
-	var updatedClasses = prereqClassUids.go(termDump)
-	expect(updatedClasses.length).toBe(1)
-	expect(updatedClasses[0].prereqs.values[0].classUid).toBe('023_1049977931')
-	expect(updatedClasses[0].prereqs.values[0].classId).toBe(undefined)
-	expect(updatedClasses[0].prereqs.values.length).toBe(3)
+  prereqClassUids.go(termDump);
+  expect(termDump.classes[0].coreqs.values[0].classUid).toBe('016_1711862930');
+
+  done();
 });
 
 
-it('can swap coreqs', async function (done) {
+it('can simplify', async (done) => {
+
+  const termDump = await testData.loadTermDump();
 
 
-	var termDump = await testData.loadTermDump()
+  prereqClassUids.go(termDump);
 
-	const updatedClasses = prereqClassUids.go(termDump)
-	expect(updatedClasses.length).toBe(1)
-	expect(updatedClasses[0].coreqs.values[0].classUid).toBe('016_1711862930')
-	
-	done()
-});
-
+  // Find the class that we are checking
+  let matchCount = 0;
+  for (const aClass of termDump.classes) {
+    if (aClass._id === '572658a0d4a30537f9139347') {
+      matchCount++;
 
 
+      aClass.prereqs.values.forEach((prereq) => {
+        expect(prereq.subject).not.toBe(undefined);
 
-it('can simplify', function (done) {
+        expect(prereq.values).toBe(undefined);
+        expect(prereq.type).toBe(undefined);
+      });
+    }
+  }
 
-
-	var baseQuery = {
-		"classId": "031",
-		"host": "swarthmore.edu",
-		"termId": "201602",
-		"subject": "STAT"
-	}
-
-	prereqClassUids.go([baseQuery], function (err, updatedClasses) {
-		expect(updatedClasses.length).toBe(1)
-
-		updatedClasses[0].prereqs.values.forEach(function (prereq) {
-			expect(prereq.subject).not.toBe(undefined);
-
-			expect(prereq.values).toBe(undefined)
-			expect(prereq.type).toBe(undefined)
-
-		}.bind(this))
-
-		done()
-	}.bind(this))
+  expect(matchCount).toBe(1);
+  done();
 });
