@@ -15,13 +15,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
+import path from 'path';
+import request from '../../../request';
 
- var ellucianCatalogParser = require('../ellucianCatalogParser')
+var ellucianCatalogParser = require('../ellucianCatalogParser')
 var ellucianClassParser = require('../ellucianClassParser')
 var PageData = require('../../PageData')
-var MockPageData = require('../../MockPageData')
 var fs = require('fs')
-var pointer = require('../../pointer')
 var URI = require('urijs')
 
 
@@ -30,10 +30,10 @@ var URI = require('urijs')
 it('parse DESCRIPTION', function (done) {
 
 
-	fs.readFile('backend/parsers/tests/data/ellucianCatalogParser/5.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianCatalogParser', '5.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			var url = 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201610&subj_code_in=MATH&crse_numb_in=2331';
@@ -65,9 +65,9 @@ it('parse DESCRIPTION', function (done) {
 
 it('can add to existing dep', function(done) {
 	
-	fs.readFile('backend/parsers/tests/data/ellucianCatalogParser/1.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianCatalogParser', '1.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 
@@ -117,10 +117,10 @@ it('can add to existing dep', function(done) {
 it('can parse desc', function(done) {
 	
 
-	fs.readFile('backend/parsers/tests/data/ellucianCatalogParser/2.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianCatalogParser', '2.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			var url = 'https://bannerweb.upstate.edu/isis/bwckctlg.p_disp_course_detail?cat_term_in=201580&subj_code_in=MDCN&crse_numb_in=2064';
@@ -154,10 +154,10 @@ it('can parse desc', function(done) {
 it('should behave...', function(done) {
 	
 
-	fs.readFile('backend/parsers/tests/data/ellucianCatalogParser/3.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianCatalogParser', '3.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			var url = 'https://genisys.regent.edu/pls/prod/bwckctlg.p_disp_course_detail?cat_term_in=201610&subj_code_in=COM&crse_numb_in=507';
