@@ -16,20 +16,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
- var ellucianClassParser = require('../ellucianClassParser')
+import path from 'path';
+import request from '../../../request';
+
+var ellucianClassParser = require('../ellucianClassParser')
 var ellucianSectionParser = require('../ellucianSectionParser')
 var fs = require('fs')
-var pointer = require('../../pointer')
 var PageData = require('../../PageData')
 var URI = require('urijs')
 
 
 
 it('can find an existing dep and parse crns', function (done) {
-	fs.readFile('backend/parsers/tests/data/ellucianClassParser/1.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', '1.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			//set up variables
@@ -83,9 +85,9 @@ it('can find an existing dep and parse crns', function (done) {
 it('should parse a bunch of deps', function (done) {
 
 	//sections have different names
-	fs.readFile('backend/parsers/tests/data/ellucianClassParser/multiname.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', 'multiname.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 
@@ -159,9 +161,9 @@ it('should parse a bunch of deps', function (done) {
 
 it('should parse a bunch of crns', function (done) {
 
-	fs.readFile('backend/parsers/tests/data/ellucianClassParser/3.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', '3.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			//set up variables
@@ -203,10 +205,10 @@ it('should parse a bunch of meetings', function (done) {
 
 
 	//lots of different meetings
-	fs.readFile('backend/parsers/tests/data/ellucianClassParser/4.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', '4.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			//set up variables
@@ -349,9 +351,9 @@ it('can parse CANCELLED', function (done) {
 
 
 	//cancelled - something was weird with ellucianClassParser one not sure what it was
-	fs.readFile('backend/parsers/tests/data/ellucianClassParser/6.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', '6.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			//set up variables
@@ -393,9 +395,9 @@ it('can parse CANCELLED', function (done) {
 //make sure ellucianClassParser.classNameTranslation works
 it('name translatin works', function (done) {
 
-	fs.readFile('backend/parsers/tests/data/ellucianClassParser/rename.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', 'rename.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			//set up variables
