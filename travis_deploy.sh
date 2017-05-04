@@ -7,10 +7,10 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     exit 0
 fi
 
-cd scrapers
-npm -g install babel-cli
-babel-node main
-exit
+# cd scrapers
+# npm -g install babel-cli
+# babel-node main
+# exit
 
 eval "$(ssh-agent -s)"
 mkdir ~/.ssh 2> /dev/null

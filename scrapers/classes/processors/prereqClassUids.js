@@ -115,7 +115,6 @@ PrereqClassUids.prototype.go = function (termDump) {
 	// loop through classes to update, and get the new data from all the classes
 	for (let aClass of termDump.classes) {
 
-		var toUpdate = {};
 		if (aClass.prereqs) {
 			let prereqs = this.updatePrereqs(aClass.prereqs, aClass.host, aClass.termId, keyToRows);
 

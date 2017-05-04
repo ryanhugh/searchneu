@@ -16,8 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
- var fs = require('fs')
+var fs = require('fs')
 var prereqClassUids = require('../prereqClassUids')
+const termDump = require('./data/termDump');
 
 
 it('can substitute one line', function () {
@@ -117,23 +118,65 @@ it('can replace a class with multiple matches with an "or"', function () {
 });
 
 
-it('go should work', function (done) {
+it('go should work', function () {
 
 
-	var baseQuery = {
-		"classId": "061",
-		"host": "swarthmore.edu",
-		"termId": "201602",
-		"subject": "STAT"
-	}
+	// var baseQuery = {
+	// 	"classId": "061",
+	// 	"host": "swarthmore.edu",
+	// 	"termId": "201602",
+	// 	"subject": "STAT"
+	// }
 
-	prereqClassUids.go([baseQuery], function (err, updatedClasses) {
-		expect(updatedClasses.length).toBe(1)
-		expect(updatedClasses[0].prereqs.values[0].classUid).toBe('023_1049977931')
-		expect(updatedClasses[0].prereqs.values[0].classId).toBe(undefined)
-		expect(updatedClasses[0].prereqs.values.length).toBe(3)
-		done()
-	}.bind(this))
+	var aClass = {
+    "_id": "5726589fd4a30537f9139321",
+    "desc": "",
+    "classId": "061",
+    "prettyUrl": "https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_course_detail?cat_term_in=201602&subj_code_in=STAT&crse_numb_in=061",
+    "name": "Mathematical Statistics I",
+    "url": "https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_listcrse?schd_in=%25&term_in=201602&subj_in=STAT&crse_in=061",
+    "prereqs": {
+        "type": "or",
+        "values": [{
+            "classId": "023",
+            "subject": "MATH"
+        }, {
+            "classId": "033",
+            "subject": "MATH"
+        }, {
+            "classId": "034",
+            "subject": "MATH"
+        }]
+    },
+    "host": "swarthmore.edu",
+    "termId": "201602",
+    "subject": "STAT",
+    "crns": [
+        "25846",
+        "25862"
+    ],
+    "lastUpdateTime": 1462130844694,
+    "deps": {
+        "EllucianSectionParser": [
+            "5726589dd4a30537f9139302",
+            "5726589ed4a30537f913931e"
+        ]
+    },
+    "minCredits": 1,
+    "maxCredits": 1,
+    "updatedByParent": false,
+    "classUid": "061_1925216900"
+}
+var termDump = {
+	classes: [aClass]
+}
+
+
+	var updatedClasses = prereqClassUids.go(termDump)
+	expect(updatedClasses.length).toBe(1)
+	expect(updatedClasses[0].prereqs.values[0].classUid).toBe('023_1049977931')
+	expect(updatedClasses[0].prereqs.values[0].classId).toBe(undefined)
+	expect(updatedClasses[0].prereqs.values.length).toBe(3)
 });
 
 
