@@ -15,13 +15,13 @@ exports.parseNameWithSpaces = function parseNameWithSpaces(name) {
 
 
   if (spaceCount === 0) {
-    console.log('0 spaces found in name', name)
+    exports.log('0 spaces found in name', name)
   }
 
   // Handles firstName, lastName and firstName, middleName, lastName
   else {
     if (spaceCount > 2) {
-      console.log(name, 'has more than 1 space in their name. Using first and last word.');
+      exports.log(name, 'has more than 1 space in their name. Using first and last word.');
     }
 
     let obj = {}
@@ -186,8 +186,11 @@ exports.verbose = function verbose(...args) {
 
 exports.verbose('Starting in verbose mode.');
 
-process.on('unhandledRejection', (err, p) => {
-  console.log('An unhandledRejection occurred');
-  console.log(`Rejected Promise: ${p}`);
-  console.log(`Rejection: ${err.stack}`);
-});
+if (!global.addedRejectionHandler) {
+  global.addedRejectionHandler = true;
+  process.on('unhandledRejection', (err, p) => {
+    console.log('An unhandledRejection occurred');
+    console.log(`Rejected Promise: ${p}`);
+    console.log(`Rejection: ${err.stack}`);
+  });
+}

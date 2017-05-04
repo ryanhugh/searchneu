@@ -16,10 +16,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
+import request from '../../../request';
 var ellucianSectionParser = require('../ellucianSectionParser')
-var fs = require('fs')
+var fs = require('fs-promise')
+var path = require('path')
 var baseParser = require('../baseParser')
-var pointer = require('../../pointer')
 
 
 it('toTitleCase works', function () {
@@ -111,52 +112,48 @@ it('standardizeClassName', function () {
 });
 
 
-it('parseTable', function (done) {
+it('parseTable', async function (done) {
 
 
-	fs.readFile('backend/parsers/tests/data/baseParser/1.html', 'utf8', function (err, body) {
-		// console.log(process.cwd())
+	const body = await fs.readFile(path.join(__dirname, 'data', 'baseParser', '1.html'), 'utf8');
+
+	request.handleRequestResponce(body, function (err, dom) {
 		expect(err).toBe(null);
 
-		pointer.handleRequestResponce(body, function (err, dom) {
-			expect(err).toBe(null);
-
-			expect(baseParser.parseTable(dom[0])).toEqual({
-				_rowCount: 1,
-				type: ['Class'],
-				time: ['11:00 am - 11:50 am'],
-				days: ['MWF'],
-				where: ['Anderson Hall 00806'],
-				partofterm: ['1'],
-				daterange: ['Jan 12, 2015 - May 06, 2015'],
-				scheduletype: ['Base Lecture'],
-				instructors: ['Rujuta P.  Chincholkar-Mandelia (P)']
-			});
-
-			done()
+		expect(baseParser.parseTable(dom[0])).toEqual({
+			_rowCount: 1,
+			type: ['Class'],
+			time: ['11:00 am - 11:50 am'],
+			days: ['MWF'],
+			where: ['Anderson Hall 00806'],
+			partofterm: ['1'],
+			daterange: ['Jan 12, 2015 - May 06, 2015'],
+			scheduletype: ['Base Lecture'],
+			instructors: ['Rujuta P.  Chincholkar-Mandelia (P)']
 		});
+
+		done()
 	});
 });
 
 
-it('parseTable should work 2', function (done) {
+it('parseTable should work 2', async function (done) {
 
 
-	fs.readFile('backend/parsers/tests/data/baseParser/3.html', 'utf8', function (err, body) {
+	const body = await fs.readFile(path.join(__dirname, 'data', 'baseParser', '3.html'), 'utf8');
+
+	var fileJSON = JSON.parse(body);
+
+	request.handleRequestResponce(fileJSON.body, function (err, dom) {
 		expect(err).toBe(null);
-		var fileJSON = JSON.parse(body);
 
-		pointer.handleRequestResponce(fileJSON.body, function (err, dom) {
-			expect(err).toBe(null);
-
-			expect(baseParser.parseTable(dom[0])).toEqual({
-				_rowCount: 2,
-				headercontent1: ['Footer content 1', 'Body content 1'],
-				headercontent2: ['Footer content 2', 'Body content 2']
-			});
-			
-			done()
+		expect(baseParser.parseTable(dom[0])).toEqual({
+			_rowCount: 2,
+			headercontent1: ['Footer content 1', 'Body content 1'],
+			headercontent2: ['Footer content 2', 'Body content 2']
 		});
+		
+		done()
 	});
 
 });
