@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
-'use strict';
+
 var domutils = require('domutils');
 var fs = require('fs');
 var he = require('he');
@@ -535,19 +535,19 @@ EllucianRequisitesParser.prototype.findRequisitesSection = function (classDetail
 
 				var elementText = domutils.getText(classDetails[i]);
 				if (elementText.trim() === '') {
-					console.log('warning, not matching ', sectionName, ' with no text in the link', pageData.dbData.url);
+					utils.log('warning, not matching ', sectionName, ' with no text in the link', pageData.dbData.url);
 					continue;
 				}
 
 				var classListUrl = he.decode(classDetails[i].attribs.href);
 				if (!classListUrl || classListUrl === '') {
-					console.log('error could not get classListUrl', classListUrl, classDetails[i].attribs, pageData.dbData.url);
+					utils.log('error could not get classListUrl', classListUrl, classDetails[i].attribs, pageData.dbData.url);
 					continue;
 				}
 
 				classListUrl = new URI(classListUrl).absoluteTo(pageData.dbData.url).toString();
 				if (!classListUrl) {
-					console.log('error could not find classListUrl url', classListUrl, classDetails[i], classDetails[i].attribs.href);
+					utils.log('error could not find classListUrl url', classListUrl, classDetails[i], classDetails[i].attribs.href);
 					continue;
 				};
 

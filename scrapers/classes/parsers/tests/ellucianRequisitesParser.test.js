@@ -16,17 +16,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
- var ellucianRequisitesParser = require('../ellucianRequisitesParser2')
+import path from 'path';
+import request from '../../../request';
+import utils from '../../../utils';
+
+var ellucianRequisitesParser = require('../ellucianRequisitesParser2')
 var fs = require('fs')
-var pointer = require('../../pointer')
 var PageData = require('../../PageData')
 
 
 it('should load a bunch of string prereqs from many on linked.html', function (done) {
-	fs.readFile('backend/parsers/tests/data/ellucianSectionParser/many non linked.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianSectionParser', 'many non linked.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			var url = 'http://test.hostname.com/PROD/';
@@ -159,10 +162,10 @@ it('should load a bunch of string prereqs from many on linked.html', function (d
 
 
 it('should filter out prereqs that just say they are prereqs', function (done) {
-	fs.readFile('backend/parsers/tests/data/ellucianSectionParser/blacklistedstring.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianSectionParser', 'blacklistedstring.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			var url = 'http://test.hostname.com/PROD/';
@@ -360,7 +363,7 @@ it('simplifyRequirements shoudl work', function () {
 it('works with ))', function (done) {
 
 
-	fs.readFile('backend/parsers/tests/data/ellucianRequisitesParser/1.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianRequisitesParser', '1.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
 		var url = 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201555&subj_code_in=PMC&crse_numb_in=6212'
@@ -372,7 +375,7 @@ it('works with ))', function (done) {
 		});
 
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			var prereqs = ellucianRequisitesParser.parseRequirementSection(pageData, dom[0].children, 'prerequisites');
@@ -412,7 +415,7 @@ it('works with ))', function (done) {
 it('works with a ton of ors', function (done) {
 
 
-	fs.readFile('backend/parsers/tests/data/ellucianRequisitesParser/2.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianRequisitesParser', '2.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
 		var url = 'https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_course_detail?cat_term_in=201604&subj_code_in=MATH&crse_numb_in=033'
@@ -423,12 +426,12 @@ it('works with a ton of ors', function (done) {
 			}
 		});
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			var prereqs = ellucianRequisitesParser.parseRequirementSection(pageData, dom[0].children, 'prerequisites');
 
-			console.log(prereqs);
+			utils.log(prereqs);
 
 			expect(prereqs).toEqual(Object({
 				type: 'or',
@@ -467,7 +470,7 @@ it('works with a ton of ors', function (done) {
 // 	var a = ellucianRequisitesParser.removeBlacklistedStrings({
 // 		values: ['Pre-req for Math 033 1', 'Pre-req for Math 025S 1', 'hi']
 // 	})
-// 	console.log(a);
+// 	utils.log(a);
 
 
 // 	expect(a).toEqual({
@@ -481,7 +484,7 @@ it('works with a ton of ors', function (done) {
 it('works with a ton of ors', function (done) {
 
 
-	fs.readFile('backend/parsers/tests/data/ellucianRequisitesParser/coreqs on diff lines.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianRequisitesParser', 'coreqs on diff lines.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
 		var url = 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201710&subj_code_in=PHYS&crse_numb_in=1161'
@@ -492,11 +495,11 @@ it('works with a ton of ors', function (done) {
 			}
 		});
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			var coreqs = ellucianRequisitesParser.parseRequirementSection(pageData, dom[0].children, 'corequisites');
-			console.log(coreqs);
+			utils.log(coreqs);
 
 			expect(coreqs).toEqual({
 				type: 'and',
@@ -517,7 +520,7 @@ it('works with a ton of ors', function (done) {
 it('3 levels', function (done) {
 
 
-	fs.readFile('backend/parsers/tests/data/ellucianRequisitesParser/3 levels.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianRequisitesParser', '3 levels.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
 		var url = 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201660&subj_code_in=BIOE&crse_numb_in=5410'
@@ -528,13 +531,13 @@ it('3 levels', function (done) {
 			}
 		});
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
-			console.log(dom)
+			utils.log(dom)
 
 			var prereqs = ellucianRequisitesParser.parseRequirementSection(pageData, dom, 'prerequisites');
-			console.log(prereqs);
+			utils.log(prereqs);
 
 			expect(prereqs).toEqual(Object({
 				type: 'or',
@@ -578,14 +581,14 @@ it('3 levels', function (done) {
 // 			}
 // 		});
 
-// 		pointer.handleRequestResponce(body, function (err, dom) {
+// 		request.handleRequestResponce(body, function (err, dom) {
 // 			expect(err).toBe(null);
 
-// 			console.log(dom) 
+// 			utils.log(dom) 
 // 			debugger
 
 // 			var prereqs = ellucianRequisitesParser.parseRequirementSection(pageData, dom, 'prerequisites');
-// 			console.log(prereqs);
+// 			utils.log(prereqs);
 
 // 			expect(prereqs).toEqual(Object({
 // 				type: 'or', 
