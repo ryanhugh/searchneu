@@ -96,7 +96,7 @@ class Main {
 
       const folderPath = path.join(macros.PUBLIC_DIR, 'getTermDump', value.host);
       await mkdirp(folderPath);
-      await fs.writeFile(path.join(folderPath, .termId), JSON.stringify(value));
+      await fs.writeFile(path.join(folderPath, value.termId), JSON.stringify(value));
     }
   }
 

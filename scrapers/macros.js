@@ -33,3 +33,9 @@ else {
   exports.DEV = !exports.PROD;
 }
 
+if (exports.PROD) {
+  console.log("Running in PROD mode.")
+}
+else {
+  console.log("Running in dev mode.")
+}

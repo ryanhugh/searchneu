@@ -9,9 +9,9 @@ fi
 ulimit -S -a
 ulimit -H -a
 
-# cd scrapers
-# npm -g install babel-cli
-# babel-node main
+cd scrapers
+npm -g install babel-cli
+PROD=true NODE_ENV=PROD babel-node main
 exit
 
 eval "$(ssh-agent -s)"
