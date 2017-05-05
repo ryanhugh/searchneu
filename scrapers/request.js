@@ -52,7 +52,7 @@ import macros from './macros';
 // Attributes are added to this object when it is used
 // This is the total number of requests per host
 // https://github.com/request/request
-const separateReqDefaultPool = { maxSockets: 10000, keepAlive: true, maxFreeSockets: 10000 };
+const separateReqDefaultPool = { maxSockets: 2000, keepAlive: true, maxFreeSockets: 2000 };
 
 // Specific limits for some sites. CCIS has active measures against one IP making too many requests
 // and will reject request if too many are made too quickly.
@@ -65,6 +65,13 @@ const separateReqPools = {
   // This is the server that was crashing when tons of requests were sent to /cssh
   // So only requests to /cssh would 500, and not all of northeastern.edu.
   'www.northeastern.edu': { maxSockets: 70, keepAlive: true, maxFreeSockets: 70 },
+
+  'genisys.regent.edu':  { maxSockets: 50, keepAlive: true, maxFreeSockets: 50},
+  'prod-ssb-01.dccc.edu':  { maxSockets: 100, keepAlive: true, maxFreeSockets: 100},
+  'telaris.wlu.ca':  { maxSockets: 400, keepAlive: true, maxFreeSockets: 400},
+  'myswat.swarthmore.edu':  { maxSockets: 1000, keepAlive: true, maxFreeSockets: 1000},
+  'bannerweb.upstate.edu':  { maxSockets: 200, keepAlive: true, maxFreeSockets: 200},
+  'wl11gp.neu.edu':  { maxSockets: 1000, keepAlive: true, maxFreeSockets: 1000}
 };
 
 const MAX_RETRY_COUNT = 35;

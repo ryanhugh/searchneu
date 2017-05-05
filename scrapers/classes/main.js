@@ -6,6 +6,7 @@ const queue = require('d3-queue').queue;
 
 import pageDataMgr from './pageDataMgr';
 import macros from '../macros';
+import utils from '../utils';
 import Keys from '../../common/Keys';
 
 
@@ -86,14 +87,16 @@ class Main {
 
     for (const termHash in termMapDump) {
 
+      const value = termMapDump[termHash]
+
       // Put them in a different file.
-      if (!termHash.host || !termHash.termId) {
-        utils.error('No host or Id?', termHash);
+      if (!value.host || !value.termId) {
+        utils.error('No host or Id?', value);
       }
 
-      const folderPath = path.join(macros.PUBLIC_DIR, 'getTermDump', termMapDump[termHash].host);
+      const folderPath = path.join(macros.PUBLIC_DIR, 'getTermDump', value.host);
       await mkdirp(folderPath);
-      await fs.writeFile(path.join(folderPath, termMapDump[termHash].termId), JSON.stringify(termMapDump[termHash]));
+      await fs.writeFile(path.join(folderPath, .termId), JSON.stringify(value));
     }
   }
 
