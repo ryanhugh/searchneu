@@ -382,7 +382,10 @@ class Request {
           // This will retry for any error code.
 
           this.analytics.totalErrors++;
-          console.log('Try#:', tryCount, 'Code:', err.statusCode || err.RequestError || err.Error || err.message || err, ' Open request count: ', this.openRequests, 'Url:', config.url);
+          if (!process.env.CI || tryCount > 5) {
+            console.log('Try#:', tryCount, 'Code:', err.statusCode || err.RequestError || err.Error || err.message || err, ' Open request count: ', this.openRequests, 'Url:', config.url);
+          }
+          
           if (err.response) {
             utils.verbose(err.response.body)  
           }
