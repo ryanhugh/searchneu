@@ -21,6 +21,7 @@ var _ = require('lodash');
 var fs = require('fs');
 var moment = require('moment')
 
+import utils from '../../utils';
 import request from '../../request';
 var collegeNamesParser = require('./collegeNamesParser');
 
@@ -90,7 +91,7 @@ EllucianTermsParser.prototype.isValidTerm = function (termId, text) {
 	var minYear = this.minYear();
 
 	if (!year) {
-		console.log('warning: could not find year for ', text);
+		utils.log('warning: could not find year for ', text);
 
 		//if the termId starts with the >= current year, then go
 		var idYear = parseInt(termId.slice(0, 4))
@@ -134,7 +135,7 @@ EllucianTermsParser.prototype.onEndParsing = function (pageData, dom) {
 	var formData = this.parseTermsPage(pageData.dbData.url, dom);
 	var terms = [];
 
-
+	debugger
 	formData.requestsData.forEach(function (singleRequestPayload) {
 
 		//record all the terms and their id's
@@ -149,7 +150,7 @@ EllucianTermsParser.prototype.onEndParsing = function (pageData, dom) {
 	}.bind(this));
 
 	if (terms.length === 0) {
-		console.log('ERROR, found 0 terms??', pageData.dbData.url);
+		utils.log('ERROR, found 0 terms??', pageData.dbData.url);
 	};
 
 	var host = request.getBaseHost(pageData.dbData.url);
@@ -230,7 +231,7 @@ EllucianTermsParser.prototype.onEndParsing = function (pageData, dom) {
 			};
 		};
 
-		console.log("Parsing term: ", JSON.stringify(term));
+		utils.log("Parsing term: ", JSON.stringify(term));
 
 		//if not, add it
 		var termPageData = pageData.addDep({
@@ -297,11 +298,12 @@ EllucianTermsParser.prototype.parseTermsPage = function (startingURL, dom) {
 	}
 
 	var requestsData = []; 
+	debugger
 
 	//setup an indidual request for each valid entry on the form - includes the term entry and all other other entries
 	termEntry.alts.forEach(function (entry) {
 		if (!this.shouldParseEntry(entry)) {
-			console.log('ERROR: entry was alt of term entry but not same name?', entry);
+			utils.log('ERROR: entry was alt of term entry but not same name?', entry);
 			return;
 		}
 		entry.text = entry.text.trim()
@@ -315,7 +317,7 @@ EllucianTermsParser.prototype.parseTermsPage = function (startingURL, dom) {
 
 		//dont process this element on error
 		if (entry.text.length < 2) {
-			console.log('warning: empty entry.text on form?', entry, startingURL);
+			utils.log('warning: empty entry.text on form?', entry, startingURL);
 			return;
 		}
 

@@ -225,7 +225,7 @@ PageData.prototype.addDep = function (depData) {
 
 		//don't override given value
 		else if (depData[attrName] && !_.isEqual(this.dbData[attrName], depData[attrName])) {
-			console.log('given ', attrName, ' for dep is != than the value in here?', this.dbData[attrName], depData[attrName]);
+			utils.log('given ', attrName, ' for dep is != than the value in here?', this.dbData[attrName], depData[attrName]);
 			return;
 		}
 
@@ -256,9 +256,9 @@ PageData.prototype.addDep = function (depData) {
 		}
 
 		if (isMatch) {
-			console.log('URL was already in deps, adding new attrs!', this.deps[i], depData)
+			utils.log('URL was already in deps, adding new attrs!', this.deps[i], depData)
 			for (var newAttrName in depData) {
-				console.log('adding ', newAttrName, depData[newAttrName])
+				utils.log('adding ', newAttrName, depData[newAttrName])
 				this.deps[i].setData(newAttrName, depData[newAttrName]);
 			}
 
@@ -277,7 +277,7 @@ PageData.prototype.addDep = function (depData) {
 	//create the dep, add it to the array and return it
 	var dep = this.constructor.create(startingData);
 	if (!dep) {
-		console.log('could not create dep in add dep!')
+		utils.log('could not create dep in add dep!')
 		return;
 	}
 
@@ -334,7 +334,7 @@ PageData.prototype.setData = function (name, value) {
 
 			//only log change in last update time if in verbose mode
 			if (!propsToIgnore[name]) {
-				console.log('warning, overriding pageData.dbData.' + name + ' from:', JSON.stringify(this.dbData[name]), 'to:', JSON.stringify(value))
+				utils.log('warning, overriding pageData.dbData.' + name + ' from:', JSON.stringify(this.dbData[name]), 'to:', JSON.stringify(value))
 			}
 		}
 	}
@@ -352,8 +352,8 @@ PageData.prototype.getData = function (name) {
 if (require.main === module) {
 	// require('./pageDataMgr')
 
-	// console.log(new PageData('https://google.google.com:9000/jfdsajfk').getUrlStart())
-	// console.log(new PageData('https://genisys.regent.edu/pls/prod/bwckctlg.p_display_courses?term_in=201610&one_subj=COM&sel_crse_strt=507&sel_crse_end=507&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr='))
+	// utils.log(new PageData('https://google.google.com:9000/jfdsajfk').getUrlStart())
+	// utils.log(new PageData('https://genisys.regent.edu/pls/prod/bwckctlg.p_display_courses?term_in=201610&one_subj=COM&sel_crse_strt=507&sel_crse_end=507&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr='))
 
 
 	// var a = new PageData("https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201536&crn_in=23361");

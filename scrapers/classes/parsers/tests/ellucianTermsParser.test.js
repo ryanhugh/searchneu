@@ -16,13 +16,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
- var ellucianCatalogParser = require('../ellucianCatalogParser')
+import path from 'path';
+import request from '../../../request';
+
+var ellucianCatalogParser = require('../ellucianCatalogParser')
 var ellucianTermsParser = require('../ellucianTermsParser')
-var MockPageData = require('../../MockPageData')
 var fs = require('fs')
-var pointer = require('../../pointer')
 var PageData = require('../../PageData')
 var URI = require('urijs')
+
+
+
+beforeEach(function () {
+	jasmine.clock().install();
+	jasmine.clock().mockDate(new Date('2016-10-10'));
+});
+
+afterEach(function() {
+    jasmine.clock().uninstall();
+});
 
 
 it('has a name', function() {
@@ -42,10 +54,10 @@ it('isValidTerm should work', function () {
   
 it('should behave...', function (done) {
 
-	fs.readFile('backend/parsers/tests/data/ellucianTermsParser/1.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianTermsParser', '1.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			var url = 'https://bannerweb.upstate.edu/isis/bwckschd.p_disp_dyn_sched';
@@ -74,12 +86,12 @@ it('should behave...', function (done) {
 
 
 
-it('should behave...', function (done) {
+it('hi there 2', function (done) {
 
-	fs.readFile('backend/parsers/tests/data/ellucianTermsParser/2.html', 'utf8', function (err, body) {
+	fs.readFile(path.join(__dirname, 'data', 'ellucianTermsParser', '2.html'), 'utf8', function (err, body) {
 		expect(err).toBe(null);
 
-		pointer.handleRequestResponce(body, function (err, dom) {
+		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
 			var url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched';

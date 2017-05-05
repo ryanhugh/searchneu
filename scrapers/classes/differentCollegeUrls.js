@@ -32,6 +32,9 @@
 // Was able to go from dccc.edu to their site with this method. Will take longer for bigger schools. 
 
 
+// At one point there was a couple problems with hitting https sites on port other than 443, but I think the problem was something that 
+// all the sites had and not related to what the port number was. idk. Could make http requests to those sites from python and the browser and curl, but not node. 
+
 // Some other ways to find subdomains:
 // Wolfram alpha, but idk if they have an free API and it is not a full list, idk where they are getting the data from
 // https://github.com/faizann24/XssPy
