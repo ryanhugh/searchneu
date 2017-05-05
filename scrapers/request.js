@@ -71,7 +71,7 @@ const separateReqPools = {
   'telaris.wlu.ca':  { maxSockets: 400, keepAlive: true, maxFreeSockets: 400},
   'myswat.swarthmore.edu':  { maxSockets: 1000, keepAlive: true, maxFreeSockets: 1000},
   'bannerweb.upstate.edu':  { maxSockets: 200, keepAlive: true, maxFreeSockets: 200},
-  'wl11gp.neu.edu':  { maxSockets: 1000, keepAlive: true, maxFreeSockets: 1000}
+  'wl11gp.neu.edu':  { maxSockets: 500, keepAlive: true, maxFreeSockets: 500}
 };
 
 const MAX_RETRY_COUNT = 35;
