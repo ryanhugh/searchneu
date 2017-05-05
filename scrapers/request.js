@@ -52,7 +52,7 @@ import macros from './macros';
 // Attributes are added to this object when it is used
 // This is the total number of requests per host
 // https://github.com/request/request
-const separateReqDefaultPool = { maxSockets: 100, keepAlive: true, maxFreeSockets: 100 };
+const separateReqDefaultPool = { maxSockets: 10000, keepAlive: true, maxFreeSockets: 10000 };
 
 // Specific limits for some sites. CCIS has active measures against one IP making too many requests
 // and will reject request if too many are made too quickly.
@@ -79,6 +79,27 @@ class Request {
     this.openRequests = 0;
 
     this.dnsPromises = {};
+
+
+    // Stuff for analytics
+    this.analytics = {
+      totalBytesDownloaded: 0,
+      totalErrors: 0,
+      totalGoodRequests: 0,
+      startTime: null
+    }
+
+    // Log the progress of things every 5 seconds
+    this.timer = null;
+  }
+
+  onInterval() {
+
+    utils.log(JSON.stringify(this.analytics, null, 4))
+
+    if (this.openRequests === 0) {
+      clearInterval(this.timer)
+    }
   }
 
   // Gets the base hostname from a url. 
@@ -247,15 +268,33 @@ class Request {
 
     utils.verbose('Firing request to', output.url);
 
+    // If there are not any open requests right now, start the interval
+    if (this.openRequests === 0) {
+      clearInterval(this.timer)
+      this.analytics.startTime = new Date().getTime()
+      this.timer = setInterval(this.onInterval.bind(this), 5000)
+    }
+
     this.openRequests++;
     let response;
+    let error;
     try {
       response = await request(output);
     } catch (e) {
-      this.openRequests --;
-      throw e;
+      error = e;
     }
     this.openRequests --;
+
+
+    if (this.openRequests === 0) {
+      clearInterval(this.timer)
+    }
+
+    if (error) {
+      throw error;
+    }
+
+
     return response;
   }
 
@@ -329,9 +368,13 @@ class Request {
         tryCount++;
         try {
           response = await this.fireRequest(config);
+          this.analytics.totalGoodRequests++
         } catch (err) {
+
           // Most sites just give a ECONNRESET or ETIMEDOUT, but dccc also gives a EPROTO and ECONNREFUSED.
           // This will retry for any error code.
+
+          this.analytics.totalErrors++;
           console.log('Try#:', tryCount, 'Code:', err.statusCode || err.RequestError || err.Error || err.message || err, ' Open request count: ', this.openRequests, 'Url:', config.url);
           if (err.response) {
             utils.verbose(err.response.body)  
@@ -365,8 +408,12 @@ class Request {
           await fs.writeFile(filePath, JSON.stringify(response.toJSON()));
         }
 
-        // console.log('Parsed', response.body.length, 'from ', config.url);
-        console.log('Parsed', response.body.length);
+        // Don't log this on travis because it causes more than 4 MB to be logged and travis will kill the job
+        this.analytics.totalBytesDownloaded += response.body.length;
+        if (!process.env.CI) {
+          console.log('Parsed', response.body.length, 'from ', config.url);
+        }
+
         resolve(response);
       });
     });
