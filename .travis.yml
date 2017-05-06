@@ -1,11 +1,8 @@
 language: node_js
 node_js:
   - 6
-script:
-  - npm run test
 
 after_success:
-  - npm run build
   - bash travis_deploy.sh
 
 cache: yarn

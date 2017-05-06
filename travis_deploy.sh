@@ -1,3 +1,6 @@
+# Exit if any commands fail. 
+set -e
+
 # Pull requests and commits to other branches shouldn't try to deploy
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo $TRAVIS_PULL_REQUEST
@@ -6,6 +9,7 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     exit 0
 fi
 
+# Log the limits for processes. Travis has some really high limits (500k file descriptors), which is awesome.
 ulimit -S -a
 ulimit -H -a
 
@@ -13,6 +17,10 @@ cd scrapers
 npm -g install babel-cli
 PROD=true NODE_ENV=PROD babel-node main
 exit
+
+
+npm run build
+npm run test
 
 eval "$(ssh-agent -s)"
 mkdir ~/.ssh 2> /dev/null

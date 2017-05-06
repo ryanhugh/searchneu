@@ -277,7 +277,7 @@ const instance = new Main();
 
 
 if (require.main === module) {
-  instance.main(['presby']);
+  instance.main(['neu']);
 }
 
 export default instance;

@@ -278,6 +278,7 @@ class Request {
     // If there are not any open requests right now, start the interval
     if (this.openRequests === 0) {
       clearInterval(this.timer)
+      utils.log("Starting request analytics timer.")
       this.analytics.startTime = new Date().getTime()
       this.timer = setInterval(this.onInterval.bind(this), 5000)
     }
@@ -294,6 +295,7 @@ class Request {
 
 
     if (this.openRequests === 0) {
+      utils.log("Stopping request analytics timer.")
       clearInterval(this.timer)
     }
 
