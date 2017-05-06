@@ -46,7 +46,7 @@ import macros from './macros';
 
 
 // Would it be worth to assume that these sites have a cache and hit all the subjects, and then hit all the classes, etc?
-// So assume that when you hit one subject it caches that subject and others nearby. 
+// So assume that when you hit one subject it caches that subject and others nearby.
 
 
 // TODO: improve getBaseHost to use the list of top level domains
@@ -64,20 +64,20 @@ const separateReqDefaultPool = { maxSockets: 2000, keepAlive: true, maxFreeSocke
 const separateReqPools = {
   'www.ccis.northeastern.edu': { maxSockets: 8, keepAlive: true, maxFreeSockets: 8 },
 
-  // Needed for https://www.northeastern.edu/cssh/faculty 
+  // Needed for https://www.northeastern.edu/cssh/faculty
   // Looks like northeastern.edu is just a request redirector and sends any requests for /cssh to another server
   // This is the server that was crashing when tons of requests were sent to /cssh
   // So only requests to /cssh would 500, and not all of northeastern.edu.
   'www.northeastern.edu': { maxSockets: 70, keepAlive: true, maxFreeSockets: 70 },
 
-  'genisys.regent.edu':  { maxSockets: 50, keepAlive: true, maxFreeSockets: 50},
-  'prod-ssb-01.dccc.edu':  { maxSockets: 100, keepAlive: true, maxFreeSockets: 100},
-  'telaris.wlu.ca':  { maxSockets: 400, keepAlive: true, maxFreeSockets: 400},
-  'myswat.swarthmore.edu':  { maxSockets: 1000, keepAlive: true, maxFreeSockets: 1000},
-  'bannerweb.upstate.edu':  { maxSockets: 200, keepAlive: true, maxFreeSockets: 200},
+  'genisys.regent.edu':  { maxSockets: 50, keepAlive: true, maxFreeSockets: 50 },
+  'prod-ssb-01.dccc.edu':  { maxSockets: 100, keepAlive: true, maxFreeSockets: 100 },
+  'telaris.wlu.ca':  { maxSockets: 400, keepAlive: true, maxFreeSockets: 400 },
+  'myswat.swarthmore.edu':  { maxSockets: 1000, keepAlive: true, maxFreeSockets: 1000 },
+  'bannerweb.upstate.edu':  { maxSockets: 200, keepAlive: true, maxFreeSockets: 200 },
 
-  // Took 1hr and 15 min with 500 sockets. 
-  'wl11gp.neu.edu':  { maxSockets: 500, keepAlive: true, maxFreeSockets: 500}
+  // Took 1hr and 15 min with 500 sockets.
+  'wl11gp.neu.edu':  { maxSockets: 700, keepAlive: true, maxFreeSockets: 700 },
 };
 
 const MAX_RETRY_COUNT = 35;
@@ -94,54 +94,104 @@ class Request {
     this.dnsPromises = {};
 
 
-    // Stuff for analytics
-    this.analytics = {
-      totalBytesDownloaded: 0,
-      totalErrors: 0,
-      totalGoodRequests: 0,
-      startTime: null
-    }
+    // Stuff for analytics on a per-hostname basis.
+    this.analytics = {};
+
+    // Template for each analytics object
+    // totalBytesDownloaded: 0,
+    //   totalErrors: 0,
+    //   totalGoodRequests: 0,
+    //   startTime: null
 
     // Log the progress of things every 5 seconds
     this.timer = null;
   }
 
-  onInterval() {
+  ensureAnalyticsObject(hostname) {
+    if (this.analytics[hostname]) {
+      return;
+    }
 
-    utils.log(JSON.stringify(this.analytics, null, 4))
+    this.analytics[hostname] = {
+      totalBytesDownloaded: 0,
+      totalErrors: 0,
+      totalGoodRequests: 0,
+      startTime: null,
+    };
+  }
+
+  onInterval() {
+    const activeHostnames = Object.keys(this.analytics);
+    // console.log(activeHostnames)
+
+    for (const hostname of activeHostnames) {
+      if (!separateReqPools[hostname]) {
+        // utils.log("Did not find anything :(", hostname,  separateReqPools[hostname])
+        continue;
+      }
+
+      const agent = separateReqPools[hostname]['https:false:ALL'];
+
+      if (!agent) {
+        utils.log('Agent is false,',separateReqPools[hostname])
+        continue;
+      }
+
+      let moreAnalytics = {
+        socketCount: 0,
+        requestCount: 0,
+        maxSockets: separateReqPools[hostname].maxSockets
+      }
+
+      const socketArrays = Object.values(agent.sockets)
+      for (const arr of socketArrays) {
+        moreAnalytics.socketCount += arr.length
+      }
+
+      const requestArrays = Object.values(agent.requests)
+      for (const arr of requestArrays) {
+        moreAnalytics.requestCount += arr.length
+      }
+
+      let totalAnalytics = {}
+      Object.assign(totalAnalytics, moreAnalytics, this.analytics[hostname])
+
+      utils.log(hostname)
+      utils.log(JSON.stringify(totalAnalytics, null, 4))
+    }
 
     if (this.openRequests === 0) {
-      clearInterval(this.timer)
+      clearInterval(this.timer);
     }
   }
 
-  // Gets the base hostname from a url. 
+  // Gets the base hostname from a url.
   // fafjl.google.com -> google.com
   // subdomain.bob.co -> bob.co
   // bob.co -> bob.co
   getBaseHost(url) {
-    var homepage = new URI(url).hostname();
-    if (!homepage || homepage == '') {
-      elog('ERROR: could not find homepage of', url);
-      return;
+    const homepage = new URI(url).hostname();
+    if (!homepage || homepage === '') {
+      utils.error('could not find homepage of', url);
+      return null;
     }
 
-    var match = homepage.match(/[^.]+\.[^.]+$/i);
+    const match = homepage.match(/[^.]+\.[^.]+$/i);
     if (!match) {
-      console.log('ERROR: homepage match failed...', homepage);
-      return;
+      utils.error('homepage match failed...', homepage);
+      return null;
     }
     return match[0];
   }
 
   // Transforms a HTML string into a htmlparser2 DOM
-  // Don't use for new code, only here for legacy coursepro code. 
+  // Don't use for new code, only here for legacy coursepro code.
   handleRequestResponce(body, callback) {
-    var handler = new htmlparser.DomHandler(callback);
-    var parser = new htmlparser.Parser(handler);
+    const handler = new htmlparser.DomHandler(callback);
+    const parser = new htmlparser.Parser(handler);
     parser.write(body);
     parser.done();
-  };
+  }
 
   // By default, needle and nodejs does a DNS lookup for each request.
   // Avoid that by only doing a dns lookup once per domain
@@ -149,7 +199,7 @@ class Request {
     if (this.dnsPromises[hostname]) {
       return this.dnsPromises[hostname];
     }
-    
+
     utils.verbose('Hitting dns lookup for', hostname);
 
     // Just the host + subdomains are needed, eg blah.google.com
@@ -202,6 +252,7 @@ class Request {
     const urlParsed = new URI(config.url);
 
     const hostname = urlParsed.hostname();
+    this.ensureAnalyticsObject(hostname);
 
     const dnsResults = await this.getDns(urlParsed.hostname());
 
@@ -248,9 +299,10 @@ class Request {
     defaultConfig.resolveWithFullResponse = true;
 
     // Allow fallback to old depreciated insecure SSL ciphers. Some school websites are really old  :/
-    // We don't really care abouzt security (hence the rejectUnauthorized:false), and will accept anything.
-    // Additionally, this is needed when doing application layer dns caching because the url no longer matches the url in the cert
+    // We don't really care abouzt security (hence the rejectUnauthorized: false), and will accept anything.
+    // Additionally, this is needed when doing application layer dns caching because the url no longer matches the url in the cert.
     defaultConfig.rejectUnauthorized = false;
+    defaultConfig.requestCert = false;
     defaultConfig.ciphers = 'ALL';
 
     // Set the host in the header to the hostname on the url.
@@ -283,10 +335,13 @@ class Request {
 
     // If there are not any open requests right now, start the interval
     if (this.openRequests === 0) {
-      clearInterval(this.timer)
-      utils.log("Starting request analytics timer.")
-      this.analytics.startTime = new Date().getTime()
-      this.timer = setInterval(this.onInterval.bind(this), 5000)
+      clearInterval(this.timer);
+      utils.log('Starting request analytics timer.');
+      this.analytics[hostname].startTime = new Date().getTime();
+      this.timer = setInterval(this.onInterval.bind(this), 5000);
+      setTimeout(() => {
+        this.onInterval()
+      }, 0);
     }
 
     this.openRequests++;
@@ -301,8 +356,8 @@ class Request {
 
 
     if (this.openRequests === 0) {
-      utils.log("Stopping request analytics timer.")
-      clearInterval(this.timer)
+      utils.log('Stopping request analytics timer.');
+      clearInterval(this.timer);
     }
 
     if (error) {
@@ -323,31 +378,32 @@ class Request {
     return false;
   }
 
-  // Outputs a response object. Get the body of this object with ".body". 
+  // Outputs a response object. Get the body of this object with ".body".
   async request(config) {
     config = this.standardizeInputConfig(config);
 
     utils.verbose('Request hitting', config);
 
     const urlParsed = new URI(config.url);
+    const hostname = urlParsed.hostname();
+    this.ensureAnalyticsObject(hostname);
 
     let folder;
     let filename;
     let filePath;
 
 
-  if (macros.DEV) {
-      
-      folder = path.join('request_cache', urlParsed.hostname());
-      
+    if (macros.DEV) {
+      folder = path.join('request_cache', hostname);
+
       // Make a new requeset without the cookies
-      let headersWithoutCookie = {};
-      Object.assign(headersWithoutCookie, config.headers)
-      headersWithoutCookie.Cookie = undefined
-      
-      let configToHash = {}
-      Object.assign(configToHash, config)
-      configToHash.headers = headersWithoutCookie
+      const headersWithoutCookie = {};
+      Object.assign(headersWithoutCookie, config.headers);
+      headersWithoutCookie.Cookie = undefined;
+
+      const configToHash = {};
+      Object.assign(configToHash, config);
+      configToHash.headers = headersWithoutCookie;
 
       // Ensure only letters and numbers and dots and limit char length
       filename = urlParsed.path().replace(/[^A-Za-z0-9.]/gi, '_').trim().slice(0, 25) + objectHash(configToHash);
@@ -359,22 +415,25 @@ class Request {
       const exists = await fs.exists(filePath);
 
       if (exists) {
-        let body = await fs.readFile(filePath)
+        const body = await fs.readFile(filePath);
         if (body.length === 0) {
-          console.log('Warning, empty cache file, skipping!', filePath)
-        }
-        else {
+          console.log('Warning, empty cache file, skipping!', filePath);
+        } else {
           const contents = JSON.parse((body).toString());
           utils.verbose('Loaded ', contents.body.length, 'from cache', config.url);
-          return contents;  
+          return contents;
         }
       }
     }
 
 
-    let tryCount = 0;
 
     return new Promise((resolve, reject) => {
+
+      let tryCount = 0;
+
+      let requestDuration;
+
       asyncjs.retry({
         times: MAX_RETRY_COUNT,
         interval: RETRY_DELAY + Math.round(Math.random() * RETRY_DELAY_DELTA),
@@ -382,25 +441,25 @@ class Request {
         let response;
         tryCount++;
         try {
+          const requestStart = new Date().getTime();
           response = await this.fireRequest(config);
-          this.analytics.totalGoodRequests++
+          requestDuration = new Date().getTime() - requestStart;
+          this.analytics[hostname].totalGoodRequests++;
         } catch (err) {
-
           // Most sites just give a ECONNRESET or ETIMEDOUT, but dccc also gives a EPROTO and ECONNREFUSED.
           // This will retry for any error code.
 
-          this.analytics.totalErrors++;
+          this.analytics[hostname].totalErrors++;
           if (!process.env.CI || tryCount > 5) {
             console.log('Try#:', tryCount, 'Code:', err.statusCode || err.RequestError || err.Error || err.message || err, ' Open request count: ', this.openRequests, 'Url:', config.url);
           }
-          
+
           if (err.response) {
-            utils.verbose(err.response.body)  
+            utils.verbose(err.response.body);
+          } else {
+            utils.verbose(err.message);
           }
-          else {
-            utils.verbose(err.message)
-          }
-          
+
           callback(err);
           return;
         }
@@ -427,9 +486,9 @@ class Request {
         }
 
         // Don't log this on travis because it causes more than 4 MB to be logged and travis will kill the job
-        this.analytics.totalBytesDownloaded += response.body.length;
+        this.analytics[hostname].totalBytesDownloaded += response.body.length;
         if (!process.env.CI) {
-          console.log('Parsed', response.body.length, 'from ', config.url);
+          console.log('Parsed', response.body.length, 'in', requestDuration, 'ms from ', config.url);
         }
 
         resolve(response);

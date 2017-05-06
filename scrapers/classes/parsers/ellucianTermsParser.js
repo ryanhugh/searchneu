@@ -135,7 +135,6 @@ EllucianTermsParser.prototype.onEndParsing = function (pageData, dom) {
 	var formData = this.parseTermsPage(pageData.dbData.url, dom);
 	var terms = [];
 
-	debugger
 	formData.requestsData.forEach(function (singleRequestPayload) {
 
 		//record all the terms and their id's
@@ -298,7 +297,6 @@ EllucianTermsParser.prototype.parseTermsPage = function (startingURL, dom) {
 	}
 
 	var requestsData = []; 
-	debugger
 
 	//setup an indidual request for each valid entry on the form - includes the term entry and all other other entries
 	termEntry.alts.forEach(function (entry) {
