@@ -17,13 +17,14 @@
  */
 
 
+import utils from '../../utils';
+
 var domutils = require('domutils');
 var fs = require('fs');
 var he = require('he');
 var URI = require('urijs');
 var _ = require('lodash');
 
-import utils from '../../utils';
 var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
 
 // This file parses the Prequisites and Corequisites section on the section and catalog page. This code is used from both EllucianCatalogParser.js and 
@@ -535,7 +536,7 @@ EllucianRequisitesParser.prototype.findRequisitesSection = function (classDetail
 
 				var elementText = domutils.getText(classDetails[i]);
 				if (elementText.trim() === '') {
-					utils.log('warning, not matching ', sectionName, ' with no text in the link', pageData.dbData.url);
+					utils.verbose('warning, not matching ', sectionName, ' with no text in the link', pageData.dbData.url);
 					continue;
 				}
 

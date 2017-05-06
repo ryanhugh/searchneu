@@ -45,6 +45,10 @@ import macros from './macros';
 // see the request function for details about input (same as request input + some more stuff) and output (same as request 'response' object + more stuff)
 
 
+// Would it be worth to assume that these sites have a cache and hit all the subjects, and then hit all the classes, etc?
+// So assume that when you hit one subject it caches that subject and others nearby. 
+
+
 // TODO: improve getBaseHost to use the list of top level domains
 
 
@@ -71,6 +75,8 @@ const separateReqPools = {
   'telaris.wlu.ca':  { maxSockets: 400, keepAlive: true, maxFreeSockets: 400},
   'myswat.swarthmore.edu':  { maxSockets: 1000, keepAlive: true, maxFreeSockets: 1000},
   'bannerweb.upstate.edu':  { maxSockets: 200, keepAlive: true, maxFreeSockets: 200},
+
+  // Took 1hr and 15 min with 500 sockets. 
   'wl11gp.neu.edu':  { maxSockets: 500, keepAlive: true, maxFreeSockets: 500}
 };
 

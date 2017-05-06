@@ -13,8 +13,9 @@ fi
 ulimit -S -a
 ulimit -H -a
 
-cd scrapers
 npm -g install babel-cli
+cd scrapers
+cd classes
 PROD=true NODE_ENV=PROD babel-node main
 exit
 

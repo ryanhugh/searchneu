@@ -17,6 +17,7 @@
  */
 
 'use strict';
+import utils from '../../utils';
 var domutils = require('domutils');
 var fs = require('fs');
 var he = require('he');
@@ -351,7 +352,7 @@ EllucianRequisitesParser.prototype.parseRequirementSection = function (pageData,
 
 				var elementText = domutils.getText(classDetails[i]);
 				if (elementText.trim() === '') {
-					console.log('warning, not matching ', sectionName, ' with no text in the link', pageData.dbData.url);
+					utils.verbose('warning, not matching ', sectionName, ' with no text in the link', pageData.dbData.url);
 					continue;
 				}
 
