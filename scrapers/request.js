@@ -76,15 +76,17 @@ const separateReqPools = {
   'myswat.swarthmore.edu':  { maxSockets: 1000, keepAlive: true, maxFreeSockets: 1000 },
   'bannerweb.upstate.edu':  { maxSockets: 200, keepAlive: true, maxFreeSockets: 200 },
 
-  // Took 1hr and 15 min with 500 sockets.
-  'wl11gp.neu.edu':  { maxSockets: 700, keepAlive: true, maxFreeSockets: 700 },
+  // Took 1hr and 15 min with 500 sockets and RETRY_DELAY set to 20000 and delta set to 15000. 
+  // Usually takes just under 1 hr at 1k sockets and the same timeouts. 
+  // Took around 20 min with timeouts set to 100ms and 150ms and 100 sockets. 
+  'wl11gp.neu.edu':  { maxSockets: 100, keepAlive: true, maxFreeSockets: 100 },
 };
 
 const MAX_RETRY_COUNT = 35;
 
 // These numbers are in ms.
-const RETRY_DELAY = 20000;
-const RETRY_DELAY_DELTA = 15000;
+const RETRY_DELAY = 100;
+const RETRY_DELAY_DELTA = 150;
 
 class Request {
 
