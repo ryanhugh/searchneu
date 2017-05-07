@@ -168,7 +168,7 @@ class Main {
     });
 
 
-    const q = queue(1);
+    const q = queue();
 
     for (const attrName in classLists) {
       q.defer(((attrName, callback) => {
