@@ -22,7 +22,9 @@ import classes from './classes/main';
 
 async function main() {
 	// , clubs.main()
-  const promises = [matchEmployees.main(), classes.main(['neu'])];
+
+	// classes.main(['neu'])
+  const promises = [matchEmployees.main()];
 
   await Promise.all(promises);
   console.log('done');

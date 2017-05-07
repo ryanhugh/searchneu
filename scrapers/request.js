@@ -56,7 +56,7 @@ import macros from './macros';
 // Attributes are added to this object when it is used
 // This is the total number of requests per host
 // https://github.com/request/request
-const separateReqDefaultPool = { maxSockets: 2000, keepAlive: true, maxFreeSockets: 2000 };
+const separateReqDefaultPool = { maxSockets: 50, keepAlive: true, maxFreeSockets: 50 };
 
 // Specific limits for some sites. CCIS has active measures against one IP making too many requests
 // and will reject request if too many are made too quickly.
@@ -68,7 +68,7 @@ const separateReqPools = {
   // Looks like northeastern.edu is just a request redirector and sends any requests for /cssh to another server
   // This is the server that was crashing when tons of requests were sent to /cssh
   // So only requests to /cssh would 500, and not all of northeastern.edu.
-  'www.northeastern.edu': { maxSockets: 70, keepAlive: true, maxFreeSockets: 70 },
+  'www.northeastern.edu': { maxSockets: 25, keepAlive: true, maxFreeSockets: 25 },
 
   'genisys.regent.edu':  { maxSockets: 50, keepAlive: true, maxFreeSockets: 50 },
   'prod-ssb-01.dccc.edu':  { maxSockets: 100, keepAlive: true, maxFreeSockets: 100 },
@@ -122,38 +122,49 @@ class Request {
     };
   }
 
+  getAnalyticsFromAgent(pool) {
+
+    let agent = pool['https:false:ALL'];
+
+    if (!agent) {
+      agent = pool['http:']
+    }
+
+    if (!agent) {
+      utils.log('Agent is false,', pool)
+      return {};
+    }
+
+    let moreAnalytics = {
+      socketCount: 0,
+      requestCount: 0,
+      maxSockets: pool.maxSockets
+    }
+
+    const socketArrays = Object.values(agent.sockets)
+    for (const arr of socketArrays) {
+      moreAnalytics.socketCount += arr.length
+    }
+
+    const requestArrays = Object.values(agent.requests)
+    for (const arr of requestArrays) {
+      moreAnalytics.requestCount += arr.length
+    }
+    return moreAnalytics;
+  }
+
   onInterval() {
     const activeHostnames = Object.keys(this.analytics);
     // console.log(activeHostnames)
 
     for (const hostname of activeHostnames) {
       if (!separateReqPools[hostname]) {
-        // utils.log("Did not find anything :(", hostname,  separateReqPools[hostname])
+        utils.log(hostname);
+        utils.log(JSON.stringify(this.analytics[hostname], null, 4));
         continue;
       }
 
-      const agent = separateReqPools[hostname]['https:false:ALL'];
-
-      if (!agent) {
-        utils.log('Agent is false,',separateReqPools[hostname])
-        continue;
-      }
-
-      let moreAnalytics = {
-        socketCount: 0,
-        requestCount: 0,
-        maxSockets: separateReqPools[hostname].maxSockets
-      }
-
-      const socketArrays = Object.values(agent.sockets)
-      for (const arr of socketArrays) {
-        moreAnalytics.socketCount += arr.length
-      }
-
-      const requestArrays = Object.values(agent.requests)
-      for (const arr of requestArrays) {
-        moreAnalytics.requestCount += arr.length
-      }
+      const moreAnalytics = this.getAnalyticsFromAgent(separateReqPools[hostname])
 
       let totalAnalytics = {}
       Object.assign(totalAnalytics, moreAnalytics, this.analytics[hostname])
@@ -161,6 +172,9 @@ class Request {
       utils.log(hostname)
       utils.log(JSON.stringify(totalAnalytics, null, 4))
     }
+
+    // Shared pool
+    utils.log(JSON.stringify(this.getAnalyticsFromAgent(separateReqDefaultPool), null, 4))
 
     if (this.openRequests === 0) {
       clearInterval(this.timer);
@@ -295,8 +309,9 @@ class Request {
       defaultConfig.pool = separateReqDefaultPool;
     }
 
-    //Ten min
-    defaultConfig.timeout = 60 * 10000;
+    // Five min
+    defaultConfig.timeout = 5 * 60 * 1000;
+    // defaultConfig.timeout = 30000;
 
     defaultConfig.resolveWithFullResponse = true;
 
