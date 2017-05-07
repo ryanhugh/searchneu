@@ -213,7 +213,7 @@ PageDataMgr.prototype.pageDataStructureToTermDump = function pageDataStructureTo
   let stack = [rootPageData];
   let curr = null;
   while ((curr = stack.pop())) {
-    const dataType = curr.parser.getDataType();
+    const dataType = curr.parser.getDataType(curr);
     if (dataType) {
       if (!output[dataType]) {
         output[dataType] = [];

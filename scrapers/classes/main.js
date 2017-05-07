@@ -29,18 +29,22 @@ class Main {
 
       if (!termMapDump[termHash]) {
         termMapDump[termHash] = {
-          classes: {},
-          sections: {},
-          subjects: {},
+          classMap: {},
+          sectionMap: {},
+          subjectMap: {},
           termId: aClass.termId,
           host: aClass.host,
         };
       }
 
-      termMapDump[termHash].classes[hash] = aClass;
+      termMapDump[termHash].classMap[hash] = aClass;
     }
 
     for (const subject of termDump.subjects) {
+      if (!subject.subject) {
+        utils.error('Subject controller found in main.js????', subject)
+        continue;
+      }
       const hash = Keys.create(subject).getHash();
 
       const termHash = Keys.create({
@@ -51,15 +55,15 @@ class Main {
       if (!termMapDump[termHash]) {
         console.log('Found subject with no class?');
         termMapDump[termHash] = {
-          classes: {},
-          sections: {},
-          subjects: {},
+          classMap: {},
+          sectionMap: {},
+          subjectMap: {},
           termId: subject.termId,
           host: subject.host,
         };
       }
 
-      termMapDump[termHash].subjects[hash] = subject;
+      termMapDump[termHash].subjectMap[hash] = subject;
     }
 
     for (const section of termDump.sections) {
@@ -73,15 +77,15 @@ class Main {
       if (!termMapDump[termHash]) {
         console.log('Found section with no class?', termHash, hash);
         termMapDump[termHash] = {
-          classes: {},
-          sections: {},
-          subjects: {},
+          classMap: {},
+          sectionMap: {},
+          subjectMap: {},
           termId: section.termId,
           host: section.host,
         };
       }
 
-      termMapDump[termHash].sections[hash] = section;
+      termMapDump[termHash].sectionMap[hash] = section;
     }
 
 
