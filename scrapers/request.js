@@ -309,9 +309,8 @@ class Request {
       defaultConfig.pool = separateReqDefaultPool;
     }
 
-    // Five min
+    // Five min. This timeout does not include the time the request is waiting for a socket. 
     defaultConfig.timeout = 5 * 60 * 1000;
-    // defaultConfig.timeout = 30000;
 
     defaultConfig.resolveWithFullResponse = true;
 
