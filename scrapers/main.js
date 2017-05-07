@@ -21,7 +21,8 @@ import classes from './classes/main';
 
 
 async function main() {
-  const promises = [matchEmployees.main(), classes.main(['neu']), clubs.main()];
+	// , clubs.main()
+  const promises = [matchEmployees.main(), classes.main(['neu'])];
 
   await Promise.all(promises);
   console.log('done');

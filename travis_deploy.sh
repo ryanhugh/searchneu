@@ -13,15 +13,15 @@ fi
 ulimit -S -a
 ulimit -H -a
 
+# if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
 npm -g install babel-cli
 cd scrapers
-cd classes
 PROD=true NODE_ENV=PROD babel-node main
-exit
+cd ..
+# fi
 
 
 npm run build
-npm run test
 
 eval "$(ssh-agent -s)"
 mkdir ~/.ssh 2> /dev/null
