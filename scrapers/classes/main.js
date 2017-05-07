@@ -151,7 +151,15 @@ class Main {
       }
 
       if (!classLists[termHash].classHash[classHash]) {
-        utils.error('No class exists with same data?', classHash, section.url);
+
+        // Only error on CI if error occurs in the term that is shown. 
+        // TODO change to if this section occured in the past utils.log, if it is in the future, utils.error. 
+        if (section.host === 'neu.edu' && section.termId === '201810') {
+          utils.error('No class exists with same data?', classHash, section.url);
+        }
+        else {
+          utils.log('No class exists with same data?', classHash, section.url);
+        }
         errorCount++;
         return;
       }
@@ -264,7 +272,6 @@ class Main {
     }
 
     const termDump = await pageDataMgr.main(hostnames);
-    console.log(termDump);
     console.log('HI', !!termDump);
     await this.createSerchIndex(termDump);
     await this.createDataDumps(termDump);

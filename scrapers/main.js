@@ -1,5 +1,4 @@
 import matchEmployees from './matchEmployees';
-import courseproData from './courseproData';
 import clubs from './clubs';
 import macros from './macros';
 import classes from './classes/main';

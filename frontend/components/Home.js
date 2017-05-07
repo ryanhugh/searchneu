@@ -383,7 +383,7 @@ class Home extends React.Component {
         resultsElement = (
           <div className = {css.noResultsContainer}>
             <h3>No Results</h3>
-            <div className = {css.noResultsBottomLine}>Want to <a href={"https://google.com?q=Northeastern University " + this.state.searchTerm}>search for <div className={"ui compact segment " + css.noResultsInputText}> <p> {this.state.searchTerm} </p> </div>  on Google</a>?</div>
+            <div className = {css.noResultsBottomLine}>Want to <a target='_blank' rel='noopener noreferrer' href={"https://google.com?q=Northeastern University " + this.state.searchTerm}>search for <div className={"ui compact segment " + css.noResultsInputText}> <p> {this.state.searchTerm} </p> </div>  on Google</a>?</div>
           </div>
           )
       }

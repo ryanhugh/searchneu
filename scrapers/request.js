@@ -49,12 +49,17 @@ import macros from './macros';
 // So assume that when you hit one subject it caches that subject and others nearby.
 
 
-// TODO: improve getBaseHost to use the list of top level domains
+// TODO: 
+// Sometimes many different hostnames all point to the same IP. Need to limit requests by an IP basis and a hostname basis (COS).
+// improve getBaseHost to use the list of top level domains
 
 
 // This object must be created once per process
 // Attributes are added to this object when it is used
 // This is the total number of requests per host
+// If these numbers ever exceed 1024, might want to ensure that there are more file descriptors avalible on the OS for this process 
+// than we are trying to request. Windows has no limit and travis has it set to 500k by default, but Mac OSX and Linux Desktop often have them 
+// set really low (256) which could interefere with this. 
 // https://github.com/request/request
 const separateReqDefaultPool = { maxSockets: 50, keepAlive: true, maxFreeSockets: 50 };
 
