@@ -50,10 +50,11 @@ EllucianClassListParser.prototype.getDatabase = function (pageData) {
 
 
 EllucianClassListParser.prototype.optionallyAddDep = function (pageData, catalogUrl) {
+	const parsedUrl = new URI(catalogUrl)
 	for (var i = 0; i < pageData.deps.length; i++) {
 		var dep = pageData.deps[i]
 
-		if (new URI(dep.dbData.url).equals(new URI(catalogUrl))) {
+		if (new URI(dep.dbData.url).equals(parsedUrl)) {
 			return;
 		};
 	}
