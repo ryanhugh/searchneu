@@ -24,7 +24,7 @@ fi
 npm run build
 
 eval "$(ssh-agent -s)"
-mkdir ~/.ssh 2> /dev/null
+mkdir -p ~/.ssh 2> /dev/null
 echo $GIT_PRIVATE_KEY | base64 --decode > ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 ssh-add ~/.ssh/id_rsa
