@@ -13,12 +13,12 @@ fi
 ulimit -S -a
 ulimit -H -a
 
-# if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
-npm -g install babel-cli
-cd scrapers
-PROD=true NODE_ENV=PROD babel-node main
-cd ..
-# fi
+if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
+	npm -g install babel-cli
+	cd scrapers
+	PROD=true NODE_ENV=PROD babel-node main
+	cd ..
+fi
 
 
 npm run build
@@ -45,3 +45,5 @@ curl https://api.rollbar.com/api/1/deploy/ \
   -F environment=$ENVIRONMENT \
   -F revision=$REVISION \
   -F local_username=$LOCAL_USERNAME
+
+echo "Done travis_deploy.sh"
