@@ -49,26 +49,6 @@ EllucianClassListParser.prototype.getDatabase = function (pageData) {
 };
 
 
-EllucianClassListParser.prototype.optionallyAddDep = function (pageData, catalogUrl) {
-	const parsedUrl = new URI(catalogUrl)
-	for (var i = 0; i < pageData.deps.length; i++) {
-		var dep = pageData.deps[i]
-
-		if (new URI(dep.dbData.url).equals(parsedUrl)) {
-			return;
-		};
-	}
-
-
-	//not found, add one
-	var dep = pageData.addDep({
-		url: catalogUrl
-	})
-	dep.setParser(ellucianCatalogParser)
-};
-
-
-
 EllucianClassListParser.prototype.parseElement = function (pageData, element) {
 	if (!pageData.dbData.termId) {
 		console.log('error!!! in EllucianClassListParser but dont have a terid', pageData)
@@ -89,7 +69,7 @@ EllucianClassListParser.prototype.parseElement = function (pageData, element) {
 			return
 		};
 
-		if (_(url).startsWith('javascript') || _(url).startsWith('mailto')) {
+		if (url.startsWith('javascript') || url.startsWith('mailto')) {
 			return;
 		};
 
@@ -100,21 +80,13 @@ EllucianClassListParser.prototype.parseElement = function (pageData, element) {
 		};
 
 		if (ellucianCatalogParser.supportsPage(url)) {
-			this.optionallyAddDep(pageData, url);
+
+			var dep = pageData.addDep({
+				url: url
+			})
+			dep.setParser(ellucianCatalogParser)
 		};
 	}
-};
-
-
-
-
-
-
-EllucianClassListParser.prototype.tests = function () {
-	require('../pageDataMgr')
-
-
-
 };
 
 

@@ -45,11 +45,9 @@ EllucianSubjectParser.prototype.getDataType = function (pageData) {
 
 	// Return null if it is the controller.
 	if (pageData.dbData.subject) {
-		console.log('returning true for ', pageData.dbData.subject)
 		return 'subjects';
 	}
 	else {
-		console.log('Returning null e subject parser.', JSON.stringify(pageData.dbData))
 		return null;
 	}
 };

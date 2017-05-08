@@ -211,7 +211,7 @@ PageData.prototype.getUrlStart = function () {
 
 PageData.prototype.addDep = function (depData) {
 	if (!depData) {
-		utils.error('Error:Tried to add invalid depdata??', depData);
+		utils.error('Tried to add invalid depdata??', depData);
 		return null;
 	}
 
@@ -223,8 +223,9 @@ PageData.prototype.addDep = function (depData) {
 			return;
 		}
 
-		//don't override given value
-		else if (depData[attrName] && !_.isEqual(this.dbData[attrName], depData[attrName])) {
+		// Don't override given value.
+		// All of these values are the JS equivalent of primitive types, and don't need a deep compare. 
+		else if (depData[attrName] && this.dbData[attrName] !== depData[attrName]) {
 			utils.log('given ', attrName, ' for dep is != than the value in here?', this.dbData[attrName], depData[attrName]);
 			return;
 		}
@@ -235,37 +236,37 @@ PageData.prototype.addDep = function (depData) {
 
 
 	//check to make sure the dep dosent already exist in deps
-	for (var i = 0; i < this.deps.length; i++) {
+	// for (var i = 0; i < this.deps.length; i++) {
 
-		var isMatch = false;
+	// 	var isMatch = false;
 
-		//if given an _id to search for, make sure it matches the id in the existing depsToProcess
-		if (depData._id) {
-			if (this.deps[i].dbData._id == depData._id) {
+	// 	//if given an _id to search for, make sure it matches the id in the existing depsToProcess
+	// 	if (depData._id) {
+	// 		if (this.deps[i].dbData._id == depData._id) {
 
-				utils.error('error matched by _id!')
+	// 			utils.error('matched by _id!')
 
-				isMatch = true;
-			}
-		}
-		else if (depData.url) {
-			if (_.isEqual(this.deps[i].dbData, depData)) {
-				utils.error('error matched by _is equal')
-				isMatch = true;
-			}
-		}
+	// 			isMatch = true;
+	// 		}
+	// 	}
+	// 	else if (depData.url) {
+	// 		if (_.isEqual(this.deps[i].dbData, depData)) {
+	// 			utils.error('matched by _is equal')
+	// 			isMatch = true;
+	// 		}
+	// 	}
 
-		if (isMatch) {
-			utils.log('URL was already in deps, adding new attrs!', this.deps[i], depData)
-			for (var newAttrName in depData) {
-				utils.log('adding ', newAttrName, depData[newAttrName])
-				this.deps[i].setData(newAttrName, depData[newAttrName]);
-			}
+	// 	if (isMatch) {
+	// 		utils.log('URL was already in deps, adding new attrs!', this.deps[i], depData)
+	// 		for (var newAttrName in depData) {
+	// 			utils.log('adding ', newAttrName, depData[newAttrName])
+	// 			this.deps[i].setData(newAttrName, depData[newAttrName]);
+	// 		}
 
-			//insert the new data into the dep here, instead of adding a new dep below
-			return this.deps[i];
-		}
-	}
+	// 		//insert the new data into the dep here, instead of adding a new dep below
+	// 		return this.deps[i];
+	// 	}
+	// }
 
 
 	var startingData = {

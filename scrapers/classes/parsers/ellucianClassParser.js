@@ -405,7 +405,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 	for (var i = 0; i < classToAddSectionTo.deps.length; i++) {
 		var currDep = classToAddSectionTo.deps[i];
 		if (!currDep.dbData.url) {
-			elog(currDep.dbData)
+			utils.error(currDep.dbData)
 			utils.log(currDep);
 			continue;
 		}
