@@ -103,6 +103,82 @@ class Main {
       await fs.writeFile(path.join(folderPath, value.termId), JSON.stringify(value));
     }
   }
+  
+  
+  
+  // Class Lists object is specific to this file, and is created below. 
+  async createSearchIndexFromClassLists(termData, outputExtention = '', includeDesc = true) {
+    
+    const keys = Keys.create(termData);
+
+    const index = elasticlunr();
+
+    index.saveDocument(false);
+
+    index.setRef('key');
+    
+    // Description is not included on mobile because it is not *really* required, and removing it makes loading on mobile faster. 
+    if (includeDesc) {
+      index.addField('desc');  
+    }
+    index.addField('name');
+    index.addField('classId');
+    index.addField('subject');
+    
+    // Remove profs from here once this data is joined with the prof data and there are UI elements for showing which classes a prof teaches. 
+    index.addField('profs');
+
+    // Lets disable this until buildings are added to the index and the DB.
+    // Dosen't make sense for classes in a building to come up when the building name is typed in the search box.
+    // index.addField('locations');
+    index.addField('crns');
+
+    for (const attrName2 in termData.classHash) {
+      const searchResultData = termData.classHash[attrName2];
+
+      const toIndex = {
+        classId: searchResultData.class.classId,
+        desc: searchResultData.class.desc,
+        subject: searchResultData.class.subject,
+        name: searchResultData.class.name,
+        key: Keys.create(searchResultData.class).getHash(),
+      };
+
+      let profs = [];
+      // let locations = [];
+      searchResultData.sections.forEach((section) => {
+        if (section.meetings) {
+          section.meetings.forEach((meeting) => {
+            if (meeting.profs) {
+              profs = profs.concat(meeting.profs);
+            }
+
+            // if (meeting.where) {
+            //   locations.push(meeting.where);
+            // }
+          });
+        }
+      });
+
+
+      toIndex.profs = profs.join(' ');
+      // toIndex.locations = locations.join(' ');
+      if (searchResultData.class.crns) {
+        toIndex.crns = searchResultData.class.crns.join(' ');
+      }
+
+      index.addDoc(toIndex);
+    }
+
+    const searchIndexString = JSON.stringify(index.toJSON());
+
+    const fileName = path.join(macros.PUBLIC_DIR, keys.getHashWithEndpoint(getSearchIndex) + outputExtention);
+    const folderName = path.dirname(fileName);
+
+    await mkdirp(folderName);
+    await fs.writeFile(fileName, searchIndexString);
+    console.log('Successfully saved', fileName, 'errorCount:', errorCount);
+  }
 
 
   createSerchIndex(termDump) {
@@ -173,99 +249,15 @@ class Main {
 
 
     const q = queue();
+    let promises = []
 
     for (const attrName in classLists) {
-      q.defer(((attrName, callback) => {
-        const termData = classLists[attrName];
-        const keys = Keys.create(termData);
-
-        const index = elasticlunr();
-
-        index.saveDocument(false);
-
-        index.setRef('key');
-        // index.addField('desc');
-        index.addField('name');
-        index.addField('classId');
-        index.addField('subject');
-        index.addField('profs');
-
-        // Lets disable this until buildings are added to the index and the DB.
-        // Dosen't make sense for classes in a building to come up when the building name is typed in the search box.
-        // index.addField('locations');
-        index.addField('crns');
-
-        for (const attrName2 in termData.classHash) {
-          const searchResultData = termData.classHash[attrName2];
-
-          const toIndex = {
-            classId: searchResultData.class.classId,
-            desc: searchResultData.class.desc,
-            subject: searchResultData.class.subject,
-            name: searchResultData.class.name,
-            key: Keys.create(searchResultData.class).getHash(),
-          };
-
-          let profs = [];
-          let locations = [];
-          searchResultData.sections.forEach((section) => {
-            if (section.meetings) {
-              section.meetings.forEach((meeting) => {
-                if (meeting.profs) {
-                  profs = profs.concat(meeting.profs);
-                }
-
-                if (meeting.where) {
-                  locations.push(meeting.where);
-                }
-              });
-            }
-          });
-
-
-          toIndex.profs = profs.join(' ');
-          toIndex.locations = locations.join(' ');
-          if (searchResultData.class.crns) {
-            toIndex.crns = searchResultData.class.crns.join(' ');
-          }
-
-          index.addDoc(toIndex);
-        }
-
-        const searchIndexString = JSON.stringify(index.toJSON());
-
-        const fileName = path.join(macros.PUBLIC_DIR, keys.getHashWithEndpoint(getSearchIndex));
-        const folderName = path.dirname(fileName);
-
-        mkdirp(folderName, (err) => {
-          if (err) {
-            return callback(err);
-          }
-
-          fs.writeFile(fileName, searchIndexString, (err) => {
-            if (err) {
-              return callback(err);
-            }
-
-            console.log('Successfully saved', fileName, 'errorCount:', errorCount);
-
-            classLists[attrName] = null;
-
-            return callback();
-          });
-        });
-      }).bind(this, attrName));
+      const termData = classLists[attrName];
+      promises.push(createSearchIndexFromClassLists(termData))
+      promises.push(createSearchIndexFromClassLists(termData, '.mobile', false));
     }
-
-    return new Promise((resolve, reject) => {
-      q.awaitAll((err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      });
-    });
+    
+    return Promise.all(promises)
   }
 
 
