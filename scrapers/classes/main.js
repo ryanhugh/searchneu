@@ -2,7 +2,7 @@ import elasticlunr from 'elasticlunr';
 import path from 'path';
 import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
-const queue = require('d3-queue').queue;
+
 
 import pageDataMgr from './pageDataMgr';
 import macros from '../macros';
@@ -42,7 +42,7 @@ class Main {
 
     for (const subject of termDump.subjects) {
       if (!subject.subject) {
-        utils.error('Subject controller found in main.js????', subject)
+        utils.error('Subject controller found in main.js????', subject);
         continue;
       }
       const hash = Keys.create(subject).getHash();
@@ -88,10 +88,10 @@ class Main {
       termMapDump[termHash].sectionMap[hash] = section;
     }
 
+    const promises = [];
 
     for (const termHash in termMapDump) {
-
-      const value = termMapDump[termHash]
+      const value = termMapDump[termHash];
 
       // Put them in a different file.
       if (!value.host || !value.termId) {
@@ -99,16 +99,16 @@ class Main {
       }
 
       const folderPath = path.join(macros.PUBLIC_DIR, 'getTermDump', value.host);
-      await mkdirp(folderPath);
-      await fs.writeFile(path.join(folderPath, value.termId), JSON.stringify(value));
+      promises.push(mkdirp(folderPath).then(() => {
+        return fs.writeFile(path.join(folderPath, value.termId), JSON.stringify(value));
+      }));
     }
+    return Promise.all(promises);
   }
-  
-  
-  
-  // Class Lists object is specific to this file, and is created below. 
+
+
+  // Class Lists object is specific to this file, and is created below.
   async createSearchIndexFromClassLists(termData, outputExtention = '', includeDesc = true) {
-    
     const keys = Keys.create(termData);
 
     const index = elasticlunr();
@@ -116,16 +116,16 @@ class Main {
     index.saveDocument(false);
 
     index.setRef('key');
-    
-    // Description is not included on mobile because it is not *really* required, and removing it makes loading on mobile faster. 
+
+    // Description is not included on mobile because it is not *really* required, and removing it makes loading on mobile faster.
     if (includeDesc) {
-      index.addField('desc');  
+      index.addField('desc');
     }
     index.addField('name');
     index.addField('classId');
     index.addField('subject');
-    
-    // Remove profs from here once this data is joined with the prof data and there are UI elements for showing which classes a prof teaches. 
+
+    // Remove profs from here once this data is joined with the prof data and there are UI elements for showing which classes a prof teaches.
     index.addField('profs');
 
     // Lets disable this until buildings are added to the index and the DB.
@@ -177,7 +177,7 @@ class Main {
 
     await mkdirp(folderName);
     await fs.writeFile(fileName, searchIndexString);
-    console.log('Successfully saved', fileName, 'errorCount:', errorCount);
+    console.log('Successfully saved', fileName);
   }
 
 
@@ -231,13 +231,11 @@ class Main {
       }
 
       if (!classLists[termHash].classHash[classHash]) {
-
-        // Only error on CI if error occurs in the term that is shown. 
-        // TODO change to if this section occured in the past utils.log, if it is in the future, utils.error. 
+        // Only error on CI if error occurs in the term that is shown.
+        // TODO change to if this section occured in the past utils.log, if it is in the future, utils.error.
         if (section.host === 'neu.edu' && section.termId === '201810') {
           utils.error('No class exists with same data?', classHash, section.url);
-        }
-        else {
+        } else {
           utils.log('No class exists with same data?', classHash, section.url);
         }
         errorCount++;
@@ -248,16 +246,17 @@ class Main {
     });
 
 
-    const q = queue();
-    let promises = []
+    const promises = [];
 
     for (const attrName in classLists) {
       const termData = classLists[attrName];
-      promises.push(createSearchIndexFromClassLists(termData))
-      promises.push(createSearchIndexFromClassLists(termData, '.mobile', false));
+      promises.push(this.createSearchIndexFromClassLists(termData));
+      promises.push(this.createSearchIndexFromClassLists(termData, '.mobile', false));
     }
-    
-    return Promise.all(promises)
+
+    console.log('Errorcount: ', errorCount);
+
+    return Promise.all(promises);
   }
 
 
