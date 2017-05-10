@@ -207,37 +207,38 @@ class CombineCCISandEmployees {
             }
           }
         }
-
-        // If still has no match, add to the end of the matchedArray and generate phone and matching lastName and firstName
-        // If there was a match, update the list of emails to match with
-        if (matchesFound === 0) {
-          const newMatchPerson = {
-            matches: [person],
-            emails: [],
-            firstName: person.firstName,
-            lastName: person.lastName,
-            peopleListIndexMatches: {}
-          };
-
-          newMatchPerson.peopleListIndexMatches[peopleListIndex] = true
-
-          if (person.emails) {
-            newMatchPerson.emails = person.emails.slice(0);
-          }
-
-          if (peopleListIndex > 1) {
-            console.log('Adding', person.firstName, person.lastName)
-          }
-          if (person.primaryRole === 'PhD Student') {
-            this.logAnalyticsEvent('unmatched PhD Student')
-          }
-
-          mergedPeopleList.push(newMatchPerson);
-        }
-        else if (matchesFound > 1) {
-          console.error(matchesFound, 'matches found for ', person.name, '!!!!')
-        }
       }
+
+      // If still has no match, add to the end of the matchedArray and generate phone and matching lastName and firstName
+      // If there was a match, update the list of emails to match with
+      if (matchesFound === 0) {
+        const newMatchPerson = {
+          matches: [person],
+          emails: [],
+          firstName: person.firstName,
+          lastName: person.lastName,
+          peopleListIndexMatches: {}
+        };
+
+        newMatchPerson.peopleListIndexMatches[peopleListIndex] = true
+
+        if (person.emails) {
+          newMatchPerson.emails = person.emails.slice(0);
+        }
+
+        if (peopleListIndex > 1) {
+          console.log('Adding', person.firstName, person.lastName)
+        }
+        if (person.primaryRole === 'PhD Student') {
+          this.logAnalyticsEvent('unmatched PhD Student')
+        }
+
+        mergedPeopleList.push(newMatchPerson);
+      }
+      else if (matchesFound > 1) {
+        console.error(matchesFound, 'matches found for ', person.name, '!!!!')
+      }
+      
 
       // Do some final calculations on the analytics and then log them
       if (this.analytics.matchedByEmail !== undefined && this.analytics.matchedByName !== undefined) {
