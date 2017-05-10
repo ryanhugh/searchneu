@@ -94,6 +94,8 @@ const MAX_RETRY_COUNT = 35;
 const RETRY_DELAY = 100;
 const RETRY_DELAY_DELTA = 150;
 
+const LAUNCH_TIME = moment()
+
 class Request {
 
   constructor() {
@@ -186,8 +188,8 @@ class Request {
     }
 
     // Log the current time.
-    utils.log(moment().format('h:mm:ss a'))
-
+    const currentTime = moment()
+    utils.log('Uptime:', moment.duration(moment().diff(LAUNCH_TIME)).asMinutes(), '(' + currentTime.format('h:mm:ss a') + ')')
   }
 
   // Gets the base hostname from a url.

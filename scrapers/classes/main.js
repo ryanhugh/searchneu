@@ -172,7 +172,7 @@ class Main {
 
     const searchIndexString = JSON.stringify(index.toJSON());
 
-    const fileName = path.join(macros.PUBLIC_DIR, keys.getHashWithEndpoint(getSearchIndex) + outputExtention);
+    const fileName = path.join(macros.PUBLIC_DIR, keys.getHashWithEndpoint(getSearchIndex) + outputExtention + '.json');
     const folderName = path.dirname(fileName);
 
     await mkdirp(folderName);
