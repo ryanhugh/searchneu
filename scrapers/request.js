@@ -25,6 +25,7 @@ import mkdirp from 'mkdirp-promise';
 import objectHash from 'object-hash';
 import path from 'path';
 import htmlparser from 'htmlparser2';
+import moment from 'moment';
 
 
 import utils from './utils';
@@ -160,7 +161,6 @@ class Request {
 
   onInterval() {
     const activeHostnames = Object.keys(this.analytics);
-    // console.log(activeHostnames)
 
     for (const hostname of activeHostnames) {
       if (!separateReqPools[hostname]) {
@@ -184,6 +184,10 @@ class Request {
     if (this.openRequests === 0) {
       clearInterval(this.timer);
     }
+
+    // Log the current time.
+    utils.log(moment().format('h:mm:ss a'))
+
   }
 
   // Gets the base hostname from a url.
