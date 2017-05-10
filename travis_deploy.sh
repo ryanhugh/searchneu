@@ -13,12 +13,12 @@ fi
 ulimit -S -a
 ulimit -H -a
 
-if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
-	npm -g install babel-cli
-	cd scrapers
-	PROD=true NODE_ENV=PROD babel-node main
-	cd ..
-fi
+# if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
+npm -g install babel-cli
+cd scrapers
+PROD=true NODE_ENV=PROD babel-node main
+cd ..
+# fi
 
 
 npm run build
