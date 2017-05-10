@@ -121,124 +121,120 @@ class CombineCCISandEmployees {
         this.logAnalyticsEvent('people');
 
         // Skip to the adding for everyone in the first data set
-        if (peopleListIndex > 0) {
-          
-          // Attempt to match by email
+        // Attempt to match by email
+        if (person.emails && peopleListIndex > 0) {
+          for (const matchedPerson of mergedPeopleList) {
+
+            // Emails did not overlap at all. Go to next person.
+            if (_.intersection(matchedPerson.emails, person.emails).length === 0) {
+              continue;
+            }
+
+            // Final checks to see if it is ok to declare a match. 
+            if (!this.okToMatch(matchedPerson, person, peopleListIndex)) {
+              console.log('Not ok to match 1.', matchedPerson.firstName, matchedPerson.lastName, person.name)
+              continue;
+            }
+
+
+            // Found a match.
+            matchedPerson.matches.push(person);
+
+            // Update the emails array with the new emails from this person.
+            matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
+            matchedPerson.peopleListIndexMatches[peopleListIndex] = true
+
+            // There should only be one match per person. Log a warning if there are more.
+            matchesFound++;
+            this.logAnalyticsEvent('matchedByEmail');
+            if (matchesFound > 1) {
+              console.log('Warning 1: ', matchesFound, 'matches found', matchedPerson, person);
+            }
+          }
+        }
+
+        // The rest of this code requires both a first name and a last name
+        if (!person.firstName || !person.lastName) {
+          this.logAnalyticsEvent('missingNameUnmatchedEmail');
+          console.log("Don't have person first name or last name and did not match with email.", person);
+          continue;
+        }
+
+
+        // If a match was not found yet, try to match by name
+        if (matchesFound === 0 && peopleListIndex > 0) {
+          // Now try to match by name
+          // Every data source must have a person name, so no need to check if it is here or not.
+          for (const matchedPerson of mergedPeopleList) {
+
+            const personFirstNameLower = person.firstName.toLowerCase()
+            const personLastNameLower = person.lastName.toLowerCase()
+
+            const matchedPersonFirstNameLower = matchedPerson.firstName.toLowerCase()
+            const matchedPersonLastNameLower = matchedPerson.lastName.toLowerCase()
+
+            const firstMatch = personFirstNameLower.includes(matchedPersonFirstNameLower) || matchedPersonFirstNameLower.includes(personFirstNameLower);
+            const lastMatch = personLastNameLower.includes(matchedPersonLastNameLower) || matchedPersonLastNameLower.includes(personLastNameLower);
+
+            // If both the first names and last names did not match, go to next person
+            if (!firstMatch || !lastMatch) {
+              continue;
+            }
+
+            // Final checks to see if it is ok to declare a match. 
+            if (!this.okToMatch(matchedPerson, person, peopleListIndex)) {
+              console.log('Not ok to match 2.', matchedPerson.firstName, matchedPerson.lastName, person.name)
+              continue;
+            }
+
+            // Found a match.
+            matchedPerson.matches.push(person);
+
+            // Update the emails array with the new emails from this person.
+            matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
+            matchedPerson.peopleListIndexMatches[peopleListIndex] = true
+
+            console.log('Matching:', person.firstName, person.lastName, ':', matchedPerson.firstName, matchedPerson.lastName);
+
+            // There should only be one match per person. Log a warning if there are more.
+            this.logAnalyticsEvent('matchedByName');
+            matchesFound++;
+            if (matchesFound > 1) {
+              console.log('Warning 2: ', matchesFound, 'matches found', matchedPerson, person);
+            }
+          }
+        }
+
+        // If still has no match, add to the end of the matchedArray and generate phone and matching lastName and firstName
+        // If there was a match, update the list of emails to match with
+        if (matchesFound === 0) {
+          const newMatchPerson = {
+            matches: [person],
+            emails: [],
+            firstName: person.firstName,
+            lastName: person.lastName,
+            peopleListIndexMatches: {}
+          };
+
+          newMatchPerson.peopleListIndexMatches[peopleListIndex] = true
+
           if (person.emails) {
-            for (const matchedPerson of mergedPeopleList) {
-  
-              // Emails did not overlap at all. Go to next person.
-              if (_.intersection(matchedPerson.emails, person.emails).length === 0) {
-                continue;
-              }
-  
-              // Final checks to see if it is ok to declare a match. 
-              if (!this.okToMatch(matchedPerson, person, peopleListIndex)) {
-                console.log('Not ok to match 1.', matchedPerson.firstName, matchedPerson.lastName, person.name)
-                continue;
-              }
-  
-  
-              // Found a match.
-              matchedPerson.matches.push(person);
-  
-              // Update the emails array with the new emails from this person.
-              matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
-              matchedPerson.peopleListIndexMatches[peopleListIndex] = true
-  
-              // There should only be one match per person. Log a warning if there are more.
-              matchesFound++;
-              this.logAnalyticsEvent('matchedByEmail');
-              if (matchesFound > 1) {
-                console.log('Warning 1: ', matchesFound, 'matches found', matchedPerson, person);
-              }
-            }
+            newMatchPerson.emails = person.emails.slice(0);
           }
-  
-          // The rest of this code requires both a first name and a last name
-          if (!person.firstName || !person.lastName) {
-            this.logAnalyticsEvent('missingNameUnmatchedEmail');
-            console.log("Don't have person first name or last name and did not match with email.", person);
-            continue;
+
+          if (peopleListIndex > 1) {
+            console.log('Adding', person.firstName, person.lastName)
           }
-  
-  
-          // If a match was not found yet, try to match by name
-          if (matchesFound === 0) {
-            // Now try to match by name
-            // Every data source must have a person name, so no need to check if it is here or not.
-            for (const matchedPerson of mergedPeopleList) {
-  
-              const personFirstNameLower = person.firstName.toLowerCase()
-              const personLastNameLower = person.lastName.toLowerCase()
-  
-              const matchedPersonFirstNameLower = matchedPerson.firstName.toLowerCase()
-              const matchedPersonLastNameLower = matchedPerson.lastName.toLowerCase()
-  
-              const firstMatch = personFirstNameLower.includes(matchedPersonFirstNameLower) || matchedPersonFirstNameLower.includes(personFirstNameLower);
-              const lastMatch = personLastNameLower.includes(matchedPersonLastNameLower) || matchedPersonLastNameLower.includes(personLastNameLower);
-  
-              // If both the first names and last names did not match, go to next person
-              if (!firstMatch || !lastMatch) {
-                continue;
-              }
-  
-              // Final checks to see if it is ok to declare a match. 
-              if (!this.okToMatch(matchedPerson, person, peopleListIndex)) {
-                console.log('Not ok to match 2.', matchedPerson.firstName, matchedPerson.lastName, person.name)
-                continue;
-              }
-  
-              // Found a match.
-              matchedPerson.matches.push(person);
-  
-              // Update the emails array with the new emails from this person.
-              matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
-              matchedPerson.peopleListIndexMatches[peopleListIndex] = true
-  
-              console.log('Matching:', person.firstName, person.lastName, ':', matchedPerson.firstName, matchedPerson.lastName);
-  
-              // There should only be one match per person. Log a warning if there are more.
-              this.logAnalyticsEvent('matchedByName');
-              matchesFound++;
-              if (matchesFound > 1) {
-                console.log('Warning 2: ', matchesFound, 'matches found', matchedPerson, person);
-              }
-            }
+          if (person.primaryRole === 'PhD Student') {
+            this.logAnalyticsEvent('unmatched PhD Student')
           }
+
+          mergedPeopleList.push(newMatchPerson);
+        }
+        else if (matchesFound > 1) {
+          console.error(matchesFound, 'matches found for ', person.name, '!!!!')
         }
       }
-
-      // If still has no match, add to the end of the matchedArray and generate phone and matching lastName and firstName
-      // If there was a match, update the list of emails to match with
-      if (matchesFound === 0) {
-        const newMatchPerson = {
-          matches: [person],
-          emails: [],
-          firstName: person.firstName,
-          lastName: person.lastName,
-          peopleListIndexMatches: {}
-        };
-
-        newMatchPerson.peopleListIndexMatches[peopleListIndex] = true
-
-        if (person.emails) {
-          newMatchPerson.emails = person.emails.slice(0);
-        }
-
-        if (peopleListIndex > 1) {
-          console.log('Adding', person.firstName, person.lastName)
-        }
-        if (person.primaryRole === 'PhD Student') {
-          this.logAnalyticsEvent('unmatched PhD Student')
-        }
-
-        mergedPeopleList.push(newMatchPerson);
-      }
-      else if (matchesFound > 1) {
-        console.error(matchesFound, 'matches found for ', person.name, '!!!!')
-      }
-      
 
       // Do some final calculations on the analytics and then log them
       if (this.analytics.matchedByEmail !== undefined && this.analytics.matchedByName !== undefined) {
