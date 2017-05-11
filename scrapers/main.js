@@ -15,7 +15,7 @@ import classes from './classes/main';
 
 if (process.env.TRAVIS && macros.DEV) {
   console.log('Not running DEV mode on travis');
-  process.exit(0);
+  process.exit(1);
 }
 
 

@@ -13,6 +13,9 @@ fi
 ulimit -S -a
 ulimit -H -a
 
+# Log the public IP of this server. Usefull for figuring out the physical location of the server (Affects ping time of requests). 
+curl https://api.ipify.org/
+
 # if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
 npm -g install babel-cli
 cd scrapers
