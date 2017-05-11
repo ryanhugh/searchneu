@@ -93,6 +93,7 @@ class Home extends React.Component {
     this.networkRequestsProgress = {};
 
     this.onClick = this.onClick.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
 
     this.loadData();
   }
@@ -360,8 +361,7 @@ class Home extends React.Component {
     });
   }
 
-
-  onClick(event) {
+  searchFromUserAction(event) {
     history.pushState(null, null, `/${event.target.value}`);
     if (!event.target.value) {
       this.setState({
@@ -372,6 +372,23 @@ class Home extends React.Component {
     }
 
     this.search(event.target.value);
+  }
+
+
+  onClick(event) {
+    if (macros.isMobile) {
+      return;
+    }
+
+    this.searchFromUserAction(event);
+  }
+
+  onKeyDown(event) {
+    if (event.key !== 'Enter') {
+      return;
+    }
+
+    this.searchFromUserAction(event)
   }
 
 
@@ -434,6 +451,7 @@ class Home extends React.Component {
                 spellCheck='false'
                 tabIndex='0'
                 onChange={ this.onClick }
+                onKeyDown = { this.onKeyDown }
                 defaultValue= { this.state.searchTerm }
               />
             </div>
