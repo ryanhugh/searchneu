@@ -7,7 +7,7 @@ import PaceBar from './PaceBar';
 import '../css/base.css';
 
 import css from './home.css';
-
+import macros from './macros'
 import request from './request';
 import ResultsLoader from './ResultsLoader';
 import CourseProData from './models/DataLib';
@@ -134,8 +134,14 @@ class Home extends React.Component {
     const promises = [];
 
 
-    const classesSearchIndexUrl = 'data/getSearchIndex/neu.edu/201810';
-    const classesDataUrl = 'data/getTermDump/neu.edu/201810';
+    let classesSearchIndexUrl = 'data/getSearchIndex/neu.edu/201810';
+
+    // Load the mobile version if on mobile.
+    if (macros.isMobile) {
+      classesSearchIndexUrl += '.mobile'
+    }
+    classesSearchIndexUrl += '.json'
+    const classesDataUrl = 'data/getTermDump/neu.edu/201810.json';
 
     const employeesDataUrl = 'data/employeeMap.json';
     const employeesSearchIndexUrl = 'data/employeesSearchIndex.json';

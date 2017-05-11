@@ -53,9 +53,10 @@ class ClassPanel extends React.Component {
         ];
       }
 
-      sectionTable = (
-        <table className={ `ui celled striped table ${css.resultsTable}` }>
-          <thead>
+      let sectionTableHeader = null;
+      if (!macros.isMobile) {
+        sectionTableHeader = (
+        <thead>
             <tr>
               <th>
                 <div className={ css.inlineBlock } data-tip='Course Reference Number'>
@@ -77,13 +78,17 @@ class ClassPanel extends React.Component {
               > Waitlist seats </th>
               <th> Link </th>
             </tr>
-
-
           </thead>
+        )
+      }
+
+      sectionTable = (
+        <table className={ `ui celled striped table ${css.resultsTable}` }>
+          {sectionTableHeader}
           <tbody>
             {/* The CSS applied to the table stripes every other row, starting with the second one.
               This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
-            <tr style={{ display:'none' }} />
+            <tr style={{ display:'none', paddingTop: 0, paddingBottom: '1px' }} />
             {this.state.renderedSections.map((section) => {
               // Calculate the "Meets on Tuesday, Friday" or "No Meetings found" string that hovers over the weekday boxes
               const meetingDays = section.getWeekDaysAsStringArray();

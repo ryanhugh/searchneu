@@ -100,7 +100,7 @@ class Main {
 
       const folderPath = path.join(macros.PUBLIC_DIR, 'getTermDump', value.host);
       promises.push(mkdirp(folderPath).then(() => {
-        return fs.writeFile(path.join(folderPath, value.termId), JSON.stringify(value));
+        return fs.writeFile(path.join(folderPath, value.termId + '.json'), JSON.stringify(value));
       }));
     }
     return Promise.all(promises);
