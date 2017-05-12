@@ -130,6 +130,7 @@ class Main {
 
     // Lets disable this until buildings are added to the index and the DB.
     // Dosen't make sense for classes in a building to come up when the building name is typed in the search box.
+    // If this is ever enabled again, make sure to add it to the config in home.js too. 
     // index.addField('locations');
     index.addField('crns');
 

@@ -30,9 +30,12 @@ const classSearchConfig = {
     profs: {
       boost: 1,
     },
-    locations: {
-      boost: 1,
-    },
+
+    // Enable this again if this is added to the index. 
+    
+    // locations: {
+    //   boost: 1,
+    // },
     crns: {
       boost: 1,
     },
