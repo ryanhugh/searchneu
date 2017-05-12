@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
+import Keys from './models/Keys'
 
 import EmployeePanel from './EmployeePanel';
 import ClassPanel from './ClassPanel';
@@ -133,13 +134,13 @@ class ResultsLoader extends React.Component {
           <div className='page-home' ref='elementsContainer'>
             {this.state.visibleObjects.map((obj) => {
               if (obj.type === 'class') {
-                return <ClassPanel key={ obj.data._id } aClass={ obj.data } />;
+                return <ClassPanel key={ Keys.create(obj.data).getHash() } aClass={ obj.data } />;
               }
               else if (obj.type === 'employee') {
                 return <EmployeePanel key = {obj.data.id} employee = {obj.data} />
               }
               else {
-                console.log('Uknown type', obj.type)
+                console.log('Unknown type', obj.type)
                 return null;
               }
             })}

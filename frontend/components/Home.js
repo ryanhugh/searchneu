@@ -77,7 +77,11 @@ class Home extends React.Component {
 
       // Value to set the search box to after the search box is rendered. 
       // If the user navigates to a page, search for the query. 
-      searchTerm: decodeURIComponent(location.pathname.slice(1))
+      searchTerm: decodeURIComponent(location.pathname.slice(1)),
+
+      // If we a waiting on a user on a slow computer to click enter to search. 
+      // On desktop, the data is searched every time, but it is only searched after you click enter on mobile.
+      waitingOnEnter: false
     };
 
     this.dataPromise = null;
@@ -275,7 +279,8 @@ class Home extends React.Component {
 
         this.setState({
           results: output,
-          searchTerm: originalSearchTerm
+          searchTerm: originalSearchTerm,
+          waitingOnEnter: false
         });
         return;
       }
@@ -357,7 +362,8 @@ class Home extends React.Component {
 
     this.setState({
       results: output,
-      searchTerm: originalSearchTerm
+      searchTerm: originalSearchTerm,
+      waitingOnEnter: false
     });
   }
 
@@ -377,6 +383,11 @@ class Home extends React.Component {
 
   onClick(event) {
     if (macros.isMobile) {
+      this.setState({
+        results: [],
+        searchTerm: event.target.value,
+        waitingOnEnter: true
+      });
       return;
     }
 
@@ -386,6 +397,11 @@ class Home extends React.Component {
   onKeyDown(event) {
     if (event.key !== 'Enter') {
       return;
+    }
+
+    // Hide the keyboard on android phones. 
+    if (document.activeElement) {
+      document.activeElement.blur()
     }
 
     this.searchFromUserAction(event)
@@ -402,7 +418,7 @@ class Home extends React.Component {
     let resultsElement = null;
 
     if (this.termData && this.state.results && this.employeeMap) {
-      if (this.state.results.length === 0 && this.state.searchTerm.length > 0) {
+      if (this.state.results.length === 0 && this.state.searchTerm.length > 0 && !this.state.waitingOnEnter) {
         resultsElement = (
           <div className = {css.noResultsContainer}>
             <h3>No Results</h3>
@@ -417,6 +433,15 @@ class Home extends React.Component {
           employeeMap={ this.employeeMap }
         />);
       }
+    }
+
+    let hitEnterToSearch = null;
+    if (this.state.waitingOnEnter) {
+      hitEnterToSearch = (
+        <div className ={css.hitEnterToSearch}>
+          Hit Enter to Search ...
+        </div>
+        )
     }
 
     return (
@@ -455,6 +480,7 @@ class Home extends React.Component {
                 defaultValue= { this.state.searchTerm }
               />
             </div>
+            {hitEnterToSearch}
           </div>
           {resultsElement}
         </div>

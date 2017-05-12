@@ -7,6 +7,7 @@ import classNames from 'classnames/bind';
 import globe from './globe.svg';
 import css from './ClassPanel.css';
 import macros from './macros';
+import Keys from './models/Keys'
 
 const cx = classNames.bind(css);
 
@@ -168,7 +169,7 @@ class ClassPanel extends React.Component {
 
 
               return (
-                <tr key={ section._id }>
+                <tr key={ Keys.create(section).getHash() }>
                   <td> {section.crn} </td>
                   <td> {section.getProfs().join(', ')} </td>
                   <td>
