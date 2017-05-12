@@ -1,5 +1,5 @@
 {
-  "name": "redux-minimal",
+  "name": "search-neu",
   "version": "1.0.0",
   "scripts": {
     "start": "cross-env NODE_ENV=dev; babel-node backend/server.js",
