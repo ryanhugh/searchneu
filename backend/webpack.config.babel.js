@@ -33,10 +33,22 @@ export default {
     }),
     ...macros.DEV ? [
       new webpack.HotModuleReplacementPlugin(),
+      new webpack.DefinePlugin({
+        'process.env': {
+          PROD: 'false',
+          DEV: 'true',
+          TESTS: 'false'
+        },
+      }),
     ] : [
       new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: '"production"',
+          PROD: 'true',
+          DEV: 'false',
+          TESTS: 'false',
+
+          // This is needed so the production version of react is used. 
+          NODE_ENV: '"production"'
         },
       }),
       new webpack.LoaderOptionsPlugin({

@@ -1,4 +1,4 @@
-import '../css/pace.css';
+// import '../css/pace.css';
 
 // This was taken from this project
 // http://github.hubspot.com/pace/docs/welcome/

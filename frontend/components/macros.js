@@ -11,3 +11,19 @@ exports.isMobile = isMobile()
 
 // XXX: This is stuff that is hardcoded for now, need to change when expanding to other schools.
 exports.collegeName = 'Northeastern University';
+
+// These are setup in the webpack config
+if (process.env.PROD) {
+	exports.DEV = true;
+	exports.PROD = false;
+	exports.TESTS = false;
+}
+else if (process.env.DEV) {
+	exports.DEV = false;
+	exports.PROD = true;
+	exports.TESTS = false;
+}
+
+
+
+console.log(process.env.NODE_ENV, process.env.PROD, process.env.TESTS, process.env.DEV,'env here')
