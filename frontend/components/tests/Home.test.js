@@ -1,1 +1,5 @@
-import Home from '../Home'
+import Home from '../Home';
+
+it('should behave...', function() {
+	
+});
