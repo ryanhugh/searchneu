@@ -32,7 +32,7 @@ const classSearchConfig = {
     },
 
     // Enable this again if this is added to the index. 
-    
+
     // locations: {
     //   boost: 1,
     // },
@@ -444,7 +444,7 @@ class Home extends React.Component {
         <div className ={css.hitEnterToSearch}>
           Hit Enter to Search ...
         </div>
-        )
+      )
     }
 
     return (
