@@ -17,6 +17,7 @@
  */
 
 import path from 'path';
+import MockDate from 'mockdate';
 import request from '../../../request';
 
 var ellucianCatalogParser = require('../ellucianCatalogParser')
@@ -26,15 +27,14 @@ var PageData = require('../../PageData')
 var URI = require('urijs')
 
 
-
-beforeEach(function () {
-	jasmine.clock().install();
-	jasmine.clock().mockDate(new Date('2016-10-10'));
+beforeAll(function () {
+	MockDate.set('10/10/2016');
 });
 
-afterEach(function() {
-    jasmine.clock().uninstall();
+afterAll(function() {
+	MockDate.reset();
 });
+
 
 
 it('has a name', function() {
@@ -111,8 +111,8 @@ it('hi there 2', function (done) {
 			// expect(pageData.deps[1].dbData.text).toBe('Spring 2017 Semester')
 			// expect(pageData.deps[1].dbData.host).toBe('neu.edu/law')
 
-
 			done()
 		});
 	});
 });
+

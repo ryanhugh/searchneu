@@ -186,11 +186,11 @@ exports.verbose = function verbose(...args) {
 
 exports.verbose('Starting in verbose mode.');
 
-if (!global.addedRejectionHandler) {
-  global.addedRejectionHandler = true;
-  process.on('unhandledRejection', (err, p) => {
-    console.log('An unhandledRejection occurred');
-    console.log(`Rejected Promise: ${p}`);
-    console.log(`Rejection: ${err.stack}`);
-  });
-}
+// if (!global.addedRejectionHandler) {
+//   global.addedRejectionHandler = true;
+//   process.on('unhandledRejection', (err, p) => {
+//     console.log('An unhandledRejection occurred');
+//     console.log(`Rejected Promise: ${p}`);
+//     console.log(`Rejection: ${err.stack}`);
+//   });
+// }
