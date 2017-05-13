@@ -23,7 +23,15 @@ else if (process.env.DEV) {
 	exports.PROD = true;
 	exports.TESTS = false;
 }
-
-
-
-console.log(process.env.NODE_ENV, process.env.PROD, process.env.TESTS, process.env.DEV,'env here')
+else if (process.env.NODE_ENV === 'test') {
+	exports.DEV = false;
+	exports.PROD = false;
+	exports.TESTS = true;
+}
+else {
+	console.log('UNKNOWN env! Setting to dev.')
+	console.log(process.env.NODE_ENV, process.env.PROD, process.env.TESTS, process.env.DEV,'env here')
+	exports.DEV = false;
+	exports.PROD = true;
+	exports.TESTS = false;
+}

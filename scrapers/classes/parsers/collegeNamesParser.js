@@ -38,7 +38,7 @@
 var macros = require('../../macros')
 var whois;
 
-if (macros.UNIT_TESTS) {
+if (macros.TESTS) {
 	whois = require('./tests/mockWhois')
 }
 else {

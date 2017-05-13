@@ -23,19 +23,30 @@ exports.ALPHABET = 'maqwertyuiopsdfghjklzxcvbn';
 // whether the scrapers are running in prod mode or not.
 // When in dev mode, each file will save its outputs to a file
 // so can run the step after it without scraping each time
-if (process.env.NODE_ENV === 'test') {
-  exports.UNIT_TESTS = true;
-  exports.PROD = false;
-  exports.DEV = false;
-}
-else {
-  exports.PROD = !!process.env.PROD;
-  exports.DEV = !exports.PROD;
-}
 
-if (exports.PROD) {
+
+// These are setup in the webpack config
+if (process.env.PROD) {
+  exports.DEV = true;
+  exports.PROD = false;
+  exports.TESTS = false;
   console.log("Running in PROD mode.")
 }
-else {
+else if (process.env.DEV) {
+  exports.DEV = false;
+  exports.PROD = true;
+  exports.TESTS = false;
   console.log("Running in dev mode.")
+}
+else if (process.env.NODE_ENV === 'test') {
+  exports.DEV = false;
+  exports.PROD = false;
+  exports.TESTS = true;
+}
+else {
+  console.log('UNKNOWN env! Setting to dev.')
+  console.log(process.env.NODE_ENV, process.env.PROD, process.env.TESTS, process.env.DEV,'env here')
+  exports.DEV = false;
+  exports.PROD = true;
+  exports.TESTS = false;
 }
