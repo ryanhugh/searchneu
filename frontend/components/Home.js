@@ -341,12 +341,17 @@ class Home extends React.Component {
     searchTerm = searchTerm.replace(/@northeastern\.edu/gi, '').replace(/@neu\.edu/gi, '');
 
 
+    // Measure how long it takes to search. Usually this is very small (< 20ms)
+    const startTime = Date.now();
+
     // Returns an array of objects that has a .ref and a .score
     // The array is sorted by score (with the highest matching closest to the beginning)
     // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
     const classResults = this.searchIndex.search(searchTerm, classSearchConfig);
 
     const employeeResults = this.employeesSearchIndex.search(searchTerm, employeeSearchConfig);
+
+    ga('send', 'timing', 'search ' + searchTerm.length, 'search', Date.now() - startTime);
 
     const output = [];
 
@@ -464,13 +469,13 @@ class Home extends React.Component {
           <div className={ css.noResultsContainer }>
             <h3>No Results</h3>
             <div className={ css.noResultsBottomLine }>
-              Want to
+              Want to&nbsp;
               <a target='_blank' rel='noopener noreferrer' href={ `https://google.com?q=Northeastern University ${this.state.searchTerm}` }>
-                search for
+                search for&nbsp;
                   <div className={ `ui compact segment ${css.noResultsInputText}` }>
                     <p> {this.state.searchTerm} </p>
                   </div>
-                  on Google
+                  &nbsp;on Google
               </a>
               ?
             </div>

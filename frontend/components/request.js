@@ -13,7 +13,7 @@ class Request {
       return false;
     }
 
-    const now = new Date().getTime();
+    const now = Date.now();
 
     if (now - parseInt(storedValue, 10) > MS_PER_DAY) {
       return false;
@@ -34,13 +34,25 @@ class Request {
   }
 
 
-  async getFromInternet(url, config) {
+  async getFromInternet(url, config, isKeyUpdated) {
     return new Promise((resolve, reject) => {
+      const startTime = Date.now()
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = function onreadystatechange() {
         if (xmlhttp.readyState !== 4) {
           return;
         }
+
+        const requestTime = Date.now() - startTime;
+        console.log('Downloading took ', requestTime, 'for url', url);
+        if (isKeyUpdated) {
+          ga('send', 'timing', url, 'download_cache_hit', requestTime);
+        }
+        else {
+          ga('send', 'timing', url, 'download_cache_miss', requestTime);
+        }
+
+
         if (xmlhttp.status !== 200) {
           let err;
           if (xmlhttp.statusText) {
@@ -59,10 +71,11 @@ class Request {
           return;
         }
 
-        const startParse = new Date().getTime();
+        const startParse = Date.now();
         const response = JSON.parse(xmlhttp.response);
-        const endParse = new Date().getTime();
-        console.log('Parsing took ', (endParse - startParse), 'for url', url);
+        const parsingTime = Date.now() - startParse;
+        console.log('Parsing took ', parsingTime, 'for url', url);
+        ga('send', 'timing', url, 'parse', parsingTime);
 
         if (response.error) {
           console.warn('ERROR networking error bad reqeust?', url);
@@ -103,15 +116,16 @@ class Request {
     let url = config.url;
 
     // Add a key that tells the service worker whether the cache is up to date.
+    let isKeyUpdated;
     if (config.useCache) {
-      const isKeyUpdated = this.isKeyUpdated(config.url);
+      isKeyUpdated = this.isKeyUpdated(config.url);
       url = new URI(config.url).query({ loadFromCache: isKeyUpdated }).toString();
     }
 
-    const internetValue = await this.getFromInternet(url, config);
+    const internetValue = await this.getFromInternet(url, config, isKeyUpdated);
 
     if (config.useCache) {
-      window.localStorage[LOCALSTORAGE_PREFIX + config.url] = new Date().getTime();
+      window.localStorage[LOCALSTORAGE_PREFIX + config.url] = Date.now();
     }
 
 

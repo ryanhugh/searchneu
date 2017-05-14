@@ -71,7 +71,9 @@ if (macros.PROD) {
 
 }
 else {
-  window.ga = function(){}
+  window.ga = function(...args){
+    console.log('GA called:', args)
+  }
 }
 
 
