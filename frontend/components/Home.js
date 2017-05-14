@@ -94,6 +94,9 @@ class Home extends React.Component {
     this.employeeMap = null;
     this.employeesSearchIndex = null;
 
+    // Timer used to debounce search queries
+    this.searchDebounceTimer = null;
+    this.lastSearch = null;
 
     // Used to keep track of the ongoing networking requests
     // To determine how much progress to show on the loading bar
@@ -103,6 +106,25 @@ class Home extends React.Component {
     this.onKeyDown = this.onKeyDown.bind(this);
 
     this.loadData();
+  }
+
+  // On mobile, this is called whenever the user clicks enter. 
+  // On desktop, this is called 500ms after they user stops typing. 
+  logSearch(searchTerm) {
+    searchTerm = searchTerm.trim()
+    if (searchTerm === this.lastSearch) {
+      console.log('Not logging because same as last search', searchTerm)
+      return;
+    }
+    this.lastSearch = searchTerm;
+    console.log('Logging', searchTerm)
+
+    if (searchTerm) {
+      ga('send', 'pageview', '/?q=' + searchTerm);
+    }
+    else {
+      ga('send', 'pageview', '/');
+    }
   }
 
   updatePaceLoadingBar() {
@@ -394,6 +416,10 @@ class Home extends React.Component {
       return;
     }
 
+    // Log the query 500ms from now
+    clearTimeout(this.searchDebounceTimer)
+    this.searchDebounceTimer = setTimeout(this.logSearch.bind(this, event.target.value), 500)
+
     this.searchFromUserAction(event);
   }
 
@@ -402,9 +428,14 @@ class Home extends React.Component {
       return;
     }
 
-    // Hide the keyboard on android phones. 
-    if (document.activeElement) {
-      document.activeElement.blur()
+    if (macros.isMobile) {
+
+      // Hide the keyboard on android phones. 
+      if (document.activeElement) {
+        document.activeElement.blur()
+      }
+
+      this.logSearch(event.target.value)
     }
 
     this.searchFromUserAction(event)

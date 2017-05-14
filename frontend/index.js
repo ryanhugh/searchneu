@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import URI from 'urijs';
 
-import macros form './components/macros'
+import macros from './components/macros';
 import Home from './components/Home';
 
 // Rollbar tag. Reports any errors to Rollbar where they can be viewed.
@@ -56,6 +56,20 @@ if (location.protocol != 'https:' && !parseInt(location.href.slice('http://'.len
   }
 }(window.location))
 
+
+// Google Analytics tracking script. Only use on prod. 
+if (macros.PROD) {
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-85376897-3', 'auto');
+  ga('send', 'pageview');
+}
+else {
+  window.ga = function(){}
+}
 
 
 // Register the Service Worker
