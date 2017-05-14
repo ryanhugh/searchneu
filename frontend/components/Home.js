@@ -416,7 +416,7 @@ class Home extends React.Component {
       return;
     }
 
-    // Log the query 500ms from now
+    // Log the query 500 ms from now.
     clearTimeout(this.searchDebounceTimer)
     this.searchDebounceTimer = setTimeout(this.logSearch.bind(this, event.target.value), 500)
 
