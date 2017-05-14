@@ -9,7 +9,6 @@ import Home from './components/Home';
 
 // Rollbar tag. Reports any errors to Rollbar where they can be viewed.
 if (macros.PROD) {
-  debugger
   var _rollbarConfig = {
       accessToken: "3a76015293344e6f9c47e35c9ce4c84c",
       captureUncaught: true,
