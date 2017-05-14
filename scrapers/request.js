@@ -364,7 +364,7 @@ class Request {
     if (this.openRequests === 0) {
       clearInterval(this.timer);
       utils.log('Starting request analytics timer.');
-      this.analytics[hostname].startTime = new Date().getTime();
+      this.analytics[hostname].startTime = Date.now();
       this.timer = setInterval(this.onInterval.bind(this), 5000);
       setTimeout(() => {
         this.onInterval()
@@ -468,9 +468,9 @@ class Request {
         let response;
         tryCount++;
         try {
-          const requestStart = new Date().getTime();
+          const requestStart = Date.now();
           response = await this.fireRequest(config);
-          requestDuration = new Date().getTime() - requestStart;
+          requestDuration = Date.now() - requestStart;
           this.analytics[hostname].totalGoodRequests++;
         } catch (err) {
           // Most sites just give a ECONNRESET or ETIMEDOUT, but dccc also gives a EPROTO and ECONNREFUSED.
