@@ -38,8 +38,20 @@ class ClassPanel extends React.Component {
     })
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.renderedSections.length !== nextState.renderedSections.length) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // ReactTooltip.rebuild();
+  }
+
   render() {
-    ReactTooltip.rebuild();
     const aClass = this.props.aClass;
     // Render the section table if this class has sections
     let sectionTable = null;
@@ -236,7 +248,6 @@ class ClassPanel extends React.Component {
 
     return (
       <div>
-        <ReactTooltip effect='solid' className={ css.listIconTooltip } />
         <div className={ `${css.container} ui segment` }>
           <div className={ css.header }>
             {aClass.subject} {aClass.classId}: {aClass.name}

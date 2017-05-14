@@ -33,7 +33,6 @@ class ResultsLoader extends React.Component {
     this.handleInfiniteLoad();
   }
 
-
   componentWillReceiveProps() {
     this.alreadyLoadedAt = {};
     this.setState({

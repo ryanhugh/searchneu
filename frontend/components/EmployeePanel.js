@@ -31,6 +31,10 @@ class EmployeePanel extends React.Component {
     return retVal
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     const employee = this.props.employee;
 
@@ -41,20 +45,7 @@ class EmployeePanel extends React.Component {
       officeElements.push(employee.officeRoom)
     }
 
-    // if (employee.office) {
-    //   const lines = employee.office.split('\r\n');
-
-    //   lines.forEach((line, index) => {
-    //     officeElements.push(line);
-    //     if (lines.length - 1 !== index) {
-    //       officeElements.push(<br key={ index } />);
-    //     }
-    //   });
-    // }
-
-
     officeElements = this.constructor.injectBRs(officeElements)
-
 
     const contactText = [];
 
@@ -113,8 +104,6 @@ class EmployeePanel extends React.Component {
     }
 
     links = this.constructor.injectBRs(links)
-
-    // data-tip={ `View on ${section.host}` }
 
     return (
       <div className={ `${css.container} ui segment` }>

@@ -54,19 +54,6 @@
     display: none;
 }
 
-
-
-.listIconTooltip {
-    font-size: 14px !important;
-    z-index: 999999;
-    padding-top: 6px  !important;
-    padding-bottom: 6px  !important;
-    padding-left: 10px  !important;
-    padding-right: 10px  !important;
-    border-radius: 7px  !important;
-    white-space: nowrap !important;
-}
-
 .showMoreButton {
     cursor: pointer;
     padding: 10px;

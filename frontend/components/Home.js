@@ -2,10 +2,11 @@ import React from 'react';
 import CSSModules from 'react-css-modules';
 import elasticlunr from 'elasticlunr';
 import 'semantic-ui-css/semantic.min.css';
-import PaceBar from './PaceBar';
+import ReactTooltip from 'react-tooltip';
 
 import '../css/base.css';
 
+import PaceBar from './PaceBar';
 import css from './home.css';
 import macros from './macros';
 import request from './request';
@@ -470,7 +471,7 @@ class Home extends React.Component {
             <h3>No Results</h3>
             <div className={ css.noResultsBottomLine }>
               Want to&nbsp;
-              <a target='_blank' rel='noopener noreferrer' href={ `https://google.com?q=Northeastern University ${this.state.searchTerm}` }>
+              <a target='_blank' rel='noopener noreferrer' href={ `https://google.com/search?q=Northeastern University ${this.state.searchTerm}` }>
                 search for&nbsp;
                   <div className={ `ui compact segment ${css.noResultsInputText}` }>
                     <p> {this.state.searchTerm} </p>
@@ -565,10 +566,12 @@ class Home extends React.Component {
             Two Factor Authenticaton
           </a>.
         </div>
-
+        
       </div>
     );
   }
 }
+
+// <ReactTooltip effect='solid' className={ css.listIconTooltip } />
 
 export default CSSModules(Home, css);

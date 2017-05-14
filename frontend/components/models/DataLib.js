@@ -27,6 +27,8 @@ export default class DataLib {
 	getClassesInSubject(subject) {
 		let keys = Object.keys(this.termDump.classMap)
 
+		const startTime = Date.now()
+
 		console.time('start')
 		let retVal = [];
 		for (const key of keys) {
@@ -40,7 +42,7 @@ export default class DataLib {
 		retVal.sort((a,b) => {
 			return parseInt(this.termDump.classMap[a].classId) - parseInt(this.termDump.classMap[b].classId)
 		})
-		console.timeEnd('start')
+		ga('send', 'timing', subject, 'subject', Date.now() - startTime);
 
 
 		return retVal;
