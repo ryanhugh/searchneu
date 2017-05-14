@@ -7,7 +7,7 @@ import PaceBar from './PaceBar';
 import '../css/base.css';
 
 import css from './home.css';
-import macros from './macros'
+import macros from './macros';
 import request from './request';
 import ResultsLoader from './ResultsLoader';
 import CourseProData from './models/DataLib';
@@ -31,7 +31,7 @@ const classSearchConfig = {
       boost: 1,
     },
 
-    // Enable this again if this is added to the index. 
+    // Enable this again if this is added to the index.
 
     // locations: {
     //   boost: 1,
@@ -78,13 +78,13 @@ class Home extends React.Component {
     this.state = {
       results: [],
 
-      // Value to set the search box to after the search box is rendered. 
-      // If the user navigates to a page, search for the query. 
+      // Value to set the search box to after the search box is rendered.
+      // If the user navigates to a page, search for the query.
       searchTerm: decodeURIComponent(location.pathname.slice(1)),
 
-      // If we a waiting on a user on a slow computer to click enter to search. 
+      // If we a waiting on a user on a slow computer to click enter to search.
       // On desktop, the data is searched every time, but it is only searched after you click enter on mobile.
-      waitingOnEnter: false
+      waitingOnEnter: false,
     };
 
     this.dataPromise = null;
@@ -105,24 +105,27 @@ class Home extends React.Component {
     this.onClick = this.onClick.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
 
+    // Log the initial search or pageview.
+    this.logSearch(this.state.searchTerm);
+
+    // Download all the data.
     this.loadData();
   }
 
-  // On mobile, this is called whenever the user clicks enter. 
-  // On desktop, this is called 500ms after they user stops typing. 
+  // On mobile, this is called whenever the user clicks enter.
+  // On desktop, this is called 500ms after they user stops typing.
   logSearch(searchTerm) {
-    searchTerm = searchTerm.trim()
+    searchTerm = searchTerm.trim();
     if (searchTerm === this.lastSearch) {
-      console.log('Not logging because same as last search', searchTerm)
+      console.log('Not logging because same as last search', searchTerm);
       return;
     }
     this.lastSearch = searchTerm;
-    console.log('Logging', searchTerm)
+    console.log('Logging', searchTerm);
 
     if (searchTerm) {
-      ga('send', 'pageview', '/?q=' + searchTerm);
-    }
-    else {
+      ga('send', 'pageview', `/?q=${searchTerm}`);
+    } else {
       ga('send', 'pageview', '/');
     }
   }
@@ -168,9 +171,9 @@ class Home extends React.Component {
 
     // Load the mobile version if on mobile.
     if (macros.isMobile) {
-      classesSearchIndexUrl += '.mobile'
+      classesSearchIndexUrl += '.mobile';
     }
-    classesSearchIndexUrl += '.json'
+    classesSearchIndexUrl += '.json';
     const classesDataUrl = 'data/getTermDump/neu.edu/201810.json';
 
     const employeesDataUrl = 'data/employeeMap.json';
@@ -261,7 +264,7 @@ class Home extends React.Component {
     await this.dataPromise;
 
     if (this.state.searchTerm) {
-      console.log('going to serach for ', this.state.searchTerm );
+      console.log('going to serach for ', this.state.searchTerm);
       this.search(this.state.searchTerm);
     }
 
@@ -305,7 +308,7 @@ class Home extends React.Component {
         this.setState({
           results: output,
           searchTerm: originalSearchTerm,
-          waitingOnEnter: false
+          waitingOnEnter: false,
         });
         return;
       }
@@ -388,7 +391,7 @@ class Home extends React.Component {
     this.setState({
       results: output,
       searchTerm: originalSearchTerm,
-      waitingOnEnter: false
+      waitingOnEnter: false,
     });
   }
 
@@ -397,7 +400,7 @@ class Home extends React.Component {
     if (!event.target.value) {
       this.setState({
         results: [],
-        searchTerm: event.target.value
+        searchTerm: event.target.value,
       });
       return;
     }
@@ -411,14 +414,14 @@ class Home extends React.Component {
       this.setState({
         results: [],
         searchTerm: event.target.value,
-        waitingOnEnter: true
+        waitingOnEnter: true,
       });
       return;
     }
 
     // Log the query 500 ms from now.
-    clearTimeout(this.searchDebounceTimer)
-    this.searchDebounceTimer = setTimeout(this.logSearch.bind(this, event.target.value), 500)
+    clearTimeout(this.searchDebounceTimer);
+    this.searchDebounceTimer = setTimeout(this.logSearch.bind(this, event.target.value), 500);
 
     this.searchFromUserAction(event);
   }
@@ -429,16 +432,15 @@ class Home extends React.Component {
     }
 
     if (macros.isMobile) {
-
-      // Hide the keyboard on android phones. 
+      // Hide the keyboard on android phones.
       if (document.activeElement) {
-        document.activeElement.blur()
+        document.activeElement.blur();
       }
 
-      this.logSearch(event.target.value)
+      this.logSearch(event.target.value);
     }
 
-    this.searchFromUserAction(event)
+    this.searchFromUserAction(event);
   }
 
 
@@ -454,13 +456,22 @@ class Home extends React.Component {
     if (this.termData && this.state.results && this.employeeMap) {
       if (this.state.results.length === 0 && this.state.searchTerm.length > 0 && !this.state.waitingOnEnter) {
         resultsElement = (
-          <div className = {css.noResultsContainer}>
+          <div className={ css.noResultsContainer }>
             <h3>No Results</h3>
-            <div className = {css.noResultsBottomLine}>Want to <a target='_blank' rel='noopener noreferrer' href={"https://google.com?q=Northeastern University " + this.state.searchTerm}>search for <div className={"ui compact segment " + css.noResultsInputText}> <p> {this.state.searchTerm} </p> </div>  on Google</a>?</div>
+            <div className={ css.noResultsBottomLine }>
+              Want to
+              <a target='_blank' rel='noopener noreferrer' href={ `https://google.com?q=Northeastern University ${this.state.searchTerm}` }>
+                search for
+                  <div className={ `ui compact segment ${css.noResultsInputText}` }>
+                    <p> {this.state.searchTerm} </p>
+                  </div>
+                  on Google
+              </a>
+              ?
+            </div>
           </div>
-          )
-      }
-      else {
+          );
+      } else {
         resultsElement = (<ResultsLoader
           results={ this.state.results }
           termData={ this.termData }
@@ -472,10 +483,10 @@ class Home extends React.Component {
     let hitEnterToSearch = null;
     if (this.state.waitingOnEnter) {
       hitEnterToSearch = (
-        <div className ={css.hitEnterToSearch}>
+        <div className={ css.hitEnterToSearch }>
           Hit Enter to Search ...
         </div>
-      )
+      );
     }
 
     return (
@@ -510,8 +521,8 @@ class Home extends React.Component {
                 spellCheck='false'
                 tabIndex='0'
                 onChange={ this.onClick }
-                onKeyDown = { this.onKeyDown }
-                defaultValue= { this.state.searchTerm }
+                onKeyDown={ this.onKeyDown }
+                defaultValue={ this.state.searchTerm }
               />
             </div>
             {hitEnterToSearch}

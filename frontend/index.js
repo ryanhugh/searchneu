@@ -65,7 +65,10 @@ if (macros.PROD) {
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
   ga('create', 'UA-85376897-3', 'auto');
-  ga('send', 'pageview');
+
+  // No pageview is logged here. 
+  // Instead, the log function is called in home.js once home.js is loaded. 
+
 }
 else {
   window.ga = function(){}
