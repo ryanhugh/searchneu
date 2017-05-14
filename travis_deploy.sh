@@ -19,6 +19,10 @@ echo
 date
 echo
 
+# Use this command to get the stuff in prod into the public folder. 
+# time git clone -b gh-pages --single-branch git@github.com:ryanhugh/searchneu.git public
+# rm -rf public/.git
+
 if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
   npm -g install babel-cli
   cd scrapers

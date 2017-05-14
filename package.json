@@ -4,7 +4,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=dev; babel-node backend/server.js",
     "scrape": "babel-node scrapers/main.js",
-    "build": "mkdir -p public; cp frontend/404.html public/404.html; cp frontend/sw.js public/sw.js; cross-env NODE_ENV=prod webpack --config ./backend/webpack.config.babel.js --profile --colors",
+    "build": "mkdir -p public; cp frontend/404.html public/404.html; cp frontend/robots.txt public/robots.txt; cp frontend/sw.js public/sw.js; cross-env NODE_ENV=prod webpack --config ./backend/webpack.config.babel.js --profile --colors",
     "lint": "eslint scrapers",
     "test": "jest",
     "deploy": "gh-pages -d public"
@@ -87,7 +87,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^5.0.1",
     "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-react": "^7.0.0",
+    "eslint-plugin-react": "^7.0.1",
     "extract-text-webpack-plugin": "^2.1.0",
     "ignore-styles": "^5.0.1",
     "react-hot-loader": "^3.0.0-beta.2",
