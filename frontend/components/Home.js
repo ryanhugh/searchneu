@@ -264,7 +264,7 @@ class Home extends React.Component {
     await this.dataPromise;
 
     if (this.state.searchTerm) {
-      console.log('going to serach for ', this.state.searchTerm);
+      console.log('Going to serach for', this.state.searchTerm);
       this.search(this.state.searchTerm);
     }
 
@@ -272,6 +272,11 @@ class Home extends React.Component {
     // (This is just for testing, feel free to change it to whatever.)
     else if (macros.DEV) {
       this.search('cs');
+    }
+    else {
+
+      // Force an update on the screen so the loading bar dissapears and the page shows. 
+      this.forceUpdate();
     }
   }
 
