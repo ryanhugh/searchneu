@@ -113,6 +113,10 @@ class Home extends React.Component {
     this.loadData();
   }
 
+  static debounceRebuildTooltip() {
+
+  }
+
   // On mobile, this is called whenever the user clicks enter.
   // On desktop, this is called 500ms after they user stops typing.
   logSearch(searchTerm) {
@@ -566,12 +570,11 @@ class Home extends React.Component {
             Two Factor Authenticaton
           </a>.
         </div>
-        
+        <ReactTooltip effect='solid' className={ css.listIconTooltip } />
       </div>
     );
   }
 }
 
-// <ReactTooltip effect='solid' className={ css.listIconTooltip } />
 
 export default CSSModules(Home, css);

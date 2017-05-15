@@ -1,10 +1,18 @@
 import isMobile from 'is-mobile';
-
+import ReactTooltip from 'react-tooltip';
 
 
 window.elog = function elog() {
   console.error.apply(console.error, arguments);
 };
+
+
+let tooltipTimer = null;
+
+exports.debounceTooltipRebuild = function debounceTooltipRebuild() {
+	clearTimeout(tooltipTimer);
+	tooltipTimer = setTimeout(ReactTooltip.rebuild.bind(ReactTooltip), 20)
+}
 
 // True if is a Phone or other mobile device (iPod). Will be false for iPads.
 exports.isMobile = isMobile()

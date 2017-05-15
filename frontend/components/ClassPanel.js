@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
-import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames/bind';
 
 import globe from './globe.svg';
@@ -48,7 +47,11 @@ class ClassPanel extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // ReactTooltip.rebuild();
+    macros.debounceTooltipRebuild();
+  }
+
+  componentDidMount() {
+    macros.debounceTooltipRebuild();
   }
 
   render() {
