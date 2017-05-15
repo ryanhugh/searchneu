@@ -43,6 +43,7 @@ git config --global user.name "data-updater-bot"
 git remote remove origin
 git remote add origin git@github.com:ryanhugh/searchneu.git
 node node_modules/gh-pages/bin/gh-pages -d public -a
+echo $? 
 
 # Tell Rollbar about the deploy
 ACCESS_TOKEN=$ROLLBAR_TOKEN
