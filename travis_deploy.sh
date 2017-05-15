@@ -44,7 +44,7 @@ git remote remove origin
 git remote add origin git@github.com:ryanhugh/searchneu.git
 
 git clone git@github.com:ryanhugh/searchneu.git ~/testtest
-
+rm -rf .git
 
 
 NODE_DEBUG=gh-pages node node_modules/gh-pages/bin/gh-pages -d public -a -r git@github.com:ryanhugh/searchneu.git
