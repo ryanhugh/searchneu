@@ -18,6 +18,8 @@ curl https://api.ipify.org/
 echo
 date
 echo
+git --version
+echo
 
 # Use this command to get the stuff in prod into the public folder. 
 # time git clone -b gh-pages --single-branch git@github.com:ryanhugh/searchneu.git public
