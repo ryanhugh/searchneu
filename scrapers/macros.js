@@ -33,8 +33,8 @@ if (process.env.PROD) {
   console.log("Running in PROD mode.")
 }
 else if (process.env.DEV) {
-  exports.DEV = false;
-  exports.PROD = true;
+  exports.DEV = true;
+  exports.PROD = false;
   exports.TESTS = false;
   console.log("Running in dev mode.")
 }
@@ -46,7 +46,7 @@ else if (process.env.NODE_ENV === 'test') {
 else {
   console.log('UNKNOWN env! Setting to dev.')
   console.log(process.env.NODE_ENV, process.env.PROD, process.env.TESTS, process.env.DEV,'env here')
-  exports.DEV = false;
-  exports.PROD = true;
+  exports.DEV = true;
+  exports.PROD = false;
   exports.TESTS = false;
 }
