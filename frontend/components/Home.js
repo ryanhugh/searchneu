@@ -129,7 +129,7 @@ class Home extends React.Component {
     console.log('Logging', searchTerm);
 
     if (searchTerm) {
-      ga('send', 'pageview', `/?query=${searchTerm}`);
+      ga('send', 'pageview', `/?search=${searchTerm}`);
     } else {
       ga('send', 'pageview', '/');
     }
