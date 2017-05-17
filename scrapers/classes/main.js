@@ -2,6 +2,8 @@ import elasticlunr from 'elasticlunr';
 import path from 'path';
 import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
+import algoliasearch from 'algoliasearch';
+import _ from 'lodash';
 
 
 import pageDataMgr from './pageDataMgr';
@@ -14,6 +16,53 @@ const getSearchIndex = '/getSearchIndex';
 
 class Main {
 
+  constructor() {
+    this.algoliaKey = null;
+
+    this.getAlgoliaIndex()
+  }
+
+
+  async getAlgoliaIndex() {
+    if (this.index) {
+      return this.index
+    }
+
+    // This application ID is Public. 
+    this.algoliaClient = algoliasearch('KTYX72Q2JT', (await this.getAlgoliaKey()));
+    this.index = this.algoliaClient.initIndex('classes');
+    console.log('Got index!', index)
+  }
+
+  // Grab they key from the env or the config file. 
+  async getAlgoliaKey() {
+
+    if (this.algoliaKey) {
+      return this.algoliaKey;
+    }
+
+    if (process.env.ALGOLIA_KEY) {
+      this.algoliaKey = process.env.ALGOLIA_KEY
+      return process.env.ALGOLIA_KEY;
+    }
+
+    // Check two different paths for they API key. 
+    let config;
+    try {
+      config = JSON.parse(await fs.readFile('/etc/searchneu/config.json'))
+    }
+    catch (e) {
+      config = JSON.parse(await fs.readFile('/mnt/c/etc/searchneu/config.json'))
+    }
+
+    if (!config.algoliaSearchApiKey) {
+      utils.critical("Could not get algolia search key!", config);
+    }
+
+    this.algoliaKey = config.algoliaSearchApiKey;
+
+    return config.algoliaSearchApiKey;
+  }
 
   async createDataDumps(termDump) {
     const termMapDump = {};
@@ -126,24 +175,29 @@ class Main {
     index.addField('subject');
 
     // Remove profs from here once this data is joined with the prof data and there are UI elements for showing which classes a prof teaches.
-    index.addField('profs');
+    index.addField('profsString');
 
     // Lets disable this until buildings are added to the index and the DB.
     // Dosen't make sense for classes in a building to come up when the building name is typed in the search box.
     // If this is ever enabled again, make sure to add it to the config in home.js too. 
     // index.addField('locations');
-    index.addField('crns');
+    index.addField('crnsString');
+
+    let itemsToIndex = []
 
     for (const attrName2 in termData.classHash) {
       const searchResultData = termData.classHash[attrName2];
 
-      const toIndex = {
-        classId: searchResultData.class.classId,
-        desc: searchResultData.class.desc,
-        subject: searchResultData.class.subject,
-        name: searchResultData.class.name,
-        key: Keys.create(searchResultData.class).getHash(),
-      };
+      let toIndex = {};
+
+      Object.assign(toIndex, searchResultData.class)
+
+      toIndex.classId = searchResultData.class.classId;
+      toIndex.desc = searchResultData.class.desc;
+      toIndex.subject = searchResultData.class.subject;
+      toIndex.name = searchResultData.class.name;
+      toIndex.objectID = Keys.create(searchResultData.class).getHash();
+      toIndex.sections = searchResultData.sections
 
       let profs = [];
       // let locations = [];
@@ -161,14 +215,43 @@ class Main {
         }
       });
 
-
-      toIndex.profs = profs.join(' ');
+      _.pull(profs, 'TBA')
+      profs = _.uniq(profs)
+      toIndex.profsString = profs.join(' ');
       // toIndex.locations = locations.join(' ');
       if (searchResultData.class.crns) {
-        toIndex.crns = searchResultData.class.crns.join(' ');
+        toIndex.crnsString = searchResultData.class.crns.join(' ');
       }
 
-      index.addDoc(toIndex);
+      if (searchResultData.class.crns.length === 0) {
+        continue;
+      }
+
+      // index.addDoc(toIndex);
+
+      itemsToIndex.push(toIndex);
+    }
+
+    // Add to algolia
+    if (includeDesc && termData.termId === '201810') {
+      // console.log(termData.termId, termData.host, 'HERERERERER')
+      // process.exit();
+      // const apiKey = await this.getAlgoliaKey();
+// 
+
+    // console.log(JSON.stringify(itemsToIndex, null, 4))
+    // process.exit()
+
+      let index = await this.getAlgoliaIndex()
+      const retVal = index.addObjects(itemsToIndex.slice(0, 10), function (err, items) {
+        console.log(err, items)
+      })
+
+      console.log(retVal)
+
+      // console.log(apiKey)
+      // process.exit()
+
     }
 
     const searchIndexString = JSON.stringify(index.toJSON());
@@ -279,8 +362,13 @@ class Main {
 const instance = new Main();
 
 
+async function test() {
+  console.log(await instance.getAlgoliaKey())
+}
+
 if (require.main === module) {
   instance.main(['neu']);
+  // test()
 }
 
 export default instance;
