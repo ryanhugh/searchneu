@@ -2,10 +2,9 @@ import elasticlunr from 'elasticlunr';
 import path from 'path';
 import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
-import algoliasearch from 'algoliasearch';
 import _ from 'lodash';
 
-
+import algolia from '../algolia';
 import pageDataMgr from './pageDataMgr';
 import macros from '../macros';
 import utils from '../utils';
@@ -16,53 +15,6 @@ const getSearchIndex = '/getSearchIndex';
 
 class Main {
 
-  constructor() {
-    this.algoliaKey = null;
-
-    this.getAlgoliaIndex()
-  }
-
-
-  async getAlgoliaIndex() {
-    if (this.index) {
-      return this.index
-    }
-
-    // This application ID is Public. 
-    this.algoliaClient = algoliasearch('KTYX72Q2JT', (await this.getAlgoliaKey()));
-    this.index = this.algoliaClient.initIndex('classes');
-    console.log('Got index!', index)
-  }
-
-  // Grab they key from the env or the config file. 
-  async getAlgoliaKey() {
-
-    if (this.algoliaKey) {
-      return this.algoliaKey;
-    }
-
-    if (process.env.ALGOLIA_KEY) {
-      this.algoliaKey = process.env.ALGOLIA_KEY
-      return process.env.ALGOLIA_KEY;
-    }
-
-    // Check two different paths for they API key. 
-    let config;
-    try {
-      config = JSON.parse(await fs.readFile('/etc/searchneu/config.json'))
-    }
-    catch (e) {
-      config = JSON.parse(await fs.readFile('/mnt/c/etc/searchneu/config.json'))
-    }
-
-    if (!config.algoliaSearchApiKey) {
-      utils.critical("Could not get algolia search key!", config);
-    }
-
-    this.algoliaKey = config.algoliaSearchApiKey;
-
-    return config.algoliaSearchApiKey;
-  }
 
   async createDataDumps(termDump) {
     const termMapDump = {};
@@ -188,16 +140,23 @@ class Main {
     for (const attrName2 in termData.classHash) {
       const searchResultData = termData.classHash[attrName2];
 
-      let toIndex = {};
+      let toIndex = {
 
-      Object.assign(toIndex, searchResultData.class)
+        // Data to send to frontend.
+        class: searchResultData.class,
+        sections: searchResultData.sections,
 
-      toIndex.classId = searchResultData.class.classId;
-      toIndex.desc = searchResultData.class.desc;
-      toIndex.subject = searchResultData.class.subject;
-      toIndex.name = searchResultData.class.name;
-      toIndex.objectID = Keys.create(searchResultData.class).getHash();
-      toIndex.sections = searchResultData.sections
+        // Type of object.
+        type: 'class',
+
+        // These fields are going to be indexed.
+        // classId: searchResultData.class.classId,
+        // desc: searchResultData.class.desc,
+        // subject: searchResultData.class.subject,
+        // name: searchResultData.class.name,
+        ObjectID: Keys.create(searchResultData.class).getHash(),
+      };
+
 
       let profs = [];
       // let locations = [];
@@ -219,13 +178,15 @@ class Main {
       profs = _.uniq(profs)
       toIndex.profsString = profs.join(' ');
       // toIndex.locations = locations.join(' ');
-      if (searchResultData.class.crns) {
-        toIndex.crnsString = searchResultData.class.crns.join(' ');
-      }
+      // if (searchResultData.class.crns) {
+      //   toIndex.crnsString = searchResultData.class.crns.join(' ');
+      // }
 
       if (searchResultData.class.crns.length === 0) {
         continue;
       }
+
+
 
       // index.addDoc(toIndex);
 
@@ -242,10 +203,8 @@ class Main {
     // console.log(JSON.stringify(itemsToIndex, null, 4))
     // process.exit()
 
-      let index = await this.getAlgoliaIndex()
-      const retVal = index.addObjects(itemsToIndex.slice(0, 10), function (err, items) {
-        console.log(err, items)
-      })
+      let index = await algolia.getAlgoliaIndex();
+      const retVal = await index.addObjects(itemsToIndex.slice(0, 10));
 
       console.log(retVal)
 
