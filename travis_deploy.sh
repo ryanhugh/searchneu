@@ -14,7 +14,7 @@ ulimit -S -a
 ulimit -H -a
 
 # Log the public IP and local time of this server. Useful for figuring out the physical location of the server (Affects ping time of requests). 
-curl https://api.ipify.org/
+curl --insecure https://api.ipify.org/
 echo
 date
 echo

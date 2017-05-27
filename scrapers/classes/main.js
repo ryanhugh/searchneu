@@ -200,13 +200,15 @@ class Main {
       // const apiKey = await this.getAlgoliaKey();
 // 
 
-    // console.log(JSON.stringify(itemsToIndex, null, 4))
+    // console.log(JSON.stringify(itemsToIndex.slice(0, 10), null, 4))
+      // await algolia.addObjects(itemsToIndex.slice(0, 100))
     // process.exit()
 
-      let index = await algolia.getAlgoliaIndex();
-      const retVal = await index.addObjects(itemsToIndex.slice(0, 10));
+      // let index = await algolia.getAlgoliaIndex();
 
-      console.log(retVal)
+      // const retVal = await index.addObjects(itemsToIndex.slice(0, 10));
+
+      // console.log(retVal)
 
       // console.log(apiKey)
       // process.exit()
@@ -221,10 +223,13 @@ class Main {
     await mkdirp(folderName);
     await fs.writeFile(fileName, searchIndexString);
     console.log('Successfully saved', fileName);
+    return {
+      searchItems: itemsToIndex.slice(0, 100)
+    }
   }
 
 
-  createSerchIndex(termDump) {
+  async createSerchIndex(termDump) {
     let errorCount = 0;
 
     const classLists = {};
@@ -291,15 +296,58 @@ class Main {
 
     const promises = [];
 
-    for (const attrName in classLists) {
-      const termData = classLists[attrName];
-      promises.push(this.createSearchIndexFromClassLists(termData));
-      promises.push(this.createSearchIndexFromClassLists(termData, '.mobile', false));
-    }
+    console.log(Object.keys(classLists), 'here')
+
+    const fall2017 = Keys.create({
+        host: 'neu.edu',
+        termId: '201810',
+    }).getHash();
+
+    const data = await this.createSearchIndexFromClassLists(classLists[fall2017])
+
+
+
+    // Just look at the Fall 2017 term for now. 
+    // Eventually, will have to support more than one term. 
+
+
+    // exit()
+
+    // for (const attrName in classLists) {
+    //   const termData = classLists[attrName];
+    //   promises.push(this.createSearchIndexFromClassLists(termData));
+    //   promises.push(this.createSearchIndexFromClassLists(termData, '.mobile', false));
+    // }
 
     console.log('Errorcount: ', errorCount);
 
-    return Promise.all(promises);
+    return {
+      searchItems: data.searchItems
+    }
+
+    // return Promise.all(promises);
+  }
+
+
+
+  async getTermDump(hostnames) {
+    const outputFile = path.join(macros.DEV_DATA_DIR, 'classes' + hostnames.join(',') + '.json');
+
+    // if this is dev and this data is already scraped, just return the data
+    if (macros.DEV && require.main !== module || 1) {
+      const devData = await utils.loadDevData(outputFile);
+      if (devData) {
+        return devData;
+      }
+    }
+
+    const termDump = await pageDataMgr.main(hostnames);
+
+    if (macros.DEV) {
+      await utils.saveDevData(outputFile, termDump);
+      console.log('classes file saved for', hostnames, '!');
+    }
+    return termDump
   }
 
 
@@ -309,10 +357,13 @@ class Main {
       return;
     }
 
-    const termDump = await pageDataMgr.main(hostnames);
-    console.log('HI', !!termDump);
-    await this.createSerchIndex(termDump);
+    
+    const termDump = await this.getTermDump(hostnames);
+  
     await this.createDataDumps(termDump);
+
+    // This function returns the data needed to create the algolia index in the next step
+    return this.createSerchIndex(termDump);
   }
 
 

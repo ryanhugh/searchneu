@@ -2,6 +2,7 @@ import removeAccents from 'remove-accents';
 import mkdirp from 'mkdirp-promise';
 import elasticlunr from 'elasticlunr';
 import _ from 'lodash';
+import objectHash from 'object-hash';
 
 import algolia from './algolia';
 import fs from 'fs-promise';
@@ -30,7 +31,8 @@ import camdFaculty from './camd';
 
 
 // TODO
-// Skip processing for the first peopleList, and go straight to the inserting phase. Will probably save 1 min or so. 
+// Perhaps change the object hash to some ID that was scraped from the page? 
+// This would save 1 op on algolia for every person who is not an employee who updates. 
 
 // name
 
@@ -302,13 +304,16 @@ class CombineCCISandEmployees {
 
 
     // Add IDs to people that don't have them (IDs are only scraped from employee directory)
+    const startTime = Date.now();
     mergedEmployees.forEach((person, index) => {
       if (person.id) {
         return;
       }
 
-      mergedEmployees[index].id = String(index) + String(Math.random()) + person.name;
+      mergedEmployees[index].id = objectHash(person);
     });
+
+    console.log("Spent", Date.now() - startTime, 'ms generating object hashes for employees without IDs.');
 
 
     // Save the file
@@ -398,15 +403,21 @@ class CombineCCISandEmployees {
     });
 
 
-    let algoliaIndex = await algolia.getAlgoliaIndex();
-    console.log(JSON.stringify(itemsToIndex.slice(0, 10), null, 4))
-    const retVal = await algoliaIndex.addObjects(itemsToIndex.slice(0, 10))
-    console.log(retVal, 'return value')
+    // let algoliaIndex = await algolia.getAlgoliaIndex();
+    // console.log(JSON.stringify(itemsToIndex.slice(0, 10), null, 4))
+
+    // await algolia.addObjects(itemsToIndex.slice(0, 100))
+
+
+    // const retVal = await algoliaIndex.addObjects(itemsToIndex.slice(0, 10))
+    // console.log(retVal, 'return value')
 
     await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeesSearchIndex.json'), JSON.stringify(index.toJSON()));
     console.log('wrote employee json files');
 
-    return mergedEmployees;
+    return {
+      searchItems: itemsToIndex.slice(0, 100)
+    };
   }
 }
 

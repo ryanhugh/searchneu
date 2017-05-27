@@ -88,6 +88,7 @@ const separateReqPools = {
   'wl11gp.neu.edu':  { maxSockets: 100, keepAlive: true, maxFreeSockets: 100 },
 };
 
+
 const MAX_RETRY_COUNT = 35;
 
 // These numbers are in ms.
@@ -106,6 +107,9 @@ class Request {
 
     // Stuff for analytics on a per-hostname basis.
     this.analytics = {};
+
+    // Hostnames that had a request since the last call to onInterval.
+    this.activeHostnames = {}
 
     // Template for each analytics object
     // totalBytesDownloaded: 0,
@@ -162,9 +166,12 @@ class Request {
   }
 
   onInterval() {
-    const activeHostnames = Object.keys(this.analytics);
+    const analyticsHostnames = Object.keys(this.analytics);
 
-    for (const hostname of activeHostnames) {
+    for (const hostname of analyticsHostnames) {
+      if (!this.activeHostnames[hostname]) {
+        continue;
+      }
       if (!separateReqPools[hostname]) {
         utils.log(hostname);
         utils.log(JSON.stringify(this.analytics[hostname], null, 4));
@@ -179,6 +186,8 @@ class Request {
       utils.log(hostname)
       utils.log(JSON.stringify(totalAnalytics, null, 4))
     }
+
+    this.activeHostnames = {};
 
     // Shared pool
     utils.log(JSON.stringify(this.getAnalyticsFromAgent(separateReqDefaultPool), null, 4))
@@ -280,6 +289,7 @@ class Request {
 
     const hostname = urlParsed.hostname();
     this.ensureAnalyticsObject(hostname);
+    this.activeHostnames[hostname] = true;
 
     const dnsResults = await this.getDns(urlParsed.hostname());
 
