@@ -388,7 +388,7 @@ class CombineCCISandEmployees {
         // Type of this object
         type: 'employee',
 
-        ObjectID: row.id
+        objectID: row.id
 
         // Fields to index
         // name: docToIndex.name,

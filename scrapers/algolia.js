@@ -44,26 +44,25 @@ class Algolia {
   }
 
   // Used in the deep equals comparisons of objects.
-  // Lets lodash do the comparisons for all objects and keys, but if the lastUpdateTime is different, 
+  // Lets lodash do the comparisons for all objects and keys, but if the lastUpdateTime is different,
   // this will cause the _.isEqualWith to still return true
   lodashCustomizer(objValue, othValue, key) {
     if (key === 'lastUpdateTime') {
-      return true
+      return true;
     }
+    return undefined;
   }
 
-  deepDiffLogger(object, diff) {
-
-    for (const diffItem of diff) {
+  deepDiffLogger(object, diffOutput) {
+    for (const diffItem of diffOutput) {
       if (diffItem.kind === 'E') {
         if (diffItem.path[diffItem.path.length - 1] === 'lastUpdateTime') {
           continue;
         }
 
-        console.log(object.ObjectID, diffItem.path.join('.'),'from',diffItem.lhs,'to',diffItem.rhs)
-      }
-      else {
-        console.log(diffItem)
+        console.log(object.objectID, diffItem.path.join('.'), 'from', diffItem.lhs, 'to', diffItem.rhs);
+      } else {
+        console.log(diffItem);
       }
     }
   }
@@ -72,16 +71,15 @@ class Algolia {
     const existingDataMap = await this.getAllRows();
 
     // Objects that are new or have changed since the last scraping
-    let toAdd = []
+    const toAdd = [];
 
     // Objects that no longer exist
-    let toRemove = []
+    const toRemove = [];
 
     // Number of objects that didn't change
     let sameCount = 0;
 
     for (const object of objects) {
-
       // Some sanity checking
       if (!object.type) {
         console.error('Error need type to add to algolia.');
@@ -94,45 +92,51 @@ class Algolia {
       }
 
 
-      if (!existingDataMap[object.ObjectID]) {
-        console.log('Adding', object.type,object.ObjectID)
+      if (!existingDataMap[object.objectID]) {
+        console.log('Adding', object.type, object.objectID);
         toAdd.push(object);
-
       }
 
       // Update the DB
-      else if (!_.isEqualWith(existingDataMap[object.ObjectID], object, this.lodashCustomizer.bind(this))) {
-        this.deepDiffLogger(object, diff(existingDataMap[object.ObjectID], object), null , 4)
-        toAdd.push(object)
-      }
-      else {
+      else if (!_.isEqualWith(existingDataMap[object.objectID], object, this.lodashCustomizer.bind(this))) {
+        this.deepDiffLogger(object, diff(existingDataMap[object.objectID], object), null, 4);
+        toAdd.push(object);
+      } else {
         sameCount++;
-        // console.log('Object was the same ', object.type, object.ObjectID);
+        // console.log('Object was the same ', object.type, object.objectID);
       }
 
       // Clear out this item from the exiting data
       // Any items remaining when we are done are not present in the new data and need to be removed from algolia.
-      existingDataMap[object.ObjectID] = undefined
+      existingDataMap[object.objectID] = undefined;
     }
 
-    
-    let oldObjects = Object.values(existingDataMap)
-    for (const object of oldObjects) {
 
+    const oldObjects = Object.values(existingDataMap);
+    for (const object of oldObjects) {
       // Add any object that is not undefined
       if (object) {
-        toRemove.push(object)
+        toRemove.push(object.objectID);
       }
     }
 
     console.log('Going to remove ', toRemove.length, 'objects.');
     console.log('Going to add/update', toAdd.length, 'objects.');
-    console.log(sameCount, 'objects were the same.')
+    console.log(sameCount, 'objects were the same.');
 
-    // Don't update anything if nothing changed. 
+    // Don't update anything if nothing changed.
     if (toAdd.length === 0 && toRemove.length === 0) {
-      console.log('No items to add or remove from search index, no action taken.')
+      console.log('No items to add or remove from search index, no action taken.');
       return;
+    }
+
+    // Sanity checking
+    for (const obj of toAdd) {
+      if (!obj.objectID || typeof obj.objectID !== 'string') {
+        console.error('Invalid objectID!', obj);
+        console.error('Exiting!')
+        return;
+      }
     }
 
     // Update algolia.
@@ -140,18 +144,15 @@ class Algolia {
       const index = await this.getAlgoliaIndex();
       await index.addObjects(toAdd);
       await index.deleteObjects(toRemove);
-    }
-    else {
-      const algoliaJSON = path.join(macros.DEV_DATA_DIR, 'algolia.json')
-      const oldFile = path.join(macros.DEV_DATA_DIR, 'algolia_old_'+String(Date.now())+'.json')
+    } else {
+      const algoliaJSON = path.join(macros.DEV_DATA_DIR, 'algolia.json');
+      const oldFile = path.join(macros.DEV_DATA_DIR, `algolia_old_${String(Date.now())}.json`);
 
-      // Copy the algolia.json to a backup file. 
-      await fs.rename(algoliaJSON, oldFile)
-      await fs.writeFile(algoliaJSON, JSON.stringify(objects, null, 4))
+      // Copy the algolia.json to a backup file.
+      await fs.rename(algoliaJSON, oldFile);
+      await fs.writeFile(algoliaJSON, JSON.stringify(objects, null, 4));
       console.log('Wrote new file and backed up old file to', oldFile);
     }
-
-
   }
 
   async getRowsFromFile() {
@@ -159,7 +160,7 @@ class Algolia {
 
     const hashmap = {};
     for (const result of results) {
-      hashmap[result.ObjectID] = result;
+      hashmap[result.objectID] = result;
     }
 
     return hashmap;
@@ -179,7 +180,7 @@ class Algolia {
       browser.on('end', () => {
         const hashmap = {};
         for (const result of hits) {
-          hashmap[result.ObjectID] = result;
+          hashmap[result.objectID] = result;
         }
 
         resolve(hashmap);
@@ -199,12 +200,12 @@ class Algolia {
 
     // Load from file if not in PROD.
     let promise;
-    if (0) {
+    if ((macros.DEV || macros.TEST)) {
       promise = this.getRowsFromFile();
     } else {
       promise = this.getRowsFromAlgolia();
     }
-    
+
 
     this.getRowsPromise = promise;
     return promise;
@@ -241,4 +242,15 @@ class Algolia {
 
 }
 
-export default new Algolia();
+const instance = new Algolia();
+
+async function test() {
+  const rows = await instance.getRowsFromAlgolia();
+  console.log(rows);
+}
+
+if (require.main === module) {
+  test();
+}
+
+export default instance;

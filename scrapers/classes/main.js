@@ -154,7 +154,7 @@ class Main {
         // desc: searchResultData.class.desc,
         // subject: searchResultData.class.subject,
         // name: searchResultData.class.name,
-        ObjectID: Keys.create(searchResultData.class).getHash(),
+        objectID: Keys.create(searchResultData.class).getHash(),
       };
 
 
