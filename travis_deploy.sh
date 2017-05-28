@@ -48,12 +48,14 @@ git config --global user.name "data-updater-bot"
 git remote remove origin
 git remote add origin git@github.com:ryanhugh/searchneu.git
 
-git clone git@github.com:ryanhugh/searchneu.git ~/testtest
+# Push to prod if this is the prod branch
+if [ "$TRAVIS_BRANCH" == "prod" ]; then
+  NODE_DEBUG=gh-pages node node_modules/gh-pages/bin/gh-pages -d public -a -r git@github.com:ryanhugh/searchneu.git
+  echo $? 
 
+  # Going to add a lot here to push to the ec2 instance
+fi
 
-
-NODE_DEBUG=gh-pages node node_modules/gh-pages/bin/gh-pages -d public -a -r git@github.com:ryanhugh/searchneu.git
-echo $? 
 
 # Tell Rollbar about the deploy
 ACCESS_TOKEN=$ROLLBAR_TOKEN
