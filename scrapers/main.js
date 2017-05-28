@@ -24,28 +24,7 @@ async function main() {
 	// , clubs.main()
   const promises = [matchEmployees.main(), classes.main(['neu'])];
 
-  let scrapedDatas = await Promise.all(promises);
-
-
-  // // Deal with the search index
-  // // Need to do all the inserting and deleting in one place 
-  // // So we can figure out which items no longer exist in the search index and delete those. 
-  // // Concat all the search data together
-  // let searchItems = []
-  // for (const output of scrapedDatas) {
-  // 	if (!output.searchItems) {
-  // 		console.error('No searchItems returned?', output)
-  // 		continue;
-  // 	}
-
-  // 	searchItems = searchItems.concat(output.searchItems)
-  // }
-
-  // console.log(searchItems.length, 'items to add to search index.')
-
-
-  // await algolia.addObjects(searchItems)
-
+  await Promise.all(promises);
 
   console.log('done scrapers/main.js');
 }

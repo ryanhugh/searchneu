@@ -150,11 +150,11 @@ class Main {
         type: 'class',
 
         // These fields are going to be indexed.
-        // classId: searchResultData.class.classId,
-        // desc: searchResultData.class.desc,
-        // subject: searchResultData.class.subject,
-        // name: searchResultData.class.name,
-        objectID: Keys.create(searchResultData.class).getHash(),
+        classId: searchResultData.class.classId,
+        desc: searchResultData.class.desc,
+        subject: searchResultData.class.subject,
+        name: searchResultData.class.name,
+        key: Keys.create(searchResultData.class).getHash(),
       };
 
 
@@ -177,10 +177,10 @@ class Main {
       _.pull(profs, 'TBA')
       profs = _.uniq(profs)
       toIndex.profsString = profs.join(' ');
-      // toIndex.locations = locations.join(' ');
-      // if (searchResultData.class.crns) {
-      //   toIndex.crnsString = searchResultData.class.crns.join(' ');
-      // }
+      toIndex.locations = locations.join(' ');
+      if (searchResultData.class.crns) {
+        toIndex.crnsString = searchResultData.class.crns.join(' ');
+      }
 
       if (searchResultData.class.crns.length === 0) {
         continue;
@@ -188,13 +188,13 @@ class Main {
 
 
 
-      // index.addDoc(toIndex);
+      index.addDoc(toIndex);
 
-      itemsToIndex.push(toIndex);
+      // itemsToIndex.push(toIndex);
     }
 
     // Add to algolia
-    if (includeDesc && termData.termId === '201810') {
+    // if (includeDesc && termData.termId === '201810') {
       // console.log(termData.termId, termData.host, 'HERERERERER')
       // process.exit();
       // const apiKey = await this.getAlgoliaKey();
@@ -213,7 +213,7 @@ class Main {
       // console.log(apiKey)
       // process.exit()
 
-    }
+    // }
 
     const searchIndexString = JSON.stringify(index.toJSON());
 

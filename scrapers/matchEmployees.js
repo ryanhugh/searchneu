@@ -377,38 +377,11 @@ class CombineCCISandEmployees {
       // Add docToIndex to elasticlunr, but add row to algolia
       index.addDoc(docToIndex);
 
-
-
-
-      // let toAddToAlgolia = {
-
-      //   // Data in this row
-      //   employee: row,
-
-      //   // Type of this object
-      //   type: 'employee',
-
-      //   objectID: row.id
-
-      //   // Fields to index
-      //   // name: docToIndex.name,
-      //   // phone: docToIndex.phone,
-      //   // emails: docToIndex.emails,
-      //   // primaryRole: docToIndex.primaryRole,
-      //   // primaryDepartment: docToIndex.primaryDepartment
-      // }
-
-      // itemsToIndex.push(toAddToAlgolia);
-
     });
 
 
     await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeesSearchIndex.json'), JSON.stringify(index.toJSON()));
     console.log('wrote employee json files');
-
-    // return {
-    //   searchItems: itemsToIndex
-    // };
   }
 }
 
