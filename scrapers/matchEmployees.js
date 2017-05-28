@@ -351,8 +351,6 @@ class CombineCCISandEmployees {
     index.addField('primaryDepartment');
     index.saveDocument(false);
 
-    // let itemsToIndex = []
-
     mergedEmployees.forEach((row) => {
 
       let docToIndex = {}
@@ -374,9 +372,7 @@ class CombineCCISandEmployees {
         docToIndex.emails = docToIndex.emails.join(' ')
       }
 
-      // Add docToIndex to elasticlunr, but add row to algolia
       index.addDoc(docToIndex);
-
     });
 
 

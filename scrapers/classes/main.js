@@ -127,36 +127,24 @@ class Main {
     index.addField('subject');
 
     // Remove profs from here once this data is joined with the prof data and there are UI elements for showing which classes a prof teaches.
-    index.addField('profsString');
+    index.addField('profs');
 
     // Lets disable this until buildings are added to the index and the DB.
     // Dosen't make sense for classes in a building to come up when the building name is typed in the search box.
     // If this is ever enabled again, make sure to add it to the config in home.js too. 
     // index.addField('locations');
-    index.addField('crnsString');
-
-    let itemsToIndex = []
+    index.addField('crns');
 
     for (const attrName2 in termData.classHash) {
       const searchResultData = termData.classHash[attrName2];
 
-      let toIndex = {
-
-        // Data to send to frontend.
-        class: searchResultData.class,
-        sections: searchResultData.sections,
-
-        // Type of object.
-        type: 'class',
-
-        // These fields are going to be indexed.
+      const toIndex = {
         classId: searchResultData.class.classId,
         desc: searchResultData.class.desc,
         subject: searchResultData.class.subject,
         name: searchResultData.class.name,
         key: Keys.create(searchResultData.class).getHash(),
       };
-
 
       let profs = [];
       // let locations = [];
@@ -174,46 +162,15 @@ class Main {
         }
       });
 
-      _.pull(profs, 'TBA')
-      profs = _.uniq(profs)
-      toIndex.profsString = profs.join(' ');
-      toIndex.locations = locations.join(' ');
+
+      toIndex.profs = profs.join(' ');
+      // toIndex.locations = locations.join(' ');
       if (searchResultData.class.crns) {
-        toIndex.crnsString = searchResultData.class.crns.join(' ');
+        toIndex.crns = searchResultData.class.crns.join(' ');
       }
-
-      if (searchResultData.class.crns.length === 0) {
-        continue;
-      }
-
-
 
       index.addDoc(toIndex);
-
-      // itemsToIndex.push(toIndex);
     }
-
-    // Add to algolia
-    // if (includeDesc && termData.termId === '201810') {
-      // console.log(termData.termId, termData.host, 'HERERERERER')
-      // process.exit();
-      // const apiKey = await this.getAlgoliaKey();
-// 
-
-    // console.log(JSON.stringify(itemsToIndex.slice(0, 10), null, 4))
-      // await algolia.addObjects(itemsToIndex.slice(0, 100))
-    // process.exit()
-
-      // let index = await algolia.getAlgoliaIndex();
-
-      // const retVal = await index.addObjects(itemsToIndex.slice(0, 10));
-
-      // console.log(retVal)
-
-      // console.log(apiKey)
-      // process.exit()
-
-    // }
 
     const searchIndexString = JSON.stringify(index.toJSON());
 
@@ -223,9 +180,6 @@ class Main {
     await mkdirp(folderName);
     await fs.writeFile(fileName, searchIndexString);
     console.log('Successfully saved', fileName);
-    return {
-      searchItems: itemsToIndex
-    }
   }
 
 
@@ -310,36 +264,16 @@ class Main {
 
     const promises = [];
 
-    console.log(Object.keys(classLists), 'here')
-
-    const fall2017 = Keys.create({
-        host: 'neu.edu',
-        termId: '201810',
-    }).getHash();
-
-    const data = await this.createSearchIndexFromClassLists(classLists[fall2017])
-
-
-
-    // Just look at the Fall 2017 term for now. 
-    // Eventually, will have to support more than one term. 
-
-
-    // exit()
-
-    // for (const attrName in classLists) {
-    //   const termData = classLists[attrName];
-    //   promises.push(this.createSearchIndexFromClassLists(termData));
-    //   promises.push(this.createSearchIndexFromClassLists(termData, '.mobile', false));
-    // }
+    for (const attrName in classLists) {
+      const termData = classLists[attrName];
+      promises.push(this.createSearchIndexFromClassLists(termData));
+      promises.push(this.createSearchIndexFromClassLists(termData, '.mobile', false));
+    }
 
     console.log('Errorcount: ', errorCount);
 
-    return {
-      searchItems: data.searchItems
-    }
 
-    // return Promise.all(promises);
+    return Promise.all(promises);
   }
 
 
@@ -374,25 +308,15 @@ class Main {
     
     const termDump = await this.getTermDump(hostnames);
   
+    await this.createSerchIndex(termDump);
     await this.createDataDumps(termDump);
-
-    // This function returns the data needed to create the algolia index in the next step
-    return this.createSerchIndex(termDump);
   }
-
-
 }
 
 const instance = new Main();
 
-
-async function test() {
-  console.log(await instance.getAlgoliaKey())
-}
-
 if (require.main === module) {
   instance.main(['neu']);
-  // test()
 }
 
 export default instance;
