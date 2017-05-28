@@ -224,7 +224,7 @@ class Main {
     await fs.writeFile(fileName, searchIndexString);
     console.log('Successfully saved', fileName);
     return {
-      searchItems: itemsToIndex.slice(0, 100)
+      searchItems: itemsToIndex
     }
   }
 
@@ -292,6 +292,20 @@ class Main {
 
       classLists[termHash].classHash[classHash].sections.push(section);
     });
+
+    // Sort each classes section by crn.
+    // This will keep the sections the same between different scrapings. 
+    let termHashes = Object.keys(classLists)
+    for (let termHash of termHashes) {
+      let classHashes = Object.keys(classLists[termHash].classHash)
+      for (let classHash of classHashes) {
+        if (classLists[termHash].classHash[classHash].sections.length > 1) {
+          classLists[termHash].classHash[classHash].sections.sort((a, b) => {
+            return a.crn > b.crn
+          })
+        }
+      }
+    }
 
 
     const promises = [];

@@ -416,7 +416,7 @@ class CombineCCISandEmployees {
     console.log('wrote employee json files');
 
     return {
-      searchItems: itemsToIndex.slice(0, 100)
+      searchItems: itemsToIndex
     };
   }
 }

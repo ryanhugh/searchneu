@@ -2,6 +2,7 @@ import algoliasearch from 'algoliasearch';
 import fs from 'fs-promise';
 import _ from 'lodash';
 import path from 'path';
+import { diff } from 'deep-diff';
 
 import macros from './macros';
 import utils from './utils';
@@ -42,6 +43,30 @@ class Algolia {
     return this.indexPromise;
   }
 
+  // Used in the deep equals comparisons of objects.
+  // Lets lodash do the comparisons for all objects and keys, but if the lastUpdateTime is different, 
+  // this will cause the _.isEqualWith to still return true
+  lodashCustomizer(objValue, othValue, key) {
+    if (key === 'lastUpdateTime') {
+      return true
+    }
+  }
+
+  deepDiffLogger(object, diff) {
+
+    for (const diffItem of diff) {
+      if (diffItem.kind === 'E') {
+        if (diffItem.path[diffItem.path.length - 1] === 'lastUpdateTime') {
+          continue;
+        }
+
+        console.log(object.ObjectID, diffItem.path.join('.'),'from',diffItem.lhs,'to',diffItem.rhs)
+      }
+      else {
+        console.log(diffItem)
+      }
+    }
+  }
 
   async addObjects(objects) {
     const existingDataMap = await this.getAllRows();
@@ -68,19 +93,21 @@ class Algolia {
         continue;
       }
 
+
       if (!existingDataMap[object.ObjectID]) {
         console.log('Adding', object.type,object.ObjectID)
         toAdd.push(object);
+
       }
 
       // Update the DB
-      else if (!_.isEqual(existingDataMap[object.ObjectID], object)) {
-        console.log(object.type, object.ObjectID, 'was not the same, not updating db.');
+      else if (!_.isEqualWith(existingDataMap[object.ObjectID], object, this.lodashCustomizer.bind(this))) {
+        this.deepDiffLogger(object, diff(existingDataMap[object.ObjectID], object), null , 4)
         toAdd.push(object)
       }
       else {
         sameCount++;
-        console.log('Object was the same ', object.type, object.ObjectID);
+        // console.log('Object was the same ', object.type, object.ObjectID);
       }
 
       // Clear out this item from the exiting data
@@ -99,7 +126,7 @@ class Algolia {
     }
 
     console.log('Going to remove ', toRemove.length, 'objects.');
-    console.log('Going to add', toAdd.length, 'objects.');
+    console.log('Going to add/update', toAdd.length, 'objects.');
     console.log(sameCount, 'objects were the same.')
 
     // Don't update anything if nothing changed. 
@@ -172,11 +199,12 @@ class Algolia {
 
     // Load from file if not in PROD.
     let promise;
-    if (macros.DEV || macros.TEST) {
+    if (0) {
       promise = this.getRowsFromFile();
     } else {
       promise = this.getRowsFromAlgolia();
     }
+    
 
     this.getRowsPromise = promise;
     return promise;

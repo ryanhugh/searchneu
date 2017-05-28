@@ -459,6 +459,10 @@ EllucianClassParser.prototype.parseElement = function (pageData, element) {
 };
 
 EllucianClassParser.prototype.onEndParsing = function (pageData) {
+
+	// Sort the crns so that they will be equal if they are scraped two times in a row they will be the same. 
+	pageData.parsingData.crns.sort();
+	
 	pageData.setData('crns', pageData.parsingData.crns);
 
 	//also set the crns of the classes that were created

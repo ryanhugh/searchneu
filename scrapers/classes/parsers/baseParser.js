@@ -55,12 +55,13 @@ BaseParser.prototype.parse = async function (pageData, callback) {
 		config.body = config.payload
 	}
 
-
+	// Call request.request direcely because we already know if we want to do a post or a get request. 
+	// That info is part of the config.
 	let response = await request.request(config)
 
 	request.handleRequestResponce(response.body, function(err, dom) {
 
-		pageData.setData('lastUpdateTime', new Date().getTime());
+		pageData.setData('lastUpdateTime', Date.now());
 
 		this.parseDOM(pageData, dom);
 

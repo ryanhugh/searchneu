@@ -223,8 +223,8 @@ PageDataMgr.prototype.pageDataStructureToTermDump = function pageDataStructureTo
 
       Object.assign(item, curr.dbData);
 
-      item.deps = undefined;
-      item.updatedByParent = undefined;
+      delete item.deps;
+      delete item.updatedByParent;
 
       output[dataType].push(item);
     }

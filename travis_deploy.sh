@@ -1,6 +1,9 @@
 # Exit if any commands fail. 
 set -e
 
+# Echo each command as they are ran
+set -v
+
 # Pull requests and commits to other branches shouldn't try to deploy
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo $TRAVIS_PULL_REQUEST
