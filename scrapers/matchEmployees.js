@@ -351,7 +351,7 @@ class CombineCCISandEmployees {
     index.addField('primaryDepartment');
     index.saveDocument(false);
 
-    let itemsToIndex = []
+    // let itemsToIndex = []
 
     mergedEmployees.forEach((row) => {
 
@@ -380,44 +380,35 @@ class CombineCCISandEmployees {
 
 
 
-      let toAddToAlgolia = {
+      // let toAddToAlgolia = {
 
-        // Data in this row
-        employee: row,
+      //   // Data in this row
+      //   employee: row,
 
-        // Type of this object
-        type: 'employee',
+      //   // Type of this object
+      //   type: 'employee',
 
-        objectID: row.id
+      //   objectID: row.id
 
-        // Fields to index
-        // name: docToIndex.name,
-        // phone: docToIndex.phone,
-        // emails: docToIndex.emails,
-        // primaryRole: docToIndex.primaryRole,
-        // primaryDepartment: docToIndex.primaryDepartment
-      }
+      //   // Fields to index
+      //   // name: docToIndex.name,
+      //   // phone: docToIndex.phone,
+      //   // emails: docToIndex.emails,
+      //   // primaryRole: docToIndex.primaryRole,
+      //   // primaryDepartment: docToIndex.primaryDepartment
+      // }
 
-      itemsToIndex.push(toAddToAlgolia);
+      // itemsToIndex.push(toAddToAlgolia);
 
     });
 
 
-    // let algoliaIndex = await algolia.getAlgoliaIndex();
-    // console.log(JSON.stringify(itemsToIndex.slice(0, 10), null, 4))
-
-    // await algolia.addObjects(itemsToIndex.slice(0, 100))
-
-
-    // const retVal = await algoliaIndex.addObjects(itemsToIndex.slice(0, 10))
-    // console.log(retVal, 'return value')
-
     await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeesSearchIndex.json'), JSON.stringify(index.toJSON()));
     console.log('wrote employee json files');
 
-    return {
-      searchItems: itemsToIndex
-    };
+    // return {
+    //   searchItems: itemsToIndex
+    // };
   }
 }
 
