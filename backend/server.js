@@ -28,7 +28,6 @@ app.use(middleware);
 app.use(webpackHotMiddleware(compiler));
 
 app.get('/', (req, res) => {
-  console.log(req.url);
   res.write(middleware.fileSystem.readFileSync(path.join(webpackConfig.output.path, 'index.html')));
   res.end();
 });
@@ -40,7 +39,6 @@ app.get('/sw.js', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  console.log(req.url,' is a 404.');
   res.sendFile(path.join(__dirname , '..', 'frontend', "404.html"));
 });
 

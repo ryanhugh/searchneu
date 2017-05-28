@@ -66,7 +66,7 @@ it('can find an existing dep and parse crns', function (done) {
 				classId: '2160',
 				desc: '',
 				name: 'Embedded Design Enabling Robotics',
-				crns: ['15633', '15636', '15639', '16102', '17800', '17799']
+				crns: ['15633', '15636', '15639', '16102', '17799', '17800']
 			}, JSON.stringify(pageData.dbData));
 
 
@@ -187,7 +187,7 @@ it('should parse a bunch of crns', function (done) {
 				classId: '2102',
 				desc: '',
 				name: 'Managerial Accounting',
-				crns: ["11018", "11019", "8145", "6073", "11020", "6129", "20800", "6074", "23294", "23295", "6075", "6077", "6130", "11679", "22497", "19962", "24435"]
+				crns: ['11018', '11019', '11020', '11679', '19962', '20800', '22497', '23294', '23295', '24435', '6073', '6074', '6075', '6077', '6129', '6130', '8145']
 			});
 
 			expect(pageData.deps.length).toBe(17);
