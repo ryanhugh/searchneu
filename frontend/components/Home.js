@@ -3,6 +3,7 @@ import CSSModules from 'react-css-modules';
 import elasticlunr from 'elasticlunr';
 import 'semantic-ui-css/semantic.min.css';
 import ReactTooltip from 'react-tooltip';
+import URI from 'urijs';
 
 import '../css/base.css';
 
@@ -14,59 +15,6 @@ import ResultsLoader from './ResultsLoader';
 import CourseProData from '../../common/classModels/DataLib';
 import Keys from '../../common/classModels/Keys';
 
-const classSearchConfig = {
-  fields: {
-    classId: {
-      boost: 4,
-    },
-    subject: {
-      boost: 2,
-    },
-    desc: {
-      boost: 1,
-    },
-    name: {
-      boost: 1,
-    },
-    profs: {
-      boost: 1,
-    },
-
-    // Enable this again if this is added to the index.
-
-    // locations: {
-    //   boost: 1,
-    // },
-    crns: {
-      boost: 1,
-    },
-  },
-  expand: true,
-};
-
-const employeeSearchConfig = {
-  fields: {
-    name: {
-      boost: 2,
-    },
-    primaryRole: {
-      boost: 1,
-    },
-    primaryDepartment: {
-      boost: 1,
-    },
-    emails: {
-      boost: 1,
-    },
-    phone: {
-      boost: 1,
-    },
-    officeRoom: {
-      boost: 1,
-    },
-  },
-  expand: true,
-};
 
 const ESTIMATED_FILE_SIZE = 10e6;
 
@@ -108,13 +56,6 @@ class Home extends React.Component {
 
     // Log the initial search or pageview.
     this.logSearch(this.state.searchTerm);
-
-    // Download all the data.
-    this.loadData();
-  }
-
-  static debounceRebuildTooltip() {
-
   }
 
   // On mobile, this is called whenever the user clicks enter.
@@ -133,135 +74,6 @@ class Home extends React.Component {
     } else {
       ga('send', 'pageview', '/');
     }
-  }
-
-  updatePaceLoadingBar() {
-    let bytesTotal = 0;
-    let bytesDone = 0;
-
-    for (const index in this.networkRequestsProgress) {
-      bytesTotal += this.networkRequestsProgress[index].bytesTotal;
-      bytesDone += this.networkRequestsProgress[index].bytesDone;
-    }
-
-    const percent = bytesDone / bytesTotal * 100;
-
-    if (percent === 100) {
-      PaceBar.finish();
-      PaceBar.destroy();
-    } else {
-      PaceBar.update(percent);
-    }
-  }
-
-
-  setLoadingProgress(index, bytesDone, bytesTotal) {
-    if (this.loadingFromCache) {
-      return;
-    }
-
-    this.networkRequestsProgress[index] = {
-      bytesDone: bytesDone,
-      bytesTotal: bytesTotal,
-    };
-
-    this.updatePaceLoadingBar();
-  }
-
-  async loadData() {
-    const promises = [];
-
-
-    let classesSearchIndexUrl = 'data/getSearchIndex/neu.edu/201810';
-
-    // Load the mobile version if on mobile.
-    if (macros.isMobile) {
-      classesSearchIndexUrl += '.mobile';
-    }
-    classesSearchIndexUrl += '.json';
-    const classesDataUrl = 'data/getTermDump/neu.edu/201810.json';
-
-    const employeesDataUrl = 'data/employeeMap.json';
-    const employeesSearchIndexUrl = 'data/employeesSearchIndex.json';
-
-    this.loadingFromCache = request.cacheIsUpdatedForKeys([classesSearchIndexUrl, classesDataUrl, employeesDataUrl, employeesSearchIndexUrl]);
-    console.log('loadingFromCache', this.loadingFromCache);
-
-    if (!this.loadingFromCache) {
-      this.setLoadingProgress(0, 0, ESTIMATED_FILE_SIZE);
-      this.setLoadingProgress(1, 0, ESTIMATED_FILE_SIZE);
-      this.setLoadingProgress(2, 0, ESTIMATED_FILE_SIZE);
-      this.setLoadingProgress(3, 0, ESTIMATED_FILE_SIZE);
-    }
-
-
-    promises.push(request.get({
-      url:classesSearchIndexUrl,
-      useCache: true,
-      progressCallback: this.setLoadingProgress.bind(this, 0),
-    }).then((res) => {
-      this.searchIndex = elasticlunr.Index.load(res);
-    }));
-
-    promises.push(request.get({
-      url:classesDataUrl,
-      useCache:true,
-      progressCallback: this.setLoadingProgress.bind(this, 1),
-    }).then((res) => {
-      this.termData = CourseProData.loadData(res);
-    }));
-
-    promises.push(request.get({
-      url: employeesDataUrl,
-      useCache: true,
-      progressCallback: this.setLoadingProgress.bind(this, 2),
-    }).then((res) => {
-      this.employeeMap = (res);
-    }));
-
-    promises.push(request.get({
-      url:employeesSearchIndexUrl,
-      useCache: true,
-      progressCallback: this.setLoadingProgress.bind(this, 3),
-    }).then((res) => {
-      this.employeesSearchIndex = elasticlunr.Index.load((res));
-    }));
-
-    this.dataPromise = Promise.all(promises).then(() => {
-      console.log('Loadedd everything!');
-      this.loadingFromCache = false;
-
-      PaceBar.finish();
-      PaceBar.destroy();
-
-      // TODO remove
-      // test go through classes and make sure they are all in sections?
-      // 3 invalid crns (or missing sections?) were found with this code
-      Object.values(this.termData.termDump.classMap).forEach((aClass) => {
-        if (!aClass.crns) {
-          return;
-        }
-
-        aClass.crns.forEach((crn) => {
-          const keys = Keys.create({
-            host: aClass.host,
-            termId: aClass.termId,
-            subject: aClass.subject,
-            classUid: aClass.classUid,
-            crn: crn,
-          });
-
-          if (!keys) {
-            console.error('lol', aClass, crn);
-          }
-
-          const sectionServerData = this.termData.termDump.sectionMap[keys.getHash()];
-          if (!sectionServerData) {
-            console.error('wtf', aClass, crn);
-          }
-        });
-      });
-    });
   }
 
 
@@ -289,123 +101,15 @@ class Home extends React.Component {
     // Ensure that the data has loaded
     await this.dataPromise;
 
-    const originalSearchTerm = searchTerm;
+    let url = URI('/search').query({
+      query: searchTerm.trim()
+    }).toString()
 
-    // This is O(n), but because there are so few subjects it usually takes < 1ms
-    // If the search term starts with a subject (eg cs2500), put a space after the subject
-    const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
-    const subjects = this.termData.getSubjects();
-
-    for (let i = 0; i < subjects.length; i++) {
-      const subject = subjects[i];
-      const lowerCaseSubject = subject.subject.toLowerCase();
-      const lowerCaseText = subject.text.toLowerCase();
-
-      // Perfect match for a subject, list all the classes in the subject
-      if (lowerCaseSubject === lowerCaseSearchTerm || lowerCaseSearchTerm === lowerCaseText) {
-        console.log('Perfect match for subject!', subject.subject);
-
-        const results = this.termData.getClassesInSubject(subject.subject);
-
-        const output = [];
-        results.forEach((result) => {
-          output.push({
-            ref: result,
-            type: 'class',
-          });
-        });
-
-        this.setState({
-          results: output,
-          searchTerm: originalSearchTerm,
-          waitingOnEnter: false,
-        });
-        return;
-      }
-
-
-      if (lowerCaseSearchTerm.startsWith(subject.subject)) {
-        const remainingSearch = searchTerm.slice(subject.subject.length);
-
-        // Only rewrite the search if the rest of the query has a high probability of being a classId.
-        if (remainingSearch.length > 5) {
-          break;
-        }
-        const match = remainingSearch.match(/\d/g);
-
-        if (!match || match.length < 3) {
-          break;
-        } else {
-          searchTerm = `${searchTerm.slice(0, subject.subject.length)} ${searchTerm.slice(subject.subject.length)}`;
-        }
-        break;
-      }
-    }
-
-    // Check to see if the search is for an email, and if so remove the @northeastern.edu and @neu.edu
-    searchTerm = searchTerm.replace(/@northeastern\.edu/gi, '').replace(/@neu\.edu/gi, '');
-
-
-    // Measure how long it takes to search. Usually this is very small (< 20ms)
-    const startTime = Date.now();
-
-    // Returns an array of objects that has a .ref and a .score
-    // The array is sorted by score (with the highest matching closest to the beginning)
-    // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
-    const classResults = this.searchIndex.search(searchTerm, classSearchConfig);
-
-    const employeeResults = this.employeesSearchIndex.search(searchTerm, employeeSearchConfig);
-
-    ga('send', 'timing', 'search ' + searchTerm.length, 'search', Date.now() - startTime);
-
-    const output = [];
-
-    // This takes no time at all, never more than 2ms and usally <1ms
-    while (true) {
-      if (classResults.length === 0 && employeeResults.length === 0) {
-        break;
-      }
-
-      if (classResults.length === 0) {
-        output.push({
-          ref: employeeResults[0].ref,
-          type: 'employee',
-        });
-        employeeResults.splice(0, 1);
-        continue;
-      }
-
-      if (employeeResults.length === 0) {
-        output.push({
-          type: 'class',
-          ref: classResults[0].ref,
-        });
-
-        classResults.splice(0, 1);
-        continue;
-      }
-
-      if (classResults[0].score > employeeResults[0].score) {
-        output.push({
-          type: 'class',
-          ref: classResults[0].ref,
-        });
-        classResults.splice(0, 1);
-        continue;
-      }
-
-      if (classResults[0].score <= employeeResults[0].score) {
-        output.push({
-          ref: employeeResults[0].ref,
-          type: 'employee',
-        });
-        employeeResults.splice(0, 1);
-      }
-    }
+    let results = await request.get(url)
 
     this.setState({
-      results: output,
-      searchTerm: originalSearchTerm,
+      results: results,
+      searchTerm: searchTerm,
       waitingOnEnter: false,
     });
   }
@@ -462,13 +166,13 @@ class Home extends React.Component {
   render() {
     // If we are loading from AJAX show nothing on the screen here.
     // Pace.js will show a loading bar until the AJAX requests are done.
-    if (!this.loadingFromCache && (!this.termData || !this.employeeMap || !this.state.results)) {
+    if (!this.loadingFromCache && !this.state.results) {
       return null;
     }
 
     let resultsElement = null;
 
-    if (this.termData && this.state.results && this.employeeMap) {
+    if (this.state.results) {
       if (this.state.results.length === 0 && this.state.searchTerm.length > 0 && !this.state.waitingOnEnter) {
         resultsElement = (
           <div className={ css.noResultsContainer }>
@@ -489,8 +193,6 @@ class Home extends React.Component {
       } else {
         resultsElement = (<ResultsLoader
           results={ this.state.results }
-          termData={ this.termData }
-          employeeMap={ this.employeeMap }
         />);
       }
     }

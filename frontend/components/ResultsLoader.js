@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 
 import Keys from '../../common/classModels/Keys'
+import DataLib from '../../common/classModels/DataLib'
 import EmployeePanel from './EmployeePanel';
 import ClassPanel from './ClassPanel';
 import css from './ResultsLoader.css';
@@ -87,16 +88,15 @@ class ResultsLoader extends React.Component {
       if (result.type === 'class') {
 
         let aClass;
-        if (this.constructor.loadedClassObjects[result.ref]) {
-          aClass = this.constructor.loadedClassObjects[result.ref]
+        console.log(result, result.ref)
+        console.log('hfidjfalksjlk')
+        let hash = Keys.create(result.class).getHash()
+        if (this.constructor.loadedClassObjects[hash]) {
+          aClass = this.constructor.loadedClassObjects[hash]
         }
         else {
-          aClass = this.props.termData.createClass({
-            hash: result.ref,
-            host: 'neu.edu',
-            termId: '201810',
-          });
-          this.constructor.loadedClassObjects[result.ref] = aClass;
+          aClass = DataLib.createClassFromSearchResult(result);
+          this.constructor.loadedClassObjects[hash] = aClass;
         }
 
         newObjects.push({
@@ -104,16 +104,18 @@ class ResultsLoader extends React.Component {
           data: aClass,
         });
       } else if (result.type === 'employee') {
-        const employee = this.props.employeeMap[result.ref];
-
         newObjects.push({
           type: 'employee',
-          data: employee,
+          data: result.employee,
         });
       } else {
         console.error('wtf is type', result.type);
       }
     });
+
+    for (const a of newObjects) {
+      console.log("New object:", a.subject,a.classUid)
+    }
 
     this.setState({
       show: this.state.show + delta,
@@ -155,10 +157,8 @@ class ResultsLoader extends React.Component {
 ResultsLoader.loadedClassObjects = {}
 
 ResultsLoader.propTypes = {
-  results: PropTypes.array.isRequired,
-  employeeMap: PropTypes.object.isRequired,
-  termData: PropTypes.object.isRequired,
-};
+  results: PropTypes.array.isRequired
+}
 
 
 export default CSSModules(ResultsLoader, css);

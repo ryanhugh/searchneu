@@ -83,16 +83,12 @@ Class.isValidCreatingData = function (config) {
 	return BaseData.isValidCreatingData.apply(this, arguments);
 };
 
-Class.create = function (config, termDump, loadSections = true, loadCoreqsAndPrereqs = false) {
+Class.create = function (config) {
+	if (!config) {
+		debugger
+	}
 	var instance = new this(config);
 	instance.updateWithData(config);
-	if (loadSections) {
-		instance.loadSections(termDump.sectionMap)
-	}
-	if (loadCoreqsAndPrereqs) {
-		instance.loadPrereqs(termDump.classMap)
-		instance.loadCoreqs(termDump.classMap)
-	}
 	return instance
 }
 
@@ -510,7 +506,7 @@ Class.prototype.getCoreqsString = function () {
 };
 
 
-Class.prototype.loadSections = function (sectionMap) {
+Class.prototype.loadSectionsFromSectionMap = function (sectionMap) {
 	if (this.isString) {
 		elog('ERROR cant load sections of !class or string')
 		return callback('!class or string')
@@ -534,7 +530,7 @@ Class.prototype.loadSections = function (sectionMap) {
 
 		var serverData = sectionMap[keys.getHash()]
 		if (!serverData) {
-			console.error('unable to find section in seciton map', this, crn)
+			console.error('unable to find section in section map', this, crn)
 			return;
 		}
 
@@ -548,7 +544,53 @@ Class.prototype.loadSections = function (sectionMap) {
 		this.sections.push(section)
 	})
 
+	this.finishLoadingSections();
+}
 
+
+// Use this function to load sections from a list of server data of sections.
+// The given sections must all have crns in the class
+Class.prototype.loadSectionsFromServerList = function(serverList) {
+
+	this.sections = []
+
+	// Just for sanity checking to make sure crns on this class match given sections
+	let unmatchedCrns = {}
+
+	for (const crn in this.crns) {
+		unmatchedCrns[crn] = true
+	}
+
+	for (const serverData of serverList) {
+		if (!unmatchedCrns[serverData.crn]) {
+			console.log("Given section was not in unmatchedCrns??", serverList.length, this.crns.length, unmatchedCrns);
+			continue;
+		}
+
+		const section = Section.create(serverData)
+		if (!section) {
+			console.error("Error could not make section!", serverData)
+			continue;
+		}
+		unmatchedCrns[serverData.crn] = false;
+		this.sections.push(section)
+	}
+
+	// Make sure all sections were given
+	let wasMatched = Object.values(unmatchedCrns);
+	for (const value in wasMatched) {
+		if (value) {
+			console.error('Error, crn was never matched!', unmatchedCrns)
+		}
+	}
+
+	this.finishLoadingSections();
+}
+
+// This runs when just after the sections are done loading. This would be at the bottom of this.loadSections*, but was moved to a separate function
+// so code is not duplicated. 
+Class.prototype.finishLoadingSections = function() {
+	
 	var hasWaitList = 0;
 	this.sections.forEach(function (section) {
 		hasWaitList += section.hasWaitList;
@@ -566,7 +608,9 @@ Class.prototype.loadSections = function (sectionMap) {
 	this.sections.sort(function (a, b) {
 		return a.compareTo(b);
 	}.bind(this))
-}
+};
+
+
 
 Class.prototype.getHasWaitList = function () {
 	for (var i = this.sections.length - 1; i >= 0; i--) {
@@ -604,5 +648,4 @@ Class.prototype.loadCoreqs = async function (classMap) {
 
 
 
-
-module.exports = Class;
+export default Class;

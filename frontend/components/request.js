@@ -34,7 +34,7 @@ class Request {
   }
 
 
-  async getFromInternet(url, config, isKeyUpdated) {
+  async getFromInternet(url, config = {}, isKeyUpdated) {
     return new Promise((resolve, reject) => {
       const startTime = Date.now()
       const xmlhttp = new XMLHttpRequest();
@@ -45,7 +45,7 @@ class Request {
 
         const requestTime = Date.now() - startTime;
         console.log('Downloading took ', requestTime, 'for url', url);
-        if (isKeyUpdated) {
+        if (isKeyUpdated && config.useCache) {
           ga('send', 'timing', url, 'download_cache_hit', requestTime);
         }
         else {
