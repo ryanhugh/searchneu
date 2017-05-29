@@ -21,6 +21,7 @@
       "react-hot-loader/babel"
     ]
   },
+  "_comment": "Do not upgrade gh-pages to 1.x until travis's version of git is >=1.9. Right now it is 1.8 and the latest is like 2.10.",
   "dependencies": {
     "@mapbox/togeojson": "^0.16.0",
     "acorn": "^5.0.3",
@@ -37,6 +38,7 @@
     "domutils": "1.5.1",
     "elasticlunr": "^0.9.5",
     "express": "^4.15.2",
+    "express-async-wrap": "^1.0.0",
     "file-loader": "^0.11.1",
     "fs-promise": "^2.0.0",
     "gh-pages": "^0",

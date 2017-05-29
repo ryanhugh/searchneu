@@ -78,7 +78,7 @@ class Search {
 
     // Some sanitiy checking
     if (!termDump || !classSearchIndex || !employeeMap || !employeeSearchIndex) {
-      console.error("Error, missing arguments.");
+      console.error("Error, missing arguments.", termDump, classSearchIndex, employeeMap, employeeSearchIndex);
       return;
     }
 

@@ -2267,6 +2267,10 @@ expand-range@^1.8.1:
   dependencies:
     fill-range "^2.1.0"
 
+express-async-wrap@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/express-async-wrap/-/express-async-wrap-1.0.0.tgz#f9972d2b726fe68c0daf0495b8fc2137c54457aa"
+
 express@^4.15.2:
   version "4.15.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.15.2.tgz#af107fc148504457f2dca9a6f2571d7129b97b35"
