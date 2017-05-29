@@ -45,7 +45,6 @@ else if (process.env.NODE_ENV === 'test') {
 }
 else {
   console.log('UNKNOWN env! Setting to dev.')
-  console.log(process.env.NODE_ENV, process.env.PROD, process.env.TESTS, process.env.DEV,'env here')
   exports.DEV = true;
   exports.PROD = false;
   exports.TESTS = false;

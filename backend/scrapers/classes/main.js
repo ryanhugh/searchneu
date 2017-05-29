@@ -8,6 +8,10 @@ import macros from '../macros';
 import utils from '../utils';
 import Keys from '../../../common/Keys';
 
+// This is the main entry point for scraping classes
+// call the main(['neu']) funciton below to scrape a college
+// This file also generates the search index and data dumps. 
+
 
 const getSearchIndex = '/getSearchIndex';
 
