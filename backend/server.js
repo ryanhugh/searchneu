@@ -100,9 +100,11 @@ app.get('/search', wrap(async (req, res) => {
 
   const startTime = Date.now();
   const results = index.search(req.query.query, minIndex, maxIndex);
-  console.log('Search for', req.query.query, 'took ', Date.now() - startTime, 'ms');
+  const midTime = Date.now();
+  const string = JSON.stringify(results)
+  console.log('Search for', req.query.query, 'took ', midTime-startTime, 'ms and stringify took', Date.now()-midTime);
 
-  res.send(JSON.stringify(results));
+  res.send(string);
 }));
 
 app.use(express.static('public'));
