@@ -72,7 +72,7 @@ if (macros.PROD) {
 }
 else {
   window.ga = function(...args){
-    console.log('GA called:', args)
+    // console.log('GA called:', args)
   }
 }
 

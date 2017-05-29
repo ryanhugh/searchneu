@@ -62,10 +62,10 @@ class ResultsLoader extends React.Component {
     const diff = window.scrollY + 2000 + window.innerHeight - resultsBottom;
 
     // Assume about 300 px per class
-    if (diff > 0 && this.props.results.length > this.state.visibleObjects.length && !this.alreadyLoadedAt[this.state.visibleObjects.length]) {
+    if (diff > 0 && !this.alreadyLoadedAt[this.state.visibleObjects.length]) {
       this.alreadyLoadedAt[this.state.visibleObjects.length] = true;
 
-      this.addMoreObjects();
+      this.props.loadMore()
     }
   }
 
@@ -78,18 +78,17 @@ class ResultsLoader extends React.Component {
     } else {
       delta = 10;
     }
+    delta = 1000;
 
     const newObjects = [];
 
-    const toLoad = this.props.results.slice(this.state.show, this.state.show + delta);
+    const toLoad = this.props.results//.slice(this.state.show, this.state.show + delta);
 
 
     toLoad.forEach((result) => {
       if (result.type === 'class') {
 
         let aClass;
-        console.log(result, result.ref)
-        console.log('hfidjfalksjlk')
         let hash = Keys.create(result.class).getHash()
         if (this.constructor.loadedClassObjects[hash]) {
           aClass = this.constructor.loadedClassObjects[hash]
@@ -112,10 +111,6 @@ class ResultsLoader extends React.Component {
         console.error('wtf is type', result.type);
       }
     });
-
-    for (const a of newObjects) {
-      console.log("New object:", a.subject,a.classUid)
-    }
 
     this.setState({
       show: this.state.show + delta,

@@ -557,13 +557,13 @@ Class.prototype.loadSectionsFromServerList = function(serverList) {
 	// Just for sanity checking to make sure crns on this class match given sections
 	let unmatchedCrns = {}
 
-	for (const crn in this.crns) {
+	for (const crn of this.crns) {
 		unmatchedCrns[crn] = true
 	}
 
 	for (const serverData of serverList) {
 		if (!unmatchedCrns[serverData.crn]) {
-			console.log("Given section was not in unmatchedCrns??", serverList.length, this.crns.length, unmatchedCrns);
+			console.log("Given section was not in unmatchedCrns??", serverList.length, this.crns.length, unmatchedCrns, serverList);
 			continue;
 		}
 
@@ -578,7 +578,7 @@ Class.prototype.loadSectionsFromServerList = function(serverList) {
 
 	// Make sure all sections were given
 	let wasMatched = Object.values(unmatchedCrns);
-	for (const value in wasMatched) {
+	for (const value of wasMatched) {
 		if (value) {
 			console.error('Error, crn was never matched!', unmatchedCrns)
 		}

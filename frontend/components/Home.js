@@ -1,22 +1,18 @@
 import React from 'react';
 import CSSModules from 'react-css-modules';
-import elasticlunr from 'elasticlunr';
 import 'semantic-ui-css/semantic.min.css';
 import ReactTooltip from 'react-tooltip';
 import URI from 'urijs';
 
 import '../css/base.css';
 
-import PaceBar from './PaceBar';
+import search from './search'
 import css from './home.css';
 import macros from './macros';
 import request from './request';
 import ResultsLoader from './ResultsLoader';
 import CourseProData from '../../common/classModels/DataLib';
 import Keys from '../../common/classModels/Keys';
-
-
-const ESTIMATED_FILE_SIZE = 10e6;
 
 
 // Home page component
@@ -36,16 +32,14 @@ class Home extends React.Component {
       waitingOnEnter: false,
     };
 
-    this.dataPromise = null;
-
-    this.searchIndex = null;
-    this.termData = null;
-    this.employeeMap = null;
-    this.employeesSearchIndex = null;
-
     // Timer used to debounce search queries
     this.searchDebounceTimer = null;
+
+    // Used in analytics to ensure you don't log the same query twice
     this.lastSearch = null;
+
+    // Used in search to make sure you discard a result if the search requests did not come back in order
+    this.currentQuery = null;
 
     // Used to keep track of the ongoing networking requests
     // To determine how much progress to show on the loading bar
@@ -53,12 +47,13 @@ class Home extends React.Component {
 
     this.onClick = this.onClick.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.loadMore = this.loadMore.bind(this);
 
     // Log the initial search or pageview.
     this.logSearch(this.state.searchTerm);
   }
 
-  // Replace all instances of a single char with another without a regex.
+  // Replace all instances of a substring with another without a regex (faster).
   // https://stackoverflow.com/questions/16803931/replace-all-without-a-regex-where-can-i-use-the-g
   replaceAll(string, old, newString) {
     var index = 0;
@@ -88,7 +83,6 @@ class Home extends React.Component {
 
 
   async componentDidMount() {
-    await this.dataPromise;
 
     if (this.state.searchTerm) {
       console.log('Going to serach for', this.state.searchTerm);
@@ -107,15 +101,19 @@ class Home extends React.Component {
     }
   }
 
-  async search(searchTerm) {
-    // Ensure that the data has loaded
-    await this.dataPromise;
+  // Called from ResultsLoader to load more
+  loadMore() {
+    this.search(this.state.searchTerm, this.state.results.length + 10)
+  }
 
-    let url = URI('/search').query({
-      query: searchTerm.trim()
-    }).toString()
-
-    let results = await request.get(url)
+  async search(searchTerm, termCount = 4) {
+    this.currentQuery = searchTerm;
+    let results = await search.search(searchTerm, termCount)
+    
+    if (searchTerm !== this.currentQuery) {
+      console.log("Did not come back in order, discarding ", searchTerm);
+      return;
+    }
 
     this.setState({
       results: results,
@@ -203,6 +201,7 @@ class Home extends React.Component {
       } else {
         resultsElement = (<ResultsLoader
           results={ this.state.results }
+          loadMore = { this.loadMore }
         />);
       }
     }
@@ -271,7 +270,7 @@ class Home extends React.Component {
         <div className='ui divider' />
 
         <div className='footer ui basic center aligned segment'>
-          Made with
+          Made with&nbsp;
           <i className='rocket circular small icon' />
           &nbsp;by&nbsp;
           <a href='http://github.com/ryanhugh'>
