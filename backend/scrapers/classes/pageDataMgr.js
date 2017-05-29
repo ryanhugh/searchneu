@@ -101,7 +101,6 @@ PageDataMgr.prototype.runPostProcessors = function runPostProcessors(termDump) {
 
 // This is the main starting point for processing a page data.
 // this completes in three large steps:
-// 1. If updated the data in the DB (aka not the first time this data has been parsed) run the preUpdateParse hook
 // 1. parse the website (~20-120 min)
 // 2. run the processors (~1 min per processor)
 PageDataMgr.prototype.go = function go(pageDatas, callback) {

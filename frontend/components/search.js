@@ -37,7 +37,7 @@ class Search {
     console.log('Requesting terms ', existingTermCount, 'to', termCount);
 
 
-    const url = URI('/search').query({
+    const url = new URI('/search').query({
       query: query.trim(),
       minIndex: existingTermCount,
       maxIndex: termCount,

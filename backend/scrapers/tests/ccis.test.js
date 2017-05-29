@@ -1,10 +1,12 @@
 import fs from 'fs-promise';
+import path from 'path';
 
 import ccis from '../ccis';
 
 
 it('should parse all people', async (done) => {
-  const data = await fs.readFile('scrapers/tests/data/ccis/view_all_people.json');
+    const data = await fs.readFile(path.join(__dirname, 'data', 'ccis', 'view_all_people.json'));
+
   const resp = JSON.parse(data);
   const output = ccis.parsePeopleList(resp);
 
@@ -14,7 +16,7 @@ it('should parse all people', async (done) => {
 
 
 it('parseDetailpage', async (done) => {
-  const data = await fs.readFile('scrapers/tests/data/ccis/person.json');
+  const data = await fs.readFile(path.join(__dirname, 'data', 'ccis', 'person.json'));
   const resp = JSON.parse(data);
 
   const output = ccis.parseDetailpage(resp);

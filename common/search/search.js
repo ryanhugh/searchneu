@@ -244,7 +244,7 @@ class Search {
 
     const employeeResults = this.employeeSearchIndex.search(searchTerm, employeeSearchConfig);
 
-    console.log('send', 'timing', `search ${searchTerm.length}`, 'search', Date.now() - startTime);
+    // console.log('send', 'timing', `search ${searchTerm.length}`, 'search', Date.now() - startTime);
 
     const output = [];
 
