@@ -6,7 +6,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import wrap from 'express-async-wrap';
 import fs from 'fs-promise';
 
-import search from '../common/search/search';
+import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 
