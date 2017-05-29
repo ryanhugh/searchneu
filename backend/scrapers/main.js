@@ -2,7 +2,6 @@ import matchEmployees from './matchEmployees';
 import clubs from './clubs';
 import macros from './macros';
 import classes from './classes/main';
-import algolia from './algolia'
 
 // Main file for scraping
 // Run this to run all the scrapers

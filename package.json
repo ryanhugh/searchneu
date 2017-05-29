@@ -25,7 +25,6 @@
   "dependencies": {
     "@mapbox/togeojson": "^0.16.0",
     "acorn": "^5.0.3",
-    "algoliasearch": "^3.22.1",
     "another-name-parser": "^0.0.4",
     "async": "^2.1.5",
     "cheerio": "^0.22.0",

@@ -4,7 +4,6 @@ import elasticlunr from 'elasticlunr';
 import _ from 'lodash';
 import objectHash from 'object-hash';
 
-import algolia from './algolia';
 import fs from 'fs-promise';
 import path from 'path';
 import utils from './utils';
@@ -29,10 +28,6 @@ import camdFaculty from './camd';
 // Possible checks:
 // How often people have conflicting data field when merging (eg different phone numbers)
 
-
-// TODO
-// Perhaps change the object hash to some ID that was scraped from the page? 
-// This would save 1 op on algolia for every person who is not an employee who updates. 
 
 // name
 
