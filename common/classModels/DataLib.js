@@ -1,6 +1,6 @@
 import Class from './Class';
 import Section from './Section';
-import Keys from './Keys';
+import Keys from '../Keys';
 
 export default class DataLib {
 

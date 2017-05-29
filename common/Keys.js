@@ -117,14 +117,14 @@ function Keys(obj, endpoint, config) {
 Keys.create = function (obj, endpoint) {
 	if (arguments.length > 1) {
 		console.trace('ERROR!', obj, endpoint, config)
-		process.exit()
+		console.error('Keys called with endpoint, but endpoints not supported anymore.')
 	}
 	return new this(obj, endpoint, {});
 };
 
 Keys.createWithHash = function (obj, endpoint) {
 	console.trace('ERROR!', obj, endpoint, config)
-	process.exit()
+	console.error('Keys called with endpoint, but endpoints not supported anymore.')
 	return new this(obj, endpoint, {
 		hashAllowed: true
 	});
@@ -132,7 +132,7 @@ Keys.createWithHash = function (obj, endpoint) {
 
 Keys.createWithString = function (obj) {
 	console.trace('ERROR!', obj, endpoint, config)
-	process.exit()
+	console.error('Keys called with endpoint, but endpoints not supported anymore.')
 	return new this(obj, null, {
 		stringAllowed: true
 	})

@@ -12,7 +12,6 @@ import macros from './macros';
 import request from './request';
 import ResultsLoader from './ResultsLoader';
 import CourseProData from '../../common/classModels/DataLib';
-import Keys from '../../common/classModels/Keys';
 
 
 // Home page component

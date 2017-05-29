@@ -20,7 +20,7 @@
 var _ = require('lodash')
 var he = require('he')
 var moment = require('moment')
-import Keys from './Keys'
+import Keys from '../Keys'
 
 var Section = require('./Section')
 var RequisiteBranch = require('./RequisiteBranch')

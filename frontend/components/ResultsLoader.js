@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 
-import Keys from '../../common/classModels/Keys'
+import Keys from '../../common/Keys'
 import DataLib from '../../common/classModels/DataLib'
 import EmployeePanel from './EmployeePanel';
 import ClassPanel from './ClassPanel';
