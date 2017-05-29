@@ -126,7 +126,7 @@ it('go should work', async (done) => {
       matchCount++;
 
       expect(aClass.prereqs.values[0].classUid).toBe('023_1049977931');
-      expect(aClass.prereqs.values[0].classId).toBe(undefined);
+      expect(aClass.prereqs.values[0].classId).toBe('023');
       expect(aClass.prereqs.values.length).toBe(3);
     }
   }
