@@ -29,7 +29,7 @@ class Home extends React.Component {
 
       // Value to set the search box to after the search box is rendered.
       // If the user navigates to a page, search for the query.
-      searchTerm: decodeURIComponent(location.pathname.slice(1)),
+      searchTerm: decodeURIComponent(this.replaceAll(location.pathname.slice(1), '+', ' ')),
 
       // If we a waiting on a user on a slow computer to click enter to search.
       // On desktop, the data is searched every time, but it is only searched after you click enter on mobile.
@@ -56,6 +56,16 @@ class Home extends React.Component {
 
     // Log the initial search or pageview.
     this.logSearch(this.state.searchTerm);
+  }
+
+  // Replace all instances of a single char with another without a regex.
+  // https://stackoverflow.com/questions/16803931/replace-all-without-a-regex-where-can-i-use-the-g
+  replaceAll(string, old, newString) {
+    var index = 0;
+    do {
+        string = string.replace(old, newString);
+    } while((index = string.indexOf(old, index + 1)) > -1);
+    return string;
   }
 
   // On mobile, this is called whenever the user clicks enter.
@@ -115,7 +125,7 @@ class Home extends React.Component {
   }
 
   searchFromUserAction(event) {
-    history.pushState(null, null, `/${event.target.value}`);
+    history.pushState(null, null, `/${this.replaceAll(event.target.value.trim(), ' ', '+')}`);
     if (!event.target.value) {
       this.setState({
         results: [],
