@@ -11,8 +11,8 @@ import css from './home.css';
 import macros from './macros';
 import request from './request';
 import ResultsLoader from './ResultsLoader';
-import CourseProData from './models/DataLib';
-import Keys from './models/Keys';
+import CourseProData from '../../common/classModels/DataLib';
+import Keys from '../../common/classModels/Keys';
 
 const classSearchConfig = {
   fields: {

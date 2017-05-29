@@ -282,7 +282,7 @@ class Main {
     const outputFile = path.join(macros.DEV_DATA_DIR, 'classes' + hostnames.join(',') + '.json');
 
     // if this is dev and this data is already scraped, just return the data
-    if (macros.DEV && require.main !== module || 1) {
+    if (macros.DEV && require.main !== module) {
       const devData = await utils.loadDevData(outputFile);
       if (devData) {
         return devData;

@@ -83,13 +83,15 @@ Class.isValidCreatingData = function (config) {
 	return BaseData.isValidCreatingData.apply(this, arguments);
 };
 
-Class.create = function (config, termDump, loadChildren = true) {
+Class.create = function (config, termDump, loadSections = true, loadCoreqsAndPrereqs = false) {
 	var instance = new this(config);
 	instance.updateWithData(config);
-	if (loadChildren) {
+	if (loadSections) {
+		instance.loadSections(termDump.sectionMap)
+	}
+	if (loadCoreqsAndPrereqs) {
 		instance.loadPrereqs(termDump.classMap)
 		instance.loadCoreqs(termDump.classMap)
-		instance.loadSections(termDump.sectionMap)
 	}
 	return instance
 }

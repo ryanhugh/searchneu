@@ -29,7 +29,6 @@ export default class DataLib {
 
 		const startTime = Date.now()
 
-		console.time('start')
 		let retVal = [];
 		for (const key of keys) {
 			const row = this.termDump.classMap[key]
@@ -42,8 +41,9 @@ export default class DataLib {
 		retVal.sort((a,b) => {
 			return parseInt(this.termDump.classMap[a].classId) - parseInt(this.termDump.classMap[b].classId)
 		})
-		ga('send', 'timing', subject, 'subject', Date.now() - startTime);
 
+		// Turn this into a analytics call when that is working
+		console.log('send', 'timing', subject, 'subject', Date.now() - startTime);
 
 		return retVal;
 	}
@@ -51,6 +51,14 @@ export default class DataLib {
 
 	getSubjects() {
 		return Object.values(this.termDump.subjectMap)
+	}
+
+	getClassServerDataFromHash(hash) {
+		return this.termDump.classMap[hash]
+	}
+
+	getSectionServerDataFromHash(hash) {
+		return this.termDump.sectionMap[hash]
 	}
 
 

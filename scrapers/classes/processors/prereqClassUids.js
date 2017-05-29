@@ -44,7 +44,7 @@ PrereqClassUids.prototype.updatePrereqs = function (prereqs, host, termId, keyTo
 		if (typeof prereqEntry == 'string') {
 			continue;
 		}
-		else if (prereqEntry.classId && prereqEntry.subject) {
+		else if (prereqEntry.classId && prereqEntry.subject && !prereqEntry.classUid) {
 			// multiple classes could have same key
 			var key = host + termId + prereqEntry.subject + prereqEntry.classId
 
@@ -52,9 +52,12 @@ PrereqClassUids.prototype.updatePrereqs = function (prereqs, host, termId, keyTo
 
 			if (keyToRows[key]) {
 				keyToRows[key].forEach(function (row) {
+
+					// Replace each prereq item with the subject, classUid, and classId
 					newPrereqs.push({
 						subject: row.subject,
-						classUid: row.classUid
+						classUid: row.classUid,
+						classId: row.classId
 					})
 				}.bind(this))
 			}
@@ -70,7 +73,8 @@ PrereqClassUids.prototype.updatePrereqs = function (prereqs, host, termId, keyTo
 			else if (newPrereqs.length == 1) {
 				prereqs.values[i] = {
 					subject: newPrereqs[0].subject,
-					classUid: newPrereqs[0].classUid
+					classUid: newPrereqs[0].classUid,
+					classId: newPrereqs[0].classId
 				}
 			}
 			// the fun part - make the 'or' split for multiple classes

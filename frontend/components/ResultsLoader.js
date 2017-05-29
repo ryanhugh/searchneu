@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
-import Keys from './models/Keys'
 
+import Keys from '../../common/classModels/Keys'
 import EmployeePanel from './EmployeePanel';
 import ClassPanel from './ClassPanel';
 import css from './ResultsLoader.css';

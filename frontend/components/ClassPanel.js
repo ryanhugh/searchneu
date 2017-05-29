@@ -6,7 +6,7 @@ import classNames from 'classnames/bind';
 import globe from './globe.svg';
 import css from './ClassPanel.css';
 import macros from './macros';
-import Keys from './models/Keys'
+import Keys from '../../common/classModels/Keys'
 
 const cx = classNames.bind(css);
 

@@ -32,6 +32,11 @@ app.get('/', (req, res) => {
   res.end();
 });
 
+app.get('/search', (req, res) => {
+    console.log(req.query)
+    res.send('hi')
+})
+
 app.use(express.static('public'));
 
 app.get('/sw.js', (req, res) => {
