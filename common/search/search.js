@@ -1,7 +1,7 @@
 import elasticlunr from 'elasticlunr';
 
 import Keys from '../Keys';
-import CourseProData from '../classModels/DataLib'
+import CourseProData from '../classModels/DataLib';
 
 // The plan is to use this in both the frontend and the backend.
 // Right now it is only in use in the backend.
@@ -65,47 +65,83 @@ const employeeSearchConfig = {
 class Search {
 
   constructor(termDump, classSearchIndex, employeeMap, employeeSearchIndex) {
-    
     this.termDump = CourseProData.loadData(termDump);
     this.classSearchIndex = elasticlunr.Index.load(classSearchIndex);
     this.employeeMap = employeeMap;
     this.employeeSearchIndex = elasticlunr.Index.load(employeeSearchIndex);
+
+    // Save the refs for each query. This is a map from the query to a object like this: {refs: [...], time: Date.now()}
+    // These are purged every so often.
+    this.refCache = {};
+
+
+    this.onInterval = this.onInterval.bind(this);
+
+    // 24 HR in ms
+    setInterval(this.onInterval, 86400000);
   }
 
   // Use this to create a search intance
   // All of these arguments should already be JSON.parsed(). (Eg, they should be objects, not strings).
   static create(termDump, classSearchIndex, employeeMap, employeeSearchIndex) {
-
     // Some sanitiy checking
     if (!termDump || !classSearchIndex || !employeeMap || !employeeSearchIndex) {
-      console.error("Error, missing arguments.", termDump, classSearchIndex, employeeMap, employeeSearchIndex);
-      return;
+      console.error('Error, missing arguments.', termDump, classSearchIndex, employeeMap, employeeSearchIndex);
+      return null;
     }
 
 
-    return new this(termDump, classSearchIndex, employeeMap, employeeSearchIndex)
+    return new this(termDump, classSearchIndex, employeeMap, employeeSearchIndex);
+  }
 
+  onInterval() {
+    const keys = Object.keys(this.refCache);
+
+    const dayAgo = Date.now() - 86400000;
+
+    // Clear out any cache that has not been used in over a day.
+    for (const key of keys) {
+      if (this.refCache[key].time < dayAgo) {
+        this.refCache[key] = undefined;
+      }
+    }
   }
 
 
   // Main search function. The min and max index are used for pagenation.
   // Eg, if you want results 10 through 20, call search('hi there', 10, 20)
   search(searchTerm, minIndex = 0, maxIndex = 1000) {
-    let refs = this.getRefs(searchTerm);
+    // Searches are case insensitive.
+    searchTerm = searchTerm.trim().toLowerCase();
 
-    let objects = []
-    refs = refs.slice(minIndex, maxIndex)
+    // Cache the refs.
+    let refs;
+    if (this.refCache[searchTerm]) {
+      refs = this.refCache[searchTerm].refs;
+
+      // Update the timestamp of this cache item.
+      this.refCache[searchTerm].time = Date.now();
+    } else {
+      refs = this.getRefs(searchTerm);
+
+      this.refCache[searchTerm] = {
+        refs:refs,
+        time: Date.now(),
+      };
+    }
+
+
+    const objects = [];
+    refs = refs.slice(minIndex, maxIndex);
     for (const ref of refs) {
-
       if (ref.type === 'class') {
-
-        const aClass = this.termDump.getClassServerDataFromHash(ref.ref)
+        const aClass = this.termDump.getClassServerDataFromHash(ref.ref);
 
         if (!aClass) {
-          console.error('yoooooo omg', ref)
+          console.error('yoooooo omg', ref);
         }
 
-        const sections = []
+        const sections = [];
 
         if (aClass.crns) {
           for (const crn of aClass.crns) {
@@ -114,14 +150,14 @@ class Search {
               termId: aClass.termId,
               subject: aClass.subject,
               classUid: aClass.classUid,
-              crn: crn
-            }).getHash()
+              crn: crn,
+            }).getHash();
 
             if (!sectionKey) {
-              console.error('Error no hash', crn, aClass)
+              console.error('Error no hash', crn, aClass);
             }
 
-            sections.push(this.termDump.getSectionServerDataFromHash(sectionKey))
+            sections.push(this.termDump.getSectionServerDataFromHash(sectionKey));
           }
         }
 
@@ -129,33 +165,28 @@ class Search {
         objects.push({
           type: ref.type,
           class: aClass,
-          sections: sections
-        })
-      }
-      else if (ref.type === 'employee') {
+          sections: sections,
+        });
+      } else if (ref.type === 'employee') {
         objects.push({
           employee: this.employeeMap[ref.ref],
-          type: ref.type
-        })
-      }
-      else {
-        console.error('unknown type!')
+          type: ref.type,
+        });
+      } else {
+        console.error('unknown type!');
       }
     }
 
-    return objects
+    return objects;
   }
 
-  
+
   // This returns an object like {ref: 'neu.edu/201810/CS/...' , type: 'class'}
   getRefs(searchTerm) {
-    
-    const originalSearchTerm = searchTerm;
 
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
     const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
-    debugger
     const subjects = this.termDump.getSubjects();
 
     for (let i = 0; i < subjects.length; i++) {
@@ -213,7 +244,7 @@ class Search {
 
     const employeeResults = this.employeeSearchIndex.search(searchTerm, employeeSearchConfig);
 
-    console.log('send', 'timing', 'search ' + searchTerm.length, 'search', Date.now() - startTime);
+    console.log('send', 'timing', `search ${searchTerm.length}`, 'search', Date.now() - startTime);
 
     const output = [];
 
