@@ -2,12 +2,11 @@ import elasticlunr from 'elasticlunr';
 import path from 'path';
 import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
-import _ from 'lodash';
 
 import pageDataMgr from './pageDataMgr';
 import macros from '../macros';
 import utils from '../utils';
-import Keys from '../../common/Keys';
+import Keys from '../../../common/Keys';
 
 
 const getSearchIndex = '/getSearchIndex';
@@ -100,7 +99,7 @@ class Main {
 
       const folderPath = path.join(macros.PUBLIC_DIR, 'getTermDump', value.host);
       promises.push(mkdirp(folderPath).then(() => {
-        return fs.writeFile(path.join(folderPath, value.termId + '.json'), JSON.stringify(value));
+        return fs.writeFile(path.join(folderPath, `${value.termId}.json`), JSON.stringify(value));
       }));
     }
     return Promise.all(promises);
@@ -130,7 +129,7 @@ class Main {
 
     // Lets disable this until buildings are added to the index and the DB.
     // Dosen't make sense for classes in a building to come up when the building name is typed in the search box.
-    // If this is ever enabled again, make sure to add it to the config in home.js too. 
+    // If this is ever enabled again, make sure to add it to the config in home.js too.
     // index.addField('locations');
     index.addField('crns');
 
@@ -173,7 +172,7 @@ class Main {
 
     const searchIndexString = JSON.stringify(index.toJSON());
 
-    const fileName = path.join(macros.PUBLIC_DIR, keys.getHashWithEndpoint(getSearchIndex) + outputExtention + '.json');
+    const fileName = path.join(macros.PUBLIC_DIR, `${keys.getHashWithEndpoint(getSearchIndex) + outputExtention}.json`);
     const folderName = path.dirname(fileName);
 
     await mkdirp(folderName);
@@ -247,15 +246,15 @@ class Main {
     });
 
     // Sort each classes section by crn.
-    // This will keep the sections the same between different scrapings. 
-    let termHashes = Object.keys(classLists)
-    for (let termHash of termHashes) {
-      let classHashes = Object.keys(classLists[termHash].classHash)
-      for (let classHash of classHashes) {
+    // This will keep the sections the same between different scrapings.
+    const termHashes = Object.keys(classLists);
+    for (const termHash of termHashes) {
+      const classHashes = Object.keys(classLists[termHash].classHash);
+      for (const classHash of classHashes) {
         if (classLists[termHash].classHash[classHash].sections.length > 1) {
           classLists[termHash].classHash[classHash].sections.sort((a, b) => {
-            return a.crn > b.crn
-          })
+            return a.crn > b.crn;
+          });
         }
       }
     }
@@ -276,9 +275,8 @@ class Main {
   }
 
 
-
   async getTermDump(hostnames) {
-    const outputFile = path.join(macros.DEV_DATA_DIR, 'classes' + hostnames.join(',') + '.json');
+    const outputFile = path.join(macros.DEV_DATA_DIR, `classes${hostnames.join(',')}.json`);
 
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module) {
@@ -294,7 +292,7 @@ class Main {
       await utils.saveDevData(outputFile, termDump);
       console.log('classes file saved for', hostnames, '!');
     }
-    return termDump
+    return termDump;
   }
 
 
@@ -304,9 +302,9 @@ class Main {
       return;
     }
 
-    
+
     const termDump = await this.getTermDump(hostnames);
-  
+
     await this.createSerchIndex(termDump);
     await this.createDataDumps(termDump);
   }
