@@ -2,7 +2,7 @@ import URI from 'urijs';
 import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
 
-import macros from './macros';
+import macros from '../macros';
 
 exports.parseNameWithSpaces = function parseNameWithSpaces(name) {
 

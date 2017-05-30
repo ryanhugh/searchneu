@@ -4,7 +4,7 @@ import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
 
 import pageDataMgr from './pageDataMgr';
-import macros from '../macros';
+import macros from '../../macros';
 import utils from '../utils';
 import Keys from '../../../common/Keys';
 

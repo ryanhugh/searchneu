@@ -29,7 +29,7 @@ import moment from 'moment';
 
 
 import utils from './utils';
-import macros from './macros';
+import macros from '../macros';
 
 // This file is a transparent wrapper around the request library that changes some default settings so scraping is a lot faster.
 // This file adds:

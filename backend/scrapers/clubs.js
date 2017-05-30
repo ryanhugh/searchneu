@@ -6,7 +6,7 @@ import path from 'path';
 
 import utils from './utils';
 import request from './request';
-import macros from './macros';
+import macros from '../macros';
 
 
 // TODO

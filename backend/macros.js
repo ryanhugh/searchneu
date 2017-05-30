@@ -1,18 +1,31 @@
+import path from 'path';
+import fs from 'fs';
 
-let config;
-if (process.env.NODE_ENV !== 'prod') {
-  config = {
-    port: 5000,
-    DEV: true,
-    PROD: false,
-  };
-} else {
-  config = {
-    port: 80,
-    DEV: false,
-    PROD: true,
-  };
+import commonMacros from '../common/macros';
+
+// Change the current working directory to the directory with package.json and .git folder.
+while (1) {
+  try {
+    fs.statSync('.git');
+  } catch (e) {
+    //cd .. until in the same dir as package.json, the root of the project
+    process.chdir('..');
+    continue;
+  }
+  break;
 }
 
 
-export default config;
+class Macros extends commonMacros {
+
+}
+
+
+Macros.PUBLIC_DIR = path.join('public', 'data');
+Macros.DEV_DATA_DIR = path.join('cache', 'dev_data');
+
+// For iterating over every letter in a couple different places in the code.
+Macros.ALPHABET = 'maqwertyuiopsdfghjklzxcvbn';
+
+
+export default Macros;

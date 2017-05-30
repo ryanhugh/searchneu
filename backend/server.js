@@ -8,7 +8,7 @@ import fs from 'fs-promise';
 
 import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
-import macros from './macros';
+import macros from '../common/macros';
 
 const compiler = webpack(webpackConfig);
 const app = express();
@@ -118,7 +118,16 @@ app.get('*', (req, res) => {
 });
 
 
-app.listen(macros.port, '0.0.0.0', (err) => {
+let port;
+if (macros.DEV) {
+  port = 5000;
+}
+else {
+  port = 80;
+}
+
+
+app.listen(port, '0.0.0.0', (err) => {
   if (err) console.log(err);
-  console.info(`Listening on port ${macros.port}.`);
+  console.info(`Listening on port ${port}.`);
 });

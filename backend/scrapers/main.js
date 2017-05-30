@@ -1,6 +1,6 @@
 import matchEmployees from './employees/matchEmployees';
 import clubs from './clubs';
-import macros from './macros';
+import macros from '../macros';
 import classes from './classes/main';
 
 // Main file for scraping

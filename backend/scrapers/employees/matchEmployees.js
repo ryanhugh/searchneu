@@ -7,7 +7,7 @@ import fs from 'fs-promise';
 import path from 'path';
 
 import utils from '../utils';
-import macros from '../macros';
+import macros from '../../macros';
 import neuEmployees from './employees';
 import ccisFaculty from './ccis';
 import coeFaculty from './coe';

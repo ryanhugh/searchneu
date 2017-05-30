@@ -1,5 +1,5 @@
 import utils from '../utils';
-import macros from '../macros';
+import macros from '../../macros';
 
 it('standardize email works', () => {
   const input = utils.standardizeEmail('mailto:b@google.com');

@@ -4,7 +4,7 @@ import tj from '@mapbox/togeojson';
 import DOMParser from 'xmldom';
 import path from 'path';
 
-import macros from './macros';
+import macros from '../macros';
 import utils from './utils';
 import request from './request';
 

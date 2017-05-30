@@ -35,7 +35,7 @@
 
 'use strict';
 
-var macros = require('../../macros')
+var macros = require('../../../macros')
 var whois;
 
 if (macros.TESTS) {

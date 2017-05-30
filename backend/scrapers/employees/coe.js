@@ -3,7 +3,7 @@ import path from 'path';
 
 import request from '../request';
 import utils from '../utils';
-import macros from '../macros';
+import macros from '../../macros';
 
 
 // TODO
