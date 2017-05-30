@@ -6,9 +6,9 @@ import cookie from 'cookie';
 import path from 'path';
 import he from 'he';
 
-import utils from './utils';
-import request from './request';
-import macros from './macros';
+import utils from '../utils';
+import request from '../request';
+import macros from '../macros';
 
 
 // Scrapes from here: https://prod-web.neu.edu/wasapp/employeelookup/public/main.action

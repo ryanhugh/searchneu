@@ -1,9 +1,9 @@
 import cheerio from 'cheerio';
 import path from 'path';
 
-import request from './request';
-import utils from './utils';
-import macros from './macros';
+import request from '../request';
+import utils from '../utils';
+import macros from '../macros';
 
 
 // http://www.ccis.northeastern.edu/people-view-all/

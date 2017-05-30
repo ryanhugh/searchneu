@@ -3,13 +3,13 @@ import mkdirp from 'mkdirp-promise';
 import elasticlunr from 'elasticlunr';
 import _ from 'lodash';
 import objectHash from 'object-hash';
-
 import fs from 'fs-promise';
 import path from 'path';
-import utils from './utils';
-import macros from './macros';
-import ccisFaculty from './ccis';
+
+import utils from '../utils';
+import macros from '../macros';
 import neuEmployees from './employees';
+import ccisFaculty from './ccis';
 import coeFaculty from './coe';
 import csshFaculty from './cssh';
 import camdFaculty from './camd';
