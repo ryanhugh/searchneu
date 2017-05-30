@@ -18,7 +18,6 @@
 
 'use strict';
 var _ = require('lodash');
-var fs = require('fs');
 var moment = require('moment')
 
 import utils from '../../utils';
