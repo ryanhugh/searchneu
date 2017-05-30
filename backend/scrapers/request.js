@@ -50,7 +50,7 @@ import macros from '../macros';
 // So assume that when you hit one subject it caches that subject and others nearby.
 
 
-// TODO: 
+// TODO:
 // Sometimes many different hostnames all point to the same IP. Need to limit requests by an IP basis and a hostname basis (COS).
 // improve getBaseHost to use the list of top level domains
 
@@ -58,9 +58,9 @@ import macros from '../macros';
 // This object must be created once per process
 // Attributes are added to this object when it is used
 // This is the total number of requests per host
-// If these numbers ever exceed 1024, might want to ensure that there are more file descriptors avalible on the OS for this process 
-// than we are trying to request. Windows has no limit and travis has it set to 500k by default, but Mac OSX and Linux Desktop often have them 
-// set really low (256) which could interefere with this. 
+// If these numbers ever exceed 1024, might want to ensure that there are more file descriptors avalible on the OS for this process
+// than we are trying to request. Windows has no limit and travis has it set to 500k by default, but Mac OSX and Linux Desktop often have them
+// set really low (256) which could interefere with this.
 // https://github.com/request/request
 const separateReqDefaultPool = { maxSockets: 50, keepAlive: true, maxFreeSockets: 50 };
 
@@ -82,9 +82,9 @@ const separateReqPools = {
   'myswat.swarthmore.edu':  { maxSockets: 1000, keepAlive: true, maxFreeSockets: 1000 },
   'bannerweb.upstate.edu':  { maxSockets: 200, keepAlive: true, maxFreeSockets: 200 },
 
-  // Took 1hr and 15 min with 500 sockets and RETRY_DELAY set to 20000 and delta set to 15000. 
-  // Usually takes just under 1 hr at 1k sockets and the same timeouts. 
-  // Took around 20 min with timeouts set to 100ms and 150ms and 100 sockets. 
+  // Took 1hr and 15 min with 500 sockets and RETRY_DELAY set to 20000 and delta set to 15000.
+  // Usually takes just under 1 hr at 1k sockets and the same timeouts.
+  // Took around 20 min with timeouts set to 100ms and 150ms and 100 sockets.
   'wl11gp.neu.edu':  { maxSockets: 100, keepAlive: true, maxFreeSockets: 100 },
 };
 
@@ -95,7 +95,7 @@ const MAX_RETRY_COUNT = 35;
 const RETRY_DELAY = 100;
 const RETRY_DELAY_DELTA = 150;
 
-const LAUNCH_TIME = moment()
+const LAUNCH_TIME = moment();
 
 class Request {
 
@@ -109,7 +109,7 @@ class Request {
     this.analytics = {};
 
     // Hostnames that had a request since the last call to onInterval.
-    this.activeHostnames = {}
+    this.activeHostnames = {};
 
     // Template for each analytics object
     // totalBytesDownloaded: 0,
@@ -135,32 +135,31 @@ class Request {
   }
 
   getAnalyticsFromAgent(pool) {
-
     let agent = pool['https:false:ALL'];
 
     if (!agent) {
-      agent = pool['http:']
+      agent = pool['http:'];
     }
 
     if (!agent) {
-      utils.log('Agent is false,', pool)
+      utils.log('Agent is false,', pool);
       return {};
     }
 
-    let moreAnalytics = {
+    const moreAnalytics = {
       socketCount: 0,
       requestCount: 0,
-      maxSockets: pool.maxSockets
-    }
+      maxSockets: pool.maxSockets,
+    };
 
-    const socketArrays = Object.values(agent.sockets)
+    const socketArrays = Object.values(agent.sockets);
     for (const arr of socketArrays) {
-      moreAnalytics.socketCount += arr.length
+      moreAnalytics.socketCount += arr.length;
     }
 
-    const requestArrays = Object.values(agent.requests)
+    const requestArrays = Object.values(agent.requests);
     for (const arr of requestArrays) {
-      moreAnalytics.requestCount += arr.length
+      moreAnalytics.requestCount += arr.length;
     }
     return moreAnalytics;
   }
@@ -178,27 +177,27 @@ class Request {
         continue;
       }
 
-      const moreAnalytics = this.getAnalyticsFromAgent(separateReqPools[hostname])
+      const moreAnalytics = this.getAnalyticsFromAgent(separateReqPools[hostname]);
 
-      let totalAnalytics = {}
-      Object.assign(totalAnalytics, moreAnalytics, this.analytics[hostname])
+      const totalAnalytics = {};
+      Object.assign(totalAnalytics, moreAnalytics, this.analytics[hostname]);
 
-      utils.log(hostname)
-      utils.log(JSON.stringify(totalAnalytics, null, 4))
+      utils.log(hostname);
+      utils.log(JSON.stringify(totalAnalytics, null, 4));
     }
 
     this.activeHostnames = {};
 
     // Shared pool
-    utils.log(JSON.stringify(this.getAnalyticsFromAgent(separateReqDefaultPool), null, 4))
+    utils.log(JSON.stringify(this.getAnalyticsFromAgent(separateReqDefaultPool), null, 4));
 
     if (this.openRequests === 0) {
       clearInterval(this.timer);
     }
 
     // Log the current time.
-    const currentTime = moment()
-    utils.log('Uptime:', moment.duration(moment().diff(LAUNCH_TIME)).asMinutes(), '(' + currentTime.format('h:mm:ss a') + ')')
+    const currentTime = moment();
+    utils.log('Uptime:', moment.duration(moment().diff(LAUNCH_TIME)).asMinutes(), `(${currentTime.format('h:mm:ss a')})`);
   }
 
   // Gets the base hostname from a url.
@@ -330,7 +329,7 @@ class Request {
       defaultConfig.pool = separateReqDefaultPool;
     }
 
-    // Five min. This timeout does not include the time the request is waiting for a socket. 
+    // Five min. This timeout does not include the time the request is waiting for a socket.
     defaultConfig.timeout = 5 * 60 * 1000;
 
     defaultConfig.resolveWithFullResponse = true;
@@ -377,7 +376,7 @@ class Request {
       this.analytics[hostname].startTime = Date.now();
       this.timer = setInterval(this.onInterval.bind(this), 5000);
       setTimeout(() => {
-        this.onInterval()
+        this.onInterval();
       }, 0);
     }
 
@@ -464,9 +463,7 @@ class Request {
     }
 
 
-
     return new Promise((resolve, reject) => {
-
       let tryCount = 0;
 
       let requestDuration;
@@ -588,31 +585,6 @@ class Request {
     throw new Error('This does not work yet');
     // this.head(config)
   }
-
-
 }
 
-
-// async function test() {
-//   const it = new Request();
-
-//   try {
-//     const d = await it.request({
-//       url:'http://google.com',
-//       headers: {
-//         Cookie: 'jfjdklasjfldkasjlkf'
-//       }
-//     });
-
-//     console.log(d.body, 'NO CRASH');
-//   } catch (e) {
-//     console.log(e, 'HERE');
-//   }
-// }
-
-// test()
-
-const instance = new Request();
-
-
-export default instance;
+export default new Request();
