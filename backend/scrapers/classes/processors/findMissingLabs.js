@@ -20,7 +20,6 @@
 var macros = require('../macros')
 var classesDB = require('../databases/classesDB')
 var BaseProcessor = require('./baseProcessor').BaseProcessor
-var queue = require('d3-queue').queue
 
 
 // This find classes that are called "lab for " and "recitation for " and "Interactive Learning Seminar for PHYS 1155" 

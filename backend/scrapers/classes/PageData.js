@@ -20,7 +20,6 @@
 var asyncjs = require('async');
 var URI = require('urijs');
 var _ = require('lodash');
-var queue = require('d3-queue').queue;
 import utils from '../utils';
 
 	// pageDataMgr needs to be here, but cannot be required due to circular dependencies...

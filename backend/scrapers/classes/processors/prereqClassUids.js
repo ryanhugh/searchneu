@@ -22,8 +22,6 @@
 var ellucianRequisitesParser = require('../parsers/ellucianRequisitesParser')
 var BaseProcessor = require('./baseProcessor').BaseProcessor
 
-var queue = require('d3-queue').queue
-
 // This file converts prereq classIds to ClassUids by looking up the classes in the db and replacing classIds with classUids
 // if there are multiple results, it creates a 'or' prereq tree, much like Class.js does in the frontend. 
 
@@ -113,8 +111,6 @@ PrereqClassUids.prototype.go = function (termDump) {
 	})
 
 	let updatedClasses = []
-
-	var updateQueue = queue()
 
 	// loop through classes to update, and get the new data from all the classes
 	for (let aClass of termDump.classes) {

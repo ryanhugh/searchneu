@@ -18,7 +18,6 @@
 
 'use strict';
 var mkdirp = require('mkdirp');
-var queue = require('d3-queue').queue
 var fs = require('fs')
 var path = require('path')
 var _ = require('lodash')

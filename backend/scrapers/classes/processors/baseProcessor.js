@@ -17,7 +17,6 @@
  */
 
 'use strict';
-var queue = require('d3-queue').queue
 
 var Keys = require('../../../../common/Keys')
 var path = require('path')
