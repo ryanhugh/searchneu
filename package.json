@@ -7,7 +7,8 @@
     "build": "mkdir -p public; cp frontend/404.html public/404.html; cp frontend/robots.txt public/robots.txt; cp frontend/sw.js public/sw.js; cross-env NODE_ENV=prod webpack --config ./backend/webpack.config.babel.js --profile --colors",
     "lint": "eslint backend/scrapers",
     "test": "jest",
-    "deploy": "gh-pages -d public"
+    "deploy": "gh-pages -d public",
+    "download_data": "time git clone -b gh-pages --single-branch git@github.com:ryanhugh/searchneu.git public; rm -rf public/.git"
   },
   "babel": {
     "presets": [
