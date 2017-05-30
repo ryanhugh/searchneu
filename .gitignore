@@ -1,8 +1,7 @@
 node_modules/
 yarn-error.log
-dev_data_dir
+cache
 /public
-request_cache
 sandbox.js
 public
 yarn.lock

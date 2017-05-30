@@ -431,7 +431,7 @@ class Request {
 
 
     if (macros.DEV) {
-      folder = path.join('request_cache', hostname);
+      folder = path.join('cache', 'requests', hostname);
 
       // Make a new requeset without the cookies
       const headersWithoutCookie = {};

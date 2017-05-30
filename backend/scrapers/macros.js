@@ -15,7 +15,7 @@ while (1) {
 
 
 exports.PUBLIC_DIR = path.join('public', 'data');
-exports.DEV_DATA_DIR = path.join('dev_data_dir');
+exports.DEV_DATA_DIR = path.join('cache', 'dev_data');
 
 // For iterating over every letter in a couple different places in the code
 exports.ALPHABET = 'maqwertyuiopsdfghjklzxcvbn';
