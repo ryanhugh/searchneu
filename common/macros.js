@@ -11,7 +11,7 @@ class Macros {
 if (process.env.PROD || process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prod') {
   Macros.DEV = true;
   console.log('Running in prod mode.');
-} else if (process.env.DEV) {
+} else if (process.env.DEV || process.env.NODE_ENV === 'dev') {
   Macros.DEV = true;
   console.log('Running in dev mode.');
 } else if (process.env.NODE_ENV === 'test') {

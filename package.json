@@ -2,7 +2,7 @@
   "name": "search-neu",
   "version": "1.0.0",
   "scripts": {
-    "start": "cross-env NODE_ENV=dev; babel-node backend/server.js",
+    "start": "cross-env NODE_ENV=dev babel-node backend/server.js",
     "scrape": "babel-node backend/scrapers/main.js",
     "build": "mkdir -p public; cp frontend/404.html public/404.html; cp frontend/robots.txt public/robots.txt; cp frontend/sw.js public/sw.js; cross-env NODE_ENV=prod webpack --config ./backend/webpack.config.babel.js --profile --colors",
     "lint": "eslint backend/scrapers",
