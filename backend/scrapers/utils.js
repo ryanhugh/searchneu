@@ -5,17 +5,16 @@ import fs from 'fs-promise';
 import macros from '../macros';
 
 exports.parseNameWithSpaces = function parseNameWithSpaces(name) {
-
   // Standardize spaces.
-  name = name.replace(/\s+/gi, ' ')
+  name = name.replace(/\s+/gi, ' ');
 
   // Generate first name and last name
-  let spaceCount = exports.occurrences(name, ' ', false);
-  const splitName = name.split(' ')
+  const spaceCount = exports.occurrences(name, ' ', false);
+  const splitName = name.split(' ');
 
 
   if (spaceCount === 0) {
-    exports.log('0 spaces found in name', name)
+    exports.log('0 spaces found in name', name);
   }
 
   // Handles firstName, lastName and firstName, middleName, lastName
@@ -24,14 +23,14 @@ exports.parseNameWithSpaces = function parseNameWithSpaces(name) {
       exports.log(name, 'has more than 1 space in their name. Using first and last word.');
     }
 
-    let obj = {}
+    const obj = {};
 
-    obj.firstName = splitName[0]
-    obj.lastName = splitName[splitName.length - 1]
+    obj.firstName = splitName[0];
+    obj.lastName = splitName[splitName.length - 1];
 
     return obj;
   }
-}
+};
 
 // Standardizes email addresses found across different pages
 // Removes a 'mailto:' from the beginning
@@ -138,12 +137,12 @@ exports.saveDevData = async function saveDevData(path, data) {
 };
 
 
-// This is for programming errors. This will cause the program to exit anywhere. 
+// This is for programming errors. This will cause the program to exit anywhere.
 // This *should* never be called.
 exports.critical = function critical(...args) {
-  exports.error.apply(exports.error, args)
+  exports.error.apply(exports.error, args);
   process.exit(1);
-}
+};
 
 // Use this for stuff that should never happen, but does not mean the program cannot continue.
 // This will continue running in dev, but will exit on CI
@@ -182,7 +181,7 @@ exports.verbose = function verbose(...args) {
   }
 
   console.log.apply(console.log, args);
-}
+};
 
 exports.verbose('Starting in verbose mode.');
 
