@@ -30,7 +30,7 @@ class LinkSpider {
         promises.push(request.get(url));
       }
 
-      const responses = await Promise.all(promises); //// eslint-disable-line no-await-in-loop
+      const responses = await Promise.all(promises); // eslint-disable-line no-await-in-loop
 
       const linksOnPages = [];
 
@@ -71,17 +71,4 @@ class LinkSpider {
   }
 }
 
-
-const instance = new LinkSpider();
-
-
-// async function main() {
-
-//   let a  = await instance.main('https://camd.northeastern.edu/artdesign/community/faculty-staff/')
-
-//   console.log(JSON.stringify(a, null, 4), a.length)
-// }
-
-// main()
-
-export default instance;
+export default new LinkSpider();
