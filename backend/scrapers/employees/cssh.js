@@ -133,9 +133,8 @@ class Cssh {
         }
 
         // Ignore all other types of elements.
-        // <br>s should definitely be ignored, and there has been no reason to process other tags yet. 
+        // <br>s should definitely be ignored, and there has been no reason to process other tags yet.
         continue;
-
       } else if (element.type !== 'script') {
         console.error('Unknown type of element.', element.type);
       }
