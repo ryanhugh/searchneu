@@ -51,7 +51,7 @@ class NeuCCISFaculty {
       obj.name = $('h3.person-name', $personElement).text().trim();
 
       // Parse the first name and the last name from the given name
-      let {firstName, lastName} = utils.parseNameWithSpaces(obj.name)
+      const { firstName, lastName } = utils.parseNameWithSpaces(obj.name);
 
       if (firstName && lastName) {
         obj.firstName = firstName;
@@ -64,7 +64,7 @@ class NeuCCISFaculty {
       // positions at neu (eg PhD Student)
       const positionElements = $('div.position-list > span.position', $personElement);
       if (positionElements.length > 0) {
-        let positions = [];
+        const positions = [];
         for (let j = 0; j < positionElements.length; j++) {
           positions.push($(positionElements[j]).text().trim());
         }
@@ -127,11 +127,10 @@ class NeuCCISFaculty {
 
     const office = $('div.contact-block > div.address > p').text();
     if (office) {
-
-      let officeSplit = office.replace(/\r\n/gi, '\n').trim().split('\n');
+      const officeSplit = office.replace(/\r\n/gi, '\n').trim().split('\n');
 
       let officeRoom = officeSplit[1];
-      
+
       if (officeRoom) {
         officeRoom = officeRoom.trim();
 

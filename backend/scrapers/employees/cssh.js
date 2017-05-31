@@ -34,7 +34,7 @@ class Cssh {
     obj.name = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > h1').text().trim();
 
     // Parse the first name and the last name from the given name
-    let {firstName, lastName} = utils.parseNameWithSpaces(obj.name)
+    const { firstName, lastName } = utils.parseNameWithSpaces(obj.name);
 
     if (firstName && lastName) {
       obj.firstName = firstName;
@@ -47,25 +47,24 @@ class Cssh {
     // Job Title
     // "Assistant Professor Sociology and Health Science"
     const primaryRole = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > div.fac-single-title').text().trim().split(';')[0];
-    obj.primaryRole = primaryRole.replace(/\s+/gi, ' ')
+    obj.primaryRole = primaryRole.replace(/\s+/gi, ' ');
 
-    // Parse out the email. 
-    let emailElements = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > p > a');
+    // Parse out the email.
+    const emailElements = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > p > a');
 
     let emailElement = null;
-    for (var i = 0; i < emailElements.length; i++) {
+    for (let i = 0; i < emailElements.length; i++) {
       const element = emailElements[i];
       if (element.attribs.href.startsWith('mailto')) {
         if (emailElement) {
-          console.log('Error, already saw a email element')
-        }
-        else {
-          emailElement = element
+          console.log('Error, already saw a email element');
+        } else {
+          emailElement = element;
         }
       }
     }
 
-    emailElement = $(emailElement)
+    emailElement = $(emailElement);
 
     // Parse both the email it is linked to and the email that is displayed to ensure they are the same.
     const mailto = utils.standardizeEmail(emailElement.attr('href')).trim();
@@ -75,7 +74,6 @@ class Cssh {
     if ((mailto || email) && mailto !== email) {
       console.log('Warning; mailto !== email, skipping', mailto, email, 'done yo');
     } else if (mailto === email && email) {
-
       // If they are the same and they are not an empty string or undefined, keep the email.
       obj.emails = [email];
     }
@@ -89,9 +87,7 @@ class Cssh {
     const office = [];
 
     descriptionElements.forEach((element) => {
-
       if (element.type === 'text') {
-
         // Discard all text elements until the start of the first category
         if (category === null) {
           return;
@@ -114,21 +110,19 @@ class Cssh {
         else if (category === 'Contact:') {
           console.log(element.data.trim(), 'phone??');
         }
-      } 
+      }
 
       // Behaviors for hitting tags
       else if (element.type === 'tag') {
-
         // If hit a valid h4 element, change the category to the text in the h4 element
         if (element.name === 'h4') {
-
           // If an h4 element but not a category, log an error
           if (element.children.length !== 1 || element.children[0].type !== 'text') {
             console.log('error finding category text', element.children);
             return;
           }
 
-          // Ensure that its children is valid too. 
+          // Ensure that its children is valid too.
           const h4Text = element.children[0].data.trim();
           if (h4Text.length < 0) {
             console.log('Found h4 with no text?', element.children);
@@ -148,7 +142,6 @@ class Cssh {
     });
 
     if (office.length > 0) {
-      
       obj.officeRoom = office[0];
 
       // Need to remove trailing commas
@@ -157,7 +150,6 @@ class Cssh {
       }
 
       obj.officeStreetAddress = office[1];
-      
     }
 
     return obj;
@@ -165,7 +157,6 @@ class Cssh {
 
 
   async main() {
-
     const outputFile = path.join(macros.DEV_DATA_DIR, 'cssh.json');
 
     if (macros.DEV && require.main !== module) {
@@ -179,7 +170,7 @@ class Cssh {
 
     const urls = await linkSpider.main(startingLinks);
 
-    let profileUrls = [];
+    const profileUrls = [];
 
     // Filter all the urls found to just profile urls
     // 'https://www.northeastern.edu/cssh/faculty/noemi-daniel-voionmaa',
@@ -213,7 +204,7 @@ class Cssh {
 const instance = new Cssh();
 
 if (require.main === module) {
- instance.main();
+  instance.main();
 }
 
 export default instance;

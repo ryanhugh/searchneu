@@ -132,7 +132,6 @@ class Employee {
     this.cookiePromise = request.get({
       url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/main.action',
     }).then((resp) => {
-      
       // Parse the cookie from the response
       const cookieString = resp.headers['set-cookie'][0];
       const cookies = cookie.parse(cookieString);
@@ -220,7 +219,6 @@ class Employee {
           };
 
           if (_.isEqual(element.attribs, goal)) {
-
             // Delete one of the elements that is before the header that would mess stuff up
             domutils.removeElement(element.children[1].children[1]);
 

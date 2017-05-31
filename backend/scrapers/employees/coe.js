@@ -57,9 +57,8 @@ async function scrapeDetailpage(obj) {
   }
 
   if (positions.length > 0) {
-
-    obj.primaryRole = positions[0].role
-    obj.primaryDepartment = positions[0].department
+    obj.primaryRole = positions[0].role;
+    obj.primaryDepartment = positions[0].department;
 
     // Hold off on keeping the positions for now.
     // Need to ensure it is the same schema as CCIS (which does not have department for each role).
@@ -136,7 +135,7 @@ async function scrapeLetter(letter) {
     obj.name = $('div.views-field.views-field-field-faculty-last-name > h4 > a', $personElement).text().trim();
 
     // Parse the first name and the last name from the given name
-    let {firstName, lastName} = utils.parseNameWithSpaces(obj.name)
+    const { firstName, lastName } = utils.parseNameWithSpaces(obj.name);
 
     if (firstName && lastName) {
       obj.firstName = firstName;
@@ -152,8 +151,7 @@ async function scrapeLetter(letter) {
 
     if (email) {
       obj.emails = [email];
-    }
-    else {
+    } else {
       console.log('Could not parse email');
     }
 

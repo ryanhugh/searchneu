@@ -31,12 +31,12 @@ import camdFaculty from './camd';
 
 // name
 
-// url. 
+// url.
 
-// Phone. Many people have one database say one phone and a different data source have a different phone. idk. 
+// Phone. Many people have one database say one phone and a different data source have a different phone. idk.
 // phone: '6175586587'
 
-// List of emails. Can be on any domain. Many people list personal emails. Duplicates are removed. 
+// List of emails. Can be on any domain. Many people list personal emails. Duplicates are removed.
 // emails : ['bob@northeastern.edu']
 
 // primaryRole. What their job is. eg: Professor
@@ -50,19 +50,18 @@ import camdFaculty from './camd';
 class CombineCCISandEmployees {
 
   constructor() {
-
     // Keep track of things that can happen during matching.
     // Output analytics and some statistics after merging each list.
-    this.analytics = {}
+    this.analytics = {};
   }
 
   resetAnalytics() {
-    this.analytics = {}
+    this.analytics = {};
   }
 
   logAnalyticsEvent(eventName) {
     if (this.analytics[eventName] === undefined) {
-      this.analytics[eventName] = 0
+      this.analytics[eventName] = 0;
     }
     this.analytics[eventName] ++;
   }
@@ -70,20 +69,19 @@ class CombineCCISandEmployees {
 
   okToMatch(matchObj, person, peopleListIndex) {
     if (person.emails) {
-      let emailDomainMap = {}
+      const emailDomainMap = {};
 
-      matchObj.emails.forEach(function (email) {
-        let domain = email.split('@')[1]
-        emailDomainMap[domain] = email
-      })
+      matchObj.emails.forEach((email) => {
+        const domain = email.split('@')[1];
+        emailDomainMap[domain] = email;
+      });
 
-      for (let email of person.emails) {
-        let domain = email.split('@')[1]
+      for (const email of person.emails) {
+        const domain = email.split('@')[1];
         if (emailDomainMap[domain] && emailDomainMap[domain] !== email) {
-
           this.logAnalyticsEvent('emailDomainMismatch');
 
-          console.log('Not matching people because they had different emails on the same domain.', emailDomainMap[domain], email)
+          console.log('Not matching people because they had different emails on the same domain.', emailDomainMap[domain], email);
           return false;
         }
       }
@@ -91,7 +89,7 @@ class CombineCCISandEmployees {
 
     if (matchObj.peopleListIndexMatches[peopleListIndex]) {
       this.logAnalyticsEvent('sameListNotMatching');
-      console.log('Not matching ', matchObj.firstName, matchObj.lastName, 'and ', person.name,'because they came from the same list.')
+      console.log('Not matching ', matchObj.firstName, matchObj.lastName, 'and ', person.name, 'because they came from the same list.');
       return false;
     }
 
@@ -104,13 +102,12 @@ class CombineCCISandEmployees {
 
     const mergedPeopleList = [];
 
-    let peopleListIndex = 0
+    let peopleListIndex = 0;
 
 
     // First, match people from the different data sources. The merging happens after the matching
     for (const peopleList of peopleLists) {
-      
-      console.log('At people list index', peopleListIndex)
+      console.log('At people list index', peopleListIndex);
 
       this.resetAnalytics();
 
@@ -122,15 +119,14 @@ class CombineCCISandEmployees {
         // Attempt to match by email
         if (person.emails && peopleListIndex > 0) {
           for (const matchedPerson of mergedPeopleList) {
-
             // Emails did not overlap at all. Go to next person.
             if (_.intersection(matchedPerson.emails, person.emails).length === 0) {
               continue;
             }
 
-            // Final checks to see if it is ok to declare a match. 
+            // Final checks to see if it is ok to declare a match.
             if (!this.okToMatch(matchedPerson, person, peopleListIndex)) {
-              console.log('Not ok to match 1.', matchedPerson.firstName, matchedPerson.lastName, person.name)
+              console.log('Not ok to match 1.', matchedPerson.firstName, matchedPerson.lastName, person.name);
               continue;
             }
 
@@ -140,7 +136,7 @@ class CombineCCISandEmployees {
 
             // Update the emails array with the new emails from this person.
             matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
-            matchedPerson.peopleListIndexMatches[peopleListIndex] = true
+            matchedPerson.peopleListIndexMatches[peopleListIndex] = true;
 
             // There should only be one match per person. Log a warning if there are more.
             matchesFound++;
@@ -164,12 +160,11 @@ class CombineCCISandEmployees {
           // Now try to match by name
           // Every data source must have a person name, so no need to check if it is here or not.
           for (const matchedPerson of mergedPeopleList) {
+            const personFirstNameLower = person.firstName.toLowerCase();
+            const personLastNameLower = person.lastName.toLowerCase();
 
-            const personFirstNameLower = person.firstName.toLowerCase()
-            const personLastNameLower = person.lastName.toLowerCase()
-
-            const matchedPersonFirstNameLower = matchedPerson.firstName.toLowerCase()
-            const matchedPersonLastNameLower = matchedPerson.lastName.toLowerCase()
+            const matchedPersonFirstNameLower = matchedPerson.firstName.toLowerCase();
+            const matchedPersonLastNameLower = matchedPerson.lastName.toLowerCase();
 
             const firstMatch = personFirstNameLower.includes(matchedPersonFirstNameLower) || matchedPersonFirstNameLower.includes(personFirstNameLower);
             const lastMatch = personLastNameLower.includes(matchedPersonLastNameLower) || matchedPersonLastNameLower.includes(personLastNameLower);
@@ -179,9 +174,9 @@ class CombineCCISandEmployees {
               continue;
             }
 
-            // Final checks to see if it is ok to declare a match. 
+            // Final checks to see if it is ok to declare a match.
             if (!this.okToMatch(matchedPerson, person, peopleListIndex)) {
-              console.log('Not ok to match 2.', matchedPerson.firstName, matchedPerson.lastName, person.name)
+              console.log('Not ok to match 2.', matchedPerson.firstName, matchedPerson.lastName, person.name);
               continue;
             }
 
@@ -190,7 +185,7 @@ class CombineCCISandEmployees {
 
             // Update the emails array with the new emails from this person.
             matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
-            matchedPerson.peopleListIndexMatches[peopleListIndex] = true
+            matchedPerson.peopleListIndexMatches[peopleListIndex] = true;
 
             console.log('Matching:', person.firstName, person.lastName, ':', matchedPerson.firstName, matchedPerson.lastName);
 
@@ -211,91 +206,87 @@ class CombineCCISandEmployees {
             emails: [],
             firstName: person.firstName,
             lastName: person.lastName,
-            peopleListIndexMatches: {}
+            peopleListIndexMatches: {},
           };
 
-          newMatchPerson.peopleListIndexMatches[peopleListIndex] = true
+          newMatchPerson.peopleListIndexMatches[peopleListIndex] = true;
 
           if (person.emails) {
             newMatchPerson.emails = person.emails.slice(0);
           }
 
           if (peopleListIndex > 1) {
-            console.log('Adding', person.firstName, person.lastName)
+            console.log('Adding', person.firstName, person.lastName);
           }
           if (person.primaryRole === 'PhD Student') {
-            this.logAnalyticsEvent('unmatched PhD Student')
+            this.logAnalyticsEvent('unmatched PhD Student');
           }
 
           mergedPeopleList.push(newMatchPerson);
-        }
-        else if (matchesFound > 1) {
-          console.error(matchesFound, 'matches found for ', person.name, '!!!!')
+        } else if (matchesFound > 1) {
+          console.error(matchesFound, 'matches found for ', person.name, '!!!!');
         }
       }
 
       // Do some final calculations on the analytics and then log them
       if (this.analytics.matchedByEmail !== undefined && this.analytics.matchedByName !== undefined) {
-        this.analytics.matched = this.analytics.matchedByEmail + this.analytics.matchedByName
-        this.analytics.unmatched = this.analytics.people - this.analytics.matched   
+        this.analytics.matched = this.analytics.matchedByEmail + this.analytics.matchedByName;
+        this.analytics.unmatched = this.analytics.people - this.analytics.matched;
       }
 
-      console.log(JSON.stringify(this.analytics, null, 4))
-      peopleListIndex ++;
+      console.log(JSON.stringify(this.analytics, null, 4));
+      peopleListIndex++;
     }
 
-    // This file is just used for debugging. Used to see which profiles are going to be merged with which other profiles. 
+    // This file is just used for debugging. Used to see which profiles are going to be merged with which other profiles.
     if (macros.DEV) {
-      let toSave = []
+      const toSave = [];
 
-      mergedPeopleList.forEach(function(item) {
+      mergedPeopleList.forEach((item) => {
         if (item.matches.length > 1) {
-          toSave.push(item)
+          toSave.push(item);
         }
-      })
-    
+      });
+
       await mkdirp(macros.PUBLIC_DIR);
       await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMatches.json'), JSON.stringify(toSave, null, 4));
     }
 
 
-    let mergedEmployees = [];
+    const mergedEmployees = [];
 
 
-    mergedPeopleList.forEach(function (person) {
+    mergedPeopleList.forEach((person) => {
       if (person.matches.length === 1) {
-        mergedEmployees.push(person.matches[0])
+        mergedEmployees.push(person.matches[0]);
         return;
       }
 
 
-      let output = {}
-      for (let profile of person.matches) {
-
-        for (let attrName in profile) {
-
+      const output = {};
+      for (const profile of person.matches) {
+        for (const attrName in profile) {
           // Merge emails
           if (attrName === 'emails') {
             if (output.emails) {
               output.emails = _.uniq(output.emails.concat(profile.emails));
-            }
-            else {
-              output.emails = profile.emails
+            } else {
+              output.emails = profile.emails;
             }
             continue;
           }
 
           if (output[attrName] && output[attrName] != profile[attrName]) {
-            console.log('Overriding ', output[attrName], '\twith', profile[attrName])
+            console.log('Overriding ', output[attrName], '\twith', profile[attrName]);
           }
 
 
-          output[attrName] = profile[attrName]
+          output[attrName] = profile[attrName];
         }
       }
 
-      mergedEmployees.push(output)
-    })
+      mergedEmployees.push(output);
+    });
 
 
     // Add IDs to people that don't have them (IDs are only scraped from employee directory)
@@ -308,7 +299,7 @@ class CombineCCISandEmployees {
       mergedEmployees[index].id = objectHash(person);
     });
 
-    console.log("Spent", Date.now() - startTime, 'ms generating object hashes for employees without IDs.');
+    console.log('Spent', Date.now() - startTime, 'ms generating object hashes for employees without IDs.');
 
 
     // Save the file
@@ -320,7 +311,7 @@ class CombineCCISandEmployees {
     const employeeMap = {};
     mergedEmployees.forEach((person) => {
       if (!person.id) {
-        console.error('Error, need id to make map!', person)
+        console.error('Error, need id to make map!', person);
       }
       if (employeeMap[person.id]) {
         utils.error('Error, duplicate id!', person.id);
@@ -347,24 +338,22 @@ class CombineCCISandEmployees {
     index.saveDocument(false);
 
     mergedEmployees.forEach((row) => {
+      const docToIndex = {};
+      Object.assign(docToIndex, row);
 
-      let docToIndex = {}
-      Object.assign(docToIndex, row)
-      
       if (docToIndex.emails) {
-        for (var i = 0; i < docToIndex.emails.length; i++) {
-
+        for (let i = 0; i < docToIndex.emails.length; i++) {
           // Remove the @northeastern.edu and @neu.edu from the index to prevent indexing unnecessary stuff.
           if (docToIndex.emails[i].endsWith('northeastern.edu')) {
-            docToIndex.emails[i] = docToIndex.emails[i].slice(0, docToIndex.emails[i].indexOf('@northeastern.edu'))
+            docToIndex.emails[i] = docToIndex.emails[i].slice(0, docToIndex.emails[i].indexOf('@northeastern.edu'));
           }
 
           if (docToIndex.emails[i].endsWith('neu.edu')) {
-            docToIndex.emails[i] = docToIndex.emails[i].slice(0, docToIndex.emails[i].indexOf('@neu.edu'))
+            docToIndex.emails[i] = docToIndex.emails[i].slice(0, docToIndex.emails[i].indexOf('@neu.edu'));
           }
         }
 
-        docToIndex.emails = docToIndex.emails.join(' ')
+        docToIndex.emails = docToIndex.emails.join(' ');
       }
 
       index.addDoc(docToIndex);

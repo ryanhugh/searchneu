@@ -10,7 +10,7 @@ import request from '../request';
 class Camd {
 
   // Given a list of elements, this will return the text from all the elements that are text elements
-  // Each text will be in its own index in the array. 
+  // Each text will be in its own index in the array.
   getShallowText(elements) {
     const retVal = [];
     elements.forEach((element) => {
@@ -39,7 +39,7 @@ class Camd {
     obj.name = $('#main > div.pagecenter > div > div > div > div > div.col10.last.right > h1.entry-title').text().trim().split(',')[0];
 
     // Parse the first name and the last name from the given name
-    let {firstName, lastName} = utils.parseNameWithSpaces(obj.name)
+    const { firstName, lastName } = utils.parseNameWithSpaces(obj.name);
 
     if (firstName && lastName) {
       obj.firstName = firstName;
@@ -55,7 +55,6 @@ class Camd {
     // "Associate Professor – Design, Interactive Media"
     let primaryRole = $('#main > div.pagecenter > div > div > div > div > div.col10 > p.introp').text().trim().split(';')[0];
     if (primaryRole.length > 35) {
-      
       // Two different types of dash character
       primaryRole = primaryRole.split(' - ')[0].split(' – ')[0];
     }
@@ -84,34 +83,32 @@ class Camd {
         obj.phone = possiblePhone;
       }
 
-      // If the email was not hyperlinked, it would not be picked up by the prior email parsing and instead would appear here. 
+      // If the email was not hyperlinked, it would not be picked up by the prior email parsing and instead would appear here.
       else if (text.match(/[\w\d-.]+@[\w\d-.]+/) && !obj.emails) {
-        console.warn('Parsing plain text as email:', text)
+        console.warn('Parsing plain text as email:', text);
         obj.emails = [text];
       }
 
       // If phone did not match, check office.
       else if (text.length > 3) {
-       
         if (text.startsWith('Office: ')) {
           text = text.slice('Office: '.length);
         }
 
-       if (obj.officeRoom) {
+        if (obj.officeRoom) {
           console.log('Two matches for office, keeping the longer one', obj.office, text);
 
           // Only update the office if the new office is longer.
           // This rarely happens, but the longer the string is the more likely it is to be an office location.
           // In all of CAMD, there are only 2 instance where this helps
           if (obj.officeRoom.length < text.length) {
-            obj.officeRoom = text
+            obj.officeRoom = text;
           }
 
           return;
         }
 
         obj.officeRoom = text;
-
       } else {
         console.log('Warn: unknown prop in description', text);
       }
@@ -182,7 +179,7 @@ class Camd {
 const instance = new Camd();
 
 if (require.main === module) {
- instance.main();
+  instance.main();
 }
 
 export default instance;
