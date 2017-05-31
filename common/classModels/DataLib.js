@@ -1,5 +1,4 @@
 import Class from './Class';
-import Section from './Section';
 import Keys from '../Keys';
 
 export default class DataLib {
@@ -46,7 +45,7 @@ export default class DataLib {
 
     // Sort the classes
     retVal.sort((a, b) => {
-      return parseInt(this.termDump.classMap[a].classId) - parseInt(this.termDump.classMap[b].classId);
+      return parseInt(this.termDump.classMap[a].classId, 10) - parseInt(this.termDump.classMap[b].classId, 10);
     });
 
     // Turn this into a analytics call when that is working
@@ -66,27 +65,6 @@ export default class DataLib {
 
   getSectionServerDataFromHash(hash) {
     return this.termDump.sectionMap[hash];
-  }
-
-
-
-  createClass(searchResultData) {
-    const keys = Keys.createWithHash(config);
-    if (!keys) {
-      console.error('broooo');
-    }
-    const hash = keys.getHash();
-
-    const serverData = this.termDump.classMap[hash];
-
-    if (!serverData) {
-      console.error('wtf');
-      return;
-    }
-
-    const aClass = Class.create(serverData, this.termDump);
-
-    return aClass;
   }
 
 }
