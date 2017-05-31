@@ -86,16 +86,16 @@ class Cssh {
     let category = null;
     const office = [];
 
-    descriptionElements.forEach((element) => {
+    for (const element of descriptionElements) {
       if (element.type === 'text') {
         // Discard all text elements until the start of the first category
         if (category === null) {
-          return;
+          continue;
         }
 
         // Discard empty text elements
         if (element.data.trim().length === 0) {
-          return;
+          continue;
         }
 
         // Add lines that are a part of the Address category to the office field.
@@ -119,27 +119,27 @@ class Cssh {
           // If an h4 element but not a category, log an error
           if (element.children.length !== 1 || element.children[0].type !== 'text') {
             console.log('error finding category text', element.children);
-            return;
+            continue;
           }
 
           // Ensure that its children is valid too.
           const h4Text = element.children[0].data.trim();
           if (h4Text.length < 0) {
             console.log('Found h4 with no text?', element.children);
-            return;
+            continue;
           }
 
           category = h4Text;
         }
 
-        // Ignore a couple other types of elements
-        else if (element.name === 'br') {
-          return;
-        }
+        // Ignore all other types of elements.
+        // <br>s should definitely be ignored, and there has been no reason to process other tags yet. 
+        continue;
+
       } else if (element.type !== 'script') {
         console.error('Unknown type of element.', element.type);
       }
-    });
+    }
 
     if (office.length > 0) {
       obj.officeRoom = office[0];
