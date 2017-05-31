@@ -19,18 +19,17 @@ exports.parseNameWithSpaces = function parseNameWithSpaces(name) {
   }
 
   // Handles firstName, lastName and firstName, middleName, lastName
-  else {
-    if (spaceCount > 2) {
-      exports.log(name, 'has more than 1 space in their name. Using first and last word.');
-    }
 
-    const obj = {};
-
-    obj.firstName = splitName[0];
-    obj.lastName = splitName[splitName.length - 1];
-
-    return obj;
+  if (spaceCount > 2) {
+    exports.log(name, 'has more than 1 space in their name. Using first and last word.');
   }
+
+  const obj = {};
+
+  obj.firstName = splitName[0];
+  obj.lastName = splitName[splitName.length - 1];
+
+  return obj;
 };
 
 // Standardizes email addresses found across different pages
