@@ -231,7 +231,7 @@ class Home extends React.Component {
            For Northeastern
           </h3>
             <div id='search-wrapper' className='sub header'>
-              <label>
+              <label htmlFor='search_id'>
                 <i className='search icon' />
               </label>
               <input
