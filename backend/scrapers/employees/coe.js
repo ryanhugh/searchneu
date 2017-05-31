@@ -66,7 +66,9 @@ async function scrapeDetailpage(obj) {
   }
 
   // address
-  const officeSplit = $('div.faculty-profile__address').text().trim().replace(/[\n\r]+\s*/gi, '\n').split('\n');
+  let officeSplit = $('div.faculty-profile__address').text().trim();
+  officeSplit = officeSplit.replace(/[\n\r]+\s*/gi, '\n').split('\n');
+
   obj.officeRoom = officeSplit[0];
   obj.officeStreetAddress = officeSplit[1];
 

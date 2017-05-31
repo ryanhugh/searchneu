@@ -275,7 +275,7 @@ class CombineCCISandEmployees {
             continue;
           }
 
-          if (output[attrName] && output[attrName] != profile[attrName]) {
+          if (output[attrName] && output[attrName] !== profile[attrName]) {
             console.log('Overriding ', output[attrName], '\twith', profile[attrName]);
           }
 
