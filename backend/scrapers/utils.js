@@ -14,7 +14,8 @@ exports.parseNameWithSpaces = function parseNameWithSpaces(name) {
 
 
   if (spaceCount === 0) {
-    exports.log('0 spaces found in name', name);
+    exports.critical('0 spaces found in name', name);
+    return null;
   }
 
   // Handles firstName, lastName and firstName, middleName, lastName
