@@ -10,7 +10,7 @@ import css from './home.css';
 import macros from './macros';
 import ResultsLoader from './ResultsLoader';
 
-/-/-/++++++-/-
+
 // Home page component
 class Home extends React.Component {
   constructor(props) {
