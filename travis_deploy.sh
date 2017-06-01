@@ -32,9 +32,9 @@ echo
 
 if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
   npm -g install babel-cli
-  cd scrapers
+  cd backend/scrapers
   PROD=true NODE_ENV=PROD babel-node --max_old_space_size=8192 main
-  cd ..
+  cd ../..
 fi
 
 # This step runs regardless of branch, to ensure that any changes to the code did not break the build. 

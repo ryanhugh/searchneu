@@ -4,8 +4,7 @@ trap 'exit' ERR
 
 echo hi
 
-echo hi | grep b
-
+cd fnjdajfdlsjaf/fdmlkfs
 echo $?
 
 echo hiiiiii
