@@ -8,7 +8,8 @@
     "lint": "./node_modules/eslint/bin/eslint.js backend/scrapers",
     "test": "./node_modules/jest-cli/bin/jest.js",
     "deploy": "gh-pages -d public",
-    "download_data": "time git clone -b gh-pages --single-branch git@github.com:ryanhugh/searchneu.git public; rm -rf public/.git"
+    "download_data": "time git clone -b gh-pages --single-branch git@github.com:ryanhugh/searchneu.git public; rm -rf public/.git",
+    "start_prod": "sudo setcap 'cap_net_bind_service=+ep' $(which nodejs); ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start backend_compiled/server.js"
   },
   "babel": {
     "presets": [
@@ -40,6 +41,7 @@
     "express": "^4.15.2",
     "express-async-wrap": "^1.0.0",
     "file-loader": "^0.11.1",
+    "forever": "^0.15.3",
     "fs-promise": "^2.0.0",
     "gh-pages": "^0",
     "he": "^1.1.1",

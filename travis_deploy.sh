@@ -50,10 +50,16 @@ git remote add origin git@github.com:ryanhugh/searchneu.git
 
 # Push to prod if this is the prod branch
 if [ "$TRAVIS_BRANCH" == "prod" ]; then
-  NODE_DEBUG=gh-pages node node_modules/gh-pages/bin/gh-pages -d public -a -r git@github.com:ryanhugh/searchneu.git
-  echo $? 
+  echo 'Deploying to prod'
+  
+  ssh ubuntu@34.225.112.42 'cd searchneu; git pull'
+  ssh ubuntu@34.225.112.42 'cd searchneu; git checkout prod'
 
-  # Going to add a lot here to push to the ec2 instance
+  scp public/ 34.225.112.42:~/searchneu/public -r
+  scp backend_compiled/ 34.225.112.42:~/searchneu/backend_compiled -r
+
+  ssh ubuntu@34.225.112.42 'cd searchneu; bash ec2_update.sh'
+
 fi
 
 
