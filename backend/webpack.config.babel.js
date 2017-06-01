@@ -74,14 +74,22 @@ export default {
 
   resolve: {
     extensions: ['.js', '.css'],
-    modules: ['frontend', 'node_modules'],
+    modules: ['frontend', 'node_modules', 'common'],
   },
 
   module: {
-    loaders: [{
+    loaders: [
+
+    {
       test: /\.js$/,
       loader: 'babel-loader',
       include: path.join(rootDir, 'frontend'),
+    }, 
+
+    {
+      test: /\.js$/,
+      loader: 'babel-loader',
+      include: path.join(rootDir, 'common'),
     }, 
 
     // This loader is just for one css file that is global to the project.
