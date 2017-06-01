@@ -7,20 +7,20 @@ class Macros extends commonMacros {
 }
 
 
-window.elog = function elog() {
-  console.error.apply(console.error, arguments);
+window.elog = function elog(...args) {
+  console.error.apply(console.error, args);
 };
 
 
 let tooltipTimer = null;
 
 Macros.debounceTooltipRebuild = function debounceTooltipRebuild() {
-	clearTimeout(tooltipTimer);
-	tooltipTimer = setTimeout(ReactTooltip.rebuild.bind(ReactTooltip), 20)
-}
+  clearTimeout(tooltipTimer);
+  tooltipTimer = setTimeout(ReactTooltip.rebuild.bind(ReactTooltip), 20);
+};
 
 // True if is a Phone or other mobile device (iPod). Will be false for iPads.
-Macros.isMobile = isMobile()
+Macros.isMobile = isMobile();
 
 // XXX: This is stuff that is hardcoded for now, need to change when expanding to other schools.
 Macros.collegeName = 'Northeastern University';
