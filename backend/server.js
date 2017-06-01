@@ -27,13 +27,17 @@ const middleware = webpackMiddleware(compiler, {
 });
 
 
+// Http to https redirect. Lets put this server side now that there is a server. 
+// if (req.protocol == 'http' && !_(remoteIp).includes('127.0.0.1') && remoteIp != '::1' && !_(remoteIp).includes('10.0.0.') && !_(remoteIp).includes('192.168.1.')) {
+//     console.log('http -> http')
+//     res.setHeader('Cache-Control', 'public, max-age=5256000'); // 2 months (in seconds)
+//     res.redirect('https://coursepro.io' + req.url);
+// }
+
+
 app.use(middleware);
 app.use(webpackHotMiddleware(compiler));
 
-app.get('/', (req, res) => {
-  res.write(middleware.fileSystem.readFileSync(path.join(webpackConfig.output.path, 'index.html')));
-  res.end();
-});
 
 let searchPromise = null;
 
@@ -113,8 +117,10 @@ app.get('/sw.js', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'sw.js'));
 });
 
+
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend', '404.html'));
+  res.write(middleware.fileSystem.readFileSync(path.join(webpackConfig.output.path, 'index.html')));
+  res.end();
 });
 
 
