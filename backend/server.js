@@ -10,21 +10,8 @@ import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
 import macros from '../common/macros';
 
-const compiler = webpack(webpackConfig);
 const app = express();
 
-
-const middleware = webpackMiddleware(compiler, {
-  publicPath: webpackConfig.output.publicPath,
-  stats: {
-    colors: true,
-    timings: true,
-    hash: false,
-    chunksM: false,
-    chunkModules: false,
-    modules: false,
-  },
-});
 
 
 // Http to https redirect. Lets put this server side now that there is a server. 
@@ -34,9 +21,6 @@ const middleware = webpackMiddleware(compiler, {
 //     res.redirect('https://coursepro.io' + req.url);
 // }
 
-
-app.use(middleware);
-app.use(webpackHotMiddleware(compiler));
 
 
 let searchPromise = null;
@@ -111,6 +95,29 @@ app.get('/search', wrap(async (req, res) => {
   res.send(string);
 }));
 
+
+let middleware;
+
+if (macros.DEV) {
+
+  const compiler = webpack(webpackConfig);
+  middleware = webpackMiddleware(compiler, {
+    publicPath: webpackConfig.output.publicPath,
+    stats: {
+      colors: true,
+      timings: true,
+      hash: false,
+      chunksM: false,
+      chunkModules: false,
+      modules: false,
+    },
+  });
+
+  app.use(middleware);
+  app.use(webpackHotMiddleware(compiler));
+}
+
+
 app.use(express.static('public'));
 
 app.get('/sw.js', (req, res) => {
@@ -119,8 +126,14 @@ app.get('/sw.js', (req, res) => {
 
 
 app.get('*', (req, res) => {
-  res.write(middleware.fileSystem.readFileSync(path.join(webpackConfig.output.path, 'index.html')));
-  res.end();
+  if (macros.PROD) {
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+  }
+  else {
+    res.write(middleware.fileSystem.readFileSync(path.join(webpackConfig.output.path, 'index.html')));
+    res.end();
+  }
+
 });
 
 
