@@ -48,13 +48,13 @@ ssh-add ~/.ssh/id_rsa
 if [ "$TRAVIS_BRANCH" == "prod" ]; then
   echo 'Deploying to prod'
   
-  ssh ubuntu@34.225.112.42 'cd searchneu; git pull'
-  ssh ubuntu@34.225.112.42 'cd searchneu; git checkout prod'
+  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git pull'
+  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git checkout prod'
 
-  scp public/ ubuntu@34.225.112.42:~/searchneu/public -r
-  scp backend_compiled/ ubuntu@34.225.112.42:~/searchneu/backend_compiled -r
+  scp -o StrictHostKeyChecking=no public/ ubuntu@34.225.112.42:~/searchneu/public -r
+  scp -o StrictHostKeyChecking=no backend_compiled/ ubuntu@34.225.112.42:~/searchneu/backend_compiled -r
 
-  ssh ubuntu@34.225.112.42 'cd searchneu; bash ec2_update.sh'
+  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; bash ec2_update.sh'
 
 fi
 
