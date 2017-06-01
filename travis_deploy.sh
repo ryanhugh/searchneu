@@ -43,10 +43,6 @@ mkdir -p ~/.ssh 2> /dev/null
 echo $GIT_PRIVATE_KEY | base64 --decode > ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 ssh-add ~/.ssh/id_rsa
-git config --global user.email "ryanhughes624+gitbot@gmail.com"
-git config --global user.name "data-updater-bot"
-git remote remove origin
-git remote add origin git@github.com:ryanhugh/searchneu.git
 
 # Push to prod if this is the prod branch
 if [ "$TRAVIS_BRANCH" == "prod" ]; then
@@ -55,8 +51,8 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
   ssh ubuntu@34.225.112.42 'cd searchneu; git pull'
   ssh ubuntu@34.225.112.42 'cd searchneu; git checkout prod'
 
-  scp public/ 34.225.112.42:~/searchneu/public -r
-  scp backend_compiled/ 34.225.112.42:~/searchneu/backend_compiled -r
+  scp public/ ubuntu@34.225.112.42:~/searchneu/public -r
+  scp backend_compiled/ ubuntu@34.225.112.42:~/searchneu/backend_compiled -r
 
   ssh ubuntu@34.225.112.42 'cd searchneu; bash ec2_update.sh'
 

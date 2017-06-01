@@ -6,6 +6,7 @@
     "scrape": "babel-node backend/scrapers/main.js",
     "build_frontend": "mkdir -p public; cp frontend/robots.txt public/robots.txt; cp frontend/sw.js public/sw.js; cross-env NODE_ENV=prod ./node_modules/webpack/bin/webpack.js --config ./backend/webpack.config.babel.js --profile --colors",
     "build_backend": "mkdir -p backend_compiled; ./node_modules/babel-cli/bin/babel.js backend -d backend_compiled",
+    "build": "npm run build_backend;npm run build_frontend;",
     "lint": "./node_modules/eslint/bin/eslint.js backend/scrapers",
     "test": "./node_modules/jest-cli/bin/jest.js",
     "download_data": "time git clone -b gh-pages --single-branch git@github.com:ryanhugh/searchneu.git public; rm -rf public/.git",
