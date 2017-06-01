@@ -1,5 +1,5 @@
 # Exit if any commands fail. 
-set -e
+trap 'exit' ERR
 
 # Echo each command as they are ran
 set -v
@@ -18,10 +18,12 @@ ulimit -H -a
 
 # Log the public IP and local time of this server. Useful for figuring out the physical location of the server (Affects ping time of requests). 
 curl --insecure https://api.ipify.org/
-echo
+echo ""
 date
 echo
 git --version
+echo
+bash --version
 echo
 
 # Use this command to get the stuff in prod into the public folder. 

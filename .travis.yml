@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - 6
 
-after_success:
+after_script:
   - bash travis_deploy.sh
 
 cache: yarn
