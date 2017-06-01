@@ -8,6 +8,9 @@ import EmployeePanel from './EmployeePanel';
 import ClassPanel from './ClassPanel';
 import css from './ResultsLoader.css';
 
+// The Home.js component now keeps track of how many to render. 
+// This component watches for scroll events and tells Home.js if more items need to be requested. 
+
 // Home page component
 class ResultsLoader extends React.Component {
 
@@ -15,7 +18,6 @@ class ResultsLoader extends React.Component {
     super(props);
 
     this.state = {
-      show: 0,
       visibleObjects: [],
     };
 
@@ -36,14 +38,10 @@ class ResultsLoader extends React.Component {
 
   componentWillReceiveProps() {
     this.alreadyLoadedAt = {};
-    this.setState({
-      show: 0,
-      visibleObjects: [],
-    });
   }
 
-  componentDidUpdate() {
-    if (this.state.show === 0) {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.results !== this.props.results) {
       this.addMoreObjects();
     }
   }
@@ -70,22 +68,11 @@ class ResultsLoader extends React.Component {
   }
 
   addMoreObjects() {
-    let delta;
-    // When the user is typing in the search box we only need to render enough to go past the bottom of the screen
-    // want to render as few as possible between key presses in the search box.
-    if (this.state.show === 0) {
-      delta = 4;
-    } else {
-      delta = 10;
-    }
-    delta = 1000;
-
     const newObjects = [];
 
-    const toLoad = this.props.results//.slice(this.state.show, this.state.show + delta);
+    console.log('loading ', this.props.results.length)
 
-
-    toLoad.forEach((result) => {
+    this.props.results.forEach((result) => {
       if (result.type === 'class') {
 
         let aClass;
@@ -112,9 +99,9 @@ class ResultsLoader extends React.Component {
       }
     });
 
+
     this.setState({
-      show: this.state.show + delta,
-      visibleObjects: this.state.visibleObjects.concat(newObjects),
+      visibleObjects: newObjects,
     });
   }
 
