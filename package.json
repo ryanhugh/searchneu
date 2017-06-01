@@ -10,7 +10,7 @@
     "lint": "./node_modules/eslint/bin/eslint.js backend/scrapers",
     "test": "./node_modules/jest-cli/bin/jest.js",
     "download_data": "time git clone -b gh-pages --single-branch git@github.com:ryanhugh/searchneu.git public; rm -rf public/.git",
-    "start_prod": "sudo setcap 'cap_net_bind_service=+ep' $(which nodejs); ./node_modules/forever/bin/forever stopall; ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start backend_compiled/startup.js"
+    "start_prod": "sudo setcap 'cap_net_bind_service=+ep' $(which nodejs); ./node_modules/forever/bin/forever stopall; NODE_ENV=prod ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start backend_compiled/startup.js"
   },
   "babel": {
     "presets": [
