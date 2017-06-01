@@ -2,14 +2,18 @@
   "name": "search-neu",
   "version": "1.0.0",
   "scripts": {
+
+    "_comment": "These commands are used in dev.",
     "start": "cross-env NODE_ENV=dev babel-node backend/server.js",
     "scrape": "babel-node backend/scrapers/main.js",
-    "build_frontend": "mkdir -p public; cp frontend/robots.txt public/robots.txt; cp frontend/sw.js public/sw.js; cross-env NODE_ENV=prod ./node_modules/webpack/bin/webpack.js --config ./backend/webpack.config.babel.js --profile --colors",
-    "build_backend": "mkdir -p backend_compiled; ./node_modules/babel-cli/bin/babel.js backend -d backend_compiled",
-    "build": "npm run build_backend;npm run build_frontend;",
     "lint": "./node_modules/eslint/bin/eslint.js backend/scrapers",
     "test": "./node_modules/jest-cli/bin/jest.js",
-    "download_data": "time git clone -b gh-pages --single-branch git@github.com:ryanhugh/searchneu.git public; rm -rf public/.git",
+
+    "_comment2": "These comands are used to build the code",
+    "build_frontend": "mkdir -p public; cp frontend/robots.txt public/robots.txt; cp frontend/sw.js public/sw.js; cross-env NODE_ENV=prod ./node_modules/webpack/bin/webpack.js --config ./backend/webpack.config.babel.js --profile --colors",
+    "build_backend": "mkdir -p backend_compiled; ./node_modules/babel-cli/bin/babel.js backend -d backend_compiled",
+    "build": "npm run build_backend; npm run build_frontend",
+
     "start_prod": "sudo setcap 'cap_net_bind_service=+ep' $(which nodejs); ./node_modules/forever/bin/forever stopall; NODE_ENV=prod ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start backend_compiled/startup.js"
   },
   "babel": {
