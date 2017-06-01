@@ -54,7 +54,7 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
   scp -o StrictHostKeyChecking=no -r public/ ubuntu@34.225.112.42:~/searchneu/public
   scp -o StrictHostKeyChecking=no -r backend_compiled/ ubuntu@34.225.112.42:~/searchneu/backend_compiled
 
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; bash ec2_update.sh'
+  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; yarn; npm run start_prod'
 
 fi
 
