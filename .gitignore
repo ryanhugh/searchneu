@@ -1,8 +1,8 @@
 node_modules/
 yarn-error.log
 cache
+backend_compiled
 /public
 sandbox.js
 public
-yarn.lock
 *.log
