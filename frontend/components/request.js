@@ -36,7 +36,7 @@ class Request {
 
   async getFromInternet(url, config = {}, isKeyUpdated) {
     return new Promise((resolve, reject) => {
-      const startTime = Date.now()
+      const startTime = Date.now();
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = function onreadystatechange() {
         if (xmlhttp.readyState !== 4) {
@@ -46,10 +46,9 @@ class Request {
         const requestTime = Date.now() - startTime;
         console.log('Downloading took ', requestTime, 'for url', url);
         if (isKeyUpdated && config.useCache) {
-          ga('send', 'timing', url, 'download_cache_hit', requestTime);
-        }
-        else {
-          ga('send', 'timing', url, 'download_cache_miss', requestTime);
+          window.ga('send', 'timing', url, 'download_cache_hit', requestTime);
+        } else {
+          window.ga('send', 'timing', url, 'download_cache_miss', requestTime);
         }
 
 
@@ -75,7 +74,7 @@ class Request {
         const response = JSON.parse(xmlhttp.response);
         const parsingTime = Date.now() - startParse;
         console.log('Parsing took ', parsingTime, 'for url', url);
-        ga('send', 'timing', url, 'parse', parsingTime);
+        window.ga('send', 'timing', url, 'parse', parsingTime);
 
         if (response.error) {
           console.warn('ERROR networking error bad reqeust?', url);
