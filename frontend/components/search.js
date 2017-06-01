@@ -1,6 +1,5 @@
 import URI from 'urijs';
 
-import macros from './macros';
 import request from './request';
 
 
