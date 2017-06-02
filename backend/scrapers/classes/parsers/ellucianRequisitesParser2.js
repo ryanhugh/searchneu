@@ -93,11 +93,6 @@ EllucianRequisitesParser.prototype.supportsPage = function (url) {
 	return false;
 };
 
-EllucianRequisitesParser.prototype.getDatabase = function (pageData) {
-	utils.error('Requistes parser get db was called?')
-	return null;
-};
-
 
 
 //this is given the output of formatRequirements, where data.type and data.values exist

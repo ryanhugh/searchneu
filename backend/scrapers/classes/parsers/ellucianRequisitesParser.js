@@ -46,11 +46,6 @@ EllucianRequisitesParser.prototype.supportsPage = function (url) {
 	return false;
 };
 
-EllucianRequisitesParser.prototype.getDatabase = function (pageData) {
-	elog('requistes parser get db was called??')
-	return null;
-};
-
 
 //follow the order of operations (and before or)
 //and group a (something and something or something) to ((something and something) or something)

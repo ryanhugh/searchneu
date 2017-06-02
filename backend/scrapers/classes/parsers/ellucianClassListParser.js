@@ -44,10 +44,6 @@ EllucianClassListParser.prototype.supportsPage = function (url) {
 	return url.indexOf('bwckctlg.p_display_courses') > -1;
 }
 
-EllucianClassListParser.prototype.getDatabase = function (pageData) {
-	return null;
-};
-
 
 EllucianClassListParser.prototype.parseElement = function (pageData, element) {
 	if (!pageData.dbData.termId) {

@@ -46,11 +46,6 @@ EllucianCatalogParser.prototype.supportsPage = function (url) {
 }
 
 
-EllucianCatalogParser.prototype.getDatabase = function (pageData) {
-	return null;
-};
-
-
 EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 
 
