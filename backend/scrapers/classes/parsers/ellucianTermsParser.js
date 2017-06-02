@@ -59,7 +59,7 @@ EllucianTermsParser.prototype.getStaticHost = function(mainHost,termString) {
 	
 	for (var i = 0; i < staticHosts.length; i++) {
 		var staticHost = staticHosts[i];
-		if (staticHost.mainHost==mainHost && _(termString).includes(staticHost.includes)) {
+		if (staticHost.mainHost==mainHost && termString.includes(staticHost.includes)) {
 			return {
 				host:staticHost.host,
 				text:termString.replace(staticHost.includes,'').replace(/\s+/gi,' ').trim()
@@ -193,7 +193,7 @@ EllucianTermsParser.prototype.onEndParsing = function (pageData, dom) {
 				areAllDifferent: true
 			}
 		}
-		if (_(pageData.parsingData.duplicateTexts[term.host].values).includes(term.shortText)) {
+		if (pageData.parsingData.duplicateTexts[term.host].values.includes(term.shortText)) {
 			pageData.parsingData.duplicateTexts[term.host].areAllDifferent = false;
 			return;
 		}

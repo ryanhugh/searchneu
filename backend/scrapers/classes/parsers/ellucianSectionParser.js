@@ -67,7 +67,7 @@ EllucianSectionParser.prototype.parseElement = function (pageData, element) {
 		return;
 	}
 
-	if (element.name == 'table' && element.attribs.class == 'datadisplaytable' && element.parent.name == 'td' && _(element.attribs.summary).includes("seating")) {
+	if (element.name == 'table' && element.attribs.class == 'datadisplaytable' && element.parent.name == 'td' && element.attribs.summary.includes("seating")) {
 		var tableData = this.parseTable(element);
 
 		if (!tableData || tableData._rowCount === 0 || !tableData.capacity || !tableData.actual || !tableData.remaining) {
@@ -174,7 +174,7 @@ EllucianSectionParser.prototype.parseElement = function (pageData, element) {
 
 
 		// grab honors (honours is canadian spelling)
-		if (_(text).includes('honors') || _(text).includes('honours')) {
+		if (text.includes('honors') || text.includes('honours')) {
 			pageData.setParentData('honors', true)
 		}
 		else {

@@ -227,7 +227,7 @@ EllucianRequisitesParser.prototype.convertStringToJSON = function (text) {
 		element = element.trim();
 
 		//all of the grouping parens will be at end or start of element string
-		while (_(element).startsWith('(')) {
+		while (element.startsWith('(')) {
 			element = element.slice(1).trim();
 			retVal.push('[');
 		}
@@ -235,7 +235,7 @@ EllucianRequisitesParser.prototype.convertStringToJSON = function (text) {
 		//ending bracket needs to be checked here, but inserted after url/text parsed
 		// https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201615&subj_code_in=BTC&crse_numb_in=6213
 		var endBracketToInsertCount = 0;
-		while (_(element).endsWith(')')) {
+		while (element.endsWith(')')) {
 			element = element.slice(0, element.length - 1).trim();
 			endBracketToInsertCount++;
 		}
@@ -243,7 +243,7 @@ EllucianRequisitesParser.prototype.convertStringToJSON = function (text) {
 
 		//match the url if it is there
 		var match = element.match(/\@\#\$"(.*?)"/i);
-		if (_(element).includes('@#$') && match) {
+		if (element.includes('@#$') && match) {
 			retVal.push('"@#$' + match[1] + '",');
 		}
 		//just add all of the text
@@ -294,7 +294,7 @@ EllucianRequisitesParser.prototype.convertClassListURLs = function (pageData, da
 	if ((typeof data) == 'string') {
 
 		//urls will start with this
-		if (_(data).startsWith('@#$')) {
+		if (data.startsWith('@#$')) {
 			var classInfo = this.classListURLtoClassInfo(data.slice(3));
 			if (!classInfo) {
 				console.log('error thought was url, but wasent', data);
@@ -328,7 +328,7 @@ EllucianRequisitesParser.prototype.parseRequirementSection = function (pageData,
 
 	//skip all elements until the section
 	for (; i < classDetails.length; i++) {
-		if (classDetails[i].type == 'tag' && _(domutils.getText(classDetails[i]).trim().toLowerCase()).includes(sectionName)) {
+		if (classDetails[i].type == 'tag' && domutils.getText(classDetails[i]).trim().toLowerCase().includes(sectionName)) {
 			break;
 		}
 	}
@@ -375,7 +375,7 @@ EllucianRequisitesParser.prototype.parseRequirementSection = function (pageData,
 			if (urlText === '' || urlText == ' ') {
 				continue;
 			}
-			if (_(urlText).includes('@#$')) {
+			if (urlText.includes('@#$')) {
 				console.log('warning @#$ used to designate url was found in string?!?', pageData.dbData.url);
 				urlText = urlText.replace(/\@\#\$/gi, '');
 			}
@@ -418,7 +418,7 @@ EllucianRequisitesParser.prototype.parseRequirementSection = function (pageData,
 		var openingBrackedCount = (text.match(/\[/g) || []).length;
 		var closingBrackedCount = (text.match(/\]/g) || []).length;
 
-		if (openingBrackedCount > closingBrackedCount && _(text).startsWith('[')) {
+		if (openingBrackedCount > closingBrackedCount && text.startsWith('[')) {
 			text = text.slice(1);
 			try {
 				text = JSON.parse(text);
@@ -429,7 +429,7 @@ EllucianRequisitesParser.prototype.parseRequirementSection = function (pageData,
 			}
 
 		}
-		else if (closingBrackedCount > openingBrackedCount && _(text).endsWith(']')) {
+		else if (closingBrackedCount > openingBrackedCount && text.endsWith(']')) {
 			text = text.slice(0, text.length - 1);
 			try {
 				text = JSON.parse(text);

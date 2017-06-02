@@ -201,7 +201,7 @@ CollegeNamesParser.prototype.hitWhois = function (host, callback) {
 	//each domain has a different format and would probably need a different regex
 	//this one works for edu and ca, but warn if find a different one
 	var hostSplitByDot = host.split('.')
-	if (!_(['ca', 'edu']).includes(hostSplitByDot[hostSplitByDot.length - 1])) {
+	if (!['ca', 'edu'].includes(hostSplitByDot[hostSplitByDot.length - 1])) {
 		console.log('Warning, unknown domain ' + host)
 	}
 

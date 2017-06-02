@@ -113,7 +113,7 @@ EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 	//list all texts between this and next element, not including <br> or <i>
 	//usally stop at <span> or <p>
 	for (var i = 0; i < element.children.length; i++) {
-		if (element.children[i].type == 'tag' && !_(['i', 'br', 'a']).includes(element.children[i].name)) {
+		if (element.children[i].type == 'tag' && !['i', 'br', 'a'].includes(element.children[i].name)) {
 			break;
 		}
 		depData.desc += '  ' + domutils.getText(element.children[i]).trim();
@@ -128,7 +128,7 @@ EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 
 	var invalidDescriptions = ['xml extract', 'new search'];
 
-	if (_(invalidDescriptions).includes(depData.desc.trim().toLowerCase())) {
+	if (invalidDescriptions.includes(depData.desc.trim().toLowerCase())) {
 		return;
 	}
 
@@ -192,7 +192,7 @@ EllucianCatalogParser.prototype.parseElement = function (pageData, element) {
 	}
 
 
-	if (element.name == 'td' && element.attribs.class == 'nttitle' && _(element.parent.parent.attribs.summary).includes('term')) {
+	if (element.name == 'td' && element.attribs.class == 'nttitle' && element.parent.parent.attribs.summary.includes('term')) {
 
 
 		if (pageData.parsingData.foundClass) {

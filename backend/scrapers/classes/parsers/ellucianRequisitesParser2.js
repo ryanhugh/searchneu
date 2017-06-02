@@ -513,7 +513,7 @@ EllucianRequisitesParser.prototype.findRequisitesSection = function (classDetail
 
 	//skip all elements until the section
 	for (; i < classDetails.length; i++) {
-		if (classDetails[i].type == 'tag' && _(domutils.getText(classDetails[i]).trim().toLowerCase()).includes(sectionName)) {
+		if (classDetails[i].type == 'tag' && domutils.getText(classDetails[i]).trim().toLowerCase().includes(sectionName)) {
 			break;
 		}
 	}
