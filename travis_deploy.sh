@@ -4,6 +4,8 @@ trap 'exit' ERR
 # Echo each command as they are ran
 set -v
 
+npm run test
+
 # Pull requests and commits to other branches shouldn't try to deploy
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo $TRAVIS_PULL_REQUEST
@@ -62,19 +64,19 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
 
   ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; yarn; npm run start_prod'
 
+  # Tell Rollbar about the deploy
+  ACCESS_TOKEN=$ROLLBAR_TOKEN
+  ENVIRONMENT=production
+  LOCAL_USERNAME=`whoami`
+  REVISION=`git log -n 1 --pretty=format:"%H"`
+
+  curl https://api.rollbar.com/api/1/deploy/ \
+    -F access_token=$ACCESS_TOKEN \
+    -F environment=$ENVIRONMENT \
+    -F revision=$REVISION \
+    -F local_username=$LOCAL_USERNAME
+
 fi
 
-
-# Tell Rollbar about the deploy
-ACCESS_TOKEN=$ROLLBAR_TOKEN
-ENVIRONMENT=production
-LOCAL_USERNAME=`whoami`
-REVISION=`git log -n 1 --pretty=format:"%H"`
-
-curl https://api.rollbar.com/api/1/deploy/ \
-  -F access_token=$ACCESS_TOKEN \
-  -F environment=$ENVIRONMENT \
-  -F revision=$REVISION \
-  -F local_username=$LOCAL_USERNAME
 
 echo "Done travis_deploy.sh"
