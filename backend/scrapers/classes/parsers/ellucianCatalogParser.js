@@ -21,7 +21,6 @@ var URI = require('urijs');
 var domutils = require('domutils');
 var he = require('he');
 var _ = require('lodash');
-var fs = require('fs')
 
 var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
 var ellucianClassParser = require('./ellucianClassParser');

@@ -13,13 +13,17 @@ import macros from '../common/macros';
 const app = express();
 
 
-
-// Http to https redirect. Lets put this server side now that there is a server. 
-// if (req.protocol == 'http' && !_(remoteIp).includes('127.0.0.1') && remoteIp != '::1' && !_(remoteIp).includes('10.0.0.') && !_(remoteIp).includes('192.168.1.')) {
-//     console.log('http -> http')
-//     res.setHeader('Cache-Control', 'public, max-age=5256000'); // 2 months (in seconds)
-//     res.redirect('https://coursepro.io' + req.url);
-// }
+// Http to https redirect. 
+app.use(function (req, res, next) {
+  
+  var remoteIp = req.connection.remoteAddress;
+  if (req.protocol == 'http' && !remoteIp.includes('127.0.0.1') && remoteIp != '::1' && !remoteIp.includes('10.0.0.') && !remoteIp.includes('192.168.1.')) {
+      res.redirect('https' + req.url.slice('http'.length));
+  }
+  else {
+    next()
+  }
+})
 
 
 

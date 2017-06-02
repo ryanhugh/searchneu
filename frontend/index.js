@@ -21,13 +21,6 @@ if (macros.PROD) {
 }
 
 
-
-// Redirect to HTTPS if did not go directly to an IP address
-if (location.protocol != 'https:' && !parseInt(location.href.slice('http://'.length)[0]) && window.location.hostname != 'localhost') {
-  location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
-}
-
-
 // Google Analytics tracking script. Only use on prod. 
 if (macros.PROD) {
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
