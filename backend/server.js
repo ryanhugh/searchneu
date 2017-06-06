@@ -33,6 +33,8 @@ app.use(function (req, res, next) {
   else if (macros.DEV) {
     next()
   }
+
+  // This is prod and still on http, redirect to https. 
   else {
     // Cache the http to https redirect for 2 months. 
     res.setHeader('Cache-Control', 'public, max-age=5256000');
