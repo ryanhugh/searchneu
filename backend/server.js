@@ -21,7 +21,7 @@ app.use(function (req, res, next) {
 
     // Cache the http to https redirect for 2 months. 
     res.setHeader('Cache-Control', 'public, max-age=5256000');
-    res.redirect('https' + req.url.slice('http'.length));
+    res.redirect('https://' + req.get('host') + req.originalUrl);
   }
   else {
     next()
