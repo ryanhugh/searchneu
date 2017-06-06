@@ -17,14 +17,27 @@ const app = express();
 app.use(function (req, res, next) {
   
   var remoteIp = req.connection.remoteAddress;
-  if (req.protocol == 'http' && !remoteIp.includes('127.0.0.1') && remoteIp != '::1' && !remoteIp.includes('10.0.0.') && !remoteIp.includes('192.168.1.')) {
 
-    // Cache the http to https redirect for 2 months. 
-    res.setHeader('Cache-Control', 'public, max-age=5256000');
-    res.redirect('https://' + req.get('host') + req.originalUrl);
+
+  // If this is https request, done. 
+  if (req.protocol === 'https') {
+    next()
+  }
+
+  // If we are behind a cloudflare proxy and cloudflare served a https response, done. 
+  else if (res.headers['X-Forwarded-Proto'] && res.headers['X-Forwarded-Proto'] === 'https') {
+    next()
+  }
+
+  // This is development mode
+  else if (macros.DEV) {
+    next()
   }
   else {
-    next()
+    // Cache the http to https redirect for 2 months. 
+    res.setHeader('Cache-Control', 'public, max-age=5256000');
+    console.log('redirecting to https')
+    res.redirect('https://' + req.get('host') + req.originalUrl);
   }
 })
 
