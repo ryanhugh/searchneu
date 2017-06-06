@@ -25,7 +25,7 @@ app.use(function (req, res, next) {
   }
 
   // If we are behind a cloudflare proxy and cloudflare served a https response, done. 
-  else if (res.headers['X-Forwarded-Proto'] && res.headers['X-Forwarded-Proto'] === 'https') {
+  else if (req.headers['X-Forwarded-Proto'] && req.headers['X-Forwarded-Proto'] === 'https') {
     next()
   }
 
