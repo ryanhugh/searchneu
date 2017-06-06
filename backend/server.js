@@ -18,7 +18,10 @@ app.use(function (req, res, next) {
   
   var remoteIp = req.connection.remoteAddress;
   if (req.protocol == 'http' && !remoteIp.includes('127.0.0.1') && remoteIp != '::1' && !remoteIp.includes('10.0.0.') && !remoteIp.includes('192.168.1.')) {
-      res.redirect('https' + req.url.slice('http'.length));
+
+    // Cache the http to https redirect for 2 months. 
+    res.setHeader('Cache-Control', 'public, max-age=5256000');
+    res.redirect('https' + req.url.slice('http'.length));
   }
   else {
     next()

@@ -195,7 +195,6 @@ CollegeNamesParser.prototype.hitPage = function (host, callback) {
 
 
 CollegeNamesParser.prototype.hitWhois = function (host, callback) {
-  return callback(null, 'test')
 
 
 	//each domain has a different format and would probably need a different regex

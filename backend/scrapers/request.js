@@ -53,6 +53,8 @@ import macros from '../macros';
 // TODO:
 // Sometimes many different hostnames all point to the same IP. Need to limit requests by an IP basis and a hostname basis (COS).
 // improve getBaseHost to use the list of top level domains
+// Need to improve the cache. Would save everything in one object, but 268435440 (268 MB) is roughly the max limit of the output of JSON.stringify. 
+// https://github.com/nodejs/node/issues/9489#issuecomment-279889904
 
 
 // This object must be created once per process
@@ -290,7 +292,7 @@ class Request {
     this.ensureAnalyticsObject(hostname);
     this.activeHostnames[hostname] = true;
 
-    const dnsResults = await this.getDns(urlParsed.hostname());
+    const dnsResults = await this.getDns(hostname);
 
 
     let ip;
