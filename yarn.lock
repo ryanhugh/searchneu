@@ -1846,6 +1846,10 @@ director@1.2.7:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/director/-/director-1.2.7.tgz#bfd3741075fd7fb1a5b2e13658c5f4bec77736f3"
 
+dirty@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/dirty/-/dirty-1.1.0.tgz#70edd2b999541dc9974fd3a8cbd0c670fe236078"
+
 dns-then@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/dns-then/-/dns-then-0.1.0.tgz#c573a8ed103ca7492e070507cbfab27b15eab1f4"
