@@ -27,7 +27,7 @@ import path from 'path';
 import htmlparser from 'htmlparser2';
 import moment from 'moment';
 
-
+import cache from './cache';
 import utils from './utils';
 import macros from '../macros';
 
@@ -457,8 +457,9 @@ class Request {
         if (body.length === 0) {
           console.log('Warning, empty cache file, skipping!', filePath);
         } else {
-          const contents = JSON.parse((body).toString());
+          const contents = JSON.parse(body.toString());
           utils.verbose('Loaded ', contents.body.length, 'from cache', config.url);
+          // await cache.set('requests', hostname, )
           return contents;
         }
       }
