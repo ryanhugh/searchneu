@@ -26,6 +26,7 @@ import objectHash from 'object-hash';
 import path from 'path';
 import htmlparser from 'htmlparser2';
 import moment from 'moment';
+import _ from 'lodash';
 
 import cache from './cache';
 import utils from './utils';
@@ -416,6 +417,34 @@ class Request {
     return false;
   }
 
+  safeToCacheByUrl(config) {
+
+    if (config.method !== 'GET') {
+      return false;
+    }
+
+    // If the only header is Cookie and the only items in the config are url and method===get and headers,
+    // The request is safe to cache by just the url, and no hashing is required.
+    // The vast majority of requests follow these rules. 
+    const listOfHeaders = Object.keys(config.headers);
+
+    _.pull(listOfHeaders, "Cookie");
+    if (listOfHeaders.length > 0) {
+      console.log('Not caching by url b/c it has other headers', listOfHeaders, config)
+      return false;
+    }
+
+    const listOfConfigOptions = Object.keys(config)
+
+    _.pull(listOfConfigOptions, 'method', 'headers', 'url')
+
+    if (listOfConfigOptions.length > 0) {
+      return false;
+    }
+
+    return true;
+  }
+
   // Outputs a response object. Get the body of this object with ".body".
   async request(config) {
     config = this.standardizeInputConfig(config);
@@ -426,25 +455,41 @@ class Request {
     const hostname = urlParsed.hostname();
     this.ensureAnalyticsObject(hostname);
 
-    let folder;
-    let filename;
-    let filePath;
-
+    let newKey;
 
     if (macros.DEV) {
-      folder = path.join('cache', 'requests', hostname);
 
-      // Make a new requeset without the cookies
-      const headersWithoutCookie = {};
-      Object.assign(headersWithoutCookie, config.headers);
-      headersWithoutCookie.Cookie = undefined;
+      // Skipping the hashing when it is not necessary significantly speeds this up. 
+      // When everything was hashed, the call to objectHash function was the function with the most self-time in the profiler lol. 
+      if (this.safeToCacheByUrl(config)) {
+        newKey = config.url
+      }
+      else {
 
-      const configToHash = {};
-      Object.assign(configToHash, config);
-      configToHash.headers = headersWithoutCookie;
+        // Make a new requeset without the cookies
+        const headersWithoutCookie = {};
+        Object.assign(headersWithoutCookie, config.headers);
+        headersWithoutCookie.Cookie = undefined;
+
+        const configToHash = {};
+        Object.assign(configToHash, config);
+        configToHash.headers = headersWithoutCookie;
+
+        newKey = objectHash(configToHash)
+      }
+
+      let content = await cache.get('requests_new', hostname, newKey);
+      if (content) {
+        return content
+      }
+      else {
+        console.log('NOt in new cache:', hostname, newKey)
+      }
+    
+
 
       // Ensure only letters and numbers and dots and limit char length
-      filename = urlParsed.path().replace(/[^A-Za-z0-9.]/gi, '_').trim().slice(0, 25) + objectHash(configToHash);
+      let filename = urlParsed.path().replace(/[^A-Za-z0-9.]/gi, '_').trim().slice(0, 25) + newKey;
 
       await mkdirp(folder);
 
@@ -459,10 +504,16 @@ class Request {
         } else {
           const contents = JSON.parse(body.toString());
           utils.verbose('Loaded ', contents.body.length, 'from cache', config.url);
-          // await cache.set('requests', hostname, )
+          await cache.set('requests_new', hostname, newKey, contents)
           return contents;
         }
       }
+
+
+      else {
+        utils.critical('?????????????', newKey, content)
+      }
+
     }
 
 
@@ -519,7 +570,10 @@ class Request {
 
         // Save the response to a file for development
         if (macros.DEV) {
-          await fs.writeFile(filePath, JSON.stringify(response.toJSON()));
+
+          cache.set('requests_new', hostname, newKey, response.toJSON())
+
+          // await fs.writeFile(filePath, );
         }
 
         // Don't log this on travis because it causes more than 4 MB to be logged and travis will kill the job
