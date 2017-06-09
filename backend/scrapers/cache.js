@@ -4,6 +4,9 @@ import mkdirp from 'mkdirp-promise';
 
 import utils from './utils';
 
+var msgpack = require('msgpack5')() // namespace our extensions 
+  , encode  = msgpack.encode
+  , decode  = msgpack.decode
 
 
 class Cache {
@@ -58,8 +61,24 @@ class Cache {
 
 		// Make sure the cache exists and is loaded.
 		await this.ensureLoaded(filePath);
+		const dirtyInstance = await this.dirtyMap[filePath]
+		let retVal = dirtyInstance.get(key)
 
-		return (await this.dirtyMap[filePath]).get(key)
+		debugger
+		console.time('a')
+		let b = encode(dirtyInstance._docs)
+		console.timeEnd('a')
+
+		console.time('a')
+		decode(b)
+		console.timeEnd('a')
+
+		// var oneGigInBytes = 2373741825;
+		// var my1GBuffer = Buffer.alloc(oneGigInBytes); //Crash
+
+
+
+		return retVal;
 
 	}
 
@@ -82,8 +101,10 @@ class Cache {
 
 }
 
+
 let a = new Cache()
 
-// console.log(a.getFilePath(['jflkFFFFF^&*^&*^&****sj','jj']))
+console.log(a.get('requests_new','2',''))
+
 
 export default a;
