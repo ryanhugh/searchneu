@@ -487,13 +487,14 @@ class Request {
       }
     
 
+      let folder = path.join('cache', 'requests', hostname);
 
       // Ensure only letters and numbers and dots and limit char length
       let filename = urlParsed.path().replace(/[^A-Za-z0-9.]/gi, '_').trim().slice(0, 25) + newKey;
 
       await mkdirp(folder);
 
-      filePath = path.join(folder, filename);
+      let filePath = path.join(folder, filename);
 
       const exists = await fs.exists(filePath);
 
@@ -510,9 +511,9 @@ class Request {
       }
 
 
-      else {
-        utils.critical('?????????????', newKey, content)
-      }
+      // else {
+      //   utils.critical('?????????????', newKey, content)
+      // }
 
     }
 
