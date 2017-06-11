@@ -1,10 +1,11 @@
 import cheerio from 'cheerio';
 import path from 'path';
 
-import request from '../request';
+import Request from '../request';
 import utils from '../utils';
 import macros from '../../macros';
 
+const request = new Request('CCIS');
 
 // http://www.ccis.northeastern.edu/people-view-all/
 // Scraped info:

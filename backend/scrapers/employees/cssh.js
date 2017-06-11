@@ -5,8 +5,9 @@ import path from 'path';
 import macros from '../../macros';
 import utils from '../utils';
 import linkSpider from '../linkSpider';
-import request from '../request';
+import Request from '../request';
 
+const request = new Request('CSSH');
 
 // Wrote all of this, then found out that CSSH has a hidden, undocumented API
 

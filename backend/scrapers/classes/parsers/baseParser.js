@@ -23,12 +23,18 @@ var domutils = require('domutils');
 var fs = require('fs');
 
 
-import request from '../../request';
+import Request from '../../request';
+
 
 
 function BaseParser() {
 	this.requiredAttrs = [];
 	this.name = "BaseParser"
+
+
+	// Different instance of request for each parser (for different caches).
+	this.request = new Request(this.constructor.name)
+
 }
 
 BaseParser.prototype.getDataType = function() {
@@ -57,9 +63,9 @@ BaseParser.prototype.parse = async function (pageData, callback) {
 
 	// Call request.request direcely because we already know if we want to do a post or a get request. 
 	// That info is part of the config.
-	let response = await request.request(config)
+	let response = await this.request.request(config)
 
-	request.handleRequestResponce(response.body, function(err, dom) {
+	Request.handleRequestResponce(response.body, function(err, dom) {
 
 		pageData.setData('lastUpdateTime', Date.now());
 

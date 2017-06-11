@@ -69,7 +69,20 @@ EllucianClassListParser.prototype.parseElement = function (pageData, element) {
 			return;
 		};
 
-		url = new URI(url).absoluteTo(baseURL).toString()
+		// Fix broken urls. (Have seen this on NEU's site :/)
+		if (url.startsWith('http: //')) {
+			url = 'http://' + url.slice("http: //".length)
+		}
+
+		try {
+			url = new URI(url).absoluteTo(baseURL).toString()
+		}
+		catch (e) {
+			console.error('Ran into an error while parsing a url. Skipping.' ,e , url, baseURL, JSON.stringify(element.attribs), pageData.dbData.url)
+			return;
+		}
+
+
 		if (!url) {
 			console.log('unable to find url for ', element)
 			return

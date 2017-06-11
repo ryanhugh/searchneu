@@ -7,9 +7,10 @@ import path from 'path';
 import he from 'he';
 
 import utils from '../utils';
-import request from '../request';
+import Request from '../request';
 import macros from '../../macros';
 
+const request = new Request('Employees');
 
 // Scrapes from here: https://prod-web.neu.edu/wasapp/employeelookup/public/main.action
 

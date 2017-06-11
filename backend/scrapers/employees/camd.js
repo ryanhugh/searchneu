@@ -4,8 +4,9 @@ import path from 'path';
 import macros from '../../macros';
 import utils from '../utils';
 import linkSpider from '../linkSpider';
-import request from '../request';
+import Request from '../request';
 
+const request = new Request('Camd');
 
 class Camd {
 

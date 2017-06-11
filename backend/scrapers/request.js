@@ -203,34 +203,6 @@ class Request {
     utils.log('Uptime:', moment.duration(moment().diff(LAUNCH_TIME)).asMinutes(), `(${currentTime.format('h:mm:ss a')})`);
   }
 
-  // Gets the base hostname from a url.
-  // fafjl.google.com -> google.com
-  // subdomain.bob.co -> bob.co
-  // bob.co -> bob.co
-  getBaseHost(url) {
-    const homepage = new URI(url).hostname();
-    if (!homepage || homepage === '') {
-      utils.error('could not find homepage of', url);
-      return null;
-    }
-
-    const match = homepage.match(/[^.]+\.[^.]+$/i);
-    if (!match) {
-      utils.error('homepage match failed...', homepage);
-      return null;
-    }
-    return match[0];
-  }
-
-  // Transforms a HTML string into a htmlparser2 DOM
-  // Don't use for new code, only here for legacy coursepro code.
-  handleRequestResponce(body, callback) {
-    const handler = new htmlparser.DomHandler(callback);
-    const parser = new htmlparser.Parser(handler);
-    parser.write(body);
-    parser.done();
-  }
-
   // By default, needle and nodejs does a DNS lookup for each request.
   // Avoid that by only doing a dns lookup once per domain
   async getDns(hostname) {
@@ -262,29 +234,8 @@ class Request {
   }
 
 
-  standardizeInputConfig(config, method = 'GET') {
-    if (typeof config === 'string') {
-      config = {
-        method: method,
-        url: config,
-      };
-    }
-
-    if (!config.headers) {
-      config.headers = {};
-    }
-
-    if (!config.method) {
-      config.method = method
-    }
-
-    return config;
-  }
-
 
   async fireRequest(config) {
-    config = this.standardizeInputConfig(config);
-
 
     // Default to JSON for POST bodies
     if (config.method === 'POST' && !config.headers['Content-Type']) {
@@ -440,7 +391,7 @@ class Request {
 
     const listOfConfigOptions = Object.keys(config)
 
-    _.pull(listOfConfigOptions, 'method', 'headers', 'url', 'requiredInBody')
+    _.pull(listOfConfigOptions, 'method', 'headers', 'url', 'requiredInBody', 'cacheName')
 
     if (listOfConfigOptions.length > 0) {
       return false;
@@ -451,7 +402,6 @@ class Request {
 
   // Outputs a response object. Get the body of this object with ".body".
   async request(config) {
-    config = this.standardizeInputConfig(config);
 
     utils.verbose('Request hitting', config);
 
@@ -480,55 +430,19 @@ class Request {
         Object.assign(configToHash, config);
         configToHash.headers = headersWithoutCookie;
 
-        console.log("Caching by object hash", JSON.stringify(configToHash))
+        // Caching by url is faster, so log a warning if had to cache by hash. 
+        if (config.method !== 'POST') {
+          console.log("Caching by object hash", JSON.stringify(configToHash))
+        }
+
         newKey = objectHash(configToHash)
       }
 
-      let content = await cache.get('requests_new2', hostname, newKey);
+      let content = await cache.get('requests_new2', config.cacheName, newKey);
       if (content) {
+        // console.log('cache hit', newKey)
         return content
       }
-      // else {
-      //   console.log('NOt in new cache:', hostname, newKey)
-      // }
-
-      // // console.log('hi there2')
-      // // utils.critical('nope')
-    
-
-      // let folder = path.join('cache', 'requests', hostname);
-
-      // // Ensure only letters and numbers and dots and limit char length
-      // let filename = urlParsed.path().replace(/[^A-Za-z0-9.]/gi, '_').trim().slice(0, 25) + objectHash(configToHash);
-
-      // await mkdirp(folder);
-
-      // // console.log('hi there3')
-
-      // let filePath = path.join(folder, filename);
-
-      // const exists = await fs.exists(filePath);
-
-      // // console.log('before if', exists)
-
-      // if (exists) {
-      //   const body = await fs.readFile(filePath);
-      //   if (body.length === 0) {
-      //     console.log('Warning, empty cache file, skipping!', filePath);
-      //   } else {
-      //     const contents = JSON.parse(body.toString());
-      //     utils.verbose('Loaded ', contents.body.length, 'from cache', config.url);
-      //     await cache.set('requests_new2', hostname, newKey, contents)
-      //     // console.log('saving ', hostname, newKey)
-      //     return contents;
-      //   }
-      // }
-
-
-      // else {
-      //   utils.critical('?????????????', filePath,newKey, content)
-      // }
-
     }
 
 
@@ -585,7 +499,7 @@ class Request {
 
         // Save the response to a file for development
         if (macros.DEV) {
-          cache.set('requests_new2', hostname, newKey, response.toJSON())
+          cache.set('requests_new2', config.cacheName, newKey, response.toJSON())
         }
 
         // Don't log this on travis because it causes more than 4 MB to be logged and travis will kill the job
@@ -598,6 +512,68 @@ class Request {
       });
     });
   }
+
+}
+
+
+const instance = new Request();
+
+
+class RequestInput {
+
+  constructor(cacheName) {
+      this.cacheName = cacheName;
+  }
+
+  async request(config){
+    config = this.standardizeInputConfig(config)
+    return instance.request(config)
+  }
+  
+
+  standardizeInputConfig(config, method = 'GET') {
+    if (typeof config === 'string') {
+      config = {
+        method: method,
+        url: config,
+      };
+    }
+
+    if (!config.headers) {
+      config.headers = {};
+    }
+
+    if (!config.method) {
+      config.method = method
+    }
+
+    if (macros.DEV) {
+      if (this.cacheName) {
+        config.cacheName = this.cacheName
+      }
+      else {
+        // Parse the url hostname from the url.
+        config.cacheName = new URI(config.url).hostname()
+      }
+    }
+
+    return config;
+  }
+
+  static get(config) {
+    return new this().get(config)
+  }
+
+
+  // Transforms a HTML string into a htmlparser2 DOM
+  // Don't use for new code, only here for legacy coursepro code.
+  static handleRequestResponce(body, callback) {
+    const handler = new htmlparser.DomHandler(callback);
+    const parser = new htmlparser.Parser(handler);
+    parser.write(body);
+    parser.done();
+  }
+
 
   // Helpers for get and post
   async get(config) {
@@ -645,7 +621,7 @@ class Request {
     }
 
     config.method = 'HEAD';
-    return this.request(config);
+    return instance.request(config);
   }
 
   // Do a head request. If that fails, do a get request. If that fails, the site is down and return false
@@ -656,9 +632,6 @@ class Request {
   }
 }
 
-
-const instance = new Request();
-
 // let config =  {
 //   "requiredInBody": ["Ellucian", "<LINK REL=\"stylesheet\" HREF=\"/css/web_defaultapp.css\" TYPE=\"text/css\">"],
 //   "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CRIM&crse_numb_in=7336",
@@ -668,4 +641,4 @@ const instance = new Request();
 
 // console.log(PropTypes.instanceOf()ce.safeToCacheByUrl(config))
 
-export default instance;
+export default RequestInput;

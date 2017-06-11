@@ -87,6 +87,27 @@ exports.parseGoogleScolarLink = function parseGoogleScolarLink(link) {
 };
 
 
+// Gets the base hostname from a url.
+// fafjl.google.com -> google.com
+// subdomain.bob.co -> bob.co
+// bob.co -> bob.co
+exports.getBaseHost = function getBaseHost(url) {
+  const homepage = new URI(url).hostname();
+  if (!homepage || homepage === '') {
+    utils.error('could not find homepage of', url);
+    return null;
+  }
+
+  const match = homepage.match(/[^.]+\.[^.]+$/i);
+  if (!match) {
+    utils.error('homepage match failed...', homepage);
+    return null;
+  }
+  return match[0];
+}
+
+
+
 // http://stackoverflow.com/questions/4009756/how-to-count-string-occurrence-in-string/7924240#7924240
 exports.occurrences = function occurrences(string, subString, allowOverlapping) {
   string += '';

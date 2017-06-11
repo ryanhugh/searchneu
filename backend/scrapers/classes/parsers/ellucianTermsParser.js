@@ -17,7 +17,6 @@
  */
 
 'use strict';
-var _ = require('lodash');
 var moment = require('moment')
 
 import utils from '../../utils';
@@ -151,7 +150,7 @@ EllucianTermsParser.prototype.onEndParsing = function (pageData, dom) {
 		utils.log('ERROR, found 0 terms??', pageData.dbData.url);
 	};
 
-	var host = request.getBaseHost(pageData.dbData.url);
+	var host = utils.getBaseHost(pageData.dbData.url);
 
 	if (!pageData.dbData.host) {
 		pageData.dbData.host = host;
@@ -160,7 +159,7 @@ EllucianTermsParser.prototype.onEndParsing = function (pageData, dom) {
 	terms.forEach(function (term) {
 
 		//calculate host for each entry
-		var host = request.getBaseHost(pageData.dbData.url);
+		var host = utils.getBaseHost(pageData.dbData.url);
 
 		var newTerm = this.getStaticHost(host, term.text)
 		if (newTerm) {
