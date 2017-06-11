@@ -46,7 +46,6 @@ else {
 }
 
 var he = require('he');
-var _ = require('lodash');
 var domutils = require('domutils');
 var asyncjs = require('async')
 

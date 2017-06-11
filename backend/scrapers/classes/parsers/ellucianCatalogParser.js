@@ -21,6 +21,7 @@ var URI = require('urijs');
 var domutils = require('domutils');
 var he = require('he');
 var _ = require('lodash');
+import cheerio from 'cheerio';
 
 var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
 var ellucianClassParser = require('./ellucianClassParser');
@@ -77,6 +78,7 @@ EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 	depData.name = this.standardizeClassName(match[1]);
 
 
+	// console.log($(element.parent).getText())
 
 
 	//find the box below this row
