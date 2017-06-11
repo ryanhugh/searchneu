@@ -394,6 +394,7 @@ class Request {
     _.pull(listOfConfigOptions, 'method', 'headers', 'url', 'requiredInBody', 'cacheName')
 
     if (listOfConfigOptions.length > 0) {
+      console.log('Not caching by url b/c it has other config options', listOfConfigOptions)
       return false;
     }
 
@@ -416,6 +417,7 @@ class Request {
 
       // Skipping the hashing when it is not necessary significantly speeds this up. 
       // When everything was hashed, the call to objectHash function was the function with the most self-time in the profiler lol. 
+      // Caching by url is faster, so log a warning if had to cache by hash. 
       if (this.safeToCacheByUrl(config)) {
         newKey = config.url
       }
@@ -430,17 +432,11 @@ class Request {
         Object.assign(configToHash, config);
         configToHash.headers = headersWithoutCookie;
 
-        // Caching by url is faster, so log a warning if had to cache by hash. 
-        if (config.method !== 'POST') {
-          console.log("Caching by object hash", JSON.stringify(configToHash))
-        }
-
         newKey = objectHash(configToHash)
       }
 
-      let content = await cache.get('requests_new2', config.cacheName, newKey);
+      let content = await cache.get('requests', config.cacheName, newKey);
       if (content) {
-        // console.log('cache hit', newKey)
         return content
       }
     }
@@ -499,7 +495,7 @@ class Request {
 
         // Save the response to a file for development
         if (macros.DEV) {
-          cache.set('requests_new2', config.cacheName, newKey, response.toJSON())
+          cache.set('requests', config.cacheName, newKey, response.toJSON())
         }
 
         // Don't log this on travis because it causes more than 4 MB to be logged and travis will kill the job

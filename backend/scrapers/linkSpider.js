@@ -1,7 +1,9 @@
 import cheerio from 'cheerio';
 import URI from 'urijs';
 
-import request from './request';
+import Request from './request';
+
+const request = new Request('LinkSpider');
 
 class LinkSpider {
 
