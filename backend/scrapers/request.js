@@ -274,6 +274,10 @@ class Request {
       config.headers = {};
     }
 
+    if (!config.method) {
+      config.method = method
+    }
+
     return config;
   }
 
@@ -436,7 +440,7 @@ class Request {
 
     const listOfConfigOptions = Object.keys(config)
 
-    _.pull(listOfConfigOptions, 'method', 'headers', 'url')
+    _.pull(listOfConfigOptions, 'method', 'headers', 'url', 'requiredInBody')
 
     if (listOfConfigOptions.length > 0) {
       return false;
@@ -459,6 +463,7 @@ class Request {
 
     if (macros.DEV) {
 
+
       // Skipping the hashing when it is not necessary significantly speeds this up. 
       // When everything was hashed, the call to objectHash function was the function with the most self-time in the profiler lol. 
       if (this.safeToCacheByUrl(config)) {
@@ -475,44 +480,53 @@ class Request {
         Object.assign(configToHash, config);
         configToHash.headers = headersWithoutCookie;
 
+        console.log("Caching by object hash", JSON.stringify(configToHash))
         newKey = objectHash(configToHash)
       }
 
-      let content = await cache.get('requests_new', hostname, newKey);
+      let content = await cache.get('requests_new2', hostname, newKey);
       if (content) {
         return content
       }
-      else {
-        console.log('NOt in new cache:', hostname, newKey)
-      }
+      // else {
+      //   console.log('NOt in new cache:', hostname, newKey)
+      // }
+
+      // // console.log('hi there2')
+      // // utils.critical('nope')
     
 
-      let folder = path.join('cache', 'requests', hostname);
+      // let folder = path.join('cache', 'requests', hostname);
 
-      // Ensure only letters and numbers and dots and limit char length
-      let filename = urlParsed.path().replace(/[^A-Za-z0-9.]/gi, '_').trim().slice(0, 25) + newKey;
+      // // Ensure only letters and numbers and dots and limit char length
+      // let filename = urlParsed.path().replace(/[^A-Za-z0-9.]/gi, '_').trim().slice(0, 25) + objectHash(configToHash);
 
-      await mkdirp(folder);
+      // await mkdirp(folder);
 
-      let filePath = path.join(folder, filename);
+      // // console.log('hi there3')
 
-      const exists = await fs.exists(filePath);
+      // let filePath = path.join(folder, filename);
 
-      if (exists) {
-        const body = await fs.readFile(filePath);
-        if (body.length === 0) {
-          console.log('Warning, empty cache file, skipping!', filePath);
-        } else {
-          const contents = JSON.parse(body.toString());
-          utils.verbose('Loaded ', contents.body.length, 'from cache', config.url);
-          await cache.set('requests_new', hostname, newKey, contents)
-          return contents;
-        }
-      }
+      // const exists = await fs.exists(filePath);
+
+      // // console.log('before if', exists)
+
+      // if (exists) {
+      //   const body = await fs.readFile(filePath);
+      //   if (body.length === 0) {
+      //     console.log('Warning, empty cache file, skipping!', filePath);
+      //   } else {
+      //     const contents = JSON.parse(body.toString());
+      //     utils.verbose('Loaded ', contents.body.length, 'from cache', config.url);
+      //     await cache.set('requests_new2', hostname, newKey, contents)
+      //     // console.log('saving ', hostname, newKey)
+      //     return contents;
+      //   }
+      // }
 
 
       // else {
-      //   utils.critical('?????????????', newKey, content)
+      //   utils.critical('?????????????', filePath,newKey, content)
       // }
 
     }
@@ -571,10 +585,7 @@ class Request {
 
         // Save the response to a file for development
         if (macros.DEV) {
-
-          cache.set('requests_new', hostname, newKey, response.toJSON())
-
-          // await fs.writeFile(filePath, );
+          cache.set('requests_new2', hostname, newKey, response.toJSON())
         }
 
         // Don't log this on travis because it causes more than 4 MB to be logged and travis will kill the job
@@ -645,4 +656,16 @@ class Request {
   }
 }
 
-export default new Request();
+
+const instance = new Request();
+
+// let config =  {
+//   "requiredInBody": ["Ellucian", "<LINK REL=\"stylesheet\" HREF=\"/css/web_defaultapp.css\" TYPE=\"text/css\">"],
+//   "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CRIM&crse_numb_in=7336",
+//   "headers": {}
+// }
+
+
+// console.log(PropTypes.instanceOf()ce.safeToCacheByUrl(config))
+
+export default instance;

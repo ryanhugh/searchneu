@@ -1,12 +1,10 @@
 import path from 'path';
-import dirty from 'dirty';
+import fs from 'fs-promise';
 import mkdirp from 'mkdirp-promise';
 
 import utils from './utils';
 
 var msgpack = require('msgpack5')() // namespace our extensions 
-  , encode  = msgpack.encode
-  , decode  = msgpack.decode
 
 
 class Cache {
@@ -14,32 +12,51 @@ class Cache {
 	constructor() {
 		
 		// Map of filepaths to dirty object promises 
-		this.dirtyMap = {}
+		this.dataPromiseMap = {}
+
+		// Timeout for saving the file. Save file after 20 seconds with no set calls. 
+		this.saveTimeoutMap = {};
+
+		// How long to wait after the most recent set call to save the data. 
+		this.SAVE_DEBOUNCE = 10000
 	}
 
 	getFilePath(folderName, className) {
 		return path.join('cache', folderName, className) + '.cache'
 	}
 
-	async ensureLoaded(filePath) {
-		if (this.dirtyMap[filePath]) {
+	async loadFile(filePath) {
+		if (this.dataPromiseMap[filePath]) {
 			return;
 		}
 
-		let startTime = Date.now()
+		await mkdirp(path.dirname(filePath))
 
-		this.dirtyMap[filePath] = mkdirp(path.dirname(filePath)).then(() => {
-			
-			let dirtyInstance = dirty(filePath)
+		let exists = await fs.exists(filePath);
+		let retVal;
+		if (exists) {
+			let startTime = Date.now()
+			let buffer = await fs.readFile(filePath)
+			retVal = msgpack.decode(buffer)
+			console.log("It took ", Date.now() - startTime, 'ms to load', filePath)
+		}
+		else {
+			retVal = {}
+		}
+		
+		return retVal;
+	}
 
-			return new Promise((resolve) => {
-				dirtyInstance.on('load', function() {
-					console.log("It took ", Date.now() - startTime, 'ms to load', filePath)
-					resolve(dirtyInstance)
-				})
-			})
 
-		})
+
+	async ensureLoaded(filePath) {
+		if (this.dataPromiseMap[filePath]) {
+			return;
+		}
+
+		let promise = this.loadFile(filePath)
+		this.dataPromiseMap[filePath] = promise
+		return promise;
 	}
 
 
@@ -53,33 +70,32 @@ class Cache {
 		// 	return null;
 		// }
 
-		// Use dirty for everything now.
 		// We could also just use it for just requests and not dev_data, but eh maybe later.
 
 
 		const filePath = this.getFilePath(folderName, className);
 
 		// Make sure the cache exists and is loaded.
-		await this.ensureLoaded(filePath);
-		const dirtyInstance = await this.dirtyMap[filePath]
-		let retVal = dirtyInstance.get(key)
+		this.ensureLoaded(filePath);
 
-		debugger
-		console.time('a')
-		let b = encode(dirtyInstance._docs)
-		console.timeEnd('a')
+		let dataMap = await this.dataPromiseMap[filePath]
 
-		console.time('a')
-		decode(b)
-		console.timeEnd('a')
+		return dataMap[key];
 
-		// var oneGigInBytes = 2373741825;
-		// var my1GBuffer = Buffer.alloc(oneGigInBytes); //Crash
+	}
 
+	async save(filePath) {
 
+		let dataMap = await this.dataPromiseMap[filePath]
+		let startTime = Date.now();
+		let buffer = msgpack.encode(dataMap)
+		await fs.writeFile(filePath + '.new', buffer)
 
-		return retVal;
-
+		// Write to a file with a different name, and then delete the old and rename the new.
+		// This prevents the cache file from getting into an invalid state if the process is killed while the program is saving.
+		await fs.unlink(filePath);
+		await fs.rename(filePath + '.new', filePath)
+		console.log("It took ", Date.now() - startTime, 'ms to save', filePath)
 	}
 
 
@@ -89,22 +105,36 @@ class Cache {
 
 		const filePath = this.getFilePath(folderName, className);
 
-		await this.ensureLoaded(filePath);
+		this.ensureLoaded(filePath);
 
-		// This function also takes a 3rd argument which is a callback.
-		// Don't wait for it to save to disk before continuing
-		return (await this.dirtyMap[filePath]).set(key, value)
+
+		let dataMap = await this.dataPromiseMap[filePath]
+
+		dataMap[key] = value;
+
+		// Wait 10 seconds before saving. 
+		if (!this.saveTimeoutMap[filePath]) {
+			this.saveTimeoutMap[filePath] = setTimeout(() => {
+				this.save(filePath);
+				this.saveTimeoutMap[filePath] = null;
+			}, this.SAVE_DEBOUNCE)
+		}
 	}
-
-
-
-
 }
 
 
 let a = new Cache()
 
-console.log(a.get('requests_new','2',''))
+
+
+// console.log(a.get('requests_new2','camd.northeastern.edu',''))
+
+// a.dataPromiseMap['cache/requests_new2/camd.northeastern.edu.cache'].then(function(a) {
+// 	console.log(Object.keys(a))
+// })
+
+
+
 
 
 export default a;
