@@ -278,9 +278,9 @@ class Main {
     return Promise.all(promises);
   }
 
-
-  async getTermDump(hostnames) {
-    const outputFile = path.join(macros.DEV_DATA_DIR, `classes${hostnames.join(',')}.json`);
+  // CollegeAbbrs are the hostname but without the ".edu" at the end
+  async getTermDump(collegeAbbrs) {
+    const outputFile = path.join(macros.DEV_DATA_DIR, `classes${collegeAbbrs.join(',')}.json`);
 
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module) {
@@ -290,24 +290,24 @@ class Main {
       }
     }
 
-    const termDump = await pageDataMgr.main(hostnames);
+    const termDump = await pageDataMgr.main(collegeAbbrs);
 
     if (macros.DEV) {
       await utils.saveDevData(outputFile, termDump);
-      console.log('classes file saved for', hostnames, '!');
+      console.log('classes file saved for', collegeAbbrs, '!');
     }
     return termDump;
   }
 
 
-  async main(hostnames) {
-    if (!hostnames) {
-      console.error('Need hostnames for scraping classes');
+  async main(collegeAbbrs) {
+    if (!collegeAbbrs) {
+      console.error('Need collegeAbbrs for scraping classes');
       return;
     }
 
 
-    const termDump = await this.getTermDump(hostnames);
+    const termDump = await this.getTermDump(collegeAbbrs);
 
     await this.createSerchIndex(termDump);
     await this.createDataDumps(termDump);

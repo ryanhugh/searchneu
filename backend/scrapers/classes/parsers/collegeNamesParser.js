@@ -35,6 +35,12 @@
 
 'use strict';
 
+import utils from '../../../utils';
+import Request from '../../../request';
+
+const request = new Request('CollegeNamesParser');
+
+
 var macros = require('../../../macros')
 var whois;
 
@@ -48,7 +54,6 @@ else {
 var he = require('he');
 var domutils = require('domutils');
 var asyncjs = require('async')
-
 
 
 var BaseParser = require('./baseParser').BaseParser;
@@ -67,6 +72,32 @@ function CollegeNamesParser() {
 }
 
 
+CollegeNamesParser.prototype.main = function() {
+  const outputFile = path.join(macros.DEV_DATA_DIR, 'CollegeNamesParser.json');
+
+  if (macros.DEV && require.main !== module) {
+    const devData = await utils.loadDevData(outputFile);
+    if (devData) {
+      return devData;
+    }
+  }
+
+
+  let host
+
+
+  let title = await this.getTitle(hostname);
+
+
+  if (macros.DEV) {
+    await utils.saveDevData(outputFile, title);
+    console.log('CollegeNamesParser file saved!');
+  }
+
+  return title;
+};
+
+
 //prototype constructor
 CollegeNamesParser.prototype = Object.create(BaseParser.prototype);
 CollegeNamesParser.prototype.constructor = CollegeNamesParser;
@@ -81,16 +112,11 @@ CollegeNamesParser.prototype.getDataType = function (pageData) {
 //callback here is pageData (stuff to store in db), and metadata (stuff dont store in db)
 CollegeNamesParser.prototype.parse = function (pageData, callback) {
 
-	this.getTitle(pageData.dbData.url, function (err, title) {
-		if (err) {
-			console.log('college names parse error', err);
-			return callback(err)
-		}
-		pageData.setData('title', title);
-		pageData.setData('host', pageData.dbData.url);
-		callback()
+	let title = await this.getTitle(pageData.dbData.url);
 
-	}.bind(this))
+	pageData.setData('title', title);
+	pageData.setData('host', pageData.dbData.url);
+	callback()
 };
 
 
@@ -103,8 +129,6 @@ CollegeNamesParser.prototype.standardizeNames = function (startStrip, endStrip, 
 			title = title.substr(str.length);
 		}
 	}.bind(this));
-
-
 
 
 	//remove stuff from the end
@@ -193,7 +217,7 @@ CollegeNamesParser.prototype.hitPage = function (host, callback) {
 
 
 
-CollegeNamesParser.prototype.hitWhois = function (host, callback) {
+CollegeNamesParser.prototype.hitWhois = function (host) {
 
 
 	//each domain has a different format and would probably need a different regex
@@ -203,55 +227,56 @@ CollegeNamesParser.prototype.hitWhois = function (host, callback) {
 		console.log('Warning, unknown domain ' + host)
 	}
 
-	// try calling apiMethod 3 times, waiting 200 ms between each retry
-	asyncjs.retry({
-			times: 30,
-			interval: 500 + parseInt(Math.random() * 1000)
-		},
-		function (callback) {
-			whois.lookup(host, function (err, data) {
-				callback(err, data)
-			}.bind(this))
-		}.bind(this),
-		function (err, data) {
-			if (err) {
+	return new Promise((resolve, reject) => {
 
-				console.log('ERROR whois error', err, host);
-				return callback('whois error');
-			}
+		// try calling apiMethod 3 times, waiting 200 ms between each retry
+		asyncjs.retry({
+				times: 30,
+				interval: 500 + parseInt(Math.random() * 1000)
+			},
+			function (callback) {
+				whois.lookup(host, function (err, data) {
+					callback(err, data)
+				}.bind(this))
+			}.bind(this),
+			function (err, data) {
+				if (err) {
 
-
-			var match = data.match(/Registrant:\n[\w\d\s&:']+?(\n)/i);
-
-			if (!match) {
-				console.log('ERROR: whois regex fail', data, host);
-				return callback('whois error');
-			}
-
-			var name = match[0].replace('Registrant:', '').trim()
+					console.log('ERROR whois error', err, host);
+					return reject('whois error', err);
+				}
 
 
-			name = this.standardizeNames(['name:'], [], name);
+				var match = data.match(/Registrant:\n[\w\d\s&:']+?(\n)/i);
+
+				if (!match) {
+					console.log('ERROR: whois regex fail', data, host);
+					return reject('whois error', err);
+				}
+
+				var name = match[0].replace('Registrant:', '').trim()
 
 
-			if (name.length < 2) {
-				console.log('Error: ')
-				return callback('whois error');
-			}
+				name = this.standardizeNames(['name:'], [], name);
 
-			callback(null, name);
 
-		}.bind(this));
+				if (name.length < 2) {
+					console.log('Error: ')
+					return reject('whois error', err);
+				}
+
+				resolve(name);
+			}.bind(this));
+		})
 }
 
 //hits database, and if not in db, hits page and adds it to db
-CollegeNamesParser.prototype.getTitle = function (host, callback) {
+CollegeNamesParser.prototype.getTitle = function (host) {
 	if (host === 'neu.edu') {
-		return callback(null, "Northeastern University")
+		return "Northeastern University"
 	}
 
-	this.hitWhois(host, callback);
-
+	return this.hitWhois(host);
 }
 
 CollegeNamesParser.prototype.go = function () {

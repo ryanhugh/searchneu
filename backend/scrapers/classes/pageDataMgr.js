@@ -100,6 +100,7 @@ PageDataMgr.prototype.runPostProcessors = function runPostProcessors(termDump) {
 };
 
 // This is the main starting point for processing a page data.
+// This runs once for each time the scrapers are ran. 
 // this completes in three large steps:
 // 1. parse the website (~20-120 min)
 // 2. run the processors (~1 min per processor)
@@ -143,6 +144,7 @@ PageDataMgr.prototype.go = function go(pageDatas, callback) {
 };
 
 
+// This function is called recursively for each page data that is parsed. 
 //main starting point for parsing urls
 //startingData.url or startingData._id is required
 //callback = function (err,pageData) {}
