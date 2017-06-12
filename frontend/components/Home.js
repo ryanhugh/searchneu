@@ -45,6 +45,9 @@ class Home extends React.Component {
     this.onKeyDown = this.onKeyDown.bind(this);
     this.loadMore = this.loadMore.bind(this);
 
+    // Count the number of times the user searched this session. Used for analytics. 
+    this.searchCount = 0;
+
     // Log the initial search or pageview.
     this.logSearch(this.state.searchTerm);
   }
@@ -71,8 +74,11 @@ class Home extends React.Component {
     console.log('Logging', searchTerm);
 
     if (searchTerm) {
+      this.searchCount ++;
       window.ga('send', 'pageview', `/?search=${searchTerm}`);
+      window.amplitude.logEvent('Search', {'query': searchTerm, sessionCount: this.searchCount});
     } else {
+      window.amplitude.logEvent('Homepage visit');
       window.ga('send', 'pageview', '/');
     }
   }
@@ -89,7 +95,7 @@ class Home extends React.Component {
     else if (macros.DEV) {
       this.search('cs');
     } else {
-      // Force an update on the screen so the loading bar dissapears and the page shows.
+      // Force an update on the screen so the loading bar disappears and the page shows.
       this.forceUpdate();
     }
   }

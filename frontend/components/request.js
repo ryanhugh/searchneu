@@ -45,12 +45,6 @@ class Request {
 
         const requestTime = Date.now() - startTime;
         console.log('Downloading took ', requestTime, 'for url', url);
-        if (isKeyUpdated && config.useCache) {
-          window.ga('send', 'timing', url, 'download_cache_hit', requestTime);
-        } else {
-          window.ga('send', 'timing', url, 'download_cache_miss', requestTime);
-        }
-
 
         if (xmlhttp.status !== 200) {
           let err;
@@ -74,7 +68,6 @@ class Request {
         const response = JSON.parse(xmlhttp.response);
         const parsingTime = Date.now() - startParse;
         console.log('Parsing took ', parsingTime, 'for url', url);
-        window.ga('send', 'timing', url, 'parse', parsingTime);
 
         if (response.error) {
           console.warn('ERROR networking error bad reqeust?', url);

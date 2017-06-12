@@ -37,12 +37,15 @@ class Search {
 
 
     const url = new URI('/search').query({
-      query: query.trim(),
+      query: query,
       minIndex: existingTermCount,
       maxIndex: termCount,
     }).toString();
 
+    let startTime = Date.now()
     const results = await request.get(url);
+    window.amplitude.logEvent('Search Timing', {query: query, time: Date.now() - startTime});
+
 
     if (!this.cache[query]) {
       this.cache[query] = [];
