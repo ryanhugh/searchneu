@@ -1,0 +1,11 @@
+.container {
+    padding: 10px;
+     border-top: 1px solid rgba(34,36,38,.15); 
+    /*border-bottom: 1px solid rgba(34,36,38,.15);*/
+    background: #fafafb;
+    line-height: 1.8em;
+}
+
+.crn {
+	font-weight: bold;
+}

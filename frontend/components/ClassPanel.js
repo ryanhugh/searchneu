@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 
 import globe from './globe.svg';
 import css from './ClassPanel.css';
+import MobileSectionPanel from './MobileSectionPanel';
 import macros from './macros';
 import Keys from '../../common/Keys'
 
@@ -106,6 +107,10 @@ class ClassPanel extends React.Component {
               This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
             <tr style={{ display:'none', paddingTop: 0, paddingBottom: '1px' }} />
             {this.state.renderedSections.map((section) => {
+
+
+              return <MobileSectionPanel section = {section}/>
+
               // Calculate the "Meets on Tuesday, Friday" or "No Meetings found" string that hovers over the weekday boxes
               const meetingDays = section.getWeekDaysAsStringArray();
               let meetingString;
@@ -228,6 +233,12 @@ class ClassPanel extends React.Component {
 
         
       );
+
+      sectionTable = this.state.renderedSections.map((section) => {
+        return <MobileSectionPanel section = {section}/>
+      })
+
+
     }
 
     let showMoreSections = null;

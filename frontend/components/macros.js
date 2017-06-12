@@ -20,7 +20,7 @@ Macros.debounceTooltipRebuild = function debounceTooltipRebuild() {
 };
 
 // True if is a Phone or other mobile device (iPod). Will be false for iPads.
-Macros.isMobile = isMobile();
+Macros.isMobile = isMobile() || 1;
 
 // XXX: This is stuff that is hardcoded for now, need to change when expanding to other schools.
 Macros.collegeName = 'Northeastern University';
