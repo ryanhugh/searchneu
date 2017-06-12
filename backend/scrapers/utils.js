@@ -209,9 +209,9 @@ exports.verbose('Starting in verbose mode.');
 if ((macros.PROD || macros.DEV) && !global.addedRejectionHandler) {
   global.addedRejectionHandler = true;
   process.on('unhandledRejection', (err, p) => {
-    console.log('An unhandledRejection occurred');
+    console.log('Error: An unhandledRejection occurred.');
     console.log(`Rejected Promise: ${p}`);
-    console.log(`Rejection: ${err.stack}`);
+    console.log(`Rejection Stack Trace: ${err.stack}`);
     if (macros.PROD) {
       process.exit(1);
     }
