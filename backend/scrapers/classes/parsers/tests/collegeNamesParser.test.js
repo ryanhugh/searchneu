@@ -42,13 +42,10 @@ describe('the retry is called in mock whois', function () {
 	});
 
 
-	it('hit neu whois', function (done) {
-		collegeNamesParser.getTitle('neu.edu', function (err, title) {
-			expect(err).toBe(null);
-			expect(title).toBe('Northeastern University')
-			done()
-		});
-
+	it('hit neu whois', async function (done) {
+		let title = await collegeNamesParser.getTitle('neu.edu')
+		expect(title).toBe('Northeastern University')
+		done()
 	});
 });
 

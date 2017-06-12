@@ -35,8 +35,8 @@
 
 'use strict';
 
-import utils from '../../../utils';
-import Request from '../../../request';
+import utils from '../../utils';
+import Request from '../../request';
 
 const request = new Request('CollegeNamesParser');
 
@@ -72,7 +72,7 @@ function CollegeNamesParser() {
 }
 
 
-CollegeNamesParser.prototype.main = function() {
+CollegeNamesParser.prototype.main = async function(hostname) {
   const outputFile = path.join(macros.DEV_DATA_DIR, 'CollegeNamesParser.json');
 
   if (macros.DEV && require.main !== module) {
@@ -81,9 +81,6 @@ CollegeNamesParser.prototype.main = function() {
       return devData;
     }
   }
-
-
-  let host
 
 
   let title = await this.getTitle(hostname);
@@ -110,7 +107,7 @@ CollegeNamesParser.prototype.getDataType = function (pageData) {
 
 
 //callback here is pageData (stuff to store in db), and metadata (stuff dont store in db)
-CollegeNamesParser.prototype.parse = function (pageData, callback) {
+CollegeNamesParser.prototype.parse = async function (pageData, callback) {
 
 	let title = await this.getTitle(pageData.dbData.url);
 
@@ -279,17 +276,21 @@ CollegeNamesParser.prototype.getTitle = function (host) {
 	return this.hitWhois(host);
 }
 
-CollegeNamesParser.prototype.go = function () {
-
-
-};
-
-
-
 
 CollegeNamesParser.prototype.CollegeNamesParser = CollegeNamesParser;
 module.exports = new CollegeNamesParser();
 
 if (require.main === module) {
-	module.exports.go();
+	// module.exports.go();
+
+
+	// module.exports.getT({
+	// 	dbData: {
+	// 		url: 'neu.edu'
+	// 	}
+	// }, function() {
+	// 	console.log(arguments)
+	// })
+
+
 }
