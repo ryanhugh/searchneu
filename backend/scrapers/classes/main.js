@@ -2,6 +2,7 @@ import elasticlunr from 'elasticlunr';
 import path from 'path';
 import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
+import _ from 'lodash';
 
 import pageDataMgr from './pageDataMgr';
 import macros from '../../macros';
@@ -164,6 +165,8 @@ class Main {
         }
       });
 
+      _.pull(profs, 'TBA')
+
 
       toIndex.profs = profs.join(' ');
       // toIndex.locations = locations.join(' ');
@@ -269,7 +272,6 @@ class Main {
     for (const attrName in classLists) {
       const termData = classLists[attrName];
       promises.push(this.createSearchIndexFromClassLists(termData));
-      promises.push(this.createSearchIndexFromClassLists(termData, '.mobile', false));
     }
 
     console.log('Errorcount: ', errorCount);
