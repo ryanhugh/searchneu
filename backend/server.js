@@ -38,7 +38,7 @@ app.use(function (req, res, next) {
   else {
     // Cache the http to https redirect for 2 months. 
     res.setHeader('Cache-Control', 'public, max-age=5256000');
-    console.log('redirecting to https')
+    console.log(remoteIp, 'redirecting to https')
     res.redirect('https://' + req.get('host') + req.originalUrl);
   }
 })
@@ -115,7 +115,7 @@ app.get('/search', wrap(async (req, res) => {
   const results = index.search(req.query.query, minIndex, maxIndex);
   const midTime = Date.now();
   const string = JSON.stringify(results)
-  console.log('Search for', req.query.query, 'took ', midTime-startTime, 'ms and stringify took', Date.now()-midTime);
+  console.log(req.connection.remoteAddress, 'Search for', req.query.query, 'took ', midTime-startTime, 'ms and stringify took', Date.now()-midTime);
 
   res.send(string);
 }));
