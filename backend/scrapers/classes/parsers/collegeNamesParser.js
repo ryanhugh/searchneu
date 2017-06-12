@@ -107,6 +107,7 @@ CollegeNamesParser.prototype.getDataType = function (pageData) {
 
 
 //callback here is pageData (stuff to store in db), and metadata (stuff dont store in db)
+// Note that the pageData.dbData.url that this class gets from ellucianTermParser is a hostname (neu.edu) and not a url.
 CollegeNamesParser.prototype.parse = async function (pageData, callback) {
 
 	let title = await this.getTitle(pageData.dbData.url);
