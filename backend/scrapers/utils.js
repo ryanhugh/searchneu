@@ -212,5 +212,8 @@ if ((macros.PROD || macros.DEV) && !global.addedRejectionHandler) {
     console.log('An unhandledRejection occurred');
     console.log(`Rejected Promise: ${p}`);
     console.log(`Rejection: ${err.stack}`);
+    if (macros.PROD) {
+      process.exit(1);
+    }
   });
 }
