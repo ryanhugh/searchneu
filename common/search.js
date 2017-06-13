@@ -54,9 +54,9 @@ const employeeSearchConfig = {
     phone: {
       boost: 1,
     },
-    officeRoom: {
-      boost: 1,
-    },
+    // officeRoom: {
+    //   boost: 1,
+    // },
   },
   expand: true,
 };
@@ -212,8 +212,8 @@ class Search {
       }
 
 
-      if (lowerCaseSearchTerm.startsWith(subject.subject)) {
-        const remainingSearch = searchTerm.slice(subject.subject.length);
+      if (lowerCaseSearchTerm.startsWith(lowerCaseSubject)) {
+        const remainingSearch = searchTerm.slice(lowerCaseSubject.length);
 
         // Only rewrite the search if the rest of the query has a high probability of being a classId.
         if (remainingSearch.length > 5) {
@@ -224,7 +224,7 @@ class Search {
         if (!match || match.length < 3) {
           break;
         } else {
-          searchTerm = `${searchTerm.slice(0, subject.subject.length)} ${searchTerm.slice(subject.subject.length)}`;
+          searchTerm = `${searchTerm.slice(0, lowerCaseSubject.length)} ${searchTerm.slice(lowerCaseSubject.length)}`;
         }
         break;
       }
