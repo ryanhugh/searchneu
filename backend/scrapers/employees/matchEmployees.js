@@ -331,6 +331,8 @@ class CombineCCISandEmployees {
     index.addField('name');
     index.addField('phone');
     index.addField('emails');
+
+    // Enable in search.js if this is enabled again. 
     // index.addField('officeRoom');
     index.addField('primaryRole');
     index.addField('primaryDepartment');

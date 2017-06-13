@@ -115,7 +115,7 @@ app.get('/search', wrap(async (req, res) => {
   const results = index.search(req.query.query, minIndex, maxIndex);
   const midTime = Date.now();
   const string = JSON.stringify(results)
-  console.log(req.connection.remoteAddress, 'Search for', req.query.query, 'took ', midTime-startTime, 'ms and stringify took', Date.now()-midTime);
+  console.log(req.connection.remoteAddress, 'Search for', req.query.query, 'took ', midTime-startTime, 'ms and stringify took', Date.now()-midTime, 'with', results.length, 'results');
 
   res.send(string);
 }));
