@@ -27,15 +27,73 @@ class MobileSectionPanel extends React.Component {
   render() {
   	return (
   		<div className={css.container}>
+  		<div style={{float:"right",display:'none'}}>
+		    <a target="_blank" rel="noopener noreferrer" data-tip="View on neu.edu" href="https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&amp;crn_in=14579" currentitem="false">
+	            <img src="frontend/components/globe.svg" alt="globe"/>
+	        </a>
+        </div>
+
+        <div></div>
+		<table className={css.table}>
+		    <tbody>
+		      <tr className={css.firstRow}>
+			    <td className={css.firstColumn}>CRN</td>
+			    <td className = {css.secondColumn}>14579</td> 
+			  </tr>
+		      <tr>
+			    <td className={css.firstColumn}>Profs</td>
+			    <td className = {css.secondColumn}>David William Sprague</td> 
+			  </tr>
+		      <tr>
+			    <td className={css.firstColumn}>Place</td>
+			    <td className = {css.secondColumn}>
+			    	<a target="_blank" rel="noopener noreferrer" href="https://maps.google.com/?q=Northeastern University Hastings Suite ">Hastings Suite 103</a>
+		    	</td> 
+			  </tr>
+		      <tr>
+			    <td className={css.firstColumn}>Days</td>
+			    <td className = {css.secondColumn}>
+			    	<span data-tip="Meets on Monday">
+			            <div className={ClassPanelCss.weekDayBox + ' ' + ClassPanelCss.weekDayBoxChecked}></div>
+			            <div className={ClassPanelCss.weekDayBox}></div>
+			            <div className={ClassPanelCss.weekDayBox}></div>
+			            <div className={ClassPanelCss.weekDayBox}></div>
+			            <div className={ClassPanelCss.weekDayBox}></div>
+			        </span>
+		    	</td> 
+			  </tr>
+		      <tr>
+			    <td className={css.firstColumn}>Times</td>
+			    <td className = {css.secondColumn}>
+			    	4:35 - 5:40 pm
+		    	</td> 
+			  </tr>
+		      <tr className={css.lastRow}>
+			    <td className={css.firstColumn}>Seats</td>
+			    <td className = {css.secondColumn}>
+			    	 0/19 Avalible
+		    	</td> 
+			  </tr>
+		  </tbody>
+		</table>
+
+
+
+
+
+
+
+
+
+
+
+
+		<div style={{display:'none'}}>
 			<div>
 				<div className={css.crn +' '+ ClassPanelCss.inlineBlock}>
 				    14579
 			    </div>
-			    <div style={{float:"right"}}>
-				    <a target="_blank" rel="noopener noreferrer" data-tip="View on neu.edu" href="https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&amp;crn_in=14579" currentitem="false">
-			            <img src="frontend/components/globe.svg" alt="globe"/>
-			        </a>
-		        </div>
+			    
 			</div>
 			<div>
 		        David William Sprague
@@ -46,7 +104,7 @@ class MobileSectionPanel extends React.Component {
 		        </span>
 		    </div>
 		    <div>
-		        <span data-tip="Meets on Monday" currentitem="false">
+		        <span data-tip="Meets on Monday">
 		            <div className={ClassPanelCss.weekDayBox + ' ' + ClassPanelCss.weekDayBoxChecked}></div>
 		            <div className={ClassPanelCss.weekDayBox}></div>
 		            <div className={ClassPanelCss.weekDayBox}></div>
@@ -68,6 +126,7 @@ class MobileSectionPanel extends React.Component {
 		            0/0 Open Waitlist Seats 
 		        </div>
 		    </div>
+  		</div>
   		</div>
   	);
   }

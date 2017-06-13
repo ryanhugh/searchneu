@@ -1,5 +1,5 @@
 .container {
-    padding: 10px;
+    /*padding: 10px;*/
      border-top: 1px solid rgba(34,36,38,.15); 
     /*border-bottom: 1px solid rgba(34,36,38,.15);*/
     background: #fafafb;
@@ -8,4 +8,44 @@
 
 .crn {
 	font-weight: bold;
+}
+
+.table {
+	width: 100%;
+}
+
+/*.table td {*/
+	/*padding-top: 50px;*/
+	/*border: 1px solid rgba(34,36,38,.15); */
+/*}*/
+
+.container span {
+	/*border: 1px solid rgba(34,36,38,.15); */
+}
+
+.firstColumn { 
+	padding: 2px;
+	padding-right: 2px;
+	color: #999;
+    border-right: 1px solid rgba(34,36,38,.05);
+}
+
+.secondColumn { 
+	padding: 5px;
+}
+
+
+.container tr {
+    border-bottom: 1px solid rgba(34,36,38,.05);
+}
+
+.firstRow {
+	height: 50px;
+    vertical-align: bottom;
+}
+
+.lastRow {
+	height: 50px;
+    vertical-align: top;
+	border-bottom: none !important;
 }
