@@ -99,10 +99,6 @@ class EmployeePanel extends React.Component {
       links.push(<a key="personalSite" target='_blank' rel='noopener noreferrer' href={employee.personalSite}>Personal Website</a>)
     }
 
-    if (employee.googleScholarId) {
-      links.push(<a key="googleScholarId" target='_blank' rel='noopener noreferrer' href={'https://scholar.google.com/citations?user=' + employee.googleScholarId + '&hl=en&oi=ao'}>Google Scholar</a>)
-    }
-
     links = this.constructor.injectBRs(links)
 
     return (
