@@ -1,51 +1,73 @@
 .container {
-    /*padding: 10px;*/
-     border-top: 1px solid rgba(34,36,38,.15); 
-    /*border-bottom: 1px solid rgba(34,36,38,.15);*/
+	/*padding: 10px;*/
+	border-top: 1px solid rgba(34, 36, 38, .15);
+	/*border-bottom: 1px solid rgba(34,36,38,.15);*/
+	
+	line-height: 1.8em;
+}
+
+
+.container:nth-child(odd) {
     background: #fafafb;
-    line-height: 1.8em;
+}
+.container:nth-child(even) {
+    background: #fff;
 }
 
 .crn {
 	font-weight: bold;
 }
-
 .table {
 	width: 100%;
 }
 
+.globe {
+	float: right;
+	padding: 8px;
+}
+
 /*.table td {*/
-	/*padding-top: 50px;*/
-	/*border: 1px solid rgba(34,36,38,.15); */
+
+
+/*padding-top: 50px;*/
+
+
+/*border: 1px solid rgba(34,36,38,.15); */
+
+
 /*}*/
 
 .container span {
 	/*border: 1px solid rgba(34,36,38,.15); */
 }
-
-.firstColumn { 
+.firstColumn {
 	padding: 2px;
 	padding-right: 2px;
 	color: #999;
-    border-right: 1px solid rgba(34,36,38,.05);
+	border-right: 1px solid rgba(34, 36, 38, .03);
+	max-width: 32px;
 }
-
-.secondColumn { 
+.secondColumn {
+    padding-left: 7px;
 	padding: 5px;
 }
-
-
 .container tr {
-    border-bottom: 1px solid rgba(34,36,38,.05);
+	border-bottom: 1px solid rgba(34, 36, 38, .03);
 }
-
 .firstRow {
-	height: 50px;
-    vertical-align: bottom;
+	/*height: 50px;*/
+	border-top: 1px solid rgba(34, 36, 38, .03);
+	vertical-align: bottom;
 }
-
 .lastRow {
 	height: 50px;
-    vertical-align: top;
+	vertical-align: top;
 	border-bottom: none !important;
+}
+.title {
+	font-weight: bold;
+	color: #666;
+	font-size: 20px;
+	padding-top: 20px;
+	padding-bottom: 3px;
 }

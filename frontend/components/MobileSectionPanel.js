@@ -21,24 +21,37 @@ class MobileSectionPanel extends React.Component {
 
   constructor(props) {
     super(props);
+    console.log(props)
   
+  }
+
+
+  getNameWithoutMiddleName() {
+
+  	let prof = this.props.section.getProfs()[0];
+  	let indexOfFirstSpace = prof.indexOf(' ');
+  	let indexOfLastSpace = prof.length - prof.split("").reverse().join("").indexOf(' ');
+  	let newName = prof.slice(0, indexOfFirstSpace) + ' ' + prof.slice(indexOfLastSpace);
+  	return newName
+
+
   }
 
   render() {
   	return (
   		<div className={css.container}>
-  		<div style={{float:"right",display:'none'}}>
-		    <a target="_blank" rel="noopener noreferrer" data-tip="View on neu.edu" href="https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&amp;crn_in=14579" currentitem="false">
+  		<div className = {css.globe}>
+		    <a target="_blank" rel="noopener noreferrer" data-tip="View on neu.edu" href="https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&amp;crn_in=14579">
 	            <img src="frontend/components/globe.svg" alt="globe"/>
 	        </a>
         </div>
 
-        <div></div>
+        <div className={css.title}>{this.getNameWithoutMiddleName() + ' @ ' + this.props.section.getUniqueStartTimes()[0]}</div>
 		<table className={css.table}>
 		    <tbody>
 		      <tr className={css.firstRow}>
 			    <td className={css.firstColumn}>CRN</td>
-			    <td className = {css.secondColumn}>14579</td> 
+			    <td className = {css.secondColumn}>{this.props.section.crn}</td> 
 			  </tr>
 		      <tr>
 			    <td className={css.firstColumn}>Profs</td>
