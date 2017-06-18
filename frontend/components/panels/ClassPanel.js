@@ -6,8 +6,8 @@ import classNames from 'classnames/bind';
 import globe from './globe.svg';
 import css from './ClassPanel.css';
 import MobileSectionPanel from './MobileSectionPanel';
-import macros from './macros';
-import Keys from '../../common/Keys'
+import macros from '../macros';
+import Keys from '../../../common/Keys'
 
 const cx = classNames.bind(css);
 

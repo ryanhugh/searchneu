@@ -5,8 +5,8 @@ import classNames from 'classnames/bind';
 
 import globe from './globe.svg';
 import css from './MobileSectionPanel.css';
-import macros from './macros';
-import Keys from '../../common/Keys'
+import macros from '../macros';
+import Keys from '../../../common/Keys'
 
 
 

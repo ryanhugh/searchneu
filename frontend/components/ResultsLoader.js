@@ -4,8 +4,8 @@ import CSSModules from 'react-css-modules';
 
 import Keys from '../../common/Keys'
 import DataLib from '../../common/classModels/DataLib'
-import EmployeePanel from './EmployeePanel';
-import ClassPanel from './ClassPanel';
+import EmployeePanel from './panels/EmployeePanel';
+import ClassPanel from './panels/ClassPanel';
 import css from './ResultsLoader.css';
 
 // The Home.js component now keeps track of how many to render. 
