@@ -1,62 +1,39 @@
 .container {
-	/*padding: 10px;*/
 	border-top: 1px solid rgba(34, 36, 38, .15);
-	/*border-bottom: 1px solid rgba(34,36,38,.15);*/
-	
 	line-height: 1.8em;
 }
-
-
 .container:nth-child(odd) {
-    background: #fafafb;
+	background: #fafafb;
 }
 .container:nth-child(even) {
-    background: #fff;
+	background: #fff;
 }
-
 .crn {
 	font-weight: bold;
 }
 .table {
 	width: 100%;
 }
-
 .globe {
 	float: right;
 	padding: 8px;
-}
-
-/*.table td {*/
-
-
-/*padding-top: 50px;*/
-
-
-/*border: 1px solid rgba(34,36,38,.15); */
-
-
-/*}*/
-
-.container span {
-	/*border: 1px solid rgba(34,36,38,.15); */
 }
 .firstColumn {
 	padding: 2px;
 	padding-right: 2px;
 	color: #999;
-	border-right: 1px solid rgba(34, 36, 38, .03);
+	border-right: 1px solid rgb(236, 236, 237);
 	max-width: 32px;
 }
 .secondColumn {
-    padding-left: 7px;
+	padding-left: 7px;
 	padding: 5px;
 }
 .container tr {
-	border-bottom: 1px solid rgba(34, 36, 38, .03);
+	border-bottom: 1px solid rgb(236, 236, 237);
 }
 .firstRow {
-	/*height: 50px;*/
-	border-top: 1px solid rgba(34, 36, 38, .03);
+	border-top: 1px solid rgb(236, 236, 237);
 	vertical-align: bottom;
 }
 .lastRow {
@@ -70,4 +47,5 @@
 	font-size: 20px;
 	padding-top: 20px;
 	padding-bottom: 3px;
+	padding-left: 4px;
 }

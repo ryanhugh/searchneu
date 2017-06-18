@@ -21,8 +21,6 @@ class MobileSectionPanel extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log(props)
-  
   }
 
 
@@ -33,8 +31,6 @@ class MobileSectionPanel extends React.Component {
   	let indexOfLastSpace = prof.length - prof.split("").reverse().join("").indexOf(' ');
   	let newName = prof.slice(0, indexOfFirstSpace) + ' ' + prof.slice(indexOfLastSpace);
   	return newName
-
-
   }
 
   render() {
@@ -55,7 +51,7 @@ class MobileSectionPanel extends React.Component {
 			  </tr>
 		      <tr>
 			    <td className={css.firstColumn}>Profs</td>
-			    <td className = {css.secondColumn}>David William Sprague</td> 
+			    <td className = {css.secondColumn}>{this.props.section.getProfs().join(', ')}</td> 
 			  </tr>
 		      <tr>
 			    <td className={css.firstColumn}>Place</td>
