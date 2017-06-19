@@ -21,18 +21,6 @@
     border-left: none !important;
     background: none !important;
 }
-.weekDayBox {
-    width: 12px;
-    height: 12px;
-    display: inline-block;
-    border: 2px solid #BBBBBB;
-    border-radius: 3px;
-    margin-right: 1px;
-    margin-left: 1px;
-}
-.weekDayBoxChecked {
-    background: #888;
-}
 .inlineBlock {
     display: inline-block;
 }
@@ -60,8 +48,4 @@
     color: #888888;
     font-weight: 600;
     border-top: 1px solid #ddd;
-}
-
-.daysContainer {
-    min-width: 70px;
 }

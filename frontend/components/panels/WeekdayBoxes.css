@@ -1,0 +1,18 @@
+.weekDayBox {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    border: 2px solid #BBBBBB;
+    border-radius: 3px;
+    margin-right: 1px;
+    margin-left: 1px;
+}
+.weekDayBoxChecked {
+    background: #888;
+}
+.inlineBlock {
+    display: inline-block;
+}
+.container {
+    min-width: 70px;
+}

@@ -9,6 +9,7 @@ import MobileSectionPanel from './MobileSectionPanel';
 import macros from '../macros';
 import Keys from '../../../common/Keys'
 import LocationLinks from './LocationLinks'
+import WeekdayBoxes from './WeekdayBoxes'
 
 const cx = classNames.bind(css);
 
@@ -112,31 +113,6 @@ class ClassPanel extends React.Component {
 
               // return <MobileSectionPanel section = {section}/>
 
-              // Calculate the "Meets on Tuesday, Friday" or "No Meetings found" string that hovers over the weekday boxes
-              const meetingDays = section.getWeekDaysAsStringArray();
-              let meetingString;
-              if (meetingDays.length === 0) {
-                meetingString = 'No Meetings found';
-              } else {
-                meetingString = `Meets on ${meetingDays.join(', ')}`;
-              }
-
-              // Calculate the weekday boxes eg [][x][][][x] for Tuesday Friday
-              let booleans = section.getWeekDaysAsBooleans();
-              if (!section.meetsOnWeekends()) {
-                booleans = booleans.slice(1, 6);
-              }
-
-              const booleanElements = booleans.map((meets, index) => {
-                return (
-                  <div
-                    key={ index } className={ cx({
-                      weekDayBoxChecked: meets,
-                      weekDayBox: true,
-                    }) }
-                  />
-                );
-              });
 
               // Calculate the exam elements in each row
               let examElements = null;
@@ -163,9 +139,7 @@ class ClassPanel extends React.Component {
                   <td> {section.crn} </td>
                   <td> {section.getProfs().join(', ')} </td>
                   <td>
-                    <div className={ css.inlineBlock + ' ' + css.daysContainer } data-tip={ meetingString }>
-                      {booleanElements}
-                    </div>
+                    <WeekdayBoxes section = {section}/>
                   </td>
 
                   <td>{section.getUniqueStartTimes().join(', ')}</td>
@@ -204,9 +178,9 @@ class ClassPanel extends React.Component {
         
       );
 
-      // sectionTable = this.state.renderedSections.map((section) => {
-      //   return <MobileSectionPanel section = {section}/>
-      // })
+      sectionTable = this.state.renderedSections.map((section) => {
+        return <MobileSectionPanel section = {section}/>
+      })
 
 
     }

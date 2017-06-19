@@ -8,7 +8,8 @@ import css from './MobileSectionPanel.css';
 import macros from '../macros';
 import Keys from '../../../common/Keys'
 
-
+import WeekdayBoxes from './WeekdayBoxes'
+import LocationLinks from './LocationLinks'
 
 // clean up
 import ClassPanelCss from './ClassPanel.css'
@@ -62,13 +63,7 @@ class MobileSectionPanel extends React.Component {
 		      <tr>
 			    <td className={css.firstColumn}>Days</td>
 			    <td className = {css.secondColumn}>
-			    	<span data-tip="Meets on Monday">
-			            <div className={ClassPanelCss.weekDayBox + ' ' + ClassPanelCss.weekDayBoxChecked}></div>
-			            <div className={ClassPanelCss.weekDayBox}></div>
-			            <div className={ClassPanelCss.weekDayBox}></div>
-			            <div className={ClassPanelCss.weekDayBox}></div>
-			            <div className={ClassPanelCss.weekDayBox}></div>
-			        </span>
+			    	<WeekdayBoxes section = {this.props.section}/>
 		    	</td> 
 			  </tr>
 		      <tr>
