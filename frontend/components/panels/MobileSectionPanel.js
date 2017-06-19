@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
 
+import moment from 'moment';
+
 import globe from './globe.svg';
 import css from './MobileSectionPanel.css';
 import macros from '../macros';
@@ -44,6 +46,7 @@ class MobileSectionPanel extends React.Component {
 
   render() {
 
+  	// Add another row for seats remaining on the waitlist if any exist.
   	let waitlistRow = null;
   	let hasWaitList = this.props.section.getHasWaitList()
   	if (hasWaitList) {
@@ -57,7 +60,7 @@ class MobileSectionPanel extends React.Component {
   		)
   	}
 
-  	// Create the 4:35 - 5:40 pm string
+  	// Create the 4:35 - 5:40 pm string.
   	let meetingMoments = this.props.section.getAllMeetingMoments();
   	let times = [];
   	meetingMoments.forEach((time) => {
@@ -68,6 +71,23 @@ class MobileSectionPanel extends React.Component {
 	  		times.push(combinedString)
   		}
   	})
+
+  	// Add a row for exam, if the section has an exam. 
+  	let examRow = null;
+  	if (this.props.section.getHasExam() || 1) {
+  		let examMoments = this.props.section.getExamMoments();
+  		examMoments = {start:moment()}
+  		if (examMoments) {
+  			examRow = (
+	  		  <tr>
+			    <td className={css.firstColumn}>Exam</td>
+			    <td className = {css.secondColumn}>
+			      {examMoments.start.format('MMMM Do \@ h:mm a')}
+		        </td> 
+			  </tr>
+			)
+  		}
+  	}
 
   	return (
   		<div className={css.container}>
@@ -95,17 +115,18 @@ class MobileSectionPanel extends React.Component {
 		    	</td> 
 			  </tr>
 		      <tr>
-			    <td className={css.firstColumn}>Days</td>
-			    <td className = {css.secondColumn}>
-			    	<WeekdayBoxes section = {this.props.section}/>
-		    	</td> 
-			  </tr>
-		      <tr>
 			    <td className={css.firstColumn}>Times</td>
 			    <td className = {css.secondColumn}>
 			    	{times.join(', ')}
 		    	</td> 
 			  </tr>
+		      <tr>
+			    <td className={css.firstColumn}>Days</td>
+			    <td className = {css.secondColumn}>
+			    	<WeekdayBoxes section = {this.props.section}/>
+		    	</td> 
+			  </tr>
+			  {examRow}
 		      <tr className={cx({
 		      	lastRow: !hasWaitList
 		      })}>
