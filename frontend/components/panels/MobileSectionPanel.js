@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
 
-import moment from 'moment';
-
 import globe from './globe.svg';
 import css from './MobileSectionPanel.css';
 import macros from '../macros';
@@ -24,12 +22,7 @@ const cx = classNames.bind(css);
 // MobileSectionPanel page component
 class MobileSectionPanel extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   // Return just the first name and the last name. 
-  // 
   getNameWithoutMiddleName() {
 
   	let prof = this.props.section.getProfs()[0];
