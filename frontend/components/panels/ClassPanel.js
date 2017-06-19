@@ -111,9 +111,6 @@ class ClassPanel extends React.Component {
             {this.state.renderedSections.map((section) => {
 
 
-              // return <MobileSectionPanel section = {section}/>
-
-
               // Calculate the exam elements in each row
               let examElements = null;
               if (aClass.sectionsHaveExam()) {
@@ -166,7 +163,7 @@ class ClassPanel extends React.Component {
 
                   <td>
                     <a target='_blank' rel='noopener noreferrer' className={ css.inlineBlock } data-tip={ `View on ${section.host}` } href={ section.prettyUrl || section.url }>
-                      <img src={ globe } alt='globe' />
+                      <img src={ globe } alt='link' />
                     </a>
                   </td>
                 </tr>
