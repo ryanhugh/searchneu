@@ -56,7 +56,7 @@ class MobileSectionPanel extends React.Component {
 		      <tr>
 			    <td className={css.firstColumn}>Place</td>
 			    <td className = {css.secondColumn}>
-			    	<a target="_blank" rel="noopener noreferrer" href="https://maps.google.com/?q=Northeastern University Hastings Suite ">Hastings Suite 103</a>
+			    	<LocationLinks section = {this.props.section}/>
 		    	</td> 
 			  </tr>
 		      <tr>

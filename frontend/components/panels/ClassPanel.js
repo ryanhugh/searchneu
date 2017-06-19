@@ -8,6 +8,7 @@ import css from './ClassPanel.css';
 import MobileSectionPanel from './MobileSectionPanel';
 import macros from '../macros';
 import Keys from '../../../common/Keys'
+import LocationLinks from './LocationLinks'
 
 const cx = classNames.bind(css);
 
@@ -109,7 +110,7 @@ class ClassPanel extends React.Component {
             {this.state.renderedSections.map((section) => {
 
 
-              return <MobileSectionPanel section = {section}/>
+              // return <MobileSectionPanel section = {section}/>
 
               // Calculate the "Meets on Tuesday, Friday" or "No Meetings found" string that hovers over the weekday boxes
               const meetingDays = section.getWeekDaysAsStringArray();
@@ -134,37 +135,6 @@ class ClassPanel extends React.Component {
                       weekDayBox: true,
                     }) }
                   />
-                );
-              });
-
-              // Calculate the Google Maps links
-              const locationElements = section.getLocations().map((location, index, locations) => {
-                let buildingName;
-                if (location.match(/\d+\s*$/i)) {
-                  buildingName = location.replace(/\d+\s*$/i, '');
-                } else {
-                  buildingName = location;
-                }
-
-                let optionalComma = null;
-                if (index !== locations.length - 1) {
-                  optionalComma = ',';
-                }
-
-                if (location.toUpperCase() === 'TBA') {
-                  if (locations.length > 1) {
-                    return null;
-                  }
-
-                  return 'TBA';
-                }
-
-                return (
-                  <span key={ location }>
-                    <a target='_blank' rel='noopener noreferrer' href={ `https://maps.google.com/?q=${macros.collegeName} ${buildingName}` }>
-                      {location}
-                    </a> {optionalComma}
-                  </span>
                 );
               });
 
@@ -193,7 +163,7 @@ class ClassPanel extends React.Component {
                   <td> {section.crn} </td>
                   <td> {section.getProfs().join(', ')} </td>
                   <td>
-                    <div className={ css.inlineBlock } data-tip={ meetingString }>
+                    <div className={ css.inlineBlock + ' ' + css.daysContainer } data-tip={ meetingString }>
                       {booleanElements}
                     </div>
                   </td>
@@ -202,7 +172,7 @@ class ClassPanel extends React.Component {
                   <td>{section.getUniqueEndTimes().join(', ')}</td>
                   {examElements}
                   <td>
-                    {locationElements}
+                    <LocationLinks section = {section}/>
                   </td>
                   <td>
                     <div data-tip='Open Seats/Total Seats' className={ css.inlineBlock }>
@@ -234,9 +204,9 @@ class ClassPanel extends React.Component {
         
       );
 
-      sectionTable = this.state.renderedSections.map((section) => {
-        return <MobileSectionPanel section = {section}/>
-      })
+      // sectionTable = this.state.renderedSections.map((section) => {
+      //   return <MobileSectionPanel section = {section}/>
+      // })
 
 
     }
