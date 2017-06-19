@@ -74,9 +74,8 @@ class MobileSectionPanel extends React.Component {
 
   	// Add a row for exam, if the section has an exam. 
   	let examRow = null;
-  	if (this.props.section.getHasExam() || 1) {
+  	if (this.props.section.getHasExam()) {
   		let examMoments = this.props.section.getExamMoments();
-  		examMoments = {start:moment()}
   		if (examMoments) {
   			examRow = (
 	  		  <tr>
