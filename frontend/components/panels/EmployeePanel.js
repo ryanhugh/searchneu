@@ -54,25 +54,17 @@ class EmployeePanel extends React.Component {
       profileTexts.push(employee.primaryDepartment);
     }
 
-    if (employee.url) {
-      profileTexts.push(<a key="link" target='_blank' rel='noopener noreferrer' href={employee.url}>NEU Profile</a>)
-    }
-
-    if (employee.personalSite) {
-      profileTexts.push(<a key="personalSite" target='_blank' rel='noopener noreferrer' href={employee.personalSite}>Personal Website</a>)
-    }
-
 
     let contactLinks = []
 
     if (employee.officeRoom) {
-      contactLinks.push(employee.officeRoom)
+      profileTexts.push(employee.officeRoom)
     }
 
 
     if (employee.emails) {
       employee.emails.forEach(function(email, index) {
-        contactLinks.push(<a key={email} href={ `mailto:${email}` }>{email}</a>);
+        profileTexts.push(<a key={email} href={ `mailto:${email}` }>{email}</a>);
       })
     }
 
@@ -87,8 +79,14 @@ class EmployeePanel extends React.Component {
 
       const phoneText = phone.join('');
 
-      contactLinks.push(<a key="tel" href={ `tel:${phoneText}` }>{phoneText}</a>);
+      profileTexts.push(<a key="tel" href={ `tel:${phoneText}` }>{phoneText}</a>);
     }
+
+    
+    if (employee.personalSite) {
+      contactLinks.push(<a key="personalSite" target='_blank' rel='noopener noreferrer' href={employee.personalSite}>Personal Website</a>)
+    }
+
 
 
     contactLinks = this.constructor.injectBRs(contactLinks)
