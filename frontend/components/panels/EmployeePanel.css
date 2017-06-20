@@ -23,9 +23,12 @@
     min-width: 300px;
 }
 
-.addressBox {
+.desktopSecondColumn {
+    padding-left: 100px;
+}
+
+.mobileSecondColumn {
     padding-top: 20px;
-	/*padding-left: 100px;*/
 }
 
 .link {

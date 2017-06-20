@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
 
+import macros from '../macros';
 import css from './EmployeePanel.css';
 import globe from './globe.svg';
 
@@ -39,32 +40,28 @@ class EmployeePanel extends React.Component {
     const employee = this.props.employee;
 
     // Create the address box
-    // let officeElements = [];
 
-    
-    // officeElements = this.constructor.injectBRs(officeElements)
-
-    const profileTexts = [];
+    const firstColumn = [];
 
      if (employee.primaryRole) {
-      profileTexts.push(employee.primaryRole);
+      firstColumn.push(employee.primaryRole);
     }
 
     if (employee.primaryDepartment) {
-      profileTexts.push(employee.primaryDepartment);
+      firstColumn.push(employee.primaryDepartment);
     }
 
 
-    let contactLinks = []
+    let secondColumn = []
 
     if (employee.officeRoom) {
-      profileTexts.push(employee.officeRoom)
+      firstColumn.push(employee.officeRoom)
     }
 
 
     if (employee.emails) {
       employee.emails.forEach(function(email, index) {
-        profileTexts.push(<a key={email} href={ `mailto:${email}` }>{email}</a>);
+        firstColumn.push(<a key={email} href={ `mailto:${email}` }>{email}</a>);
       })
     }
 
@@ -79,20 +76,13 @@ class EmployeePanel extends React.Component {
 
       const phoneText = phone.join('');
 
-      profileTexts.push(<a key="tel" href={ `tel:${phoneText}` }>{phoneText}</a>);
+      firstColumn.push(<a key="tel" href={ `tel:${phoneText}` }>{phoneText}</a>);
     }
 
     
     if (employee.personalSite) {
-      contactLinks.push(<a key="personalSite" target='_blank' rel='noopener noreferrer' href={employee.personalSite}>Personal Website</a>)
+      secondColumn.push(<a key="personalSite" target='_blank' rel='noopener noreferrer' href={employee.personalSite}>Personal Website</a>)
     }
-
-
-
-    contactLinks = this.constructor.injectBRs(contactLinks)
-
-    // Add <br/>s between the elements
-    const contactElements = this.constructor.injectBRs(profileTexts)
 
     let linkElement = null
     if (employee.url) {
@@ -114,10 +104,14 @@ class EmployeePanel extends React.Component {
 
         <div className={ css.body }>
           <div className={ `${css.inlineBlock} ${css.contactBox}` }>
-            {contactElements}
+            {this.constructor.injectBRs(firstColumn)}
           </div>
-          <div className={ css.inlineBlock +' '+ css.addressBox }>
-            {contactLinks}
+          <div className={ cx({
+            inlineBlock: true,
+            mobileSecondColumn: macros.isMobile,
+            desktopSecondColumn: !macros.isMobile
+          }) }>
+            {this.constructor.injectBRs(secondColumn)}
           </div>
         </div>
       </div>
