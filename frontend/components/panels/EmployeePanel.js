@@ -8,7 +8,6 @@ import css from './EmployeePanel.css';
 import globe from './globe.svg';
 
 
-
 const cx = classNames.bind(css);
 
 
@@ -18,7 +17,7 @@ const cx = classNames.bind(css);
 class EmployeePanel extends React.Component {
 
   static injectBRs(arr) {
-    let retVal = []
+    const retVal = [];
 
     // Add <br/>s between the elements
     for (let i = 0; i < arr.length; i++) {
@@ -29,7 +28,7 @@ class EmployeePanel extends React.Component {
       }
     }
 
-    return retVal
+    return retVal;
   }
 
   shouldComponentUpdate() {
@@ -42,9 +41,9 @@ class EmployeePanel extends React.Component {
     // Create the address box
 
     let firstColumn = [];
-    let secondColumn = []
+    let secondColumn = [];
 
-     if (employee.primaryRole) {
+    if (employee.primaryRole) {
       firstColumn.push(employee.primaryRole);
     }
 
@@ -52,17 +51,17 @@ class EmployeePanel extends React.Component {
       firstColumn.push(employee.primaryDepartment);
     }
 
-    let contactRows = []
+    const contactRows = [];
 
     if (employee.officeRoom) {
-      contactRows.push(employee.officeRoom)
+      contactRows.push(employee.officeRoom);
     }
 
 
     if (employee.emails) {
-      employee.emails.forEach(function(email, index) {
-        contactRows.push(<a key={email} href={ `mailto:${email}` }>{email}</a>);
-      })
+      employee.emails.forEach((email) => {
+        contactRows.push(<a key={ email } href={ `mailto:${email}` }>{email}</a>);
+      });
     }
 
 
@@ -76,39 +75,37 @@ class EmployeePanel extends React.Component {
 
       const phoneText = phone.join('');
 
-      contactRows.push(<a key="tel" href={ `tel:${phoneText}` }>{phoneText}</a>);
+      contactRows.push(<a key='tel' href={ `tel:${phoneText}` }>{phoneText}</a>);
     }
 
     if (macros.isMobile) {
-      firstColumn = firstColumn.concat(contactRows)
-    }
-    else  {
-      secondColumn = secondColumn.concat(contactRows)
+      firstColumn = firstColumn.concat(contactRows);
+    } else {
+      secondColumn = secondColumn.concat(contactRows);
     }
 
     if (employee.url && !macros.isMobile) {
-      firstColumn.push(<a key="link" target='_blank' rel='noopener noreferrer' href={employee.url}>NEU Profile</a>)
+      firstColumn.push(<a key='link' target='_blank' rel='noopener noreferrer' href={ employee.url }>NEU Profile</a>);
     }
-    
+
     if (employee.personalSite) {
-      let element = <a key="personalSite" target='_blank' rel='noopener noreferrer' href={employee.personalSite}>Personal Website</a>
+      const element = <a key='personalSite' target='_blank' rel='noopener noreferrer' href={ employee.personalSite }>Personal Website</a>;
       if (macros.isMobile) {
-        secondColumn.push(element)
-      }
-      else {
-        firstColumn.push(element)
+        secondColumn.push(element);
+      } else {
+        firstColumn.push(element);
       }
     }
 
-    let linkElement = null
+    let linkElement = null;
     if (employee.url) {
       linkElement = (
-        <span className = {css.link}> 
-          <a key="jfdalsj" target='_blank' rel='noopener noreferrer' className={ css.inlineBlock } href={ employee.url }>
+        <span className={ css.link }>
+          <a key='jfdalsj' target='_blank' rel='noopener noreferrer' className={ css.inlineBlock } href={ employee.url }>
             <img src={ globe } alt='globe' />
           </a>
         </span>
-      )
+      );
     }
 
     return (
@@ -125,8 +122,9 @@ class EmployeePanel extends React.Component {
           <div className={ cx({
             inlineBlock: true,
             mobileSecondColumn: macros.isMobile,
-            desktopSecondColumn: !macros.isMobile
-          }) }>
+            desktopSecondColumn: !macros.isMobile,
+          }) }
+          >
             {this.constructor.injectBRs(secondColumn)}
           </div>
         </div>
