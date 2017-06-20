@@ -10,8 +10,33 @@ import globe from './globe.svg';
 
 const cx = classNames.bind(css);
 
+// On Mobile, display everything in two sections, one below the other, eg:
+// Assistant Teaching Professor
+// CCIS
+// 310B West Village H
+// l.razzaq@northeastern.edu
+// lrazzaq@ccs.neu.edu
+// 617-373-5797
+//
+// Personal Website
 
-// name, id, phone, emails, primaryRole, primaryDepartment, url, officeRoom, officeStreetAddress
+
+// And on desktop, display two equally sized sections right next to each other, eg:
+
+// Assistant Teaching Professor
+// CCIS
+// NEU Profile
+// Personal Website
+//
+// 310B West Village H
+// l.razzaq@northeastern.edu
+// lrazzaq@ccs.neu.edu
+// 617-373-5797
+
+
+
+// name, id, phone, emails, primaryRole, primaryDepartment, url, officeRoom, officeStreetAddress are all standardized across different data sources.
+// The other fields may be present for one (eg, COE), but are not common enough to be used. 
 
 // not standardized yet: personalSite, bigPictureLink
 class EmployeePanel extends React.Component {
