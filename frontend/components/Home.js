@@ -217,7 +217,7 @@ class Home extends React.Component {
     return (
       <div>
 
-        <a href='https://github.com/ryanhugh/neusearch' className='github-corner'>
+        <a href='https://github.com/ryanhugh/searchneu' className='github-corner'>
           {/* eslint-disable max-len */}
           <svg width='80' height='80' viewBox='0 0 250 250' className={ css.githubCornerIcon } >
             <path d='M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z' />
@@ -263,7 +263,7 @@ class Home extends React.Component {
 
         <div className='footer ui basic center aligned segment'>
           See an issue or want to add to this website? Fork it or create an issue on
-          <a href='https://github.com/ryanhugh/neusearch'>
+          <a href='https://github.com/ryanhugh/searchneu'>
             &nbsp;GitHub
           </a>.
         </div>
