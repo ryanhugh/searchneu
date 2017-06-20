@@ -58,6 +58,16 @@ class MobileSectionPanel extends React.Component {
       }
     });
 
+
+    let fullTimesString;
+    if (times.length > 0) {
+      fullTimesString = times.join(', ');
+    }
+    else {
+      fullTimesString = 'TBA';
+    }
+
+
     // Add a row for exam, if the section has an exam.
     let examRow = null;
     if (this.props.section.getHasExam()) {
@@ -74,6 +84,14 @@ class MobileSectionPanel extends React.Component {
       }
     }
 
+    let timeInTitle;
+    if (meetingMoments.length > 0) {
+      timeInTitle = meetingMoments[0].start.format('h:mm a');
+    }
+    else {
+      timeInTitle = "TBA"
+    }
+
     return (
       <div className={ css.container }>
         <div className={ css.globe }>
@@ -82,7 +100,7 @@ class MobileSectionPanel extends React.Component {
           </a>
         </div>
 
-        <div className={ css.title }>{`${this.getNameWithoutMiddleName()} @ ${meetingMoments[0].start.format('h:mm a')}`}</div>
+        <div className={ css.title }>{`${this.getNameWithoutMiddleName()} @ ${timeInTitle}`}</div>
         <table className={ css.table }>
           <tbody>
             <tr className={ css.firstRow }>
@@ -102,7 +120,7 @@ class MobileSectionPanel extends React.Component {
             <tr>
               <td className={ css.firstColumn }>Times</td>
               <td className={ css.secondColumn }>
-                {times.join(', ')}
+                {fullTimesString}
               </td>
             </tr>
             <tr>
