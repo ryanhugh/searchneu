@@ -41,7 +41,8 @@ class EmployeePanel extends React.Component {
 
     // Create the address box
 
-    const firstColumn = [];
+    let firstColumn = [];
+    let secondColumn = []
 
      if (employee.primaryRole) {
       firstColumn.push(employee.primaryRole);
@@ -51,17 +52,16 @@ class EmployeePanel extends React.Component {
       firstColumn.push(employee.primaryDepartment);
     }
 
-
-    let secondColumn = []
+    let contactRows = []
 
     if (employee.officeRoom) {
-      firstColumn.push(employee.officeRoom)
+      contactRows.push(employee.officeRoom)
     }
 
 
     if (employee.emails) {
       employee.emails.forEach(function(email, index) {
-        firstColumn.push(<a key={email} href={ `mailto:${email}` }>{email}</a>);
+        contactRows.push(<a key={email} href={ `mailto:${email}` }>{email}</a>);
       })
     }
 
@@ -76,12 +76,28 @@ class EmployeePanel extends React.Component {
 
       const phoneText = phone.join('');
 
-      firstColumn.push(<a key="tel" href={ `tel:${phoneText}` }>{phoneText}</a>);
+      contactRows.push(<a key="tel" href={ `tel:${phoneText}` }>{phoneText}</a>);
     }
 
+    if (macros.isMobile) {
+      firstColumn = firstColumn.concat(contactRows)
+    }
+    else  {
+      secondColumn = secondColumn.concat(contactRows)
+    }
+
+    if (employee.url && !macros.isMobile) {
+      firstColumn.push(<a key="link" target='_blank' rel='noopener noreferrer' href={employee.url}>NEU Profile</a>)
+    }
     
     if (employee.personalSite) {
-      secondColumn.push(<a key="personalSite" target='_blank' rel='noopener noreferrer' href={employee.personalSite}>Personal Website</a>)
+      let element = <a key="personalSite" target='_blank' rel='noopener noreferrer' href={employee.personalSite}>Personal Website</a>
+      if (macros.isMobile) {
+        secondColumn.push(element)
+      }
+      else {
+        firstColumn.push(element)
+      }
     }
 
     let linkElement = null
