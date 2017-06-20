@@ -62,22 +62,25 @@ class ClassPanel extends React.Component {
     // Render the section table if this class has sections
     let sectionTable = null;
     if (aClass.sections && aClass.sections.length > 0) {
-      // Add the Exam column headers if there is any section in this class that has exam listed
-      let examColumnHeaders = null;
-      if (aClass.sectionsHaveExam()) {
-        examColumnHeaders = [
-          <th key='1'>Exam start</th>,
-          <th key='2'>Exam end</th>,
-          <th key='3'>Exam date</th>,
-        ];
-      }
 
+      // If this is mobile, use the mobile panels.
       if (macros.isMobile) {
         sectionTable = this.state.renderedSections.map((section) => {
           return <MobileSectionPanel key = {Keys.create(section).getHash()} section = {section}/>
         })
       }
       else {
+
+        // Add the Exam column headers if there is any section in this class that has exam listed
+        let examColumnHeaders = null;
+        if (aClass.sectionsHaveExam()) {
+          examColumnHeaders = [
+            <th key='1'>Exam start</th>,
+            <th key='2'>Exam end</th>,
+            <th key='3'>Exam date</th>,
+          ];
+        }
+
         sectionTable = (
           <table className={ `ui celled striped table ${css.resultsTable}` }>
             <thead>
