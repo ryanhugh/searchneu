@@ -484,6 +484,7 @@ BaseParser.prototype.splitEndings = function (name) {
 // dosent work for
 // https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?schd_in=%25&term_in=201710&subj_in=JRNL&crse_in=1150
 // Interpreting the Day’s News vs Interptng the Day's News
+// or this https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=BUSN&crse_in=1103&schd_in=LEC
 BaseParser.prototype.standardizeClassName = function (originalName, possibleMatches) {
 
 	// can't do much here, it was called from category. just fix small stuff
