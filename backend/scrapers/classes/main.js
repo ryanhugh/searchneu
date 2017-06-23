@@ -115,7 +115,18 @@ class Main {
   async createSearchIndexFromClassLists(termData, outputExtention = '', includeDesc = true) {
     const keys = Keys.create(termData);
 
-    const index = elasticlunr();
+    // Create a custom elastic search index. 
+    // By default, the input fields are ran though three pipeline functions. 
+    // This custom filter only uses two of those three.
+    // The one that was removed removes symbols (\W) from the beginning and the end of queries.
+    // This was indexing the class [C++] as [C], so it did not appear if a user typed in [C++].
+    // Symbols are still removed from the end and beginning of the description. 
+    const index = new elasticlunr.Index();
+
+    index.pipeline.add(
+      elasticlunr.stopWordFilter,
+      elasticlunr.stemmer
+    );
 
     index.saveDocument(false);
 
@@ -143,7 +154,7 @@ class Main {
 
       const toIndex = {
         classId: searchResultData.class.classId,
-        desc: searchResultData.class.desc,
+        desc: searchResultData.class.desc.replace(/^\W+/, '').replace(/\W+$/, ''),
         subject: searchResultData.class.subject,
         name: searchResultData.class.name,
         key: Keys.create(searchResultData.class).getHash(),

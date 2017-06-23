@@ -240,6 +240,7 @@ class Search {
     // Returns an array of objects that has a .ref and a .score
     // The array is sorted by score (with the highest matching closest to the beginning)
     // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
+    console.log(searchTerm)
     const classResults = this.classSearchIndex.search(searchTerm, classSearchConfig);
 
     const employeeResults = this.employeeSearchIndex.search(searchTerm, employeeSearchConfig);
