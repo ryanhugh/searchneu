@@ -17,6 +17,10 @@ const request = new Request('Employees');
 // TODO:
 // Some of the phone numbers are not 10 digits. Might be able to guess area code, but it is not allways 215 just because some people have offices outside of Boston.
 // Phone numbers that are not 10 digits are ignored right now.
+// The detail page also has a name without the comma, but don't see a reason on scraping that instead of just splitting on comma and moving. 
+// Is that name ever different than the one with the comma?
+// Their office is also in that detail page, but it seems like if is often different than the ones the professors have
+// on their CCIS/COE/CSSH profile. Unsure if it would be worth scraping that too. 
 
 
 // Currently:
@@ -234,8 +238,11 @@ class Employee {
 
             for (let j = 0; j < rowCount; j++) {
               const person = {};
-              const nameWithComma = parsedTable.name[j].split('\n\n')[0];
+              const nameWithComma = he.decode(parsedTable.name[j]).split('\n\n')[0];
 
+
+              // Put the first name before the last name. 
+              // Another way to do this would be to hit the detail section of each employee and scrape the name from the title.
               const commaNameSplit = nameWithComma.split(',');
 
               for (let k = 0; k < commaNameSplit.length; k++) {

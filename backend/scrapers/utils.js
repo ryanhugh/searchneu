@@ -154,7 +154,7 @@ exports.saveDevData = async function saveDevData(path, data) {
   }
 
   await mkdirp(macros.DEV_DATA_DIR);
-  await fs.writeFile(path, JSON.stringify(data));
+  await fs.writeFile(path, JSON.stringify(data, null, 4));
 };
 
 
