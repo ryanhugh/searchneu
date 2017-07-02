@@ -5,14 +5,18 @@
 
 class Utils {
 
-  // Strips the middle name from a name
+  // Strips the middle name from a name.
   // The given full name is the person's full name, including first, middle, and last names
   // Full name is often not equal to first + ' ' + middle + ' ' + last because many people have foreign names and nicknames.
   // If firstName and lastName are passed, the accuracy of this function should be higher.
   // This is used in mobile class panel view. 
   // And also when adding professor names (both from the employee data sources and from the classes data sources) to the search index.
+  // Even if the middle names are kept, any word that is one character (not including symbols) is still removed). 
 
-  // TODO: Is it a good idea to strip the single character in names like [Aileen B Kent Yates] and [Edwin A. Marengo Fuentes] too? I think so. 
+  // TODO: Remove "Jr." and "III" and other titles. 
+  // https://www.npmjs.com/package/parse-full-name
+  // Might help.
+  // Also, could merge the name functions from employees.js into this. 
 
   stripMiddleName(fullName, keepIfMoreThanOneChar = false, firstName = null, lastName = null) {
     if ((!firstName && lastName) || (firstName && !lastName)) {
