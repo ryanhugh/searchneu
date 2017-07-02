@@ -4,13 +4,14 @@ import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
 import _ from 'lodash';
 
+import commonUtils from '../../../common/utils'
 import pageDataMgr from './pageDataMgr';
 import macros from '../../macros';
 import utils from '../utils';
 import Keys from '../../../common/Keys';
 
 // This is the main entry point for scraping classes
-// call the main(['neu']) funciton below to scrape a college
+// call the main(['neu']) function below to scrape a college
 // This file also generates the search index and data dumps. 
 
 
@@ -110,23 +111,19 @@ class Main {
     return Promise.all(promises);
   }
 
-
   // Class Lists object is specific to this file, and is created below.
   async createSearchIndexFromClassLists(termData, outputExtention = '', includeDesc = true) {
     const keys = Keys.create(termData);
 
-    // Create a custom elastic search index. 
+    // One possibility for this is to create a custom elastic search index. 
     // By default, the input fields are ran though three pipeline functions. 
-    // This custom filter only uses two of those three.
-    // The one that was removed removes symbols (\W) from the beginning and the end of queries.
-    // This was indexing the class [C++] as [C], so it did not appear if a user typed in [C++].
-    // Symbols are still removed from the end and beginning of the description. 
-    const index = new elasticlunr.Index();
+    // The custom pipeline uses a custom implementation of the trimmer function. 
+    // By default, the trimmer function removes symbols from the beginning and end of all tokens
+    // A token is a word that is added to the search index (eg, each word in a class description, etc).
+    // This was indexing the class [C++] as [C], which made it a lot less likely that the C++ class would appear if you typed in C++.
+    // The custom function would have an exception for C++ (if (token.trim().toLowerCase() === 'c++') {) and then not remove the +'s.
 
-    index.pipeline.add(
-      elasticlunr.stopWordFilter,
-      elasticlunr.stemmer
-    );
+    const index = elasticlunr();
 
     index.saveDocument(false);
 
@@ -176,7 +173,15 @@ class Main {
         }
       });
 
-      _.pull(profs, 'TBA')
+      // Don't index TBA and only index each professor's name once. 
+      _.pull(profs, 'TBA');
+      _.uniq(profs);
+
+
+      // Remove middle names that are 0 or 1 characters long (not including symbols).
+      for (var i = 0; i < profs.length; i++) {
+        profs[i] = commonUtils.stripMiddleName(profs[i], true)
+      }
 
 
       toIndex.profs = profs.join(' ');

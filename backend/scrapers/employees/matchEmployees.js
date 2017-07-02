@@ -5,6 +5,7 @@ import objectHash from 'object-hash';
 import fs from 'fs-promise';
 import path from 'path';
 
+import commonUtils from '../../../common/utils'
 import utils from '../utils';
 import macros from '../../macros';
 import neuEmployees from './employees';
@@ -341,6 +342,12 @@ class CombineCCISandEmployees {
     mergedEmployees.forEach((row) => {
       const docToIndex = {};
       Object.assign(docToIndex, row);
+
+      // If their middle name is one character (not including symbols), don't add it to the search index.
+      // This prevents profs like Stacy C. Marsella from coming up when you type in [C]
+      // First, remove the first and last names and toLowerCase()
+      // Remove the middle name from the name to index if the middle name (not including symbols) is 1 or 0 characters. 
+      docToIndex.name = commonUtils.stripMiddleName(row.name, true, row.firstName, row.lastName)
 
       if (docToIndex.emails) {
         for (let i = 0; i < docToIndex.emails.length; i++) {

@@ -6,6 +6,7 @@ import classNames from 'classnames/bind';
 import globe from './globe.svg';
 import css from './MobileSectionPanel.css';
 
+import commonUtils from '../../../common/utils'
 import WeekdayBoxes from './WeekdayBoxes';
 import LocationLinks from './LocationLinks';
 
@@ -16,20 +17,6 @@ const cx = classNames.bind(css);
 
 // MobileSectionPanel page component
 class MobileSectionPanel extends React.Component {
-
-  // Return just the first name and the last name.
-  getNameWithoutMiddleName() {
-    const prof = this.props.section.getProfs()[0];
-    const indexOfFirstSpace = prof.indexOf(' ');
-
-    // No spaces in this name.
-    if (indexOfFirstSpace === -1) {
-      return prof;
-    }
-    const indexOfLastSpace = prof.length - prof.split('').reverse().join('').indexOf(' ');
-    const newName = `${prof.slice(0, indexOfFirstSpace)} ${prof.slice(indexOfLastSpace)}`;
-    return newName;
-  }
 
   render() {
     // Add another row for seats remaining on the waitlist if any exist.
@@ -100,7 +87,7 @@ class MobileSectionPanel extends React.Component {
           </a>
         </div>
 
-        <div className={ css.title }>{`${this.getNameWithoutMiddleName()} @ ${timeInTitle}`}</div>
+        <div className={ css.title }>{`${commonUtils.stripMiddleName(this.props.section.getProfs()[0])} @ ${timeInTitle}`}</div>
         <table className={ css.table }>
           <tbody>
             <tr className={ css.firstRow }>

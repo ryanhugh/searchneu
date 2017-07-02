@@ -95,9 +95,9 @@ class Search {
   }
 
   onInterval() {
-    const keys = Object.keys(this.refCache);
-
     const dayAgo = Date.now() - 86400000;
+
+    const keys = Object.keys(this.refCache);
 
     // Clear out any cache that has not been used in over a day.
     for (const key of keys) {
