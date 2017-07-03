@@ -14,6 +14,11 @@ class Macros {
     console.trace();
   }
 
+  // https://stackoverflow.com/questions/18082/validate-decimal-numbers-in-javascript-isnumeric
+  static isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+
 
   // Strips the middle name from a name.
   // The given full name is the person's full name, including first, middle, and last names
@@ -47,11 +52,11 @@ class Macros {
 
     if (firstName && lastName) {
       if (!fullName.startsWith(firstName)) {
-        this.error('Full name does not start with first name?', fullName, '|', firstName);
+        this.log('Full name does not start with first name?', fullName, '|', firstName);
       }
 
       if (!fullName.endsWith(lastName)) {
-        this.error('Full name does not end with last name?', fullName, '|', lastName);
+        this.log('Full name does not end with last name?', fullName, '|', lastName);
       }
     }
 

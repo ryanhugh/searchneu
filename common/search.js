@@ -12,6 +12,9 @@ const classSearchConfig = {
     classId: {
       boost: 4,
     },
+    acronym: {
+      boost: 4,
+    },
     subject: {
       boost: 2,
     },

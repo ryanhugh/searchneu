@@ -4,6 +4,7 @@ import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
 import _ from 'lodash';
 
+import stopwords from './stopwords';
 import pageDataMgr from './pageDataMgr';
 import macros from '../../macros';
 import Keys from '../../../common/Keys';
@@ -132,6 +133,7 @@ class Main {
       index.addField('desc');
     }
     index.addField('name');
+    index.addField('acronym');
     index.addField('classId');
     index.addField('subject');
 
@@ -187,6 +189,51 @@ class Main {
       if (searchResultData.class.crns) {
         toIndex.crns = searchResultData.class.crns.join(' ');
       }
+
+      // Generate the acronym for this class based on the name.
+      // Remove any stop words from the acronym. 
+
+      let name = searchResultData.class.name.replace('-', ' ')
+
+      let splitName = name.split(' ');
+
+      // Trim symbols from the beginning and the end.
+      splitName = splitName.map(elasticlunr.trimmer);
+
+      // Only keep words that are not numeric.
+      // The other ways of making a acronym were to remove all the stop words and then take the first letter of the remaining words. 
+      // But this (just keeping the first letter of each capilized word) worked just as well. (Only 44 classes were different for 4 different semesters).
+      // If we do end up switching back to stop words, the list here http://xpo6.com/list-of-english-stop-words
+      // worked a lot better than the list shipped with elasticlunr. 
+      // Also need to remove word == 'hon' if using stop words (or add 'hon' to the stop word list). 
+      splitName = splitName.filter(function(word) {
+        if (word.length === 0) {
+          return false;
+        }
+        else if (macros.isNumeric(word)) {
+          return false;
+        }
+        else if (word[0] !== word[0].toUpperCase()) {
+          return false;
+        }
+        else {
+          return true;
+        }
+      })
+
+      splitName = splitName.map(function(word) {
+        return word[0]
+      })
+
+      if (splitName.length > 1) {
+        toIndex.acronym = splitName.join('')
+        console.log(searchResultData.class.name, splitName.join(''))
+      }
+      else {
+        toIndex.acronym = ''
+      }
+
+
 
       index.addDoc(toIndex);
     }
