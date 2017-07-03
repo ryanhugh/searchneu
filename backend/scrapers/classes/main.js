@@ -232,7 +232,6 @@ class Main {
       // NOTE: The generated acronym is ran through the elasticlunr pipeline which might modify it a bit (eg, remove S's from the end). 
       if (splitName.length > 1) {
         toIndex.acronym = splitName.join('')
-        console.log(searchResultData.class.name, splitName.join(''))
       }
       else {
         toIndex.acronym = ''
