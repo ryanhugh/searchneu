@@ -12,6 +12,8 @@ import Keys from '../../../common/Keys';
 // call the main(['neu']) function below to scrape a college
 // This file also generates the search index and data dumps. 
 
+// TODO: figure out how to have acronym skip the search pipeline.
+
 
 const getSearchIndex = '/getSearchIndex';
 
@@ -224,6 +226,7 @@ class Main {
         return word[0]
       })
 
+      // NOTE: The generated acronym is ran through the elasticlunr pipeline which might modify it a bit (eg, remove S's from the end). 
       if (splitName.length > 1) {
         toIndex.acronym = splitName.join('')
         console.log(searchResultData.class.name, splitName.join(''))
@@ -231,7 +234,6 @@ class Main {
       else {
         toIndex.acronym = ''
       }
-
 
 
       index.addDoc(toIndex);
