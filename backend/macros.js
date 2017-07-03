@@ -212,16 +212,6 @@ class Macros extends commonMacros {
 
   // Use console.warn to log stuff during testing
 
-  // Use this for normal logging
-  // Will log as normal, but stays silent during testing
-  static log(...args) {
-    if (process.env.NODE_ENV === 'test') {
-      return;
-    }
-
-    console.log.apply(console.log, args);
-  };
-
   static verbose(...args) {
     if (!process.env.VERBOSE) {
       return;

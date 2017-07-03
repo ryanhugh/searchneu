@@ -5,6 +5,17 @@
 
 class Macros {
 
+
+  // Use this for normal logging
+  // Will log as normal, but stays silent during testing
+  static log(...args) {
+    if (process.env.NODE_ENV === 'test') {
+      return;
+    }
+
+    console.log.apply(console.log, args);
+  };
+
   static error(...args) {
     if (Macros.TESTS) {
       return;
@@ -34,8 +45,7 @@ class Macros {
   // Also, could merge the name functions from employees.js into this. 
   static stripMiddleName(fullName, keepIfMoreThanOneChar = false, firstName = null, lastName = null) {
     if ((!firstName && lastName) || (firstName && !lastName)) {
-      console.error('Need either first and last name or neither first nor last name for stripeMiddleName.');
-      console.trace();
+      this.error('Need either first and last name or neither first nor last name for stripeMiddleName.');
       return null;
     }
 
@@ -52,11 +62,11 @@ class Macros {
 
     if (firstName && lastName) {
       if (!fullName.startsWith(firstName)) {
-        this.error('Full name does not start with first name?', fullName, '|', firstName);
+        this.log('Full name does not start with first name?', fullName, '|', firstName);
       }
 
       if (!fullName.endsWith(lastName)) {
-        this.error('Full name does not end with last name?', fullName, '|', lastName);
+        this.log('Full name does not end with last name?', fullName, '|', lastName);
       }
     }
 
