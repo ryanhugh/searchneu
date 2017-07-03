@@ -52,11 +52,11 @@ class Macros {
 
     if (firstName && lastName) {
       if (!fullName.startsWith(firstName)) {
-        this.log('Full name does not start with first name?', fullName, '|', firstName);
+        this.error('Full name does not start with first name?', fullName, '|', firstName);
       }
 
       if (!fullName.endsWith(lastName)) {
-        this.log('Full name does not end with last name?', fullName, '|', lastName);
+        this.error('Full name does not end with last name?', fullName, '|', lastName);
       }
     }
 
