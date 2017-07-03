@@ -17,7 +17,7 @@
  */
 
 'use strict';
-import utils from '../../utils';
+import macros from '../../../macros';
 var URI = require('urijs');
 var domutils = require('domutils');
 var fs = require('fs');
@@ -85,7 +85,7 @@ BaseParser.prototype.isValidData = function (pageData) {
 	for (var i = 0; i < this.requiredAttrs.length; i++) {
 		var attrName = this.requiredAttrs[i]
 		if (pageData.getData(attrName) === undefined) {
-			utils.log('MISSING', attrName)
+			macros.log('MISSING', attrName)
 			return false;
 		};
 	}
@@ -117,7 +117,7 @@ BaseParser.prototype.parseDOM = function (pageData, dom) {
 
 	//missed something, or invalid page
 	if (!this.isValidData(pageData)) {
-		utils.log("ERROR: though url was good, but missed data", pageData);
+		macros.log("ERROR: though url was good, but missed data", pageData);
 		return null;
 	}
 
@@ -172,7 +172,7 @@ BaseParser.prototype.parseTable = function (table) {
 				return;
 			}
 			if (index >= heads.length) {
-				utils.log('warning, table row is longer than head, ignoring content', index, heads, rows);
+				macros.log('warning, table row is longer than head, ignoring content', index, heads, rows);
 				return;
 			};
 
@@ -203,7 +203,7 @@ BaseParser.prototype.parseForm = function (url, dom) {
 	//find the form, bail if !=1 on the page
 	var forms = domutils.getElementsByTagName('form', dom);
 	if (forms.length != 1) {
-		utils.log('there is !=1 forms??', forms, url);
+		macros.log('there is !=1 forms??', forms, url);
 		return
 	}
 	var form = forms[0];
@@ -235,7 +235,7 @@ BaseParser.prototype.parseForm = function (url, dom) {
 
 		var options = domutils.getElementsByTagName('option', select);
 		if (options.length === 0) {
-			utils.log('warning no options in form???', url);
+			macros.log('warning no options in form???', url);
 			return;
 		}
 
@@ -309,7 +309,7 @@ BaseParser.prototype.parseCredits = function (containsCreditsText) {
 		}
 
 		if (minCredits > maxCredits) {
-			utils.log('error, min credits>max credits...', containsCreditsText);
+			macros.log('error, min credits>max credits...', containsCreditsText);
 			minCredits = maxCredits;
 		}
 
@@ -381,9 +381,9 @@ BaseParser.prototype.simplifySymbols = function (s) {
 // https://www.npmjs.com/package/to-title-case -- currently using this one, its ok not great
 // var a = require("change-case").title
 
-// utils.log(a('texas a&m university'));
-// utils.log(a('something something'))
-// utils.log(a('2Nd year spanish'))
+// macros.log(a('texas a&m university'));
+// macros.log(a('something something'))
+// macros.log(a('2Nd year spanish'))
 
 // Used for college names, professor names and locations
 // odd cases: "TBA", Texas A&M University
@@ -393,7 +393,7 @@ BaseParser.prototype.toTitleCase = function (originalString, warningStr) {
 	}
 
 	if (originalString.toLowerCase() == originalString || originalString.toUpperCase() == originalString) {
-		utils.log("Warning: originalString is all upper or all lower case", originalString, warningStr);
+		macros.log("Warning: originalString is all upper or all lower case", originalString, warningStr);
 	}
 
 
@@ -417,7 +417,7 @@ BaseParser.prototype.toTitleCase = function (originalString, warningStr) {
 	string = string.trim()
 
 	if (string != originalString.trim()) {
-		utils.log('Warning: changing from ', originalString, 'to', string, 'at', warningStr);
+		macros.log('Warning: changing from ', originalString, 'to', string, 'at', warningStr);
 	}
 
 	return string.trim()
@@ -457,7 +457,7 @@ BaseParser.prototype.splitEndings = function (name) {
 		var subString = match[0];
 
 		if (!name.endsWith(subString)) {
-			utils.log("Warning: string dosent end with match??", originalName, possibleMatches);
+			macros.log("Warning: string dosent end with match??", originalName, possibleMatches);
 			break;
 		}
 
@@ -497,7 +497,7 @@ BaseParser.prototype.standardizeClassName = function (originalName, possibleMatc
 	originalName = this.simplifySymbols(originalName)
 
 	if (originalName.lenght === 0) {
-		utils.log("Warning: originalName was empty or had only symbols");
+		macros.log("Warning: originalName was empty or had only symbols");
 		if (possibleMatches.length === 0) {
 			elog('Dont have a name for a class!', originalName, possibleMatches)
 			return 'Unknown class'

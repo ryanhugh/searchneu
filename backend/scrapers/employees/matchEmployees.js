@@ -5,8 +5,6 @@ import objectHash from 'object-hash';
 import fs from 'fs-promise';
 import path from 'path';
 
-import commonUtils from '../../../common/utils'
-import utils from '../utils';
 import macros from '../../macros';
 import neuEmployees from './employees';
 import ccisFaculty from './ccis';
@@ -314,7 +312,7 @@ class CombineCCISandEmployees {
         console.error('Error, need id to make map!', person);
       }
       if (employeeMap[person.id]) {
-        utils.error('Error, duplicate id!', person.id);
+        macros.error('Error, duplicate id!', person.id);
       }
       employeeMap[person.id] = person;
     });
@@ -347,7 +345,7 @@ class CombineCCISandEmployees {
       // This prevents profs like Stacy C. Marsella from coming up when you type in [C]
       // First, remove the first and last names and toLowerCase()
       // Remove the middle name from the name to index if the middle name (not including symbols) is 1 or 0 characters. 
-      docToIndex.name = commonUtils.stripMiddleName(row.name, true, row.firstName, row.lastName)
+      docToIndex.name = macros.stripMiddleName(row.name, true, row.firstName, row.lastName)
 
       if (docToIndex.emails) {
         for (let i = 0; i < docToIndex.emails.length; i++) {

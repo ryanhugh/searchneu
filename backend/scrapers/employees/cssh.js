@@ -3,7 +3,6 @@ import path from 'path';
 
 
 import macros from '../../macros';
-import utils from '../utils';
 import linkSpider from '../linkSpider';
 import Request from '../request';
 
@@ -35,7 +34,7 @@ class Cssh {
     obj.name = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > h1').text().trim();
 
     // Parse the first name and the last name from the given name
-    const { firstName, lastName } = utils.parseNameWithSpaces(obj.name);
+    const { firstName, lastName } = macros.parseNameWithSpaces(obj.name);
 
     if (firstName && lastName) {
       obj.firstName = firstName;
@@ -68,8 +67,8 @@ class Cssh {
     emailElement = $(emailElement);
 
     // Parse both the email it is linked to and the email that is displayed to ensure they are the same.
-    const mailto = utils.standardizeEmail(emailElement.attr('href')).trim();
-    const email = utils.standardizeEmail(emailElement.text().trim()).trim();
+    const mailto = macros.standardizeEmail(emailElement.attr('href')).trim();
+    const email = macros.standardizeEmail(emailElement.text().trim()).trim();
 
     // If they are different, log a warning and skip this email.
     if ((mailto || email) && mailto !== email) {
@@ -160,7 +159,7 @@ class Cssh {
     const outputFile = path.join(macros.DEV_DATA_DIR, 'cssh.json');
 
     if (macros.DEV && require.main !== module) {
-      const devData = await utils.loadDevData(outputFile);
+      const devData = await macros.loadDevData(outputFile);
       if (devData) {
         return devData;
       }
@@ -191,7 +190,7 @@ class Cssh {
     const people = await Promise.all(promises);
 
     if (macros.DEV) {
-      await utils.saveDevData(outputFile, people);
+      await macros.saveDevData(outputFile, people);
       console.log('cssh file saved!');
     }
 

@@ -17,7 +17,7 @@
  */
 
 
-import utils from '../../utils'
+import macros from '../../../macros'
 const BaseProcessor = require('./baseProcessor').BaseProcessor;
 const _ = require('lodash');
 
@@ -82,7 +82,7 @@ TermStartEndDate.prototype.runOnTerm = function runOnTerm(termDump, term) {
 
   // Pick the first day if nothing was decisive.
   if (!finalStartDate) {
-    utils.log('Warning, no start date was definitive', term.termId, startDates);
+    macros.log('Warning, no start date was definitive', term.termId, startDates);
     finalStartDate = startDateKeys[0];
   }
 
@@ -104,14 +104,14 @@ TermStartEndDate.prototype.runOnTerm = function runOnTerm(termDump, term) {
   // Pick the last day if nothing was decisive.
   // (the endDateKeys are in reverse chronological order)
   if (!finalEndDate) {
-    utils.log('Warning, no end date was definitive', term.termId, endDates);
+    macros.log('Warning, no end date was definitive', term.termId, endDates);
     finalEndDate = endDateKeys[0];
   }
 
 
   term.startDate = finalStartDate;
   term.endDate = finalEndDate;
-  utils.log(JSON.stringify(term, null, 4));
+  macros.log(JSON.stringify(term, null, 4));
   return term;
 };
 

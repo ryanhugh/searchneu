@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import utils from '../utils';
+import macros from '../../macros';
 const _ = require('lodash');
 const URI = require('urijs');
 
@@ -51,12 +51,12 @@ for (const parserName in parsersClasses) {
 
   if (!parser.name) {
     console.log(parser);
-    utils.critical('Parser does not have a name!', parser);
+    macros.critical('Parser does not have a name!', parser);
   }
 
   if (parserNames.includes(parser.name)) {
     console.log(parser.constructor.name, parser.name);
-    utils.critical(`Two parsers have the same name! ${parser.name}`);
+    macros.critical(`Two parsers have the same name! ${parser.name}`);
   }
 
   parsers.push(parser);
@@ -92,7 +92,7 @@ PageDataMgr.prototype.runPostProcessors = function runPostProcessors(termDump) {
   // Run the processors, sequentially
   for (const processor of processors) {
     processor.go(termDump);
-    utils.log('Done processor', processor);
+    macros.log('Done processor', processor);
   }
 
 
@@ -117,7 +117,7 @@ PageDataMgr.prototype.go = function go(pageDatas, callback) {
   if (pageDatas.length > 1) {
     // In order to make this work, just run processPageData on each pageData in the array, and then
     // Combine the outputs into one termDump.
-    utils.critical('More than 1 pagedata at a time is not supported yet.');
+    macros.critical('More than 1 pagedata at a time is not supported yet.');
     return null;
   }
 
@@ -128,12 +128,12 @@ PageDataMgr.prototype.go = function go(pageDatas, callback) {
     // Run the parsing
     this.processPageData(inputPageData, (err, pageData) => {
       if (err) {
-        utils.error(err);
+        macros.error(err);
         reject(err);
         return;
       }
       if (inputPageData !== pageData) {
-        utils.error('Input page data was different than output?', inputPageData, pageData);
+        macros.error('Input page data was different than output?', inputPageData, pageData);
       }
       let termDump = this.pageDataStructureToTermDump(pageData);
       termDump = this.runPostProcessors(termDump);
@@ -176,16 +176,16 @@ PageDataMgr.prototype.processPageAfterDbLoad = function processPageAfterDbLoad(p
   //this will happen when parent loaded this from cache with just an _id
   if (pageData.dbData.url && !pageData.parser) {
     if (!pageData.findSupportingParser()) {
-      utils.error('error cant find parser after second try');
+      macros.error('error cant find parser after second try');
       return callback('NOSUPPORT');
     }
   }
 
   pageData.parser.parse(pageData, (err) => {
     if (err) {
-      utils.error('Error, pagedata parse call failed', err);
+      macros.error('Error, pagedata parse call failed', err);
       if (pageData.dbData.lastUpdateTime) {
-        utils.error('ERROR: url in cache but could not update', pageData.dbData.url, pageData.dbData);
+        macros.error('ERROR: url in cache but could not update', pageData.dbData.url, pageData.dbData);
         return callback('NOUPDATE');
       }
 
@@ -199,7 +199,7 @@ PageDataMgr.prototype.processPageAfterDbLoad = function processPageAfterDbLoad(p
 PageDataMgr.prototype.finish = function finish(pageData, callback) {
   pageData.processDeps((err) => {
     if (err) {
-      utils.error('ERROR processing deps', err);
+      macros.error('ERROR processing deps', err);
       return callback(err);
     }
 
@@ -281,7 +281,7 @@ PageDataMgr.prototype.main = async function main(colllegeAbbrs) {
   urlsToProcess.forEach((url) => {
     const pageData = PageData.createFromURL(url);
     if (!PageData) {
-      utils.error();
+      macros.error();
       console.error('ERRROR could not make page data from ', url, 'exiting');
       process.exit();
     }
@@ -361,7 +361,7 @@ PageDataMgr.prototype.manual = function manual() {
   // })
 
   // // if (!pageData) {
-  // //   utils.error('ERROR unable to create page data with _id of ', classMongoId, '????')
+  // //   macros.error('ERROR unable to create page data with _id of ', classMongoId, '????')
   // //   return callback('error')
   // // }
   // pageData.database = classesDB;

@@ -18,7 +18,7 @@
 
 import path from 'path';
 import request from '../../../request';
-import utils from '../../../utils';
+import macros from '../../../../macros';
 
 var ellucianRequisitesParser = require('../ellucianRequisitesParser2')
 var fs = require('fs')
@@ -431,7 +431,7 @@ it('works with a ton of ors', function (done) {
 
 			var prereqs = ellucianRequisitesParser.parseRequirementSection(pageData, dom[0].children, 'prerequisites');
 
-			utils.log(prereqs);
+			macros.log(prereqs);
 
 			expect(prereqs).toEqual(Object({
 				type: 'or',
@@ -470,7 +470,7 @@ it('works with a ton of ors', function (done) {
 // 	var a = ellucianRequisitesParser.removeBlacklistedStrings({
 // 		values: ['Pre-req for Math 033 1', 'Pre-req for Math 025S 1', 'hi']
 // 	})
-// 	utils.log(a);
+// 	macros.log(a);
 
 
 // 	expect(a).toEqual({
@@ -499,7 +499,7 @@ it('works with a ton of ors', function (done) {
 			expect(err).toBe(null);
 
 			var coreqs = ellucianRequisitesParser.parseRequirementSection(pageData, dom[0].children, 'corequisites');
-			utils.log(coreqs);
+			macros.log(coreqs);
 
 			expect(coreqs).toEqual({
 				type: 'and',
@@ -534,10 +534,10 @@ it('3 levels', function (done) {
 		request.handleRequestResponce(body, function (err, dom) {
 			expect(err).toBe(null);
 
-			utils.log(dom)
+			macros.log(dom)
 
 			var prereqs = ellucianRequisitesParser.parseRequirementSection(pageData, dom, 'prerequisites');
-			utils.log(prereqs);
+			macros.log(prereqs);
 
 			expect(prereqs).toEqual(Object({
 				type: 'or',
@@ -584,11 +584,11 @@ it('3 levels', function (done) {
 // 		request.handleRequestResponce(body, function (err, dom) {
 // 			expect(err).toBe(null);
 
-// 			utils.log(dom) 
+// 			macros.log(dom) 
 // 			debugger
 
 // 			var prereqs = ellucianRequisitesParser.parseRequirementSection(pageData, dom, 'prerequisites');
-// 			utils.log(prereqs);
+// 			macros.log(prereqs);
 
 // 			expect(prereqs).toEqual(Object({
 // 				type: 'or', 

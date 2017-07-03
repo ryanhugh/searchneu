@@ -4,10 +4,8 @@ import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
 import _ from 'lodash';
 
-import commonUtils from '../../../common/utils'
 import pageDataMgr from './pageDataMgr';
 import macros from '../../macros';
-import utils from '../utils';
 import Keys from '../../../common/Keys';
 
 // This is the main entry point for scraping classes
@@ -47,7 +45,7 @@ class Main {
 
     for (const subject of termDump.subjects) {
       if (!subject.subject) {
-        utils.error('Subject controller found in main.js????', subject);
+        macros.error('Subject controller found in main.js????', subject);
         continue;
       }
       const hash = Keys.create(subject).getHash();
@@ -100,7 +98,7 @@ class Main {
 
       // Put them in a different file.
       if (!value.host || !value.termId) {
-        utils.error('No host or Id?', value);
+        macros.error('No host or Id?', value);
       }
 
       const folderPath = path.join(macros.PUBLIC_DIR, 'getTermDump', value.host);
@@ -180,7 +178,7 @@ class Main {
 
       // Remove middle names that are 0 or 1 characters long (not including symbols).
       for (var i = 0; i < profs.length; i++) {
-        profs[i] = commonUtils.stripMiddleName(profs[i], true)
+        profs[i] = macros.stripMiddleName(profs[i], true)
       }
 
 
@@ -248,18 +246,18 @@ class Main {
 
       if (!classLists[termHash]) {
         // The objects should all have been created when looping over the classes.
-        utils.error('Dont have obj in section for loop?', termHash, classHash, section);
+        macros.error('Dont have obj in section for loop?', termHash, classHash, section);
         errorCount++;
         return;
       }
 
       if (!classLists[termHash].classHash[classHash]) {
         // Only error on CI if error occurs in the term that is shown.
-        // TODO change to if this section occured in the past utils.log, if it is in the future, utils.error.
+        // TODO change to if this section occured in the past macros.log, if it is in the future, macros.error.
         if (section.host === 'neu.edu' && section.termId === '201810') {
-          utils.error('No class exists with same data?', classHash, section.url);
+          macros.error('No class exists with same data?', classHash, section.url);
         } else {
-          utils.log('No class exists with same data?', classHash, section.url);
+          macros.log('No class exists with same data?', classHash, section.url);
         }
         errorCount++;
         return;
@@ -302,7 +300,7 @@ class Main {
 
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module) {
-      const devData = await utils.loadDevData(outputFile);
+      const devData = await macros.loadDevData(outputFile);
       if (devData) {
         return devData;
       }
@@ -311,7 +309,7 @@ class Main {
     const termDump = await pageDataMgr.main(collegeAbbrs);
 
     if (macros.DEV) {
-      await utils.saveDevData(outputFile, termDump);
+      await macros.saveDevData(outputFile, termDump);
       console.log('classes file saved for', collegeAbbrs, '!');
     }
     return termDump;

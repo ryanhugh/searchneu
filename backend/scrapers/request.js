@@ -29,7 +29,6 @@ import moment from 'moment';
 import _ from 'lodash';
 
 import cache from './cache';
-import utils from './utils';
 import macros from '../macros';
 
 // This file is a transparent wrapper around the request library that changes some default settings so scraping is a lot faster.
@@ -53,7 +52,6 @@ import macros from '../macros';
 
 // TODO:
 // Sometimes many different hostnames all point to the same IP. Need to limit requests by an IP basis and a hostname basis (COS).
-// improve getBaseHost to use the list of top level domains
 // Need to improve the cache. Would save everything in one object, but 268435440 (268 MB) is roughly the max limit of the output of JSON.stringify. 
 // https://github.com/nodejs/node/issues/9489#issuecomment-279889904
 
@@ -145,7 +143,7 @@ class Request {
     }
 
     if (!agent) {
-      utils.log('Agent is false,', pool);
+      macros.log('Agent is false,', pool);
       return {};
     }
 
@@ -175,8 +173,8 @@ class Request {
         continue;
       }
       if (!separateReqPools[hostname]) {
-        utils.log(hostname);
-        utils.log(JSON.stringify(this.analytics[hostname], null, 4));
+        macros.log(hostname);
+        macros.log(JSON.stringify(this.analytics[hostname], null, 4));
         continue;
       }
 
@@ -185,14 +183,14 @@ class Request {
       const totalAnalytics = {};
       Object.assign(totalAnalytics, moreAnalytics, this.analytics[hostname]);
 
-      utils.log(hostname);
-      utils.log(JSON.stringify(totalAnalytics, null, 4));
+      macros.log(hostname);
+      macros.log(JSON.stringify(totalAnalytics, null, 4));
     }
 
     this.activeHostnames = {};
 
     // Shared pool
-    utils.log(JSON.stringify(this.getAnalyticsFromAgent(separateReqDefaultPool), null, 4));
+    macros.log(JSON.stringify(this.getAnalyticsFromAgent(separateReqDefaultPool), null, 4));
 
     if (this.openRequests === 0) {
       clearInterval(this.timer);
@@ -200,7 +198,7 @@ class Request {
 
     // Log the current time.
     const currentTime = moment();
-    utils.log('Uptime:', moment.duration(moment().diff(LAUNCH_TIME)).asMinutes(), `(${currentTime.format('h:mm:ss a')})`);
+    macros.log('Uptime:', moment.duration(moment().diff(LAUNCH_TIME)).asMinutes(), `(${currentTime.format('h:mm:ss a')})`);
   }
 
   // By default, needle and nodejs does a DNS lookup for each request.
@@ -210,11 +208,11 @@ class Request {
       return this.dnsPromises[hostname];
     }
 
-    utils.verbose('Hitting dns lookup for', hostname);
+    macros.verbose('Hitting dns lookup for', hostname);
 
     // Just the host + subdomains are needed, eg blah.google.com
     if (hostname.startsWith('http://') || hostname.startsWith('https://')) {
-      utils.error(hostname);
+      macros.error(hostname);
     }
 
     const promise = dns.lookup(hostname, {
@@ -253,7 +251,7 @@ class Request {
 
     let ip;
     if (dnsResults.length === 0) {
-      utils.error('DNS lookup returned 0 results!', JSON.stringify(config));
+      macros.error('DNS lookup returned 0 results!', JSON.stringify(config));
       return null;
     } else if (dnsResults.length === 1) {
       ip = dnsResults[0].address;
@@ -325,12 +323,12 @@ class Request {
     output.url = urlWithIp;
     output.headers = headers;
 
-    utils.verbose('Firing request to', output.url);
+    macros.verbose('Firing request to', output.url);
 
     // If there are not any open requests right now, start the interval
     if (this.openRequests === 0) {
       clearInterval(this.timer);
-      utils.log('Starting request analytics timer.');
+      macros.log('Starting request analytics timer.');
       this.analytics[hostname].startTime = Date.now();
       this.timer = setInterval(this.onInterval.bind(this), 5000);
       setTimeout(() => {
@@ -350,7 +348,7 @@ class Request {
 
 
     if (this.openRequests === 0) {
-      utils.log('Stopping request analytics timer.');
+      macros.log('Stopping request analytics timer.');
       clearInterval(this.timer);
     }
 
@@ -404,7 +402,7 @@ class Request {
   // Outputs a response object. Get the body of this object with ".body".
   async request(config) {
 
-    utils.verbose('Request hitting', config);
+    macros.verbose('Request hitting', config);
 
     const urlParsed = new URI(config.url);
     const hostname = urlParsed.hostname();
@@ -468,9 +466,9 @@ class Request {
           }
 
           if (err.response) {
-            utils.verbose(err.response.body);
+            macros.verbose(err.response.body);
           } else {
-            utils.verbose(err.message);
+            macros.verbose(err.message);
           }
 
           callback(err);

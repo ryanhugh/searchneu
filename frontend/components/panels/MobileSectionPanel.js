@@ -6,7 +6,7 @@ import classNames from 'classnames/bind';
 import globe from './globe.svg';
 import css from './MobileSectionPanel.css';
 
-import commonUtils from '../../../common/utils'
+import macros from '../macros'
 import WeekdayBoxes from './WeekdayBoxes';
 import LocationLinks from './LocationLinks';
 
@@ -87,7 +87,7 @@ class MobileSectionPanel extends React.Component {
           </a>
         </div>
 
-        <div className={ css.title }>{`${commonUtils.stripMiddleName(this.props.section.getProfs()[0])} @ ${timeInTitle}`}</div>
+        <div className={ css.title }>{`${macros.stripMiddleName(this.props.section.getProfs()[0])} @ ${timeInTitle}`}</div>
         <table className={ css.table }>
           <tbody>
             <tr className={ css.firstRow }>

@@ -20,7 +20,7 @@
 var asyncjs = require('async');
 var URI = require('urijs');
 var _ = require('lodash');
-import utils from '../utils';
+import macros from '../../macros';
 
 	// pageDataMgr needs to be here, but cannot be required due to circular dependencies...
 
@@ -30,12 +30,12 @@ import utils from '../utils';
 //datamgr.js (for auto updates)
 function PageData(startingData) {
 	if (!startingData.dbData) {
-		utils.critical('pageData needs a startingData.dbData.')
+		macros.critical('pageData needs a startingData.dbData.')
 		return null;
 	}
 
 	if (!startingData.dbData.url && !startingData.dbData._id && !startingData.dbData.updatedByParent) {
-		utils.error('pageData needs a url or an _id or an updater id!', startingData);
+		macros.error('pageData needs a url or an _id or an updater id!', startingData);
 		return null;
 	}
 
@@ -85,7 +85,7 @@ PageData.create = function (startingData) {
 
 	var pageData = new PageData(startingData);
 	if (!pageData.dbData) {
-		utils.error('could not create a pagedata!');
+		macros.error('could not create a pagedata!');
 		return null;
 	}
 	return pageData;
@@ -105,11 +105,11 @@ PageData.createFromURL = function (url, callback) {
 // parser name is optional, used when loading from db
 PageData.prototype.findSupportingParser = function (parserName) {
 	if (this.parser) {
-		utils.error('Told to find a parser but already have one!', this, parserName)
+		macros.error('Told to find a parser but already have one!', this, parserName)
 		return true;
 	}
 	if (!this.dbData.url && !parserName) {
-		utils.error('error cant find parser without url and name');
+		macros.error('error cant find parser without url and name');
 		return false;
 	}
 
@@ -120,7 +120,7 @@ PageData.prototype.findSupportingParser = function (parserName) {
 			return this.setParser(parsers[i]);
 		}
 	}
-	utils.error('No parser found for:', this.dbData.url, parserName, this);
+	macros.error('No parser found for:', this.dbData.url, parserName, this);
 	return false;
 };
 
@@ -128,17 +128,17 @@ PageData.prototype.findSupportingParser = function (parserName) {
 //returns true if successful, else false
 PageData.prototype.setParser = function (parser) {
 	if (!parser || !parser.name) {
-		utils.error('Tried to set to invalid parser', parser);
+		macros.error('Tried to set to invalid parser', parser);
 		return false;
 	}
 	if (this.parser) {
-		utils.error('Tried to set parser, already have a parser', this.parser.constructor.name, parser.constructor.name);
+		macros.error('Tried to set parser, already have a parser', this.parser.constructor.name, parser.constructor.name);
 		return false;
 	}
 
 
 	this.parser = parser;
-	utils.verbose('Using parser:', this.parser.constructor.name, 'for url', this.dbData.url, ' and name', parser.name);
+	macros.verbose('Using parser:', this.parser.constructor.name, 'for url', this.dbData.url, ' and name', parser.name);
 
 	return true;
 }
@@ -155,19 +155,19 @@ PageData.prototype.processDeps = function (callback) {
 	asyncjs.map(this.deps, function (depPageData, callback) {
 		pageDataMgr.processPageData(depPageData, function (err, newDepData) {
 			if (err) {
-				utils.error('ERROR: processing deps:', err);
+				macros.error('ERROR: processing deps:', err);
 				return callback(err);
 			}
 			if (newDepData != depPageData) {
-				utils.error('error pagedata was called on is diff than returned??');
+				macros.error('error pagedata was called on is diff than returned??');
 				return callback('internal error');
 			}
 
 			if (!newDepData.parser || !newDepData.parser.name) {
 
-				utils.error('error, cannot add dep, dont know where to add it', newDepData.parser, newDepData);
+				macros.error('error, cannot add dep, dont know where to add it', newDepData.parser, newDepData);
 				if (newDepData.parser) {
-					utils.error('error more data on the cannot add dep', newDepData.parser.constructor.name, newDepData.parser.name);
+					macros.error('error more data on the cannot add dep', newDepData.parser.constructor.name, newDepData.parser.name);
 				}
 			}
 
@@ -190,7 +190,7 @@ PageData.prototype.processDeps = function (callback) {
 
 	}.bind(this), function (err, results) { //
 		if (err) {
-			utils.error('error found while processing dep of', this.dbData.url, err);
+			macros.error('error found while processing dep of', this.dbData.url, err);
 			return callback(err);
 		}
 		else {
@@ -210,7 +210,7 @@ PageData.prototype.getUrlStart = function () {
 
 PageData.prototype.addDep = function (depData) {
 	if (!depData) {
-		utils.error('Tried to add invalid depdata??', depData);
+		macros.error('Tried to add invalid depdata??', depData);
 		return null;
 	}
 
@@ -225,7 +225,7 @@ PageData.prototype.addDep = function (depData) {
 		// Don't override given value.
 		// All of these values are the JS equivalent of primitive types, and don't need a deep compare. 
 		else if (depData[attrName] && this.dbData[attrName] !== depData[attrName]) {
-			utils.log('given ', attrName, ' for dep is != than the value in here?', this.dbData[attrName], depData[attrName]);
+			macros.log('given ', attrName, ' for dep is != than the value in here?', this.dbData[attrName], depData[attrName]);
 			return;
 		}
 
@@ -243,22 +243,22 @@ PageData.prototype.addDep = function (depData) {
 	// 	if (depData._id) {
 	// 		if (this.deps[i].dbData._id == depData._id) {
 
-	// 			utils.error('matched by _id!')
+	// 			macros.error('matched by _id!')
 
 	// 			isMatch = true;
 	// 		}
 	// 	}
 	// 	else if (depData.url) {
 	// 		if (_.isEqual(this.deps[i].dbData, depData)) {
-	// 			utils.error('matched by _is equal')
+	// 			macros.error('matched by _is equal')
 	// 			isMatch = true;
 	// 		}
 	// 	}
 
 	// 	if (isMatch) {
-	// 		utils.log('URL was already in deps, adding new attrs!', this.deps[i], depData)
+	// 		macros.log('URL was already in deps, adding new attrs!', this.deps[i], depData)
 	// 		for (var newAttrName in depData) {
-	// 			utils.log('adding ', newAttrName, depData[newAttrName])
+	// 			macros.log('adding ', newAttrName, depData[newAttrName])
 	// 			this.deps[i].setData(newAttrName, depData[newAttrName]);
 	// 		}
 
@@ -277,7 +277,7 @@ PageData.prototype.addDep = function (depData) {
 	//create the dep, add it to the array and return it
 	var dep = this.constructor.create(startingData);
 	if (!dep) {
-		utils.log('could not create dep in add dep!')
+		macros.log('could not create dep in add dep!')
 		return;
 	}
 
@@ -288,7 +288,7 @@ PageData.prototype.addDep = function (depData) {
 
 PageData.prototype.setParentData = function (name, value) {
 	if (!this.parent) {
-		utils.error('error told to add to parent but dont have parent', name, JSON.stringify(value, null, 2));
+		macros.error('error told to add to parent but dont have parent', name, JSON.stringify(value, null, 2));
 		return;
 	}
 
@@ -306,12 +306,12 @@ PageData.prototype.setData = function (name, value) {
 
 
 	if (['deps'].includes(name)) {
-		utils.error('ERROR: html set tried to override', name);
+		macros.error('ERROR: html set tried to override', name);
 		return;
 	}
 
 	if (['_id'].includes(name) && this.dbData[name] !== undefined) {
-		utils.error('ERROR: cant override', name, ' from value ', this.dbData[name], 'to value ', value)
+		macros.error('ERROR: cant override', name, ' from value ', this.dbData[name], 'to value ', value)
 		return;
 	}
 
@@ -334,7 +334,7 @@ PageData.prototype.setData = function (name, value) {
 
 			//only log change in last update time if in verbose mode
 			if (!propsToIgnore[name]) {
-				utils.log('warning, overriding pageData.dbData.' + name + ' from:', JSON.stringify(this.dbData[name]), 'to:', JSON.stringify(value))
+				macros.log('warning, overriding pageData.dbData.' + name + ' from:', JSON.stringify(this.dbData[name]), 'to:', JSON.stringify(value))
 			}
 		}
 	}
@@ -352,8 +352,8 @@ PageData.prototype.getData = function (name) {
 if (require.main === module) {
 	// require('./pageDataMgr')
 
-	// utils.log(new PageData('https://google.google.com:9000/jfdsajfk').getUrlStart())
-	// utils.log(new PageData('https://genisys.regent.edu/pls/prod/bwckctlg.p_display_courses?term_in=201610&one_subj=COM&sel_crse_strt=507&sel_crse_end=507&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr='))
+	// macros.log(new PageData('https://google.google.com:9000/jfdsajfk').getUrlStart())
+	// macros.log(new PageData('https://genisys.regent.edu/pls/prod/bwckctlg.p_display_courses?term_in=201610&one_subj=COM&sel_crse_strt=507&sel_crse_end=507&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr='))
 
 
 	// var a = new PageData("https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201536&crn_in=23361");

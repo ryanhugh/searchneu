@@ -17,7 +17,7 @@
  */
 
 
-import utils from '../../utils';
+import macros from '../../../macros';
 
 var URI = require('urijs');
 var fs = require('fs');

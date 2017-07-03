@@ -4,9 +4,8 @@ import fs from 'fs-promise';
 import mkdirp from 'mkdirp-promise';
 import path from 'path';
 
-import utils from './utils';
-import request from './request';
 import macros from '../macros';
+import request from './request';
 
 
 // TODO
@@ -46,7 +45,7 @@ class NeuClubs {
 
     const obj = {};
 
-    // utils.log(detailElements.length, url)
+    // macros.log(detailElements.length, url)
     // Looks like need to grab the href from the links but this is close
     for (let i = 0; i < detailElements.length; i++) {
       const $thisEle = $(detailElements[i]);
@@ -124,13 +123,13 @@ class NeuClubs {
       } else if (strongText === 'description') {
         obj.description = value;
       } else {
-        utils.log('Unknown info box prop', strongText);
+        macros.log('Unknown info box prop', strongText);
       }
     }
 
 
     if (Object.keys(obj).length < 3) {
-      utils.log('Error', detailHtml);
+      macros.log('Error', detailHtml);
     }
 
     return obj;
@@ -201,14 +200,14 @@ class NeuClubs {
       // Wait for all the orgs to finish requesting and parsing
       const orgs = await Promise.all(promises); // eslint-disable-line no-await-in-loop
 
-      utils.log(letter, 'page#', pageNum, 'had', orgs.length, 'orgs now at ', orgs.length);
+      macros.log(letter, 'page#', pageNum, 'had', orgs.length, 'orgs now at ', orgs.length);
       pageNum++;
       if (orgs.length === 0) {
         return totalOrgs;
       }
 
       if (pageNum > 30) {
-        utils.error('Warning! Hit 30 page max, returning');
+        macros.error('Warning! Hit 30 page max, returning');
         return totalOrgs;
       }
 
@@ -235,7 +234,7 @@ class NeuClubs {
     await mkdirp(outputPath);
 
     await fs.writeFile(path.join(outputPath, 'data.json'), JSON.stringify(orgs));
-    utils.log('done!', orgs.length, outputPath);
+    macros.log('done!', orgs.length, outputPath);
   }
 }
 

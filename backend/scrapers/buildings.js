@@ -5,7 +5,6 @@ import DOMParser from 'xmldom';
 import path from 'path';
 
 import macros from '../macros';
-import utils from './utils';
 import request from './request';
 
 
@@ -75,7 +74,7 @@ async function main() {
   const outputFile = path.join(macros.DEV_DATA_DIR, 'buildings.json');
 
   if (macros.DEV) {
-    await utils.saveDevData(outputFile, json.features);
+    await macros.saveDevData(outputFile, json.features);
     console.log('buildings file saved!');
   }
 

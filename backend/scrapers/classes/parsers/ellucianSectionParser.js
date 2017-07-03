@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
-import utils from '../../utils';
+import macros from '../../../macros';
 
 var domutils = require('domutils');
 var fs = require('fs');
@@ -81,7 +81,7 @@ EllucianSectionParser.prototype.parseElement = function (pageData, element) {
 		var seatsRemaining = parseInt(tableData.remaining[0]);
 
 		if (seatsActual + seatsRemaining != seatsCapacity) {
-			utils.log('warning, actual + remaining != capacity', seatsCapacity, seatsActual, seatsRemaining, pageData.dbData.url);
+			macros.log('warning, actual + remaining != capacity', seatsCapacity, seatsActual, seatsRemaining, pageData.dbData.url);
 
 			// Oddly enough, sometimes this check fails.
 			// In this case, use the greater number for capacity
@@ -103,7 +103,7 @@ EllucianSectionParser.prototype.parseElement = function (pageData, element) {
 			var waitRemaining = parseInt(tableData.remaining[1]);
 
 			if (waitActual + waitRemaining != waitCapacity) {
-				utils.log('warning, wait actual + remaining != capacity', waitCapacity, waitActual, waitRemaining, pageData.dbData.url);
+				macros.log('warning, wait actual + remaining != capacity', waitCapacity, waitActual, waitRemaining, pageData.dbData.url);
 
 				if (waitCapacity < waitActual + waitRemaining) {
 					waitCapacity = waitActual + waitRemaining;
@@ -134,12 +134,12 @@ EllucianSectionParser.prototype.parseElement = function (pageData, element) {
 		//find co and pre reqs and restrictions
 		var prereqs2 = ellucianRequisitesParser2.parseRequirementSection(pageData, element.parent.children, 'prerequisites');
 		if (!_.isEqual(prereqs, prereqs2)) {
-			utils.log("WARNING: prereqs parsed by the new parser are not equal", JSON.stringify(prereqs, null, 4), JSON.stringify(prereqs2, null, 4))
+			macros.log("WARNING: prereqs parsed by the new parser are not equal", JSON.stringify(prereqs, null, 4), JSON.stringify(prereqs2, null, 4))
 		}
 
 		var coreqs2 = ellucianRequisitesParser2.parseRequirementSection(pageData, element.parent.children, 'corequisites');
 		if (!_.isEqual(coreqs, coreqs2)) {
-			utils.log("WARNING: coreqs parsed by the new parser are not equal", JSON.stringify(coreqs, null, 4), JSON.stringify(coreqs2, null, 4))
+			macros.log("WARNING: coreqs parsed by the new parser are not equal", JSON.stringify(coreqs, null, 4), JSON.stringify(coreqs2, null, 4))
 		}
 
 
@@ -152,7 +152,7 @@ EllucianSectionParser.prototype.parseElement = function (pageData, element) {
 			pageData.setParentData('minCredits', creditsParsed.minCredits);
 		}
 		else {
-			utils.log('warning, nothing matchied credits', pageData.dbData.url, text);
+			macros.log('warning, nothing matchied credits', pageData.dbData.url, text);
 		}
 
 

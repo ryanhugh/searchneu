@@ -2,7 +2,6 @@ import cheerio from 'cheerio';
 import path from 'path';
 
 import Request from '../request';
-import utils from '../utils';
 import macros from '../../macros';
 
 const request = new Request('COE');
@@ -30,7 +29,7 @@ async function scrapeDetailpage(obj) {
 
   const googleScholarLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.googlescholar').attr('href');
 
-  const userId = utils.parseGoogleScolarLink(googleScholarLink);
+  const userId = macros.parseGoogleScolarLink(googleScholarLink);
   if (userId) {
     obj.googleScholarId = userId;
   }
@@ -88,7 +87,7 @@ async function scrapeDetailpage(obj) {
     } else if (href.includes('scholar.google.com')) {
       // If it is a link to Google Scholar, parse it.
       // If already parsed a google scholar link for this person, log a warning and ignore this one.
-      const otherGoogleId = utils.parseGoogleScolarLink(href);
+      const otherGoogleId = macros.parseGoogleScolarLink(href);
       if (!obj.googleScholarId) {
         obj.googleScholarId = userId;
       } else if (obj.googleScholarId !== otherGoogleId) {
@@ -138,7 +137,7 @@ async function scrapeLetter(letter) {
     obj.name = $('div.views-field.views-field-field-faculty-last-name > h4 > a', $personElement).text().trim();
 
     // Parse the first name and the last name from the given name
-    const { firstName, lastName } = utils.parseNameWithSpaces(obj.name);
+    const { firstName, lastName } = macros.parseNameWithSpaces(obj.name);
 
     if (firstName && lastName) {
       obj.firstName = firstName;
@@ -150,7 +149,7 @@ async function scrapeLetter(letter) {
 
     // Parse email
     let email = $('div.views-field-field-faculty-email > div.field-content > a', $personElement).attr('href');
-    email = utils.standardizeEmail(email);
+    email = macros.standardizeEmail(email);
 
     if (email) {
       obj.emails = [email];
@@ -162,7 +161,7 @@ async function scrapeLetter(letter) {
     // Phone
     let phone = $('div.views-field-field-faculty-phone > div.field-content', $personElement).text();
 
-    phone = utils.standardizePhone(phone);
+    phone = macros.standardizePhone(phone);
 
     if (phone) {
       obj.phone = phone;
@@ -186,7 +185,7 @@ async function main() {
   const outputFile = path.join(macros.DEV_DATA_DIR, 'coe.json');
 
   if (macros.DEV && require.main !== module) {
-    const devData = await utils.loadDevData(outputFile);
+    const devData = await macros.loadDevData(outputFile);
     if (devData) {
       return devData;
     }
@@ -214,7 +213,7 @@ async function main() {
   console.log(detailPeopleList.length);
 
   if (macros.DEV) {
-    await utils.saveDevData(outputFile, people);
+    await macros.saveDevData(outputFile, people);
     console.log('coe file saved!');
   }
 

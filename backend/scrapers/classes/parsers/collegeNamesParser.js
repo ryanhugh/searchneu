@@ -35,13 +35,11 @@
 
 'use strict';
 
-import utils from '../../utils';
+import macros from '../../../macros';
 import Request from '../../request';
 
 const request = new Request('CollegeNamesParser');
 
-
-var macros = require('../../../macros')
 var whois;
 
 if (macros.TESTS) {
@@ -76,7 +74,7 @@ CollegeNamesParser.prototype.main = async function(hostname) {
   const outputFile = path.join(macros.DEV_DATA_DIR, 'CollegeNamesParser.json');
 
   if (macros.DEV && require.main !== module) {
-    const devData = await utils.loadDevData(outputFile);
+    const devData = await macros.loadDevData(outputFile);
     if (devData) {
       return devData;
     }
@@ -87,7 +85,7 @@ CollegeNamesParser.prototype.main = async function(hostname) {
 
 
   if (macros.DEV) {
-    await utils.saveDevData(outputFile, title);
+    await macros.saveDevData(outputFile, title);
     console.log('CollegeNamesParser file saved!');
   }
 

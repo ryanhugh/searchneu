@@ -8,7 +8,7 @@ import fs from 'fs-promise';
 
 import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
-import macros from '../common/macros';
+import macros from './macros';
 
 const app = express();
 

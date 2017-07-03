@@ -2,7 +2,6 @@ import cheerio from 'cheerio';
 import path from 'path';
 
 import Request from '../request';
-import utils from '../utils';
 import macros from '../../macros';
 
 const request = new Request('CCIS');
@@ -52,7 +51,7 @@ class NeuCCISFaculty {
       obj.name = $('h3.person-name', $personElement).text().trim();
 
       // Parse the first name and the last name from the given name
-      const { firstName, lastName } = utils.parseNameWithSpaces(obj.name);
+      const { firstName, lastName } = macros.parseNameWithSpaces(obj.name);
 
       if (firstName && lastName) {
         obj.firstName = firstName;
@@ -79,12 +78,12 @@ class NeuCCISFaculty {
 
       // also email
       if (emailElements.length > 0) {
-        const email = utils.standardizeEmail(emailElements.text().trim());
-        const mailto = utils.standardizeEmail(emailElements.attr('href').trim());
+        const email = macros.standardizeEmail(emailElements.text().trim());
+        const mailto = macros.standardizeEmail(emailElements.attr('href').trim());
 
 
         if (!mailto || !email || mailto !== email) {
-          utils.log('Warning: bad emails?', email, mailto, obj.name);
+          macros.log('Warning: bad emails?', email, mailto, obj.name);
         } else {
           obj.emails = [email];
         }
@@ -98,12 +97,12 @@ class NeuCCISFaculty {
 
         let tel = phoneElements.attr('href').trim();
 
-        tel = utils.standardizePhone(tel);
-        phone = utils.standardizePhone(phone);
+        tel = macros.standardizePhone(tel);
+        phone = macros.standardizePhone(phone);
 
         if (tel || phone) {
           if (!tel || !phone || tel !== phone) {
-            utils.log('phone tel mismatch', tel, phone, obj);
+            macros.log('phone tel mismatch', tel, phone, obj);
           } else {
             obj.phone = phone;
           }
@@ -113,7 +112,7 @@ class NeuCCISFaculty {
 
       ['name', 'url', 'emails'].forEach((attrName) => {
         if (!obj[attrName]) {
-          utils.log('Missing', attrName, 'for', obj.name);
+          macros.log('Missing', attrName, 'for', obj.name);
         }
       });
 
@@ -152,7 +151,7 @@ class NeuCCISFaculty {
 
     const googleScholarUrl = $('div.contact-block > div.contact-links > p.google-scholar > a').attr('href');
 
-    const userId = utils.parseGoogleScolarLink(googleScholarUrl);
+    const userId = macros.parseGoogleScolarLink(googleScholarUrl);
     if (userId) {
       obj.googleScholarId = userId;
     }
@@ -171,7 +170,7 @@ class NeuCCISFaculty {
 
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module) {
-      const devData = await utils.loadDevData(outputFile);
+      const devData = await macros.loadDevData(outputFile);
       if (devData) {
         return devData;
       }
@@ -194,11 +193,11 @@ class NeuCCISFaculty {
     await Promise.all(promises);
 
     if (macros.DEV) {
-      await utils.saveDevData(outputFile, output);
+      await macros.saveDevData(outputFile, output);
       console.log('ccis file saved!');
     }
 
-    utils.log('done!');
+    macros.log('done!');
     return output;
   }
 }

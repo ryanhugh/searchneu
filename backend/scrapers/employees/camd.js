@@ -2,7 +2,6 @@ import cheerio from 'cheerio';
 import path from 'path';
 
 import macros from '../../macros';
-import utils from '../utils';
 import linkSpider from '../linkSpider';
 import Request from '../request';
 
@@ -40,7 +39,7 @@ class Camd {
     obj.name = $('#main > div.pagecenter > div > div > div > div > div.col10.last.right > h1.entry-title').text().trim().split(',')[0];
 
     // Parse the first name and the last name from the given name
-    const { firstName, lastName } = utils.parseNameWithSpaces(obj.name);
+    const { firstName, lastName } = macros.parseNameWithSpaces(obj.name);
 
     if (firstName && lastName) {
       obj.firstName = firstName;
@@ -66,7 +65,7 @@ class Camd {
     const descriptionElements = $('#main div.pagecenter div.gdcenter div.col16 > div.col5 > p.smallp')[0].children;
 
     let email = $('#main > div.pagecenter > div > div > div > div:nth-child(1) > div.col5 > p > a').text().trim();
-    email = utils.standardizeEmail(email);
+    email = macros.standardizeEmail(email);
     if (email) {
       obj.emails = [email];
     }
@@ -75,7 +74,7 @@ class Camd {
 
     texts.forEach((text) => {
       text = text.trim();
-      const possiblePhone = utils.standardizePhone(text);
+      const possiblePhone = macros.standardizePhone(text);
       if (possiblePhone) {
         if (obj.phone) {
           console.log('Duplicate phone?', obj.phone, possiblePhone);
@@ -123,7 +122,7 @@ class Camd {
     const outputFile = path.join(macros.DEV_DATA_DIR, 'camd.json');
 
     if (macros.DEV && require.main !== module) {
-      const devData = await utils.loadDevData(outputFile);
+      const devData = await macros.loadDevData(outputFile);
       if (devData) {
         return devData;
       }
@@ -167,7 +166,7 @@ class Camd {
 
 
     if (macros.DEV) {
-      await utils.saveDevData(outputFile, people);
+      await macros.saveDevData(outputFile, people);
       console.log('camd file saved!');
     }
 

@@ -19,7 +19,7 @@
 'use strict';
 var moment = require('moment')
 
-import utils from '../../utils';
+import macros from '../../../macros';
 import request from '../../request';
 var collegeNamesParser = require('./collegeNamesParser');
 
@@ -89,7 +89,7 @@ EllucianTermsParser.prototype.isValidTerm = function (termId, text) {
 	var minYear = this.minYear();
 
 	if (!year) {
-		utils.log('warning: could not find year for ', text);
+		macros.log('warning: could not find year for ', text);
 
 		//if the termId starts with the >= current year, then go
 		var idYear = parseInt(termId.slice(0, 4))
@@ -147,10 +147,10 @@ EllucianTermsParser.prototype.onEndParsing = function (pageData, dom) {
 	}.bind(this));
 
 	if (terms.length === 0) {
-		utils.log('ERROR, found 0 terms??', pageData.dbData.url);
+		macros.log('ERROR, found 0 terms??', pageData.dbData.url);
 	};
 
-	var host = utils.getBaseHost(pageData.dbData.url);
+	var host = macros.getBaseHost(pageData.dbData.url);
 
 	if (!pageData.dbData.host) {
 		pageData.dbData.host = host;
@@ -159,7 +159,7 @@ EllucianTermsParser.prototype.onEndParsing = function (pageData, dom) {
 	terms.forEach(function (term) {
 
 		//calculate host for each entry
-		var host = utils.getBaseHost(pageData.dbData.url);
+		var host = macros.getBaseHost(pageData.dbData.url);
 
 		var newTerm = this.getStaticHost(host, term.text)
 		if (newTerm) {
@@ -228,7 +228,7 @@ EllucianTermsParser.prototype.onEndParsing = function (pageData, dom) {
 			};
 		};
 
-		utils.log("Parsing term: ", JSON.stringify(term));
+		macros.log("Parsing term: ", JSON.stringify(term));
 
 		//if not, add it
 		var termPageData = pageData.addDep({
@@ -299,7 +299,7 @@ EllucianTermsParser.prototype.parseTermsPage = function (startingURL, dom) {
 	//setup an indidual request for each valid entry on the form - includes the term entry and all other other entries
 	termEntry.alts.forEach(function (entry) {
 		if (!this.shouldParseEntry(entry)) {
-			utils.log('ERROR: entry was alt of term entry but not same name?', entry);
+			macros.log('ERROR: entry was alt of term entry but not same name?', entry);
 			return;
 		}
 		entry.text = entry.text.trim()
@@ -313,7 +313,7 @@ EllucianTermsParser.prototype.parseTermsPage = function (startingURL, dom) {
 
 		//dont process this element on error
 		if (entry.text.length < 2) {
-			utils.log('warning: empty entry.text on form?', entry, startingURL);
+			macros.log('warning: empty entry.text on form?', entry, startingURL);
 			return;
 		}
 

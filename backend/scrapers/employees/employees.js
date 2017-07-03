@@ -6,7 +6,6 @@ import cookie from 'cookie';
 import path from 'path';
 import he from 'he';
 
-import utils from '../utils';
 import Request from '../request';
 import macros from '../../macros';
 
@@ -132,7 +131,7 @@ class Employee {
       return this.cookiePromise;
     }
 
-    utils.verbose('neu employee getting cookie');
+    macros.verbose('neu employee getting cookie');
 
     this.cookiePromise = request.get({
       url: 'https://prod-web.neu.edu/wasapp/employeelookup/public/main.action',
@@ -140,7 +139,7 @@ class Employee {
       // Parse the cookie from the response
       const cookieString = resp.headers['set-cookie'][0];
       const cookies = cookie.parse(cookieString);
-      utils.verbose('Got cookie.');
+      macros.verbose('Got cookie.');
       return cookies.JSESSIONID;
     });
 
@@ -176,7 +175,7 @@ class Employee {
     }
     this.couldNotFindNameList[logMatchString] = true;
 
-    utils.log('Could not find name from list:', list);
+    macros.log('Could not find name from list:', list);
     return null;
   }
 
@@ -188,8 +187,8 @@ class Employee {
       name = name.replace(/, jr.?,/gi, ',');
     }
 
-    if (utils.occurrences(name, ',') !== 1) {
-      utils.log('Name has != commas', name);
+    if (macros.occurrences(name, ',') !== 1) {
+      macros.log('Name has != commas', name);
       return null;
     }
 
@@ -288,7 +287,7 @@ class Employee {
               }
 
               // Scrape the email from the table
-              const email = utils.standardizeEmail(parsedTable.email[j]);
+              const email = macros.standardizeEmail(parsedTable.email[j]);
               if (email) {
                 person.emails = [email];
               }
@@ -320,7 +319,7 @@ class Employee {
   async get(lastNameStart) {
     const jsessionCookie = await this.getCookiePromise();
 
-    utils.verbose('neu employee got cookie', jsessionCookie);
+    macros.verbose('neu employee got cookie', jsessionCookie);
 
     const response = await this.hitWithLetters(lastNameStart, jsessionCookie);
 
@@ -332,7 +331,7 @@ class Employee {
 
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module) {
-      const devData = await utils.loadDevData(outputFile);
+      const devData = await macros.loadDevData(outputFile);
       if (devData) {
         return devData;
       }
@@ -351,11 +350,11 @@ class Employee {
 
     await Promise.all(promises);
 
-    utils.verbose('Done all employee requests');
+    macros.verbose('Done all employee requests');
 
 
     if (macros.DEV) {
-      await utils.saveDevData(outputFile, this.people);
+      await macros.saveDevData(outputFile, this.people);
       console.log('employees file saved!');
     }
 

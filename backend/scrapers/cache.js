@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs-promise';
 import mkdirp from 'mkdirp-promise';
 
-import utils from './utils';
+import macros from '../macros';
 
 var msgpack = require('msgpack5')() // namespace our extensions 
 
@@ -92,7 +92,7 @@ class Cache {
 
 		// Foldername can be either requests or dev_data
 		// if (folderName !== 'requests' && folderName !== 'dev_data' ) {
-		// 	utils.critical('Invalid folderName for cache', folderName);
+		// 	macros.critical('Invalid folderName for cache', folderName);
 		// 	return null;
 		// }
 

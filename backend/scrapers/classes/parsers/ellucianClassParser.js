@@ -17,7 +17,7 @@
  */
 
 
-import utils from '../../utils';
+import macros from '../../../macros';
 
 var URI = require('urijs');
 var domutils = require('domutils');
@@ -71,7 +71,7 @@ EllucianClassParser.prototype.parseTimeStamps = function (times, days) {
 	}
 
 	if ((times.match(/m|-/g) || []).length != 3) {
-		utils.log('ERROR: multiple times in times', times, days);
+		macros.log('ERROR: multiple times in times', times, days);
 		return false;
 	}
 
@@ -91,7 +91,7 @@ EllucianClassParser.prototype.parseTimeStamps = function (times, days) {
 	for (var i = 0; i < days.length; i++) {
 		var dayIndex = dayLetterToIndex[days[i]];
 		if (dayIndex === undefined) {
-			utils.log('ERROR: unknown letter ', days, ' !!!');
+			macros.log('ERROR: unknown letter ', days, ' !!!');
 			return;
 		}
 
@@ -125,7 +125,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 
 	if (!pageData.dbData.url) {
 		elog(pageData.dbData)
-		utils.log(pageData)
+		macros.log(pageData)
 		return;
 	}
 
@@ -161,7 +161,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 		//add the crn
 		var sectionURLParsed = this.sectionURLtoInfo(sectionURL);
 		if (!sectionURLParsed) {
-			utils.log('error could not parse section url', sectionURL, pageData.dbData.url);
+			macros.log('error could not parse section url', sectionURL, pageData.dbData.url);
 			return;
 		};
 
@@ -173,14 +173,14 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 		//match everything before " - [crn]"
 		var match = value.match('(.+?)\\s-\\s' + sectionURLParsed.crn, 'i');
 		if (!match || match.length < 2) {
-			utils.log('could not find title!', match, value);
+			macros.log('could not find title!', match, value);
 			return;
 		}
 
 		var className = match[1];
 
 		if (className == className.toLowerCase() || className == className.toUpperCase()) {
-			utils.log("Warning: class name is all upper or lower case", className, pageData.dbData.url);
+			macros.log("Warning: class name is all upper or lower case", className, pageData.dbData.url);
 		}
 
 		//get a list of all class names for the class name fixer
@@ -213,7 +213,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 		//name was already set to something different, make another db entry for this class
 		if (pageData.parsingData.name && className != pageData.parsingData.name) {
 
-			utils.log("['Warning name change base:', '" + pageData.parsingData.name + "','" + className + ",']" + JSON.stringify(possibleClassNameMatches));
+			macros.log("['Warning name change base:', '" + pageData.parsingData.name + "','" + className + ",']" + JSON.stringify(possibleClassNameMatches));
 
 
 			var dbAltEntry = null;
@@ -234,7 +234,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 			//if there exist no entry in the pageData.deps with that matches (same name + updated by parent)
 			//create a new class
 			if (!dbAltEntry) {
-				// utils.log('creating a new dep entry',pageData.deps.length);
+				// macros.log('creating a new dep entry',pageData.deps.length);
 
 				if (pageData.dbData.desc === undefined) {
 					elog('wtf desc is undefined??')
@@ -299,7 +299,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 
 
 	if (!sectionStartingData.url) {
-		utils.log('warning, no url found', pageData.dbData.url);
+		macros.log('warning, no url found', pageData.dbData.url);
 		return;
 	}
 
@@ -314,7 +314,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 	//find the table in this section
 	var tables = domutils.getElementsByTagName('table', classDetails);
 	if (tables.length !== 1) {
-		utils.log('warning, ' + tables.length + ' meetings tables found', pageData.dbData.url);
+		macros.log('warning, ' + tables.length + ' meetings tables found', pageData.dbData.url);
 	}
 
 	if (tables.length > 0) {
@@ -323,7 +323,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 		var tableData = this.parseTable(tables[0]);
 
 		if (tableData._rowCount < 1 || !tableData.daterange || !tableData.where || !tableData.instructors || !tableData.time || !tableData.days) {
-			utils.log('ERROR, invalid table in class parser', tableData, pageData.dbData.url);
+			macros.log('ERROR, invalid table in class parser', tableData, pageData.dbData.url);
 			return;
 		}
 
@@ -342,7 +342,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 				var endDate = moment(splitTimeString[1].trim(), 'MMM D,YYYY');
 
 				if (!startDate.isValid() || !endDate.isValid()) {
-					utils.log('ERROR: one of parsed dates is not valid', splitTimeString, pageData.dbData.url);
+					macros.log('ERROR: one of parsed dates is not valid', splitTimeString, pageData.dbData.url);
 				}
 
 				//add the dates if they are valid
@@ -356,7 +356,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 				}
 			}
 			else {
-				utils.log("ERROR, invalid split time string or blank or something", splitTimeString, tableData.daterange[i]);
+				macros.log("ERROR, invalid split time string or blank or something", splitTimeString, tableData.daterange[i]);
 			}
 
 			//parse the professors
@@ -368,7 +368,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 				prof = prof.replace(/\s+/g, ' ').trim().replace(/\(P\)$/gi, '').trim();
 
 				if (prof.length < 3) {
-					utils.log('warning: empty/short prof name??', prof, tableData);
+					macros.log('warning: empty/short prof name??', prof, tableData);
 				}
 				if (prof.toLowerCase() == 'tba') {
 					prof = "TBA";
@@ -405,14 +405,14 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 	for (var i = 0; i < classToAddSectionTo.deps.length; i++) {
 		var currDep = classToAddSectionTo.deps[i];
 		if (!currDep.dbData.url) {
-			utils.error(currDep.dbData)
-			utils.log(currDep);
+			macros.error(currDep.dbData)
+			macros.log(currDep);
 			continue;
 		}
 
 		if (new URI(currDep.dbData.url).equals(new URI(sectionStartingData.url))) {
 			if (currDep.dbData.crn != sectionStartingData.crn) {
-				utils.log("Warning urls matched but crns did not?", currDep, sectionStartingData)
+				macros.log("Warning urls matched but crns did not?", currDep, sectionStartingData)
 			}
 
 
@@ -473,7 +473,7 @@ EllucianClassParser.prototype.onEndParsing = function (pageData) {
 			// Any sub classes that don't have any sections on this pass must of had sections before, and they were removed
 			// so safe to remove them 
 			if (!dep.parsingData.crns || dep.parsingData.crns.length === 0) {
-				utils.log('error wtf, no crns', dep)
+				macros.log('error wtf, no crns', dep)
 				depsToRemove.push(dep)
 			}
 			else {

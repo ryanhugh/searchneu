@@ -17,7 +17,7 @@
  */
 
 
-import utils from '../../utils';
+import macros from '../../../macros';
 
 var domutils = require('domutils');
 var fs = require('fs');
@@ -188,12 +188,12 @@ EllucianRequisitesParser.prototype.getLogString = function (message) {
 
 
 EllucianRequisitesParser.prototype.logWarning = function (message) {
-	utils.log.apply(this, this.getLogString(message));
+	macros.log.apply(this, this.getLogString(message));
 };
 
 
 EllucianRequisitesParser.prototype.logError = function (message) {
-	utils.error.apply(this, this.getLogString(message));
+	macros.error.apply(this, this.getLogString(message));
 };
 
 
@@ -424,7 +424,7 @@ EllucianRequisitesParser.prototype.parse = function () {
 				this.currFrame.type = 'or'
 			}
 			else {
-				utils.error(this.currFrame)
+				macros.error(this.currFrame)
 			}
 		}
 
@@ -464,11 +464,11 @@ EllucianRequisitesParser.prototype.convertElementListToWideMode = function (elem
 				})
 			}
 			else {
-				utils.error('Skipping unknown element', element.name)
+				macros.error('Skipping unknown element', element.name)
 			}
 		}
 		else {
-			utils.error('Skipping unknown type:', element.type)
+			macros.error('Skipping unknown type:', element.type)
 		}
 	}.bind(this))
 
@@ -531,19 +531,19 @@ EllucianRequisitesParser.prototype.findRequisitesSection = function (classDetail
 
 				var elementText = domutils.getText(classDetails[i]);
 				if (elementText.trim() === '') {
-					utils.verbose('warning, not matching ', sectionName, ' with no text in the link', pageData.dbData.url);
+					macros.verbose('warning, not matching ', sectionName, ' with no text in the link', pageData.dbData.url);
 					continue;
 				}
 
 				var classListUrl = he.decode(classDetails[i].attribs.href);
 				if (!classListUrl || classListUrl === '') {
-					utils.log('error could not get classListUrl', classListUrl, classDetails[i].attribs, pageData.dbData.url);
+					macros.log('error could not get classListUrl', classListUrl, classDetails[i].attribs, pageData.dbData.url);
 					continue;
 				}
 
 				classListUrl = new URI(classListUrl).absoluteTo(pageData.dbData.url).toString();
 				if (!classListUrl) {
-					utils.log('error could not find classListUrl url', classListUrl, classDetails[i], classDetails[i].attribs.href);
+					macros.log('error could not find classListUrl url', classListUrl, classDetails[i], classDetails[i].attribs.href);
 					continue;
 				};
 
@@ -566,11 +566,11 @@ EllucianRequisitesParser.prototype.findRequisitesSection = function (classDetail
 
 EllucianRequisitesParser.prototype.init = function (pageData) {
 	if (this.pageData) {
-		utils.error('Already have a pageData in EllucianRequisitesParser.')
+		macros.error('Already have a pageData in EllucianRequisitesParser.')
 	}
 
 	if (this.buffer) {
-		utils.error('Already have a buffer in EllucianRequisitesParser')
+		macros.error('Already have a buffer in EllucianRequisitesParser')
 	}
 	this.pageData = pageData;
 	this.buffer = []
