@@ -101,7 +101,7 @@ class Macros {
 
 }
 
-
+// Set up the Macros.TESTS, Macros.DEV, and Macros.PROD based on some env variables. 
 if (process.env.PROD || process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prod') {
   Macros.PROD = true;
   console.log('Running in prod mode.');
