@@ -4,7 +4,6 @@ import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
 import _ from 'lodash';
 
-import stopwords from './stopwords';
 import pageDataMgr from './pageDataMgr';
 import macros from '../../macros';
 import Keys from '../../../common/Keys';
