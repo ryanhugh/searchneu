@@ -210,6 +210,7 @@ class Main {
       // If we do end up switching back to stop words, the list here http://xpo6.com/list-of-english-stop-words
       // worked a lot better than the list shipped with elasticlunr. 
       // Also need to remove word == 'hon' if using stop words (or add 'hon' to the stop word list). 
+      // Would be interesting to see how well this works at other schools. 
       splitName = splitName.filter(function(word) {
         if (word.length === 0) {
           return false;
