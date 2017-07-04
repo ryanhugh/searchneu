@@ -128,10 +128,12 @@ class Search {
       refs = this.getRefs(searchTerm);
 
       this.refCache[searchTerm] = {
-        refs:refs,
+        refs: refs,
         time: Date.now(),
       };
     }
+
+    // console.log(JSON.stringify(refs, null, 4))
 
 
     const objects = [];
@@ -238,12 +240,12 @@ class Search {
 
 
     // Measure how long it takes to search. Usually this is very small (< 20ms)
-    const startTime = Date.now();
+    // const startTime = Date.now();
 
     // Returns an array of objects that has a .ref and a .score
     // The array is sorted by score (with the highest matching closest to the beginning)
     // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
-    console.log(searchTerm)
+    // console.log(searchTerm)
     const classResults = this.classSearchIndex.search(searchTerm, classSearchConfig);
 
     const employeeResults = this.employeeSearchIndex.search(searchTerm, employeeSearchConfig);
@@ -252,7 +254,9 @@ class Search {
 
     const output = [];
 
-    // This takes no time at all, never more than 2ms and usally <1ms
+    console.log(JSON.stringify(classResults, null, 4))
+
+    // This takes no time at all, never more than 2ms and usually <1ms
     while (true) {
       if (classResults.length === 0 && employeeResults.length === 0) {
         break;
@@ -260,8 +264,9 @@ class Search {
 
       if (classResults.length === 0) {
         output.push({
-          ref: employeeResults[0].ref,
           type: 'employee',
+          ref: employeeResults[0].ref,
+          score: employeeResults[0].score
         });
         employeeResults.splice(0, 1);
         continue;
@@ -271,6 +276,7 @@ class Search {
         output.push({
           type: 'class',
           ref: classResults[0].ref,
+          score: classResults[0].score
         });
 
         classResults.splice(0, 1);
@@ -281,6 +287,7 @@ class Search {
         output.push({
           type: 'class',
           ref: classResults[0].ref,
+          score: classResults[0].score
         });
         classResults.splice(0, 1);
         continue;
@@ -288,8 +295,9 @@ class Search {
 
       if (classResults[0].score <= employeeResults[0].score) {
         output.push({
-          ref: employeeResults[0].ref,
           type: 'employee',
+          ref: employeeResults[0].ref,
+          score: employeeResults[0].score
         });
         employeeResults.splice(0, 1);
       }

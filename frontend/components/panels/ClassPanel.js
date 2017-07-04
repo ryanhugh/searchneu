@@ -57,6 +57,48 @@ class ClassPanel extends React.Component {
     macros.debounceTooltipRebuild();
   }
 
+  shouldShowWaitlist() {
+    const aClass = this.props.aClass;
+
+      // If the class does not have a waitlist, don't show the waitlist
+      if (!aClass.getHasWaitList()) {
+        return false;
+      }
+
+      // If all the sections have 0 seats on the waitlist and 0 total seats, don't show the waitlist (because there isn't actually a waitlist).
+
+      let foundSectionWithWaitlistSeats = false;
+
+      for (const section of aClass.sections) {
+        if (section.waitRemaining > 0 || section.waitCapacity > 0) {
+          console.log('found with more than 0')
+          foundSectionWithWaitlistSeats = true;
+          break;
+        }
+      }
+
+      if (!foundSectionWithWaitlistSeats) {
+        console.log('all 0/0, returning false.')
+        return false;
+      }
+
+
+      let foundSectionWithLessThanTenSeats = false;
+
+      for (const section of aClass.sections) {
+        if (section.seatsRemaining < 10) {
+          console.log('found with less than 10')
+          return true;
+        }
+      }
+
+      return false;
+
+      // If there are plenty of seats left, don't show the waitlist
+
+
+  }
+
   render() {
     const aClass = this.props.aClass;
     // Render the section table if this class has sections
@@ -81,6 +123,8 @@ class ClassPanel extends React.Component {
           ];
         }
 
+        let showWaitList = this.shouldShowWaitlist();
+
         sectionTable = (
           <table className={ `ui celled striped table ${css.resultsTable}` }>
             <thead>
@@ -100,7 +144,7 @@ class ClassPanel extends React.Component {
 
                 <th
                   className={ cx({
-                    displayNone: !aClass.getHasWaitList(),
+                    displayNone: !showWaitList,
                   }) }
                 > Waitlist seats </th>
                 <th> Link </th>
@@ -155,7 +199,7 @@ class ClassPanel extends React.Component {
 
                     <td
                       className={ cx({
-                        displayNone: !aClass.getHasWaitList(),
+                        displayNone: !showWaitList,
                       }) }
                     >
                       <div data-tip='Open/Total Waitlist Seats' className={ css.inlineBlock }>
