@@ -60,43 +60,40 @@ class ClassPanel extends React.Component {
   shouldShowWaitlist() {
     const aClass = this.props.aClass;
 
-      // If the class does not have a waitlist, don't show the waitlist
-      if (!aClass.getHasWaitList()) {
-        return false;
-      }
-
-      // If all the sections have 0 seats on the waitlist and 0 total seats, don't show the waitlist (because there isn't actually a waitlist).
-
-      let foundSectionWithWaitlistSeats = false;
-
-      for (const section of aClass.sections) {
-        if (section.waitRemaining > 0 || section.waitCapacity > 0) {
-          console.log('found with more than 0')
-          foundSectionWithWaitlistSeats = true;
-          break;
-        }
-      }
-
-      if (!foundSectionWithWaitlistSeats) {
-        console.log('all 0/0, returning false.')
-        return false;
-      }
-
-
-      let foundSectionWithLessThanTenSeats = false;
-
-      for (const section of aClass.sections) {
-        if (section.seatsRemaining < 10) {
-          console.log('found with less than 10')
-          return true;
-        }
-      }
-
+    // If the class does not have a waitlist, don't show the waitlist
+    if (!aClass.getHasWaitList()) {
       return false;
+    }
 
-      // If there are plenty of seats left, don't show the waitlist
+    // If all the sections have 0 seats on the waitlist and 0 total seats, don't show the waitlist (because there isn't actually a waitlist).
+    let foundSectionWithWaitlistSeats = false;
 
+    for (const section of aClass.sections) {
+      if (section.waitRemaining > 0 || section.waitCapacity > 0) {
+        console.log('found with more than 0')
+        foundSectionWithWaitlistSeats = true;
+        break;
+      }
+    }
 
+    if (!foundSectionWithWaitlistSeats) {
+      console.log('all 0/0, returning false.')
+      return false;
+    }
+
+    // Also show the waitlist if any of the sections have less than 10 seats left. 
+    // The number 10 is just an arbitrary decision and can be changed in the future. 
+    let foundSectionWithLessThanTenSeats = false;
+
+    for (const section of aClass.sections) {
+      if (section.seatsRemaining < 10) {
+        console.log('found with less than 10')
+        return true;
+      }
+    }
+
+    // If there are plenty of seats left, don't show the waitlist
+    return false;
   }
 
   render() {
