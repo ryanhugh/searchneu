@@ -62,3 +62,10 @@
     border-radius: 7px  !important;
     white-space: nowrap !important;
 }
+
+.contact {
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-top: -32px !important;
+    font-size: 14px !important;
+}

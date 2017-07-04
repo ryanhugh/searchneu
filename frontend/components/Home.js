@@ -320,6 +320,22 @@ class Home extends React.Component {
             Two Factor Authenticaton
           </a>.
         </div>
+
+        <div className={"footer ui basic center aligned segment " + css.contact}>
+          <a>
+            Feedback
+          </a>
+          &nbsp;•&nbsp;
+          <a>
+            Report a bug
+          </a>
+          &nbsp;•&nbsp;
+          <a>
+            Contact
+          </a>
+        </div>
+
+
         <ReactTooltip effect='solid' className={ css.listIconTooltip } />
       </div>
     );
