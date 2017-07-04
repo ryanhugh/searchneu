@@ -310,7 +310,7 @@ class Home extends React.Component {
           <a href='http://github.com/ryanhugh'>
             Ryan Hughes
           </a>
-          &nbsp;and UI borrowed from&nbsp;
+          &nbsp;and UI inspired by&nbsp;
           <a href='https://github.com/2factorauth/twofactorauth'>
             Two Factor Authenticaton
           </a>.
