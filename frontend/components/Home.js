@@ -107,7 +107,18 @@ class Home extends React.Component {
   // On desktop, this is called 500ms after they user stops typing.
   onSearchDebounced(searchTerm) {
     searchTerm = searchTerm.trim()
-    history.pushState(null, null, `/${this.replaceAll(searchTerm, ' ', '+')}`);
+
+    let encodedQuery = ''
+    for (const letter of searchTerm) {
+      if (letter === ' ') {
+        encodedQuery += '+'
+      }
+      else {
+        encodedQuery += encodeURIComponent(letter)
+      }
+    }
+
+    history.pushState(null, null, `/${encodedQuery}`);
     this.logSearch(searchTerm);
   }
 
@@ -202,12 +213,6 @@ class Home extends React.Component {
 
 
   render() {
-    // If we are loading from AJAX show nothing on the screen here.
-    // Pace.js will show a loading bar until the AJAX requests are done.
-    if (!this.loadingFromCache && !this.state.results) {
-      return null;
-    }
-
     let resultsElement = null;
 
     if (this.state.results) {
