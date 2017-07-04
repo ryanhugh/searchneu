@@ -21,7 +21,7 @@ class Home extends React.Component {
 
       // Value to set the search box to after the search box is rendered.
       // If the user navigates to a page, search for the query.
-      searchTerm: decodeURIComponent(this.replaceAll(location.pathname.slice(1), '+', ' ')),
+      searchTerm: this.getSearchQueryFromUrl(),
 
       // If we a waiting on a user on a slow computer to click enter to search.
       // On desktop, the data is searched every time, but it is only searched after you click enter on mobile.
@@ -37,13 +37,15 @@ class Home extends React.Component {
     // Used in search to make sure you discard a result if the search requests did not come back in order
     this.currentQuery = null;
 
-    // Used to keep track of the ongoing networking requests
-    // To determine how much progress to show on the loading bar
-    this.networkRequestsProgress = {};
+    // Reference to the raw DOM element of the input box.
+    // Updated with react refs when the render function runs.
+    this.inputElement = null;
 
     this.onClick = this.onClick.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.loadMore = this.loadMore.bind(this);
+    this.onPopState = this.onPopState.bind(this);
+    this.onSearchDebounced = this.onSearchDebounced.bind(this);
 
     // Count the number of times the user searched this session. Used for analytics. 
     this.searchCount = 0;
@@ -62,8 +64,25 @@ class Home extends React.Component {
     return string;
   }
 
-  // On mobile, this is called whenever the user clicks enter.
-  // On desktop, this is called 500ms after they user stops typing.
+
+  getSearchQueryFromUrl() {
+    return decodeURIComponent(this.replaceAll(location.pathname.slice(1), '+', ' '))
+  }
+
+  onPopState(event) {
+    let query = this.getSearchQueryFromUrl()
+    this.search(query)
+    if (this.inputElement) {
+      this.inputElement.value = query
+    }
+  }
+
+  // Remove the listener when this component goes away. 
+  // Even this component will never go away in prod, it can go away in dev due to HMR. 
+  componentWillUnmount() {
+    window.removeEventListener('onpopstate', this.onPopState);
+  }
+
   logSearch(searchTerm) {
     searchTerm = searchTerm.trim();
     if (searchTerm === this.lastSearch) {
@@ -84,7 +103,20 @@ class Home extends React.Component {
   }
 
 
+  // On mobile, this is called whenever the user clicks enter.
+  // On desktop, this is called 500ms after they user stops typing.
+  onSearchDebounced(searchTerm) {
+    searchTerm = searchTerm.trim()
+    history.pushState(null, null, `/${this.replaceAll(searchTerm, ' ', '+')}`);
+    this.logSearch(searchTerm);
+  }
+
+
   async componentDidMount() {
+
+    // Add a listener for location changes. 
+    window.addEventListener('popstate', this.onPopState);
+
     if (this.state.searchTerm) {
       console.log('Going to serach for', this.state.searchTerm);
       this.search(this.state.searchTerm);
@@ -122,7 +154,6 @@ class Home extends React.Component {
   }
 
   searchFromUserAction(event) {
-    history.pushState(null, null, `/${this.replaceAll(event.target.value.trim(), ' ', '+')}`);
     if (!event.target.value) {
       this.setState({
         results: [],
@@ -147,7 +178,7 @@ class Home extends React.Component {
 
     // Log the query 500 ms from now.
     clearTimeout(this.searchDebounceTimer);
-    this.searchDebounceTimer = setTimeout(this.logSearch.bind(this, event.target.value), 500);
+    this.searchDebounceTimer = setTimeout(this.onSearchDebounced.bind(this, event.target.value), 500);
 
     this.searchFromUserAction(event);
   }
@@ -163,7 +194,7 @@ class Home extends React.Component {
         document.activeElement.blur();
       }
 
-      this.logSearch(event.target.value);
+      this.onSearchDebounced(event.target.value);
     }
 
     this.searchFromUserAction(event);
@@ -241,7 +272,8 @@ class Home extends React.Component {
                 <i className='search icon' />
               </label>
               <input
-                autoFocus type='search'
+                autoFocus 
+                type='search'
                 id='seach_id'
                 placeholder='Search Classes, Professors, and Employees'
                 autoComplete='off'
@@ -250,6 +282,7 @@ class Home extends React.Component {
                 onChange={ this.onClick }
                 onKeyDown={ this.onKeyDown }
                 defaultValue={ this.state.searchTerm }
+                ref={(element) => { this.inputElement = element; }}
               />
             </div>
             {hitEnterToSearch}
