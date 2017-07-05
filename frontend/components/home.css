@@ -63,9 +63,19 @@
     white-space: nowrap !important;
 }
 
+.credits {
+    margin-bottom: 5px !important;
+    padding-bottom: 0 !important;
+}
+
 .contact {
     margin: 0 !important;
     padding: 0 !important;
-    margin-top: -32px !important;
+    /*margin-top: -32px !important;*/
     font-size: 14px !important;
+}
+
+.contact > a {
+    padding-right: 1px;
+    padding-left: 1px;
 }

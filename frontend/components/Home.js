@@ -308,7 +308,7 @@ class Home extends React.Component {
 
         <div className='ui divider' />
 
-        <div className='footer ui basic center aligned segment'>
+        <div className={'footer ui basic center aligned segment ' + css.credits}>
           Made with&nbsp;
           <i className='rocket circular small icon' />
           &nbsp;by&nbsp;
