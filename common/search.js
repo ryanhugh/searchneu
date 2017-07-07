@@ -1,6 +1,7 @@
 import elasticlunr from 'elasticlunr';
 
 import Keys from './Keys';
+import macros from './macros';
 import CourseProData from './classModels/DataLib';
 
 // The plan is to use this in both the frontend and the backend.
@@ -110,10 +111,129 @@ class Search {
     }
   }
 
+  // Internal use only.
+  // Given a refs, minIndex and a maxIndex it will return the new minIndex and maxIndex that includes all results that have score that match scores that 
+  // are included in refs. The given refs array must be sorted.
+  static expandRefsSliceForMatchingScores(refs, minIndex, maxIndex) {
+    while (minIndex > 0 && refs[minIndex].score === refs[minIndex - 1].score) {
+      minIndex --;
+    }
+
+    // If the max index is greater than the number of refs, just sort all the refs.
+    if (refs.length <= maxIndex) {
+      maxIndex = refs.length - 1
+    }
+
+    // Same thing for the end. 
+    while (refs[maxIndex + 1] && refs[maxIndex + 1].score === refs[maxIndex].score) {
+      maxIndex ++;
+    }
+
+    return {
+      minIndex: minIndex,
+      maxIndex: maxIndex
+    }
+  }
+
+
+  static getBusinessScore(object) {
+    if (object.type === 'class') {
+      if (object.sections.length === 0) {
+        return 0
+      }
+
+      // Find the number of taken seats. 
+      let takenSeats = 0;
+      for (const section of object.sections) {
+        takenSeats += section.seatsCapacity - section.seatsRemaining
+
+        // Also include the number of seats on the waitlist, if there is a waitlist. 
+        if (section.waitCapacity !== undefined && section.waitRemaining !== undefined) {
+          takenSeats += section.waitCapacity - section.waitRemaining
+        }
+
+      }
+
+      // If there are many taken seats, there is clearly an interest in the class. 
+      // Rank these the highest. 
+      if (takenSeats > 0) {
+        return takenSeats + 1000000;
+      }
+
+      // Rank these higher than classes with no sections, but less than everything else.
+      if (!macros.isNumeric(object.class.classId)) {
+        return 1;
+      }
+
+
+      let classNum = parseInt(object.class.classId)
+
+      // I haven't seen any that are over 10k, but just in case log a waning and clamp it. 
+      if (classNum > 10000) {
+        macros.log("Warning: class num", classNum, ' is over 10k', object.class.classId)
+        return 2;
+      }
+
+      return 10000 - classNum;
+    }
+    else if (object.type === 'employee') {
+      return Object.keys(object.employee);
+    }
+    else {
+      console.error("Yooooooo omg y", object)
+      return 0
+    }
+  }
+
+  // Takes in a list of search result objects
+  // and sorts the ones with matching scores in place by the business metric. 
+  // In other works, if the scores match for a bunch of objects, it will sort then based on the business metric.
+  // If the scores do not match, it will leave them sorted by score. 
+  static sortObjectsAfterScore(objects) {
+    let index = 0;
+    while (index < objects.length) {
+
+      let currentScore = objects[index].score;
+      let currentChunk = [objects[index]];
+      let startIndex = index;
+      while (index + 1 < objects.length && objects[index].score === objects[index + 1].score) {
+        currentChunk.push(objects[index + 1])
+        index ++;
+      }
+
+      currentChunk.sort((a,b) => {
+        let aScore = this.getBusinessScore(a)
+        let bScore = this.getBusinessScore(b)
+        if (aScore >= bScore) {
+          return -1;
+        }
+        else if (aScore === bScore) {
+          return 0
+        }
+        else {
+          return 1;
+        }
+      })
+
+      for (var i = 0; i < currentChunk.length; i++) {
+        objects[startIndex + i] = currentChunk[i]
+      }
+
+      index ++;
+      
+    }
+
+    return objects
+  }
+
 
   // Main search function. The min and max index are used for pagenation.
   // Eg, if you want results 10 through 20, call search('hi there', 10, 20)
   search(searchTerm, minIndex = 0, maxIndex = 1000) {
+    if (maxIndex <= minIndex) {
+      console.error('Error. Max index < Min index.', minIndex, maxIndex, maxIndex <= minIndex, typeof maxIndex, typeof minIndex)
+      return [];
+    }
     // Searches are case insensitive.
     searchTerm = searchTerm.trim().toLowerCase();
 
@@ -133,11 +253,33 @@ class Search {
       };
     }
 
-    // console.log(JSON.stringify(refs, null, 4))
+    // If there were no results or asking for a range beyond the results length, stop here.
+    if (refs.length === 0 || minIndex >= refs.length) {
+      return [];
+    }
 
+    // We might need to load more data than we are going to return
+    // Keep track of how many more we added in the beginning so we can skip those when returning the results.
+    // Also keep track of how many items we are going to return.
+    // One possible tweak to this code is to not sort past index 50. 
+    // The order of results past this don't really matter that much so we really don't need to sort them. 
 
-    const objects = [];
-    refs = refs.slice(minIndex, maxIndex);
+    // Step 1: Figure out what items we need to load. 
+    const returnItemCount = maxIndex - minIndex;
+
+    let originalMinIndex = minIndex;
+
+    let newMaxAndMinIndex = this.constructor.expandRefsSliceForMatchingScores(refs, minIndex, maxIndex);
+    minIndex = newMaxAndMinIndex.minIndex;
+    maxIndex = newMaxAndMinIndex.maxIndex;
+
+    // Discard this many items from the beginning of the array before they are returned to the user. 
+    // They are only included here because these specific items have the same score and may be sorted into the section that the user is requesting. 
+    let startOffset = originalMinIndex - minIndex;
+
+    // Step 2: Load those items. 
+    let objects = [];
+    refs = refs.slice(minIndex, maxIndex + 1);
     for (const ref of refs) {
       if (ref.type === 'class') {
         const aClass = this.termDump.getClassServerDataFromHash(ref.ref);
@@ -166,14 +308,15 @@ class Search {
           }
         }
 
-
         objects.push({
+          score: ref.score,
           type: ref.type,
           class: aClass,
           sections: sections,
         });
       } else if (ref.type === 'employee') {
         objects.push({
+          score: ref.score,
           employee: this.employeeMap[ref.ref],
           type: ref.type,
         });
@@ -182,7 +325,17 @@ class Search {
       }
     }
 
-    return objects;
+
+    const startTime = Date.now()
+
+    // Sort the objects by chunks that have the same score. 
+    objects = this.constructor.sortObjectsAfterScore(objects);
+
+
+    macros.log("Sorting took ", Date.now() - startTime, 'ms', objects.length, startOffset, returnItemCount)
+
+
+    return objects.slice(startOffset, startOffset + returnItemCount);
   }
 
 
@@ -201,13 +354,14 @@ class Search {
 
       // Perfect match for a subject, list all the classes in the subject
       if (lowerCaseSubject === lowerCaseSearchTerm || lowerCaseSearchTerm === lowerCaseText) {
-        console.log('Perfect match for subject!', subject.subject);
+        macros.log('Perfect match for subject!', subject.subject);
 
         const results = this.termDump.getClassesInSubject(subject.subject);
 
         const output = [];
         results.forEach((result) => {
           output.push({
+            score: 0,
             ref: result,
             type: 'class',
           });
@@ -245,16 +399,14 @@ class Search {
     // Returns an array of objects that has a .ref and a .score
     // The array is sorted by score (with the highest matching closest to the beginning)
     // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
-    // console.log(searchTerm)
+    // macros.log(searchTerm)
     const classResults = this.classSearchIndex.search(searchTerm, classSearchConfig);
 
     const employeeResults = this.employeeSearchIndex.search(searchTerm, employeeSearchConfig);
 
-    // console.log('send', 'timing', `search ${searchTerm.length}`, 'search', Date.now() - startTime);
+    // macros.log('send', 'timing', `search ${searchTerm.length}`, 'search', Date.now() - startTime);
 
     const output = [];
-
-    console.log(JSON.stringify(classResults, null, 4))
 
     // This takes no time at all, never more than 2ms and usually <1ms
     while (true) {
