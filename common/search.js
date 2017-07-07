@@ -1,6 +1,7 @@
 import elasticlunr from 'elasticlunr';
 
 import Keys from './Keys';
+import macros from './macros';
 import CourseProData from './classModels/DataLib';
 
 // The plan is to use this in both the frontend and the backend.
@@ -110,10 +111,63 @@ class Search {
     }
   }
 
+  getBusinessScore(object) {
+    if (object.type === 'class') {
+      if (object.sections.length === 0) {
+        return 0
+      }
+
+      // Find the number of taken seats. 
+      let takenSeats = 0;
+      for (const section of object.sections) {
+        takenSeats += section.seatsCapacity - section.seatsRemaining
+
+        // Also include the number of seats on the waitlist, if there is a waitlist. 
+        if (section.waitCapacity !== undefined && section.waitRemaining !== undefined) {
+          takenSeats += section.waitCapacity - section.waitRemaining
+        }
+
+      }
+
+      // If there are many taken seats, there is clearly an interest in the class. 
+      // Rank these the highest. 
+      if (takenSeats > 0) {
+        return takenSeats + 1000000;
+      }
+
+      // Rank these higher than classes with no sections, but less than everything else.
+      if (!macros.isNumeric(object.class.classId)) {
+        return 1;
+      }
+
+
+      let classNum = parseInt(object.class.classId)
+
+      // I haven't seen any that are over 10k, but just in case log a waning and clamp it. 
+      if (classNum > 10000) {
+        console.log("Warning: class num", classNum, ' is over 10k', object.class.classId)
+        return 2;
+      }
+
+      return 10000 - classNum;
+    }
+    else if (object.type === 'employee') {
+      return Object.keys(object.employee);
+    }
+    else {
+      console.error("Yooooooo omg y", object)
+      return 0
+    }
+  }
+
 
   // Main search function. The min and max index are used for pagenation.
   // Eg, if you want results 10 through 20, call search('hi there', 10, 20)
   search(searchTerm, minIndex = 0, maxIndex = 1000) {
+    if (maxIndex <= minIndex) {
+      console.error('Error. Max index < Min index.', minIndex, maxIndex, maxIndex <= minIndex, typeof maxIndex, typeof minIndex)
+      return [];
+    }
     // Searches are case insensitive.
     searchTerm = searchTerm.trim().toLowerCase();
 
@@ -133,11 +187,46 @@ class Search {
       };
     }
 
+    // If there were no results or asking for a range beyond the results length, stop here.
+    if (refs.length === 0 || minIndex >= refs.length) {
+      return [];
+    }
+
+    // We might need to load more data than we are going to return
+    // Keep track of how many more we added in the beginning so we can skip those when returning the results.
+    // Also keep track of how many items we are going to return.
+    // One possible tweak to this code is to not sort past index 50. 
+    // The order of results past this don't really matter that much so we really don't need to sort them. 
+    let startOffset = 0;
+    const returnItemCount = maxIndex - minIndex;
+    while (minIndex > 0 && refs[minIndex].score === refs[minIndex - 1].score) {
+      console.log("Adding item to the beginning.", minIndex);
+      startOffset ++;
+      minIndex --;
+    }
+
+    // If the max index is greater than the number of refs, just sort all the refs.
+    if (refs.length <= maxIndex) {
+      maxIndex = refs.length - 1
+    }
+
+    // Same thing for the end. 
+    while (refs[maxIndex + 1] && refs[maxIndex + 1].score === refs[maxIndex].score) {
+      console.log("Adding item to end.")
+      maxIndex ++;
+    }
+
+
     // console.log(JSON.stringify(refs, null, 4))
+
+    //figure out the ref range you want to look at and keep track of where the actuall start is (and how many to return)
+    // instantiate them all
+    // sort
+    // return from the .slice(start, start+(maxIndex - minIndex))
 
 
     const objects = [];
-    refs = refs.slice(minIndex, maxIndex);
+    refs = refs.slice(minIndex, maxIndex + 1);
     for (const ref of refs) {
       if (ref.type === 'class') {
         const aClass = this.termDump.getClassServerDataFromHash(ref.ref);
@@ -166,14 +255,15 @@ class Search {
           }
         }
 
-
         objects.push({
+          score: ref.score,
           type: ref.type,
           class: aClass,
           sections: sections,
         });
       } else if (ref.type === 'employee') {
         objects.push({
+          score: ref.score,
           employee: this.employeeMap[ref.ref],
           type: ref.type,
         });
@@ -182,7 +272,50 @@ class Search {
       }
     }
 
-    return objects;
+
+    const startTime = Date.now()
+
+    // Sort the objects by chunks that have the same score. 
+
+    let index = 0;
+    while (index < objects.length) {
+
+      let currentScore = objects[index].score;
+      let currentChunk = [objects[index]];
+      let startIndex = index;
+      while (index + 1 < objects.length && objects[index].score === objects[index + 1].score) {
+        currentChunk.push(objects[index + 1])
+        index ++;
+      }
+
+      currentChunk.sort((a,b) => {
+        let aScore = this.getBusinessScore(a)
+        let bScore = this.getBusinessScore(b)
+        if (aScore >= bScore) {
+          return -1;
+        }
+        else if (aScore === bScore) {
+          return 0
+        }
+        else {
+          return 1;
+        }
+      })
+
+      for (var i = 0; i < currentChunk.length; i++) {
+        objects[startIndex + i] = currentChunk[i]
+      }
+
+      index ++;
+      
+    }
+
+
+
+    console.log("Sorting took ", Date.now() - startTime, 'ms', objects.length, startOffset, returnItemCount)
+
+
+    return objects.slice(startOffset, returnItemCount);
   }
 
 
@@ -208,6 +341,7 @@ class Search {
         const output = [];
         results.forEach((result) => {
           output.push({
+            score: 0,
             ref: result,
             type: 'class',
           });
@@ -253,8 +387,6 @@ class Search {
     // console.log('send', 'timing', `search ${searchTerm.length}`, 'search', Date.now() - startTime);
 
     const output = [];
-
-    console.log(JSON.stringify(classResults, null, 4))
 
     // This takes no time at all, never more than 2ms and usually <1ms
     while (true) {

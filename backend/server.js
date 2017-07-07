@@ -93,14 +93,20 @@ app.get('/search', wrap(async (req, res) => {
     return;
   }
 
+  if (!macros.isNumeric(req.query.minIndex) || !macros.isNumeric(req.query.maxIndex)) {
+    console.log("Need numbers as max and min index.")
+    res.send("Max and Min index must be numbers.")
+    return;
+  }
+
   let minIndex = 0;
   if (req.query.minIndex) {
-    minIndex = req.query.minIndex;
+    minIndex = parseInt(req.query.minIndex);
   }
 
   let maxIndex = 10;
   if (req.query.maxIndex) {
-    maxIndex = req.query.maxIndex;
+    maxIndex = parseInt(req.query.maxIndex);
   }
 
 
