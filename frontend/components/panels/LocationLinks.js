@@ -5,7 +5,7 @@ import macros from '../macros';
 
 
 // Calculate the Google Maps links from a given section.
-// This is used in both the mobile section panel and the desktop section panel. 
+// This is used in both the mobile section panel and the desktop section panel.
 
 class LocationLinks extends React.Component {
   render() {
@@ -32,9 +32,7 @@ class LocationLinks extends React.Component {
 
       return (
         <span key={ location }>
-          <a target='_blank' rel='noopener noreferrer' href={ `https://maps.google.com/?q=${macros.collegeName} ${buildingName}` }>
-            {location}
-          </a> {optionalComma}
+          <a target='_blank' rel='noopener noreferrer' href={ `https://maps.google.com/?q=${macros.collegeName} ${buildingName}` }>{location}</a>{optionalComma}
         </span>
       );
     });

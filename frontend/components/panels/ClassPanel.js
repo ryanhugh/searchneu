@@ -7,9 +7,9 @@ import globe from './globe.svg';
 import css from './ClassPanel.css';
 import MobileSectionPanel from './MobileSectionPanel';
 import macros from '../macros';
-import Keys from '../../../common/Keys'
-import LocationLinks from './LocationLinks'
-import WeekdayBoxes from './WeekdayBoxes'
+import Keys from '../../../common/Keys';
+import LocationLinks from './LocationLinks';
+import WeekdayBoxes from './WeekdayBoxes';
 
 const cx = classNames.bind(css);
 
@@ -19,11 +19,11 @@ class ClassPanel extends React.Component {
 
   constructor(props) {
     super(props);
-  
+
     this.state = {
       renderedSections: props.aClass.sections.slice(0, 3),
-      unrenderedSections: props.aClass.sections.slice(3)
-    }
+      unrenderedSections: props.aClass.sections.slice(3),
+    };
 
 
     this.onShowMoreClick = this.onShowMoreClick.bind(this);
@@ -32,21 +32,20 @@ class ClassPanel extends React.Component {
   onShowMoreClick() {
     console.log('Adding more sections to the bottom.');
 
-    let newElements = this.state.unrenderedSections.splice(0, 5);
+    const newElements = this.state.unrenderedSections.splice(0, 5);
 
     this.setState({
       unrenderedSections: this.state.unrenderedSections,
-      renderedSections: this.state.renderedSections.concat(newElements)
-    })
+      renderedSections: this.state.renderedSections.concat(newElements),
+    });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state.renderedSections.length !== nextState.renderedSections.length) {
       return true;
     }
-    else {
-      return false;
-    }
+
+    return false;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -70,24 +69,24 @@ class ClassPanel extends React.Component {
 
     for (const section of aClass.sections) {
       if (section.waitRemaining > 0 || section.waitCapacity > 0) {
-        console.log('found with more than 0')
+        console.log('found with more than 0');
         foundSectionWithWaitlistSeats = true;
         break;
       }
     }
 
     if (!foundSectionWithWaitlistSeats) {
-      console.log('all 0/0, returning false.')
+      console.log('all 0/0, returning false.');
       return false;
     }
 
-    // Also show the waitlist if any of the sections have less than 10 seats left. 
-    // The number 10 is just an arbitrary decision and can be changed in the future. 
-    let foundSectionWithLessThanTenSeats = false;
+    // Also show the waitlist if any of the sections have less than 10 seats left.
+    // The number 10 is just an arbitrary decision and can be changed in the future.
+    const foundSectionWithLessThanTenSeats = false;
 
     for (const section of aClass.sections) {
       if (section.seatsRemaining < 10) {
-        console.log('found with less than 10')
+        console.log('found with less than 10');
         return true;
       }
     }
@@ -101,15 +100,12 @@ class ClassPanel extends React.Component {
     // Render the section table if this class has sections
     let sectionTable = null;
     if (aClass.sections && aClass.sections.length > 0) {
-
       // If this is mobile, use the mobile panels.
       if (macros.isMobile) {
         sectionTable = this.state.renderedSections.map((section) => {
-          return <MobileSectionPanel key = {Keys.create(section).getHash()} section = {section}/>
-        })
-      }
-      else {
-
+          return <MobileSectionPanel key={ Keys.create(section).getHash() } section={ section } />;
+        });
+      } else {
         // Add the Exam column headers if there is any section in this class that has exam listed
         let examColumnHeaders = null;
         if (aClass.sectionsHaveExam()) {
@@ -120,7 +116,7 @@ class ClassPanel extends React.Component {
           ];
         }
 
-        let showWaitList = this.shouldShowWaitlist();
+        const showWaitList = this.shouldShowWaitlist();
 
         sectionTable = (
           <table className={ `ui celled striped table ${css.resultsTable}` }>
@@ -152,8 +148,6 @@ class ClassPanel extends React.Component {
                 This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
               <tr style={{ display:'none', paddingTop: 0, paddingBottom: '1px' }} />
               {this.state.renderedSections.map((section) => {
-
-
                 // Calculate the exam elements in each row
                 let examElements = null;
                 if (aClass.sectionsHaveExam()) {
@@ -179,14 +173,14 @@ class ClassPanel extends React.Component {
                     <td> {section.crn} </td>
                     <td> {section.getProfs().join(', ')} </td>
                     <td>
-                      <WeekdayBoxes section = {section}/>
+                      <WeekdayBoxes section={ section } />
                     </td>
 
                     <td>{section.getUniqueStartTimes().join(', ')}</td>
                     <td>{section.getUniqueEndTimes().join(', ')}</td>
                     {examElements}
                     <td>
-                      <LocationLinks section = {section}/>
+                      <LocationLinks section={ section } />
                     </td>
                     <td>
                       <div data-tip='Open Seats/Total Seats' className={ css.inlineBlock }>
@@ -216,18 +210,15 @@ class ClassPanel extends React.Component {
           </table>
         );
       }
-
-
     }
 
     let showMoreSections = null;
 
     // Render the Show More.. Button
     if (this.state.unrenderedSections.length > 0) {
-      showMoreSections = (<div className={css.showMoreButton} onClick={this.onShowMoreClick}>
+      showMoreSections = (<div className={ css.showMoreButton } onClick={ this.onShowMoreClick }>
         Show More...
-      </div>)
-
+      </div>);
     }
 
 
