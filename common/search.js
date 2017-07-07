@@ -112,7 +112,6 @@ class Search {
   }
 
   checkForSubjectMatch(searchTerm) {
-
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
     const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
@@ -145,50 +144,49 @@ class Search {
   }
 
   // Internal use only.
-  // Given a refs, minIndex and a maxIndex it will return the new minIndex and maxIndex that includes all results that have score that match scores that 
+  // Given a refs, minIndex and a maxIndex it will return the new minIndex and maxIndex that includes all results that have score that match scores that
   // are included in refs. The given refs array must be sorted.
   static expandRefsSliceForMatchingScores(refs, minIndex, maxIndex) {
     while (minIndex > 0 && refs[minIndex].score === refs[minIndex - 1].score) {
-      minIndex --;
+      minIndex--;
     }
 
     // If the max index is greater than the number of refs, just sort all the refs.
     if (refs.length <= maxIndex) {
-      maxIndex = refs.length - 1
+      maxIndex = refs.length - 1;
     }
 
-    // Same thing for the end. 
+    // Same thing for the end.
     while (refs[maxIndex + 1] && refs[maxIndex + 1].score === refs[maxIndex].score) {
-      maxIndex ++;
+      maxIndex++;
     }
 
     return {
       minIndex: minIndex,
-      maxIndex: maxIndex
-    }
+      maxIndex: maxIndex,
+    };
   }
 
 
   static getBusinessScore(object) {
     if (object.type === 'class') {
       if (object.sections.length === 0) {
-        return 0
+        return 0;
       }
 
-      // Find the number of taken seats. 
+      // Find the number of taken seats.
       let takenSeats = 0;
       for (const section of object.sections) {
-        takenSeats += section.seatsCapacity - section.seatsRemaining
+        takenSeats += section.seatsCapacity - section.seatsRemaining;
 
-        // Also include the number of seats on the waitlist, if there is a waitlist. 
+        // Also include the number of seats on the waitlist, if there is a waitlist.
         if (section.waitCapacity !== undefined && section.waitRemaining !== undefined) {
-          takenSeats += section.waitCapacity - section.waitRemaining
+          takenSeats += section.waitCapacity - section.waitRemaining;
         }
-
       }
 
-      // If there are many taken seats, there is clearly an interest in the class. 
-      // Rank these the highest. 
+      // If there are many taken seats, there is clearly an interest in the class.
+      // Rank these the highest.
       if (takenSeats > 0) {
         return takenSeats + 1000000;
       }
@@ -199,64 +197,57 @@ class Search {
       }
 
 
-      let classNum = parseInt(object.class.classId, 10)
+      const classNum = parseInt(object.class.classId, 10);
 
-      // I haven't seen any that are over 10k, but just in case log a waning and clamp it. 
+      // I haven't seen any that are over 10k, but just in case log a waning and clamp it.
       if (classNum > 10000) {
-        macros.log("Warning: class num", classNum, ' is over 10k', object.class.classId)
+        macros.log('Warning: class num', classNum, ' is over 10k', object.class.classId);
         return 2;
       }
 
       return 10000 - classNum;
-    }
-    else if (object.type === 'employee') {
+    } else if (object.type === 'employee') {
       return Object.keys(object.employee);
     }
-    else {
-      console.error("Yooooooo omg y", object)
-      return 0
-    }
+
+    console.error('Yooooooo omg y', object);
+    return 0;
   }
 
   // Takes in a list of search result objects
-  // and sorts the ones with matching scores in place by the business metric. 
+  // and sorts the ones with matching scores in place by the business metric.
   // In other works, if the scores match for a bunch of objects, it will sort then based on the business metric.
-  // If the scores do not match, it will leave them sorted by score. 
+  // If the scores do not match, it will leave them sorted by score.
   static sortObjectsAfterScore(objects) {
     let index = 0;
     while (index < objects.length) {
-
-      let currentScore = objects[index].score;
-      let currentChunk = [objects[index]];
-      let startIndex = index;
+      const currentChunk = [objects[index]];
+      const startIndex = index;
       while (index + 1 < objects.length && objects[index].score === objects[index + 1].score) {
-        currentChunk.push(objects[index + 1])
-        index ++;
+        currentChunk.push(objects[index + 1]);
+        index++;
       }
 
-      currentChunk.sort((a,b) => {
-        let aScore = this.getBusinessScore(a)
-        let bScore = this.getBusinessScore(b)
+      currentChunk.sort((a, b) => {
+        const aScore = this.getBusinessScore(a);
+        const bScore = this.getBusinessScore(b);
         if (aScore >= bScore) {
           return -1;
+        } else if (aScore === bScore) {
+          return 0;
         }
-        else if (aScore === bScore) {
-          return 0
-        }
-        else {
-          return 1;
-        }
-      })
 
-      for (var i = 0; i < currentChunk.length; i++) {
-        objects[startIndex + i] = currentChunk[i]
+        return 1;
+      });
+
+      for (let i = 0; i < currentChunk.length; i++) {
+        objects[startIndex + i] = currentChunk[i];
       }
 
-      index ++;
-      
+      index++;
     }
 
-    return objects
+    return objects;
   }
 
 
@@ -264,14 +255,14 @@ class Search {
   // Eg, if you want results 10 through 20, call search('hi there', 10, 20)
   search(searchTerm, minIndex = 0, maxIndex = 1000) {
     if (maxIndex <= minIndex) {
-      console.error('Error. Max index < Min index.', minIndex, maxIndex, maxIndex <= minIndex, typeof maxIndex, typeof minIndex)
+      console.error('Error. Max index < Min index.', minIndex, maxIndex, maxIndex <= minIndex, typeof maxIndex, typeof minIndex);
       return [];
     }
     // Searches are case insensitive.
     searchTerm = searchTerm.trim().toLowerCase();
 
     let wasSubjectMatch = false;
-    
+
 
     // Cache the refs.
     let refs;
@@ -282,12 +273,11 @@ class Search {
       // Update the timestamp of this cache item.
       this.refCache[searchTerm].time = Date.now();
     } else {
-      let possibleSubjectMatch = this.checkForSubjectMatch(searchTerm);
+      const possibleSubjectMatch = this.checkForSubjectMatch(searchTerm);
       if (possibleSubjectMatch) {
-        refs = possibleSubjectMatch
+        refs = possibleSubjectMatch;
         wasSubjectMatch = true;
-      }
-      else {
+      } else {
         refs = this.getRefs(searchTerm);
       }
 
@@ -306,26 +296,26 @@ class Search {
     // We might need to load more data than we are going to return
     // Keep track of how many more we added in the beginning so we can skip those when returning the results.
     // Also keep track of how many items we are going to return.
-    // One possible tweak to this code is to not sort past index 50. 
-    // The order of results past this don't really matter that much so we really don't need to sort them. 
+    // One possible tweak to this code is to not sort past index 50.
+    // The order of results past this don't really matter that much so we really don't need to sort them.
 
-    // Step 1: Figure out what items we need to load. 
+    // Step 1: Figure out what items we need to load.
     const returnItemCount = maxIndex - minIndex;
 
-    let originalMinIndex = minIndex;
+    const originalMinIndex = minIndex;
 
-    // Don't re-order based on business score if there was a subject match. 
+    // Don't re-order based on business score if there was a subject match.
     if (!wasSubjectMatch) {
-      let newMaxAndMinIndex = this.constructor.expandRefsSliceForMatchingScores(refs, minIndex, maxIndex);
+      const newMaxAndMinIndex = this.constructor.expandRefsSliceForMatchingScores(refs, minIndex, maxIndex);
       minIndex = newMaxAndMinIndex.minIndex;
       maxIndex = newMaxAndMinIndex.maxIndex;
     }
 
-    // Discard this many items from the beginning of the array before they are returned to the user. 
-    // They are only included here because these specific items have the same score and may be sorted into the section that the user is requesting. 
-    let startOffset = originalMinIndex - minIndex;
+    // Discard this many items from the beginning of the array before they are returned to the user.
+    // They are only included here because these specific items have the same score and may be sorted into the section that the user is requesting.
+    const startOffset = originalMinIndex - minIndex;
 
-    // Step 2: Load those items. 
+    // Step 2: Load those items.
     let objects = [];
     refs = refs.slice(minIndex, maxIndex + 1);
     for (const ref of refs) {
@@ -375,13 +365,12 @@ class Search {
 
 
     if (!wasSubjectMatch) {
+      const startTime = Date.now();
 
-      const startTime = Date.now()
-
-      // Sort the objects by chunks that have the same score. 
+      // Sort the objects by chunks that have the same score.
       objects = this.constructor.sortObjectsAfterScore(objects);
 
-      macros.log("Sorting took ", Date.now() - startTime, 'ms', objects.length, startOffset, returnItemCount)
+      macros.log('Sorting took ', Date.now() - startTime, 'ms', objects.length, startOffset, returnItemCount);
     }
 
 
@@ -391,7 +380,6 @@ class Search {
 
   // This returns an object like {ref: 'neu.edu/201810/CS/...' , type: 'class'}
   getRefs(searchTerm) {
-
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
     const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
@@ -448,7 +436,7 @@ class Search {
         output.push({
           type: 'employee',
           ref: employeeResults[0].ref,
-          score: employeeResults[0].score
+          score: employeeResults[0].score,
         });
         employeeResults.splice(0, 1);
         continue;
@@ -458,7 +446,7 @@ class Search {
         output.push({
           type: 'class',
           ref: classResults[0].ref,
-          score: classResults[0].score
+          score: classResults[0].score,
         });
 
         classResults.splice(0, 1);
@@ -469,7 +457,7 @@ class Search {
         output.push({
           type: 'class',
           ref: classResults[0].ref,
-          score: classResults[0].score
+          score: classResults[0].score,
         });
         classResults.splice(0, 1);
         continue;
@@ -479,7 +467,7 @@ class Search {
         output.push({
           type: 'employee',
           ref: employeeResults[0].ref,
-          score: employeeResults[0].score
+          score: employeeResults[0].score,
         });
         employeeResults.splice(0, 1);
       }
