@@ -311,7 +311,7 @@ class Home extends React.Component {
 
         <div className='footer ui basic center aligned segment'>
           See an issue or want to add to this website? Fork it or create an issue on
-          <a href='https://github.com/ryanhugh/searchneu'>
+          <a target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu'>
             &nbsp;GitHub
           </a>.
         </div>
@@ -322,25 +322,25 @@ class Home extends React.Component {
           Made with&nbsp;
           <i className='rocket circular small icon' />
           &nbsp;by&nbsp;
-          <a href='http://github.com/ryanhugh'>
+          <a target='_blank' rel='noopener noreferrer' href='http://github.com/ryanhugh'>
             Ryan Hughes
           </a>
           &nbsp;and UI inspired by&nbsp;
-          <a href='https://github.com/2factorauth/twofactorauth'>
+          <a target='_blank' rel='noopener noreferrer' href='https://github.com/2factorauth/twofactorauth'>
             Two Factor Authenticaton
           </a>.
         </div>
 
         <div className={"footer ui basic center aligned segment " + css.contact}>
-          <a>
+          <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
             Feedback
           </a>
           &nbsp;•&nbsp;
-          <a>
+          <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
             Report a bug
           </a>
           &nbsp;•&nbsp;
-          <a>
+          <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
             Contact
           </a>
         </div>
