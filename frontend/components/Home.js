@@ -118,7 +118,12 @@ class Home extends React.Component {
       }
     }
 
-    history.pushState(null, null, `/${encodedQuery}`);
+    try {
+      history.pushState(null, null, `/${encodedQuery}`);
+    }
+    catch (e) {
+      macros.error("Could not change URL?", e)
+    }
     this.logSearch(searchTerm);
   }
 
