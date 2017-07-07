@@ -139,9 +139,18 @@ it('sortObjectsAfterScore works on empty array', function() {
 
 it('sortObjectsAfterScore works on empty array', function() {
 
-
-
   let objects = search.sortObjectsAfterScore(searchTestResultObjects)
   expect(objects[0].class.classUid).toEqual('4100_478392549')
+  expect(objects.length).toEqual(4)
+
+
+  // The other three order does not matter
+  let otherClassUids = []
+  for (var i = 1; i < objects.length; i++) {
+    otherClassUids.push(objects[i].class.classUid)
+  }
+
+  // Sort them here before comparing
+  expect(otherClassUids.sort()).toEqual( ["5360_624039423", "6285_1978044670", "7305_1220243072"])
 });
 
