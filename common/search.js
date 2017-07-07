@@ -111,6 +111,39 @@ class Search {
     }
   }
 
+  checkForSubjectMatch(searchTerm) {
+
+    // This is O(n), but because there are so few subjects it usually takes < 1ms
+    // If the search term starts with a subject (eg cs2500), put a space after the subject
+    const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
+    const subjects = this.termDump.getSubjects();
+
+    for (let i = 0; i < subjects.length; i++) {
+      const subject = subjects[i];
+      const lowerCaseSubject = subject.subject.toLowerCase();
+      const lowerCaseText = subject.text.toLowerCase();
+
+      // Perfect match for a subject, list all the classes in the subject
+      if (lowerCaseSubject === lowerCaseSearchTerm || lowerCaseSearchTerm === lowerCaseText) {
+        macros.log('Perfect match for subject!', subject.subject);
+
+        const results = this.termDump.getClassesInSubject(subject.subject);
+
+        const output = [];
+        results.forEach((result) => {
+          output.push({
+            score: 0,
+            ref: result,
+            type: 'class',
+          });
+        });
+
+        return output;
+      }
+    }
+    return null;
+  }
+
   // Internal use only.
   // Given a refs, minIndex and a maxIndex it will return the new minIndex and maxIndex that includes all results that have score that match scores that 
   // are included in refs. The given refs array must be sorted.
@@ -166,7 +199,7 @@ class Search {
       }
 
 
-      let classNum = parseInt(object.class.classId)
+      let classNum = parseInt(object.class.classId, 10)
 
       // I haven't seen any that are over 10k, but just in case log a waning and clamp it. 
       if (classNum > 10000) {
@@ -237,18 +270,30 @@ class Search {
     // Searches are case insensitive.
     searchTerm = searchTerm.trim().toLowerCase();
 
+    let wasSubjectMatch = false;
+    
+
     // Cache the refs.
     let refs;
     if (this.refCache[searchTerm]) {
       refs = this.refCache[searchTerm].refs;
+      wasSubjectMatch = this.refCache[searchTerm].wasSubjectMatch;
 
       // Update the timestamp of this cache item.
       this.refCache[searchTerm].time = Date.now();
     } else {
-      refs = this.getRefs(searchTerm);
+      let possibleSubjectMatch = this.checkForSubjectMatch(searchTerm);
+      if (possibleSubjectMatch) {
+        refs = possibleSubjectMatch
+        wasSubjectMatch = true;
+      }
+      else {
+        refs = this.getRefs(searchTerm);
+      }
 
       this.refCache[searchTerm] = {
         refs: refs,
+        wasSubjectMatch: wasSubjectMatch,
         time: Date.now(),
       };
     }
@@ -269,9 +314,12 @@ class Search {
 
     let originalMinIndex = minIndex;
 
-    let newMaxAndMinIndex = this.constructor.expandRefsSliceForMatchingScores(refs, minIndex, maxIndex);
-    minIndex = newMaxAndMinIndex.minIndex;
-    maxIndex = newMaxAndMinIndex.maxIndex;
+    // Don't re-order based on business score if there was a subject match. 
+    if (!wasSubjectMatch) {
+      let newMaxAndMinIndex = this.constructor.expandRefsSliceForMatchingScores(refs, minIndex, maxIndex);
+      minIndex = newMaxAndMinIndex.minIndex;
+      maxIndex = newMaxAndMinIndex.maxIndex;
+    }
 
     // Discard this many items from the beginning of the array before they are returned to the user. 
     // They are only included here because these specific items have the same score and may be sorted into the section that the user is requesting. 
@@ -326,13 +374,15 @@ class Search {
     }
 
 
-    const startTime = Date.now()
+    if (!wasSubjectMatch) {
 
-    // Sort the objects by chunks that have the same score. 
-    objects = this.constructor.sortObjectsAfterScore(objects);
+      const startTime = Date.now()
 
+      // Sort the objects by chunks that have the same score. 
+      objects = this.constructor.sortObjectsAfterScore(objects);
 
-    macros.log("Sorting took ", Date.now() - startTime, 'ms', objects.length, startOffset, returnItemCount)
+      macros.log("Sorting took ", Date.now() - startTime, 'ms', objects.length, startOffset, returnItemCount)
+    }
 
 
     return objects.slice(startOffset, startOffset + returnItemCount);
@@ -350,26 +400,6 @@ class Search {
     for (let i = 0; i < subjects.length; i++) {
       const subject = subjects[i];
       const lowerCaseSubject = subject.subject.toLowerCase();
-      const lowerCaseText = subject.text.toLowerCase();
-
-      // Perfect match for a subject, list all the classes in the subject
-      if (lowerCaseSubject === lowerCaseSearchTerm || lowerCaseSearchTerm === lowerCaseText) {
-        macros.log('Perfect match for subject!', subject.subject);
-
-        const results = this.termDump.getClassesInSubject(subject.subject);
-
-        const output = [];
-        results.forEach((result) => {
-          output.push({
-            score: 0,
-            ref: result,
-            type: 'class',
-          });
-        });
-
-        return output;
-      }
-
 
       if (lowerCaseSearchTerm.startsWith(lowerCaseSubject)) {
         const remainingSearch = searchTerm.slice(lowerCaseSubject.length);
