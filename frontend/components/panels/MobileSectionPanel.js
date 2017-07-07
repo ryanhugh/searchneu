@@ -19,7 +19,7 @@ const cx = classNames.bind(css);
 class MobileSectionPanel extends React.Component {
 
   // This is different than the one in ClassPanel.js because this can show and hide the waitlist based on a per-section basis
-  // and ClassPanel.js is show it for all classes or none. 
+  // and ClassPanel.js is show it for all sections or none. 
   shouldShowWaitlist() {
     if (this.props.section.getHasWaitList() && this.props.section.seatsRemaining < 10) {
       return true;
