@@ -116,7 +116,6 @@ class Search {
   // are included in refs. The given refs array must be sorted.
   static expandRefsSliceForMatchingScores(refs, minIndex, maxIndex) {
     while (minIndex > 0 && refs[minIndex].score === refs[minIndex - 1].score) {
-      macros.log("Adding item to the beginning.", minIndex);
       minIndex --;
     }
 
@@ -127,7 +126,6 @@ class Search {
 
     // Same thing for the end. 
     while (refs[maxIndex + 1] && refs[maxIndex + 1].score === refs[maxIndex].score) {
-      macros.log("Adding item to end.")
       maxIndex ++;
     }
 
@@ -329,8 +327,6 @@ class Search {
 
 
     const startTime = Date.now()
-
-    console.log(JSON.stringify(objects, null, 4))
 
     // Sort the objects by chunks that have the same score. 
     objects = this.constructor.sortObjectsAfterScore(objects);
