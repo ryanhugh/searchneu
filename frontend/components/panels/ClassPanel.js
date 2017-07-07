@@ -69,14 +69,12 @@ class ClassPanel extends React.Component {
 
     for (const section of aClass.sections) {
       if (section.waitRemaining > 0 || section.waitCapacity > 0) {
-        console.log('found with more than 0');
         foundSectionWithWaitlistSeats = true;
         break;
       }
     }
 
     if (!foundSectionWithWaitlistSeats) {
-      console.log('all 0/0, returning false.');
       return false;
     }
 
@@ -86,7 +84,6 @@ class ClassPanel extends React.Component {
 
     for (const section of aClass.sections) {
       if (section.seatsRemaining < 10) {
-        console.log('found with less than 10');
         return true;
       }
     }
