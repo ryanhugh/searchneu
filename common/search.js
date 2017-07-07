@@ -111,7 +111,34 @@ class Search {
     }
   }
 
-  getBusinessScore(object) {
+  // Internal use only.
+  // Given a refs, minIndex and a maxIndex it will return the new minIndex and maxIndex that includes all results that have score that match scores that 
+  // are included in refs. The given refs array must be sorted.
+  static expandRefsSliceForMatchingScores(refs, minIndex, maxIndex) {
+    while (minIndex > 0 && refs[minIndex].score === refs[minIndex - 1].score) {
+      macros.log("Adding item to the beginning.", minIndex);
+      minIndex --;
+    }
+
+    // If the max index is greater than the number of refs, just sort all the refs.
+    if (refs.length <= maxIndex) {
+      maxIndex = refs.length - 1
+    }
+
+    // Same thing for the end. 
+    while (refs[maxIndex + 1] && refs[maxIndex + 1].score === refs[maxIndex].score) {
+      macros.log("Adding item to end.")
+      maxIndex ++;
+    }
+
+    return {
+      minIndex: minIndex,
+      maxIndex: maxIndex
+    }
+  }
+
+
+  static getBusinessScore(object) {
     if (object.type === 'class') {
       if (object.sections.length === 0) {
         return 0
@@ -145,7 +172,7 @@ class Search {
 
       // I haven't seen any that are over 10k, but just in case log a waning and clamp it. 
       if (classNum > 10000) {
-        console.log("Warning: class num", classNum, ' is over 10k', object.class.classId)
+        macros.log("Warning: class num", classNum, ' is over 10k', object.class.classId)
         return 2;
       }
 
@@ -158,6 +185,47 @@ class Search {
       console.error("Yooooooo omg y", object)
       return 0
     }
+  }
+
+  // Takes in a list of search result objects
+  // and sorts the ones with matching scores in place by the business metric. 
+  // In other works, if the scores match for a bunch of objects, it will sort then based on the business metric.
+  // If the scores do not match, it will leave them sorted by score. 
+  static sortObjectsAfterScore(objects) {
+    let index = 0;
+    while (index < objects.length) {
+
+      let currentScore = objects[index].score;
+      let currentChunk = [objects[index]];
+      let startIndex = index;
+      while (index + 1 < objects.length && objects[index].score === objects[index + 1].score) {
+        currentChunk.push(objects[index + 1])
+        index ++;
+      }
+
+      currentChunk.sort((a,b) => {
+        let aScore = this.getBusinessScore(a)
+        let bScore = this.getBusinessScore(b)
+        if (aScore >= bScore) {
+          return -1;
+        }
+        else if (aScore === bScore) {
+          return 0
+        }
+        else {
+          return 1;
+        }
+      })
+
+      for (var i = 0; i < currentChunk.length; i++) {
+        objects[startIndex + i] = currentChunk[i]
+      }
+
+      index ++;
+      
+    }
+
+    return objects
   }
 
 
@@ -197,35 +265,22 @@ class Search {
     // Also keep track of how many items we are going to return.
     // One possible tweak to this code is to not sort past index 50. 
     // The order of results past this don't really matter that much so we really don't need to sort them. 
-    let startOffset = 0;
+
+    // Step 1: Figure out what items we need to load. 
     const returnItemCount = maxIndex - minIndex;
-    while (minIndex > 0 && refs[minIndex].score === refs[minIndex - 1].score) {
-      console.log("Adding item to the beginning.", minIndex);
-      startOffset ++;
-      minIndex --;
-    }
 
-    // If the max index is greater than the number of refs, just sort all the refs.
-    if (refs.length <= maxIndex) {
-      maxIndex = refs.length - 1
-    }
+    let originalMinIndex = minIndex;
 
-    // Same thing for the end. 
-    while (refs[maxIndex + 1] && refs[maxIndex + 1].score === refs[maxIndex].score) {
-      console.log("Adding item to end.")
-      maxIndex ++;
-    }
+    let newMaxAndMinIndex = this.constructor.expandRefsSliceForMatchingScores(refs, minIndex, maxIndex);
+    minIndex = newMaxAndMinIndex.minIndex;
+    maxIndex = newMaxAndMinIndex.maxIndex;
 
+    // Discard this many items from the beginning of the array before they are returned to the user. 
+    // They are only included here because these specific items have the same score and may be sorted into the section that the user is requesting. 
+    let startOffset = originalMinIndex - minIndex;
 
-    // console.log(JSON.stringify(refs, null, 4))
-
-    //figure out the ref range you want to look at and keep track of where the actuall start is (and how many to return)
-    // instantiate them all
-    // sort
-    // return from the .slice(start, start+(maxIndex - minIndex))
-
-
-    const objects = [];
+    // Step 2: Load those items. 
+    let objects = [];
     refs = refs.slice(minIndex, maxIndex + 1);
     for (const ref of refs) {
       if (ref.type === 'class') {
@@ -275,47 +330,16 @@ class Search {
 
     const startTime = Date.now()
 
+    console.log(JSON.stringify(objects, null, 4))
+
     // Sort the objects by chunks that have the same score. 
-
-    let index = 0;
-    while (index < objects.length) {
-
-      let currentScore = objects[index].score;
-      let currentChunk = [objects[index]];
-      let startIndex = index;
-      while (index + 1 < objects.length && objects[index].score === objects[index + 1].score) {
-        currentChunk.push(objects[index + 1])
-        index ++;
-      }
-
-      currentChunk.sort((a,b) => {
-        let aScore = this.getBusinessScore(a)
-        let bScore = this.getBusinessScore(b)
-        if (aScore >= bScore) {
-          return -1;
-        }
-        else if (aScore === bScore) {
-          return 0
-        }
-        else {
-          return 1;
-        }
-      })
-
-      for (var i = 0; i < currentChunk.length; i++) {
-        objects[startIndex + i] = currentChunk[i]
-      }
-
-      index ++;
-      
-    }
+    objects = this.constructor.sortObjectsAfterScore(objects);
 
 
+    macros.log("Sorting took ", Date.now() - startTime, 'ms', objects.length, startOffset, returnItemCount)
 
-    console.log("Sorting took ", Date.now() - startTime, 'ms', objects.length, startOffset, returnItemCount)
 
-
-    return objects.slice(startOffset, returnItemCount);
+    return objects.slice(startOffset, startOffset + returnItemCount);
   }
 
 
@@ -334,7 +358,7 @@ class Search {
 
       // Perfect match for a subject, list all the classes in the subject
       if (lowerCaseSubject === lowerCaseSearchTerm || lowerCaseSearchTerm === lowerCaseText) {
-        console.log('Perfect match for subject!', subject.subject);
+        macros.log('Perfect match for subject!', subject.subject);
 
         const results = this.termDump.getClassesInSubject(subject.subject);
 
@@ -379,12 +403,12 @@ class Search {
     // Returns an array of objects that has a .ref and a .score
     // The array is sorted by score (with the highest matching closest to the beginning)
     // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
-    // console.log(searchTerm)
+    // macros.log(searchTerm)
     const classResults = this.classSearchIndex.search(searchTerm, classSearchConfig);
 
     const employeeResults = this.employeeSearchIndex.search(searchTerm, employeeSearchConfig);
 
-    // console.log('send', 'timing', `search ${searchTerm.length}`, 'search', Date.now() - startTime);
+    // macros.log('send', 'timing', `search ${searchTerm.length}`, 'search', Date.now() - startTime);
 
     const output = [];
 
