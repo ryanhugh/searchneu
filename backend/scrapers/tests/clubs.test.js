@@ -3,7 +3,7 @@ import path from 'path';
 
 import clubs from '../clubs';
 
-fit('parseDetails should work', async (done) => {
+it('parseDetails should work', async (done) => {
   const data = await fs.readFile(path.join(__dirname, 'data', 'clubs', 'club.json'));
   const resp = JSON.parse(data);
   const output = clubs.parseDetails(resp.body);
@@ -12,7 +12,7 @@ fit('parseDetails should work', async (done) => {
   done();
 });
 
-fit('parseLetterAndPage should work', async (done) => {
+it('parseLetterAndPage should work', async (done) => {
   const data = await fs.readFile(path.join(__dirname, 'data', 'clubs', 'letter.json'));
   const resp = JSON.parse(data);
   const output = clubs.parseLetterAndPage(resp);

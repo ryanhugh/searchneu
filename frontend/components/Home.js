@@ -118,7 +118,17 @@ class Home extends React.Component {
       }
     }
 
-    history.pushState(null, null, `/${encodedQuery}`);
+    // There was one error received by rollbar that said:
+    // Uncaught SecurityError: Failed to execute 'pushState' on 'History': A history state object with URL 'https:' cannot be created in a document with origin 'https://searchneu.com' and URL 'https://searchneu.com/...'.
+    // Which doesn't really make sense because 'https:' is not a valid URL,
+    // but just in case there is a try-catch around this call (no real reason not to have one). 
+    // https://rollbar.com/ryanhugh/searchneu/items/10/
+    try {
+      history.pushState(null, null, `/${encodedQuery}`);
+    }
+    catch (e) {
+      macros.error("Could not change URL?", e)
+    }
     this.logSearch(searchTerm);
   }
 

@@ -155,6 +155,13 @@ app.get('/sw.js', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'sw.js'));
 });
 
+// Google Search Console Site Verification. 
+// I could make this a static file... but it is never going to change so though this would be easier. 
+app.get('/google840b636639b40c3c.html', (req, res) => {
+  res.write('google-site-verification: google840b636639b40c3c.html')
+  res.end();
+})
+
 
 app.get('*', (req, res) => {
   if (macros.PROD) {
