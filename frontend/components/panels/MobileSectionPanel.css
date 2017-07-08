@@ -15,6 +15,7 @@
 	width: 100%;
 }
 .globe {
+	opacity: .7;
 	float: right;
 	padding: 8px;
 }

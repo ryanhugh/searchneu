@@ -196,7 +196,7 @@ class ClassPanel extends React.Component {
                     </td>
 
                     <td>
-                      <a target='_blank' rel='noopener noreferrer' className={ css.inlineBlock } data-tip={ `View on ${section.host}` } href={ section.prettyUrl || section.url }>
+                      <a target='_blank' rel='noopener noreferrer' className={ css.inlineBlock + ' ' + css.sectionGlobe } data-tip={ `View on ${section.host}` } href={ section.prettyUrl || section.url }>
                         <img src={ globe } alt='link' />
                       </a>
                     </td>
@@ -232,6 +232,11 @@ class ClassPanel extends React.Component {
         <div className={ `${css.container} ui segment` }>
           <div className={ css.header }>
             {aClass.subject} {aClass.classId}: {aClass.name}
+            <span> 
+              <a target="_blank" rel="noopener noreferrer" className={ css.classGlobeLink } data-tip={ "View on " + aClass.host} href={ aClass.prettyUrl || aClass.url }>
+                <img src={ globe } alt="link"/>
+              </a>
+            </span>
           </div>
 
           <div className={ css.body }>
