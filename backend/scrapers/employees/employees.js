@@ -239,6 +239,11 @@ class Employee {
               const person = {};
               const nameWithComma = he.decode(parsedTable.name[j]).split('\n\n')[0];
 
+              if (nameWithComma.includes('Do Not Use ')) {
+                console.log('Skipping entry that says Do Not Use.')
+                continue;
+              }
+
 
               // Put the first name before the last name. 
               // Another way to do this would be to hit the detail section of each employee and scrape the name from the title.
