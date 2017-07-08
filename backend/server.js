@@ -13,6 +13,16 @@ import macros from './macros';
 const app = express();
 
 
+// Prevent being in an iFrame.
+app.use(function (req, res, next) {
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader("Content-Security-Policy", "frame-ancestors 'none'");
+  res.setHeader("X-XSS-Protection", "1; mode=block");
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  next()
+}.bind(this))
+
+
 // Http to https redirect. 
 app.use(function (req, res, next) {
   
@@ -157,6 +167,7 @@ app.get('/sw.js', (req, res) => {
 
 // Google Search Console Site Verification. 
 // I could make this a static file... but it is never going to change so though this would be easier. 
+// If this is removed, the domain will no longer be verified with Google. 
 app.get('/google840b636639b40c3c.html', (req, res) => {
   res.write('google-site-verification: google840b636639b40c3c.html')
   res.end();
