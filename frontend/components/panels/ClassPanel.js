@@ -231,8 +231,10 @@ class ClassPanel extends React.Component {
       <div>
         <div className={ `${css.container} ui segment` }>
           <div className={ css.header }>
-            {aClass.subject} {aClass.classId}: {aClass.name}
-            <span> 
+            <span className = { css.classTitle }>
+              {aClass.subject} {aClass.classId}: {aClass.name}
+            </span>
+            <span className = {css.classGlobeLinkContainer}> 
               <a target="_blank" rel="noopener noreferrer" className={ css.classGlobeLink } data-tip={ "View on " + aClass.host} href={ aClass.prettyUrl || aClass.url }>
                 <img src={ globe } alt="link"/>
               </a>
