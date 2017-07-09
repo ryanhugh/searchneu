@@ -260,6 +260,16 @@ class Home extends React.Component {
       );
     }
 
+    let mobileSearchBoxStyle = {}
+    if (macros.isMobile) {
+      mobileSearchBoxStyle = {
+        width: '95%',
+        marginRight: '10px',
+        marginLeft: '10px',
+        maxWidth: 'none'
+      }
+    }
+
     return (
       <div>
 
@@ -285,7 +295,7 @@ class Home extends React.Component {
             <div className = {css.semester}>
               Fall 2017
             </div>
-            <div id='search-wrapper' className='sub header'>
+            <div id='search-wrapper' className='sub header' style = {mobileSearchBoxStyle}>
               <label htmlFor='search_id'>
                 <i className='search icon' />
               </label>
