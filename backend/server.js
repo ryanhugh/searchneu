@@ -112,7 +112,7 @@ async function getSearch() {
 getSearch();
 
 app.get('/search', wrap(async (req, res) => {
-  if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 100) {
+  if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500) {
     console.error('Need query.');
     res.send('Need query param.');
     return;
