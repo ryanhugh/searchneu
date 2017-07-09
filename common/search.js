@@ -261,6 +261,20 @@ class Search {
     // Searches are case insensitive.
     searchTerm = searchTerm.trim().toLowerCase();
 
+    // Replace some slang with the meaning of the words.
+    // Hard coding isn't a great way to do this, but there is no better way than this lol
+    // Acronyms such as ood and ai and ml are generated dynamically based on the name
+    let slangMap = {
+      fundies: 'fundamentals of computer science',
+      orgo: 'Organic Chemistry'
+    }
+
+    for (const word in slangMap) {
+      if (searchTerm.startsWith(word)) {
+        searchTerm = slangMap[word] + ' ' + searchTerm.slice(word.length)
+      }
+    }
+
     let wasSubjectMatch = false;
 
 
