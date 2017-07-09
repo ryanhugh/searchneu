@@ -132,7 +132,7 @@ app.get('/search', wrap(async (req, res) => {
   let maxIndex = 10;
   if (req.query.maxIndex) {
     maxIndex = parseInt(req.query.maxIndex);
-  }
+  } 
 
 
   const index = await getSearch();
