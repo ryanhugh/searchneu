@@ -280,8 +280,11 @@ class Home extends React.Component {
             Search
           </h1>
             <h3 className={ css.subtitle }>
-           For Northeastern
-          </h3>
+              For Northeastern
+            </h3>
+            <div className = {css.semester}>
+              Fall 2017
+            </div>
             <div id='search-wrapper' className='sub header'>
               <label htmlFor='search_id'>
                 <i className='search icon' />
