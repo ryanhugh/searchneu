@@ -158,7 +158,7 @@ class Home extends React.Component {
     this.search(this.state.searchTerm, this.state.results.length + 10);
   }
 
-  async search(searchTerm, termCount = 4) {
+  async search(searchTerm, termCount = 5) {
     this.currentQuery = searchTerm;
     const results = await search.search(searchTerm, termCount);
 
