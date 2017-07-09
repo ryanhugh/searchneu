@@ -175,6 +175,7 @@ app.get('/google840b636639b40c3c.html', (req, res) => {
 
 
 app.get('*', (req, res) => {
+  res.setHeader("Content-Type", "text/html; charset=UTF-8");
   if (macros.PROD) {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
   }
