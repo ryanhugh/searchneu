@@ -5,13 +5,14 @@ import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import wrap from 'express-async-wrap';
 import fs from 'fs-promise';
+import compress from 'compression';
 
 import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 
 const app = express();
-
+app.use(compress()); // gzip the output
 
 // Prevent being in an iFrame.
 app.use(function (req, res, next) {
@@ -19,6 +20,20 @@ app.use(function (req, res, next) {
   res.setHeader("Content-Security-Policy", "frame-ancestors 'none'");
   res.setHeader("X-XSS-Protection", "1; mode=block");
   res.setHeader("X-Content-Type-Options", "nosniff");
+
+  if (macros.PROD) {
+    // Assets are cached for a day. 
+    // This time interval was chosen because the scrapers are ran daily, so there is no point for the browser to update the cache more often that this. 
+    // These Cache-control headers are far from perfect though haha
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+  }
+  else {
+
+    // Don't cache in DEV
+    // Could also use no-store which would prevent the browser from storing it all.
+    // This no-cache header requires the browser to revalidate the cache with the server before serving it.
+    res.setHeader('Cache-Control', 'no-cache');
+  }
   next()
 }.bind(this))
 
@@ -123,6 +138,9 @@ app.get('/search', wrap(async (req, res) => {
   const index = await getSearch();
 
   if (!index) {
+
+    // Don't cache errors.
+    res.setHeader('Cache-Control', 'no-cache, no-store');
     res.send('Could not start backend. No data found.')
     return;
   }
@@ -183,7 +201,6 @@ app.get('*', (req, res) => {
     res.write(middleware.fileSystem.readFileSync(path.join(webpackConfig.output.path, 'index.html')));
     res.end();
   }
-
 });
 
 
