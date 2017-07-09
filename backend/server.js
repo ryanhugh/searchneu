@@ -151,6 +151,8 @@ app.get('/search', wrap(async (req, res) => {
   const string = JSON.stringify(results)
   console.log(req.connection.remoteAddress, 'Search for', req.query.query, 'took ', midTime-startTime, 'ms and stringify took', Date.now()-midTime, 'with', results.length, 'results');
 
+  // Set the header for application/json and send the data.
+  res.setHeader("Content-Type", "application/json; charset=UTF-8");
   res.send(string);
 }));
 
