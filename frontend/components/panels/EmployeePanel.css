@@ -13,24 +13,19 @@
 .body {
     padding: 20px;
 }
-
-.inlineBlock{
-	display: inline-block;
+.inlineBlock {
+    display: inline-block;
 }
-
 .contactBox {
     vertical-align: top;
     min-width: 300px;
 }
-
 .desktopSecondColumn {
     padding-left: 100px;
 }
-
 .mobileSecondColumn {
     padding-top: 20px;
 }
-
 .link {
     opacity: .8;
     float: right;

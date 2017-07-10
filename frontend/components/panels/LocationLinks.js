@@ -32,6 +32,7 @@ class LocationLinks extends React.Component {
 
       // The <a> tag needs to be on one line, or else react will insert spaces in the generated HTML.
       // And we only want spaces between these span elements, and not after the location and the comma. 
+      // eg YMCA, Hurting Hall and not YMCA , Hurting Hall
       return (
         <span key={ location }>
           <a target='_blank' rel='noopener noreferrer' href={ `https://maps.google.com/?q=${macros.collegeName} ${buildingName}` }>{location}</a>{optionalComma}
