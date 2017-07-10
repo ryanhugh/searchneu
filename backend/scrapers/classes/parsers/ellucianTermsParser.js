@@ -40,33 +40,33 @@ EllucianTermsParser.prototype.constructor = EllucianTermsParser;
 
 
 
-var staticHosts = [
-{
-	includes:'Law',
-	mainHost:'neu.edu',
-	title:'Northeastern University Law',
-	host:'neu.edu/law'
-},
-{
-	includes:'CPS',
-	mainHost:'neu.edu',
-	title:'Northeastern University CPS',
-	host:'neu.edu/cps'
-}]
+// var staticHosts = [
+// {
+// 	includes:'Law',
+// 	mainHost:'neu.edu',
+// 	title:'Northeastern University Law',
+// 	host:'neu.edu/law'
+// },
+// {
+// 	includes:'CPS',
+// 	mainHost:'neu.edu',
+// 	title:'Northeastern University CPS',
+// 	host:'neu.edu/cps'
+// }]
 
-EllucianTermsParser.prototype.getStaticHost = function(mainHost,termString) {
+// EllucianTermsParser.prototype.getStaticHost = function(mainHost,termString) {
 	
-	for (var i = 0; i < staticHosts.length; i++) {
-		var staticHost = staticHosts[i];
-		if (staticHost.mainHost==mainHost && termString.includes(staticHost.includes)) {
-			return {
-				host:staticHost.host,
-				text:termString.replace(staticHost.includes,'').replace(/\s+/gi,' ').trim()
-			};
-		};
-	}
-	return null;
-};
+// 	for (var i = 0; i < staticHosts.length; i++) {
+// 		var staticHost = staticHosts[i];
+// 		if (staticHost.mainHost==mainHost && termString.includes(staticHost.includes)) {
+// 			return {
+// 				host:staticHost.host,
+// 				text:termString.replace(staticHost.includes,'').replace(/\s+/gi,' ').trim()
+// 			};
+// 		};
+// 	}
+// 	return null;
+// };
 
 
 EllucianTermsParser.prototype.getDataType = function (pageData) {
@@ -111,22 +111,22 @@ EllucianTermsParser.prototype.isValidTerm = function (termId, text) {
 
 };
 
-EllucianTermsParser.prototype.addCollegeName = function (pageData, host) {
+// EllucianTermsParser.prototype.addCollegeName = function (pageData, host) {
 
-	//add the college names dep, if it dosent already exist
-	for (var i = 0; i < pageData.deps.length; i++) {
-		var currDep = pageData.deps[i]
-		if (currDep.parser == collegeNamesParser && currDep.dbData.host == host) {
-			return;
-		}
-	}
+// 	//add the college names dep, if it dosent already exist
+// 	for (var i = 0; i < pageData.deps.length; i++) {
+// 		var currDep = pageData.deps[i]
+// 		if (currDep.parser == collegeNamesParser && currDep.dbData.host == host) {
+// 			return;
+// 		}
+// 	}
 
-	var newDep = pageData.addDep({
-		url: host,
-		host: host
-	})
-	newDep.setParser(collegeNamesParser)
-};
+// 	var newDep = pageData.addDep({
+// 		url: host,
+// 		host: host
+// 	})
+// 	newDep.setParser(collegeNamesParser)
+// };
 
 
 EllucianTermsParser.prototype.onEndParsing = function (pageData, dom) {
@@ -161,15 +161,25 @@ EllucianTermsParser.prototype.onEndParsing = function (pageData, dom) {
 		//calculate host for each entry
 		var host = macros.getBaseHost(pageData.dbData.url);
 
-		var newTerm = this.getStaticHost(host, term.text)
-		if (newTerm) {
-			host = newTerm.host
-			term.text = newTerm.text
+		// If this is a term that matches a term in staticHosts
+		// Remove 
+		let possibleCustomHostAndText = collegeNamesParser.getHostForTermTitle(host, term.text);
+
+		if (possibleCustomHostAndText) {
+			term.text = possibleCustomHostAndText.text
+			term.host = possibleCustomHostAndText.host
 		}
-		else {
-			this.addCollegeName(pageData, host)
-		};
-		term.host = host;
+
+		// var newTerm = this.getStaticHost(host, term.text)
+		// if (newTerm) {
+		// 	host = newTerm.host
+		// 	term.text = newTerm.text
+		// }
+		// else {
+		// 	this.addCollegeName(pageData, host)
+		// };
+		// term.host = host;// THIS LINE NEED TO MOVE STATIC HOSTS TO COLLEGE NAME PARSER AND THEN GET A HOST FROM A TERM STRING BACK
+		// AND UPDTAE THIS LINE SO CIHLD DEPS HAVE THE CORRECT HOST
 
 		//add the shorter version of the term string
 		term.shortText = term.text.replace(/Quarter|Semester/gi, '').trim()

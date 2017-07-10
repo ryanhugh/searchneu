@@ -34,6 +34,7 @@
 
 
 'use strict';
+import path from 'path';
 
 import macros from '../../../macros';
 import Request from '../../request';
@@ -59,16 +60,33 @@ var BaseParser = require('./baseParser').BaseParser;
 function CollegeNamesParser() {
 	BaseParser.prototype.constructor.apply(this, arguments);
 
-
 	this.name = 'CollegeNamesParser';
 
 	this.requiredAttrs = [
 		"title",
 		"host"
 	];
-
 }
 
+
+//prototype constructor
+CollegeNamesParser.prototype = Object.create(BaseParser.prototype);
+CollegeNamesParser.prototype.constructor = CollegeNamesParser;
+
+
+var staticHosts = [
+{
+	includes:'Law',
+	mainHost:'neu.edu',
+	title:'Northeastern University Law',
+	host:'neu.edu/law'
+},
+{
+	includes:'CPS',
+	mainHost:'neu.edu',
+	title:'Northeastern University CPS',
+	host:'neu.edu/cps'
+}]
 
 CollegeNamesParser.prototype.main = async function(hostname) {
   const outputFile = path.join(macros.DEV_DATA_DIR, 'CollegeNamesParser.json');
@@ -93,9 +111,22 @@ CollegeNamesParser.prototype.main = async function(hostname) {
 };
 
 
-//prototype constructor
-CollegeNamesParser.prototype = Object.create(BaseParser.prototype);
-CollegeNamesParser.prototype.constructor = CollegeNamesParser;
+// This function modifies the TERM STRING ITSELF (IT REMOVES THE PART FOUND IN THE COLLEGE NAME)
+// AND ALSO THIS FILE SHOULD ALLWAYS RETURN THE STATIC HOSTS
+// YEAH
+CollegeNamesParser.prototype.getHostForTermTitle = function(mainHost,termString) {
+	
+	for (var i = 0; i < staticHosts.length; i++) {
+		var staticHost = staticHosts[i];
+		if (staticHost.mainHost==mainHost && termString.includes(staticHost.includes)) {
+			return {
+				host:staticHost.host,
+				text:termString.replace(staticHost.includes,'').replace(/\s+/gi,' ').trim()
+			};
+		};
+	}
+	return null;
+};
 
 
 

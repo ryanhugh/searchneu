@@ -20,9 +20,10 @@ import macros from '../../macros';
 const _ = require('lodash');
 const URI = require('urijs');
 
+const collegeNamesParser = require('./parsers/collegeNamesParser')
 
 const parsersClasses = [
-  require('./parsers/collegeNamesParser'),
+  collegeNamesParser,
   require('./parsers/ellucianCatalogParser'),
   require('./parsers/ellucianClassListParser'),
   require('./parsers/ellucianClassParser'),
@@ -123,10 +124,17 @@ PageDataMgr.prototype.go = function go(pageDatas, callback) {
 
   const inputPageData = pageDatas[0];
 
+  // Find the name of the college (neu.edu -> Northeastern University)
+  // This is the first of the efforts to rewrite the old es5 code to es6, 
+  // and remove a lot of the uncessecary logic
+  let host = macros.getBaseHost(inputPageData.dbData.url);
+  console.log(collegeNamesParser)
+  const collegeNamePromise = collegeNamesParser.main(host)
+
 
   return new Promise((resolve, reject) => {
     // Run the parsing
-    this.processPageData(inputPageData, (err, pageData) => {
+    this.processPageData(inputPageData, async (err, pageData) => {
       if (err) {
         macros.error(err);
         reject(err);
@@ -136,6 +144,19 @@ PageDataMgr.prototype.go = function go(pageDatas, callback) {
         macros.error('Input page data was different than output?', inputPageData, pageData);
       }
       let termDump = this.pageDataStructureToTermDump(pageData);
+
+      // Add the data that was calculatd here
+      if (!termDump.colleges) {
+        termDump.colleges = []
+      }
+      termDump.colleges.push({
+        host: host,
+        title: await collegeNamePromise,
+        url: host
+      })
+
+
+      console.log(termDump.colleges, 'HERE')
       termDump = this.runPostProcessors(termDump);
       console.log('DONE!!!!!!!!!!!!!!!!!!!!!!!!!');
       resolve(termDump);
