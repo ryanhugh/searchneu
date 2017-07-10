@@ -3,6 +3,8 @@
 // These are setup in the webpack config
 
 
+// This class is never instantiated.
+// So there is no point in adding a constructor.
 class Macros {
 
 
@@ -23,6 +25,16 @@ class Macros {
 
     console.error.apply(console.error, ['Error:'].concat(args));
     console.trace();
+  }
+
+  // Replace all instances of a substring with another without a regex (faster).
+  // https://stackoverflow.com/questions/16803931/replace-all-without-a-regex-where-can-i-use-the-g
+  static replaceAll(string, old, newString) {
+    let index = 0;
+    do {
+      string = string.replace(old, newString);
+    } while ((index = string.indexOf(old, index + 1)) > -1);
+    return string;
   }
 
   // https://stackoverflow.com/questions/18082/validate-decimal-numbers-in-javascript-isnumeric

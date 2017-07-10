@@ -63,7 +63,7 @@ if ('serviceWorker' in navigator) {
    console.log('Registration succeeded. Scope is', reg.scope);
   }).catch(function (error) {
    // Registration failed.
-   elog('Service worker registration failed with ', error);
+   macros.error('Service worker registration failed with ', error);
   });
 }
 else {

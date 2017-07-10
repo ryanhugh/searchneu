@@ -14,15 +14,21 @@ import WeekdayBoxes from './WeekdayBoxes';
 const cx = classNames.bind(css);
 
 
+// Class Panel that renders the box with the class title, class description, and class sections
+// If mobile, uses MobileSectionPanel to show the sections. 
+// The code for desktop is inside this file. 
+
+
 // ClassPanel page component
 class ClassPanel extends React.Component {
 
   constructor(props) {
     super(props);
 
+    // Show 3 sections by default
     this.state = {
-      renderedSections: props.aClass.sections.slice(0, 3),
-      unrenderedSections: props.aClass.sections.slice(3),
+      renderedSections: props.aClass.sections.slice(0, macros.sectionsShownByDefault),
+      unrenderedSections: props.aClass.sections.slice(macros.sectionsShownByDefault),
     };
 
 
@@ -32,7 +38,7 @@ class ClassPanel extends React.Component {
   onShowMoreClick() {
     console.log('Adding more sections to the bottom.');
 
-    const newElements = this.state.unrenderedSections.splice(0, 5);
+    const newElements = this.state.unrenderedSections.splice(0, macros.sectionsAddedWhenShowMoreClicked);
 
     this.setState({
       unrenderedSections: this.state.unrenderedSections,
@@ -56,6 +62,9 @@ class ClassPanel extends React.Component {
     macros.debounceTooltipRebuild();
   }
 
+  // Method to decide whether to show the waitlist or not
+  // This logic is different than it is on mobile (because of formatting differences)
+  // See MobileSectionPanel.js
   shouldShowWaitlist() {
     const aClass = this.props.aClass;
 

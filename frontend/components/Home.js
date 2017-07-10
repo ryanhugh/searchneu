@@ -55,21 +55,11 @@ class Home extends React.Component {
     this.logSearch(this.state.searchTerm);
   }
 
-  // Replace all instances of a substring with another without a regex (faster).
-  // https://stackoverflow.com/questions/16803931/replace-all-without-a-regex-where-can-i-use-the-g
-  replaceAll(string, old, newString) {
-    let index = 0;
-    do {
-      string = string.replace(old, newString);
-    } while ((index = string.indexOf(old, index + 1)) > -1);
-    return string;
-  }
-
-
   getSearchQueryFromUrl() {
-    return decodeURIComponent(this.replaceAll(location.pathname.slice(1), '+', ' '))
+    return decodeURIComponent(macros.replaceAll(location.pathname.slice(1), '+', ' '))
   }
 
+  // Runs when the user clicks back or forward in their browser.
   onPopState(event) {
     let query = this.getSearchQueryFromUrl()
     this.search(query)
@@ -91,7 +81,6 @@ class Home extends React.Component {
       return;
     }
     this.lastSearch = searchTerm;
-    console.log('Logging', searchTerm);
 
     if (searchTerm) {
       this.searchCount ++;
