@@ -5,6 +5,7 @@ import ReactTooltip from 'react-tooltip';
 
 import '../css/base.css';
 
+import aoun from './aouuuuuuuuun.png'
 import search from './search';
 import css from './home.css';
 import macros from './macros';
@@ -226,7 +227,14 @@ class Home extends React.Component {
     let resultsElement = null;
 
     if (this.state.results) {
-      if (this.state.results.length === 0 && this.state.searchTerm.length > 0 && !this.state.waitingOnEnter) {
+      if (this.state.searchTerm.trim() === 'memes') {
+        resultsElement = (
+          <div className = { css.aounContainer }> 
+            <img src={aoun}/> 
+          </div>
+        )
+      }
+      else if (this.state.results.length === 0 && this.state.searchTerm.length > 0 && !this.state.waitingOnEnter) {
         resultsElement = (
           <div className={ css.noResultsContainer }>
             <h3>No Results</h3>

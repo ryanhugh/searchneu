@@ -1,27 +1,21 @@
-
 .title {
     font-size: 50px;
 }
-
 .subtitle {
     color: grey !important;
     font-size: 29px !important;
 }
-
 .semester {
     color: grey !important;
     font-size: 19px !important;
     padding-bottom: 30px !important;
 }
-
 .top-padding {
     height: '50px';
 }
-
 .bottom-padding {
     height: '20px';
 }
-
 .githubCornerIcon {
     fill: #39CCCC;
     color: #FFFFFF;
@@ -30,18 +24,15 @@
     border: 0;
     right: 0;
 }
-
 .octopusArm {
-	transform-origin: 130px 106px;
+    transform-origin: 130px 106px;
 }
-
 .noResultsContainer {
     font-size: 19px;
     padding-top: 30px;
     text-align: center;
     padding-bottom: 100px;
 }
-
 .noResultsInputText {
     display: inline-block !important;
     padding: 5px !important;
@@ -49,38 +40,40 @@
     padding-right: 9px !important;
     font-size: inherit !important;
 }
-
 .noResultsBottomLine {
     padding-top: 7px;
 }
 .hitEnterToSearch {
     padding-top: 42px;
 }
-
 .listIconTooltip {
     font-size: 14px !important;
     z-index: 999999;
-    padding-top: 6px  !important;
-    padding-bottom: 6px  !important;
-    padding-left: 10px  !important;
-    padding-right: 10px  !important;
-    border-radius: 7px  !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    border-radius: 7px !important;
     white-space: nowrap !important;
 }
-
 .credits {
     margin-bottom: 5px !important;
     padding-bottom: 0 !important;
 }
-
 .contact {
     margin: 0 !important;
     padding: 0 !important;
     /*margin-top: -32px !important;*/
     font-size: 14px !important;
 }
-
 .contact > a {
     padding-right: 1px;
     padding-left: 1px;
+}
+.aounContainer {
+    text-align: center;
+    padding-bottom: 40px;
+}
+.aounContainer > img {
+    box-shadow: 0 0 20px 12px #dcdcdc;
 }
