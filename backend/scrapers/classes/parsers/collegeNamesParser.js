@@ -35,6 +35,9 @@
 
 'use strict';
 import path from 'path';
+import he from 'he';
+import domutils from 'domutils';
+import asyncjs from 'async';
 
 import macros from '../../../macros';
 import Request from '../../request';
@@ -50,28 +53,16 @@ else {
 	whois = require('whois')
 }
 
-var he = require('he');
-var domutils = require('domutils');
-var asyncjs = require('async')
-
-
 var BaseParser = require('./baseParser').BaseParser;
 
 function CollegeNamesParser() {
 	BaseParser.prototype.constructor.apply(this, arguments);
-
-	this.name = 'CollegeNamesParser';
 
 	this.requiredAttrs = [
 		"title",
 		"host"
 	];
 }
-
-
-//prototype constructor
-CollegeNamesParser.prototype = Object.create(BaseParser.prototype);
-CollegeNamesParser.prototype.constructor = CollegeNamesParser;
 
 
 var staticHosts = [
@@ -89,7 +80,10 @@ var staticHosts = [
 }]
 
 CollegeNamesParser.prototype.main = async function(hostname) {
-  const outputFile = path.join(macros.DEV_DATA_DIR, 'CollegeNamesParser.json');
+
+	// GOT TO BE A BETTER WAY THAN STORING EACH HOST IN A DIFF FILE?
+	// AND HOW ARE WE GOING TO CACHE OTHER PARSRS TOO?
+  const outputFile = path.join(macros.DEV_DATA_DIR, 'CollegeNamesParser' + hostname + '.json');
 
   if (macros.DEV && require.main !== module) {
     const devData = await macros.loadDevData(outputFile);
@@ -128,23 +122,6 @@ CollegeNamesParser.prototype.getHostForTermTitle = function(mainHost,termString)
 	return null;
 };
 
-
-
-CollegeNamesParser.prototype.getDataType = function (pageData) {
-	return 'colleges';
-};
-
-
-//callback here is pageData (stuff to store in db), and metadata (stuff dont store in db)
-// Note that the pageData.dbData.url that this class gets from ellucianTermParser is a hostname (neu.edu) and not a url.
-CollegeNamesParser.prototype.parse = async function (pageData, callback) {
-
-	let title = await this.getTitle(pageData.dbData.url);
-
-	pageData.setData('title', title);
-	pageData.setData('host', pageData.dbData.url);
-	callback()
-};
 
 
 

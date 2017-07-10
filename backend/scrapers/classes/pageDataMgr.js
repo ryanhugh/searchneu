@@ -23,7 +23,6 @@ const URI = require('urijs');
 const collegeNamesParser = require('./parsers/collegeNamesParser')
 
 const parsersClasses = [
-  collegeNamesParser,
   require('./parsers/ellucianCatalogParser'),
   require('./parsers/ellucianClassListParser'),
   require('./parsers/ellucianClassParser'),
