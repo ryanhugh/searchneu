@@ -26,11 +26,7 @@ Macros.sectionsShownByDefault = 3;
 // How many sections to add when the user clicks the show more button. 
 Macros.sectionsAddedWhenShowMoreClicked = 5;
 
-
 // True if is a Phone or other mobile device (iPod). Will be false for iPads.
 Macros.isMobile = isMobile();
-
-// XXX: This is stuff that is hardcoded for now, need to change when expanding to other schools.
-Macros.collegeName = 'Northeastern University';
 
 export default Macros;

@@ -125,8 +125,10 @@ class Macros {
 
     return `${firstName} ${lastName}`;
   }
-
 }
+
+// XXX: This is stuff that is hardcoded for now, need to change when expanding to other schools.
+Macros.collegeName = 'Northeastern University';
 
 // Set up the Macros.TESTS, Macros.DEV, and Macros.PROD based on some env variables. 
 if (process.env.PROD || process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prod') {
