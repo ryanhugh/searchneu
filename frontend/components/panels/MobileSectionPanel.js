@@ -134,7 +134,7 @@ class MobileSectionPanel extends React.Component {
             >
               <td className={ css.firstColumn }>Seats</td>
               <td className={ css.secondColumn }>
-                {this.props.section.seatsRemaining}/{this.props.section.seatsCapacity} Avalible
+                {this.props.section.seatsRemaining}/{this.props.section.seatsCapacity} Available
               </td>
             </tr>
             {waitlistRow}
