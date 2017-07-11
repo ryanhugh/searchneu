@@ -30,7 +30,7 @@ var ellucianRequisitesParser = require('./ellucianRequisitesParser');
 var ellucianRequisitesParser2 = require('./ellucianRequisitesParser2');
 
 //700+ college sites use this poor interface for their registration
-//good thing tho, is that it is easily scrapeable and does not require login to access seats avalible
+//good thing tho, is that it is easily scrape-able and does not require login to access seats available
 
 
 function EllucianSectionParser() {

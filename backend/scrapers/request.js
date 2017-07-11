@@ -59,7 +59,7 @@ import macros from '../macros';
 // This object must be created once per process
 // Attributes are added to this object when it is used
 // This is the total number of requests per host
-// If these numbers ever exceed 1024, might want to ensure that there are more file descriptors avalible on the OS for this process
+// If these numbers ever exceed 1024, might want to ensure that there are more file descriptors available on the OS for this process
 // than we are trying to request. Windows has no limit and travis has it set to 500k by default, but Mac OSX and Linux Desktop often have them
 // set really low (256) which could interefere with this.
 // https://github.com/request/request

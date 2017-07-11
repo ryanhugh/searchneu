@@ -32,7 +32,7 @@ var ellucianSectionParser = require('./ellucianSectionParser');
 var timeZero = moment('0', 'h');
 
 //700+ college sites use this poor interface for their registration
-//good thing tho, is that it is easily scrapeable and does not require login to access seats avalible
+//good thing tho, is that it is easily scrapeable and does not require login to access seats available.
 function EllucianClassParser() {
 	EllucianBaseParser.prototype.constructor.apply(this, arguments);
 
