@@ -60,9 +60,20 @@ class Home extends React.Component {
   }
 
   // Runs when the user clicks back or forward in their browser.
-  onPopState(event) {
+  onPopState() {
     let query = this.getSearchQueryFromUrl()
-    this.search(query)
+
+    // Only search if the query is longer than 0
+    if (query) {
+      this.search(query)
+    }
+    else {
+      this.setState({
+        results: [],
+        searchTerm: query,
+      });
+    }
+
     if (this.inputElement) {
       this.inputElement.value = query
     }
