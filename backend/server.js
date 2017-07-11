@@ -113,14 +113,18 @@ getSearch();
 
 app.get('/search', wrap(async (req, res) => {
   if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500) {
-    console.error('Need query.');
-    res.send('Need query param.');
+    console.log('Need query.', req.query);
+    res.send(JSON.stringify({
+      error: 'Need query param.'
+    }));
     return;
   }
 
   if (!macros.isNumeric(req.query.minIndex) || !macros.isNumeric(req.query.maxIndex)) {
     console.log("Need numbers as max and min index.")
-    res.send("Max and Min index must be numbers.")
+    res.send(JSON.stringify({
+      error: "Max and Min index must be numbers."
+    }))
     return;
   }
 
