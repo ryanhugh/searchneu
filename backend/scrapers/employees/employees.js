@@ -7,6 +7,7 @@ import path from 'path';
 import he from 'he';
 
 import Request from '../request';
+import cache from '../cache';
 import macros from '../../macros';
 
 const request = new Request('Employees');
@@ -332,11 +333,10 @@ class Employee {
   }
 
   async main() {
-    const outputFile = path.join(macros.DEV_DATA_DIR, 'employees.json');
 
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module) {
-      const devData = await macros.loadDevData(outputFile);
+      const devData = await cache.get('dev_data', this.constructor.name, 'main');
       if (devData) {
         return devData;
       }
@@ -359,7 +359,7 @@ class Employee {
 
 
     if (macros.DEV) {
-      await macros.saveDevData(outputFile, this.people);
+      await cache.set('dev_data', this.constructor.name, 'main', this.people);
       console.log('employees file saved!');
     }
 

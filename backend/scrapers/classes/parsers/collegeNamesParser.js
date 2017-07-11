@@ -40,6 +40,7 @@ import domutils from 'domutils';
 import asyncjs from 'async';
 
 import macros from '../../../macros';
+import cache from '../../cache';
 import Request from '../../request';
 
 const request = new Request('CollegeNamesParser');
@@ -80,24 +81,17 @@ var staticHosts = [
 }]
 
 CollegeNamesParser.prototype.main = async function(hostname) {
-
-	// GOT TO BE A BETTER WAY THAN STORING EACH HOST IN A DIFF FILE?
-	// AND HOW ARE WE GOING TO CACHE OTHER PARSRS TOO?
-  const outputFile = path.join(macros.DEV_DATA_DIR, 'CollegeNamesParser' + hostname + '.json');
-
   if (macros.DEV && require.main !== module) {
-    const devData = await macros.loadDevData(outputFile);
+    const devData = await cache.get('dev_data', this.constructor.name, hostname);
     if (devData) {
       return devData;
     }
   }
 
-
   let title = await this.getTitle(hostname);
 
-
   if (macros.DEV) {
-    await macros.saveDevData(outputFile, title);
+    await cache.set('dev_data', this.constructor.name, hostname, title);
     console.log('CollegeNamesParser file saved!');
   }
 

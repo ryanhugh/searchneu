@@ -4,6 +4,7 @@ import path from 'path';
 import macros from '../../macros';
 import linkSpider from '../linkSpider';
 import Request from '../request';
+import cache from '../cache';
 
 const request = new Request('Camd');
 
@@ -122,7 +123,7 @@ class Camd {
     const outputFile = path.join(macros.DEV_DATA_DIR, 'camd.json');
 
     if (macros.DEV && require.main !== module) {
-      const devData = await macros.loadDevData(outputFile);
+      const devData = await cache.get('dev_data', this.constructor.name, 'main');
       if (devData) {
         return devData;
       }
@@ -146,7 +147,7 @@ class Camd {
     const profileUrls = [];
 
     // Filter all the urls found to just profile urls
-    //  'https://camd.northeastern.edu/artdesign/people/magy-seif-el-nasr-2/',
+    // 'https://camd.northeastern.edu/artdesign/people/magy-seif-el-nasr-2/',
     urls.forEach((url) => {
       if (url.match(/https:\/\/camd.northeastern.edu\/(architecture|artdesign|commstudies|gamedesign|journalism|mscr|music|theatre)\/people\/[\w\d-]+\/?/i)) {
         profileUrls.push(url);
@@ -166,7 +167,7 @@ class Camd {
 
 
     if (macros.DEV) {
-      await macros.saveDevData(outputFile, people);
+      await cache.set('dev_data', this.constructor.name, 'main', people);
       console.log('camd file saved!');
     }
 

@@ -160,34 +160,6 @@ class Macros extends commonMacros {
     return n;
   };
 
-  // Loads dev data from the given file path. 
-  // If you want to use this, just see how it is used in other places and copy that. 
-  static async loadDevData(path) {
-    if (!Macros.DEV) {
-      Macros.error('Called load dev data while not in dev mode.');
-      return null;
-    }
-
-    await mkdirp(Macros.DEV_DATA_DIR);
-    const exists = await fs.exists(path);
-    if (exists) {
-      return JSON.parse(await fs.readFile(path));
-    }
-
-    return null;
-  };
-
-  // Inverse of loadDevData. 
-  static async saveDevData(path, data) {
-    if (!Macros.DEV) {
-      Macros.error('Called save dev data while not in dev mode.');
-      return;
-    }
-
-    await mkdirp(Macros.DEV_DATA_DIR);
-    await fs.writeFile(path, JSON.stringify(data, null, 4));
-  };
-
 
   // This is for programming errors. This will cause the program to exit anywhere.
   // This *should* never be called.

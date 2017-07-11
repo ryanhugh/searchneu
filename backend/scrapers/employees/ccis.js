@@ -3,6 +3,7 @@ import path from 'path';
 
 import Request from '../request';
 import macros from '../../macros';
+import cache from '../cache';
 
 const request = new Request('CCIS');
 
@@ -166,11 +167,10 @@ class NeuCCISFaculty {
 
 
   async main() {
-    const outputFile = path.join(macros.DEV_DATA_DIR, 'ccis.json');
 
-    // if this is dev and this data is already scraped, just return the data
+    // If this is dev and this data is already scraped, just return the data.
     if (macros.DEV && require.main !== module) {
-      const devData = await macros.loadDevData(outputFile);
+      const devData = await cache.get('dev_data', this.constructor.name, 'main');
       if (devData) {
         return devData;
       }
@@ -193,7 +193,7 @@ class NeuCCISFaculty {
     await Promise.all(promises);
 
     if (macros.DEV) {
-      await macros.saveDevData(outputFile, output);
+      await cache.set('dev_data', this.constructor.name, 'main', output);
       console.log('ccis file saved!');
     }
 

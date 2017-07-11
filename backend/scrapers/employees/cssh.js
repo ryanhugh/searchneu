@@ -4,6 +4,7 @@ import path from 'path';
 
 import macros from '../../macros';
 import linkSpider from '../linkSpider';
+import cache from '../cache';
 import Request from '../request';
 
 const request = new Request('CSSH');
@@ -156,10 +157,8 @@ class Cssh {
 
 
   async main() {
-    const outputFile = path.join(macros.DEV_DATA_DIR, 'cssh.json');
-
     if (macros.DEV && require.main !== module) {
-      const devData = await macros.loadDevData(outputFile);
+      const devData = await cache.get('dev_data', this.constructor.name, 'main');
       if (devData) {
         return devData;
       }
@@ -190,7 +189,7 @@ class Cssh {
     const people = await Promise.all(promises);
 
     if (macros.DEV) {
-      await macros.saveDevData(outputFile, people);
+      await cache.set('dev_data', this.constructor.name, 'main', people);
       console.log('cssh file saved!');
     }
 

@@ -29,6 +29,7 @@ var msgpack = require('msgpack5')() // namespace our extensions
 // https://github.com/Level/levelup
 // might be worth looking at
 
+// Right now this is used to cache dev data and http requests to speed up development.
 
 class Cache {
 
@@ -102,6 +103,9 @@ class Cache {
   // Path, in both set and get, is an array of strings. These strings can be anything and can be the same for separate requests, but just need to be the same for identical requests. 
   // Kindof like hash codes in java for the equals method.
   async get(folderName, className, key) {
+    if (!macros.DEV) {
+      macros.error("Called cache.js get but not in DEV mode?");
+    }
 
     // Foldername can be either requests or dev_data
     // if (folderName !== 'requests' && folderName !== 'dev_data' ) {
@@ -136,7 +140,9 @@ class Cache {
       destinationFile += '.msgpack'
     }
     else {
-      buffer = JSON.stringify(dataMap)
+
+      // Prettify the JSON when stringifying
+      buffer = JSON.stringify(dataMap, null, 4)
       destinationFile += '.json'
     }
 
@@ -157,10 +163,13 @@ class Cache {
   // Returns a promsie when it is done.
   // The optimize for speed option:
   //     If set to false, the data is debuffed at 10 seconds and saved as JSON. 
-    //    This is meant for files that don't save very much data and it would be nice to be able to easily read the cache.
-    //     If set to true, the data is debuffed at 120 seconds and saved with msgpack.
-    //      This is much faster than JSON, but is binary (not openable by editors easily).
+  //    This is meant for files that don't save very much data and it would be nice to be able to easily read the cache.
+  //     If set to true, the data is debuffed at 120 seconds and saved with msgpack.
+  //      This is much faster than JSON, but is binary (not openable by editors easily).
   async set(folderName, className, key, value, optimizeForSpeed = false) {
+    if (!macros.DEV) {
+      macros.error("Called cache.js set but not in DEV mode?");
+    }
 
     const filePath = this.getFilePath(folderName, className);
 

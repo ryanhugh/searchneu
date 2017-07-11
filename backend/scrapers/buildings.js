@@ -6,6 +6,7 @@ import path from 'path';
 
 import macros from '../macros';
 import request from './request';
+import cache from './cache';
 
 
 // Downloads building data from the interactive Google map of Northeastern Buildings that NEU provides
@@ -74,7 +75,7 @@ async function main() {
   const outputFile = path.join(macros.DEV_DATA_DIR, 'buildings.json');
 
   if (macros.DEV) {
-    await macros.saveDevData(outputFile, json.features);
+    await cache.set('dev_data', 'buildings', 'main', json.features)
     console.log('buildings file saved!');
   }
 

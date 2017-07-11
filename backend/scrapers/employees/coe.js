@@ -2,6 +2,7 @@ import cheerio from 'cheerio';
 import path from 'path';
 
 import Request from '../request';
+import cache from '../cache';
 import macros from '../../macros';
 
 const request = new Request('COE');
@@ -182,10 +183,12 @@ async function scrapeLetter(letter) {
 
 
 async function main() {
-  const outputFile = path.join(macros.DEV_DATA_DIR, 'coe.json');
+
+  // Change this to this.constructor.name once this file is refactored into a class. 
+  let cacheName = 'COE'
 
   if (macros.DEV && require.main !== module) {
-    const devData = await macros.loadDevData(outputFile);
+    const devData = await cache.get('dev_data', cacheName, 'main');
     if (devData) {
       return devData;
     }
@@ -213,7 +216,7 @@ async function main() {
   console.log(detailPeopleList.length);
 
   if (macros.DEV) {
-    await macros.saveDevData(outputFile, people);
+    await cache.set('dev_data', cacheName, 'main', people);
     console.log('coe file saved!');
   }
 
