@@ -55,7 +55,7 @@ EllucianSubjectParser.prototype.getDataType = function (pageData) {
 EllucianSubjectParser.prototype.getPointerConfig = function (pageData) {
 	var config = EllucianBaseParser.prototype.getPointerConfig.apply(this, arguments);
 	if (!pageData.dbData.termId) {
-		elog('in pointer config and dont have termId!!!');
+		macros.error('in pointer config and dont have termId!!!');
 	}
 
 	config.payload = 'p_calling_proc=bwckschd.p_disp_dyn_sched&p_term=' + pageData.dbData.termId

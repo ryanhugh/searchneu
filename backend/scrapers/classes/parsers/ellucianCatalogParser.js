@@ -23,6 +23,7 @@ var he = require('he');
 var _ = require('lodash');
 import cheerio from 'cheerio';
 
+import macros from '../../../macros';
 var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
 var ellucianClassParser = require('./ellucianClassParser');
 var ellucianRequisitesParser = require('./ellucianRequisitesParser');
@@ -184,7 +185,7 @@ EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 
 EllucianCatalogParser.prototype.parseElement = function (pageData, element) {
 	if (!pageData.dbData.termId) {
-		elog('error!!! in ellucianCatalogParser but dont have a termId', pageData)
+		macros.error('error!!! in ellucianCatalogParser but dont have a termId', pageData)
 		return;
 	};
 
@@ -197,7 +198,7 @@ EllucianCatalogParser.prototype.parseElement = function (pageData, element) {
 
 
 		if (pageData.parsingData.foundClass) {
-			elog('error found multiple classes ignoring the second one', pageData.dbData.url)
+			macros.error('error found multiple classes ignoring the second one', pageData.dbData.url)
 			return;
 		};
 

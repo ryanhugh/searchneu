@@ -17,6 +17,7 @@
  */
 
 'use strict';
+import macros from '../../../macros'
 var URI = require('urijs')
 var BaseParser = require('./baseParser').BaseParser;
 
@@ -34,7 +35,7 @@ EllucianBaseParser.prototype.constructor = EllucianBaseParser;
 EllucianBaseParser.prototype.classListURLtoClassInfo = function (catalogURL) {
 	var catalogParsed = new URI(catalogURL);
 	if (!catalogParsed || catalogParsed.host() === '') {
-		elog('error given invalid catalog url?', catalogURL);
+		macros.error('error given invalid catalog url?', catalogURL);
 		return;
 	}
 
@@ -42,28 +43,28 @@ EllucianBaseParser.prototype.classListURLtoClassInfo = function (catalogURL) {
 
 	var term_in = query.term_in;
 	if (!term_in || term_in === '') {
-		elog('error cant get class url, invalid term', catalogURL)
+		macros.error('error cant get class url, invalid term', catalogURL)
 		return;
 	}
 
 	var subj = query.one_subj;
 	if (!subj || subj === '') {
-		elog('error, cant get class url, invalid subj', catalogURL);
+		macros.error('error, cant get class url, invalid subj', catalogURL);
 		return;
 	}
 
 	var startcrse = query.sel_crse_strt;
 	if (!startcrse || startcrse === '') {
-		elog('error, cant get class url, invalid startcrse', catalogURL);
+		macros.error('error, cant get class url, invalid startcrse', catalogURL);
 		return;
 	}
 	var endcrse = query.sel_crse_end;
 	if (!endcrse || endcrse === '') {
-		elog('error, cant get class url, invalid endcrse', catalogURL);
+		macros.error('error, cant get class url, invalid endcrse', catalogURL);
 		return;
 	}
 	if (startcrse != endcrse) {
-		elog('error, startcrse!=endcrse??', catalogURL, startcrse, endcrse);
+		macros.error('error, startcrse!=endcrse??', catalogURL, startcrse, endcrse);
 		return;
 	}
 	return {
@@ -76,7 +77,7 @@ EllucianBaseParser.prototype.classListURLtoClassInfo = function (catalogURL) {
 EllucianBaseParser.prototype.createClassListUrl = function (siteURL, termId, subject) {
 	var baseURL = this.getBaseURL(siteURL);
 	if (!baseURL) {
-		elog('could not find base url of ', siteURL)
+		macros.error('could not find base url of ', siteURL)
 		return;
 	};
 
@@ -93,12 +94,12 @@ EllucianBaseParser.prototype.createClassListUrl = function (siteURL, termId, sub
 EllucianBaseParser.prototype.createCatalogUrl = function (siteURL, termId, subject, classId) {
 	var baseURL = this.getBaseURL(siteURL);
 	if (!baseURL) {
-		elog('could not find base url of ', siteURL)
+		macros.error('could not find base url of ', siteURL)
 		return;
 	};
 
 	if (classId === undefined) {
-		elog('error need class id for catalog url')
+		macros.error('error need class id for catalog url')
 		return
 	};
 
@@ -118,7 +119,7 @@ EllucianBaseParser.prototype.createCatalogUrl = function (siteURL, termId, subje
 EllucianBaseParser.prototype.createClassURL = function (siteURL, termId, subject, classId) {
 	var baseURL = this.getBaseURL(siteURL);
 	if (!baseURL) {
-		elog('could not find base url of ', siteURL)
+		macros.error('could not find base url of ', siteURL)
 		return;
 	};
 
@@ -142,7 +143,7 @@ EllucianBaseParser.prototype.sectionURLtoInfo = function (sectionURL) {
 	var retVal = {}
 
 	if (!query.crn_in) {
-		elog('could not find crn_in sectionURL!', sectionURL);
+		macros.error('could not find crn_in sectionURL!', sectionURL);
 		return;
 	}
 	else {

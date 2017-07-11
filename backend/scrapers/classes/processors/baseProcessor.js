@@ -18,6 +18,7 @@
 
 'use strict';
 
+import macros from '../../../macros';
 var Keys = require('../../../../common/Keys')
 var path = require('path')
 var fs = require('fs')
@@ -67,7 +68,7 @@ BaseProcessor.prototype.getClassHash = function (termDump, config = {}) {
 
 	termDump.classes.forEach(function (aClass) {
 		if (!aClass.host || !aClass.termId || !aClass.subject || !aClass.classUid) {
-			elog("ERROR class dosent have required fields??", aClass);
+			macros.error("ERROR class dosent have required fields??", aClass);
 			return;
 		}
 
@@ -87,13 +88,13 @@ BaseProcessor.prototype.getClassHash = function (termDump, config = {}) {
 			key += aClass.classUid
 
 			if (keyToRows[key]) {
-				elog('duplicate classUid?', keyToRows[key], aClass)
+				macros.error('duplicate classUid?', keyToRows[key], aClass)
 			}
 
 			keyToRows[key] = aClass
 		}
 		else {
-			elog('Cant use classUid if dont have classUid!', aClass)
+			macros.error('Cant use classUid if dont have classUid!', aClass)
 		}
 
 

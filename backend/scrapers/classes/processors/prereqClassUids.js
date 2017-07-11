@@ -17,6 +17,7 @@
  */
 
 'use strict';
+import macros from '../../../macros';
 var ellucianRequisitesParser = require('../parsers/ellucianRequisitesParser')
 var BaseProcessor = require('./baseProcessor').BaseProcessor
 
@@ -88,7 +89,7 @@ PrereqClassUids.prototype.updatePrereqs = function (prereqs, host, termId, keyTo
 			// don't do anything, this is already fixed
 		}
 		else {
-			elog('wtf is ', prereqEntry, prereqs)
+			macros.error('wtf is ', prereqEntry, prereqs)
 		}
 	}
 	return prereqs;

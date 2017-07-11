@@ -124,7 +124,7 @@ EllucianClassParser.prototype.parseTimeStamps = function (times, days) {
 EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 
 	if (!pageData.dbData.url) {
-		elog(pageData.dbData)
+		macros.error(pageData.dbData)
 		macros.log(pageData)
 		return;
 	}
@@ -199,7 +199,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 			}
 
 			if (!dep.dbData.name) {
-				elog("ERROR, dep dosen't have a name?", pageData.deps)
+				macros.error("ERROR, dep dosen't have a name?", pageData.deps)
 			}
 			else {
 				possibleClassNameMatches.push(dep.dbData.name)
@@ -237,7 +237,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 				// macros.log('creating a new dep entry',pageData.deps.length);
 
 				if (pageData.dbData.desc === undefined) {
-					elog('wtf desc is undefined??')
+					macros.error('wtf desc is undefined??')
 				};
 
 				dbAltEntry = pageData.addDep({
@@ -270,7 +270,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 
 
 			if (!dbAltEntry.dbData.name) {
-				elog('Dont have name for dep??', dbAltEntry.dbData)
+				macros.error('Dont have name for dep??', dbAltEntry.dbData)
 			}
 
 
@@ -284,7 +284,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 
 		sectionStartingData.crn = sectionURLParsed.crn;
 		if (!classToAddSectionTo.parsingData.crns) {
-			elog('ERROR class parsing data has no crns attr??!?!??', classToAddSectionTo)
+			macros.error('ERROR class parsing data has no crns attr??!?!??', classToAddSectionTo)
 			return;
 		};
 		classToAddSectionTo.parsingData.crns.push(sectionURLParsed.crn);

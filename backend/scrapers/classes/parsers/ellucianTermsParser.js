@@ -277,7 +277,7 @@ EllucianTermsParser.prototype.parseTermsPage = function (startingURL, dom) {
 	var parsedForm = this.parseForm(startingURL, dom);
 
 	if (!parsedForm) {
-		elog('default form data failed');
+		macros.error('default form data failed');
 		return;
 	}
 
@@ -290,7 +290,7 @@ EllucianTermsParser.prototype.parseTermsPage = function (startingURL, dom) {
 	defaultFormData.forEach(function (entry) {
 		if (this.shouldParseEntry(entry)) {
 			if (termEntry) {
-				elog("Already and entry???", termEntry)
+				macros.error("Already and entry???", termEntry)
 			}
 			termEntry = entry;
 		}
@@ -300,7 +300,7 @@ EllucianTermsParser.prototype.parseTermsPage = function (startingURL, dom) {
 	}.bind(this));
 
 	if (!termEntry) {
-		elog('Could not find an entry!', startingURL, JSON.stringify(parsedForm));
+		macros.error('Could not find an entry!', startingURL, JSON.stringify(parsedForm));
 		return;
 	}
 

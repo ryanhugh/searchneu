@@ -130,7 +130,7 @@ BaseParser.prototype.parseDOM = function (pageData, dom) {
 //regardless if its part of the header or the first row of the body
 BaseParser.prototype.parseTable = function (table) {
 	if (table.name != 'table') {
-		elog('parse table was not given a table..')
+		macros.error('parse table was not given a table..')
 		return;
 	};
 
@@ -139,7 +139,7 @@ BaseParser.prototype.parseTable = function (table) {
 	var rows = domutils.getElementsByTagName('tr', table);
 
 	if (rows.length === 0) {
-		elog('zero rows???')
+		macros.error('zero rows???')
 		return;
 	};
 
@@ -499,7 +499,7 @@ BaseParser.prototype.standardizeClassName = function (originalName, possibleMatc
 	if (originalName.lenght === 0) {
 		macros.log("Warning: originalName was empty or had only symbols");
 		if (possibleMatches.length === 0) {
-			elog('Dont have a name for a class!', originalName, possibleMatches)
+			macros.error('Dont have a name for a class!', originalName, possibleMatches)
 			return 'Unknown class'
 		}
 		else {

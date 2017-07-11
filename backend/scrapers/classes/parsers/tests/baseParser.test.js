@@ -17,7 +17,6 @@
  */
 
 import request from '../../../request';
-var ellucianSectionParser = require('../ellucianSectionParser')
 var fs = require('fs-promise')
 var path = require('path')
 var baseParser = require('../baseParser')

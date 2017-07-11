@@ -17,6 +17,8 @@
  */
 
 'use strict';
+
+import macros from '../../../macros';
 var BaseProcessor = require('./baseProcessor').BaseProcessor
 
 // Add classUids to classes. ClassUid = ClassId + '_'  + hash(class.name)
@@ -38,7 +40,7 @@ AddClassUids.prototype.getStringHash = function (input) {
 	var len;
 
 	if (input.length === 0) {
-		elog("getStringHash given input.length ==0!!");
+		macros.error("getStringHash given input.length ==0!!");
 		return hash;
 	}
 	for (i = 0, len = input.length; i < len; i++) {
@@ -52,7 +54,7 @@ AddClassUids.prototype.getStringHash = function (input) {
 
 AddClassUids.prototype.getClassUid = function (classId, title) {
 	if (!title) {
-		elog('get class id given not title!')
+		macros.error('get class id given not title!')
 	}
 	return classId + '_' + this.getStringHash(title);
 };
