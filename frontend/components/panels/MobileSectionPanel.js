@@ -38,7 +38,7 @@ class MobileSectionPanel extends React.Component {
         <tr className={ css.lastRow }>
           <td className={ css.firstColumn }>Wait</td>
           <td className={ css.secondColumn }>
-            {this.props.section.waitRemaining}/{this.props.section.waitCapacity} Waitlist Seats Avalible
+            {this.props.section.waitRemaining}/{this.props.section.waitCapacity} Waitlist Seats Available
           </td>
         </tr>
       );
@@ -134,7 +134,7 @@ class MobileSectionPanel extends React.Component {
             >
               <td className={ css.firstColumn }>Seats</td>
               <td className={ css.secondColumn }>
-                {this.props.section.seatsRemaining}/{this.props.section.seatsCapacity} Avalible
+                {this.props.section.seatsRemaining}/{this.props.section.seatsCapacity} Available
               </td>
             </tr>
             {waitlistRow}

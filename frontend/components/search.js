@@ -21,6 +21,11 @@ class Search {
     // Searches are case insensitive.
     query = query.trim().toLowerCase();
 
+    if (!query || query.length === 0) {
+      console.log("No query given in frontend/search.js. Returning empty array.", query, termCount)
+      return []
+    }
+
     let existingTermCount = 0;
     if (this.cache[query]) {
       existingTermCount = this.cache[query].length;
@@ -45,6 +50,11 @@ class Search {
     let startTime = Date.now()
     const results = await request.get(url);
     window.amplitude.logEvent('Search Timing', {query: query, time: Date.now() - startTime});
+
+    if (results.error) {
+      console.error("Error with networking request", results.error)
+      return []
+    }
 
 
     if (!this.cache[query]) {
