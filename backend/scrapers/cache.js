@@ -123,22 +123,34 @@ class Cache {
 
   }
 
-  async save(filePath) {
+  async save(filePath, optimizeForSpeed) {
 
     let dataMap = await this.dataPromiseMap[filePath]
     let startTime = Date.now();
-    let buffer = msgpack.encode(dataMap)
+    
+    let buffer;
+    let destinationFile = filePath;
+
+    if (optimizeForSpeed) {
+      buffer = msgpack.encode(dataMap)
+      destinationFile += '.msgpack'
+    }
+    else {
+      buffer = JSON.stringify(dataMap)
+      destinationFile += '.json'
+    }
+
     const timeSpendEncoding = Date.now() - startTime;
     this.totalTimeSpendEncoding += timeSpendEncoding
-    console.log("Saving file", filePath, 'encoding took', timeSpendEncoding, this.totalTimeSpendEncoding)
-    await fs.writeFile(filePath + '.new', buffer)
+    console.log("Saving file", destinationFile, 'encoding took', timeSpendEncoding, this.totalTimeSpendEncoding)
+    await fs.writeFile(destinationFile + '.new', buffer)
 
     // Write to a file with a different name, and then rename the new one. Renaming a file to a filename that already exists
     // will override the old file in node.js. 
     // This prevents the cache file from getting into an invalid state if the process is killed while the program is saving.
     // If the file does not exist, ignore the error
-    await fs.rename(filePath + '.new', filePath)
-    console.log("It took ", Date.now() - startTime, 'ms to save', filePath)
+    await fs.rename(destinationFile + '.new', destinationFile)
+    console.log("It took ", Date.now() - startTime, 'ms to save', destinationFile)
   }
 
 
@@ -170,7 +182,7 @@ class Cache {
     // Wait 10 seconds before saving. 
     if (!this.saveTimeoutMap[filePath]) {
       this.saveTimeoutMap[filePath] = setTimeout(async () => {
-        await this.save(filePath);
+        await this.save(filePath, optimizeForSpeed);
         this.saveTimeoutMap[filePath] = null;
       }, intervalTime)
     }

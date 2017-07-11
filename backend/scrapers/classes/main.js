@@ -4,6 +4,7 @@ import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
 import _ from 'lodash';
 
+import cache from '../cache'
 import pageDataMgr from './pageDataMgr';
 import macros from '../../macros';
 import Keys from '../../../common/Keys';
@@ -347,11 +348,11 @@ class Main {
 
   // CollegeAbbrs are the hostname but without the ".edu" at the end
   async getTermDump(collegeAbbrs) {
-    const outputFile = path.join(macros.DEV_DATA_DIR, `classes${collegeAbbrs.join(',')}.json`);
+    let cacheKey = collegeAbbrs.join(',')
 
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module) {
-      const devData = await macros.loadDevData(outputFile);
+      const devData = await cache.get('dev_data', 'classes', cacheKey)
       if (devData) {
         return devData;
       }
@@ -360,7 +361,7 @@ class Main {
     const termDump = await pageDataMgr.main(collegeAbbrs);
 
     if (macros.DEV) {
-      await macros.saveDevData(outputFile, termDump);
+      await cache.set('dev_data', 'classes', cacheKey, termDump)
       console.log('classes file saved for', collegeAbbrs, '!');
     }
     return termDump;
