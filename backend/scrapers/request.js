@@ -493,7 +493,7 @@ class Request {
 
         // Save the response to a file for development
         if (macros.DEV) {
-          cache.set('requests', config.cacheName, newKey, response.toJSON())
+          cache.set('requests', config.cacheName, newKey, response.toJSON(), true)
         }
 
         // Don't log this on travis because it causes more than 4 MB to be logged and travis will kill the job
