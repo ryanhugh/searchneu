@@ -401,29 +401,7 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 	}
 
 
-	//if section dependency already exists, just add the data
-	for (var i = 0; i < classToAddSectionTo.deps.length; i++) {
-		var currDep = classToAddSectionTo.deps[i];
-		if (!currDep.dbData.url) {
-			macros.error(currDep.dbData)
-			macros.log(currDep);
-			continue;
-		}
-
-		if (new URI(currDep.dbData.url).equals(new URI(sectionStartingData.url))) {
-			if (currDep.dbData.crn != sectionStartingData.crn) {
-				macros.log("Warning urls matched but crns did not?", currDep, sectionStartingData)
-			}
-
-
-			for (var attrName in sectionStartingData) {
-				currDep.setData(attrName, sectionStartingData[attrName])
-			}
-			return;
-		}
-	};
-
-	//else create one
+	// Add a new section to the current class.
 	var sectionPageData = classToAddSectionTo.addDep(sectionStartingData);
 	sectionPageData.setParser(ellucianSectionParser);
 };
