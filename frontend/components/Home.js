@@ -227,7 +227,13 @@ class Home extends React.Component {
     let resultsElement = null;
 
     if (this.state.results) {
-      if (this.state.searchTerm.trim() === 'memes') {
+
+      let memeMatches = {
+        meme: true,
+        memes: true,
+      }
+
+      if (memeMatches[this.state.searchTerm.toLowerCase().trim()]) {
         resultsElement = (
           <div className = { css.aounContainer }> 
             <img src={aoun}/> 
