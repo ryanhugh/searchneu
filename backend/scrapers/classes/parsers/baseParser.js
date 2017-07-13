@@ -65,11 +65,11 @@ BaseParser.prototype.parse = async function (pageData, callback) {
 	// That info is part of the config.
 	let response = await this.request.request(config)
 
-	Request.handleRequestResponce(response.body, function(err, dom) {
+	Request.handleRequestResponce(response.body, async function(err, dom) {
 
 		pageData.setData('lastUpdateTime', Date.now());
 
-		this.parseDOM(pageData, dom);
+		await this.parseDOM(pageData, dom);
 
 		callback();
 	}.bind(this))
@@ -107,11 +107,23 @@ BaseParser.prototype.onEndParsing = function (pageData) {
 
 };
 
-BaseParser.prototype.parseDOM = function (pageData, dom) {
+BaseParser.prototype.parseDOM = async function (pageData, dom) {
 
 	this.onBeginParsing(pageData, dom);
 
-	domutils.findAll(this.parseElement.bind(this, pageData), dom);
+	let elements = []
+
+	// Copy all the elements into an array.
+	domutils.findAll(function (element) {
+		elements.push(element);
+	}, dom)
+
+	for (const element of elements) {
+		await this.parseElement(pageData, element)
+	}
+
+
+	// domutils.findAll(this.parseElement.bind(this, pageData), dom);
 
 	this.onEndParsing(pageData, dom);
 

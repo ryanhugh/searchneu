@@ -121,7 +121,7 @@ EllucianClassParser.prototype.parseTimeStamps = function (times, days) {
 
 
 //this is called for each section that is found on the page
-EllucianClassParser.prototype.parseClassData = function (pageData, element) {
+EllucianClassParser.prototype.parseClassData = async function (pageData, element) {
 
 	if (!pageData.dbData.url) {
 		macros.error(pageData.dbData)
@@ -441,7 +441,7 @@ EllucianClassParser.prototype.onBeginParsing = function (pageData) {
 
 
 //parsing the htmls
-EllucianClassParser.prototype.parseElement = function (pageData, element) {
+EllucianClassParser.prototype.parseElement = async function (pageData, element) {
 	if (element.type != 'tag') {
 		return;
 	}
@@ -450,8 +450,7 @@ EllucianClassParser.prototype.parseElement = function (pageData, element) {
 	}
 
 	if (element.name == 'a' && element.attribs.href && element.parent.attribs.class == 'ddtitle' && element.parent.attribs.scope == 'colgroup') {
-		this.parseClassData(pageData, element.parent.parent);
-
+		await this.parseClassData(pageData, element.parent.parent);
 	}
 };
 
