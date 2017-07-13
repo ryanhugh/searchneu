@@ -78,10 +78,12 @@ AddClassUids.prototype.go = function go(termDump) {
 		}
 	}
 
+	debugger
+
 
 	for (let section of termDump.sections) {
 		if (!crnMap[section.crn]) {
-			console.error('ERROR no crn found!', crn)
+			console.error('ERROR no crn found!', section)
 			continue;
 		}
 

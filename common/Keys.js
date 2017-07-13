@@ -19,9 +19,9 @@
 'use strict';
 
 // This file is used to manage the {host:, termId: subject:...} objects used to get more data. 
-// This is used in both sw.js, the backend, and the frontend.
+// This is used in both the backend and the frontend.
 // So anything that is required is is added many different places. 
-// var macros = require('./macros')
+import macros from './macros'
 
 
 // feature request from server.js: add classId if not given classUid and given host+termId+subject
@@ -37,7 +37,7 @@ var minData = 2;
 
 function Keys(obj, endpoint, config) {
 	if (obj instanceof Keys || !obj || (obj._id && !obj.hash && !obj.host) || (obj.isString && !config.stringAllowed)) {
-		elog('welp', obj)
+		macros.error('welp', obj)
 	}
 
 	if (endpoint) {
@@ -67,7 +67,7 @@ function Keys(obj, endpoint, config) {
 			}
 			else if (endpointIndex && i > endpointIndex) {
 				hasAllKeys = false;
-				elog(obj, endpoint)
+				macros.error(obj, endpoint)
 				break;
 			}
 			else {
@@ -80,7 +80,7 @@ function Keys(obj, endpoint, config) {
 			if (obj[Keys.allKeys[i]]) {
 
 				// Shouldn't have any keys after first one that isn't present
-				elog(obj, endpoint)
+				macros.error(obj, endpoint)
 			}
 		}
 
@@ -88,7 +88,7 @@ function Keys(obj, endpoint, config) {
 			if (obj.host && obj.termId && obj.hash) {
 		
 				if (startsWith(obj.hash, '/list') || startsWith(obj.hash, '/') || !config.hashAllowed) {
-					elog(obj, endpoint, config.hashAllowed)
+					macros.error(obj, endpoint, config.hashAllowed)
 				}
 				else {
 					
@@ -103,14 +103,14 @@ function Keys(obj, endpoint, config) {
 			}
 		}
 		if (!hasAllKeys) {
-			elog('dont have all keys',obj, endpoint)
+			macros.error('dont have all keys',obj, endpoint)
 		}
 		
 		
 	}
 
 	else if (endpoint !== undefined && endpoint !== macros.LIST_COLLEGES) {
-		elog(obj, endpoint);
+		macros.error(obj, endpoint);
 	}
 }
 
@@ -152,7 +152,7 @@ Keys.replacementRegex = /[^A-Za-z0-9.]+/g
 Keys.prototype.getHash = function () {
 	if (this.isString) {
 		if (!this.host || !this.desc) {
-			elog()
+			macros.error()
 			return null;
 		}
 		else {
@@ -161,7 +161,7 @@ Keys.prototype.getHash = function () {
 	}
 	if (this.hash) {
 		if (startsWith(this.hash, '/list')) {
-			elog()
+			macros.error()
 		}
 		return this.hash
 	}
@@ -185,7 +185,7 @@ Keys.prototype.getHash = function () {
 
 Keys.prototype.getHashWithEndpoint = function (endpoint) {
 	if (this.isString) {
-		elog()
+		macros.error()
 		return null;
 	}
 	return endpoint + '/' + this.getHash()
@@ -194,14 +194,14 @@ Keys.prototype.getHashWithEndpoint = function (endpoint) {
 // Used in BaseData to go from a class that has everything to the classUid to what should be requested from the server
 Keys.prototype.getMinimumKeys = function () {
 	if (this.isString) {
-		elog()
+		macros.error()
 		return null;
 	}
 	var retVal = {};
 	for (var i = 0; i < minData; i++) {
 		var currValue = this[Keys.allKeys[i]];
 		if (!currValue) {
-			// elog()
+			// macros.error()
 			break;
 		}
 		retVal[Keys.allKeys[i]] = currValue
@@ -219,7 +219,7 @@ Keys.prototype.getObj = function () {
 	}
 	if (this.hash) {
 		// Can't get obj if given hash
-		elog()
+		macros.error()
 		return {
 			hash: this.hash
 		}
@@ -266,7 +266,7 @@ Keys.prototype.isValid = function (endpoint) {
 		}
 		else {
 			// Need an endpoint from somewhere to check if this is valid
-			elog()
+			macros.error()
 			return false
 		}
 	}
@@ -309,7 +309,7 @@ Keys.prototype.propsEqual = function (other) {
 			return true;
 		}
 		// else if (other.host) {
-		// 	elog()
+		// 	macros.error()
 		// }
 		return false;
 	}

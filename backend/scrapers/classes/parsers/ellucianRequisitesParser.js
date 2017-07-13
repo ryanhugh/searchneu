@@ -302,9 +302,9 @@ EllucianRequisitesParser.prototype.convertClassListURLs = function (pageData, da
 			}
 
 			//don't need to keep termId if its the same as this class
-			if (classInfo.termId === pageData.dbData.termId) {
-				delete classInfo.termId;
-			};
+			// if (classInfo.termId === pageData.dbData.termId) {
+			delete classInfo.termId;
+			// };
 
 
 			return classInfo;

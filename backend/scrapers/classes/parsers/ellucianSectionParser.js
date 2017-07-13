@@ -27,14 +27,14 @@ import cache from '../../cache'
 import Request from '../../request';
 import macros from '../../../macros';
 
+
+const EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
+const ellucianRequisitesParser = require('./ellucianRequisitesParser');
+const ellucianRequisitesParser2 = require('./ellucianRequisitesParser2');
+
+
 const request = new Request('EllucianSectionParser');
 
-
-
-
-var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
-var ellucianRequisitesParser = require('./ellucianRequisitesParser');
-var ellucianRequisitesParser2 = require('./ellucianRequisitesParser2');
 
 //700+ college sites use this poor interface for their registration
 //good thing tho, is that it is easily scrape-able and does not require login to access seats available
@@ -64,22 +64,33 @@ EllucianSectionParser.prototype.main = async function(url) {
   let resp = await request.get(url);
   const $ = cheerio.load(resp.body);
 
-  let matchingTables = $('td > table.datadisplaytable');
+  let allTables = $('td > table.datadisplaytable');
 
-  if (matchingTables.length !== 1) {
-    macros.error("Unable to find table?", url);
-    return {};
+  let matchingTable;
+
+  for (var i = 0; i < allTables.length; i++) {
+    const table = $(allTables[i])
+
+    // console.log(table)
+    let summary = table.attr('summary')
+    if (!summary  || !summary.includes('seating')) {
+      continue;
+    }
+
+    if (matchingTable) {
+      macros.error("Already found a matching table?", url);
+      return {};
+    }
+
+    matchingTable = table;
   }
 
-  let summaryText = matchingTables.attr('summary')
-  if (!matchingTables || !summaryText.includes('seating')) {
+  if (!matchingTable) {
     macros.error('Table did not include seating string');
     return {};
   }
 
-  let retVal = this.parseElement(matchingTables[0], url)
-
-  console.log(retVal)
+  let retVal = this.parseElement(matchingTable[0], url)
 
   // Possibly save to dev
   if (macros.DEV) {
@@ -111,7 +122,7 @@ EllucianSectionParser.prototype.parseElement = function (element, url) {
     return;
   }
 
-  //dont need to store all 3, if can determine the 3rd from the other 2 (yay math)
+  // Don't need to store all 3 of these numbers. Verify that 2 of them add up to the other one, and then just store 2 of them.
   var seatsCapacity = parseInt(tableData.capacity[0]);
   var seatsActual = parseInt(tableData.actual[0]);
   var seatsRemaining = parseInt(tableData.remaining[0]);
@@ -120,7 +131,7 @@ EllucianSectionParser.prototype.parseElement = function (element, url) {
     macros.log('warning, actual + remaining != capacity', seatsCapacity, seatsActual, seatsRemaining, url);
 
     // Oddly enough, sometimes this check fails.
-    // In this case, use the greater number for capacity
+    // In this case, use the greater number for capacity.
     // https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201630&crn_in=31813
     // https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201630&crn_in=38114
     if (seatsCapacity < seatsActual + seatsRemaining) {
@@ -130,10 +141,12 @@ EllucianSectionParser.prototype.parseElement = function (element, url) {
 
   if (seatsCapacity === undefined) {
     macros.error("Error when parsing seat capacity.", url);
+    return {};
   }
 
   if (seatsRemaining === undefined) {
     macros.error("Error when parsing seatsRemaining.", url);
+    return {};
   }
 
   retVal.seatsCapacity = seatsCapacity;
@@ -141,9 +154,9 @@ EllucianSectionParser.prototype.parseElement = function (element, url) {
 
   if (tableData._rowCount > 1) {
 
-    var waitCapacity = parseInt(tableData.capacity[1]);
-    var waitActual = parseInt(tableData.actual[1]);
-    var waitRemaining = parseInt(tableData.remaining[1]);
+    var waitCapacity = parseInt(tableData.capacity[1], 10);
+    var waitActual = parseInt(tableData.actual[1], 10);
+    var waitRemaining = parseInt(tableData.remaining[1], 10);
 
     if (waitActual + waitRemaining != waitCapacity) {
       macros.log('warning, wait actual + remaining != capacity', waitCapacity, waitActual, waitRemaining, url);
@@ -171,12 +184,12 @@ EllucianSectionParser.prototype.parseElement = function (element, url) {
   //find co and pre reqs and restrictions
   var prereqs = ellucianRequisitesParser.parseRequirementSection(fakePageData, element.parent.children, 'prerequisites');
   if (prereqs) {
-    pageData.setParentData('prereqs', prereqs);
+    retVal.prereqs = prereqs;
   }
 
   var coreqs = ellucianRequisitesParser.parseRequirementSection(fakePageData, element.parent.children, 'corequisites');
   if (coreqs) {
-    pageData.setParentData('coreqs', coreqs);
+    retVal.coreqs = coreqs;
   }
 
   //find co and pre reqs and restrictions
@@ -200,7 +213,7 @@ EllucianSectionParser.prototype.parseElement = function (element, url) {
     retVal.minCredits = creditsParsed.minCredits;
   }
   else {
-    macros.log('warning, nothing matchied credits', pageData.dbData.url, text);
+    macros.log('warning, nothing matchied credits', url, text);
   }
 
 
@@ -241,6 +254,12 @@ EllucianSectionParser.prototype.parseElement = function (element, url) {
 EllucianSectionParser.prototype.EllucianSectionParser = EllucianSectionParser;
 module.exports = new EllucianSectionParser();
 
+
+async function testFunc() {
+  let a = await module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14579');
+  console.log(a)
+}
+
 if (require.main === module) {
-  module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14579');
+  testFunc()
 }

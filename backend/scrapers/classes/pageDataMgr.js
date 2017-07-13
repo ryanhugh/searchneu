@@ -26,7 +26,6 @@ const parsersClasses = [
   require('./parsers/ellucianCatalogParser'),
   require('./parsers/ellucianClassListParser'),
   require('./parsers/ellucianClassParser'),
-  require('./parsers/ellucianSectionParser'),
   require('./parsers/ellucianSubjectParser'),
   require('./parsers/ellucianTermsParser'),
 ];
@@ -126,6 +125,7 @@ PageDataMgr.prototype.go = function go(pageDatas, callback) {
   // Find the name of the college (neu.edu -> Northeastern University)
   // This is the first of the efforts to rewrite the old es5 code to es6, 
   // and remove a lot of the uncessecary logic
+  console.trace()
   let host = macros.getBaseHost(inputPageData.dbData.url);
   console.log(collegeNamesParser)
   const collegeNamePromise = collegeNamesParser.main(host)

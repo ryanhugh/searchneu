@@ -411,11 +411,18 @@ EllucianClassParser.prototype.parseClassData = async function (pageData, element
 
 	Object.assign(fullSectiondata, dataFromSectionPage, sectionStartingData)
 
-	console.log(fullSectiondata)
+	fullSectiondata.host = classToAddSectionTo.dbData.host
+	fullSectiondata.termId = classToAddSectionTo.dbData.termId
+	fullSectiondata.subject = classToAddSectionTo.dbData.subject
+	// fullSectiondata.classUid = classToAddSectionTo.dbData.classUid
+	fullSectiondata.classId = classToAddSectionTo.dbData.classId
+	// fullSectiondata.crn = classToAddSectionTo.dbData.crn
+
+	// console.log(fullSectiondata)
 
 
 	classToAddSectionTo.simpleDeps.push({
-		dbData:fullSectiondata,
+		dbData: fullSectiondata,
 		dataType: 'sections'
 	})
 
