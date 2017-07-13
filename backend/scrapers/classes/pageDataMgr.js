@@ -234,7 +234,19 @@ PageDataMgr.prototype.pageDataStructureToTermDump = function pageDataStructureTo
   let stack = [rootPageData];
   let curr = null;
   while ((curr = stack.pop())) {
-    const dataType = curr.parser.getDataType(curr);
+
+
+    let dataType;
+
+    // Is an actual page data. Get the data type from the parser.
+    if (curr.parser) {
+      dataType = curr.parser.getDataType(curr);
+    }
+    else if (curr.dataType) {
+      dataType = curr.dataType;
+    }
+
+
     if (dataType) {
       if (!output[dataType]) {
         output[dataType] = [];
@@ -253,6 +265,10 @@ PageDataMgr.prototype.pageDataStructureToTermDump = function pageDataStructureTo
 
     if (curr.deps) {
       stack = stack.concat(curr.deps);
+    }
+
+    if (curr.simpleDeps) {
+      stack = stack.concat(curr.simpleDeps);
     }
   }
 

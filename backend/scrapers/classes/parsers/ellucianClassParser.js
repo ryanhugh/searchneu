@@ -400,10 +400,29 @@ EllucianClassParser.prototype.parseClassData = function (pageData, element) {
 		}
 	}
 
+	if (!classToAddSectionTo.simpleDeps) {
+		classToAddSectionTo.simpleDeps = []
+	}
+
+
+	let dataFromSectionPage = await ellucianSectionParser.main(sectionStartingData.url)
+
+	let fullSectiondata = {}
+
+	Object.assign(fullSectiondata, dataFromSectionPage, sectionStartingData)
+
+	console.log(fullSectiondata)
+
+
+	classToAddSectionTo.simpleDeps.push({
+		dbData:fullSectiondata,
+		dataType: 'sections'
+	})
+
 
 	// Add a new section to the current class.
-	var sectionPageData = classToAddSectionTo.addDep(sectionStartingData);
-	sectionPageData.setParser(ellucianSectionParser);
+	// var sectionPageData = classToAddSectionTo.addDep(sectionStartingData);
+	// sectionPageData.setParser(ellucianSectionParser);
 };
 
 
