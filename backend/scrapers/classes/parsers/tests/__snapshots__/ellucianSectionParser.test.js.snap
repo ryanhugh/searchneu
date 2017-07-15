@@ -3,9 +3,9 @@
 exports[`honors works 1`] = `
 Object {
   "honors": true,
-  "isOnline": false,
   "maxCredits": 0,
   "minCredits": 0,
+  "online": false,
   "seatsCapacity": 32,
   "seatsRemaining": 31,
   "waitCapacity": 0,
@@ -25,9 +25,9 @@ Object {
     ],
   },
   "honors": true,
-  "isOnline": false,
   "maxCredits": 3,
   "minCredits": 3,
+  "online": false,
   "prereqs": Object {
     "type": "and",
     "values": Array [

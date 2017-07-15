@@ -66,7 +66,7 @@ EllucianSectionParser.prototype.main = async function(url) {
   let retVal = this.parse(resp.body, url)
   
   // Possibly save to dev
-  if (macros.DEV) {
+  if (macros.DEV && require.main !== module) {
     await cache.set('dev_data', this.constructor.name, url, retVal);
 
     // Don't log anything because there would just be too much logging. 
@@ -237,19 +237,52 @@ EllucianSectionParser.prototype.parse = function (body, url) {
     macros.log('warning, nothing matchied credits', url, text);
   }
 
-  // Grab whether the class is an online class or not
-  const onlineCampus = text.includes('online campus')
-  const onlineMethod = text.includes('online instructional method')
-  if (onlineCampus && onlineMethod) {
-    retVal.isOnline = true;
+
+  // This is specific for NEU for now. 
+  // Other colleges probably do it a little differently. 
+  // Could probably figure out online vs not online easily.. but not sure.
+  if (macros.getBaseHost(url) === 'neu.edu') {
+    
+    // Possible values for campus
+    // Different campuses are not done yet.
+    // But this where the code would go
+    // <OPTION VALUE="%" SELECTED>All
+    // <OPTION VALUE="BOS">Boston
+    // <OPTION VALUE="BRD">Boston
+    // <OPTION VALUE="BRL">Burlington
+    // <OPTION VALUE="CHL">Charlotte, NC
+    // <OPTION VALUE="DDH">Dedham
+    // <OPTION VALUE="NAH">Nahant
+    // <OPTION VALUE="SEA">Seattle, WA
+    // <OPTION VALUE="TOR">Toronto, Canada
+    // <OPTION VALUE="VTL">Online
+
+    let possibleCampuses = {
+
+      // This one is kindof weird. It is used when the class does not occur in a classroom. 
+      // For example, Music Lessons, Independant study, Directed Study, Research, etc
+      // Where all the teaching/learning would probably happen just 1:1 somewhere on campus, 
+      // but in some cases it could happen remotely too.
+      'no campus, no room needed campus': 'Boston',
+      'burlington campus': 'Burlington',
+      'boston, main campus': "Boston",
+      "boston campus": "Boston",
+      "seattle, wa campus": "Seattle"
+    }
+
+
+    // Grab whether the class is an online class or not
+    const onlineCampus = text.includes('online campus');
+    if (onlineCampus) {
+      retVal.online = true;
+    }
+    else {
+      retVal.online = false;
+    }
+
   }
-  else if (!onlineCampus && !onlineMethod) {
-    retVal.isOnline = false;
-  }
-  else {
-    macros.error("?? for online", url)
-    retVal.isOnline = false; 
-  }
+
+
 
 
   // HONORS NOTES
