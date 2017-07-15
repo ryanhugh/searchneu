@@ -32,6 +32,19 @@ function EllucianBaseParser() {
 EllucianBaseParser.prototype = Object.create(BaseParser.prototype);
 EllucianBaseParser.prototype.constructor = EllucianBaseParser;
 
+
+EllucianBaseParser.prototype.getTermIdFromUrl = function(url) {
+	let urlParsed = new URI(url);
+
+	let query = urlParsed.query(true);
+	if (!query.term_in || query.term_in.length !== 6) {
+		macros.error('Unable to find term_in in', url)
+		return null;
+	}
+
+	return query.term_in
+};
+
 EllucianBaseParser.prototype.classListURLtoClassInfo = function (catalogURL) {
 	var catalogParsed = new URI(catalogURL);
 	if (!catalogParsed || catalogParsed.host() === '') {
@@ -166,7 +179,7 @@ EllucianBaseParser.prototype.getBaseURL = function (url) {
 		}
 	}
 
-	console.log('ERROR: given url does not contain a split from');
+	macros.error('Given url does not contain a split from', url);
 	return null;
 };
 

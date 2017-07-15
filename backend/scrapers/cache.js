@@ -66,10 +66,11 @@ class Cache {
     const msgPackFileExtension = filePath + '.msgpack';
     let exists = await fs.exists(msgPackFileExtension);
     if (exists) {
-      let startTime = Date.now()
-      let buffer = await fs.readFile(msgPackFileExtension)
-      let retVal = msgpack.decode(buffer)
-      console.log("It took ", Date.now() - startTime, 'ms to load', msgPackFileExtension)
+      const startTime = Date.now()
+      const buffer = await fs.readFile(msgPackFileExtension)
+      const midTime = Date.now()
+      const retVal = msgpack.decode(buffer)
+      console.log("It took ", Date.now() - midTime, 'ms to parse and ', midTime - startTime ,' to load ', msgPackFileExtension)
       return retVal;
     }
 
@@ -77,10 +78,11 @@ class Cache {
     const jsonFileExtension = filePath + '.json';
     exists = await fs.exists(jsonFileExtension);
     if (exists) {
-      let startTime = Date.now()
-      let buffer = await fs.readFile(jsonFileExtension)
-      let retVal = JSON.parse(buffer)
-      console.log("It took ", Date.now() - startTime, 'ms to load', jsonFileExtension)
+      const startTime = Date.now()
+      const buffer = await fs.readFile(jsonFileExtension)
+      const midTime = Date.now()
+      const retVal = JSON.parse(buffer)
+      console.log("It took ", Date.now() - midTime, 'ms to parse and ', midTime - startTime ,' to load ', jsonFileExtension)
       return retVal;
     }
 

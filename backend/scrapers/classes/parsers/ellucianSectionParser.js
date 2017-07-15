@@ -61,6 +61,8 @@ EllucianSectionParser.prototype.main = async function(url) {
     }
   }
 
+  macros.error("RUNING A COLLEGE AGAIN???", url)
+
   let resp = await request.get(url);
   const $ = cheerio.load(resp.body);
 
@@ -95,7 +97,8 @@ EllucianSectionParser.prototype.main = async function(url) {
   // Possibly save to dev
   if (macros.DEV) {
     await cache.set('dev_data', this.constructor.name, url, retVal);
-    console.log('CollegeNamesParser file saved!');
+
+    // Don't log anything because there would just be too much logging. 
   }
 
   return retVal;
@@ -174,9 +177,18 @@ EllucianSectionParser.prototype.parseElement = function (element, url) {
   //third row is cross list seats, rarely listed and not doing anyting with that now
   // https://ssb.ccsu.edu/pls/ssb_cPROD/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=12532
 
+
+  let termId = this.getTermIdFromUrl(url);
+
+  if (!termId) {
+    macros.error('Unable to find term id from url?', url);
+    return {};
+  }
+
   let fakePageData = {
     dbData: {
-      url: url
+      url: url,
+      termId: termId
     }
   }
 
