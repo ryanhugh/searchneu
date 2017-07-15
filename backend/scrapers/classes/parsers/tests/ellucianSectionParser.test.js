@@ -17,157 +17,44 @@
  */
 
 import path from 'path';
+import fs from 'fs-promise';
+
 import request from '../../../request';
 
 var ellucianSectionParser = require('../ellucianSectionParser')
-var MockPageData = require('./MockPageData')
-var fs = require('fs')
-var PageData = require('../../PageData')
 
 
-it('parse prereqs and coreqs and seat data from 1.html', function (done) {
+it('parse prereqs and coreqs and seat data from 1.html', async function (done) {
 
-	//the pre and co requs html here has been modified
-	//this contains the same pre requs as prereqs10
-	fs.readFile(path.join(__dirname, 'data', 'ellucianSectionParser', '1.html'), 'utf8', function (err, body) {
-		expect(err).toBe(null);
+  //the pre and co requs html here has been modified
+  //this contains the same pre requs as prereqs10
+  const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianSectionParser', '1.html'), 'utf8');
 
-		request.handleRequestResponce(body, function (err, dom) {
-			expect(err).toBe(null);
+  var url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=15633';
 
-			var url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=15633';
+  expect(ellucianSectionParser.supportsPage(url)).toBe(true);
 
-			expect(ellucianSectionParser.supportsPage(url)).toBe(true);
+  const retVal = ellucianSectionParser.parse(body, url);
 
-			var pageData = PageData.create({
-				dbData: {
-					url: url
-				},
-				parent: new MockPageData()
-			});
+  expect(retVal).toMatchSnapshot()
 
-			expect(pageData).not.toBe(null);
-
-			ellucianSectionParser.parseDOM(pageData, dom);
-
-			expect(pageData.dbData).toEqual({
-				url: url,
-				seatsCapacity: 32,
-				seatsRemaining: 0,
-				waitCapacity: 0,
-				waitRemaining: 0
-			});
-
-			expect(pageData.parent.data.minCredits).toBe(3)
-			expect(pageData.parent.data.maxCredits).toBe(3)
-
-			expect(pageData.parent.data.honors).toBe(true)
-
-
-			expect(pageData.parent.data.prereqs).toEqual({
-				"type": "and",
-				"values": [{
-					"type": "or",
-					"values": [{
-						"classId": "1601",
-						"termId": "201508",
-						"subject": "AE"
-					}, {
-						"classId": "1350",
-						"termId": "201508",
-						"subject": "AE"
-					}]
-				}, {
-					"type": "or",
-					"values": [{
-						"classId": "2212",
-						"termId": "201508",
-						"subject": "PHYS"
-					}, {
-						"classId": "2232",
-						"termId": "201508",
-						"subject": "PHYS"
-					}]
-				}, {
-					"type": "or",
-					"values": [{
-						"classId": "2401",
-						"termId": "201508",
-						"subject": "MATH"
-					}, {
-						"classId": "2411",
-						"termId": "201508",
-						"subject": "MATH"
-					}, {
-						"classId": "24X1",
-						"termId": "201508",
-						"subject": "MATH"
-					}, {
-						"classId": "2551",
-						"termId": "201508",
-						"subject": "MATH"
-					}, {
-						"classId": "2561",
-						"termId": "201508",
-						"subject": "MATH"
-					}, {
-						"classId": "2X51",
-						"termId": "201508",
-						"subject": "MATH"
-					}]
-				}, {
-					"classId": "2001",
-					"termId": "201508",
-					"subject": "COE"
-				}]
-			});
-
-			expect(pageData.parent.data.coreqs).toEqual({
-				"type": "or",
-				"values": [{
-					classId: '2161',
-					termId: '201610',
-					subject: 'EECE'
-				}]
-			});
-			done()
-
-		}.bind(this));
-	}.bind(this));
-
+  done()
 });
 
 
 
 
-it('should not find honors when not honors', function (done) {
+it('honors works', async function (done) {
 
-	fs.readFile(path.join(__dirname, 'data', 'ellucianSectionParser', 'honors.html'), 'utf8', function (err, body) {
-		expect(err).toBe(null);
+  const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianSectionParser', 'honors.html'), 'utf8')
 
+  var url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=15633';
 
+  expect(ellucianSectionParser.supportsPage(url)).toBe(true);
 
-		request.handleRequestResponce(body, function (err, dom) {
-			expect(err).toBe(null);
+  let retVal = ellucianSectionParser.parse(body, url);
 
-			var url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=15633';
+  expect(retVal).toMatchSnapshot();
 
-			expect(ellucianSectionParser.supportsPage(url)).toBe(true);
-
-			var pageData = PageData.create({
-				dbData: {
-					url: url
-				},
-				parent: new MockPageData()
-			});
-
-			expect(pageData).not.toBe(null);
-
-			ellucianSectionParser.parseDOM(pageData, dom);
-
-			expect(pageData.parent.data.honors).toBe(true)
-			done()
-		}.bind(this));
-	}.bind(this));
-
+  done()
 });

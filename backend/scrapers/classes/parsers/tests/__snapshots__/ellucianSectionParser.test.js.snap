@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`honors works 1`] = `
+Object {
+  "honors": true,
+  "isOnline": false,
+  "maxCredits": 0,
+  "minCredits": 0,
+  "seatsCapacity": 32,
+  "seatsRemaining": 31,
+  "waitCapacity": 0,
+  "waitRemaining": 0,
+}
+`;
+
+exports[`parse prereqs and coreqs and seat data from 1.html 1`] = `
+Object {
+  "coreqs": Object {
+    "type": "or",
+    "values": Array [
+      Object {
+        "classId": "2161",
+        "subject": "EECE",
+      },
+    ],
+  },
+  "honors": true,
+  "isOnline": false,
+  "maxCredits": 3,
+  "minCredits": 3,
+  "prereqs": Object {
+    "type": "and",
+    "values": Array [
+      Object {
+        "type": "or",
+        "values": Array [
+          Object {
+            "classId": "1601",
+            "subject": "AE",
+          },
+          Object {
+            "classId": "1350",
+            "subject": "AE",
+          },
+        ],
+      },
+      Object {
+        "type": "or",
+        "values": Array [
+          Object {
+            "classId": "2212",
+            "subject": "PHYS",
+          },
+          Object {
+            "classId": "2232",
+            "subject": "PHYS",
+          },
+        ],
+      },
+      Object {
+        "type": "or",
+        "values": Array [
+          Object {
+            "classId": "2401",
+            "subject": "MATH",
+          },
+          Object {
+            "classId": "2411",
+            "subject": "MATH",
+          },
+          Object {
+            "classId": "24X1",
+            "subject": "MATH",
+          },
+          Object {
+            "classId": "2551",
+            "subject": "MATH",
+          },
+          Object {
+            "classId": "2561",
+            "subject": "MATH",
+          },
+          Object {
+            "classId": "2X51",
+            "subject": "MATH",
+          },
+        ],
+      },
+      Object {
+        "classId": "2001",
+        "subject": "COE",
+      },
+    ],
+  },
+  "seatsCapacity": 32,
+  "seatsRemaining": 0,
+  "waitCapacity": 0,
+  "waitRemaining": 0,
+}
+`;

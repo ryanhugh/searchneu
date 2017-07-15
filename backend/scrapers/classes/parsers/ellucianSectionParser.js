@@ -61,39 +61,10 @@ EllucianSectionParser.prototype.main = async function(url) {
     }
   }
 
-  macros.error("RUNING A COLLEGE AGAIN???", url)
-
   let resp = await request.get(url);
-  const $ = cheerio.load(resp.body);
 
-  let allTables = $('td > table.datadisplaytable');
-
-  let matchingTable;
-
-  for (var i = 0; i < allTables.length; i++) {
-    const table = $(allTables[i])
-
-    // console.log(table)
-    let summary = table.attr('summary')
-    if (!summary  || !summary.includes('seating')) {
-      continue;
-    }
-
-    if (matchingTable) {
-      macros.error("Already found a matching table?", url);
-      return {};
-    }
-
-    matchingTable = table;
-  }
-
-  if (!matchingTable) {
-    macros.error('Table did not include seating string');
-    return {};
-  }
-
-  let retVal = this.parseElement(matchingTable[0], url)
-
+  let retVal = this.parse(resp.body, url)
+  
   // Possibly save to dev
   if (macros.DEV) {
     await cache.set('dev_data', this.constructor.name, url, retVal);
@@ -116,7 +87,45 @@ EllucianSectionParser.prototype.getDataType = function (pageData) {
 
 
 
-EllucianSectionParser.prototype.parseElement = function (element, url) {
+EllucianSectionParser.prototype.parse = function (body, url) {
+
+  // Parse the dom
+  const $ = cheerio.load(body);
+
+
+  // Find the table that has seats remaining and seats taken. 
+  let allTables = $('td > table.datadisplaytable');
+
+  let matchingTable;
+
+  for (var i = 0; i < allTables.length; i++) {
+    const table = $(allTables[i])
+
+    let summary = table.attr('summary')
+
+    // Skip any tables that don't have "seating" in the table.attr('summary')
+    if (!summary  || !summary.includes('seating')) {
+      continue;
+    }
+
+    if (matchingTable) {
+      macros.error("Already found a matching table?", url);
+      return {};
+    }
+
+    matchingTable = table;
+  }
+
+  if (!matchingTable) {
+    macros.error('Table did not include seating string', allTables.length, body.length, body);
+    return {};
+  }
+
+
+  let element = matchingTable[0]
+
+
+
   let retVal = {}
   var tableData = this.parseTable(element);
 
@@ -228,6 +237,20 @@ EllucianSectionParser.prototype.parseElement = function (element, url) {
     macros.log('warning, nothing matchied credits', url, text);
   }
 
+  // Grab whether the class is an online class or not
+  const onlineCampus = text.includes('online campus')
+  const onlineMethod = text.includes('online instructional method')
+  if (onlineCampus && onlineMethod) {
+    retVal.isOnline = true;
+  }
+  else if (!onlineCampus && !onlineMethod) {
+    retVal.isOnline = false;
+  }
+  else {
+    macros.error("?? for online", url)
+    retVal.isOnline = false; 
+  }
+
 
   // HONORS NOTES
   // swathmore and sju have "honors" in title 
@@ -244,7 +267,6 @@ EllucianSectionParser.prototype.parseElement = function (element, url) {
   // https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201710&subj_in=CS&crse_in=1800&schd_in=LEC
   // 
   // TLDR: class.honors = sectionHtml.includes('honors')
-
 
   // grab honors (honours is canadian spelling)
   if (text.includes('honors') || text.includes('honours')) {

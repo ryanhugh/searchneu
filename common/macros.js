@@ -19,9 +19,9 @@ class Macros {
   };
 
   static error(...args) {
-    if (Macros.TESTS) {
-      return;
-    }
+    // if (Macros.TESTS) {
+    //   return;
+    // }
 
     console.error.apply(console.error, ['Error:'].concat(args));
     console.trace();
