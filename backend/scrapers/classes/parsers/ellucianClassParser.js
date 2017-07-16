@@ -16,15 +16,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
+import URI from 'urijs';
+import domutils from 'domutils';
+import moment from 'moment';
+import he from 'he';
+import _ from 'lodash';
+import fs from 'fs';
 
 import macros from '../../../macros';
 
-var URI = require('urijs');
-var domutils = require('domutils');
-var moment = require('moment');
-var he = require('he');
-var _ = require('lodash');
-var fs = require('fs');
 
 var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
 var ellucianSectionParser = require('./ellucianSectionParser');

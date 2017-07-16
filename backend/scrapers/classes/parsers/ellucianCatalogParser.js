@@ -53,7 +53,7 @@ EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 	//get the classId from the url
 	var catalogURLQuery = new URI(pageData.dbData.url).query(true);
 	if (!catalogURLQuery.crse_numb_in) {
-		console.log('error could not find Current courseId??', catalogURLQuery, pageData.dbData.url)
+		macros.error('could not find current crse_numb_in', catalogURLQuery, pageData.dbData.url)
 		return;
 	}
 
@@ -73,13 +73,13 @@ EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 
 	var match = value.match(/.+?\s-\s*(.+)/i);
 	if (!match || match.length < 2 || match[1].length < 2) {
-		console.log('could not find title!', match, value, pageData.dbData.url);
+		macros.log('could not find title!', match, value, pageData.dbData.url);
 		return;
 	}
 	depData.name = this.standardizeClassName(match[1]);
 
 
-	// console.log($(element.parent).getText())
+	// macros.log($(element.parent).getText())
 
 
 	//find the box below this row
@@ -89,7 +89,7 @@ EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 	}
 	var rows = domutils.getElementsByTagName('td', descTR)
 	if (rows.length != 1) {
-		console.log('td rows !=1??', depData.classId, pageData.dbData.url);
+		macros.log('td rows !=1??', depData.classId, pageData.dbData.url);
 		return;
 	};
 
@@ -107,7 +107,7 @@ EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 		depData.minCredits = creditsParsed.minCredits;
 	}
 	else {
-		console.log('warning, nothing matchied credits', pageData.dbData.url, text);
+		macros.log('warning, nothing matchied credits', pageData.dbData.url, text);
 	}
 
 
@@ -137,7 +137,7 @@ EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 	//url
 	depData.url = this.createClassURL(pageData.dbData.url, pageData.dbData.termId, pageData.dbData.subject, depData.classId);
 	if (!depData.url) {
-		console.log('error could not create class url', depData);
+		macros.log('error could not create class url', depData);
 		return;
 	}
 
@@ -155,28 +155,13 @@ EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 	//find co and pre reqs and restrictions
 	var prereqs2 = ellucianRequisitesParser2.parseRequirementSection(pageData, element.children, 'prerequisites');
 	if (!_.isEqual(prereqs, prereqs2)) {
-		console.log("WARNING: prereqs parsed by the new parser are not equal", JSON.stringify(prereqs, null, 4), JSON.stringify(prereqs2, null, 4))
+		macros.log("WARNING: prereqs parsed by the new parser are not equal", JSON.stringify(prereqs, null, 4), JSON.stringify(prereqs2, null, 4))
 	}
 
 	var coreqs2 = ellucianRequisitesParser2.parseRequirementSection(pageData, element.children, 'corequisites');
 	if (!_.isEqual(coreqs, coreqs2)) {
-		console.log("WARNING: coreqs parsed by the new parser are not equal", JSON.stringify(coreqs, null, 4), JSON.stringify(coreqs2, null, 4))
+		macros.log("WARNING: coreqs parsed by the new parser are not equal", JSON.stringify(coreqs, null, 4), JSON.stringify(coreqs2, null, 4))
 	}
-
-
-	//update existing dep
-	for (var i = 0; i < pageData.deps.length; i++) {
-		var currDep = pageData.deps[i]
-
-		//make sure classId and parser are the same
-		if (new URI(currDep.dbData.url).equals(new URI(depData.url)) && currDep.parser == ellucianClassParser) {
-			for (var attrName in depData) {
-				currDep.setData(attrName, depData[attrName])
-			}
-			return;
-		}
-	};
-
 
 	var dep = pageData.addDep(depData);
 	dep.setParser(ellucianClassParser)

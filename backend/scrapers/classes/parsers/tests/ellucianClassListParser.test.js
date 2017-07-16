@@ -20,7 +20,6 @@ import request from '../../../request'
 import path from 'path'
 
 var ellucianCatalogParser = require('../ellucianCatalogParser')
-var ellucianClassParser = require('../ellucianClassParser')
 var ellucianClassListParser = require('../ellucianClassListParser')
 var PageData = require('../../PageData')
 var fs = require('fs')
