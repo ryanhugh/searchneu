@@ -421,6 +421,59 @@ EllucianClassParser.prototype.parseClassData = async function (pageData, element
 	// console.log(fullSectiondata)
 
 
+	// Move some attributes to the class pagedata.
+	// Run some checks and merge some data into the class object. 
+	// Actually, because how how this parser adds itself as a dep and copies over attributes,
+	// These will log a lot more than they should, just because they are overriding the values that were pre-set on the class
+	// Once that is fixed, would recommend re-enabling these. 
+	// if (classToAddSectionTo.dbData.honors !== undefined && classToAddSectionTo.dbData.honors !== fullSectiondata.honors) {
+	// 	macros.log("Overring class honors with section honors...", classToAddSectionTo.dbData.honors, fullSectiondata.honors, sectionStartingData.url);
+	// }
+	classToAddSectionTo.dbData.honors = fullSectiondata.honors
+	fullSectiondata.honors = undefined;
+
+
+	if (fullSectiondata.prereqs) {
+
+		// If they both exists and are different I don't really have a great idea of what to do haha
+		// Hopefully this _.isEquals dosen't take too long. 
+		
+		if (classToAddSectionTo.dbData.prereqs && !_.isEqual(classToAddSectionTo.dbData.prereqs, fullSectiondata.prereqs)) {
+			macros.log("Overriding class prereqs with section prereqs...", sectionStartingData.url)
+		}
+
+		classToAddSectionTo.dbData.prereqs = fullSectiondata.prereqs
+		fullSectiondata.prereqs = undefined;
+	}
+
+	// Do the same thing for coreqs
+	if (fullSectiondata.coreqs) {
+
+		if (classToAddSectionTo.dbData.coreqs && !_.isEqual(classToAddSectionTo.dbData.coreqs, fullSectiondata.coreqs)) {
+			macros.log("Overriding class coreqs with section coreqs...", sectionStartingData.url)
+		}
+
+		classToAddSectionTo.dbData.coreqs = fullSectiondata.coreqs
+		fullSectiondata.coreqs = undefined;
+	}
+
+
+	// Update the max credits on the class if max credits exists on the section and is greater than that on the class
+	// Or if the max credits on the class dosen't exist
+	if (fullSectiondata.maxCredits !== undefined && (classToAddSectionTo.dbData.maxCredits === undefined || classToAddSectionTo.dbData.maxCredits < fullSectiondata.maxCredits)) {
+		classToAddSectionTo.dbData.maxCredits = fullSectiondata.maxCredits
+	}
+
+	// Same thing for min credits, but the sign flipped. 
+	if (fullSectiondata.minCredits !== undefined && (classToAddSectionTo.dbData.minCredits === undefined || classToAddSectionTo.dbData.minCredits > fullSectiondata.minCredits)) {
+		classToAddSectionTo.dbData.minCredits = fullSectiondata.minCredits
+	}
+
+	
+	fullSectiondata.minCredits = undefined;
+	fullSectiondata.maxCredits = undefined;
+
+
 	classToAddSectionTo.simpleDeps.push({
 		dbData: fullSectiondata,
 		dataType: 'sections'

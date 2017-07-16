@@ -300,7 +300,7 @@ PageData.prototype.setParentData = function (name, value) {
 //used in html parser and updateDeps, here
 PageData.prototype.setData = function (name, value) {
 	if (name === undefined || value === undefined) {
-		console.trace('ERROR:name or value was undefined!', name, value);
+		macros.error('ERROR:name or value was undefined!', name, value);
 		return;
 	}
 
