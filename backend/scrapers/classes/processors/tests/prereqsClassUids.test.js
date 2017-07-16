@@ -122,7 +122,7 @@ it('go should work', async (done) => {
   // Find the class that we are checking
   let matchCount = 0;
   for (const aClass of termDump.classes) {
-    if (aClass._id === '5726589fd4a30537f9139321') {
+    if (aClass.classUid === '061_1925216900') { 
       matchCount++;
 
       expect(aClass.prereqs.values[0].classUid).toBe('023_1049977931');
@@ -139,7 +139,6 @@ it('go should work', async (done) => {
 it('can swap coreqs', async (done) => {
   const termDump = {
     classes: [{
-      _id: '572658f9d4a30537f9139666',
       desc: '',
       classId: '017',
       prettyUrl: 'https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_course_detail?cat_term_in=201602&subj_code_in=EDUC&crse_numb_in=017',
@@ -164,7 +163,6 @@ it('can swap coreqs', async (done) => {
       classUid: '017_1314190396',
     },
     {
-      _id: '57265926d4a30537f9139820',
       desc: '',
       classId: '016',
       prettyUrl: 'https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_course_detail?cat_term_in=201602&subj_code_in=EDUC&crse_numb_in=016',
@@ -208,7 +206,7 @@ it('can simplify', async (done) => {
   // Find the class that we are checking
   let matchCount = 0;
   for (const aClass of termDump.classes) {
-    if (aClass._id === '572658a0d4a30537f9139347') {
+    if (aClass.classUid === '031_487876058') {
       matchCount++;
 
 

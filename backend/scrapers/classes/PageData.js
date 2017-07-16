@@ -34,8 +34,8 @@ function PageData(startingData) {
 		return null;
 	}
 
-	if (!startingData.dbData.url && !startingData.dbData._id && !startingData.dbData.updatedByParent) {
-		macros.error('pageData needs a url or an _id or an updater id!', startingData);
+	if (!startingData.dbData.url && !startingData.dbData.updatedByParent) {
+		macros.error('pageData needs a url or an updater id!', startingData);
 		return null;
 	}
 
@@ -177,11 +177,13 @@ PageData.prototype.processDeps = function (callback) {
 				this.dbData.deps[newDepData.parser.name] = [];
 			}
 
-			//add it to the array if it dosent already exist
-			//if this pagedata was loaded from cache, it will already exist
-			if (this.dbData.deps[newDepData.parser.name].indexOf(newDepData.dbData._id) < 0) {
-				this.dbData.deps[newDepData.parser.name].push(newDepData.dbData._id);
-			}
+			// console.log(newDepData.dbData._id, '_Id here!')
+
+			// //add it to the array if it dosent already exist
+			// //if this pagedata was loaded from cache, it will already exist
+			// if (this.dbData.deps[newDepData.parser.name].indexOf(newDepData.dbData._id) < 0) {
+			// 	this.dbData.deps[newDepData.parser.name].push(newDepData.dbData._id);
+			// }
 
 
 			return callback(null, newDepData);
@@ -310,10 +312,10 @@ PageData.prototype.setData = function (name, value) {
 		return;
 	}
 
-	if (['_id'].includes(name) && this.dbData[name] !== undefined) {
-		macros.error('ERROR: cant override', name, ' from value ', this.dbData[name], 'to value ', value)
-		return;
-	}
+	// if (['_id'].includes(name) && this.dbData[name] !== undefined) {
+	// 	macros.error('ERROR: cant override', name, ' from value ', this.dbData[name], 'to value ', value)
+	// 	return;
+	// }
 
 
 

@@ -28,7 +28,6 @@
 
    const termDump = {
      classes: [{
-       _id: '57265896d4a30537f91392aa',
        desc: '',
        classId: '001A',
        prettyUrl: 'https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_course_detail?cat_term_in=201602&subj_code_in=GSST&crse_numb_in=001A',

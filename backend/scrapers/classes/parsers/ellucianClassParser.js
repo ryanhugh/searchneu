@@ -257,7 +257,7 @@ EllucianClassParser.prototype.parseClassData = async function (pageData, element
 				for (var attrName in pageData.dbData) {
 
 					//dont copy over some attributes
-					if (['name', 'updatedByParent', 'url', '_id', 'crns', 'deps'].includes(attrName)) {
+					if (['name', 'updatedByParent', 'url', 'crns', 'deps'].includes(attrName)) {
 						continue;
 					}
 
@@ -437,7 +437,7 @@ EllucianClassParser.prototype.parseClassData = async function (pageData, element
 
 		// If they both exists and are different I don't really have a great idea of what to do haha
 		// Hopefully this _.isEquals dosen't take too long. 
-		
+
 		if (classToAddSectionTo.dbData.prereqs && !_.isEqual(classToAddSectionTo.dbData.prereqs, fullSectiondata.prereqs)) {
 			macros.log("Overriding class prereqs with section prereqs...", sectionStartingData.url)
 		}
