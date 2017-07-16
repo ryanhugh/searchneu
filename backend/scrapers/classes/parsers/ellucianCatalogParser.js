@@ -79,9 +79,6 @@ EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 	depData.name = this.standardizeClassName(match[1]);
 
 
-	// macros.log($(element.parent).getText())
-
-
 	//find the box below this row
 	var descTR = element.parent.next
 	while (descTR.type != 'tag') {

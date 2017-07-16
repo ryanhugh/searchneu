@@ -113,7 +113,15 @@ EllucianClassParser.prototype.parseTimeStamps = function (times, days) {
 };
 
 
-
+// the plan
+// take in a url (or maybe an object?)
+// and have an internal dictionary with name of section as the key
+// and keep track of classes that way
+// and return a {
+// 	classes: [],
+// 	sections: []
+// }
+// with both totally separate, but could be connected based on the crns which are a part of the class
 
 
 
@@ -414,11 +422,7 @@ EllucianClassParser.prototype.parseClassData = async function (pageData, element
 	fullSectiondata.host = classToAddSectionTo.dbData.host
 	fullSectiondata.termId = classToAddSectionTo.dbData.termId
 	fullSectiondata.subject = classToAddSectionTo.dbData.subject
-	// fullSectiondata.classUid = classToAddSectionTo.dbData.classUid
 	fullSectiondata.classId = classToAddSectionTo.dbData.classId
-	// fullSectiondata.crn = classToAddSectionTo.dbData.crn
-
-	// console.log(fullSectiondata)
 
 
 	// Move some attributes to the class pagedata.
@@ -521,25 +525,22 @@ EllucianClassParser.prototype.onEndParsing = function (pageData) {
 	
 	pageData.setData('crns', pageData.parsingData.crns);
 
-	//also set the crns of the classes that were created
-	var depsToRemove = [];
+	// Also set the crns of the classes that were created
 	pageData.deps.forEach(function (dep) {
 		if (dep.parser == this) {
 
-			// Any sub classes that don't have any sections on this pass must of had sections before, and they were removed
-			// so safe to remove them 
 			if (!dep.parsingData.crns || dep.parsingData.crns.length === 0) {
-				macros.log('error wtf, no crns', dep)
-				depsToRemove.push(dep)
+
+				// This could totally happen when scraping over an existing dep tree.
+				// And a class had a section before that it does not have this time around. 
+				// However, now that we are not longer scraping over an existing dep tree.
+				// This should never run. 
+				macros.error('error wtf, no crns', dep);
 			}
 			else {
 				dep.setData('crns', dep.parsingData.crns)
 			}
 		}
-	}.bind(this))
-
-	depsToRemove.forEach(function (depToRemove) {
-		_.pull(pageData.deps, depToRemove);
 	}.bind(this))
 };
 
