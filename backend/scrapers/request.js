@@ -234,6 +234,7 @@ class Request {
 
 
   async fireRequest(config) {
+    console.log(config)
 
     // Default to JSON for POST bodies
     if (config.method === 'POST' && !config.headers['Content-Type']) {

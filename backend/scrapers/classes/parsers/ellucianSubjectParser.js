@@ -188,13 +188,6 @@ EllucianSubjectParser.prototype.main = async function(url, termId) {
     }
   }
 
-  // body = 'p_calling_proc=bwckschd.p_disp_dyn_sched&p_term=' + termId
-  // config.headers = {
-  //   'Content-Type': 'application/x-www-form-urlencoded'
-  // }
-
-  
-
   let resp = await request.post({
     url: url,
     body: 'p_calling_proc=bwckschd.p_disp_dyn_sched&p_term=' + termId,
@@ -203,9 +196,7 @@ EllucianSubjectParser.prototype.main = async function(url, termId) {
     }
   });
 
-  console.log(resp.body)
-
-  // let retVal = this.parse(resp.body, url)
+  let retVal = this.parse(resp.body, url)
 
  // Possibly save to dev
   if (macros.DEV && require.main !== module) {
@@ -226,7 +217,7 @@ EllucianSubjectParser.prototype.EllucianSubjectParser = EllucianSubjectParser;
 module.exports = new EllucianSubjectParser();
 
 async function testFunc (url, termId) {
-  let retVal = await module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckgens.p_proc_term_date', 201732)
+  let retVal = await module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckgens.p_proc_term_date', 201810)
   console.log(retVal)
 }
 
