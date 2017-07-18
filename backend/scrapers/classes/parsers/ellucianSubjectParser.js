@@ -17,11 +17,13 @@
  */
 
 
-import macros from '../../../macros';
-import Request from '../../request';
-
 import URI from 'urijs';
 import fs from 'fs';
+import cheerio from 'cheerio';
+
+import cache from '../../cache';
+import macros from '../../../macros';
+import Request from '../../request';
 
 var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
 var ellucianClassListParser = require('./ellucianClassListParser');
@@ -71,10 +73,10 @@ EllucianSubjectParser.prototype.getPointerConfig = function (pageData) {
 
 
 
-EllucianSubjectParser.prototype.onEndParsing = function (pageData, dom) {
+EllucianSubjectParser.prototype.parse = async function (body, url, termId) {
 
   //parse the form data
-  var formData = this.parseSearchPage(pageData.dbData.url, dom);
+  var formData = this.parseSearchPage(body, url);
   var subjects = [];
 
   formData.payloads.forEach(function (payloadVar) {
@@ -103,42 +105,44 @@ EllucianSubjectParser.prototype.onEndParsing = function (pageData, dom) {
     console.log('ERROR, found 0 subjects??', pageData.dbData.url);
   }
 
+  let outputSubjects = []
+
+
+  let classListPromises = {}
 
 
   subjects.forEach(function (subject) {
 
-
-    //if it already exists, just update the description
-    for (var i = 0; i < pageData.deps.length; i++) {
-      if (subject.id == pageData.deps[i].dbData.subject) {
-        pageData.deps[i].setData('text', subject.text);
-        return;
-      };
-    };
-
-    //if not, add it
-    var subjectPageData = pageData.addDep({
-      updatedByParent: true,
-      subject: subject.id,
-      text: subject.text
-    });
-    subjectPageData.setParser(this)
-
-
-    //and add the subject dependency
-    var catalogPageData = subjectPageData.addDep({
-      url: this.createClassListUrl(pageData.dbData.url, pageData.dbData.termId, subject.id)
-    });
-    catalogPageData.setParser(ellucianClassListParser)
-
+    let classListUrl = this.createClassListUrl(url, termId, subject.id)
+    classListPromises[subject.id] = ellucianClassListParser.main(classListUrl)
   }.bind(this))
+
+
+  // Wait for all the class list promises.
+  await Promise.all(Object.values(classListPromises))
+
+
+  for (const subject of subjects) {
+
+    outputSubjects.push({
+      subject: subject.id,
+      text: subject.text,
+      classList: await classListPromises[subject.id]
+    });
+  }
+
+  return outputSubjects
+
+
 };
 
 
-EllucianSubjectParser.prototype.parseSearchPage = function (startingURL, dom) {
+EllucianSubjectParser.prototype.parseSearchPage = function (body, url) {
 
+  // Parse the dom
+  const $ = cheerio.load(body);
 
-  var parsedForm = this.parseForm(startingURL, dom);
+  var parsedForm = this.parseForm(url, $('body')[0]);
 
   //remove sel_subj = ''
   var payloads = [];
@@ -196,7 +200,7 @@ EllucianSubjectParser.prototype.main = async function(url, termId) {
     }
   });
 
-  let retVal = this.parse(resp.body, url)
+  let retVal = this.parse(resp.body, url, termId)
 
  // Possibly save to dev
   if (macros.DEV && require.main !== module) {
@@ -205,7 +209,7 @@ EllucianSubjectParser.prototype.main = async function(url, termId) {
     // Don't log anything because there would just be too much logging. 
   }
 
-  // return retVal
+  return retVal
 
 };
 

@@ -16,10 +16,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
-'use strict';
 import moment from 'moment';
-
 import cheerio from 'cheerio';
+
+import cache from '../../cache';
 import macros from '../../../macros';
 import Request from '../../request';
 var collegeNamesParser = require('./collegeNamesParser');
@@ -95,7 +95,7 @@ EllucianTermsParser.prototype.isValidTerm = function (termId, text) {
     macros.log('warning: could not find year for ', text);
 
     //if the termId starts with the >= current year, then go
-    var idYear = parseInt(termId.slice(0, 4))
+    var idYear = parseInt(termId.slice(0, 4), 10)
 
     //if first 4 numbers of id are within 3 years of the year that it was 4 months ago
     if (idYear + 3 > minYear && idYear - 3 < minYear) {
@@ -107,7 +107,7 @@ EllucianTermsParser.prototype.isValidTerm = function (termId, text) {
   }
 
   //skip past years
-  if (parseInt(year) < minYear) {
+  if (parseInt(year, 10) < minYear) {
     return false;
   }
   return true;
@@ -117,10 +117,7 @@ EllucianTermsParser.prototype.isValidTerm = function (termId, text) {
 
 
 EllucianTermsParser.prototype.parse = async function (body, url) {
-
-
   var formData = this.parseTermsPage(body, url);
-  // console.log(JSON.stringify(formData, null, 4))
   var terms = [];
 
   formData.requestsData.forEach(function (singleRequestPayload) {
@@ -142,10 +139,6 @@ EllucianTermsParser.prototype.parse = async function (body, url) {
 
   var host = macros.getBaseHost(url);
 
-  // if (!pageData.dbData.host) {
-  //   pageData.dbData.host = host;
-  // };
-
   terms.forEach(function (term) {
 
     //calculate host for each entry
@@ -159,17 +152,6 @@ EllucianTermsParser.prototype.parse = async function (body, url) {
       term.text = possibleCustomHostAndText.text
       term.host = possibleCustomHostAndText.host
     }
-
-    // var newTerm = this.getStaticHost(host, term.text)
-    // if (newTerm) {
-    //  host = newTerm.host
-    //  term.text = newTerm.text
-    // }
-    // else {
-    //  this.addCollegeName(pageData, host)
-    // };
-    // term.host = host;// THIS LINE NEED TO MOVE STATIC HOSTS TO COLLEGE NAME PARSER AND THEN GET A HOST FROM A TERM STRING BACK
-    // AND UPDTAE THIS LINE SO CIHLD DEPS HAVE THE CORRECT HOST
 
     //add the shorter version of the term string
     term.shortText = term.text.replace(/Quarter|Semester/gi, '').trim()
@@ -222,7 +204,6 @@ EllucianTermsParser.prototype.parse = async function (body, url) {
   let subjectPromises = {}
 
 
-
   terms.forEach(function (term) {
 
     macros.log("Parsing term: ", JSON.stringify(term));
@@ -230,21 +211,11 @@ EllucianTermsParser.prototype.parse = async function (body, url) {
     // Parse the subjects. Keep track of all the promises in a map. 
     subjectPromises[term.id] = ellucianSubjectParser.main(formData.postURL, term.id)
 
-
-
-    //and add the subject dependency
-    // var subjectController = termPageData.addDep({
-    //   url: formData.postURL
-    // });
-    // subjectController.setParser(ellucianSubjectParser)
-
   }.bind(this))
 
 
   // Wait for all the subjects to be parsed.
   await Promise.all(Object.values(subjectPromises));
-
-
 
   for (const term of terms) {
     outputTerms.push({
@@ -255,20 +226,7 @@ EllucianTermsParser.prototype.parse = async function (body, url) {
     })
   }
 
-  // console.log(outputTerms)
-
   return outputTerms
-
-
-  // outputTerms.push({
-  //   termId: term.id,
-  //   text: term.text,
-  //   host: term.host
-  // });
-
-  // console.log(formData.postURL)
-
-
 };
 
 
@@ -289,8 +247,6 @@ EllucianTermsParser.prototype.parseTermsPage = function (body, url) {
 
   // Parse the dom
   const $ = cheerio.load(body);
-
-  // $('body')[0]
 
   var parsedForm = this.parseForm(url, $('body')[0]);
 
