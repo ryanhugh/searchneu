@@ -17,19 +17,23 @@
  */
 
 'use strict';
-var moment = require('moment')
+import moment from 'moment';
 
+import cheerio from 'cheerio';
 import macros from '../../../macros';
-import request from '../../request';
+import Request from '../../request';
 var collegeNamesParser = require('./collegeNamesParser');
 
 var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
 var ellucianSubjectParser = require('./ellucianSubjectParser');
 
 
+const request = new Request('EllucianTermsParser');
+
+
 function EllucianTermsParser() {
-	EllucianBaseParser.prototype.constructor.apply(this, arguments);
-	this.name = "EllucianTermsParser";
+  EllucianBaseParser.prototype.constructor.apply(this, arguments);
+  this.name = "EllucianTermsParser";
 }
 
 
@@ -40,314 +44,328 @@ EllucianTermsParser.prototype.constructor = EllucianTermsParser;
 
 
 
-// var staticHosts = [
-// {
-// 	includes:'Law',
-// 	mainHost:'neu.edu',
-// 	title:'Northeastern University Law',
-// 	host:'neu.edu/law'
-// },
-// {
-// 	includes:'CPS',
-// 	mainHost:'neu.edu',
-// 	title:'Northeastern University CPS',
-// 	host:'neu.edu/cps'
-// }]
-
-// EllucianTermsParser.prototype.getStaticHost = function(mainHost,termString) {
-	
-// 	for (var i = 0; i < staticHosts.length; i++) {
-// 		var staticHost = staticHosts[i];
-// 		if (staticHost.mainHost==mainHost && termString.includes(staticHost.includes)) {
-// 			return {
-// 				host:staticHost.host,
-// 				text:termString.replace(staticHost.includes,'').replace(/\s+/gi,' ').trim()
-// 			};
-// 		};
-// 	}
-// 	return null;
-// };
-
-
 EllucianTermsParser.prototype.getDataType = function (pageData) {
-	return 'terms';
+  return 'terms';
 };
 
 
 EllucianTermsParser.prototype.supportsPage = function (url) {
-	return url.indexOf('bwckschd.p_disp_dyn_sched') > -1;
+  return url.indexOf('bwckschd.p_disp_dyn_sched') > -1;
 };
 
 
+// 
+EllucianTermsParser.prototype.main = async function(url) {
+  
+  // Possibly load from DEV
+  if (macros.DEV && require.main !== module) {
+    const devData = await cache.get('dev_data', this.constructor.name, url);
+    if (devData) {
+      return devData;
+    }
+  }
+
+  let resp = await request.get(url);
+
+  let retVal = this.parse(resp.body, url)
+
+ // Possibly save to dev
+  if (macros.DEV && require.main !== module) {
+    await cache.set('dev_data', this.constructor.name, url, retVal);
+
+    // Don't log anything because there would just be too much logging. 
+  }
+
+  return retVal
+
+};
+
+
+
 EllucianTermsParser.prototype.minYear = function () {
-	return moment().subtract(4, 'months').year()
+  return moment().subtract(4, 'months').year()
 };
 
 EllucianTermsParser.prototype.isValidTerm = function (termId, text) {
 
-	var year = text.match(/\d{4}/);
-	var minYear = this.minYear();
+  var year = text.match(/\d{4}/);
+  var minYear = this.minYear();
 
-	if (!year) {
-		macros.log('warning: could not find year for ', text);
+  if (!year) {
+    macros.log('warning: could not find year for ', text);
 
-		//if the termId starts with the >= current year, then go
-		var idYear = parseInt(termId.slice(0, 4))
+    //if the termId starts with the >= current year, then go
+    var idYear = parseInt(termId.slice(0, 4))
 
-		//if first 4 numbers of id are within 3 years of the year that it was 4 months ago
-		if (idYear + 3 > minYear && idYear - 3 < minYear) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
+    //if first 4 numbers of id are within 3 years of the year that it was 4 months ago
+    if (idYear + 3 > minYear && idYear - 3 < minYear) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 
-	//skip past years
-	if (parseInt(year) < minYear) {
-		return false;
-	}
-	return true;
+  //skip past years
+  if (parseInt(year) < minYear) {
+    return false;
+  }
+  return true;
 
 };
 
-// EllucianTermsParser.prototype.addCollegeName = function (pageData, host) {
-
-// 	//add the college names dep, if it dosent already exist
-// 	for (var i = 0; i < pageData.deps.length; i++) {
-// 		var currDep = pageData.deps[i]
-// 		if (currDep.parser == collegeNamesParser && currDep.dbData.host == host) {
-// 			return;
-// 		}
-// 	}
-
-// 	var newDep = pageData.addDep({
-// 		url: host,
-// 		host: host
-// 	})
-// 	newDep.setParser(collegeNamesParser)
-// };
 
 
-EllucianTermsParser.prototype.onEndParsing = function (pageData, dom) {
-	var formData = this.parseTermsPage(pageData.dbData.url, dom);
-	var terms = [];
+EllucianTermsParser.prototype.parse = async function (body, url) {
 
-	formData.requestsData.forEach(function (singleRequestPayload) {
 
-		//record all the terms and their id's
-		singleRequestPayload.forEach(function (payloadVar) {
-			if (this.shouldParseEntry(payloadVar)) {
-				terms.push({
-					id: payloadVar.value,
-					text: payloadVar.text
-				});
-			}
-		}.bind(this));
-	}.bind(this));
+  var formData = this.parseTermsPage(body, url);
+  // console.log(JSON.stringify(formData, null, 4))
+  var terms = [];
 
-	if (terms.length === 0) {
-		macros.log('ERROR, found 0 terms??', pageData.dbData.url);
-	};
+  formData.requestsData.forEach(function (singleRequestPayload) {
 
-	var host = macros.getBaseHost(pageData.dbData.url);
+    //record all the terms and their id's
+    singleRequestPayload.forEach(function (payloadVar) {
+      if (this.shouldParseEntry(payloadVar)) {
+        terms.push({
+          id: payloadVar.value,
+          text: payloadVar.text
+        });
+      }
+    }.bind(this));
+  }.bind(this));
 
-	if (!pageData.dbData.host) {
-		pageData.dbData.host = host;
-	};
+  if (terms.length === 0) {
+    macros.log('ERROR, found 0 terms??', url);
+  };
 
-	terms.forEach(function (term) {
+  var host = macros.getBaseHost(url);
 
-		//calculate host for each entry
-		var host = macros.getBaseHost(pageData.dbData.url);
+  // if (!pageData.dbData.host) {
+  //   pageData.dbData.host = host;
+  // };
 
-		// If this is a term that matches a term in staticHosts
-		// Remove 
-		let possibleCustomHostAndText = collegeNamesParser.getHostForTermTitle(host, term.text);
+  terms.forEach(function (term) {
 
-		if (possibleCustomHostAndText) {
-			term.text = possibleCustomHostAndText.text
-			term.host = possibleCustomHostAndText.host
-		}
+    //calculate host for each entry
+    var host = macros.getBaseHost(url);
 
-		// var newTerm = this.getStaticHost(host, term.text)
-		// if (newTerm) {
-		// 	host = newTerm.host
-		// 	term.text = newTerm.text
-		// }
-		// else {
-		// 	this.addCollegeName(pageData, host)
-		// };
-		// term.host = host;// THIS LINE NEED TO MOVE STATIC HOSTS TO COLLEGE NAME PARSER AND THEN GET A HOST FROM A TERM STRING BACK
-		// AND UPDTAE THIS LINE SO CIHLD DEPS HAVE THE CORRECT HOST
+    // If this is a term that matches a term in staticHosts
+    // Remove 
+    let possibleCustomHostAndText = collegeNamesParser.getHostForTermTitle(host, term.text);
 
-		//add the shorter version of the term string
-		term.shortText = term.text.replace(/Quarter|Semester/gi, '').trim()
+    if (possibleCustomHostAndText) {
+      term.text = possibleCustomHostAndText.text
+      term.host = possibleCustomHostAndText.host
+    }
 
-	}.bind(this))
+    // var newTerm = this.getStaticHost(host, term.text)
+    // if (newTerm) {
+    //  host = newTerm.host
+    //  term.text = newTerm.text
+    // }
+    // else {
+    //  this.addCollegeName(pageData, host)
+    // };
+    // term.host = host;// THIS LINE NEED TO MOVE STATIC HOSTS TO COLLEGE NAME PARSER AND THEN GET A HOST FROM A TERM STRING BACK
+    // AND UPDTAE THIS LINE SO CIHLD DEPS HAVE THE CORRECT HOST
+
+    //add the shorter version of the term string
+    term.shortText = term.text.replace(/Quarter|Semester/gi, '').trim()
+
+  }.bind(this))
 
 
 
-	pageData.parsingData.duplicateTexts = {};
+  let duplicateTexts = {};
 
 
 
-	//keep track of texts, and if they are all different with some words removed
-	//keep the words out
-	terms.forEach(function (term) {
+  //keep track of texts, and if they are all different with some words removed
+  //keep the words out
+  terms.forEach(function (term) {
 
-		if (!pageData.parsingData.duplicateTexts[term.host]) {
-			pageData.parsingData.duplicateTexts[term.host] = {
-				values: [],
-				areAllDifferent: true
-			}
-		}
-		if (pageData.parsingData.duplicateTexts[term.host].values.includes(term.shortText)) {
-			pageData.parsingData.duplicateTexts[term.host].areAllDifferent = false;
-			return;
-		}
-		pageData.parsingData.duplicateTexts[term.host].values.push(term.shortText)
+    if (!duplicateTexts[term.host]) {
+      duplicateTexts[term.host] = {
+        values: [],
+        areAllDifferent: true
+      }
+    }
+    if (duplicateTexts[term.host].values.includes(term.shortText)) {
+      duplicateTexts[term.host].areAllDifferent = false;
+      return;
+    }
+    duplicateTexts[term.host].values.push(term.shortText)
 
-	}.bind(this))
-
-
-	//for each host, change the values if they are different
-	terms.forEach(function (term) {
-		if (pageData.parsingData.duplicateTexts[term.host].areAllDifferent) {
-			term.text = term.shortText
-		}
-	}.bind(this))
+  }.bind(this))
 
 
-
-	//the given page data is the controller
-	//give the first term to it,
-	//and pass the others in as deps + noupdate
-
-	terms.forEach(function (term) {
+  //for each host, change the values if they are different
+  terms.forEach(function (term) {
+    if (duplicateTexts[term.host].areAllDifferent) {
+      term.text = term.shortText
+    }
+  }.bind(this))
 
 
 
-		//if it already exists, just update the description
-		for (var i = 0; i < pageData.deps.length; i++) {
-			var currDep = pageData.deps[i]
-			if (currDep.parser == this && term.id == currDep.dbData.termId) {
-				currDep.setData('text', term.text);
-				currDep.setData('host', term.host);
-				return;
-			};
-		};
 
-		macros.log("Parsing term: ", JSON.stringify(term));
-
-		//if not, add it
-		var termPageData = pageData.addDep({
-			updatedByParent: true,
-			termId: term.id,
-			text: term.text,
-			host: term.host
-		});
-		termPageData.setParser(this)
+  let outputTerms = []
 
 
-		//and add the subject dependency
-		var subjectController = termPageData.addDep({
-			url: formData.postURL
-		});
-		subjectController.setParser(ellucianSubjectParser)
+  //the given page data is the controller
+  //give the first term to it,
+  //and pass the others in as deps + noupdate
 
-	}.bind(this))
+
+  let subjectPromises = {}
+
+
+
+  terms.forEach(function (term) {
+
+    macros.log("Parsing term: ", JSON.stringify(term));
+
+    // Parse the subjects. Keep track of all the promises in a map. 
+    subjectPromises[term.id] = ellucianSubjectParser.main(formData.postURL, term.id)
+
+
+
+    //and add the subject dependency
+    // var subjectController = termPageData.addDep({
+    //   url: formData.postURL
+    // });
+    // subjectController.setParser(ellucianSubjectParser)
+
+  }.bind(this))
+
+
+  // Wait for all the subjects to be parsed.
+  await Promise.all(Object.values(subjectPromises));
+
+
+
+  for (const term of terms) {
+    outputTerms.push({
+      termId: term.id,
+      text: term.text,
+      host: term.host,
+      subjects: await subjectPromises[term.id]
+    })
+  }
+
+  // console.log(outputTerms)
+
+  return outputTerms
+
+
+  // outputTerms.push({
+  //   termId: term.id,
+  //   text: term.text,
+  //   host: term.host
+  // });
+
+  // console.log(formData.postURL)
+
+
 };
 
 
 EllucianTermsParser.prototype.shouldParseEntry = function(entry) {
-	if (entry.name == 'p_term'){
-		return true;
-	}
-	else {
-		return false;
-	}
+  if (entry.name == 'p_term'){
+    return true;
+  }
+  else {
+    return false;
+  }
 };
 
 
 
 //step 1, select the terms
 //starting url is the terms page
-EllucianTermsParser.prototype.parseTermsPage = function (startingURL, dom) {
-	var parsedForm = this.parseForm(startingURL, dom);
+EllucianTermsParser.prototype.parseTermsPage = function (body, url) {
 
-	if (!parsedForm) {
-		macros.error('default form data failed');
-		return;
-	}
+  // Parse the dom
+  const $ = cheerio.load(body);
 
-	var defaultFormData = parsedForm.payloads;
+  // $('body')[0]
 
+  var parsedForm = this.parseForm(url, $('body')[0]);
 
-	//find the term entry and all the other entries
-	var termEntry;
-	var otherEntries = [];
-	defaultFormData.forEach(function (entry) {
-		if (this.shouldParseEntry(entry)) {
-			if (termEntry) {
-				macros.error("Already and entry???", termEntry)
-			}
-			termEntry = entry;
-		}
-		else {
-			otherEntries.push(entry);
-		}
-	}.bind(this));
+  if (!parsedForm) {
+    macros.error('default form data failed');
+    return;
+  }
 
-	if (!termEntry) {
-		macros.error('Could not find an entry!', startingURL, JSON.stringify(parsedForm));
-		return;
-	}
-
-	var requestsData = []; 
-
-	//setup an indidual request for each valid entry on the form - includes the term entry and all other other entries
-	termEntry.alts.forEach(function (entry) {
-		if (!this.shouldParseEntry(entry)) {
-			macros.log('ERROR: entry was alt of term entry but not same name?', entry);
-			return;
-		}
-		entry.text = entry.text.trim()
-
-		if (entry.text.toLowerCase() === 'none') {
-			return;
-		}
-		entry.text = entry.text.replace(/\(view only\)/gi, '').trim();
-
-		entry.text = entry.text.replace(/summer i$/gi, 'Summer 1').replace(/summer ii$/gi, 'Summer 2')
-
-		//dont process this element on error
-		if (entry.text.length < 2) {
-			macros.log('warning: empty entry.text on form?', entry, startingURL);
-			return;
-		}
-
-		if (!this.isValidTerm(entry.value, entry.text)) {
-			return;
-		}
+  var defaultFormData = parsedForm.payloads;
 
 
-		var fullRequestData = otherEntries.slice(0);
+  //find the term entry and all the other entries
+  var termEntry;
+  var otherEntries = [];
+  defaultFormData.forEach(function (entry) {
+    if (this.shouldParseEntry(entry)) {
+      if (termEntry) {
+        macros.error("Already and entry???", termEntry)
+      }
+      termEntry = entry;
+    }
+    else {
+      otherEntries.push(entry);
+    }
+  }.bind(this));
 
-		fullRequestData.push({
-			name: entry.name,
-			value: entry.value,
-			text: entry.text
-		});
+  if (!termEntry) {
+    macros.error('Could not find an entry!', url, JSON.stringify(parsedForm));
+    return;
+  }
 
-		requestsData.push(fullRequestData);
+  var requestsData = []; 
 
-	}.bind(this));
+  //setup an indidual request for each valid entry on the form - includes the term entry and all other other entries
+  termEntry.alts.forEach(function (entry) {
+    if (!this.shouldParseEntry(entry)) {
+      macros.log('ERROR: entry was alt of term entry but not same name?', entry);
+      return;
+    }
+    entry.text = entry.text.trim()
 
-	return {
-		postURL: parsedForm.postURL,
-		requestsData: requestsData
-	};
+    if (entry.text.toLowerCase() === 'none') {
+      return;
+    }
+    entry.text = entry.text.replace(/\(view only\)/gi, '').trim();
+
+    entry.text = entry.text.replace(/summer i$/gi, 'Summer 1').replace(/summer ii$/gi, 'Summer 2')
+
+    //dont process this element on error
+    if (entry.text.length < 2) {
+      macros.log('warning: empty entry.text on form?', entry, url);
+      return;
+    }
+
+    if (!this.isValidTerm(entry.value, entry.text)) {
+      return;
+    }
+
+
+    var fullRequestData = otherEntries.slice(0);
+
+    fullRequestData.push({
+      name: entry.name,
+      value: entry.value,
+      text: entry.text
+    });
+
+    requestsData.push(fullRequestData);
+
+  }.bind(this));
+
+  return {
+    postURL: parsedForm.postURL,
+    requestsData: requestsData
+  };
 };
 
 
@@ -356,6 +374,15 @@ EllucianTermsParser.prototype.parseTermsPage = function (startingURL, dom) {
 EllucianTermsParser.prototype.EllucianTermsParser = EllucianTermsParser;
 module.exports = new EllucianTermsParser();
 
+
+async function testFunc() {
+  let r = await module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched')
+
+
+  console.log(r)
+}
+
+
 if (require.main === module) {
-	module.exports.tests();
+  testFunc();
 }

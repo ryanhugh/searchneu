@@ -18,17 +18,21 @@
 
 
 import macros from '../../../macros';
+import Request from '../../request';
 
-var URI = require('urijs');
-var fs = require('fs');
+import URI from 'urijs';
+import fs from 'fs';
 
 var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
 var ellucianClassListParser = require('./ellucianClassListParser');
 
 
+const request = new Request('EllucianSubjectParser');
+
+
 function EllucianSubjectParser() {
-	EllucianBaseParser.prototype.constructor.apply(this, arguments);
-	this.name = "EllucianSubjectParser";
+  EllucianBaseParser.prototype.constructor.apply(this, arguments);
+  this.name = "EllucianSubjectParser";
 }
 
 
@@ -38,137 +42,181 @@ EllucianSubjectParser.prototype.constructor = EllucianSubjectParser;
 
 
 EllucianSubjectParser.prototype.supportsPage = function (url) {
-	return url.indexOf('bwckgens.p_proc_term_date') > -1;
+  return url.indexOf('bwckgens.p_proc_term_date') > -1;
 };
 
 EllucianSubjectParser.prototype.getDataType = function (pageData) {
 
-	// Return null if it is the controller.
-	if (pageData.dbData.subject) {
-		return 'subjects';
-	}
-	else {
-		return null;
-	}
+  // Return null if it is the controller.
+  if (pageData.dbData.subject) {
+    return 'subjects';
+  }
+  else {
+    return null;
+  }
 };
 
 EllucianSubjectParser.prototype.getPointerConfig = function (pageData) {
-	var config = EllucianBaseParser.prototype.getPointerConfig.apply(this, arguments);
-	if (!pageData.dbData.termId) {
-		macros.error('in pointer config and dont have termId!!!');
-	}
+  var config = EllucianBaseParser.prototype.getPointerConfig.apply(this, arguments);
+  if (!pageData.dbData.termId) {
+    macros.error('in pointer config and dont have termId!!!');
+  }
 
-	config.payload = 'p_calling_proc=bwckschd.p_disp_dyn_sched&p_term=' + pageData.dbData.termId
-	config.headers = {
-		'Content-Type': 'application/x-www-form-urlencoded'
-	}
-	return config;
+  config.payload = 'p_calling_proc=bwckschd.p_disp_dyn_sched&p_term=' + pageData.dbData.termId
+  config.headers = {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
+  return config;
 };
 
 
 
 EllucianSubjectParser.prototype.onEndParsing = function (pageData, dom) {
 
-	//parse the form data
-	var formData = this.parseSearchPage(pageData.dbData.url, dom);
-	var subjects = [];
+  //parse the form data
+  var formData = this.parseSearchPage(pageData.dbData.url, dom);
+  var subjects = [];
 
-	formData.payloads.forEach(function (payloadVar) {
-		if (payloadVar.name != 'sel_subj') {
-			return;
-		}
+  formData.payloads.forEach(function (payloadVar) {
+    if (payloadVar.name != 'sel_subj') {
+      return;
+    }
 
-		if (!payloadVar.text || payloadVar.text === '') {
-			return;
-		}
+    if (!payloadVar.text || payloadVar.text === '') {
+      return;
+    }
 
-		if (!payloadVar.value || payloadVar.value === '') {
-			return;
-		}
+    if (!payloadVar.value || payloadVar.value === '') {
+      return;
+    }
 
-		//record all the subjects and their id's
-		if (payloadVar.name == 'sel_subj') {
-			subjects.push({
-				id: payloadVar.value,
-				text: payloadVar.text
-			});
-		}
-	}.bind(this));
+    //record all the subjects and their id's
+    if (payloadVar.name == 'sel_subj') {
+      subjects.push({
+        id: payloadVar.value,
+        text: payloadVar.text
+      });
+    }
+  }.bind(this));
 
-	if (subjects.length === 0) {
-		console.log('ERROR, found 0 subjects??', pageData.dbData.url);
-	}
-
-
-
-	subjects.forEach(function (subject) {
+  if (subjects.length === 0) {
+    console.log('ERROR, found 0 subjects??', pageData.dbData.url);
+  }
 
 
-		//if it already exists, just update the description
-		for (var i = 0; i < pageData.deps.length; i++) {
-			if (subject.id == pageData.deps[i].dbData.subject) {
-				pageData.deps[i].setData('text', subject.text);
-				return;
-			};
-		};
 
-		//if not, add it
-		var subjectPageData = pageData.addDep({
-			updatedByParent: true,
-			subject: subject.id,
-			text: subject.text
-		});
-		subjectPageData.setParser(this)
+  subjects.forEach(function (subject) {
 
 
-		//and add the subject dependency
-		var catalogPageData = subjectPageData.addDep({
-			url: this.createClassListUrl(pageData.dbData.url, pageData.dbData.termId, subject.id)
-		});
-		catalogPageData.setParser(ellucianClassListParser)
+    //if it already exists, just update the description
+    for (var i = 0; i < pageData.deps.length; i++) {
+      if (subject.id == pageData.deps[i].dbData.subject) {
+        pageData.deps[i].setData('text', subject.text);
+        return;
+      };
+    };
 
-	}.bind(this))
+    //if not, add it
+    var subjectPageData = pageData.addDep({
+      updatedByParent: true,
+      subject: subject.id,
+      text: subject.text
+    });
+    subjectPageData.setParser(this)
+
+
+    //and add the subject dependency
+    var catalogPageData = subjectPageData.addDep({
+      url: this.createClassListUrl(pageData.dbData.url, pageData.dbData.termId, subject.id)
+    });
+    catalogPageData.setParser(ellucianClassListParser)
+
+  }.bind(this))
 };
 
 
 EllucianSubjectParser.prototype.parseSearchPage = function (startingURL, dom) {
 
 
-	var parsedForm = this.parseForm(startingURL, dom);
+  var parsedForm = this.parseForm(startingURL, dom);
 
-	//remove sel_subj = ''
-	var payloads = [];
+  //remove sel_subj = ''
+  var payloads = [];
 
-	//if there is an all given on the other pages, use those (and don't pick every option)
-	//some sites have a limit of 2000 parameters per request, and picking every option sometimes exceeds that
-	var allOptionsFound = [];
+  //if there is an all given on the other pages, use those (and don't pick every option)
+  //some sites have a limit of 2000 parameters per request, and picking every option sometimes exceeds that
+  var allOptionsFound = [];
 
-	parsedForm.payloads.forEach(function (entry) {
-		if (entry.name == 'sel_subj' && entry.value == '%') {
-			return;
-		}
-		else if (entry.value == '%') {
-			allOptionsFound.push(entry.name);
-		}
-		payloads.push(entry);
-	}.bind(this));
+  parsedForm.payloads.forEach(function (entry) {
+    if (entry.name == 'sel_subj' && entry.value == '%') {
+      return;
+    }
+    else if (entry.value == '%') {
+      allOptionsFound.push(entry.name);
+    }
+    payloads.push(entry);
+  }.bind(this));
 
 
-	var finalPayloads = [];
+  var finalPayloads = [];
 
-	//loop through again to make sure not includes any values which have an all set
-	payloads.forEach(function (entry) {
-		if (allOptionsFound.indexOf(entry.name) < 0 || entry.value == '%' || entry.value == 'dummy') {
-			finalPayloads.push(entry);
-		}
-	}.bind(this));
+  //loop through again to make sure not includes any values which have an all set
+  payloads.forEach(function (entry) {
+    if (allOptionsFound.indexOf(entry.name) < 0 || entry.value == '%' || entry.value == 'dummy') {
+      finalPayloads.push(entry);
+    }
+  }.bind(this));
 
-	return {
-		postURL: parsedForm.postURL,
-		payloads: finalPayloads
-	};
+  return {
+    postURL: parsedForm.postURL,
+    payloads: finalPayloads
+  };
 };
 
+
+
+
+
+EllucianSubjectParser.prototype.main = async function(url, termId) {
+
+  
+  // Possibly load from DEV
+  if (macros.DEV && require.main !== module) {
+    const devData = await cache.get('dev_data', this.constructor.name, url);
+    if (devData) {
+      return devData;
+    }
+  }
+
+  // body = 'p_calling_proc=bwckschd.p_disp_dyn_sched&p_term=' + termId
+  // config.headers = {
+  //   'Content-Type': 'application/x-www-form-urlencoded'
+  // }
+
+  
+
+  let resp = await request.post({
+    url: url,
+    body: 'p_calling_proc=bwckschd.p_disp_dyn_sched&p_term=' + termId,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  });
+
+  console.log(resp.body)
+
+  // let retVal = this.parse(resp.body, url)
+
+ // Possibly save to dev
+  if (macros.DEV && require.main !== module) {
+    await cache.set('dev_data', this.constructor.name, url, retVal);
+
+    // Don't log anything because there would just be too much logging. 
+  }
+
+  // return retVal
+
+};
 
 
 
@@ -177,6 +225,11 @@ EllucianSubjectParser.prototype.parseSearchPage = function (startingURL, dom) {
 EllucianSubjectParser.prototype.EllucianSubjectParser = EllucianSubjectParser;
 module.exports = new EllucianSubjectParser();
 
+async function testFunc (url, termId) {
+  let retVal = await module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckgens.p_proc_term_date', 201732)
+  console.log(retVal)
+}
+
 if (require.main === module) {
-	module.exports.tests();
+  testFunc();
 }

@@ -310,17 +310,29 @@ PageDataMgr.prototype.main = async function main(colllegeAbbrs) {
 
   console.log('Processing ', urlsToProcess);
 
-  const pageDatas = [];
 
-  urlsToProcess.forEach((url) => {
-    const pageData = PageData.createFromURL(url);
-    if (!PageData) {
-      macros.error();
-      console.error('ERRROR could not make page data from ', url, 'exiting');
-      process.exit();
-    }
-    pageDatas.push(pageData);
-  });
+  // 1. Parse the data directly from the school's website
+  //  This step does no processing on the data, the structure reflects how the school's site is setup.
+
+  // 2. Then the data is converted into the termDump strucuter for the processor
+
+  
+
+
+
+
+
+  // const pageDatas = [];
+
+  // urlsToProcess.forEach((url) => {
+  //   const pageData = PageData.createFromURL(url);
+  //   if (!PageData) {
+  //     macros.error();
+  //     console.error('ERRROR could not make page data from ', url, 'exiting');
+  //     process.exit();
+  //   }
+  //   pageDatas.push(pageData);
+  // });
 
   const termDump = await this.go(pageDatas);
 

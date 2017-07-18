@@ -340,6 +340,7 @@ class Request {
     let response;
     let error;
     try {
+      console.log(output)
       response = await request(output);
     } catch (e) {
       error = e;
@@ -409,6 +410,7 @@ class Request {
     this.ensureAnalyticsObject(hostname);
 
     let newKey;
+    console.log(config)
 
     if (macros.DEV) {
 
