@@ -183,10 +183,11 @@ EllucianSubjectParser.prototype.parseSearchPage = function (body, url) {
 
 EllucianSubjectParser.prototype.main = async function(url, termId) {
 
+  const cacheKey = url + termId
   
   // Possibly load from DEV
   if (macros.DEV && require.main !== module) {
-    const devData = await cache.get('dev_data', this.constructor.name, url);
+    const devData = await cache.get('dev_data', this.constructor.name, cacheKey);
     if (devData) {
       return devData;
     }
@@ -200,11 +201,12 @@ EllucianSubjectParser.prototype.main = async function(url, termId) {
     }
   });
 
-  let retVal = this.parse(resp.body, url, termId)
+  let retVal = await this.parse(resp.body, url, termId)
+  console.log(retVal)
 
  // Possibly save to dev
-  if (macros.DEV && require.main !== module) {
-    await cache.set('dev_data', this.constructor.name, url, retVal);
+  if (macros.DEV) {
+    await cache.set('dev_data', this.constructor.name, cacheKey, retVal);
 
     // Don't log anything because there would just be too much logging. 
   }
@@ -222,7 +224,7 @@ module.exports = new EllucianSubjectParser();
 
 async function testFunc (url, termId) {
   let retVal = await module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckgens.p_proc_term_date', 201810)
-  console.log(retVal)
+  // console.log(retVal)
 }
 
 if (require.main === module) {

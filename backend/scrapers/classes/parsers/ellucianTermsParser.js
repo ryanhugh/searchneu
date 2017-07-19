@@ -67,7 +67,7 @@ EllucianTermsParser.prototype.main = async function(url) {
 
   let resp = await request.get(url);
 
-  let retVal = this.parse(resp.body, url)
+  let retVal = await this.parse(resp.body, url)
 
  // Possibly save to dev
   if (macros.DEV && require.main !== module) {
@@ -151,6 +151,9 @@ EllucianTermsParser.prototype.parse = async function (body, url) {
     if (possibleCustomHostAndText) {
       term.text = possibleCustomHostAndText.text
       term.host = possibleCustomHostAndText.host
+    }
+    else {
+      term.host = host
     }
 
     //add the shorter version of the term string
@@ -335,7 +338,7 @@ async function testFunc() {
   let r = await module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched')
 
 
-  console.log(r)
+  console.log(JSON.stringify(r, null, 4))
 }
 
 
