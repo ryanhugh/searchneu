@@ -67,16 +67,19 @@ EllucianTermsParser.prototype.main = async function(url) {
 
   let resp = await request.get(url);
 
-  let retVal = await this.parse(resp.body, url)
+  let {terms, postUrl} = this.parse(resp.body, url)
+
+  terms = await this.addSubjects(terms, postUrl)
+
 
  // Possibly save to dev
   if (macros.DEV && require.main !== module) {
-    await cache.set('dev_data', this.constructor.name, url, retVal);
+    await cache.set('dev_data', this.constructor.name, url, terms);
 
     // Don't log anything because there would just be too much logging. 
   }
 
-  return retVal
+  return terms
 
 };
 
@@ -116,7 +119,7 @@ EllucianTermsParser.prototype.isValidTerm = function (termId, text) {
 
 
 
-EllucianTermsParser.prototype.parse = async function (body, url) {
+EllucianTermsParser.prototype.parse = function (body, url) {
   var formData = this.parseTermsPage(body, url);
   var terms = [];
 
@@ -198,38 +201,18 @@ EllucianTermsParser.prototype.parse = async function (body, url) {
 
   let outputTerms = []
 
-
-  //the given page data is the controller
-  //give the first term to it,
-  //and pass the others in as deps + noupdate
-
-
-  let subjectPromises = {}
-
-
-  terms.forEach(function (term) {
-
-    macros.log("Parsing term: ", JSON.stringify(term));
-
-    // Parse the subjects. Keep track of all the promises in a map. 
-    subjectPromises[term.id] = ellucianSubjectParser.main(formData.postURL, term.id)
-
-  }.bind(this))
-
-
-  // Wait for all the subjects to be parsed.
-  await Promise.all(Object.values(subjectPromises));
-
   for (const term of terms) {
     outputTerms.push({
       termId: term.id,
       text: term.text,
       host: term.host,
-      subjects: await subjectPromises[term.id]
     })
   }
 
-  return outputTerms
+  return {
+    terms: outputTerms,
+    postUrl: formData.postURL
+  }
 };
 
 
@@ -240,6 +223,32 @@ EllucianTermsParser.prototype.shouldParseEntry = function(entry) {
   else {
     return false;
   }
+};
+
+
+EllucianTermsParser.prototype.addSubjects = async function(terms, postURL) {
+  
+  let subjectPromises = {}
+
+
+  terms.forEach(function (term) {
+
+    macros.log("Parsing term: ", JSON.stringify(term));
+
+    // Parse the subjects. Keep track of all the promises in a map. 
+    subjectPromises[term.termId] = ellucianSubjectParser.main(postURL, term.termId)
+
+  }.bind(this))
+
+
+  // Wait for all the subjects to be parsed.
+  await Promise.all(Object.values(subjectPromises));
+
+  for (const term of terms) {
+    term.subjects = await subjectPromises[term.termId]
+  }
+
+  return terms;
 };
 
 

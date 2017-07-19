@@ -16,8 +16,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
-'use strict';
-
 import macros from '../../../macros';
 var BaseProcessor = require('./baseProcessor').BaseProcessor
 

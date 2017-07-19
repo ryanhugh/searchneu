@@ -33,7 +33,6 @@
  // Once have a name for a given college, can store forever because it is not going to change. 
 
 
-'use strict';
 import path from 'path';
 import he from 'he';
 import domutils from 'domutils';

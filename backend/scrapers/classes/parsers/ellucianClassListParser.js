@@ -16,8 +16,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
-'use strict';
-
 import _ from 'lodash';
 import he from 'he';
 import fs from 'fs';
@@ -65,7 +63,7 @@ EllucianClassListParser.prototype.main = async function(url) {
 
   let resp = await request.get(url);
 
-  let retVal = this.parse(resp.body, url)
+  let retVal = await this.parse(resp.body, url)
 
  // Possibly save to dev
   if (macros.DEV && require.main !== module) {
@@ -79,13 +77,15 @@ EllucianClassListParser.prototype.main = async function(url) {
 };
 
 
-EllucianClassListParser.prototype.parse = function (body, url) {
+EllucianClassListParser.prototype.parse = async function (body, url) {
 
 
   // Parse the dom
   const $ = cheerio.load(body);
 
   let aElements = $('a')
+
+  let classPromises = []
 
   for (var i = 0; i < aElements.length; i++) {
     const element = aElements[i]
@@ -99,12 +99,6 @@ EllucianClassListParser.prototype.parse = function (body, url) {
     if (url.startsWith('javascript') || url.startsWith('mailto')) {
       continue;
     };
-
-    // var baseURL = this.getBaseURL(url);
-    // if (!baseURL) {
-    //   continue;
-    // };
-
 
     // Fix broken urls. (Have seen this on NEU's site :/)
     if (url.startsWith('http: //')) {
@@ -124,14 +118,11 @@ EllucianClassListParser.prototype.parse = function (body, url) {
     };
 
     if (ellucianCatalogParser.supportsPage(url)) {
-      console.log('winner winner chicken dinner', url)
-
-      // var dep = pageData.addDep({
-      //   url: url
-      // })
-      // dep.setParser(ellucianCatalogParser)
+      classPromises.push(ellucianCatalogParser.main(url))
     }
   }
+
+  return Promise.all(classPromises)
 };
 
 

@@ -16,7 +16,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
-'use strict';
 var mkdirp = require('mkdirp');
 var fs = require('fs')
 var path = require('path')

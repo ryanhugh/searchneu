@@ -16,11 +16,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
-'use strict';
-var URI = require('urijs');
-var domutils = require('domutils');
-var he = require('he');
-var _ = require('lodash');
+import URI from 'urijs';
+import domutils from 'domutils';
+import he from 'he';
+import _ from 'lodash';
 import cheerio from 'cheerio';
 
 import macros from '../../../macros';
@@ -45,6 +44,33 @@ EllucianCatalogParser.prototype.constructor = EllucianCatalogParser;
 EllucianCatalogParser.prototype.supportsPage = function (url) {
 	return url.indexOf('bwckctlg.p_disp_course_detail') > -1;
 }
+
+
+// 
+EllucianCatalogParser.prototype.main = async function(url) {
+  
+  // Possibly load from DEV
+  if (macros.DEV && require.main !== module) {
+    const devData = await cache.get('dev_data', this.constructor.name, url);
+    if (devData) {
+      return devData;
+    }
+  }
+
+  let resp = await request.get(url);
+
+  let retVal = await this.parse(resp.body, url)
+
+ // Possibly save to dev
+  if (macros.DEV && require.main !== module) {
+    await cache.set('dev_data', this.constructor.name, url, retVal);
+
+    // Don't log anything because there would just be too much logging. 
+  }
+
+  return retVal
+
+};
 
 
 EllucianCatalogParser.prototype.parseClass = function (pageData, element) {

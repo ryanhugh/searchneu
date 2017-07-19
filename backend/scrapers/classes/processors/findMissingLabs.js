@@ -16,7 +16,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
-'use strict';
 var macros = require('../macros')
 var classesDB = require('../databases/classesDB')
 var BaseProcessor = require('./baseProcessor').BaseProcessor
