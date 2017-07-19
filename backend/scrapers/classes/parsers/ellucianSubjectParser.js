@@ -73,7 +73,7 @@ EllucianSubjectParser.prototype.getPointerConfig = function (pageData) {
 
 
 
-EllucianSubjectParser.prototype.parse = async function (body, url, termId) {
+EllucianSubjectParser.prototype.parse = function (body, url) {
 
   //parse the form data
   var formData = this.parseSearchPage(body, url);
@@ -102,24 +102,10 @@ EllucianSubjectParser.prototype.parse = async function (body, url, termId) {
   }.bind(this));
 
   if (subjects.length === 0) {
-    console.log('ERROR, found 0 subjects??', pageData.dbData.url);
+    console.log('ERROR, found 0 subjects??', url);
   }
 
   let outputSubjects = []
-
-
-  let classListPromises = {}
-
-
-  subjects.forEach(function (subject) {
-
-    let classListUrl = this.createClassListUrl(url, termId, subject.id)
-    classListPromises[subject.id] = ellucianClassListParser.main(classListUrl)
-  }.bind(this))
-
-
-  // Wait for all the class list promises.
-  await Promise.all(Object.values(classListPromises))
 
 
   for (const subject of subjects) {
@@ -127,13 +113,34 @@ EllucianSubjectParser.prototype.parse = async function (body, url, termId) {
     outputSubjects.push({
       subject: subject.id,
       text: subject.text,
-      classList: await classListPromises[subject.id]
     });
   }
 
   return outputSubjects
+};
+
+EllucianSubjectParser.prototype.addClassLists = async function(subjects, url, termId) {
+  
+  let classListPromises = {}
 
 
+  subjects.forEach(function (subject) {
+    // console.log(subject)
+    // pjfldksajfl
+
+    let classListUrl = this.createClassListUrl(url, termId, subject.subject)
+    classListPromises[subject.subject] = ellucianClassListParser.main(classListUrl)
+  }.bind(this))
+
+
+  // Wait for all the class list promises.
+  await Promise.all(Object.values(classListPromises))
+
+  for (const subject of subjects) {
+      subject.classList = await classListPromises[subject.subject]
+  }
+
+  return subjects
 };
 
 
@@ -201,17 +208,21 @@ EllucianSubjectParser.prototype.main = async function(url, termId) {
     }
   });
 
-  let retVal = await this.parse(resp.body, url, termId)
-  console.log(retVal)
+  let subjects = this.parse(resp.body, url)
+
+  subjects = await this.addClassLists(subjects, url, termId)
+
+  // console.log(subjects)
+
 
  // Possibly save to dev
   if (macros.DEV) {
-    await cache.set('dev_data', this.constructor.name, cacheKey, retVal);
+    await cache.set('dev_data', this.constructor.name, cacheKey, subjects);
 
     // Don't log anything because there would just be too much logging. 
   }
 
-  return retVal
+  return subjects
 
 };
 

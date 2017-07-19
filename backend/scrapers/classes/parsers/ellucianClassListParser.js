@@ -77,7 +77,7 @@ EllucianClassListParser.prototype.main = async function(url) {
 };
 
 
-EllucianClassListParser.prototype.parse = async function (body, url) {
+EllucianClassListParser.prototype.parse = async function (body, originalUrl) {
 
 
   // Parse the dom
@@ -106,7 +106,7 @@ EllucianClassListParser.prototype.parse = async function (body, url) {
     }
 
     try {
-      url = new URI(url).absoluteTo(url).toString()
+      url = new URI(url).absoluteTo(originalUrl).toString()
     }
     catch (e) {
       macros.error('Ran into an error while parsing a url. Skipping.' ,e , url, baseURL, JSON.stringify(element.attribs), url)
@@ -118,6 +118,7 @@ EllucianClassListParser.prototype.parse = async function (body, url) {
     };
 
     if (ellucianCatalogParser.supportsPage(url)) {
+      // console.log(url)
       classPromises.push(ellucianCatalogParser.main(url))
     }
   }

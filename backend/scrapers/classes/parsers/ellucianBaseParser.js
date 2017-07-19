@@ -16,8 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
-import macros from '../../../macros'
-var URI = require('urijs')
+import URI from 'urijs';
+import macros from '../../../macros';
+
 var BaseParser = require('./baseParser').BaseParser;
 
 
@@ -30,6 +31,39 @@ function EllucianBaseParser() {
 //prototype constructor
 EllucianBaseParser.prototype = Object.create(BaseParser.prototype);
 EllucianBaseParser.prototype.constructor = EllucianBaseParser;
+
+
+// https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=FINA&crse_numb_in=6283
+EllucianBaseParser.prototype.parseCatalogUrl = function(catalogUrl) {
+	let urlParsed = new URI(catalogUrl);
+
+	let query = urlParsed.query(true);
+
+
+	const termId = query.cat_term_in;
+	if (!termId || termId.length !== 6) {
+		macros.error('Unable to find term_in in', catalogUrl)
+		return null;
+	}
+
+	const subject = query.subj_code_in;
+	if (!subject) {
+		macros.error('Unable to find subject in', subject)
+		return null;
+	}
+
+	const classId = query.crse_numb_in;
+	if (!classId) {
+		macros.error('Unable to find classId in', classId)
+		return null;
+	}
+
+	return {
+		classId: classId,
+		termId: termId,
+		subject: subject
+	}
+};
 
 
 EllucianBaseParser.prototype.getTermIdFromUrl = function(url) {

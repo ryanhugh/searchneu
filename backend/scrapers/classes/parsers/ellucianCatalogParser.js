@@ -22,12 +22,18 @@ import he from 'he';
 import _ from 'lodash';
 import cheerio from 'cheerio';
 
+
+import cache from '../../cache';
 import macros from '../../../macros';
+import Request from '../../request';
+
 var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
 var ellucianClassParser = require('./ellucianClassParser');
 var ellucianRequisitesParser = require('./ellucianRequisitesParser');
 var ellucianRequisitesParser2 = require('./ellucianRequisitesParser2');
 
+
+const request = new Request('EllucianCatalogParser');
 
 function EllucianCatalogParser() {
 	EllucianBaseParser.prototype.constructor.apply(this, arguments);
@@ -48,7 +54,7 @@ EllucianCatalogParser.prototype.supportsPage = function (url) {
 
 // 
 EllucianCatalogParser.prototype.main = async function(url) {
-  
+
   // Possibly load from DEV
   if (macros.DEV && require.main !== module) {
     const devData = await cache.get('dev_data', this.constructor.name, url);
@@ -73,33 +79,27 @@ EllucianCatalogParser.prototype.main = async function(url) {
 };
 
 
-EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
+EllucianCatalogParser.prototype.parseClass = function (element, url) {
 
 
-	//get the classId from the url
-	var catalogURLQuery = new URI(pageData.dbData.url).query(true);
-	if (!catalogURLQuery.crse_numb_in) {
-		macros.error('could not find current crse_numb_in', catalogURLQuery, pageData.dbData.url)
-		return;
-	}
+	let {termId, classId, subject} = this.parseCatalogUrl(url);
 
 
 	var depData = {
 		desc: '',
-		classId: catalogURLQuery.crse_numb_in
+		classId: classId
 	};
 
 
 
-
-	depData.prettyUrl = this.createCatalogUrl(pageData.dbData.url, pageData.dbData.termId, pageData.dbData.subject, depData.classId)
+	depData.prettyUrl = url
 
 	//get the class name
 	var value = domutils.getText(element);
 
 	var match = value.match(/.+?\s-\s*(.+)/i);
 	if (!match || match.length < 2 || match[1].length < 2) {
-		macros.log('could not find title!', match, value, pageData.dbData.url);
+		macros.error('could not find title!', match, value, url);
 		return;
 	}
 	depData.name = this.standardizeClassName(match[1]);
@@ -112,7 +112,7 @@ EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 	}
 	var rows = domutils.getElementsByTagName('td', descTR)
 	if (rows.length != 1) {
-		macros.log('td rows !=1??', depData.classId, pageData.dbData.url);
+		macros.error('td rows !=1??', depData.classId, url);
 		return;
 	};
 
@@ -130,7 +130,7 @@ EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 		depData.minCredits = creditsParsed.minCredits;
 	}
 	else {
-		macros.log('warning, nothing matchied credits', pageData.dbData.url, text);
+		macros.log('warning, nothing matchied credits', url, text);
 	}
 
 
@@ -157,64 +157,74 @@ EllucianCatalogParser.prototype.parseClass = function (pageData, element) {
 		return;
 	}
 
+
+
 	//url
-	depData.url = this.createClassURL(pageData.dbData.url, pageData.dbData.termId, pageData.dbData.subject, depData.classId);
+	depData.url = this.createClassURL(url, termId, subject, classId);
 	if (!depData.url) {
 		macros.log('error could not create class url', depData);
 		return;
 	}
 
+	let fakePageData = {
+		dbData: {
+			url: url,
+			termId: termId
+		}
+	}
+
 	//find co and pre reqs and restrictions
-	var prereqs = ellucianRequisitesParser.parseRequirementSection(pageData, element.children, 'prerequisites');
+	var prereqs = ellucianRequisitesParser.parseRequirementSection(fakePageData, element.children, 'prerequisites');
 	if (prereqs) {
 		depData.prereqs = prereqs;
 	}
 
-	var coreqs = ellucianRequisitesParser.parseRequirementSection(pageData, element.children, 'corequisites');
+	var coreqs = ellucianRequisitesParser.parseRequirementSection(fakePageData, element.children, 'corequisites');
 	if (coreqs) {
 		depData.coreqs = coreqs;
 	}
 	
 	//find co and pre reqs and restrictions
-	var prereqs2 = ellucianRequisitesParser2.parseRequirementSection(pageData, element.children, 'prerequisites');
+	var prereqs2 = ellucianRequisitesParser2.parseRequirementSection(fakePageData, element.children, 'prerequisites');
 	if (!_.isEqual(prereqs, prereqs2)) {
 		macros.log("WARNING: prereqs parsed by the new parser are not equal", JSON.stringify(prereqs, null, 4), JSON.stringify(prereqs2, null, 4))
 	}
 
-	var coreqs2 = ellucianRequisitesParser2.parseRequirementSection(pageData, element.children, 'corequisites');
+	var coreqs2 = ellucianRequisitesParser2.parseRequirementSection(fakePageData, element.children, 'corequisites');
 	if (!_.isEqual(coreqs, coreqs2)) {
 		macros.log("WARNING: coreqs parsed by the new parser are not equal", JSON.stringify(coreqs, null, 4), JSON.stringify(coreqs2, null, 4))
 	}
 
-	var dep = pageData.addDep(depData);
-	dep.setParser(ellucianClassParser)
+	console.log(depData)
+
+	// var dep = pageData.addDep(depData);
+	// dep.setParser(ellucianClassParser)
 };
 
 
-EllucianCatalogParser.prototype.parseElement = function (pageData, element) {
-	if (!pageData.dbData.termId) {
-		macros.error('error!!! in ellucianCatalogParser but dont have a termId', pageData)
-		return;
-	};
+EllucianCatalogParser.prototype.parse = function (body, url) {
 
-	if (element.type != 'tag') {
-		return;
+	// Parse the dom
+	const $ = cheerio.load(body);
+
+	let elements = $('td.nttitle')
+
+	let matchingElement;
+
+	for (var i = 0; i < elements.length; i++) {
+		let currElement = elements[i];
+
+		if (matchingElement) {
+			macros.error("Already have a matching element", elements, elements.length)
+		}
+
+		if (currElement.parent.parent.attribs.summary.includes('term')) {
+			matchingElement = currElement;
+		}
 	}
 
 
-	if (element.name == 'td' && element.attribs.class == 'nttitle' && element.parent.parent.attribs.summary.includes('term')) {
-
-
-		if (pageData.parsingData.foundClass) {
-			macros.error('error found multiple classes ignoring the second one', pageData.dbData.url)
-			return;
-		};
-
-		pageData.parsingData.foundClass = true
-
-
-		this.parseClass(pageData, element);
-	}
+	this.parseClass(matchingElement, url);
 };
 
 
@@ -226,6 +236,13 @@ EllucianCatalogParser.prototype.parseElement = function (pageData, element) {
 EllucianCatalogParser.prototype.EllucianCatalogParser = EllucianCatalogParser;
 module.exports = new EllucianCatalogParser();
 
+
+function testFunc() {
+	module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=FINA&crse_numb_in=6283')
+}
+
+
 if (require.main === module) {
-	module.exports.tests();
+	testFunc()
+	// module.exports.tests();
 }
