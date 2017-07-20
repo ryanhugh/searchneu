@@ -52,33 +52,6 @@ EllucianCatalogParser.prototype.supportsPage = function (url) {
 }
 
 
-// 
-EllucianCatalogParser.prototype.main = async function(url) {
-
-  // Possibly load from DEV
-  if (macros.DEV && require.main !== module) {
-    const devData = await cache.get('dev_data', this.constructor.name, url);
-    if (devData) {
-      return devData;
-    }
-  }
-
-  let resp = await request.get(url);
-
-  let retVal = await this.parse(resp.body, url)
-
- // Possibly save to dev
-  if (macros.DEV && require.main !== module) {
-    await cache.set('dev_data', this.constructor.name, url, retVal);
-
-    // Don't log anything because there would just be too much logging. 
-  }
-
-  return retVal
-
-};
-
-
 EllucianCatalogParser.prototype.parseClass = function (element, url) {
 
 
@@ -197,6 +170,8 @@ EllucianCatalogParser.prototype.parseClass = function (element, url) {
 
 	console.log(depData)
 
+	return depData;
+
 	// var dep = pageData.addDep(depData);
 	// dep.setParser(ellucianClassParser)
 };
@@ -224,9 +199,50 @@ EllucianCatalogParser.prototype.parse = function (body, url) {
 	}
 
 
-	this.parseClass(matchingElement, url);
+	return this.parseClass(matchingElement, url);
 };
 
+
+EllucianCatalogParser.prototype.addClasses = async function(parsedData) {
+	
+	let classData = await ellucianClassParser.main(parsedData.url)
+
+
+
+
+};
+
+
+
+// 
+EllucianCatalogParser.prototype.main = async function(url) {
+
+  // Possibly load from DEV
+  if (macros.DEV && require.main !== module) {
+    const devData = await cache.get('dev_data', this.constructor.name, url);
+    if (devData) {
+      return devData;
+    }
+  }
+
+  let resp = await request.get(url);
+
+  let retVal = this.parse(resp.body, url)
+
+
+
+
+
+ // Possibly save to dev
+  if (macros.DEV && require.main !== module) {
+    await cache.set('dev_data', this.constructor.name, url, retVal);
+
+    // Don't log anything because there would just be too much logging. 
+  }
+
+  return retVal
+
+};
 
 
 
