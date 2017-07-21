@@ -111,8 +111,11 @@ EllucianSubjectParser.prototype.parse = function (body, url) {
   for (const subject of subjects) {
 
     outputSubjects.push({
-      subject: subject.id,
-      text: subject.text,
+      type: 'subject',
+      value: {
+        subject: subject.id,
+        text: subject.text,
+      }
     });
   }
 
@@ -125,11 +128,8 @@ EllucianSubjectParser.prototype.addClassLists = async function(subjects, url, te
 
 
   subjects.forEach(function (subject) {
-    // console.log(subject)
-    // pjfldksajfl
-
-    let classListUrl = this.createClassListUrl(url, termId, subject.subject)
-    classListPromises[subject.subject] = ellucianClassListParser.main(classListUrl)
+    let classListUrl = this.createClassListUrl(url, termId, subject.value.subject)
+    classListPromises[subject.value.subject] = ellucianClassListParser.main(classListUrl)
   }.bind(this))
 
 
@@ -137,7 +137,7 @@ EllucianSubjectParser.prototype.addClassLists = async function(subjects, url, te
   await Promise.all(Object.values(classListPromises))
 
   for (const subject of subjects) {
-      subject.classList = await classListPromises[subject.subject]
+      subject.deps = await classListPromises[subject.value.subject]
   }
 
   return subjects

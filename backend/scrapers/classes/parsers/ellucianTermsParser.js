@@ -18,10 +18,14 @@
 
 import moment from 'moment';
 import cheerio from 'cheerio';
+import fs from 'fs-promise';
 
 import cache from '../../cache';
 import macros from '../../../macros';
 import Request from '../../request';
+import Keys from '../../../../common/Keys'
+
+
 var collegeNamesParser = require('./collegeNamesParser');
 
 var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
@@ -201,11 +205,16 @@ EllucianTermsParser.prototype.parse = function (body, url) {
 
   let outputTerms = []
 
+  // Keep just some of the properties and normalize the data structure to the labeled format.
   for (const term of terms) {
     outputTerms.push({
-      termId: term.id,
-      text: term.text,
-      host: term.host,
+      type: 'term',
+      value: {
+        termId: term.id,
+        text: term.text,
+        host: term.host,
+      },
+      deps: null
     })
   }
 
@@ -227,25 +236,27 @@ EllucianTermsParser.prototype.shouldParseEntry = function(entry) {
 
 
 EllucianTermsParser.prototype.addSubjects = async function(terms, postURL) {
+
   
   let subjectPromises = {}
 
 
   terms.forEach(function (term) {
 
-    macros.log("Parsing term: ", JSON.stringify(term));
+    macros.log("Parsing term: ", JSON.stringify(term.value));
 
     // Parse the subjects. Keep track of all the promises in a map. 
-    subjectPromises[term.termId] = ellucianSubjectParser.main(postURL, term.termId)
+    subjectPromises[term.value.termId] = ellucianSubjectParser.main(postURL, term.value.termId)
 
   }.bind(this))
 
 
   // Wait for all the subjects to be parsed.
   await Promise.all(Object.values(subjectPromises));
+  
 
   for (const term of terms) {
-    term.subjects = await subjectPromises[term.termId]
+    term.deps = await subjectPromises[term.value.termId]
   }
 
   return terms;
@@ -338,6 +349,47 @@ EllucianTermsParser.prototype.parseTermsPage = function (body, url) {
 
 
 
+EllucianTermsParser.prototype.waterfallIdentifyers = function(rootNode, attrToAdd = {}) {
+
+
+  let newChildAttr = {};
+
+  // Shallow clone the attributes to newChildAttr
+
+  for (const attrName in attrToAdd) {
+    newChildAttr[attrName] = attrToAdd[attrName]
+  }
+
+
+  if (!rootNode.value || !rootNode.type) {
+    macros.error("Invalid root node", rootNode)
+    return;
+  }
+
+  for (let attrName in rootNode.value) {
+    if (!Keys.allKeys.includes(attrName) && attrName !== 'classId') {
+      continue;
+    }
+
+    if (rootNode.value[attrName] && newChildAttr[attrName] && rootNode.value[attrName] !== newChildAttr[attrName]) {
+      macros.error("Overriding attr?", attrName, rootNode.value, newChildAttr)
+    }
+
+    newChildAttr[attrName] = rootNode.value[attrName]
+  }
+
+  // Actually add the atributes to this obj
+  rootNode.value = Object.assign({}, rootNode.value, newChildAttr)
+
+  if (rootNode.deps) {
+    for (const dep of rootNode.deps) {
+      this.waterfallIdentifyers(dep, newChildAttr)
+    }
+  }
+
+  return rootNode
+};
+
 
 EllucianTermsParser.prototype.EllucianTermsParser = EllucianTermsParser;
 module.exports = new EllucianTermsParser();
@@ -346,8 +398,18 @@ module.exports = new EllucianTermsParser();
 async function testFunc() {
   let r = await module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched')
 
+  let output = module.exports.waterfallIdentifyers({
+    type: 'host',
+    value: {
+    },
+    deps: r
+  })
 
-  console.log(JSON.stringify(r, null, 4))
+  await fs.writeFile('out.json', JSON.stringify(output, null, 4))
+  console.log('file saved')
+
+
+  // console.log(JSON.stringify(r, null, 4))
 }
 
 

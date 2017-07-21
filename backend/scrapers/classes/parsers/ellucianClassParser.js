@@ -22,12 +22,19 @@ import moment from 'moment';
 import he from 'he';
 import _ from 'lodash';
 import fs from 'fs';
+import cheerio from 'cheerio';
 
+
+import cache from '../../cache';
+import Request from '../../request';
 import macros from '../../../macros';
 
 
 var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
 var ellucianSectionParser = require('./ellucianSectionParser');
+
+
+const request = new Request('EllucianClassParser');
 
 var timeZero = moment('0', 'h');
 
@@ -61,6 +68,41 @@ EllucianClassParser.prototype.getDataType = function (pageData) {
 };
 
 
+// Main Entry point. Catalog title is the title of the class on the catalog page. 
+// This name is used as a basis for standardizing and cleaning up the names of the sections. 
+// See more below. 
+EllucianClassParser.prototype.main = async function(url, catalogTitle = null) {
+	
+  // Possibly load from DEV
+  if (macros.DEV && require.main !== module) {
+    const devData = await cache.get('dev_data', this.constructor.name, url);
+    if (devData) {
+      return devData;
+    }
+  }
+
+  let resp = await request.get(url);
+
+  // Returns a list of class objects wrapped. 
+  let classList = await this.parse(resp.body, url, catalogTitle)
+
+  // console.log('done main:', JSON.stringify(classList, null, 4))
+
+
+
+
+
+ // Possibly save to dev
+  if (macros.DEV && require.main !== module) {
+    await cache.set('dev_data', this.constructor.name, url, classList);
+
+    // Don't log anything because there would just be too much logging. 
+  }
+
+  return classList
+
+};
+
 
 
 //format is min from midnight, 0 = sunday, 6= saterday
@@ -69,6 +111,7 @@ EllucianClassParser.prototype.parseTimeStamps = function (times, days) {
 	if (times.toLowerCase() == 'tba' || days == '&nbsp;') {
 		return;
 	}
+
 
 	if ((times.match(/m|-/g) || []).length != 3) {
 		macros.log('ERROR: multiple times in times', times, days);
@@ -129,35 +172,39 @@ EllucianClassParser.prototype.parseTimeStamps = function (times, days) {
 
 
 //this is called for each section that is found on the page
-EllucianClassParser.prototype.parseClassData = async function (pageData, element) {
+EllucianClassParser.prototype.parse = async function (body, url, catalogTitle) {
 
-	if (!pageData.dbData.url) {
-		macros.error(pageData.dbData)
-		macros.log(pageData)
-		return;
-	}
+	const $ = cheerio.load(body);
 
+    let elements = $('body > div.pagebodydiv > table > tr > th.ddtitle > a');
 
-	//if different name than this class, save to new class
-	var classToAddSectionTo = pageData;
+    // Keys are the name of classes. Values are the class objects
+    let parsedClassMap = {}
 
-	var sectionStartingData = {};
+    // Loop over each one of the elements. 
+    for (var j = 0; j < elements.length; j++) {
+    	const element = elements[j].parent.parent
 
+		//if different name than this class, save to new class
+		var sectionStartingData = {};
 
-	//parse name and url
-	//and make a new class if the name is different
-	domutils.findAll(function (element) {
-		if (!element.attribs.href) {
-			return;
+		// Keep track of the name of this class. 
+		let className;
+
+		let aElement = elements[j]
+
+		if (!aElement.attribs.href) {
+			macros.error("Section does not have a href on class parser?", aElement);
+			continue;
 		}
 
-
 		//find the crn from the url
-		var urlParsed = new URI(he.decode(element.attribs.href));
+		var urlParsed = new URI(he.decode(aElement.attribs.href));
 
 		//add hostname + port if path is relative
 		if (urlParsed.is('relative')) {
-			urlParsed = urlParsed.absoluteTo(pageData.getUrlStart()).toString();
+			let thisPageUrl = new URI(url);
+			urlParsed = urlParsed.absoluteTo(thisPageUrl.scheme() + '://' + thisPageUrl.host()).toString();
 		}
 
 		var sectionURL = urlParsed.toString();
@@ -165,18 +212,22 @@ EllucianClassParser.prototype.parseClassData = async function (pageData, element
 		if (ellucianSectionParser.supportsPage(sectionURL)) {
 			sectionStartingData.url = sectionURL;
 		}
+		else {
+			macros.error("Section parser does not support section url?", sectionURL)
+			continue;
+		}
 
 		//add the crn
 		var sectionURLParsed = this.sectionURLtoInfo(sectionURL);
 		if (!sectionURLParsed) {
-			macros.log('error could not parse section url', sectionURL, pageData.dbData.url);
+			macros.log('error could not parse section url', sectionURL, url);
 			return;
 		};
 
 
 
 		//also parse the name from the link
-		var value = domutils.getText(element);
+		var value = domutils.getText(aElement);
 
 		//match everything before " - [crn]"
 		var match = value.match('(.+?)\\s-\\s' + sectionURLParsed.crn, 'i');
@@ -185,374 +236,217 @@ EllucianClassParser.prototype.parseClassData = async function (pageData, element
 			return;
 		}
 
-		var className = match[1];
+		className = match[1];
 
 		if (className == className.toLowerCase() || className == className.toUpperCase()) {
-			macros.log("Warning: class name is all upper or lower case", className, pageData.dbData.url);
+			macros.log("Warning: class name is all upper or lower case", className, url);
 		}
 
-		//get a list of all class names for the class name fixer
+		// Get a list of all class names for the class name fixer.
 		var possibleClassNameMatches = []
-		if (pageData.parsingData.name) {
-			possibleClassNameMatches.push(pageData.parsingData.name)
+
+		// Add the catalog title
+		if (catalogTitle) {
+			possibleClassNameMatches.push(catalogTitle)
 		}
 
-		if (pageData.dbData.name) {
-			possibleClassNameMatches.push(pageData.dbData.name)
-		}
-
-		pageData.deps.forEach(function (dep) {
-			if (dep.parser != this) {
-				return;
-			}
-
-			if (!dep.dbData.name) {
-				macros.error("ERROR, dep dosen't have a name?", pageData.deps)
-			}
-			else {
-				possibleClassNameMatches.push(dep.dbData.name)
-
-			}
-		}.bind(this))
+		// Add the names of all the classes that have already been parsed. 
+		possibleClassNameMatches = possibleClassNameMatches.concat(Object.keys(parsedClassMap))
 
 		className = this.standardizeClassName(className, possibleClassNameMatches);
 
 
-		//name was already set to something different, make another db entry for this class
-		if (pageData.parsingData.name && className != pageData.parsingData.name) {
-
-			macros.log("['Warning name change base:', '" + pageData.parsingData.name + "','" + className + ",']" + JSON.stringify(possibleClassNameMatches));
-
-
-			var dbAltEntry = null;
-
-			//search for an existing dep with the matching classname, etc
-			for (var i = 0; i < pageData.deps.length; i++) {
-
-				//we are only looking for classes here
-				if (pageData.deps[i].parser != this) {
-					continue;
-				}
-
-				if (pageData.deps[i].dbData.name == className && pageData.deps[i].dbData.updatedByParent) {
-					dbAltEntry = pageData.deps[i];
-				}
-			}
-
-			//if there exist no entry in the pageData.deps with that matches (same name + updated by parent)
-			//create a new class
-			if (!dbAltEntry) {
-				// macros.log('creating a new dep entry',pageData.deps.length);
-
-				if (pageData.dbData.desc === undefined) {
-					macros.error('wtf desc is undefined??')
-				};
-
-				dbAltEntry = pageData.addDep({
-					url: pageData.dbData.url,
-					updatedByParent: true,
+		// Setup this new section in the parsedClassMap with the fixed name. 
+		if (!parsedClassMap[className]) {
+			parsedClassMap[className] = {
+				type: 'class',
+				value: {
 					name: className,
-				});
-
-				//could not create a dep with this data.. uh oh
-				if (!dbAltEntry) {
-					return;
-				}
-
-				dbAltEntry.parsingData.crns = []
-
-				//copy over attributes from this class
-				for (var attrName in pageData.dbData) {
-
-					//dont copy over some attributes
-					if (['name', 'updatedByParent', 'url', 'crns', 'deps'].includes(attrName)) {
-						continue;
-					}
-
-					dbAltEntry.setData(attrName, pageData.dbData[attrName])
-				}
-
-				dbAltEntry.setParser(this);
-
+					url: url,
+					crns: [sectionURLParsed.crn]
+				},
+				deps: []
 			}
-
-
-			if (!dbAltEntry.dbData.name) {
-				macros.error('Dont have name for dep??', dbAltEntry.dbData)
-			}
-
-
-			classToAddSectionTo = dbAltEntry;
-
 		}
 		else {
-			pageData.parsingData.name = className;
-			pageData.setData('name', className);
+			parsedClassMap[className].value.crns.push(sectionURLParsed.crn)
 		}
 
-		sectionStartingData.crn = sectionURLParsed.crn;
-		if (!classToAddSectionTo.parsingData.crns) {
-			macros.error('ERROR class parsing data has no crns attr??!?!??', classToAddSectionTo)
-			return;
-		};
-		classToAddSectionTo.parsingData.crns.push(sectionURLParsed.crn);
-
-	}.bind(this), element.children);
+		sectionStartingData.crn = sectionURLParsed.crn
 
 
 
 
-
-
-
-
-	if (!sectionStartingData.url) {
-		macros.log('warning, no url found', pageData.dbData.url);
-		return;
-	}
-
-
-
-	//find the next row
-	var classDetails = element.next;
-	while (classDetails.type != 'tag') {
-		classDetails = classDetails.next;
-	}
-
-	//find the table in this section
-	var tables = domutils.getElementsByTagName('table', classDetails);
-	if (tables.length !== 1) {
-		macros.log('warning, ' + tables.length + ' meetings tables found', pageData.dbData.url);
-	}
-
-	if (tables.length > 0) {
-		sectionStartingData.meetings = [];
-
-		var tableData = this.parseTable(tables[0]);
-
-		if (tableData._rowCount < 1 || !tableData.daterange || !tableData.where || !tableData.instructors || !tableData.time || !tableData.days) {
-			macros.log('ERROR, invalid table in class parser', tableData, pageData.dbData.url);
-			return;
+		//find the next row
+		var classDetails = element.next;
+		while (classDetails.type != 'tag') {
+			classDetails = classDetails.next;
 		}
 
-		for (var i = 0; i < tableData._rowCount; i++) {
+		//find the table in this section
+		var tables = domutils.getElementsByTagName('table', classDetails);
+		if (tables.length !== 1) {
+			macros.log('warning, ' + tables.length + ' meetings tables found', url);
+		}
 
-			sectionStartingData.meetings.push({});
-			var index = sectionStartingData.meetings.length - 1;
+		if (tables.length > 0) {
+			sectionStartingData.meetings = [];
 
+			var tableData = this.parseTable(tables[0]);
 
-
-			//if is a single day class (exams, and some classes that happen like 2x a month specify specific dates)
-			var splitTimeString = tableData.daterange[i].split('-');
-			if (splitTimeString.length > 1) {
-
-				var startDate = moment(splitTimeString[0].trim(), 'MMM D,YYYY');
-				var endDate = moment(splitTimeString[1].trim(), 'MMM D,YYYY');
-
-				if (!startDate.isValid() || !endDate.isValid()) {
-					macros.log('ERROR: one of parsed dates is not valid', splitTimeString, pageData.dbData.url);
-				}
-
-				//add the dates if they are valid
-				//store as days since epoch 1970
-				if (startDate.isValid()) {
-					sectionStartingData.meetings[index].startDate = startDate.diff(0, 'day');
-				}
-
-				if (endDate.isValid()) {
-					sectionStartingData.meetings[index].endDate = endDate.diff(0, 'day');
-				}
-			}
-			else {
-				macros.log("ERROR, invalid split time string or blank or something", splitTimeString, tableData.daterange[i]);
+			if (tableData._rowCount < 1 || !tableData.daterange || !tableData.where || !tableData.instructors || !tableData.time || !tableData.days) {
+				macros.log('ERROR, invalid table in class parser', tableData, url);
+				continue;
 			}
 
-			//parse the professors
-			var profs = tableData.instructors[i].split(',');
+			for (var i = 0; i < tableData._rowCount; i++) {
 
-			profs.forEach(function (prof) {
+				sectionStartingData.meetings.push({});
+				var index = sectionStartingData.meetings.length - 1;
 
-				//replace double spaces with a single space,trim, and remove the (p) at the end
-				prof = prof.replace(/\s+/g, ' ').trim().replace(/\(P\)$/gi, '').trim();
 
-				if (prof.length < 3) {
-					macros.log('warning: empty/short prof name??', prof, tableData);
-				}
-				if (prof.toLowerCase() == 'tba') {
-					prof = "TBA";
+
+				//if is a single day class (exams, and some classes that happen like 2x a month specify specific dates)
+				var splitTimeString = tableData.daterange[i].split('-');
+				if (splitTimeString.length > 1) {
+
+					var startDate = moment(splitTimeString[0].trim(), 'MMM D,YYYY');
+					var endDate = moment(splitTimeString[1].trim(), 'MMM D,YYYY');
+
+					if (!startDate.isValid() || !endDate.isValid()) {
+						macros.log('ERROR: one of parsed dates is not valid', splitTimeString, url);
+					}
+
+					//add the dates if they are valid
+					//store as days since epoch 1970
+					if (startDate.isValid()) {
+						sectionStartingData.meetings[index].startDate = startDate.diff(0, 'day');
+					}
+
+					if (endDate.isValid()) {
+						sectionStartingData.meetings[index].endDate = endDate.diff(0, 'day');
+					}
 				}
 				else {
-					prof = this.toTitleCase(prof, pageData.dbData.url);
+					macros.log("ERROR, invalid split time string or blank or something", splitTimeString, tableData.daterange[i]);
 				}
 
-				if (!sectionStartingData.meetings[index].profs) {
-					sectionStartingData.meetings[index].profs = [];
+				//parse the professors
+				var profs = tableData.instructors[i].split(',');
+
+				profs.forEach(function (prof) {
+
+					//replace double spaces with a single space,trim, and remove the (p) at the end
+					prof = prof.replace(/\s+/g, ' ').trim().replace(/\(P\)$/gi, '').trim();
+
+					if (prof.length < 3) {
+						macros.log('warning: empty/short prof name??', prof, tableData);
+					}
+					if (prof.toLowerCase() == 'tba') {
+						prof = "TBA";
+					}
+					else {
+						prof = this.toTitleCase(prof, url);
+					}
+
+					if (!sectionStartingData.meetings[index].profs) {
+						sectionStartingData.meetings[index].profs = [];
+					}
+					sectionStartingData.meetings[index].profs.push(prof);
+
+				}.bind(this));
+
+				//parse the location
+				sectionStartingData.meetings[index].where = this.toTitleCase(tableData.where[i], url);
+
+				// and the type of meeting (eg, final exam, lecture, etc)
+				sectionStartingData.meetings[index].type = this.toTitleCase(tableData.type[i], url);
+
+				//start time and end time of class each day
+				var times = this.parseTimeStamps(tableData.time[i], tableData.days[i]);
+
+				//parse and add the times
+				if (times) {
+					sectionStartingData.meetings[index].times = times;
 				}
-				sectionStartingData.meetings[index].profs.push(prof);
-
-			}.bind(this));
-
-			//parse the location
-			sectionStartingData.meetings[index].where = this.toTitleCase(tableData.where[i], pageData.dbData.url);
-
-			// and the type of meeting (eg, final exam, lecture, etc)
-			sectionStartingData.meetings[index].type = this.toTitleCase(tableData.type[i], pageData.dbData.url);
-
-			//start time and end time of class each day
-			var times = this.parseTimeStamps(tableData.time[i], tableData.days[i]);
-
-			//parse and add the times
-			if (times) {
-				sectionStartingData.meetings[index].times = times;
 			}
 		}
-	}
-
-	if (!classToAddSectionTo.simpleDeps) {
-		classToAddSectionTo.simpleDeps = []
-	}
 
 
-	let dataFromSectionPage = await ellucianSectionParser.main(sectionStartingData.url)
+		let dataFromSectionPage = await ellucianSectionParser.main(sectionStartingData.url)
 
-	let fullSectiondata = {}
+		let fullSectiondata = {}
 
-	Object.assign(fullSectiondata, dataFromSectionPage, sectionStartingData)
+		Object.assign(fullSectiondata, dataFromSectionPage, sectionStartingData)
 
-	fullSectiondata.host = classToAddSectionTo.dbData.host
-	fullSectiondata.termId = classToAddSectionTo.dbData.termId
-	fullSectiondata.subject = classToAddSectionTo.dbData.subject
-	fullSectiondata.classId = classToAddSectionTo.dbData.classId
-
-
-	// Move some attributes to the class pagedata.
-	// Run some checks and merge some data into the class object. 
-	// Actually, because how how this parser adds itself as a dep and copies over attributes,
-	// These will log a lot more than they should, just because they are overriding the values that were pre-set on the class
-	// Once that is fixed, would recommend re-enabling these. 
-	// if (classToAddSectionTo.dbData.honors !== undefined && classToAddSectionTo.dbData.honors !== fullSectiondata.honors) {
-	// 	macros.log("Overring class honors with section honors...", classToAddSectionTo.dbData.honors, fullSectiondata.honors, sectionStartingData.url);
-	// }
-	classToAddSectionTo.dbData.honors = fullSectiondata.honors
-	fullSectiondata.honors = undefined;
+		// fullSectiondata.host = classToAddSectionTo.dbData.host
+		// fullSectiondata.termId = classToAddSectionTo.dbData.termId
+		// fullSectiondata.subject = classToAddSectionTo.dbData.subject
+		// fullSectiondata.classId = classToAddSectionTo.dbData.classId
 
 
-	if (fullSectiondata.prereqs) {
-
-		// If they both exists and are different I don't really have a great idea of what to do haha
-		// Hopefully this _.isEquals dosen't take too long. 
-
-		if (classToAddSectionTo.dbData.prereqs && !_.isEqual(classToAddSectionTo.dbData.prereqs, fullSectiondata.prereqs)) {
-			macros.log("Overriding class prereqs with section prereqs...", sectionStartingData.url)
+		// Move some attributes to the class pagedata.
+		// Run some checks and merge some data into the class object. 
+		// Actually, because how how this parser adds itself as a dep and copies over attributes,
+		// These will log a lot more than they should, just because they are overriding the values that were pre-set on the class
+		// Once that is fixed, would recommend re-enabling these. 
+		// This is fixed now right?????????????
+		if (parsedClassMap[className].value.honors !== undefined && parsedClassMap[className].value.honors !== fullSectiondata.honors) {
+			macros.log("Overring class honors with section honors...", parsedClassMap[className].value.honors, fullSectiondata.honors, sectionStartingData.url);
 		}
-
-		classToAddSectionTo.dbData.prereqs = fullSectiondata.prereqs
-		fullSectiondata.prereqs = undefined;
-	}
-
-	// Do the same thing for coreqs
-	if (fullSectiondata.coreqs) {
-
-		if (classToAddSectionTo.dbData.coreqs && !_.isEqual(classToAddSectionTo.dbData.coreqs, fullSectiondata.coreqs)) {
-			macros.log("Overriding class coreqs with section coreqs...", sectionStartingData.url)
-		}
-
-		classToAddSectionTo.dbData.coreqs = fullSectiondata.coreqs
-		fullSectiondata.coreqs = undefined;
-	}
+		parsedClassMap[className].value.honors = fullSectiondata.honors
+		fullSectiondata.honors = undefined;
 
 
-	// Update the max credits on the class if max credits exists on the section and is greater than that on the class
-	// Or if the max credits on the class dosen't exist
-	if (fullSectiondata.maxCredits !== undefined && (classToAddSectionTo.dbData.maxCredits === undefined || classToAddSectionTo.dbData.maxCredits < fullSectiondata.maxCredits)) {
-		classToAddSectionTo.dbData.maxCredits = fullSectiondata.maxCredits
-	}
+		if (fullSectiondata.prereqs) {
 
-	// Same thing for min credits, but the sign flipped. 
-	if (fullSectiondata.minCredits !== undefined && (classToAddSectionTo.dbData.minCredits === undefined || classToAddSectionTo.dbData.minCredits > fullSectiondata.minCredits)) {
-		classToAddSectionTo.dbData.minCredits = fullSectiondata.minCredits
-	}
+			// If they both exists and are different I don't really have a great idea of what to do haha
+			// Hopefully this _.isEquals dosen't take too long. 
 
-	
-	fullSectiondata.minCredits = undefined;
-	fullSectiondata.maxCredits = undefined;
-
-
-	classToAddSectionTo.simpleDeps.push({
-		dbData: fullSectiondata,
-		dataType: 'sections'
-	})
-
-
-	// Add a new section to the current class.
-	// var sectionPageData = classToAddSectionTo.addDep(sectionStartingData);
-	// sectionPageData.setParser(ellucianSectionParser);
-};
-
-
-EllucianClassParser.prototype.onBeginParsing = function (pageData) {
-	pageData.parsingData.crns = []
-
-	//create a parsingData.crns for any classes that are also deps
-	pageData.deps.forEach(function (dep) {
-		if (dep.parser == this) {
-			dep.parsingData.crns = []
-		}
-	}.bind(this))
-};
-
-
-
-
-//parsing the htmls
-EllucianClassParser.prototype.parseElement = async function (pageData, element) {
-	if (element.type != 'tag') {
-		return;
-	}
-	if (!element.parent) {
-		return;
-	}
-
-	if (element.name == 'a' && element.attribs.href && element.parent.attribs.class == 'ddtitle' && element.parent.attribs.scope == 'colgroup') {
-		await this.parseClassData(pageData, element.parent.parent);
-	}
-};
-
-EllucianClassParser.prototype.onEndParsing = function (pageData) {
-
-	// Sort the crns so that they will be equal if they are scraped two times in a row they will be the same. 
-	pageData.parsingData.crns.sort();
-	
-	pageData.setData('crns', pageData.parsingData.crns);
-
-	// Also set the crns of the classes that were created
-	pageData.deps.forEach(function (dep) {
-		if (dep.parser == this) {
-
-			if (!dep.parsingData.crns || dep.parsingData.crns.length === 0) {
-
-				// This could totally happen when scraping over an existing dep tree.
-				// And a class had a section before that it does not have this time around. 
-				// However, now that we are not longer scraping over an existing dep tree.
-				// This should never run. 
-				macros.error('error wtf, no crns', dep);
+			if (parsedClassMap[className].value.prereqs && !_.isEqual(parsedClassMap[className].value.prereqs, fullSectiondata.prereqs)) {
+				macros.log("Overriding class prereqs with section prereqs...", sectionStartingData.url)
 			}
-			else {
-				dep.setData('crns', dep.parsingData.crns)
-			}
+
+			parsedClassMap[className].value.prereqs = fullSectiondata.prereqs
+			fullSectiondata.prereqs = undefined;
 		}
-	}.bind(this))
+
+		// Do the same thing for coreqs
+		if (fullSectiondata.coreqs) {
+
+			if (parsedClassMap[className].value.coreqs && !_.isEqual(parsedClassMap[className].value.coreqs, fullSectiondata.coreqs)) {
+				macros.log("Overriding class coreqs with section coreqs...", sectionStartingData.url)
+			}
+
+			parsedClassMap[className].value.coreqs = fullSectiondata.coreqs
+			fullSectiondata.coreqs = undefined;
+		}
+
+
+		// Update the max credits on the class if max credits exists on the section and is greater than that on the class
+		// Or if the max credits on the class dosen't exist
+		if (fullSectiondata.maxCredits !== undefined && (parsedClassMap[className].value.maxCredits === undefined || parsedClassMap[className].value.maxCredits < fullSectiondata.maxCredits)) {
+			parsedClassMap[className].value.maxCredits = fullSectiondata.maxCredits
+		}
+
+		// Same thing for min credits, but the sign flipped. 
+		if (fullSectiondata.minCredits !== undefined && (parsedClassMap[className].value.minCredits === undefined || parsedClassMap[className].value.minCredits > fullSectiondata.minCredits)) {
+			parsedClassMap[className].value.minCredits = fullSectiondata.minCredits
+		}
+
+		
+		fullSectiondata.minCredits = undefined;
+		fullSectiondata.maxCredits = undefined;
+
+
+		parsedClassMap[className].deps.push({
+			type: 'section',
+			value: fullSectiondata
+		})
+	}
+
+	return Object.values(parsedClassMap)
 };
-
-
-
-
-
-
-
-
-
-
 
 
 EllucianClassParser.prototype.EllucianClassParser = EllucianClassParser;
@@ -560,7 +454,12 @@ EllucianClassParser.prototype.EllucianClassParser = EllucianClassParser;
 module.exports = new EllucianClassParser();
 
 
+async function testFunc() {
+	let a = await module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=ENGW&crse_in=3302&schd_in=LEC')
+	console.log(a)
+}
+
 
 if (require.main === module) {
-	module.exports.tests();
+	testFunc()
 }

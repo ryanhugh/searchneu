@@ -63,21 +63,33 @@ EllucianClassListParser.prototype.main = async function(url) {
 
   let resp = await request.get(url);
 
-  let retVal = await this.parse(resp.body, url)
+  let catalogUrls = this.parse(resp.body, url)
+
+
+  let classesObjects = await Promise.all(catalogUrls.map((url) => {
+    return ellucianCatalogParser.main(url)
+  }))
+
+
+  // So the catalog parser returns a list of classes it found at that catalog url.
+  // So flatten the array to just have a list of classes
+  // These are not the classes objects directly, they are the wrappers around them. 
+  classesObjects = _.flatten(classesObjects)
+
 
  // Possibly save to dev
   if (macros.DEV && require.main !== module) {
-    await cache.set('dev_data', this.constructor.name, url, retVal);
+    await cache.set('dev_data', this.constructor.name, url, classesObjects);
 
     // Don't log anything because there would just be too much logging. 
   }
 
-  return retVal
+  return classesObjects
 
 };
 
 
-EllucianClassListParser.prototype.parse = async function (body, originalUrl) {
+EllucianClassListParser.prototype.parse = function (body, originalUrl) {
 
 
   // Parse the dom
@@ -85,7 +97,7 @@ EllucianClassListParser.prototype.parse = async function (body, originalUrl) {
 
   let aElements = $('a')
 
-  let classPromises = []
+  let classUrls = []
 
   for (var i = 0; i < aElements.length; i++) {
     const element = aElements[i]
@@ -117,13 +129,14 @@ EllucianClassListParser.prototype.parse = async function (body, originalUrl) {
       continue;
     };
 
+
     if (ellucianCatalogParser.supportsPage(url)) {
       // console.log(url)
-      classPromises.push(ellucianCatalogParser.main(url))
+      classUrls.push(url);
     }
   }
 
-  return Promise.all(classPromises)
+  return classUrls;
 };
 
 
