@@ -55,9 +55,6 @@ else {
 
 var BaseParser = require('./baseParser').BaseParser;
 
-function CollegeNamesParser() {
-	BaseParser.prototype.constructor.apply(this, arguments);
-}
 
 
 var staticHosts = [
@@ -74,201 +71,209 @@ var staticHosts = [
 	host:'neu.edu/cps'
 }]
 
-CollegeNamesParser.prototype.main = async function(hostname) {
-  if (macros.DEV && require.main !== module) {
-    const devData = await cache.get('dev_data', this.constructor.name, hostname);
-    if (devData) {
-      return devData;
-    }
-  }
 
-  let title = await this.getTitle(hostname);
-
-  if (macros.DEV) {
-    await cache.set('dev_data', this.constructor.name, hostname, title);
-    console.log('CollegeNamesParser file saved!');
-  }
-
-  return title;
-};
+class CollegeNamesParser extends BaseParser {
 
 
-// This function modifies the TERM STRING ITSELF (IT REMOVES THE PART FOUND IN THE COLLEGE NAME)
-// AND ALSO THIS FILE SHOULD ALLWAYS RETURN THE STATIC HOSTS
-// YEAH
-CollegeNamesParser.prototype.getHostForTermTitle = function(mainHost,termString) {
-	
-	for (var i = 0; i < staticHosts.length; i++) {
-		var staticHost = staticHosts[i];
-		if (staticHost.mainHost==mainHost && termString.includes(staticHost.includes)) {
-			return {
-				host:staticHost.host,
-				text:termString.replace(staticHost.includes,'').replace(/\s+/gi,' ').trim()
+
+
+	 main(hostname) {
+	  if (macros.DEV && require.main !== module) {
+	    const devData = await cache.get('dev_data', this.constructor.name, hostname);
+	    if (devData) {
+	      return devData;
+	    }
+	  }
+
+	  let title = await this.getTitle(hostname);
+
+	  if (macros.DEV) {
+	    await cache.set('dev_data', this.constructor.name, hostname, title);
+	    console.log('CollegeNamesParser file saved!');
+	  }
+
+	  return title;
+	};
+
+
+	// This function modifies the TERM STRING ITSELF (IT REMOVES THE PART FOUND IN THE COLLEGE NAME)
+	// AND ALSO THIS FILE SHOULD ALLWAYS RETURN THE STATIC HOSTS
+	// YEAH
+	 getHostForTermTitle(mainHost,termString) {
+		
+		for (var i = 0; i < staticHosts.length; i++) {
+			var staticHost = staticHosts[i];
+			if (staticHost.mainHost==mainHost && termString.includes(staticHost.includes)) {
+				return {
+					host:staticHost.host,
+					text:termString.replace(staticHost.includes,'').replace(/\s+/gi,' ').trim()
+				};
 			};
-		};
-	}
-	return null;
-};
-
-
-
-
-CollegeNamesParser.prototype.standardizeNames = function (startStrip, endStrip, title) {
-
-	//remove stuff from the beginning
-	startStrip.forEach(function (str) {
-		if (title.toLowerCase().indexOf(str) === 0) {
-			title = title.substr(str.length);
 		}
-	}.bind(this));
-
-
-	//remove stuff from the end
-	endStrip.forEach(function (str) {
-
-		var index = title.toLowerCase().indexOf(str);
-		if (index === title.length - str.length && index > -1) {
-			title = title.substr(0, title.length - str.length);
-		}
-	}.bind(this));
-
-
-	// standardize the case
-	title = this.toTitleCase(title);
-
-	return title.trim();
-}
+		return null;
+	};
 
 
 
-CollegeNamesParser.prototype.hitPage = function (host, callback) {
 
-	console.log('firing request to ', host)
+	 standardizeNames (startStrip, endStrip, title) {
 
-	pointer.request('http://' + host, null, function (error, dom) {
-		if (error) {
-			console.log('REQUESTS ERROR:', host, error);
-
-			if (error.code == 'ENOTFOUND' || error.code == 'ETIMEDOUT' || error.code == 'ECONNRESET') {
-				if (host.indexOf('www.') === 0) {
-					return callback('not found with www.');
-				}
-				else {
-					return this.hitPage('www.' + host, callback);
-				}
+		//remove stuff from the beginning
+		startStrip.forEach(function (str) {
+			if (title.toLowerCase().indexOf(str) === 0) {
+				title = title.substr(str.length);
 			}
+		}.bind(this));
 
-			return callback(error);
-		}
-		else {
 
-			//find the title
-			var elements = domutils.getElementsByTagName('title', dom);
-			if (elements.length === 0) {
-				console.log('ERROR: ', host, 'has no title??');
-				return callback('no title');
+		//remove stuff from the end
+		endStrip.forEach(function (str) {
+
+			var index = title.toLowerCase().indexOf(str);
+			if (index === title.length - str.length && index > -1) {
+				title = title.substr(0, title.length - str.length);
 			}
-			else if (elements.length === 1) {
+		}.bind(this));
 
 
-				//get the text from the title element
-				var title = domutils.getText(elements[0]).trim();
-				if (title.length < 2) {
-					console.log('empty title', host, title);
-					return callback('empty title');
-				}
-				title = he.decode(title);
+		// standardize the case
+		title = this.toTitleCase(title);
 
-
-				//strip off any description from the end
-				title = title.match(/[\w\d\s&]+/i);
-				if (!title) {
-					console.log('ERROR: title match failed,', host);
-					return callback('title match failed')
-				}
-
-				title = title[0].trim();
-				if (title.length < 2) {
-					console.log('empty title2', host, title);
-					return callback('empty title2');
-				}
-
-				title = this.standardizeNames(['welcome to'], ['home'], title);
-
-				if (title.length === 0) {
-					console.log('Warning: zero title after processing', host);
-					return callback('zero title after processing')
-				}
-
-
-				callback(null, title);
-			}
-		}
-	}.bind(this));
-};
-
-
-
-CollegeNamesParser.prototype.hitWhois = function (host) {
-
-
-	//each domain has a different format and would probably need a different regex
-	//this one works for edu and ca, but warn if find a different one
-	var hostSplitByDot = host.split('.')
-	if (!['ca', 'edu'].includes(hostSplitByDot[hostSplitByDot.length - 1])) {
-		console.log('Warning, unknown domain ' + host)
+		return title.trim();
 	}
 
-	return new Promise((resolve, reject) => {
 
-		// try calling apiMethod 3 times, waiting 200 ms between each retry
-		asyncjs.retry({
-				times: 30,
-				interval: 500 + parseInt(Math.random() * 1000)
-			},
-			function (callback) {
-				whois.lookup(host, function (err, data) {
-					callback(err, data)
-				}.bind(this))
-			}.bind(this),
-			function (err, data) {
-				if (err) {
 
-					console.log('ERROR whois error', err, host);
-					return reject('whois error', err);
+	 hitPage (host, callback) {
+
+		console.log('firing request to ', host)
+
+		pointer.request('http://' + host, null, function (error, dom) {
+			if (error) {
+				console.log('REQUESTS ERROR:', host, error);
+
+				if (error.code == 'ENOTFOUND' || error.code == 'ETIMEDOUT' || error.code == 'ECONNRESET') {
+					if (host.indexOf('www.') === 0) {
+						return callback('not found with www.');
+					}
+					else {
+						return this.hitPage('www.' + host, callback);
+					}
 				}
 
+				return callback(error);
+			}
+			else {
 
-				var match = data.match(/Registrant:\n[\w\d\s&:']+?(\n)/i);
-
-				if (!match) {
-					console.log('ERROR: whois regex fail', data, host);
-					return reject('whois error', err);
+				//find the title
+				var elements = domutils.getElementsByTagName('title', dom);
+				if (elements.length === 0) {
+					console.log('ERROR: ', host, 'has no title??');
+					return callback('no title');
 				}
-
-				var name = match[0].replace('Registrant:', '').trim()
-
-
-				name = this.standardizeNames(['name:'], [], name);
+				else if (elements.length === 1) {
 
 
-				if (name.length < 2) {
-					console.log('Error: ')
-					return reject('whois error', err);
+					//get the text from the title element
+					var title = domutils.getText(elements[0]).trim();
+					if (title.length < 2) {
+						console.log('empty title', host, title);
+						return callback('empty title');
+					}
+					title = he.decode(title);
+
+
+					//strip off any description from the end
+					title = title.match(/[\w\d\s&]+/i);
+					if (!title) {
+						console.log('ERROR: title match failed,', host);
+						return callback('title match failed')
+					}
+
+					title = title[0].trim();
+					if (title.length < 2) {
+						console.log('empty title2', host, title);
+						return callback('empty title2');
+					}
+
+					title = this.standardizeNames(['welcome to'], ['home'], title);
+
+					if (title.length === 0) {
+						console.log('Warning: zero title after processing', host);
+						return callback('zero title after processing')
+					}
+
+
+					callback(null, title);
 				}
+			}
+		}.bind(this));
+	};
 
-				resolve(name);
-			}.bind(this));
-		})
-}
 
-//hits database, and if not in db, hits page and adds it to db
-CollegeNamesParser.prototype.getTitle = function (host) {
-	if (host === 'neu.edu') {
-		return "Northeastern University"
+
+	 hitWhois (host) {
+
+
+		//each domain has a different format and would probably need a different regex
+		//this one works for edu and ca, but warn if find a different one
+		var hostSplitByDot = host.split('.')
+		if (!['ca', 'edu'].includes(hostSplitByDot[hostSplitByDot.length - 1])) {
+			console.log('Warning, unknown domain ' + host)
+		}
+
+		return new Promise((resolve, reject) => {
+
+			// try calling apiMethod 3 times, waiting 200 ms between each retry
+			asyncjs.retry({
+					times: 30,
+					interval: 500 + parseInt(Math.random() * 1000)
+				},
+				function (callback) {
+					whois.lookup(host, function (err, data) {
+						callback(err, data)
+					}.bind(this))
+				}.bind(this),
+				function (err, data) {
+					if (err) {
+
+						console.log('ERROR whois error', err, host);
+						return reject('whois error', err);
+					}
+
+
+					var match = data.match(/Registrant:\n[\w\d\s&:']+?(\n)/i);
+
+					if (!match) {
+						console.log('ERROR: whois regex fail', data, host);
+						return reject('whois error', err);
+					}
+
+					var name = match[0].replace('Registrant:', '').trim()
+
+
+					name = this.standardizeNames(['name:'], [], name);
+
+
+					if (name.length < 2) {
+						console.log('Error: ')
+						return reject('whois error', err);
+					}
+
+					resolve(name);
+				}.bind(this));
+			})
 	}
 
-	return this.hitWhois(host);
+	//hits database, and if not in db, hits page and adds it to db
+	 getTitle (host) {
+		if (host === 'neu.edu') {
+			return "Northeastern University"
+		}
+
+		return this.hitWhois(host);
+	}
+
 }
 
 
