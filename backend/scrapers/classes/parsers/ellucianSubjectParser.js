@@ -111,7 +111,7 @@ EllucianSubjectParser.prototype.parse = function (body, url) {
   for (const subject of subjects) {
 
     outputSubjects.push({
-      type: 'subject',
+      type: 'subjects',
       value: {
         subject: subject.id,
         text: subject.text,

@@ -259,7 +259,7 @@ EllucianClassParser.prototype.parse = async function (body, url, catalogTitle) {
 		// Setup this new section in the parsedClassMap with the fixed name. 
 		if (!parsedClassMap[className]) {
 			parsedClassMap[className] = {
-				type: 'class',
+				type: 'classes',
 				value: {
 					name: className,
 					url: url,
@@ -440,7 +440,7 @@ EllucianClassParser.prototype.parse = async function (body, url, catalogTitle) {
 
 
 		parsedClassMap[className].deps.push({
-			type: 'section',
+			type: 'sections',
 			value: fullSectiondata
 		})
 	}
