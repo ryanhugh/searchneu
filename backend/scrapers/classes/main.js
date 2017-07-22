@@ -1,16 +1,12 @@
-import elasticlunr from 'elasticlunr';
-import path from 'path';
-import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
 import _ from 'lodash';
 import URI from 'urijs';
 
-import cache from '../cache'
-import pageDataMgr from './pageDataMgr';
+import cache from '../cache';
 import macros from '../../macros';
 import Keys from '../../../common/Keys';
-import searchIndex from './searchIndex'
-import termDump from './termDump'
+import searchIndex from './searchIndex';
+import termDump from './termDump';
 
 
 const addClassUids = require('./processors/addClassUids');
@@ -19,46 +15,42 @@ const termStartEndDate = require('./processors/termStartEndDate');
 const simplifyProfList = require('./processors/simplifyProfList');
 
 
-var collegeNamesParser = require('./parsers/collegeNamesParser');
-var ellucianTermsParser = require('./parsers/ellucianTermsParser');
+const collegeNamesParser = require('./parsers/collegeNamesParser');
+const ellucianTermsParser = require('./parsers/ellucianTermsParser');
 
 const differentCollegeUrls = require('./differentCollegeUrls');
 
 // This is the main entry point for scraping classes
 // call the main(['neu']) function below to scrape a college
-// This file also generates the search index and data dumps. 
+// This file also generates the search index and data dumps.
 
 // TODO: figure out how to have acronym skip the search pipeline.
 // The pipeline strips different endings of different words
 // eg, it treats [fcs] the same as [fc].
-// Which might not always be the same. 
+// Which might not always be the same.
 
-
-const getSearchIndex = '/getSearchIndex';
 
 class Main {
 
   waterfallIdentifyers(rootNode, attrToAdd = {}) {
+    const newChildAttr = {};
 
-
-    let newChildAttr = {};
-
-    // Shallow clone the attributes to newChildAttr. 
-    // Would use Object.create, but this puts the inhereted attributes on the prototype and JSON.stringify does not include properties on the prototype. 
-    for (const attrName in attrToAdd) {
-      newChildAttr[attrName] = attrToAdd[attrName]
+    // Shallow clone the attributes to newChildAttr.
+    // Would use Object.create, but this puts the inhereted attributes on the prototype and JSON.stringify does not include properties on the prototype.
+    for (const attrName of Object.keys(attrToAdd)) {
+      newChildAttr[attrName] = attrToAdd[attrName];
     }
 
-    // Sanity check to make sure this node is valid. 
+    // Sanity check to make sure this node is valid.
     if (!rootNode.value || !rootNode.type) {
-      macros.error("Invalid root node", rootNode)
+      macros.error('Invalid root node', rootNode);
       return;
     }
 
-    // Look at this object and find any new attributes that should be copied over to children. 
+    // Look at this object and find any new attributes that should be copied over to children.
     // Eg If so far we have a host, termId and a subject, and this is a class, a classId will be added to the newChildAttr object
     // and will be carried down to all the children with the host, termId and subject
-    for (let attrName in rootNode.value) {
+    for (const attrName of Object.keys(rootNode.value)) {
       if (!Keys.allKeys.includes(attrName) && attrName !== 'classId') {
         continue;
       }
@@ -66,24 +58,22 @@ class Main {
       // Make sure that the child object does not have a different value that would be overriden by adding all
       // the properties from attrToAdd
       if (rootNode.value[attrName] && newChildAttr[attrName] && rootNode.value[attrName] !== newChildAttr[attrName]) {
-        macros.error("Overriding attr?", attrName, rootNode.value, newChildAttr)
+        macros.error('Overriding attr?', attrName, rootNode.value, newChildAttr);
       }
 
-      newChildAttr[attrName] = rootNode.value[attrName]
+      newChildAttr[attrName] = rootNode.value[attrName];
     }
 
     // Actually add the atributes to this obj
-    rootNode.value = Object.assign({}, rootNode.value, newChildAttr)
+    rootNode.value = Object.assign({}, rootNode.value, newChildAttr);
 
-    // Recusion. 
+    // Recusion.
     if (rootNode.deps) {
       for (const dep of rootNode.deps) {
-        this.waterfallIdentifyers(dep, newChildAttr)
+        this.waterfallIdentifyers(dep, newChildAttr);
       }
     }
-
-    return rootNode
-  };
+  }
 
 
   // Converts the PageData data structure to a term dump. Term dump has a .classes and a .sections, etc, and is used in the processors
@@ -93,9 +83,8 @@ class Main {
     let stack = [rootNode];
     let curr = null;
     while ((curr = stack.pop())) {
-
       if (!curr.type) {
-        macros.error("no type?", curr)
+        macros.error('no type?', curr);
         continue;
       }
 
@@ -116,35 +105,11 @@ class Main {
     }
 
     return output;
-  };
-
-
-
-  // CollegeAbbrs are the hostname but without the ".edu" at the end
-  async getTermDump(collegeAbbrs) {
-    let cacheKey = collegeAbbrs.join(',')
-
-    // if this is dev and this data is already scraped, just return the data
-    if (macros.DEV && require.main !== module) {
-      const devData = await cache.get('dev_data', 'classes', cacheKey)
-      if (devData) {
-        return devData;
-      }
-    }
-
-    const termDump = await pageDataMgr.main(collegeAbbrs);
-
-    if (macros.DEV) {
-      await cache.set('dev_data', 'classes', cacheKey, termDump)
-      console.log('classes file saved for', collegeAbbrs, '!');
-    }
-    return termDump;
   }
 
 
   getUrlsFromCollegeAbbrs(collegeAbbrs) {
-
-    // This list is modified below, so clone it here so we don't modify the input object. 
+    // This list is modified below, so clone it here so we don't modify the input object.
     collegeAbbrs = collegeAbbrs.slice(0);
 
     if (collegeAbbrs.length > 1) {
@@ -176,68 +141,67 @@ class Main {
     });
 
     console.log('Processing ', urlsToProcess);
-    return urlsToProcess
+    return urlsToProcess;
   }
 
 
   async main(collegeAbbrs) {
     if (!collegeAbbrs) {
       macros.error('Need collegeAbbrs for scraping classes');
-      return;
+      return null;
     }
 
-    const cacheKey = collegeAbbrs.join(',')
+    const cacheKey = collegeAbbrs.join(',');
 
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module) {
-      const devData = await cache.get('dev_data', 'classes', cacheKey)
+      const devData = await cache.get('dev_data', 'classes', cacheKey);
       if (devData) {
         return devData;
       }
     }
 
 
-    let urls = this.getUrlsFromCollegeAbbrs(collegeAbbrs);
+    const urls = this.getUrlsFromCollegeAbbrs(collegeAbbrs);
     if (urls.length > 1) {
       macros.error('Unsure if can do more than one abbr at at time. Exiting. ');
-      return;
+      return null;
     }
 
-    let url = urls[0];
+    const url = urls[0];
 
 
     // Find the name of the college (neu.edu -> Northeastern University)
-    // This is the first of the efforts to rewrite the old es5 code to es6, 
+    // This is the first of the efforts to rewrite the old es5 code to es6,
     // and remove a lot of the uncessecary logic
-    let host = macros.getBaseHost(url);
-    const collegeNamePromise = collegeNamesParser.main(host)
+    const host = macros.getBaseHost(url);
+    const collegeNamePromise = collegeNamesParser.main(host);
 
 
-    let parsersOutput = await ellucianTermsParser.main(url)
+    const parsersOutput = await ellucianTermsParser.main(url);
 
-
-    let output = this.waterfallIdentifyers({
+    const rootNode = {
       type: 'colleges',
-      value: {
-      },
-      deps: parsersOutput
-    })
+      value: {},
+      deps: parsersOutput,
+    };
 
+    const output = this.waterfallIdentifyers(rootNode);
 
-    let dump = this.pageDataStructureToTermDump(output)
+    const dump = this.pageDataStructureToTermDump(output);
 
     // Add the data that was calculatd here
     if (!dump.colleges) {
-      dump.colleges = []
+      dump.colleges = [];
     }
     dump.colleges.push({
       host: host,
       title: await collegeNamePromise,
-      url: host
-    })
+      url: host,
+    });
 
-    await fs.writeFile('out.log', JSON.stringify(dump, null, 4))
-    console.log('out.log saved')
+    await fs.writeFile('out.log', JSON.stringify(dump, null, 4));
+    console.log('out.log saved');
 
 
     // Run the processors, sequentially
@@ -249,16 +213,12 @@ class Main {
     simplifyProfList.go(dump);
 
 
-
-    // const termDump = await this.getTermDump(collegeAbbrs);
-
     await searchIndex.main(dump);
     await termDump.main(dump);
 
 
-
     if (macros.DEV) {
-      await cache.set('dev_data', 'classes', cacheKey, termDump)
+      await cache.set('dev_data', 'classes', cacheKey, termDump);
       console.log('classes file saved for', collegeAbbrs, '!');
     }
 
