@@ -47,16 +47,6 @@ EllucianSubjectParser.prototype.supportsPage = function (url) {
   return url.indexOf('bwckgens.p_proc_term_date') > -1;
 };
 
-EllucianSubjectParser.prototype.getDataType = function (pageData) {
-
-  // Return null if it is the controller.
-  if (pageData.dbData.subject) {
-    return 'subjects';
-  }
-  else {
-    return null;
-  }
-};
 
 EllucianSubjectParser.prototype.getPointerConfig = function (pageData) {
   var config = EllucianBaseParser.prototype.getPointerConfig.apply(this, arguments);

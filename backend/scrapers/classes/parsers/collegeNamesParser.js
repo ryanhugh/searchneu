@@ -57,11 +57,6 @@ var BaseParser = require('./baseParser').BaseParser;
 
 function CollegeNamesParser() {
 	BaseParser.prototype.constructor.apply(this, arguments);
-
-	this.requiredAttrs = [
-		"title",
-		"host"
-	];
 }
 
 

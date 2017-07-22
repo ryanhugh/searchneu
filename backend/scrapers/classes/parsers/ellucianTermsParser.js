@@ -48,11 +48,6 @@ EllucianTermsParser.prototype.constructor = EllucianTermsParser;
 
 
 
-EllucianTermsParser.prototype.getDataType = function (pageData) {
-  return 'terms';
-};
-
-
 EllucianTermsParser.prototype.supportsPage = function (url) {
   return url.indexOf('bwckschd.p_disp_dyn_sched') > -1;
 };

@@ -43,8 +43,6 @@ var timeZero = moment('0', 'h');
 function EllucianClassParser() {
 	EllucianBaseParser.prototype.constructor.apply(this, arguments);
 
-	this.requiredAttrs = [];
-
 	this.name = 'EllucianClassParser';
 
 	//name and deps are optional, but if there is no deps there is nowhere to parse name...
@@ -60,11 +58,6 @@ EllucianClassParser.prototype.constructor = EllucianClassParser;
 
 EllucianClassParser.prototype.supportsPage = function (url) {
 	return url.indexOf('bwckctlg.p_disp_listcrse') > -1;
-};
-
-
-EllucianClassParser.prototype.getDataType = function (pageData) {
-	return 'classes';
 };
 
 

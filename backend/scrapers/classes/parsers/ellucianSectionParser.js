@@ -81,11 +81,6 @@ EllucianSectionParser.prototype.supportsPage = function (url) {
   return url.indexOf('bwckschd.p_disp_detail_sched') > -1;
 };
 
-EllucianSectionParser.prototype.getDataType = function (pageData) {
-  return 'sections';
-};
-
-
 
 EllucianSectionParser.prototype.parse = function (body, url) {
 

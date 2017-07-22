@@ -16,125 +16,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
+import URI from 'urijs';
+import domutils from 'domutils';
+
 import macros from '../../../macros';
-var URI = require('urijs');
-var domutils = require('domutils');
-var fs = require('fs');
-
-
 import Request from '../../request';
 
 
-
 function BaseParser() {
-	this.requiredAttrs = [];
 	this.name = "BaseParser"
-
-
-	// Different instance of request for each parser (for different caches).
-	this.request = new Request(this.constructor.name)
-
 }
-
-BaseParser.prototype.getDataType = function() {
-	return null;
-};
 
 BaseParser.prototype.supportsPage = function () {
+	macros.error("Base parser supports page was called?")
 	return false;
 };
-
-BaseParser.prototype.getPointerConfig = function (pageData) {
-	return {
-		requiredInBody: this.requiredInBody
-	}
-};
-
-//callback here is pageData (stuff to store in db), and metadata (stuff dont store in db)
-BaseParser.prototype.parse = async function (pageData, callback) {
-	let config = this.getPointerConfig(pageData)
-	config.url = pageData.dbData.url
-
-	if (config.payload) {
-		config.method = 'POST'
-		config.body = config.payload
-	}
-
-	// Call request.request direcely because we already know if we want to do a post or a get request. 
-	// That info is part of the config.
-	let response = await this.request.request(config)
-
-	Request.handleRequestResponce(response.body, async function(err, dom) {
-
-		pageData.setData('lastUpdateTime', Date.now());
-
-		await this.parseDOM(pageData, dom);
-
-		callback();
-	}.bind(this))
-};
-
-
-//html parsing helpers and common functions
-
-BaseParser.prototype.isValidData = function (pageData) {
-
-	//ensure that data has all of these attributes
-
-	for (var i = 0; i < this.requiredAttrs.length; i++) {
-		var attrName = this.requiredAttrs[i]
-		if (pageData.getData(attrName) === undefined) {
-			macros.log('MISSING', attrName)
-			return false;
-		};
-	}
-	return true;
-};
-
-
-
-BaseParser.prototype.onBeginParsing = function (pageData) {
-
-};
-
-BaseParser.prototype.parseElement = function (pageData, element) {
-
-};
-
-
-BaseParser.prototype.onEndParsing = function (pageData) {
-
-};
-
-BaseParser.prototype.parseDOM = async function (pageData, dom) {
-
-	this.onBeginParsing(pageData, dom);
-
-	let elements = []
-
-	// Copy all the elements into an array.
-	domutils.findAll(function (element) {
-		elements.push(element);
-	}, dom)
-
-	for (const element of elements) {
-		await this.parseElement(pageData, element)
-	}
-
-
-	// domutils.findAll(this.parseElement.bind(this, pageData), dom);
-
-	this.onEndParsing(pageData, dom);
-
-	//missed something, or invalid page
-	if (!this.isValidData(pageData)) {
-		macros.log("ERROR: though url was good, but missed data", pageData);
-		return null;
-	}
-
-
-}
-
 
 
 //returns a {colName:[values]} where colname is the first in the column

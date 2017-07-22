@@ -41,11 +41,6 @@ EllucianRequisitesParser.prototype.constructor = EllucianRequisitesParser;
 
 
 
-EllucianRequisitesParser.prototype.supportsPage = function (url) {
-	return false;
-};
-
-
 //follow the order of operations (and before or)
 //and group a (something and something or something) to ((something and something) or something)
 //unnecesary groupings are undone by simplifyRequirements
