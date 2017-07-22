@@ -259,7 +259,7 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     // need to merge classListData and catalogData here aka add catalogData to all the classListDatas and check for conflicts
 
 
-   // Possibly save to dev
+    // Possibly save to dev
     if (macros.DEV && require.main !== module) {
       await cache.set('dev_data', this.constructor.name, url, classListData);
 
@@ -269,21 +269,20 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     return classListData;
   }
 
+  async test() {
+    const output = await module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=FINA&crse_numb_in=6283');
+    console.log(output);
+  }
+
 
 }
 
 
 EllucianCatalogParser.prototype.EllucianCatalogParser = EllucianCatalogParser;
-module.exports = new EllucianCatalogParser();
-
-
-async function testFunc() {
-  const a = await module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=FINA&crse_numb_in=6283');
-  console.log(a);
-}
-
+const instance = new EllucianCatalogParser();
 
 if (require.main === module) {
-  testFunc();
-  // module.exports.tests();
+  instance.test();
 }
+
+export default instance;
