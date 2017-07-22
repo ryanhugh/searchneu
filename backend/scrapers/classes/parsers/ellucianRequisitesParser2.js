@@ -17,13 +17,11 @@
  */
 
 
-import macros from '../../../macros';
+import domutils from 'domutils';
+import he from 'he';
+import URI from 'urijs';
 
-var domutils = require('domutils');
-var fs = require('fs');
-var he = require('he');
-var URI = require('urijs');
-var _ = require('lodash');
+import macros from '../../../macros';
 
 var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
 

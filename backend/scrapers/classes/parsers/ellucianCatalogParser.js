@@ -22,7 +22,6 @@ import he from 'he';
 import _ from 'lodash';
 import cheerio from 'cheerio';
 
-
 import cache from '../../cache';
 import macros from '../../../macros';
 import Request from '../../request';
