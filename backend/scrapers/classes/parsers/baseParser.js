@@ -13,132 +13,121 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>. 
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import URI from 'urijs';
 import domutils from 'domutils';
 
 import macros from '../../../macros';
-import Request from '../../request';
-
 
 class BaseParser {
 
-  supportsPage () {
-    macros.error("Base parser supports page was called?")
+  supportsPage() {
+    macros.error('Base parser supports page was called?');
     return false;
-  };
+  }
 
 
   //returns a {colName:[values]} where colname is the first in the column
   //regardless if its part of the header or the first row of the body
-  parseTable (table) {
-    if (table.name != 'table') {
-      macros.error('parse table was not given a table..')
-      return;
-    };
+  parseTable(table) {
+    if (table.name !== 'table') {
+      macros.error('parse table was not given a table..');
+      return null;
+    }
 
 
     //includes both header rows and body rows
-    var rows = domutils.getElementsByTagName('tr', table);
+    const rows = domutils.getElementsByTagName('tr', table);
 
     if (rows.length === 0) {
-      macros.error('zero rows???')
-      return;
-    };
-
-
-    var retVal = {
-      _rowCount: rows.length - 1
+      macros.error('zero rows???');
+      return null;
     }
-    var heads = []
+
+
+    const retVal = {
+      _rowCount: rows.length - 1,
+    };
+    const heads = [];
 
     //the headers
-    rows[0].children.forEach(function (element) {
-      if (element.type != 'tag' || ['th', 'td'].indexOf(element.name) === -1) {
+    rows[0].children.forEach((element) => {
+      if (element.type !== 'tag' || ['th', 'td'].indexOf(element.name) === -1) {
         return;
       }
 
-      var text = domutils.getText(element).trim().toLowerCase().replace(/\s/gi, '');
-      retVal[text] = []
+      const text = domutils.getText(element).trim().toLowerCase().replace(/\s/gi, '');
+      retVal[text] = [];
       heads.push(text);
-
-    }.bind(this));
-
+    });
 
 
     //add the other rows
-    rows.slice(1).forEach(function (row) {
-
-      var index = 0;
-      row.children.forEach(function (element) {
-        if (element.type != 'tag' || ['th', 'td'].indexOf(element.name) === -1) {
+    rows.slice(1).forEach((row) => {
+      let index = 0;
+      row.children.forEach((element) => {
+        if (element.type !== 'tag' || ['th', 'td'].indexOf(element.name) === -1) {
           return;
         }
         if (index >= heads.length) {
           macros.log('warning, table row is longer than head, ignoring content', index, heads, rows);
           return;
-        };
+        }
 
-        retVal[heads[index]].push(domutils.getText(element).trim())
+        retVal[heads[index]].push(domutils.getText(element).trim());
 
         //only count valid elements, not all row.children
         index++;
-      }.bind(this));
+      });
 
 
       //add empty strings until reached heads length
       for (; index < heads.length; index++) {
-        retVal[heads[index]].push('')
-      };
-
-
-    }.bind(this));
+        retVal[heads[index]].push('');
+      }
+    });
     return retVal;
-  };
-
+  }
 
 
   //add inputs if they have a value = name:value
   //add all select options if they have multiple
   //add just the first select option if is only 1
-  parseForm (url, dom) {
-
+  parseForm(url, dom) {
     //find the form, bail if !=1 on the page
-    var forms = domutils.getElementsByTagName('form', dom);
-    if (forms.length != 1) {
-      macros.log('there is !=1 forms??', forms, url);
-      return
+    const forms = domutils.getElementsByTagName('form', dom);
+    if (forms.length !== 1) {
+      macros.error('there is !=1 forms??', forms, url);
+      return null;
     }
-    var form = forms[0];
+    const form = forms[0];
 
-    var payloads = [];
+    const payloads = [];
 
     //inputs
-    var inputs = domutils.getElementsByTagName('input', form);
-    inputs.forEach(function (input) {
-
-      if (input.attribs.name === undefined || input.attribs.type == "checkbox") {
+    const inputs = domutils.getElementsByTagName('input', form);
+    inputs.forEach((input) => {
+      if (input.attribs.name === undefined || input.attribs.type === 'checkbox') {
         return;
       }
 
-      if (input.attribs.value === undefined || input.attribs.value == '') {
-        input.attribs.value = ''
+      if (input.attribs.value === undefined || input.attribs.value === '') {
+        input.attribs.value = '';
       }
 
       payloads.push({
         name: input.attribs.name,
-        value: input.attribs.value
+        value: input.attribs.value,
       });
     });
 
 
-    var selects = domutils.getElementsByTagName('select', form);
+    const selects = domutils.getElementsByTagName('select', form);
 
-    selects.forEach(function (select) {
-
-      var options = domutils.getElementsByTagName('option', select);
+    selects.forEach((select) => {
+      const options = domutils.getElementsByTagName('option', select);
       if (options.length === 0) {
         macros.log('warning no options in form???', url);
         return;
@@ -146,70 +135,62 @@ class BaseParser {
 
       //add all of them
       if (select.attribs.multiple !== undefined) {
-
-        options.forEach(function (option) {
-          var text = domutils.getText(option).trim();
+        options.forEach((option) => {
+          const text = domutils.getText(option).trim();
 
           payloads.push({
             value: option.attribs.value,
             text: text,
-            name: select.attribs.name
+            name: select.attribs.name,
           });
+        });
+      } else {
+        // Just add the first select.
 
+        const alts = [];
 
-        }.bind(this));
-      }
-
-      //just add the first select
-      else {
-
-        var alts = [];
-
-        options.slice(1).forEach(function (option) {
-          var text = domutils.getText(option).trim();
+        options.slice(1).forEach((option) => {
+          const text = domutils.getText(option).trim();
           alts.push({
             value: option.attribs.value,
             text: text,
-            name: select.attribs.name
-          })
-        })
+            name: select.attribs.name,
+          });
+        });
 
         //get default option
-        var text = domutils.getText(options[0]).trim();
+        const text = domutils.getText(options[0]).trim();
         payloads.push({
           value: options[0].attribs.value,
           text: text,
           name: select.attribs.name,
-          alts: alts
+          alts: alts,
         });
       }
     });
 
 
     //parse the url, and return the url the post request should go to
-    var urlParsed = new URI(url);
+    const urlParsed = new URI(url);
 
     return {
-      postURL: urlParsed.protocol() + '://' + urlParsed.host() + form.attribs.action,
-      payloads: payloads
+      postURL: `${urlParsed.protocol()}://${urlParsed.host()}${form.attribs.action}`,
+      payloads: payloads,
     };
   }
 
 
-  parseCredits (containsCreditsText) {
-
-
+  parseCredits(containsCreditsText) {
     //should match 3.000 Credits  or 1.000 TO 21.000 Credits
-    var creditsMatch = containsCreditsText.match(/(?:(\d(:?.\d*)?)\s*to\s*)?(\d+(:?.\d*)?)\s*credit(:?s| hours)/i);
+    let creditsMatch = containsCreditsText.match(/(?:(\d(:?.\d*)?)\s*to\s*)?(\d+(:?.\d*)?)\s*credit(:?s| hours)/i);
     if (creditsMatch) {
-      var maxCredits = parseFloat(creditsMatch[3]);
-      var minCredits;
+      const maxCredits = parseFloat(creditsMatch[3]);
+      let minCredits;
 
       //sometimes a range is given,
       if (creditsMatch[1]) {
         minCredits = parseFloat(creditsMatch[1]);
-      }
-      else {
+      } else {
         minCredits = maxCredits;
       }
 
@@ -220,32 +201,31 @@ class BaseParser {
 
       return {
         minCredits: minCredits,
-        maxCredits: maxCredits
-      }
+        maxCredits: maxCredits,
+      };
     }
 
 
     //Credit Hours: 3.000
     creditsMatch = containsCreditsText.match(/credits?\s*(?:hours?)?:?\s*(\d+(:?.\d*)?)/i);
     if (creditsMatch) {
-
-      var credits = parseFloat(creditsMatch[1]);
+      const credits = parseFloat(creditsMatch[1]);
 
       return {
         minCredits: credits,
-        maxCredits: credits
-      }
+        maxCredits: credits,
+      };
     }
 
-    // 0.800 Continuing Education Units 
+    // 0.800 Continuing Education Units
     creditsMatch = containsCreditsText.match(/(\d+(:?.\d*)?)\s*Continuing\s*Education\s*Units/i);
     if (creditsMatch) {
-      var credits = parseFloat(creditsMatch[1])
+      const credits = parseFloat(creditsMatch[1]);
 
       return {
         minCredits: credits,
-        maxCredits: credits
-      }
+        maxCredits: credits,
+      };
     }
 
 
@@ -253,10 +233,8 @@ class BaseParser {
   }
 
 
-
   // http://dan.hersam.com/tools/smart-quotes.html
-  simplifySymbols (s) {
-
+  simplifySymbols(s) {
     // Codes can be found here:
     // http://en.wikipedia.org/wiki/Windows-1252#Codepage_layout
     s = s.replace(/\u2018|\u2019|\u201A|\uFFFD/g, "'");
@@ -273,10 +251,9 @@ class BaseParser {
     s = s.replace(/\u00BC/g, '1/4');
     s = s.replace(/\u00BD/g, '1/2');
     s = s.replace(/\u00BE/g, '3/4');
-    s = s.replace(/[\u02DC|\u00A0]/g, " ");
+    s = s.replace(/[\u02DC|\u00A0]/g, ' ');
     return s;
   }
-
 
 
   // no great npm module found so far
@@ -284,7 +261,7 @@ class BaseParser {
   // https://www.npmjs.com/package/change-case
   // https://www.npmjs.com/package/slang
   // https://www.npmjs.com/package/to-title-case -- currently using this one, its ok not great
-  // var a = require("change-case").title
+  // let a = require("change-case").title
 
   // macros.log(a('texas a&m university'));
   // macros.log(a('something something'))
@@ -292,17 +269,17 @@ class BaseParser {
 
   // Used for college names, professor names and locations
   // odd cases: "TBA", Texas A&M University
-  toTitleCase (originalString, warningStr) {
-    if (originalString === "TBA") {
-      return originalString
+  toTitleCase(originalString, warningStr) {
+    if (originalString === 'TBA') {
+      return originalString;
     }
 
-    if (originalString.toLowerCase() == originalString || originalString.toUpperCase() == originalString) {
-      macros.log("Warning: originalString is all upper or all lower case", originalString, warningStr);
+    if (originalString.toLowerCase() === originalString || originalString.toUpperCase() === originalString) {
+      macros.log('Warning: originalString is all upper or all lower case', originalString, warningStr);
     }
 
 
-    var string = this.simplifySymbols(originalString)
+    let string = this.simplifySymbols(originalString);
 
     //get rid of newlines and replace large sections of whitespace with one space
     string = string.replace(/\n/g, ' ').replace(/\r/g, ' ').replace(/\s+/g, ' ');
@@ -310,59 +287,58 @@ class BaseParser {
     // string = toTitleCase(string)
 
 
-    var correctParts = [
+    const correctParts = [
       // Texas A&M University
       ' A&M ',
-    ]
+    ];
 
-    correctParts.forEach(function (subString) {
+    correctParts.forEach((subString) => {
       string = string.replace(new RegExp(subString, 'gi'), subString);
-    }.bind(this))
+    });
 
-    string = string.trim()
+    string = string.trim();
 
-    if (string != originalString.trim()) {
+    if (string !== originalString.trim()) {
       macros.log('Warning: changing from ', originalString, 'to', string, 'at', warningStr);
     }
 
-    return string.trim()
-  };
+    return string.trim();
+  }
 
   // 'something something (hon)' -> 'something something' and ['(hon)']
-  splitEndings (name) {
-    name = name.trim()
+  splitEndings(name) {
+    name = name.trim();
 
-    var endings = [];
+    const endings = [];
     // --Lab at the end is also an ending
-    var match = name.match(/\-+\s*[\w\d]+$/i)
+    const match = name.match(/-+\s*[\w\d]+$/i);
     if (match) {
-      var dashEnding = match[0]
+      let dashEnding = match[0];
 
       //remove it from name
       name = name.slice(0, name.indexOf(dashEnding)).trim();
 
       // standardize to one dash
       while (dashEnding.startsWith('-')) {
-        dashEnding = dashEnding.slice(1).trim()
+        dashEnding = dashEnding.slice(1).trim();
       }
 
-      endings.push('- ' + dashEnding.trim())
+      endings.push(`- ${dashEnding.trim()}`);
     }
 
     // remove things in parens at the end
     // Intro to the Study Engr (hon)
     while (name.endsWith(')')) {
-
       //find the name at the end
-      var match = name.match(/\([\w\d]+\)$/i);
-      if (!match) {
+      const parenNameMatch = name.match(/\([\w\d]+\)$/i);
+      if (!parenNameMatch) {
         break;
       }
 
-      var subString = match[0];
+      let subString = parenNameMatch[0];
 
       if (!name.endsWith(subString)) {
-        macros.log("Warning: string dosent end with match??", originalName, possibleMatches);
+        macros.log('Warning: string dosent end with match??', name, subString);
         break;
       }
 
@@ -370,17 +346,16 @@ class BaseParser {
       name = name.slice(0, name.indexOf(subString)).trim();
 
       if (subString.length <= 5) {
-        subString = subString.toLowerCase()
+        subString = subString.toLowerCase();
       }
 
-      endings.push(subString)
+      endings.push(subString);
     }
     return {
       name: name,
-      endings: endings
+      endings: endings,
     };
-  };
-
+  }
 
 
   // fixes a class name based on others that it could be an abbriation of
@@ -390,102 +365,94 @@ class BaseParser {
   // https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?schd_in=%25&term_in=201710&subj_in=JRNL&crse_in=1150
   // Interpreting the Day’s News vs Interptng the Day's News
   // or this https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=BUSN&crse_in=1103&schd_in=LEC
-  standardizeClassName (originalName, possibleMatches) {
-
+  standardizeClassName(originalName, possibleMatches) {
     // can't do much here, it was called from category. just fix small stuff
     if (possibleMatches === undefined) {
-      possibleMatches = []
+      possibleMatches = [];
     }
 
     // trim all inputs and replace 2+ spaces for 1
-    originalName = originalName.trim().replace(/\s+/gi, ' ')
-    originalName = this.simplifySymbols(originalName)
+    originalName = originalName.trim().replace(/\s+/gi, ' ');
+    originalName = this.simplifySymbols(originalName);
 
     if (originalName.lenght === 0) {
-      macros.log("Warning: originalName was empty or had only symbols");
+      macros.log('Warning: originalName was empty or had only symbols');
       if (possibleMatches.length === 0) {
-        macros.error('Dont have a name for a class!', originalName, possibleMatches)
-        return 'Unknown class'
+        macros.error('Dont have a name for a class!', originalName, possibleMatches);
+        return 'Unknown class';
       }
-      else {
-        return possibleMatches[0]
-      }
+
+      return possibleMatches[0];
     }
 
-    for (var i = 0; i < possibleMatches.length; i++) {
-      possibleMatches[i] = possibleMatches[i].trim().replace(/\s+/gi, ' ')
-      possibleMatches[i] = this.simplifySymbols(possibleMatches[i])
+    for (let i = 0; i < possibleMatches.length; i++) {
+      possibleMatches[i] = possibleMatches[i].trim().replace(/\s+/gi, ' ');
+      possibleMatches[i] = this.simplifySymbols(possibleMatches[i]);
     }
 
 
-    var name = originalName;
+    let name = originalName;
 
-    var nameSplit = this.splitEndings(name)
+    const nameSplit = this.splitEndings(name);
     name = nameSplit.name;
-    var endings = nameSplit.endings;
+    const endings = nameSplit.endings;
 
     // if input is in possible matches, done
     if (possibleMatches.includes(originalName) || possibleMatches.length === 0) {
-      return (name + ' ' + endings.join(' ')).trim();
+      return (`${name} ${endings.join(' ')}`).trim();
     }
 
 
     // remove symbols and whitespace, just for comparing
-    // ok to mess with name from here on out, 
+    // ok to mess with name from here on out,
     // but might return originalName or possibleMatch so don't mess with them
-    name = name.replace(/[^0-9a-zA-Z]/gi, '')
-
+    name = name.replace(/[^0-9a-zA-Z]/gi, '');
 
 
     // see if name is an abbrivation of the possible matches
     // eg "phys for engrs" = "Physics for Engineers"
-    for (var i = 0; i < possibleMatches.length; i++) {
-      var possibleMatch = this.splitEndings(possibleMatches[i]).name
+    for (let i = 0; i < possibleMatches.length; i++) {
+      let possibleMatch = this.splitEndings(possibleMatches[i]).name;
 
       // loop through possibleMatch and name at the same time
       // and when a character matches, continue.
       // if name is an in-order subset of possible match the nameIndex will be name.length at the end
-      var nameIndex = 0;
-      for (var matchIndex = 0; matchIndex < possibleMatch.length; matchIndex++) {
-
+      let nameIndex = 0;
+      for (let matchIndex = 0; matchIndex < possibleMatch.length; matchIndex++) {
         // done!
         if (nameIndex >= name.length) {
           break;
         }
 
-        if (possibleMatch[matchIndex].toLowerCase() == name[nameIndex].toLowerCase()) {
+        if (possibleMatch[matchIndex].toLowerCase() === name[nameIndex].toLowerCase()) {
           nameIndex++;
         }
-
       }
 
 
       // huzzah! a match!
-      if (nameIndex == name.length) {
-
+      if (nameIndex === name.length) {
         // add the endings back on, but only if possible match dosent include them
-        for (var j = 0; j < endings.length; j++) {
+        for (let j = 0; j < endings.length; j++) {
           if (!possibleMatch.includes(endings[j])) {
-            possibleMatch += ' ' + endings[j]
-            possibleMatch = possibleMatch.trim()
+            possibleMatch += ` ${endings[j]}`;
+            possibleMatch = possibleMatch.trim();
           }
         }
 
-        return possibleMatch
+        return possibleMatch;
       }
     }
     return originalName;
-  };
+  }
 
 
-  getOptionallyPlural (num) {
+  getOptionallyPlural(num) {
     if (num === 1) {
-      return ''
+      return '';
     }
-    else {
-      return 's'
-    }
-  };
+    return 's';
+  }
 
 }
 
