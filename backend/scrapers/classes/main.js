@@ -135,7 +135,7 @@ class Main {
       }
     });
 
-    console.log('Processing ', urlsToProcess);
+    macros.log('Processing ', urlsToProcess);
     return urlsToProcess;
   }
 
@@ -184,7 +184,7 @@ class Main {
     this.waterfallIdentifyers(rootNode);
     
     await fs.writeFile('out.log', JSON.stringify(rootNode, null, 4));
-    console.log('out.log saved');
+    macros.log('out.log saved');
 
 
     const dump = this.pageDataStructureToTermDump(rootNode);
@@ -215,7 +215,7 @@ class Main {
 
     if (macros.DEV) {
       await cache.set('dev_data', 'classes', cacheKey, dump);
-      console.log('classes file saved for', collegeAbbrs, '!');
+      macros.log('classes file saved for', collegeAbbrs, '!');
     }
 
     return dump;
