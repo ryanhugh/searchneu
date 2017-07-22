@@ -349,88 +349,6 @@ EllucianTermsParser.prototype.parseTermsPage = function (body, url) {
 
 
 
-EllucianTermsParser.prototype.waterfallIdentifyers = function(rootNode, attrToAdd = {}) {
-
-
-  let newChildAttr = {};
-
-  // Shallow clone the attributes to newChildAttr. 
-  // Would use Object.create, but this puts the inhereted attributes on the prototype and JSON.stringify does not include properties on the prototype. 
-  for (const attrName in attrToAdd) {
-    newChildAttr[attrName] = attrToAdd[attrName]
-  }
-
-  // Sanity check to make sure this node is valid. 
-  if (!rootNode.value || !rootNode.type) {
-    macros.error("Invalid root node", rootNode)
-    return;
-  }
-
-  // Look at this object and find any new attributes that should be copied over to children. 
-  // Eg If so far we have a host, termId and a subject, and this is a class, a classId will be added to the newChildAttr object
-  // and will be carried down to all the children with the host, termId and subject
-  for (let attrName in rootNode.value) {
-    if (!Keys.allKeys.includes(attrName) && attrName !== 'classId') {
-      continue;
-    }
-
-    // Make sure that the child object does not have a different value that would be overriden by adding all
-    // the properties from attrToAdd
-    if (rootNode.value[attrName] && newChildAttr[attrName] && rootNode.value[attrName] !== newChildAttr[attrName]) {
-      macros.error("Overriding attr?", attrName, rootNode.value, newChildAttr)
-    }
-
-    newChildAttr[attrName] = rootNode.value[attrName]
-  }
-
-  // Actually add the atributes to this obj
-  rootNode.value = Object.assign({}, rootNode.value, newChildAttr)
-
-  // Recusion. 
-  if (rootNode.deps) {
-    for (const dep of rootNode.deps) {
-      this.waterfallIdentifyers(dep, newChildAttr)
-    }
-  }
-
-  return rootNode
-};
-
-
-
-// Converts the PageData data structure to a term dump. Term dump has a .classes and a .sections, etc, and is used in the processors
-EllucianTermsParser.prototype.pageDataStructureToTermDump = function pageDataStructureToTermDump(rootNode) {
-  const output = {};
-
-  let stack = [rootNode];
-  let curr = null;
-  while ((curr = stack.pop())) {
-
-    if (!curr.type) {
-      macros.error("no type?", curr)
-      continue;
-    }
-
-    if (!output[curr.type]) {
-      output[curr.type] = [];
-    }
-
-    const item = {};
-
-    Object.assign(item, curr.value);
-
-    output[curr.type].push(item);
-
-
-    if (curr.deps) {
-      stack = stack.concat(curr.deps);
-    }
-  }
-
-  return output;
-};
-
-
 
 
 EllucianTermsParser.prototype.EllucianTermsParser = EllucianTermsParser;
@@ -439,22 +357,7 @@ module.exports = new EllucianTermsParser();
 
 async function testFunc() {
   let r = await module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched')
-
-  let output = module.exports.waterfallIdentifyers({
-    type: 'host',
-    value: {
-    },
-    deps: r
-  })
-
-  // SO CLOSE! need to fix the type name keys on this obj and then send it through the processors. 
-  let dump = module.exports.pageDataStructureToTermDump(output)
-
-  await fs.writeFile('out.json', JSON.stringify(dump, null, 4))
-  console.log('file saved')
-
-
-  // console.log(JSON.stringify(r, null, 4))
+  console.log(r)
 }
 
 
