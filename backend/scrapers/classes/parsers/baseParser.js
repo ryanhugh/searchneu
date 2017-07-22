@@ -458,8 +458,4 @@ class BaseParser {
 
 
 BaseParser.prototype.BaseParser = BaseParser;
-module.exports = new BaseParser();
-
-if (require.main === module) {
-  module.exports.tests();
-}
+export default new BaseParser();

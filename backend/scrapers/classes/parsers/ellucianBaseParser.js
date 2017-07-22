@@ -13,198 +13,194 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>. 
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import URI from 'urijs';
 import macros from '../../../macros';
 
-var BaseParser = require('./baseParser').BaseParser;
+const BaseParser = require('./baseParser').BaseParser;
 
 class EllucianBaseParser extends BaseParser {
 
 
   constructor() {
     super();
-    this.requiredInBody = ["Ellucian", '<LINK REL="stylesheet" HREF="/css/web_defaultapp.css" TYPE="text/css">'];
-    
+    this.requiredInBody = ['Ellucian', '<LINK REL="stylesheet" HREF="/css/web_defaultapp.css" TYPE="text/css">'];
   }
-
 
 
   // https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=FINA&crse_numb_in=6283
   parseCatalogUrl(catalogUrl) {
-    let urlParsed = new URI(catalogUrl);
+    const urlParsed = new URI(catalogUrl);
 
-    let query = urlParsed.query(true);
+    const query = urlParsed.query(true);
 
 
     const termId = query.cat_term_in;
     if (!termId || termId.length !== 6) {
-      macros.error('Unable to find term_in in', catalogUrl)
+      macros.error('Unable to find term_in in', catalogUrl);
       return null;
     }
 
     const subject = query.subj_code_in;
     if (!subject) {
-      macros.error('Unable to find subject in', subject)
+      macros.error('Unable to find subject in', subject);
       return null;
     }
 
     const classId = query.crse_numb_in;
     if (!classId) {
-      macros.error('Unable to find classId in', classId)
+      macros.error('Unable to find classId in', classId);
       return null;
     }
 
     return {
       classId: classId,
       termId: termId,
-      subject: subject
-    }
-  };
+      subject: subject,
+    };
+  }
 
 
   getTermIdFromUrl(url) {
-    let urlParsed = new URI(url);
+    const urlParsed = new URI(url);
 
-    let query = urlParsed.query(true);
+    const query = urlParsed.query(true);
     if (!query.term_in || query.term_in.length !== 6) {
-      macros.error('Unable to find term_in in', url)
+      macros.error('Unable to find term_in in', url);
       return null;
     }
 
-    return query.term_in
-  };
+    return query.term_in;
+  }
 
-  classListURLtoClassInfo (catalogURL) {
-    var catalogParsed = new URI(catalogURL);
+  classListURLtoClassInfo(catalogURL) {
+    const catalogParsed = new URI(catalogURL);
     if (!catalogParsed || catalogParsed.host() === '') {
       macros.error('error given invalid catalog url?', catalogURL);
-      return;
+      return null;
     }
 
-    var query = catalogParsed.query(true);
+    const query = catalogParsed.query(true);
 
-    var term_in = query.term_in;
-    if (!term_in || term_in === '') {
-      macros.error('error cant get class url, invalid term', catalogURL)
-      return;
+    const termIn = query.term_in;
+    if (!termIn || termIn === '') {
+      macros.error('error cant get class url, invalid term', catalogURL);
+      return null;
     }
 
-    var subj = query.one_subj;
+    const subj = query.one_subj;
     if (!subj || subj === '') {
       macros.error('error, cant get class url, invalid subj', catalogURL);
-      return;
+      return null;
     }
 
-    var startcrse = query.sel_crse_strt;
+    const startcrse = query.sel_crse_strt;
     if (!startcrse || startcrse === '') {
       macros.error('error, cant get class url, invalid startcrse', catalogURL);
-      return;
+      return null;
     }
-    var endcrse = query.sel_crse_end;
+    const endcrse = query.sel_crse_end;
     if (!endcrse || endcrse === '') {
       macros.error('error, cant get class url, invalid endcrse', catalogURL);
-      return;
+      return null;
     }
-    if (startcrse != endcrse) {
+    if (startcrse !== endcrse) {
       macros.error('error, startcrse!=endcrse??', catalogURL, startcrse, endcrse);
-      return;
+      return null;
     }
     return {
       classId: startcrse,
-      termId: term_in,
-      subject: subj
-    }
-  };
-
-  createClassListUrl (siteURL, termId, subject) {
-    var baseURL = this.getBaseURL(siteURL);
-    if (!baseURL) {
-      macros.error('could not find base url of ', siteURL)
-      return;
+      termId: termIn,
+      subject: subj,
     };
+  }
+
+  createClassListUrl(siteURL, termId, subject) {
+    let baseURL = this.getBaseURL(siteURL);
+    if (!baseURL) {
+      macros.error('could not find base url of ', siteURL);
+      return null;
+    }
 
     baseURL = new URI(baseURL);
 
 
-    var retVal = new URI('bwckctlg.p_display_courses?sel_crse_strt=&sel_crse_end=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=')
+    const retVal = new URI('bwckctlg.p_display_courses?sel_crse_strt=&sel_crse_end=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=');
     retVal.setQuery('term_in', termId);
     retVal.setQuery('one_subj', subject);
 
     return retVal.absoluteTo(baseURL).toString();
-  };
+  }
 
-  createCatalogUrl (siteURL, termId, subject, classId) {
-    var baseURL = this.getBaseURL(siteURL);
+  createCatalogUrl(siteURL, termId, subject, classId) {
+    let baseURL = this.getBaseURL(siteURL);
     if (!baseURL) {
-      macros.error('could not find base url of ', siteURL)
-      return;
-    };
+      macros.error('could not find base url of ', siteURL);
+      return null;
+    }
 
     if (classId === undefined) {
-      macros.error('error need class id for catalog url')
-      return
-    };
+      macros.error('error need class id for catalog url');
+      return null;
+    }
 
 
     baseURL = new URI(baseURL);
 
 
     // var retVal = new URI(baseURL);
-    var retVal = new URI('bwckctlg.p_disp_course_detail')
+    const retVal = new URI('bwckctlg.p_disp_course_detail');
     retVal.setQuery('cat_term_in', termId);
     retVal.setQuery('subj_code_in', subject);
     retVal.setQuery('crse_numb_in', classId);
 
     return retVal.absoluteTo(baseURL).toString();
-  };
+  }
 
-  createClassURL (siteURL, termId, subject, classId) {
-    var baseURL = this.getBaseURL(siteURL);
+  createClassURL(siteURL, termId, subject, classId) {
+    let baseURL = this.getBaseURL(siteURL);
     if (!baseURL) {
-      macros.error('could not find base url of ', siteURL)
-      return;
-    };
+      macros.error('could not find base url of ', siteURL);
+      return null;
+    }
 
 
     baseURL = new URI(baseURL);
 
-    var retVal = new URI('bwckctlg.p_disp_listcrse')
+    const retVal = new URI('bwckctlg.p_disp_listcrse');
 
     retVal.setQuery('term_in', termId);
     retVal.setQuery('subj_in', subject);
     retVal.setQuery('crse_in', classId);
 
     // URI will encoder the % here to a '%25', which will cause the website to return no results.
-    return retVal.absoluteTo(baseURL).toString() + '&schd_in=%';
-  };
+    return `${retVal.absoluteTo(baseURL).toString()}&schd_in=%`;
+  }
 
-  sectionURLtoInfo (sectionURL) {
+  sectionURLtoInfo(sectionURL) {
     //parse the term from the url
-    var query = new URI(sectionURL).query(true);
+    const query = new URI(sectionURL).query(true);
 
-    var retVal = {}
+    const retVal = {};
 
     if (!query.crn_in) {
       macros.error('could not find crn_in sectionURL!', sectionURL);
-      return;
+      return null;
     }
-    else {
-      retVal.crn = query.crn_in
-    }
+
+    retVal.crn = query.crn_in;
+
     return retVal;
   }
 
 
-  getBaseURL (url) {
+  getBaseURL(url) {
+    const splitAfter = ['bwckctlg.p', 'bwckschd.p', 'bwckgens.p'];
 
-    var splitAfter = ['bwckctlg.p', 'bwckschd.p', 'bwckgens.p'];
-
-    for (var i = 0; i < splitAfter.length; i++) {
-
-      var index = url.indexOf(splitAfter[i]);
+    for (let i = 0; i < splitAfter.length; i++) {
+      const index = url.indexOf(splitAfter[i]);
 
       if (index > -1) {
         return url.substr(0, index);
@@ -218,11 +214,5 @@ class EllucianBaseParser extends BaseParser {
 }
 
 
-
 EllucianBaseParser.prototype.EllucianBaseParser = EllucianBaseParser;
-module.exports = new EllucianBaseParser()
-
-
-if (require.main === module) {
-  
-}
+export default new EllucianBaseParser();
