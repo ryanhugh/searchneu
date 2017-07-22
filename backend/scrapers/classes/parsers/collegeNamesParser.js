@@ -37,6 +37,7 @@ import asyncjs from 'async';
 
 import macros from '../../../macros';
 import cache from '../../cache';
+import BaseParser from './baseParser'
 
 
 let whois;
@@ -49,9 +50,6 @@ if (macros.TESTS) {
 } else {
   whois = realWhois;
 }
-
-const BaseParser = require('./baseParser').BaseParser;
-
 
 const staticHosts = [
   {
@@ -68,7 +66,7 @@ const staticHosts = [
   }];
 
 
-class CollegeNamesParser extends BaseParser {
+class CollegeNamesParser extends BaseParser.BaseParser {
 
 
   async main(hostname) {

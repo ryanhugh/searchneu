@@ -18,10 +18,9 @@
 
 import URI from 'urijs';
 import macros from '../../../macros';
+import BaseParser from './baseParser';
 
-const BaseParser = require('./baseParser').BaseParser;
-
-class EllucianBaseParser extends BaseParser {
+class EllucianBaseParser extends BaseParser.BaseParser {
 
 
   constructor() {
