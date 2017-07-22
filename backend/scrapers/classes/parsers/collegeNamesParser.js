@@ -197,19 +197,4 @@ class CollegeNamesParser extends BaseParser {
 
 
 CollegeNamesParser.prototype.CollegeNamesParser = CollegeNamesParser;
-module.exports = new CollegeNamesParser();
-
-if (require.main === module) {
-  // module.exports.go();
-
-
-  // module.exports.getT({
-  //  dbData: {
-  //    url: 'neu.edu'
-  //  }
-  // }, function() {
-  //  console.log(arguments)
-  // })
-
-
-}
+export default new CollegeNamesParser();
