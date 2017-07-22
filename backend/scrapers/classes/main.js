@@ -181,9 +181,13 @@ class Main {
       deps: parsersOutput,
     };
 
-    const output = this.waterfallIdentifyers(rootNode);
+    this.waterfallIdentifyers(rootNode);
+    
+    await fs.writeFile('out.log', JSON.stringify(rootNode, null, 4));
+    console.log('out.log saved');
 
-    const dump = this.pageDataStructureToTermDump(output);
+
+    const dump = this.pageDataStructureToTermDump(rootNode);
 
     // Add the data that was calculatd here
     if (!dump.colleges) {
@@ -194,9 +198,6 @@ class Main {
       title: await collegeNamePromise,
       url: host,
     });
-
-    await fs.writeFile('out.log', JSON.stringify(dump, null, 4));
-    console.log('out.log saved');
 
 
     // Run the processors, sequentially
@@ -213,7 +214,7 @@ class Main {
 
 
     if (macros.DEV) {
-      await cache.set('dev_data', 'classes', cacheKey, termDump);
+      await cache.set('dev_data', 'classes', cacheKey, dump);
       console.log('classes file saved for', collegeAbbrs, '!');
     }
 

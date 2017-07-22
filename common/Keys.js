@@ -25,6 +25,7 @@ import macros from './macros'
 
 
 // feature request from server.js: add classId if not given classUid and given host+termId+subject
+// addClassUids. could also benefit from this feature. 
 
 // Copied from lodash source to avoid depending on it here. It wound't be that bad if is needed though. 
 function startsWith(string, target) {

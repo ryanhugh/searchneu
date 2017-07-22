@@ -17,6 +17,8 @@
  */
 
 import macros from '../../../macros';
+import Keys from '../../../../common/Keys'
+
 var BaseProcessor = require('./baseProcessor').BaseProcessor
 
 // Add classUids to classes. ClassUid = ClassId + '_'  + hash(class.name)
@@ -24,7 +26,7 @@ var BaseProcessor = require('./baseProcessor').BaseProcessor
 // Lookup by classId and there will be 0+ results.
 
 function AddClassUids() {
-	BaseProcessor.prototype.constructor.apply(this, arguments);
+  BaseProcessor.prototype.constructor.apply(this, arguments);
 }
 
 AddClassUids.prototype = Object.create(BaseProcessor.prototype);
@@ -32,29 +34,29 @@ AddClassUids.prototype.constructor = AddClassUids;
 
 // http://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript-jquery
 AddClassUids.prototype.getStringHash = function (input) {
-	var hash = 0;
-	var i;
-	var chr;
-	var len;
+  var hash = 0;
+  var i;
+  var chr;
+  var len;
 
-	if (input.length === 0) {
-		macros.error("getStringHash given input.length ==0!!");
-		return hash;
-	}
-	for (i = 0, len = input.length; i < len; i++) {
-		chr = input.charCodeAt(i);
-		hash = ((hash << 5) - hash) + chr;
-		hash |= 0; // Convert to 32bit integer
-	}
-	return String(Math.abs(hash));
+  if (input.length === 0) {
+    macros.error("getStringHash given input.length ==0!!");
+    return hash;
+  }
+  for (i = 0, len = input.length; i < len; i++) {
+    chr = input.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return String(Math.abs(hash));
 };
 
 
 AddClassUids.prototype.getClassUid = function (classId, title) {
-	if (!title) {
-		macros.error('get class id given not title!')
-	}
-	return classId + '_' + this.getStringHash(title);
+  if (!title) {
+    macros.error('get class id given not title!')
+  }
+  return classId + '_' + this.getStringHash(title);
 };
 
 
@@ -65,28 +67,46 @@ AddClassUids.prototype.getClassUid = function (classId, title) {
 // or if just one class {host, termId, subject, classId}
 AddClassUids.prototype.go = function go(termDump) {
 
-	let crnMap = {}
+  let localKeyToClassMap = {}
 
-	for (let aClass of termDump.classes) {
-		aClass.classUid = this.getClassUid(aClass.classId, aClass.name);
-		if (aClass.crns) {
-			for (let crn of aClass.crns) {
-				crnMap[crn] = aClass
-			}
-		}
-	}
+  for (let aClass of termDump.classes) {
+    aClass.classUid = this.getClassUid(aClass.classId, aClass.name);
 
-	debugger
+    if (aClass.crns) {
+
+      for (const crn of aClass.crns) {
+
+        // Keys.js dosen't support classIds yet, so just make the key here
+        let key = aClass.host + aClass.termId + aClass.subject + aClass.classId + crn
+
+        if (localKeyToClassMap[key]) {
+          macros.fatal("key already exists in key map?", key)
+        }
 
 
-	for (let section of termDump.sections) {
-		if (!crnMap[section.crn]) {
-			console.error('ERROR no crn found!', section)
-			continue;
-		}
+        localKeyToClassMap[key] = aClass
+      }
+    }
+  }
 
-		section.classUid = this.getClassUid(crnMap[section.crn].classId, crnMap[section.crn].name);
-	}
+
+  for (let section of termDump.sections) {
+
+    if (!section.classId) {
+      macros.fatal("Can't calculate key without classId");
+      return;
+    }
+
+    // Keys.js dosen't support classIds yet, so just make the key here
+    let key = section.host + section.termId + section.subject + section.classId + section.crn
+
+    if (!localKeyToClassMap[key]) {
+      macros.fatal('no key found!', key, section)
+      continue;
+    }
+
+    section.classUid = this.getClassUid(section.classId, localKeyToClassMap[key].name);
+  }
 };
 
 
