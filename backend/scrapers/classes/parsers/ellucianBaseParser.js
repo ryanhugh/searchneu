@@ -25,7 +25,6 @@ var BaseParser = require('./baseParser').BaseParser;
 function EllucianBaseParser() {
 	BaseParser.prototype.constructor.apply(this, arguments);
 	this.requiredInBody = ["Ellucian", '<LINK REL="stylesheet" HREF="/css/web_defaultapp.css" TYPE="text/css">'];
-	this.name = "EllucianBaseParser"
 }
 
 //prototype constructor

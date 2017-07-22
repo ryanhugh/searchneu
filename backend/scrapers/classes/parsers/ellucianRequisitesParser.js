@@ -32,7 +32,6 @@ var EllucianBaseParser = require('./ellucianBaseParser').EllucianBaseParser;
 function EllucianRequisitesParser() {
 	EllucianBaseParser.prototype.constructor.apply(this, arguments);
 
-	this.name = 'EllucianRequisitesParser';
 }
 
 //prototype constructor

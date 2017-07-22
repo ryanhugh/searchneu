@@ -78,8 +78,6 @@ function EllucianRequisitesParser() {
 	// Null when not parsing.
 	// {type:'and'|'or',values:[...]}
 	this.currFrame = null;
-
-	this.name = 'EllucianRequisitesParser2';
 }
 
 //prototype constructor

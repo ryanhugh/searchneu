@@ -42,12 +42,6 @@ var timeZero = moment('0', 'h');
 //good thing tho, is that it is easily scrapeable and does not require login to access seats available.
 function EllucianClassParser() {
 	EllucianBaseParser.prototype.constructor.apply(this, arguments);
-
-	this.name = 'EllucianClassParser';
-
-	//name and deps are optional, but if there is no deps there is nowhere to parse name...
-
-
 }
 
 

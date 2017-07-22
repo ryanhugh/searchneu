@@ -36,7 +36,6 @@ const request = new Request('EllucianCatalogParser');
 
 function EllucianCatalogParser() {
 	EllucianBaseParser.prototype.constructor.apply(this, arguments);
-	this.name = "EllucianCatalogParser"
 }
 
 

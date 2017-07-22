@@ -37,7 +37,6 @@ const request = new Request('EllucianTermsParser');
 
 function EllucianTermsParser() {
   EllucianBaseParser.prototype.constructor.apply(this, arguments);
-  this.name = "EllucianTermsParser";
 }
 
 

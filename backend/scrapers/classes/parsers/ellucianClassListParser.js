@@ -34,7 +34,6 @@ const request = new Request('EllucianClassListParser');
 
 function EllucianClassListParser() {
   EllucianBaseParser.prototype.constructor.apply(this, arguments);
-  this.name = "EllucianClassListParser"
 }
 
 

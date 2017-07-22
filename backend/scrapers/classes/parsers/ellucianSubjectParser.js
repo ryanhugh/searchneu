@@ -34,7 +34,6 @@ const request = new Request('EllucianSubjectParser');
 
 function EllucianSubjectParser() {
   EllucianBaseParser.prototype.constructor.apply(this, arguments);
-  this.name = "EllucianSubjectParser";
 }
 
 
