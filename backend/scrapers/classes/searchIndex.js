@@ -10,6 +10,12 @@ import Keys from '../../../common/Keys';
 
 // Creates the search index for classes
 
+// TODO: figure out how to have acronym skip the search pipeline.
+// The pipeline strips different endings of different words
+// eg, it treats [fcs] the same as [fc].
+// Which might not always be the same.
+
+
 const getSearchIndex = '/getSearchIndex';
 
 class SearchIndex {

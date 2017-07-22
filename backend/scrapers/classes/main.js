@@ -24,11 +24,6 @@ const differentCollegeUrls = require('./differentCollegeUrls');
 // call the main(['neu']) function below to scrape a college
 // This file also generates the search index and data dumps.
 
-// TODO: figure out how to have acronym skip the search pipeline.
-// The pipeline strips different endings of different words
-// eg, it treats [fcs] the same as [fc].
-// Which might not always be the same.
-
 
 class Main {
 
