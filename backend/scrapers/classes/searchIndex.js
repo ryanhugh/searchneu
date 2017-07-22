@@ -210,13 +210,9 @@ class SearchIndex {
       }
 
       if (!classLists[termHash].classHash[classHash]) {
-        // Only error on CI if error occurs in the term that is shown.
-        // TODO change to if this section occured in the past macros.log, if it is in the future, macros.error.
-        if (section.host === 'neu.edu' && section.termId === '201810') {
-          macros.error('No class exists with same data?', classHash, section.url);
-        } else {
-          macros.log('No class exists with same data?', classHash, section.url);
-        }
+
+        // This should never happen now that the bug has been fixed. 
+        macros.error('No class exists with same data?', classHash, section.url);
         errorCount++;
         return;
       }
