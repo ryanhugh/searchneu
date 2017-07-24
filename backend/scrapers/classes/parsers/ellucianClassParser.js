@@ -47,7 +47,6 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
   // This name is used as a basis for standardizing and cleaning up the names of the sections.
   // See more below.
   async main(url, catalogTitle = null) {
-    
     // Possibly load from DEV
     if (macros.DEV && require.main !== module) {
       const devData = await cache.get('dev_data', this.constructor.name, url);
@@ -125,6 +124,66 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     return retVal;
   }
 
+  addSectionData(sectionStartingData) {
+    const dataFromSectionPage = await ellucianSectionParser.main(sectionStartingData.url);
+
+    const fullSectiondata = {};
+
+    Object.assign(fullSectiondata, dataFromSectionPage, sectionStartingData);
+
+    // Move some attributes to the class pagedata.
+    // Run some checks and merge some data into the class object.
+    // Actually, because how how this parser adds itself as a dep and copies over attributes,
+    // These will log a lot more than they should, just because they are overriding the values that were pre-set on the class
+    // Once that is fixed, would recommend re-enabling these.
+    // This is fixed now right?????????????
+    if (parsedClassMap[className].value.honors !== undefined && parsedClassMap[className].value.honors !== fullSectiondata.honors) {
+      macros.log('Overring class honors with section honors...', parsedClassMap[className].value.honors, fullSectiondata.honors, sectionStartingData.url);
+    }
+    parsedClassMap[className].value.honors = fullSectiondata.honors;
+    fullSectiondata.honors = undefined;
+
+
+    if (fullSectiondata.prereqs) {
+      // If they both exists and are different I don't really have a great idea of what to do haha
+      // Hopefully this _.isEquals dosen't take too long.
+      if (parsedClassMap[className].value.prereqs && !_.isEqual(parsedClassMap[className].value.prereqs, fullSectiondata.prereqs)) {
+        macros.log('Overriding class prereqs with section prereqs...', sectionStartingData.url);
+      }
+
+      parsedClassMap[className].value.prereqs = fullSectiondata.prereqs;
+      fullSectiondata.prereqs = undefined;
+    }
+
+    // Do the same thing for coreqs
+    if (fullSectiondata.coreqs) {
+      if (parsedClassMap[className].value.coreqs && !_.isEqual(parsedClassMap[className].value.coreqs, fullSectiondata.coreqs)) {
+        macros.log('Overriding class coreqs with section coreqs...', sectionStartingData.url);
+      }
+
+      parsedClassMap[className].value.coreqs = fullSectiondata.coreqs;
+      fullSectiondata.coreqs = undefined;
+    }
+
+
+    // Update the max credits on the class if max credits exists on the section and is greater than that on the class
+    // Or if the max credits on the class dosen't exist
+    if (fullSectiondata.maxCredits !== undefined && (parsedClassMap[className].value.maxCredits === undefined || parsedClassMap[className].value.maxCredits < fullSectiondata.maxCredits)) {
+      parsedClassMap[className].value.maxCredits = fullSectiondata.maxCredits;
+    }
+
+    // Same thing for min credits, but the sign flipped.
+    if (fullSectiondata.minCredits !== undefined && (parsedClassMap[className].value.minCredits === undefined || parsedClassMap[className].value.minCredits > fullSectiondata.minCredits)) {
+      parsedClassMap[className].value.minCredits = fullSectiondata.minCredits;
+    }
+
+
+    fullSectiondata.minCredits = undefined;
+    fullSectiondata.maxCredits = undefined;
+
+
+  }
+
 
   // the plan
   // take in a url (or maybe an object?)
@@ -145,6 +204,9 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     // Keys are the name of classes. Values are the class objects
     const parsedClassMap = {};
+
+    // Keep track of all the pomises for parsing sections, and oh wait im going to have to redo this for testing. 
+    let promises;
 
     // Loop over each one of the elements.
     for (let j = 0; j < elements.length; j++) {
@@ -252,7 +314,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
       if (tables.length > 0) {
         sectionStartingData.meetings = [];
 
-        const {tableData, rowCount} = this.parseTable(tables[0]);
+        const { tableData, rowCount } = this.parseTable(tables[0]);
 
         if (rowCount < 1 || !tableData.daterange || !tableData.where || !tableData.instructors || !tableData.time || !tableData.days) {
           macros.log('ERROR, invalid table in class parser', tableData, url);
@@ -325,70 +387,18 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
         }
       }
 
+      // Hit the section page and when it is done, add the section. 
+      let promise = this.addSectionData(startingSectionData).then((fullSectiondata) => {
+        parsedClassMap[className].deps.push({
+          type: 'sections',
+          value: fullSectiondata,
+        });
+      })
 
-      const dataFromSectionPage = await ellucianSectionParser.main(sectionStartingData.url);
-
-      const fullSectiondata = {};
-
-      Object.assign(fullSectiondata, dataFromSectionPage, sectionStartingData);
-
-      // Move some attributes to the class pagedata.
-      // Run some checks and merge some data into the class object.
-      // Actually, because how how this parser adds itself as a dep and copies over attributes,
-      // These will log a lot more than they should, just because they are overriding the values that were pre-set on the class
-      // Once that is fixed, would recommend re-enabling these.
-      // This is fixed now right?????????????
-      if (parsedClassMap[className].value.honors !== undefined && parsedClassMap[className].value.honors !== fullSectiondata.honors) {
-        macros.log('Overring class honors with section honors...', parsedClassMap[className].value.honors, fullSectiondata.honors, sectionStartingData.url);
-      }
-      parsedClassMap[className].value.honors = fullSectiondata.honors;
-      fullSectiondata.honors = undefined;
-
-
-      if (fullSectiondata.prereqs) {
-
-        // If they both exists and are different I don't really have a great idea of what to do haha
-        // Hopefully this _.isEquals dosen't take too long.
-        if (parsedClassMap[className].value.prereqs && !_.isEqual(parsedClassMap[className].value.prereqs, fullSectiondata.prereqs)) {
-          macros.log('Overriding class prereqs with section prereqs...', sectionStartingData.url);
-        }
-
-        parsedClassMap[className].value.prereqs = fullSectiondata.prereqs;
-        fullSectiondata.prereqs = undefined;
-      }
-
-      // Do the same thing for coreqs
-      if (fullSectiondata.coreqs) {
-        if (parsedClassMap[className].value.coreqs && !_.isEqual(parsedClassMap[className].value.coreqs, fullSectiondata.coreqs)) {
-          macros.log('Overriding class coreqs with section coreqs...', sectionStartingData.url);
-        }
-
-        parsedClassMap[className].value.coreqs = fullSectiondata.coreqs;
-        fullSectiondata.coreqs = undefined;
-      }
-
-
-      // Update the max credits on the class if max credits exists on the section and is greater than that on the class
-      // Or if the max credits on the class dosen't exist
-      if (fullSectiondata.maxCredits !== undefined && (parsedClassMap[className].value.maxCredits === undefined || parsedClassMap[className].value.maxCredits < fullSectiondata.maxCredits)) {
-        parsedClassMap[className].value.maxCredits = fullSectiondata.maxCredits;
-      }
-
-      // Same thing for min credits, but the sign flipped.
-      if (fullSectiondata.minCredits !== undefined && (parsedClassMap[className].value.minCredits === undefined || parsedClassMap[className].value.minCredits > fullSectiondata.minCredits)) {
-        parsedClassMap[className].value.minCredits = fullSectiondata.minCredits;
-      }
-
-
-      fullSectiondata.minCredits = undefined;
-      fullSectiondata.maxCredits = undefined;
-
-
-      parsedClassMap[className].deps.push({
-        type: 'sections',
-        value: fullSectiondata,
-      });
+      promises.push(promise);
     }
+
+    await Promise.all(promises);
 
     return Object.values(parsedClassMap);
   }
