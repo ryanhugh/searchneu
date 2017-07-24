@@ -88,7 +88,7 @@ class BaseParser {
     });
     return {
       tableData: retVal,
-      rowCount: rows.length - 1
+      rowCount: rows.length - 1,
     };
   }
 

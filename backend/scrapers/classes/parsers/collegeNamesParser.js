@@ -37,7 +37,7 @@ import asyncjs from 'async';
 
 import macros from '../../../macros';
 import cache from '../../cache';
-import BaseParser from './baseParser'
+import BaseParser from './baseParser';
 
 
 let whois;
