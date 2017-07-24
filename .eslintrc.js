@@ -47,7 +47,7 @@ module.exports = {
     // Prevents using variables before they are defined. 
     "no-use-before-define": 1,
     "jsx-quotes": [2, "prefer-single"],
-    "max-len": [2, 300, 2],
+    "max-len": [2, 500, 2],
     "object-shorthand": ["error", "never"],
     "object-curly-spacing": [2, "always"],
     "react/forbid-prop-types": 0,
