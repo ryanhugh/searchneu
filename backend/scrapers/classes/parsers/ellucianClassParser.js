@@ -43,11 +43,12 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
   }
 
 
-// Main Entry point. Catalog title is the title of the class on the catalog page.
-// This name is used as a basis for standardizing and cleaning up the names of the sections.
-// See more below.
+  // Main Entry point. Catalog title is the title of the class on the catalog page.
+  // This name is used as a basis for standardizing and cleaning up the names of the sections.
+  // See more below.
   async main(url, catalogTitle = null) {
-  // Possibly load from DEV
+    
+    // Possibly load from DEV
     if (macros.DEV && require.main !== module) {
       const devData = await cache.get('dev_data', this.constructor.name, url);
       if (devData) {
@@ -57,17 +58,17 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     const resp = await request.get(url);
 
-  // Returns a list of class objects wrapped.
+    // Returns a list of class objects wrapped.
     const classList = await this.parse(resp.body, url, catalogTitle);
 
-  // console.log('done main:', JSON.stringify(classList, null, 4))
+    // console.log('done main:', JSON.stringify(classList, null, 4))
 
 
- // Possibly save to dev
+    // Possibly save to dev
     if (macros.DEV && require.main !== module) {
       await cache.set('dev_data', this.constructor.name, url, classList);
 
-    // Don't log anything because there would just be too much logging.
+      // Don't log anything because there would just be too much logging.
     }
 
     return classList;
@@ -345,9 +346,9 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
 
       if (fullSectiondata.prereqs) {
+
         // If they both exists and are different I don't really have a great idea of what to do haha
         // Hopefully this _.isEquals dosen't take too long.
-
         if (parsedClassMap[className].value.prereqs && !_.isEqual(parsedClassMap[className].value.prereqs, fullSectiondata.prereqs)) {
           macros.log('Overriding class prereqs with section prereqs...', sectionStartingData.url);
         }
@@ -393,7 +394,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
   }
 
   async test() {
-    const output = await module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=ENGW&crse_in=3302&schd_in=LEC');
+    const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=ENGW&crse_in=3302&schd_in=LEC');
     console.log(output);
   }
 
