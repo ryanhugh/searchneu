@@ -58,9 +58,22 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     const resp = await request.get(url);
 
     // Returns a list of class objects wrapped.
-    const classList = await this.parse(resp.body, url, catalogTitle);
+    const { classWrappersMap, sectionStartingDatas } = this.parse(resp.body, url, catalogTitle);
 
-    // console.log('done main:', JSON.stringify(classList, null, 4))
+
+    // Load all the section datas.
+    const promises = [];
+
+    for (const sectionStartingData of sectionStartingDatas) {
+      // Hit the section page and when it is done, add the section.
+      promises.push(this.addSectionData(classWrappersMap, sectionStartingData.value, sectionStartingData.name));
+    }
+
+    // Wait for all the sections to finish parsing.
+    await Promise.all(promises);
+
+    // Snag just the values of this map to get the class wrapper objects. {value:.. type:... deps:...}
+    const classList = Object.values(classWrappersMap);
 
 
     // Possibly save to dev
@@ -124,7 +137,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     return retVal;
   }
 
-  addSectionData(sectionStartingData) {
+  async addSectionData(parsedClassMap, sectionStartingData, className) {
     const dataFromSectionPage = await ellucianSectionParser.main(sectionStartingData.url);
 
     const fullSectiondata = {};
@@ -181,7 +194,10 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     fullSectiondata.minCredits = undefined;
     fullSectiondata.maxCredits = undefined;
 
-
+    parsedClassMap[sectionStartingData.className].deps.push({
+      type: 'sections',
+      value: fullSectiondata,
+    });
   }
 
 
@@ -197,7 +213,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
 
   //this is called for each section that is found on the page
-  async parse(body, url, catalogTitle) {
+  parse(body, url, catalogTitle) {
     const $ = cheerio.load(body);
 
     const elements = $('body > div.pagebodydiv > table > tr > th.ddtitle > a');
@@ -205,8 +221,9 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     // Keys are the name of classes. Values are the class objects
     const parsedClassMap = {};
 
-    // Keep track of all the pomises for parsing sections, and oh wait im going to have to redo this for testing. 
-    let promises;
+    // Keep track of the starting data for the sections. Keep track of both the name of the class and the data in the sections
+    // So they can be matched back up with the classes later.
+    const sectionStartingDatas = {};
 
     // Loop over each one of the elements.
     for (let j = 0; j < elements.length; j++) {
@@ -247,7 +264,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
       const sectionURLParsed = this.sectionURLtoInfo(sectionURL);
       if (!sectionURLParsed) {
         macros.log('error could not parse section url', sectionURL, url);
-        return;
+        continue;
       }
 
 
@@ -258,7 +275,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
       const match = value.match(`(.+?)\\s-\\s${sectionURLParsed.crn}`, 'i');
       if (!match || match.length < 2) {
         macros.log('could not find title!', match, value);
-        return;
+        continue;
       }
 
       className = match[1];
@@ -387,20 +404,16 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
         }
       }
 
-      // Hit the section page and when it is done, add the section. 
-      let promise = this.addSectionData(startingSectionData).then((fullSectiondata) => {
-        parsedClassMap[className].deps.push({
-          type: 'sections',
-          value: fullSectiondata,
-        });
-      })
-
-      promises.push(promise);
+      sectionStartingDatas.push({
+        value: sectionStartingData,
+        className: className,
+      });
     }
 
-    await Promise.all(promises);
-
-    return Object.values(parsedClassMap);
+    return {
+      classWrappersMap: parsedClassMap,
+      sectionStartingDatas: sectionStartingDatas,
+    };
   }
 
   async test() {
