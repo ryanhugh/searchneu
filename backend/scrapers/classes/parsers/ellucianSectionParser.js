@@ -104,9 +104,9 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
 
 
     const retVal = {};
-    const tableData = this.parseTable(element);
+    const { tableData, rowCount } = this.parseTable(element);
 
-    if (!tableData || tableData._rowCount === 0 || !tableData.capacity || !tableData.actual || !tableData.remaining) {
+    if (!tableData || rowCount === 0 || !tableData.capacity || !tableData.actual || !tableData.remaining) {
       macros.error('ERROR: invalid table in section parser', tableData, url);
       return {};
     }
@@ -141,7 +141,7 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
     retVal.seatsCapacity = seatsCapacity;
     retVal.seatsRemaining = seatsRemaining;
 
-    if (tableData._rowCount > 1) {
+    if (rowCount > 1) {
       let waitCapacity = parseInt(tableData.capacity[1], 10);
       const waitActual = parseInt(tableData.actual[1], 10);
       const waitRemaining = parseInt(tableData.remaining[1], 10);

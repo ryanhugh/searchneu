@@ -119,6 +119,7 @@ it('parseTable', async function (done) {
 	request.handleRequestResponce(body, function (err, dom) {
 		expect(err).toBe(null);
 
+		// I switched it to .rowCount and .tableData so this dosen't work yet
 		expect(baseParser.parseTable(dom[0])).toEqual({
 			_rowCount: 1,
 			type: ['Class'],
@@ -146,6 +147,7 @@ it('parseTable should work 2', async function (done) {
 	request.handleRequestResponce(fileJSON.body, function (err, dom) {
 		expect(err).toBe(null);
 
+		// I switched it to .rowCount and .tableData so this dosen't work yet
 		expect(baseParser.parseTable(dom[0])).toEqual({
 			_rowCount: 2,
 			headercontent1: ['Footer content 1', 'Body content 1'],

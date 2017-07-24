@@ -47,9 +47,7 @@ class BaseParser {
     }
 
 
-    const retVal = {
-      _rowCount: rows.length - 1,
-    };
+    const retVal = {};
     const heads = [];
 
     //the headers
@@ -88,7 +86,10 @@ class BaseParser {
         retVal[heads[index]].push('');
       }
     });
-    return retVal;
+    return {
+      tableData: retVal,
+      rowCount: rows.length - 1
+    };
   }
 
 

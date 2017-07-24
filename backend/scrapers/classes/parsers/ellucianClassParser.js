@@ -252,14 +252,14 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
       if (tables.length > 0) {
         sectionStartingData.meetings = [];
 
-        const tableData = this.parseTable(tables[0]);
+        const {tableData, rowCount} = this.parseTable(tables[0]);
 
-        if (tableData._rowCount < 1 || !tableData.daterange || !tableData.where || !tableData.instructors || !tableData.time || !tableData.days) {
+        if (rowCount < 1 || !tableData.daterange || !tableData.where || !tableData.instructors || !tableData.time || !tableData.days) {
           macros.log('ERROR, invalid table in class parser', tableData, url);
           continue;
         }
 
-        for (let i = 0; i < tableData._rowCount; i++) {
+        for (let i = 0; i < rowCount; i++) {
           sectionStartingData.meetings.push({});
           const index = sectionStartingData.meetings.length - 1;
 
