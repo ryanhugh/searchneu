@@ -13,7 +13,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>. 
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import domutils from 'domutils';
@@ -23,7 +23,7 @@ import URI from 'urijs';
 import macros from '../../../macros';
 import EllucianBaseParser from './ellucianBaseParser';
 
-// This is the old requisite parser. See ellucianRequisiteParser2.js for the new one. 
+// This is the old requisite parser. See ellucianRequisiteParser2.js for the new one.
 // Right now both run every time a requisite section is parsed. The new one supports mismatched parens and this one does not.
 
 class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
@@ -33,42 +33,38 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
   //and group a (something and something or something) to ((something and something) or something)
   //unnecesary groupings are undone by simplifyRequirements
   groupRequirementsByAnd(data) {
-    var retVal = [];
+    const retVal = [];
 
-    for (var i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       if (i + 2 >= data.length) {
         retVal.push(data[i]);
         continue;
       }
 
-      if (data[i + 1] == 'and' && data.length > 3) {
-        var beforeAnd;
+      if (data[i + 1] === 'and' && data.length > 3) {
+        let beforeAnd;
         if (Array.isArray(data[i])) {
           beforeAnd = this.groupRequirementsByAnd(data[i]);
-        }
-        else {
+        } else {
           beforeAnd = data[i];
         }
 
-        var afterAnd;
+        let afterAnd;
         if (Array.isArray(data[i + 2])) {
           afterAnd = this.groupRequirementsByAnd(data[i + 2]);
-        }
-        else {
+        } else {
           afterAnd = data[i + 2];
         }
 
         retVal.push([beforeAnd, 'and', afterAnd]);
         i += 2;
         continue;
-      }
-      else {
+      } else {
         retVal.push(data[i]);
       }
     }
     return retVal;
-  };
-
+  }
 
 
   //this is given the output of formatRequirements, where data.type and data.values exist
@@ -84,25 +80,23 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
     }
 
     // Must have .values and .type from here on
-    var retVal = {
+    const retVal = {
       type: data.type,
-      values: []
+      values: [],
     };
 
     // Simplify all children
-    data.values.forEach(function (subData) {
+    data.values.forEach((subData) => {
       subData = this.simplifyRequirementsBase(subData);
 
       if (subData.type && subData.values) {
-
         //if same type, merge
-        if (subData.type == data.type) {
+        if (subData.type === data.type) {
           retVal.values = retVal.values.concat(subData.values);
           return;
-        }
 
-        //if only contains 1 value, merge
-        else if (subData.values.length == 1) {
+        // If only contains 1 value, merge
+        } else if (subData.values.length === 1) {
           retVal.values.push(subData.values[0]);
           return;
         }
@@ -110,7 +104,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
 
       //just add the subdata
       retVal.values.push(subData);
-    }.bind(this))
+    });
 
     // Simplify this node
     if (retVal.values.length === 1) {
@@ -118,7 +112,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
     }
 
     return retVal;
-  };
+  }
 
 
   simplifyRequirements(data) {
@@ -126,84 +120,77 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
     if (!data.values || !data.type) {
       return {
         type: 'or',
-        values: [data]
-      }
+        values: [data],
+      };
     }
-    else {
-      return data
-    }
-  }
 
+    return data;
+  }
 
 
   //converts the ['','and',''] to {type:and,values:'',''}
   formatRequirements(data) {
-    var retVal = {
+    const retVal = {
       type: 'and',
-      values: []
+      values: [],
     };
 
-    data.forEach(function (val, index) {
+    data.forEach((val, index) => {
       if (Array.isArray(val)) {
-
-        var subValues = this.formatRequirements(val);
+        const subValues = this.formatRequirements(val);
 
         //found another array, convert sub array and add it to retval
         if (!subValues) {
-          console.log('warning could not parse sub values', data, val);
-        }
-        else {
+          macros.log('warning could not parse sub values', data, val);
+        } else {
           retVal.values.push(subValues);
         }
-      }
-      else if (val == 'or' || val == 'and') {
+      } else if (val === 'or' || val === 'and') {
         if (index === 0) {
-          console.log('warning, divider found at index 0??', data);
+          macros.log('warning, divider found at index 0??', data);
         }
         retVal.type = val;
-      }
-      else {
+      } else {
         retVal.values.push(val);
       }
-    }.bind(this));
+    });
 
     if (retVal.values.length === 0) {
       return null;
     }
 
     return retVal;
-  };
+  }
 
 
   //splits a string by and/or and to json string (uparsed)
   convertStringToJSON(text) {
+    text = text.replace(/[\n\r\s]+/gi, ' ');
 
-    text = text.replace(/[\n\r\s]+/gi, ' ')
-
-    var elements = [];
+    const elements = [];
 
     //split the string by dividers " and " and " or "
-    text.split(' or ').forEach(function (splitByOr, index, arr) {
-      splitByOr.split(' and ').forEach(function (splitByAnd, index, arr) {
+    text.split(' or ').forEach((splitByOr, index, arr) => {
+      splitByOr.split(' and ').forEach((splitByAnd, innerIndex, innerArray) => {
         elements.push(splitByAnd);
-        if (index != arr.length - 1) {
+        if (innerIndex !== innerArray.length - 1) {
           elements.push('and');
         }
-      }.bind(this));
+      });
 
-      if (index != arr.length - 1) {
+      if (index !== arr.length - 1) {
         elements.push('or');
       }
-    }.bind(this));
+    });
 
-    var retVal = [];
+    const retVal = [];
 
     //convert the elements to a json parsable string
     //each element has quotes put around it, and comma after it
-    elements.forEach(function (element) {
+    elements.forEach((element) => {
       //just put quotes around the dividers
-      if (element == 'and' || element == 'or') {
-        retVal.push('"' + element + '",');
+      if (element === 'and' || element === 'or') {
+        retVal.push(`"${element}",`);
         return;
       }
       element = element.trim();
@@ -216,7 +203,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
 
       //ending bracket needs to be checked here, but inserted after url/text parsed
       // https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201615&subj_code_in=BTC&crse_numb_in=6213
-      var endBracketToInsertCount = 0;
+      let endBracketToInsertCount = 0;
       while (element.endsWith(')')) {
         element = element.slice(0, element.length - 1).trim();
         endBracketToInsertCount++;
@@ -224,62 +211,57 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
 
 
       //match the url if it is there
-      var match = element.match(/\@\#\$"(.*?)"/i);
+      const match = element.match(/@#\$"(.*?)"/i);
       if (element.includes('@#$') && match) {
-        retVal.push('"@#$' + match[1] + '",');
-      }
-      //just add all of the text
-      else {
-        retVal.push('"' + element.trim() + '",');
+        retVal.push(`"@#$${match[1]}",`);
+
+      // Just add all of the text.
+      } else {
+        retVal.push(`"${element.trim()}",`);
       }
 
-      for (var i = 0; i < endBracketToInsertCount; i++) {
+      for (let i = 0; i < endBracketToInsertCount; i++) {
         retVal.push('],');
       }
-
-
-    }.bind(this));
+    });
 
     //clean up invalid syntax
-    var retValText = '[' + retVal.join("") + ']';
+    let retValText = `[${retVal.join('')}]`;
     retValText = retValText.replace(/,\]/gi, ']').replace(/\[,/gi, '[').replace(/",+"/gi, '","').replace(/\n|\r/gi, '');
 
     return retValText;
-  };
+  }
 
   removeBlacklistedStrings(data) {
     if (!data.values) {
-      console.log('js error need values in removeBlacklistedStrings')
-      return data
-    };
+      macros.log('js error need values in removeBlacklistedStrings');
+      return data;
+    }
 
-    var newValues = [];
+    const newValues = [];
 
-    data.values.forEach(function (subData) {
-      if ((typeof subData) == 'string') {
+    data.values.forEach((subData) => {
+      if ((typeof subData) === 'string') {
         if (!subData.match(/\s*Pre-?req for \w+\s*[\d\w]+\s*\d+\s*$/gi)) {
-          newValues.push(subData)
+          newValues.push(subData);
         }
+      } else {
+        newValues.push(this.removeBlacklistedStrings(subData));
       }
-      else {
-        newValues.push(this.removeBlacklistedStrings(subData))
-      }
-    }.bind(this));
+    });
 
     data.values = newValues;
 
     return data;
-
-  };
+  }
 
   convertClassListURLs(pageData, data) {
-    if ((typeof data) == 'string') {
-
+    if ((typeof data) === 'string') {
       //urls will start with this
       if (data.startsWith('@#$')) {
-        var classInfo = this.classListURLtoClassInfo(data.slice(3));
+        const classInfo = this.classListURLtoClassInfo(data.slice(3));
         if (!classInfo) {
-          console.log('error thought was url, but wasent', data);
+          macros.log('error thought was url, but wasent', data);
           return data;
         }
 
@@ -291,26 +273,24 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
 
         return classInfo;
       }
-      else {
-        return data;
-      }
-    }
-    else {
-      data.values.forEach(function (subData, index) {
-        data.values[index] = this.convertClassListURLs(pageData, subData);
-      }.bind(this));
+
       return data;
     }
-  };
+
+    data.values.forEach((subData, index) => {
+      data.values[index] = this.convertClassListURLs(pageData, subData);
+    });
+    return data;
+  }
 
 
   parseRequirementSection(pageData, classDetails, sectionName) {
-    var elements = [];
-    var i = 0;
+    const elements = [];
+    let i = 0;
 
     //skip all elements until the section
     for (; i < classDetails.length; i++) {
-      if (classDetails[i].type == 'tag' && domutils.getText(classDetails[i]).trim().toLowerCase().includes(sectionName)) {
+      if (classDetails[i].type === 'tag' && domutils.getText(classDetails[i]).trim().toLowerCase().includes(sectionName)) {
         break;
       }
     }
@@ -318,135 +298,120 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
 
     //add all text/elements until next element
     for (; i < classDetails.length; i++) {
-      if (classDetails[i].type == 'tag') {
-        if (classDetails[i].name == 'br') {
+      if (classDetails[i].type === 'tag') {
+        if (classDetails[i].name === 'br') {
           if (elements.length > 0) {
-            elements.push(' and ')
+            elements.push(' and ');
           }
           continue;
-        }
-        else if (classDetails[i].name == 'a') {
-
-          var elementText = domutils.getText(classDetails[i]);
+        } else if (classDetails[i].name === 'a') {
+          const elementText = domutils.getText(classDetails[i]);
           if (elementText.trim() === '') {
             macros.verbose('warning, not matching ', sectionName, ' with no text in the link', pageData.dbData.url);
             continue;
           }
 
-          var classListUrl = he.decode(classDetails[i].attribs.href);
+          let classListUrl = he.decode(classDetails[i].attribs.href);
           if (!classListUrl || classListUrl === '') {
-            console.log('error could not get classListUrl', classListUrl, classDetails[i].attribs, pageData.dbData.url);
+            macros.log('error could not get classListUrl', classListUrl, classDetails[i].attribs, pageData.dbData.url);
             continue;
           }
 
           classListUrl = new URI(classListUrl).absoluteTo(pageData.dbData.url).toString();
           if (!classListUrl) {
-            console.log('error could not find classListUrl url', classListUrl, classDetails[i], classDetails[i].attribs.href);
+            macros.log('error could not find classListUrl url', classListUrl, classDetails[i], classDetails[i].attribs.href);
             continue;
-          };
+          }
 
-          elements.push('@#$"' + classListUrl + '"');
-        }
-        else {
+          elements.push(`@#$"${classListUrl}"`);
+        } else {
           break;
         }
-      }
-      else {
-        var urlText = domutils.getOuterHTML(classDetails[i]);
-        urlText = urlText.replace(/\n|\r|\s/gi, ' ').replace(/\s+/gi, ' ')
-        if (urlText === '' || urlText == ' ') {
+      } else {
+        let urlText = domutils.getOuterHTML(classDetails[i]);
+        urlText = urlText.replace(/\n|\r|\s/gi, ' ').replace(/\s+/gi, ' ');
+        if (urlText === '' || urlText === ' ') {
           continue;
         }
         if (urlText.includes('@#$')) {
-          console.log('warning @#$ used to designate url was found in string?!?', pageData.dbData.url);
-          urlText = urlText.replace(/\@\#\$/gi, '');
+          macros.log('warning @#$ used to designate url was found in string?!?', pageData.dbData.url);
+          urlText = urlText.replace(/@#\$/gi, '');
         }
         elements.push(urlText);
       }
     }
 
     // Remove all the 'and's from the end that were added from replacing BRs
-    for (var i = elements.length - 1; i >= 0; i--) {
-      if (elements[i] == ' and ') {
-        elements.splice(i)
-      }
-      else {
+    for (let j = elements.length - 1; j >= 0; j--) {
+      if (elements[j] === ' and ') {
+        elements.splice(j);
+      } else {
         break;
       }
     }
 
     //no section given, or invalid section, or page does not list any pre/co reqs
     if (elements.length === 0) {
-      return;
+      return null;
     }
 
-    // console.log(elements);
+    // macros.log(elements);
 
-    var text = elements.join("").trim();
+    let text = elements.join('').trim();
     if (text === '') {
-      console.log('warning, found elements, but no links or and or', elements);
-      return;
+      macros.log('warning, found elements, but no links or and or', elements);
+      return null;
     }
     text = this.convertStringToJSON(text);
 
     //parse the new json
     try {
       text = JSON.parse(text);
-    }
-    catch (err) {
-
-
+    } catch (err) {
       //maybe there are more starting than ending...
-      var openingBrackedCount = (text.match(/\[/g) || []).length;
-      var closingBrackedCount = (text.match(/\]/g) || []).length;
+      const openingBrackedCount = (text.match(/\[/g) || []).length;
+      const closingBrackedCount = (text.match(/\]/g) || []).length;
 
       if (openingBrackedCount > closingBrackedCount && text.startsWith('[')) {
         text = text.slice(1);
         try {
           text = JSON.parse(text);
+        } catch (innerError) {
+          macros.log('error, tried to remove [ from beginning, didnt work', text, elements, innerError);
+          return null;
         }
-        catch (err) {
-          console.log('error, tried to remove [ from beginning, didnt work', text, elements);
-          return;
-        }
-
-      }
-      else if (closingBrackedCount > openingBrackedCount && text.endsWith(']')) {
+      } else if (closingBrackedCount > openingBrackedCount && text.endsWith(']')) {
         text = text.slice(0, text.length - 1);
         try {
           text = JSON.parse(text);
+        } catch (innerError) {
+          macros.log('error, tried to remove ] from end, didnt work', text, elements, innerError);
+          return null;
         }
-        catch (err) {
-          console.log('error, tried to remove ] from end, didnt work', text, elements);
-          return;
-        }
-      }
-      else {
-
-        console.log('ERROR: unabled to parse formed json string', err, text, elements, pageData.dbData.url);
-        return;
+      } else {
+        macros.log('ERROR: unabled to parse formed json string', err, text, elements, pageData.dbData.url);
+        return null;
       }
     }
 
-    if (text.length == 1 && Array.isArray(text[0])) {
+    if (text.length === 1 && Array.isArray(text[0])) {
       text = text[0];
     }
-
 
 
     text = this.groupRequirementsByAnd(text);
 
     text = this.formatRequirements(text);
     if (!text) {
-      console.log('error formatting requirements, ', pageData.dbData.url, elements);
-      return;
+      macros.log('error formatting requirements, ', pageData.dbData.url, elements);
+      return null;
     }
     text = this.removeBlacklistedStrings(text);
     text = this.simplifyRequirements(text);
     text = this.convertClassListURLs(pageData, text);
 
     return text;
-  };
+  }
 
 }
 
