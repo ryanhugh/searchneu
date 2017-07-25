@@ -18,7 +18,7 @@
 
 import fs from 'fs-promise';
 import path from 'path';
-import request from '../../../request';
+import cheerio from 'cheerio';
 import baseParser from '../baseParser';
 
 
@@ -114,16 +114,19 @@ it('standardizeClassName', () => {
 it('parseTable', async (done) => {
   const body = await fs.readFile(path.join(__dirname, 'data', 'baseParser', '1.html'), 'utf8');
 
-  request.handleRequestResponce(body, (err, dom) => {
-    expect(err).toBe(null);
+  const $ = cheerio.load(body);
 
-    // I switched it to .rowCount and .tableData so this dosen't work yet
-    const tableDataAndRowCount = baseParser.parseTable(dom[0]);
+  // Get the root dom node. 
+  // Cheerio adds a "root" node on top of everything, so the element we are looking for is the root nodes first child. 
+  // In this case it is a table.
+  let rootNode = $.root().children()[0]
 
-    expect(tableDataAndRowCount).toMatchSnapshot();
+  // I switched it to .rowCount and .tableData so this dosen't work yet
+  const tableDataAndRowCount = baseParser.parseTable(rootNode);
 
-    done();
-  });
+  expect(tableDataAndRowCount).toMatchSnapshot();
+
+  done();
 });
 
 
@@ -132,14 +135,17 @@ it('parseTable should work 2', async (done) => {
 
   const fileJSON = JSON.parse(body);
 
-  request.handleRequestResponce(fileJSON.body, (err, dom) => {
-    expect(err).toBe(null);
+  const $ = cheerio.load(fileJSON.body);
 
-    // I switched it to .rowCount and .tableData so this dosen't work yet
-    expect(baseParser.parseTable(dom[0])).toMatchSnapshot();
+  // Get the root dom node. 
+  // Cheerio adds a "root" node on top of everything, so the element we are looking for is the root nodes first child. 
+  // In this case it is a table.
+  let rootNode = $.root().children()[0]
 
-    done();
-  });
+  // I switched it to .rowCount and .tableData so this dosen't work yet
+  expect(baseParser.parseTable(rootNode)).toMatchSnapshot();
+
+  done();
 });
 
 
