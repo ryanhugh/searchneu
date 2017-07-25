@@ -18,7 +18,7 @@
 
 import URI from 'urijs';
 
-const ellucianBaseParser = require('../ellucianBaseParser');
+import ellucianBaseParser from '../ellucianBaseParser';
 
 
 it('getBaseURL', () => {
