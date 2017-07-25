@@ -39,6 +39,10 @@ it('should work', async (done) => {
     text: 'Anatomy CM',
   });
 
+  done();
+});
+
+
   // expect(3)
   // expect().toBe(ellucianSubjectParser)
 
@@ -77,6 +81,3 @@ it('should work', async (done) => {
   //  host: 'upstate.edu' });
 
   // //
-
-  done();
-});
