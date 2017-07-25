@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseTable 1`] = `
+Object {
+  "rowCount": 1,
+  "tableData": Object {
+    "daterange": Array [
+      "Jan 12, 2015 - May 06, 2015",
+    ],
+    "days": Array [
+      "MWF",
+    ],
+    "instructors": Array [
+      "Rujuta P.  Chincholkar-Mandelia (P)",
+    ],
+    "partofterm": Array [
+      "1",
+    ],
+    "scheduletype": Array [
+      "Base Lecture",
+    ],
+    "time": Array [
+      "11:00 am - 11:50 am",
+    ],
+    "type": Array [
+      "Class",
+    ],
+    "where": Array [
+      "Anderson Hall 00806",
+    ],
+  },
+}
+`;
+
+exports[`parseTable should work 2 1`] = `
+Object {
+  "rowCount": 2,
+  "tableData": Object {
+    "headercontent1": Array [
+      "Footer content 1",
+      "Body content 1",
+    ],
+    "headercontent2": Array [
+      "Footer content 2",
+      "Body content 2",
+    ],
+  },
+}
+`;
