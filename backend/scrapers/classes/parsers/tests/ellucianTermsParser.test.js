@@ -69,20 +69,13 @@ it('hi there 2', async function (done) {
 
   const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianTermsParser', '2.html'), 'utf8');
 
-  // console.log(body)
-    // const $ = cheerio.load(body);
-
-    // const parsedForm = this.parseForm(url, $('body')[0]);
-    // console.log(parsedForm)
-
   var url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched';
 
   let output = ellucianTermsParser.parse(body, url);
-  console.log(output.terms)
 
-  // expect(true).toBe(ellucianTermsParser.supportsPage(url));
+  expect(true).toBe(ellucianTermsParser.supportsPage(url));
 
-  // expect(output.terms.length).toBe(18);
+  expect(output.terms.length).toBe(17);
 
   done()
 });
