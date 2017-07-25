@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should behave... 1`] = `
+Object {
+  "postUrl": "https://bannerweb.upstate.edu/isis/bwckgens.p_proc_term_date",
+  "terms": Array [
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "upstate.edu",
+        "termId": "201611",
+        "text": "Spring 2017 Summer 2",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "upstate.edu",
+        "termId": "201610",
+        "text": "Spring 2016",
+      },
+    },
+  ],
+}
+`;

@@ -204,7 +204,7 @@ Macros.ALPHABET = 'maqwertyuiopsdfghjklzxcvbn';
 
 Macros.verbose('Starting in verbose mode.');
 
-if ((Macros.PROD || Macros.DEV) && !global.addedRejectionHandler) {
+if ((Macros.PROD || Macros.DEV || 1) && !global.addedRejectionHandler) {
   global.addedRejectionHandler = true;
   process.on('unhandledRejection', (err, p) => {
     console.log('Error: An unhandledRejection occurred.');
