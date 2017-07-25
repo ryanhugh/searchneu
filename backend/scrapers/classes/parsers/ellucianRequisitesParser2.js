@@ -479,6 +479,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
             continue;
           }
 
+          console.log(classListUrl, this.currentUrl)
           classListUrl = new URI(classListUrl).absoluteTo(this.currentUrl).toString();
           if (!classListUrl) {
             macros.log('error could not find classListUrl url', classListUrl, classDetails[i], classDetails[i].attribs.href);
