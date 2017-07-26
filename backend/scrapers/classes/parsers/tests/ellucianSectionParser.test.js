@@ -13,48 +13,42 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>. 
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import path from 'path';
 import fs from 'fs-promise';
 
-import request from '../../../request';
-
-var ellucianSectionParser = require('../ellucianSectionParser')
+import ellucianSectionParser from '../ellucianSectionParser';
 
 
-it('parse prereqs and coreqs and seat data from 1.html', async function (done) {
-
+it('parse prereqs and coreqs and seat data from 1.html', async (done) => {
   //the pre and co requs html here has been modified
   //this contains the same pre requs as prereqs10
   const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianSectionParser', '1.html'), 'utf8');
 
-  var url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=15633';
+  const url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=15633';
 
   expect(ellucianSectionParser.supportsPage(url)).toBe(true);
 
   const retVal = ellucianSectionParser.parse(body, url);
 
-  expect(retVal).toMatchSnapshot()
+  expect(retVal).toMatchSnapshot();
 
-  done()
+  done();
 });
 
 
+it('honors works', async (done) => {
+  const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianSectionParser', 'honors.html'), 'utf8');
 
-
-it('honors works', async function (done) {
-
-  const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianSectionParser', 'honors.html'), 'utf8')
-
-  var url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=15633';
+  const url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201610&crn_in=15633';
 
   expect(ellucianSectionParser.supportsPage(url)).toBe(true);
 
-  let retVal = ellucianSectionParser.parse(body, url);
+  const retVal = ellucianSectionParser.parse(body, url);
 
   expect(retVal).toMatchSnapshot();
 
-  done()
+  done();
 });
