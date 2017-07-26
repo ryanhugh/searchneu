@@ -7,18 +7,19 @@ import macros from '../../macros';
 import Keys from '../../../common/Keys';
 import searchIndex from './searchIndex';
 import termDump from './termDump';
+import differentCollegeUrls from './differentCollegeUrls';
+
+// Processors
+import addClassUids from './processors/addClassUids';
+import prereqClassUids from './processors/prereqClassUids';
+import termStartEndDate from './processors/termStartEndDate';
+import simplifyProfList from './processors/simplifyProfList';
+
+// Parsers
+import collegeNamesParser from './parsers/collegeNamesParser';
+import ellucianTermsParser from './parsers/ellucianTermsParser';
 
 
-const addClassUids = require('./processors/addClassUids');
-const prereqClassUids = require('./processors/prereqClassUids');
-const termStartEndDate = require('./processors/termStartEndDate');
-const simplifyProfList = require('./processors/simplifyProfList');
-
-
-const collegeNamesParser = require('./parsers/collegeNamesParser');
-const ellucianTermsParser = require('./parsers/ellucianTermsParser');
-
-const differentCollegeUrls = require('./differentCollegeUrls');
 
 // This is the main entry point for scraping classes
 // call the main(['neu']) function below to scrape a college

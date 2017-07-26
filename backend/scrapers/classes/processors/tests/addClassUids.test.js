@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
- const addClassUids = require('../addClassUids');
+ import addClassUids from '../addClassUids';
 
 
  it('should work', () => {
