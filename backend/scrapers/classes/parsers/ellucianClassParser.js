@@ -223,7 +223,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     // Keep track of the starting data for the sections. Keep track of both the name of the class and the data in the sections
     // So they can be matched back up with the classes later.
-    const sectionStartingDatas = {};
+    const sectionStartingDatas = [];
 
     // Loop over each one of the elements.
     for (let j = 0; j < elements.length; j++) {
@@ -408,6 +408,14 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
         value: sectionStartingData,
         className: className,
       });
+    }
+
+
+    // Sort the CRNs in each class.
+    // This makes sure that the CRNs will always be in the same order for the given CRNs.
+    // (so tests with .equals will work)
+    for (const className of Object.keys(parsedClassMap)) {
+      parsedClassMap[className].value.crns.sort();
     }
 
     return {
