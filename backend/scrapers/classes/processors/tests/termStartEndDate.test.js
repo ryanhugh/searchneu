@@ -21,7 +21,7 @@ import testData from './testData';
 const termStartEndDate = require('../termStartEndDate');
 
 
-fit('works', async (done) => {
+it('works', async (done) => {
   const termDump = await testData.loadTermDump();
 
   termStartEndDate.go(termDump);

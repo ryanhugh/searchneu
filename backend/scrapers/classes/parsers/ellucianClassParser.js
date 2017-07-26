@@ -144,6 +144,10 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     Object.assign(fullSectiondata, dataFromSectionPage, sectionStartingData);
 
+    if (!parsedClassMap[className]) {
+      macros.error("ERROR!", parsedClassMap,className)
+    }
+
     // Move some attributes to the class pagedata.
     // Run some checks and merge some data into the class object.
     // Actually, because how how this parser adds itself as a dep and copies over attributes,
