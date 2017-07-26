@@ -146,6 +146,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     if (!parsedClassMap[className]) {
       macros.error('ERROR!', parsedClassMap, className);
+      return;
     }
 
     // Move some attributes to the class pagedata.
@@ -197,6 +198,17 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     fullSectiondata.minCredits = undefined;
     fullSectiondata.maxCredits = undefined;
+
+
+    // Check to make sure there is no room assigned for a class that is online.
+    if (fullSectiondata.online) {
+      for (const meeting in fullSectiondata.meetings) {
+        if (meeting.where !== 'TBA' || meeting.times) {
+          macros.error('Online class is set to meet in a room or has times?', fullSectiondata)
+        }
+      }
+    }
+
 
     parsedClassMap[className].deps.push({
       type: 'sections',
@@ -430,7 +442,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
   async test() {
     const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=ENGW&crse_in=3302&schd_in=LEC');
-    console.log(output);
+    console.log(JSON.stringify(output[0].deps, null, 4))
   }
 
 }

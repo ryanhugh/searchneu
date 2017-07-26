@@ -9,6 +9,11 @@ import macros from '../macros';
 
 class LocationLinks extends React.Component {
   render() {
+    // Don't render anything if the class is online. 
+    if (this.props.section.online) {
+      return null;
+    }
+
     const elements = this.props.section.getLocations().map((location, index, locations) => {
       let buildingName;
       if (location.match(/\d+\s*$/i)) {

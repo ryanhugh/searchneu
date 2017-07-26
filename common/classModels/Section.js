@@ -256,7 +256,12 @@ Section.prototype.updateWithData = function (data) {
 
 Section.prototype.compareTo = function (other) {
 
-
+	if (this.online && !other.online) {
+		return 1;
+	}
+	if (other.online && !this.online) {
+		return -1;
+	}
 
 	if (this.meetings.length == 0 && other.meetings.length === 0) {
 		return 0;

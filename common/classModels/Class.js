@@ -621,6 +621,15 @@ Class.prototype.getHasWaitList = function () {
 	return false
 }
 
+Class.prototype.getHasOnlineSections = function () {
+	for (var i = this.sections.length - 1; i >= 0; i--) {
+		if (this.sections[i].online) {
+			return true
+		}
+	}
+	return false
+}
+
 // Downloads the first layer of prereqs
 Class.prototype.loadPrereqs = async function (classMap) {
 	this.prereqs.values.forEach(function (childBranch) {

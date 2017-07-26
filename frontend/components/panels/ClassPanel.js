@@ -4,6 +4,7 @@ import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
 
 import globe from './globe.svg';
+import check from './check.svg';
 import css from './ClassPanel.css';
 import MobileSectionPanel from './MobileSectionPanel';
 import macros from '../macros';
@@ -112,7 +113,7 @@ class ClassPanel extends React.Component {
           return <MobileSectionPanel key={ Keys.create(section).getHash() } section={ section } />;
         });
       } else {
-        // Add the Exam column headers if there is any section in this class that has exam listed
+        // Add the Exam column headers if there are any sections in this class that has exam listed
         let examColumnHeaders = null;
         if (aClass.sectionsHaveExam()) {
           examColumnHeaders = [
@@ -121,6 +122,9 @@ class ClassPanel extends React.Component {
             <th key='3'>Exam date</th>,
           ];
         }
+
+        // Add the Online sections head if there are any sections that are online
+        const showOnlineColumn = aClass.getHasOnlineSections();
 
         const showWaitList = this.shouldShowWaitlist();
 
@@ -139,6 +143,11 @@ class ClassPanel extends React.Component {
                 <th> End </th>
                 {examColumnHeaders}
                 <th> Location </th>
+                <th className={ cx({
+                    displayNone: !showOnlineColumn,
+                  }) }
+                >Online</th>
+
                 <th> Seats </th>
 
                 <th
@@ -173,6 +182,11 @@ class ClassPanel extends React.Component {
                   }
                 }
 
+                let checkIcon = null;
+                if (section.online) {
+                  checkIcon = <img src={check} />
+                }
+
 
                 return (
                   <tr key={ Keys.create(section).getHash() }>
@@ -188,6 +202,11 @@ class ClassPanel extends React.Component {
                     <td>
                       <LocationLinks section={ section } />
                     </td>
+
+                    <td>
+                      {checkIcon}
+                    </td>
+
                     <td>
                       <div data-tip='Open Seats/Total Seats' className={ css.inlineBlock }>
                         {section.seatsRemaining}/{section.seatsCapacity}

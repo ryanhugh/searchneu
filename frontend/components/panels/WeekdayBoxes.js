@@ -11,6 +11,13 @@ const cx = classNames.bind(css);
 
 class WeekdayBoxes extends React.Component {
   render() {
+
+    // Don't render anything if the class is online. 
+    if (this.props.section.online) {
+      return null;
+    }
+
+
     // Calculate the "Meets on Tuesday, Friday" or "No Meetings found" string that hovers over the weekday boxes
     const meetingDays = this.props.section.getWeekDaysAsStringArray();
     let meetingString;
