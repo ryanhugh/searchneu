@@ -20,7 +20,6 @@ import collegeNamesParser from './parsers/collegeNamesParser';
 import ellucianTermsParser from './parsers/ellucianTermsParser';
 
 
-
 // This is the main entry point for scraping classes
 // call the main(['neu']) function below to scrape a college
 // This file also generates the search index and data dumps.
@@ -183,7 +182,7 @@ class Main {
     };
 
     this.waterfallIdentifyers(rootNode);
-    
+
     await fs.writeFile('out.log', JSON.stringify(rootNode, null, 4));
     macros.log('out.log saved');
 
