@@ -17,8 +17,7 @@
  */
 
 import testData from './testData';
-
-const termStartEndDate = require('../termStartEndDate');
+import termStartEndDate from '../termStartEndDate';
 
 
 it('works', async (done) => {

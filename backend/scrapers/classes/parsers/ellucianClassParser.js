@@ -198,7 +198,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     fullSectiondata.minCredits = undefined;
     fullSectiondata.maxCredits = undefined;
 
-    parsedClassMap[sectionStartingData.className].deps.push({
+    parsedClassMap[className].deps.push({
       type: 'sections',
       value: fullSectiondata,
     });
