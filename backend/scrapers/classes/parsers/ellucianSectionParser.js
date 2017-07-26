@@ -170,32 +170,25 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
       return {};
     }
 
-    const fakePageData = {
-      dbData: {
-        url: url,
-        termId: termId,
-      },
-    };
-
 
     //find co and pre reqs and restrictions
-    const prereqs = ellucianRequisitesParser.parseRequirementSection(fakePageData, element.parent.children, 'prerequisites');
+    const prereqs = ellucianRequisitesParser.parseRequirementSection(url, element.parent.children, 'prerequisites');
     if (prereqs) {
       retVal.prereqs = prereqs;
     }
 
-    const coreqs = ellucianRequisitesParser.parseRequirementSection(fakePageData, element.parent.children, 'corequisites');
+    const coreqs = ellucianRequisitesParser.parseRequirementSection(url, element.parent.children, 'corequisites');
     if (coreqs) {
       retVal.coreqs = coreqs;
     }
 
     //find co and pre reqs and restrictions
-    const prereqs2 = ellucianRequisitesParser2.parseRequirementSection(fakePageData, element.parent.children, 'prerequisites');
+    const prereqs2 = ellucianRequisitesParser2.parseRequirementSection(url, element.parent.children, 'prerequisites');
     if (!_.isEqual(prereqs, prereqs2)) {
       macros.log('WARNING: prereqs parsed by the new parser are not equal', JSON.stringify(prereqs, null, 4), JSON.stringify(prereqs2, null, 4));
     }
 
-    const coreqs2 = ellucianRequisitesParser2.parseRequirementSection(fakePageData, element.parent.children, 'corequisites');
+    const coreqs2 = ellucianRequisitesParser2.parseRequirementSection(url, element.parent.children, 'corequisites');
     if (!_.isEqual(coreqs, coreqs2)) {
       macros.log('WARNING: coreqs parsed by the new parser are not equal', JSON.stringify(coreqs, null, 4), JSON.stringify(coreqs2, null, 4));
     }
