@@ -116,10 +116,10 @@ it('parseTable', async (done) => {
 
   const $ = cheerio.load(body);
 
-  // Get the root dom node. 
-  // Cheerio adds a "root" node on top of everything, so the element we are looking for is the root nodes first child. 
+  // Get the root dom node.
+  // Cheerio adds a "root" node on top of everything, so the element we are looking for is the root nodes first child.
   // In this case it is a table.
-  let rootNode = $.root().children()[0]
+  const rootNode = $.root().children()[0];
 
   // I switched it to .rowCount and .tableData so this dosen't work yet
   const tableDataAndRowCount = baseParser.parseTable(rootNode);
@@ -137,10 +137,10 @@ it('parseTable should work 2', async (done) => {
 
   const $ = cheerio.load(fileJSON.body);
 
-  // Get the root dom node. 
-  // Cheerio adds a "root" node on top of everything, so the element we are looking for is the root nodes first child. 
+  // Get the root dom node.
+  // Cheerio adds a "root" node on top of everything, so the element we are looking for is the root nodes first child.
   // In this case it is a table.
-  let rootNode = $.root().children()[0]
+  const rootNode = $.root().children()[0];
 
   // I switched it to .rowCount and .tableData so this dosen't work yet
   expect(baseParser.parseTable(rootNode)).toMatchSnapshot();
