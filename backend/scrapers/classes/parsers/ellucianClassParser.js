@@ -145,7 +145,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     Object.assign(fullSectiondata, dataFromSectionPage, sectionStartingData);
 
     if (!parsedClassMap[className]) {
-      macros.error("ERROR!", parsedClassMap,className)
+      macros.error('ERROR!', parsedClassMap, className);
     }
 
     // Move some attributes to the class pagedata.

@@ -25,7 +25,6 @@
 
 
  it('addClassUids should work 2', () => {
-
    const termDump = {
      classes: [{
        desc: '',
@@ -41,7 +40,7 @@
        deps: {},
        updatedByParent: false,
      }],
-     sections: []
+     sections: [],
    };
 
 
