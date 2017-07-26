@@ -122,18 +122,16 @@ it('go should work', async (done) => {
   // Find the class that we are checking
   let matchCount = 0;
   for (const aClass of termDump.classes) {
-    if (aClass.classUid === '061_1925216900') { 
+    if (aClass.classUid === '061_1925216900' && aClass.subject === 'STAT') { 
       matchCount++;
 
-      console.log(aClass)
-
-      // expect(aClass.prereqs.values[0].classUid).toBe('023_1049977931');
-      // expect(aClass.prereqs.values[0].classId).toBe('023');
-      // expect(aClass.prereqs.values.length).toBe(3);
+      expect(aClass.prereqs.values[0].classUid).toBe('023_1049977931');
+      expect(aClass.prereqs.values[0].classId).toBe('023');
+      expect(aClass.prereqs.values.length).toBe(3);
     }
   }
 
-  // expect(matchCount).toBe(1);
+  expect(matchCount).toBe(1);
   done();
 });
 
