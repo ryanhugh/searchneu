@@ -255,7 +255,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
     return data;
   }
 
-  convertClassListURLs(pageData, data) {
+  convertClassListURLs(url, data) {
     if ((typeof data) === 'string') {
       //urls will start with this
       if (data.startsWith('@#$')) {
@@ -266,7 +266,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
         }
 
         //don't need to keep termId if its the same as this class
-        // if (classInfo.termId === pageData.dbData.termId) {
+        // if (classInfo.termId === url) {
         delete classInfo.termId;
         // };
 
@@ -278,13 +278,13 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
     }
 
     data.values.forEach((subData, index) => {
-      data.values[index] = this.convertClassListURLs(pageData, subData);
+      data.values[index] = this.convertClassListURLs(url, subData);
     });
     return data;
   }
 
 
-  parseRequirementSection(pageData, classDetails, sectionName) {
+  parseRequirementSection(url, classDetails, sectionName) {
     const elements = [];
     let i = 0;
 
@@ -307,17 +307,17 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
         } else if (classDetails[i].name === 'a') {
           const elementText = domutils.getText(classDetails[i]);
           if (elementText.trim() === '') {
-            macros.verbose('warning, not matching ', sectionName, ' with no text in the link', pageData.dbData.url);
+            macros.verbose('warning, not matching ', sectionName, ' with no text in the link', url);
             continue;
           }
 
           let classListUrl = he.decode(classDetails[i].attribs.href);
           if (!classListUrl || classListUrl === '') {
-            macros.log('error could not get classListUrl', classListUrl, classDetails[i].attribs, pageData.dbData.url);
+            macros.log('error could not get classListUrl', classListUrl, classDetails[i].attribs, url);
             continue;
           }
 
-          classListUrl = new URI(classListUrl).absoluteTo(pageData.dbData.url).toString();
+          classListUrl = new URI(classListUrl).absoluteTo(url).toString();
           if (!classListUrl) {
             macros.log('error could not find classListUrl url', classListUrl, classDetails[i], classDetails[i].attribs.href);
             continue;
@@ -334,7 +334,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
           continue;
         }
         if (urlText.includes('@#$')) {
-          macros.log('warning @#$ used to designate url was found in string?!?', pageData.dbData.url);
+          macros.log('warning @#$ used to designate url was found in string?!?', url);
           urlText = urlText.replace(/@#\$/gi, '');
         }
         elements.push(urlText);
@@ -389,7 +389,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
           return null;
         }
       } else {
-        macros.log('ERROR: unabled to parse formed json string', err, text, elements, pageData.dbData.url);
+        macros.log('ERROR: unabled to parse formed json string', err, text, elements, url);
         return null;
       }
     }
@@ -403,12 +403,12 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
 
     text = this.formatRequirements(text);
     if (!text) {
-      macros.log('error formatting requirements, ', pageData.dbData.url, elements);
+      macros.log('error formatting requirements, ', url, elements);
       return null;
     }
     text = this.removeBlacklistedStrings(text);
     text = this.simplifyRequirements(text);
-    text = this.convertClassListURLs(pageData, text);
+    text = this.convertClassListURLs(url, text);
 
     return text;
   }

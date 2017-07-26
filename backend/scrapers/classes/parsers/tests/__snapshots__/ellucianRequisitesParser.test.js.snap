@@ -1,0 +1,337 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`3 levels 1`] = `
+Object {
+  "type": "or",
+  "values": Array [
+    Object {
+      "type": "and",
+      "values": Array [
+        Object {
+          "type": "or",
+          "values": Array [
+            Object {
+              "classId": "1115",
+              "subject": "BIOL",
+            },
+            Object {
+              "classId": "1111",
+              "subject": "BIOL",
+            },
+          ],
+        },
+        Object {
+          "classId": "1342",
+          "subject": "MATH",
+        },
+        Object {
+          "classId": "2311",
+          "subject": "CHEM",
+        },
+      ],
+    },
+    "Graduate Admission REQ",
+  ],
+}
+`;
+
+exports[`should filter out prereqs that just say they are prereqs 1`] = `
+Object {
+  "type": "and",
+  "values": Array [
+    Object {
+      "type": "or",
+      "values": Array [
+        Object {
+          "classId": "027",
+          "subject": "MATH",
+        },
+        Object {
+          "classId": "016",
+          "subject": "MATH",
+        },
+        Object {
+          "classId": "028",
+          "subject": "MATH",
+        },
+        Object {
+          "classId": "016H",
+          "subject": "MATH",
+        },
+        Object {
+          "classId": "028S",
+          "subject": "MATH",
+        },
+        Object {
+          "classId": "028P",
+          "subject": "MATH",
+        },
+        Object {
+          "classId": "016HS",
+          "subject": "MATH",
+        },
+      ],
+    },
+    Object {
+      "type": "or",
+      "values": Array [
+        Object {
+          "classId": "033",
+          "subject": "MATH",
+        },
+        Object {
+          "classId": "034",
+          "subject": "MATH",
+        },
+        Object {
+          "classId": "035",
+          "subject": "MATH",
+        },
+        Object {
+          "classId": "018",
+          "subject": "MATH",
+        },
+        Object {
+          "classId": "018H",
+          "subject": "MATH",
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`should load a bunch of string prereqs from many on linked.html 1`] = `
+Object {
+  "type": "or",
+  "values": Array [
+    Object {
+      "type": "and",
+      "values": Array [
+        Object {
+          "classId": "050",
+          "subject": "ENG",
+        },
+        Object {
+          "classId": "040",
+          "subject": "MAT",
+        },
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        Object {
+          "classId": "050",
+          "subject": "ENG",
+        },
+        "Arith - Place Test 06",
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        Object {
+          "classId": "050",
+          "subject": "ENG",
+        },
+        "Arith - Quick Screen Place 06",
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        Object {
+          "classId": "050",
+          "subject": "ENG",
+        },
+        "Accuplacer (AR) 067",
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        Object {
+          "classId": "050",
+          "subject": "ENG",
+        },
+        "Accuplacer (EA) 040",
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        "Eng - Place Test 03",
+        "Arith - Place Test 06",
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        "Eng - Place Test 03",
+        "Arith - Quick Screen Place 06",
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        "Eng - Place Test 03",
+        "Accuplacer (AR) 067",
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        "Eng - Place Test 03",
+        "Accuplacer (EA) 040",
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        "Eng - Place Test 03",
+        Object {
+          "classId": "040",
+          "subject": "MAT",
+        },
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        "Eng - Quick Screen Place 03",
+        "Arith - Place Test 06",
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        "Eng - Quick Screen Place 03",
+        "Arith - Quick Screen Place 06",
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        "Eng - Quick Screen Place 03",
+        "Accuplacer (AR) 067",
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        "Eng - Quick Screen Place 03",
+        "Accuplacer (EA) 040",
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        "Eng - Quick Screen Place 03",
+        Object {
+          "classId": "040",
+          "subject": "MAT",
+        },
+      ],
+    },
+    Object {
+      "classId": "100",
+      "subject": "ENG",
+    },
+  ],
+}
+`;
+
+exports[`works with a ton of ors 1 1`] = `
+Object {
+  "type": "or",
+  "values": Array [
+    Object {
+      "classId": "025",
+      "subject": "MATH",
+    },
+    Object {
+      "classId": "006S",
+      "subject": "MATH",
+    },
+    Object {
+      "classId": "006A",
+      "subject": "MATH",
+    },
+    Object {
+      "classId": "006B",
+      "subject": "MATH",
+    },
+    Object {
+      "classId": "006C",
+      "subject": "MATH",
+    },
+    Object {
+      "classId": "006D",
+      "subject": "MATH",
+    },
+    Object {
+      "classId": "025S",
+      "subject": "MATH",
+    },
+    Object {
+      "classId": "026",
+      "subject": "MATH",
+    },
+  ],
+}
+`;
+
+exports[`works with a ton of ors 2 1`] = `
+Object {
+  "type": "and",
+  "values": Array [
+    Object {
+      "classId": "1162",
+      "subject": "PHYS",
+    },
+    Object {
+      "classId": "1163",
+      "subject": "PHYS",
+    },
+  ],
+}
+`;
+
+exports[`works with double close paren )) 1`] = `
+Object {
+  "type": "or",
+  "values": Array [
+    Object {
+      "classId": "6000",
+      "subject": "PJM",
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        Object {
+          "classId": "6210",
+          "subject": "BTC",
+        },
+        Object {
+          "classId": "6100",
+          "subject": "RGA",
+        },
+        Object {
+          "type": "or",
+          "values": Array [
+            Object {
+              "classId": "6201",
+              "subject": "RGA",
+            },
+            Object {
+              "classId": "6202",
+              "subject": "RGA",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}
+`;
