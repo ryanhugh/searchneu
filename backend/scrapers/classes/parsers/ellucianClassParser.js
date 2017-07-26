@@ -66,7 +66,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     for (const sectionStartingData of sectionStartingDatas) {
       // Hit the section page and when it is done, add the section.
-      promises.push(this.addSectionData(classWrappersMap, sectionStartingData.value, sectionStartingData.name));
+      promises.push(this.addSectionData(classWrappersMap, sectionStartingData.value, sectionStartingData.className));
     }
 
     // Wait for all the sections to finish parsing.

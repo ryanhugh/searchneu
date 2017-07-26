@@ -114,7 +114,6 @@ it('can replace a class with multiple matches with an "or"', () => {
 
 
 it('go should work', async (done) => {
- 
   const termDump = await testData.loadTermDump();
 
   prereqClassUids.go(termDump);
@@ -122,7 +121,7 @@ it('go should work', async (done) => {
   // Find the class that we are checking
   let matchCount = 0;
   for (const aClass of termDump.classes) {
-    if (aClass.classUid === '061_1925216900' && aClass.subject === 'STAT') { 
+    if (aClass.classUid === '061_1925216900' && aClass.subject === 'STAT') {
       matchCount++;
 
       expect(aClass.prereqs.values[0].classUid).toBe('023_1049977931');
@@ -198,7 +197,6 @@ it('can swap coreqs', async (done) => {
 
 
 it('can simplify', async (done) => {
-
   const termDump = await testData.loadTermDump();
 
   prereqClassUids.go(termDump);
