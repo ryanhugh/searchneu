@@ -145,6 +145,7 @@ class ClassPanel extends React.Component {
                 <th> Location </th>
                 <th className={ cx({
                     displayNone: !showOnlineColumn,
+                    onlineHeader: true
                   }) }
                 >Online</th>
 
@@ -184,7 +185,7 @@ class ClassPanel extends React.Component {
 
                 let checkIcon = null;
                 if (section.online) {
-                  checkIcon = <img src={check} />
+                  checkIcon = <img className = {css.onlineCheck} src={check} />
                 }
 
 
@@ -203,8 +204,11 @@ class ClassPanel extends React.Component {
                       <LocationLinks section={ section } />
                     </td>
 
-                    <td>
-                      {checkIcon}
+                    <td className = {cx({
+                      checkIconCell: true,
+                      displayNone: !showOnlineColumn
+                    })}>
+                        {checkIcon}
                     </td>
 
                     <td>
