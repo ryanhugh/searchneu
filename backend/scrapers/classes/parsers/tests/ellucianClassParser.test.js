@@ -26,152 +26,152 @@ import ellucianSectionParser from '../ellucianSectionParser';
 
 
 it('can parse crns', async function (done) {
-	const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', '1.html'), 'utf8');
+  const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', '1.html'), 'utf8');
 
-	//set up variables
-	var url = 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201610&subj_in=EECE&crse_in=2160&schd_in=LEC';
+  //set up variables
+  var url = 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201610&subj_in=EECE&crse_in=2160&schd_in=LEC';
 
-	//main parse
-	const output = ellucianClassParser.parse(body, url);
+  //main parse
+  const output = ellucianClassParser.parse(body, url);
 
-	expect(ellucianClassParser.supportsPage(url)).toBe(true);
+  expect(ellucianClassParser.supportsPage(url)).toBe(true);
 
-	let theClassKey = Object.keys(output.classWrappersMap)
+  let theClassKey = Object.keys(output.classWrappersMap)
 
-	expect(theClassKey.length).toBe(1)
+  expect(theClassKey.length).toBe(1)
 
-	const aClass = output.classWrappersMap[theClassKey].value
+  const aClass = output.classWrappersMap[theClassKey].value
 
-	expect(aClass).toEqual({
-		url: url,
-		name: 'Embedded Design Enabling Robotics',
-		crns: ['15633', '15636', '15639', '16102', '17799', '17800']
-	});
+  expect(aClass).toEqual({
+    url: url,
+    name: 'Embedded Design Enabling Robotics',
+    crns: ['15633', '15636', '15639', '16102', '17799', '17800']
+  });
 
-	done()
+  done()
 });
 
 it('should parse a bunch of deps', async function (done) {
 
-	//sections have different names
-	const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', 'multiname.html'), 'utf8');
+  //sections have different names
+  const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', 'multiname.html'), 'utf8');
 
-	//set up variables -- ellucianClassParser url might not be correct
-	var url = 'https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_listcrse?term_in=201502&subj_in=PHYS&crse_in=013&schd_in=LE';
+  //set up variables -- ellucianClassParser url might not be correct
+  var url = 'https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_listcrse?term_in=201502&subj_in=PHYS&crse_in=013&schd_in=LE';
 
-	//main parse
-	const output = ellucianClassParser.parse(body, url);
-	expect(output).toMatchSnapshot();
-
-
-	const theClassKey = Object.keys(output.classWrappersMap)[0]
-	const aClass = output.classWrappersMap[theClassKey].value
-
-	expect(ellucianClassParser.supportsPage(url)).toBe(true);
+  //main parse
+  const output = ellucianClassParser.parse(body, url);
+  expect(output).toMatchSnapshot();
 
 
-	expect(aClass).toEqual({
-		url: url,
-		name: 'Thermodynamic/ Mech',
-		crns: ['24600']
-	});
+  const theClassKey = Object.keys(output.classWrappersMap)[0]
+  const aClass = output.classWrappersMap[theClassKey].value
 
-	done()
+  expect(ellucianClassParser.supportsPage(url)).toBe(true);
+
+
+  expect(aClass).toEqual({
+    url: url,
+    name: 'Thermodynamic/ Mech',
+    crns: ['24600']
+  });
+
+  done()
 });
 
 it('should parse a bunch of crns', async function (done) {
 
-	const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', '3.html'), 'utf8');
-	//set up variables
-	var url = 'https://prd-wlssb.temple.edu/prod8/bwckctlg.p_disp_listcrse?term_in=201503&subj_in=ACCT&crse_in=2102&schd_in=BAS';
+  const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', '3.html'), 'utf8');
+  //set up variables
+  var url = 'https://prd-wlssb.temple.edu/prod8/bwckctlg.p_disp_listcrse?term_in=201503&subj_in=ACCT&crse_in=2102&schd_in=BAS';
 
 
-	//main parse
-	const output = ellucianClassParser.parse(body, url);
+  //main parse
+  const output = ellucianClassParser.parse(body, url);
 
-	const theClassKey = Object.keys(output.classWrappersMap)[0]
-	const aClass = output.classWrappersMap[theClassKey].value
+  const theClassKey = Object.keys(output.classWrappersMap)[0]
+  const aClass = output.classWrappersMap[theClassKey].value
 
-	expect(ellucianClassParser.supportsPage(url)).toBe(true);
+  expect(ellucianClassParser.supportsPage(url)).toBe(true);
 
-	expect(aClass).toEqual({
-		url: url,
-		name: 'Managerial Accounting',
-		crns: ['11018', '11019', '11020', '11679', '19962', '20800', '22497', '23294', '23295', '24435', '6073', '6074', '6075', '6077', '6129', '6130', '8145']
-	});
+  expect(aClass).toEqual({
+    url: url,
+    name: 'Managerial Accounting',
+    crns: ['11018', '11019', '11020', '11679', '19962', '20800', '22497', '23294', '23295', '24435', '6073', '6074', '6075', '6077', '6129', '6130', '8145']
+  });
 
-	expect(output).toMatchSnapshot();
+  expect(output).toMatchSnapshot();
 
-	done()
+  done()
 });
 
 
 it('should parse a bunch of meetings', async function (done) {
 
-	//lots of different meetings
-	const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', '4.html'), 'utf8');
+  //lots of different meetings
+  const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', '4.html'), 'utf8');
 
-	//set up variables
-	var url = 'https://prd-wlssb.temple.edu/prod8/bwckctlg.p_disp_listcrse?term_in=201503&subj_in=AIRF&crse_in=2041&schd_in=BAS';
+  //set up variables
+  var url = 'https://prd-wlssb.temple.edu/prod8/bwckctlg.p_disp_listcrse?term_in=201503&subj_in=AIRF&crse_in=2041&schd_in=BAS';
 
-	//main parse
-	let output = ellucianClassParser.parse(body, url);
+  //main parse
+  let output = ellucianClassParser.parse(body, url);
 
-	const theClassKey = Object.keys(output.classWrappersMap)[0]
-	const aClass = output.classWrappersMap[theClassKey].value
+  const theClassKey = Object.keys(output.classWrappersMap)[0]
+  const aClass = output.classWrappersMap[theClassKey].value
 
-	expect(ellucianClassParser.supportsPage(url)).toBe(true);
+  expect(ellucianClassParser.supportsPage(url)).toBe(true);
 
-	expect(aClass).toEqual({
-		url: url,
-		name: 'The Evolution of U.S. Aerospace Power II',
-		crns: ['12090']
-	});
+  expect(aClass).toEqual({
+    url: url,
+    name: 'The Evolution of U.S. Aerospace Power II',
+    crns: ['12090']
+  });
 
-	expect(output).toMatchSnapshot();
+  expect(output).toMatchSnapshot();
 
-	done()
+  done()
 });
 
 it('can parse CANCELLED', async function (done) {
 
 
-	//cancelled - something was weird with ellucianClassParser one not sure what it was
-	const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', '6.html'), 'utf8');
+  //cancelled - something was weird with ellucianClassParser one not sure what it was
+  const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', '6.html'), 'utf8');
 
-	//set up variables
-	var url = 'https://ssb.ccsu.edu/pls/ssb_cPROD/bwckctlg.p_disp_listcrse?term_in=201610&subj_in=ANTH&crse_in=245&schd_in=LE';
+  //set up variables
+  var url = 'https://ssb.ccsu.edu/pls/ssb_cPROD/bwckctlg.p_disp_listcrse?term_in=201610&subj_in=ANTH&crse_in=245&schd_in=LE';
 
-	//main parse
-	const output = ellucianClassParser.parse(body, url);
+  //main parse
+  const output = ellucianClassParser.parse(body, url);
 
-	const theClassKey = Object.keys(output.classWrappersMap)[0]
-	const aClass = output.classWrappersMap[theClassKey].value
+  const theClassKey = Object.keys(output.classWrappersMap)[0]
+  const aClass = output.classWrappersMap[theClassKey].value
 
-	expect(ellucianClassParser.supportsPage(url)).toBe(true);
+  expect(ellucianClassParser.supportsPage(url)).toBe(true);
 
-	expect(aClass.url).toBe(url);
-	expect(aClass.name).toBe('CANCELLED')
-	expect(aClass.crns.length).toBe(1)
-	expect(aClass.crns[0]).toBe('12291')
+  expect(aClass.url).toBe(url);
+  expect(aClass.name).toBe('CANCELLED')
+  expect(aClass.crns.length).toBe(1)
+  expect(aClass.crns[0]).toBe('12291')
 
-	done()
+  done()
 });
 
 
 //make sure ellucianClassParser.classNameTranslation works
 it('name translation works', async function (done) {
 
-	const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', 'rename.html'), 'utf8');
+  const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianClassParser', 'rename.html'), 'utf8');
 
-	//set up variables
-	var url = 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201610&subj_in=CS&crse_in=2500&schd_in=LEC';
+  //set up variables
+  var url = 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201610&subj_in=CS&crse_in=2500&schd_in=LEC';
 
-	//main parse
-	const output = ellucianClassParser.parse(body, url);
+  //main parse
+  const output = ellucianClassParser.parse(body, url);
 
-	// Five sections of fundies, and 1 alt class (hon, which has 1 section).
-	expect(output.classWrappersMap).toMatchSnapshot();
+  // Five sections of fundies, and 1 alt class (hon, which has 1 section).
+  expect(output.classWrappersMap).toMatchSnapshot();
 
-	done()
+  done()
 });
