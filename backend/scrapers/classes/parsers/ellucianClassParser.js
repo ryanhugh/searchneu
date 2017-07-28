@@ -209,6 +209,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
       }
     }
 
+    fullSectiondata.lastUpdateTime = Date.now();
 
     parsedClassMap[className].deps.push({
       type: 'sections',
@@ -432,6 +433,9 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     // (so tests with .equals will work)
     for (const className of Object.keys(parsedClassMap)) {
       parsedClassMap[className].value.crns.sort();
+
+      // Also set the last update time. 
+      parsedClassMap[className].value.lastUpdateTime = Date.now();
     }
 
     return {
