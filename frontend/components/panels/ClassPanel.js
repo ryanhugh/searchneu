@@ -4,7 +4,6 @@ import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
 
 import globe from './globe.svg';
-import check from './check.svg';
 import css from './ClassPanel.css';
 import MobileSectionPanel from './MobileSectionPanel';
 import macros from '../macros';
