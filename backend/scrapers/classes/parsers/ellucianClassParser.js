@@ -60,6 +60,13 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     // Returns a list of class objects wrapped.
     const { classWrappersMap, sectionStartingDatas } = this.parse(resp.body, url, catalogTitle);
 
+    // Add the last update times to the classes.
+    // This is not done in parse because the clock is not mocked out yet.
+    for (const className of Object.keys(classWrappersMap)) {
+      // Also set the last update time. 
+      classWrappersMap[className].value.lastUpdateTime = Date.now();
+    }
+
 
     // Load all the section datas.
     const promises = [];
@@ -433,9 +440,6 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     // (so tests with .equals will work)
     for (const className of Object.keys(parsedClassMap)) {
       parsedClassMap[className].value.crns.sort();
-
-      // Also set the last update time. 
-      parsedClassMap[className].value.lastUpdateTime = Date.now();
     }
 
     return {
