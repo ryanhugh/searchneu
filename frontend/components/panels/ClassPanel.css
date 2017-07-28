@@ -74,3 +74,28 @@
 .checkIconCell {
     text-align: center !important;
 }
+
+.onlineDivLineContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.onlineText {
+    font-weight: 600;
+    color: rgba(81, 84, 84, 0.75);
+}
+
+.onlineDivLine {
+    vertical-align: middle;
+    display: inline-block;
+    height: 2px;
+    background-color: rgba(9, 10, 10, 0.2);
+    width: calc(50% - 95px);
+    margin: 21px;
+}
+.wideOnlineCell {
+    position: relative;
+}

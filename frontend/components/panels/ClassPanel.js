@@ -143,12 +143,6 @@ class ClassPanel extends React.Component {
                 <th> End </th>
                 {examColumnHeaders}
                 <th> Location </th>
-                <th className={ cx({
-                    displayNone: !showOnlineColumn,
-                    onlineHeader: true
-                  }) }
-                >Online</th>
-
                 <th> Seats </th>
 
                 <th
@@ -164,28 +158,46 @@ class ClassPanel extends React.Component {
                 This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
               <tr style={{ display:'none', paddingTop: 0, paddingBottom: '1px' }} />
               {this.state.renderedSections.map((section) => {
-                // Calculate the exam elements in each row
-                let examElements = null;
-                if (aClass.sectionsHaveExam()) {
-                  const examMoments = section.getExamMoments();
-                  if (examMoments) {
-                    examElements = [
-                      <td key='1'>{examMoments.start.format('h:mm a')}</td>,
-                      <td key='2'>{examMoments.end.format('h:mm a')}</td>,
-                      <td key='3'>{examMoments.start.format('MMM Do')}</td>,
-                    ];
-                  } else {
-                    examElements = [
-                      <td key='1' />,
-                      <td key='2' />,
-                      <td key='3' />,
-                    ];
-                  }
-                }
 
-                let checkIcon = null;
+
+                // Instead of calculating a lot of these individually and putting them together in the return call
+                // Append to this array as we go.
+                // So the logic can be separated into distinct if statements.
+                let tdElements = [];
+
+                // If it is online, just put one super wide cell
                 if (section.online) {
-                  checkIcon = <img className = {css.onlineCheck} src={check} />
+                  tdElements.push(
+                    <td colSpan="4" className={css.wideOnlineCell}>
+                      <span className={css.onlineDivLineContainer}>
+                        <span className = {css.onlineDivLine}></span>
+                        <span className= {css.onlineText}>Online Class</span>
+                        <span className = {css.onlineDivLine}></span>
+                      </span>
+                    </td>)
+                
+                // Have individual cells for the different columns
+                } else {
+                  tdElements.push(<td> <WeekdayBoxes section={ section } /> </td>)
+                  tdElements.push(<td>{section.getUniqueStartTimes().join(', ')}</td>)
+                  tdElements.push(<td>{section.getUniqueEndTimes().join(', ')}</td>)
+
+                  // If there are exams, fill in those cells too
+                  // Calculate the exam elements in each row
+                  if (aClass.sectionsHaveExam()) {
+                    const examMoments = section.getExamMoments();
+                    if (examMoments) {
+                      tdElements.push(<td key='1'>{examMoments.start.format('h:mm a')}</td>)
+                      tdElements.push(<td key='2'>{examMoments.end.format('h:mm a')}</td>)
+                      tdElements.push(<td key='3'>{examMoments.start.format('MMM Do')}</td>)
+                    } else {
+                      tdElements.push(<td key='1'></td>)
+                      tdElements.push(<td key='2'></td>)
+                      tdElements.push(<td key='3'></td>)
+                    }
+                  }
+
+                  tdElements.push(<td> <LocationLinks section={ section } /> </td>);
                 }
 
 
@@ -193,23 +205,8 @@ class ClassPanel extends React.Component {
                   <tr key={ Keys.create(section).getHash() }>
                     <td> {section.crn} </td>
                     <td> {section.getProfs().join(', ')} </td>
-                    <td>
-                      <WeekdayBoxes section={ section } />
-                    </td>
 
-                    <td>{section.getUniqueStartTimes().join(', ')}</td>
-                    <td>{section.getUniqueEndTimes().join(', ')}</td>
-                    {examElements}
-                    <td>
-                      <LocationLinks section={ section } />
-                    </td>
-
-                    <td className = {cx({
-                      checkIconCell: true,
-                      displayNone: !showOnlineColumn
-                    })}>
-                        {checkIcon}
-                    </td>
+                    {tdElements}
 
                     <td>
                       <div data-tip='Open Seats/Total Seats' className={ css.inlineBlock }>
