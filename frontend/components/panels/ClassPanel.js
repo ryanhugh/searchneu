@@ -170,7 +170,7 @@ class ClassPanel extends React.Component {
                   tdElements.push(
                     <td colSpan="4" className={css.wideOnlineCell}>
                       <span className={css.onlineDivLineContainer}>
-                        <span className = {css.onlineDivLine}></span>
+                        <span className = {css.onlineDivLine +' ' + css.onlineLeftLine}></span>
                         <span className= {css.onlineText}>Online Class</span>
                         <span className = {css.onlineDivLine}></span>
                       </span>

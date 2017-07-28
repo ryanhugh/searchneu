@@ -84,8 +84,8 @@
 }
 
 .onlineText {
-    font-weight: 600;
-    color: rgba(81, 84, 84, 0.75);
+    /*font-weight: 600;*/
+    /*color: rgba(81, 84, 84, 0.75);*/
 }
 
 .onlineDivLine {
@@ -93,9 +93,14 @@
     display: inline-block;
     height: 2px;
     background-color: rgba(9, 10, 10, 0.2);
-    width: calc(50% - 95px);
+    width: calc(50% - 102px);
     margin: 21px;
 }
+.onlineLeftLine {
+    margin-left: 36px
+}
+
+
 .wideOnlineCell {
     position: relative;
 }
