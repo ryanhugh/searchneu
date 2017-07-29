@@ -224,18 +224,21 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
       // <OPTION VALUE="TOR">Toronto, Canada
       // <OPTION VALUE="VTL">Online
 
-      // const possibleCampuses = {
+      const possibleCampuses = {
 
-      //   // This one is kindof weird. It is used when the class does not occur in a classroom.
-      //   // For example, Music Lessons, Independant study, Directed Study, Research, etc
-      //   // Where all the teaching/learning would probably happen just 1:1 somewhere on campus,
-      //   // but in some cases it could happen remotely too.
-      //   'no campus, no room needed campus': 'Boston',
-      //   'burlington campus': 'Burlington',
-      //   'boston, main campus': 'Boston',
-      //   'boston campus': 'Boston',
-      //   'seattle, wa campus': 'Seattle',
-      // };
+        // This one is kindof weird. It is used when the class does not occur in a classroom.
+        // For example, Music Lessons, Independant study, Directed Study, Research, etc
+        // Where all the teaching/learning would probably happen just 1:1 somewhere on campus,
+        // but in some cases it could happen remotely too.
+        'no campus, no room needed campus': 'Boston',
+        'burlington campus': 'Burlington',
+        'boston, main campus': 'Boston',
+        'boston campus': 'Boston',
+        'seattle, wa campus': 'Seattle',
+      };
+
+
+      
 
 
       // Grab whether the class is an online class or not

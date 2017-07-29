@@ -32,17 +32,19 @@ echo
 # time git clone -b gh-pages --single-branch git@github.com:ryanhugh/searchneu.git public
 # rm -rf public/.git
 
+# This step runs regardless of branch, to ensure that any changes to the code did not break the build. 
+echo 'Building the code for production.'
+npm run build
+
+# If this is a cron job, run the scrapers
 if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
-  npm -g install babel-cli
-  cd backend/scrapers
-  PROD=true NODE_ENV=prod babel-node --max_old_space_size=8192 main
+  # npm -g install babel-cli
+  cd backend_compiled/scrapers
+  PROD=true NODE_ENV=prod node --max_old_space_size=8192 main
   cd ../..
   find public
 fi
 
-# This step runs regardless of branch, to ensure that any changes to the code did not break the build. 
-echo 'Building the code for production.'
-npm run build
 
 eval "$(ssh-agent -s)"
 mkdir -p ~/.ssh 2> /dev/null
