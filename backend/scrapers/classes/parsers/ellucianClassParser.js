@@ -208,7 +208,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
 
     // Check to make sure there is no room assigned for a class that is online.
-    if (fullSectiondata.online) {
+    if (fullSectiondata.online && fullSectiondata.meetings) {
       for (const meeting of fullSectiondata.meetings) {
         if (meeting.where !== 'TBA' || meeting.times) {
           macros.error('Online class is set to meet in a room or has times?', fullSectiondata)
