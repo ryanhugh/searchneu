@@ -381,11 +381,9 @@ class Request {
 
       if (separateReqPools[hostname]) {
         maxConnections = separateReqPools[hostname].maxSockets
-        // console.log('match', hostname)
       }
       else {
         maxConnections = separateReqDefaultPool.maxSockets
-        // console.log('no match', hostname)
       }
 
       // First argument is number of simultaneous requests
@@ -395,30 +393,9 @@ class Request {
 
     const queue = this.hostnameThrottlingMap[hostname];
 
-    // function processSomethingHeavy() {
-    //   return new Promise(function(resolve){
-    //     setTimeout(resolve, 4000)
-    //   })
-    // }
-
-    // function write(a) {
-    //   $('<div>' + a + '</div>').appendTo('pre');
-    // }
-
-
     return queue.add(() => {
-      // console.log('firig')
       return this.fireRequest(config)
     })
-
-    // queue.add(processSomethingHeavy).then(function(){write('resolved 1')})
-    // queue.add(processSomethingHeavy).then(function(){write('resolved 2')})
-    // queue.add(processSomethingHeavy).then(function(){write('resolved 3')})
-    // queue.add(processSomethingHeavy).then(function(){write('resolved 4')})
-    // queue.add(processSomethingHeavy).then(function(){write('resolved 5')})
-    // queue.add(processSomethingHeavy).then(function(){write('resolved 6')})
-
-
   }
 
 
