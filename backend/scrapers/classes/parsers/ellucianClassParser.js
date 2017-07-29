@@ -225,18 +225,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
   }
 
 
-  // the plan
-  // take in a url (or maybe an object?)
-  // and have an internal dictionary with name of section as the key
-  // and keep track of classes that way
-  // and return a {
-  //  classes: [],
-  //  sections: []
-  // }
-  // with both totally separate, but could be connected based on the crns which are a part of the class
-
-
-  //this is called for each section that is found on the page
+  // This is called for each section that is found on the page.
   parse(body, url, catalogTitle) {
     const $ = cheerio.load(body);
 
