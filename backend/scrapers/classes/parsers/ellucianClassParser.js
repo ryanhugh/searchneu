@@ -211,7 +211,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     if (fullSectiondata.online && fullSectiondata.meetings) {
       for (const meeting of fullSectiondata.meetings) {
         if (meeting.where !== 'TBA' || meeting.times) {
-          macros.error('Online class is set to meet in a room or has times?', fullSectiondata)
+          macros.log('Online class is set to meet in a room or has times?', fullSectiondata)
         }
       }
     }
