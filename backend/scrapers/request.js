@@ -17,6 +17,7 @@
  */
 
 import request from 'request-promise-native';
+import promiseQueue from 'promise-queue';
 import URI from 'urijs';
 import fs from 'fs-promise';
 import asyncjs from 'async';
@@ -375,59 +376,47 @@ class Request {
     const hostname = new URI(config.url).hostname();
 
     if (!this.hostnameThrottlingMap[hostname]) {
-      this.hostnameThrottlingMap[hostname] = {
-        openRequests: 0
-        pendingRequests: []
+
+      let maxConnections;
+
+      if (separateReqPools[hostname]) {
+        maxConnections = separateReqPools[hostname].maxSockets
+        // console.log('match', hostname)
       }
+      else {
+        maxConnections = separateReqDefaultPool.maxSockets
+        // console.log('no match', hostname)
+      }
+
+      // First argument is number of simultaneous requests
+      // Second argument is maximum number of items allowed in the queue. 
+      this.hostnameThrottlingMap[hostname] = new promiseQueue(3 * maxConnections, Infinity);
     }
 
+    const queue = this.hostnameThrottlingMap[hostname];
 
-    if (this.hostnameThrottlingMap[hostname].openRequests > separateReqPools[hostname].maxSockets * 3) {
+    // function processSomethingHeavy() {
+    //   return new Promise(function(resolve){
+    //     setTimeout(resolve, 4000)
+    //   })
+    // }
 
-      let resolveFunc;
-      let rejectFunc;
-      let promise = new Promise(function (resolve, reject) {
-        resolveFunc = resolve;
-        rejectFunc = reject;
-      })
-
-
-      this.hostnameThrottlingMap[hostname].pendingRequests.push({
-        config: config,
-        promise: promise,
-        resolve: resolveFunc,
-        reject: rejectFunc
-      })
+    // function write(a) {
+    //   $('<div>' + a + '</div>').appendTo('pre');
+    // }
 
 
-      return promise;
-    }
+    return queue.add(() => {
+      // console.log('firig')
+      return this.fireRequest(config)
+    })
 
-
-    this.hostnameThrottlingMap[hostname] ++;
-
-    let response;
-    try {
-      response = await this.fireRequest(config);
-    }
-    catch (e) {
-      throw;
-    }
-
-    this.hostnameThrottlingMap[hostname] --;
-
-
-    while (this.hostnameThrottlingMap[hostname].openRequests < separateReqPools[hostname].maxSockets * 3) {
-
-      if (this.hostnameThrottlingMap[hostname]) {}
-
-
-    }
-
-
-
-
-
+    // queue.add(processSomethingHeavy).then(function(){write('resolved 1')})
+    // queue.add(processSomethingHeavy).then(function(){write('resolved 2')})
+    // queue.add(processSomethingHeavy).then(function(){write('resolved 3')})
+    // queue.add(processSomethingHeavy).then(function(){write('resolved 4')})
+    // queue.add(processSomethingHeavy).then(function(){write('resolved 5')})
+    // queue.add(processSomethingHeavy).then(function(){write('resolved 6')})
 
 
   }

@@ -57,6 +57,7 @@
     "mockdate": "^2.0.1",
     "moment": "^2.17.1",
     "object-hash": "^1.1.7",
+    "promise-queue": "^2.2.3",
     "prop-types": "^15.5.8",
     "react": "^15.4.2",
     "react-bootstrap": "^0.31.0",
