@@ -105,6 +105,12 @@ class Request {
 
     this.dnsPromises = {};
 
+    // Index with hostname. Value is {
+      // openRequests: number // how many requests are open to this hostname
+      // pendingRequests: array of {config:, promise:, resolve:, reject:}
+    // }
+    this.hostnameThrottlingMap = {}
+
 
     // Stuff for analytics on a per-hostname basis.
     this.analytics = {};
@@ -361,6 +367,72 @@ class Request {
   }
 
 
+  // Step in between the request function and actually firing the request.
+  // Limits the queues to 3x the number of sockets.
+  // the built in request modules uses a lot of RAM for each request that it stores
+  // and this limits the number of requests that it stores.
+  queueRequest(config) {
+    const hostname = new URI(config.url).hostname();
+
+    if (!this.hostnameThrottlingMap[hostname]) {
+      this.hostnameThrottlingMap[hostname] = {
+        openRequests: 0
+        pendingRequests: []
+      }
+    }
+
+
+    if (this.hostnameThrottlingMap[hostname].openRequests > separateReqPools[hostname].maxSockets * 3) {
+
+      let resolveFunc;
+      let rejectFunc;
+      let promise = new Promise(function (resolve, reject) {
+        resolveFunc = resolve;
+        rejectFunc = reject;
+      })
+
+
+      this.hostnameThrottlingMap[hostname].pendingRequests.push({
+        config: config,
+        promise: promise,
+        resolve: resolveFunc,
+        reject: rejectFunc
+      })
+
+
+      return promise;
+    }
+
+
+    this.hostnameThrottlingMap[hostname] ++;
+
+    let response;
+    try {
+      response = await this.fireRequest(config);
+    }
+    catch (e) {
+      throw;
+    }
+
+    this.hostnameThrottlingMap[hostname] --;
+
+
+    while (this.hostnameThrottlingMap[hostname].openRequests < separateReqPools[hostname].maxSockets * 3) {
+
+      if (this.hostnameThrottlingMap[hostname]) {}
+
+
+    }
+
+
+
+
+
+
+
+  }
+
+
   doAnyStringsInArray(array, body) {
     for (let i = 0; i < array.length; i++) {
       if (body.includes(array[i])) {
@@ -453,7 +525,7 @@ class Request {
         tryCount++;
         try {
           const requestStart = Date.now();
-          response = await this.fireRequest(config);
+          response = await this.queueRequest(config);
           requestDuration = Date.now() - requestStart;
           this.analytics[hostname].totalGoodRequests++;
         } catch (err) {
@@ -558,17 +630,6 @@ class RequestInput {
     return new this().get(config)
   }
 
-
-  // Transforms a HTML string into a htmlparser2 DOM
-  // Don't use for new code, only here for legacy coursepro code.
-  static handleRequestResponce(body, callback) {
-    const handler = new htmlparser.DomHandler(callback);
-    const parser = new htmlparser.Parser(handler);
-    parser.write(body);
-    parser.done();
-  }
-
-
   // Helpers for get and post
   async get(config) {
     if (!config) {
@@ -632,7 +693,5 @@ class RequestInput {
 //   "headers": {}
 // }
 
-
-// console.log(PropTypes.instanceOf()ce.safeToCacheByUrl(config))
 
 export default RequestInput;
