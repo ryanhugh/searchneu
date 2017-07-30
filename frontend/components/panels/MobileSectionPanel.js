@@ -82,13 +82,22 @@ class MobileSectionPanel extends React.Component {
       }
     }
 
-    let timeInTitle;
-    if (meetingMoments.length > 0) {
-      timeInTitle = meetingMoments[0].start.format('h:mm a');
+    // Calculate the end of the title, which depends on whether the class is an online class and whether it has a start time yet. 
+    let titleEnding;
+    if (this.props.section.online) {
+      titleEnding = '-  Online Class'
+    }
+    else if (meetingMoments.length > 0) {
+      titleEnding = '@ ' + meetingMoments[0].start.format('h:mm a');
     }
     else {
-      timeInTitle = "TBA"
+      titleEnding = "@ TBA"
     }
+
+
+
+
+
 
     return (
       <div className={ css.container }>
@@ -98,7 +107,7 @@ class MobileSectionPanel extends React.Component {
           </a>
         </div>
 
-        <div className={ css.title }>{`${macros.stripMiddleName(this.props.section.getProfs()[0])} @ ${timeInTitle}`}</div>
+        <div className={ css.title }>{`${macros.stripMiddleName(this.props.section.getProfs()[0])} ${titleEnding}`}</div>
         <table className={ css.table }>
           <tbody>
             <tr className={ css.firstRow }>
@@ -109,19 +118,28 @@ class MobileSectionPanel extends React.Component {
               <td className={ css.firstColumn }>Profs</td>
               <td className={ css.secondColumn }>{this.props.section.getProfs().join(', ')}</td>
             </tr>
-            <tr>
+            <tr className={cx({
+              displayNone: this.props.section.online
+            })}
+            >
               <td className={ css.firstColumn }>Place</td>
               <td className={ css.secondColumn }>
                 <LocationLinks section={ this.props.section } />
               </td>
             </tr>
-            <tr>
+            <tr className={cx({
+              displayNone: this.props.section.online
+            })}
+            >
               <td className={ css.firstColumn }>Times</td>
               <td className={ css.secondColumn }>
                 {fullTimesString}
               </td>
             </tr>
-            <tr>
+            <tr className={cx({
+              displayNone: this.props.section.online
+            })}
+            >
               <td className={ css.firstColumn }>Days</td>
               <td className={ css.secondColumn }>
                 <WeekdayBoxes section={ this.props.section } />
