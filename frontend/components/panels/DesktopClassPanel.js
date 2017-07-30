@@ -4,12 +4,17 @@ import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
 
 import globe from './globe.svg';
-import css from './ClassPanel.css';
+import desktopCss from './DesktopClassPanel.css';
+import baseCss from './BaseClassPanel.css';
 import MobileSectionPanel from './MobileSectionPanel';
 import macros from '../macros';
 import Keys from '../../../common/Keys';
 import LocationLinks from './LocationLinks';
 import WeekdayBoxes from './WeekdayBoxes';
+import BaseClassPanel from './BaseClassPanel'
+
+const css = {};
+Object.assign(css, baseCss, desktopCss);
 
 const cx = classNames.bind(css);
 
@@ -19,39 +24,11 @@ const cx = classNames.bind(css);
 // The code for desktop is inside this file. 
 
 
-// ClassPanel page component
-class ClassPanel extends React.Component {
+// DesktopClassPanel page component
+class DesktopClassPanel extends BaseClassPanel {
 
   constructor(props) {
     super(props);
-
-    // Show 3 sections by default
-    this.state = {
-      renderedSections: props.aClass.sections.slice(0, macros.sectionsShownByDefault),
-      unrenderedSections: props.aClass.sections.slice(macros.sectionsShownByDefault),
-    };
-
-
-    this.onShowMoreClick = this.onShowMoreClick.bind(this);
-  }
-
-  onShowMoreClick() {
-    console.log('Adding more sections to the bottom.');
-
-    const newElements = this.state.unrenderedSections.splice(0, macros.sectionsAddedWhenShowMoreClicked);
-
-    this.setState({
-      unrenderedSections: this.state.unrenderedSections,
-      renderedSections: this.state.renderedSections.concat(newElements),
-    });
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.renderedSections.length !== nextState.renderedSections.length) {
-      return true;
-    }
-
-    return false;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -237,23 +214,11 @@ class ClassPanel extends React.Component {
       }
     }
 
-    let showMoreSections = null;
-
     // Render the Show More.. Button
-    if (this.state.unrenderedSections.length > 0) {
-      showMoreSections = (<div className={ css.showMoreButton } onClick={ this.onShowMoreClick }>
-        Show More...
-      </div>);
-    }
-
+    let showMoreSections = this.getShowMoreButton();
 
     // Figure out the credits string
-    let creditsString;
-    if (aClass.maxCredits === aClass.minCredits) {
-      creditsString = `${aClass.minCredits} credits`;
-    } else {
-      creditsString = `${aClass.minCredits} to ${aClass.maxCredits} credits`;
-    }
+    let creditsString = this.getCreditsString();
 
     return (
       <div>
@@ -292,9 +257,9 @@ class ClassPanel extends React.Component {
   }
 }
 
-ClassPanel.propTypes = {
+DesktopClassPanel.propTypes = {
   aClass: PropTypes.object.isRequired,
 };
 
 
-export default CSSModules(ClassPanel, css);
+export default CSSModules(DesktopClassPanel, css);

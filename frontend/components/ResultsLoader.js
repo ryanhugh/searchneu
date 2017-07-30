@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 
 import Keys from '../../common/Keys'
+import macros from './macros'
 import DataLib from '../../common/classModels/DataLib'
 import EmployeePanel from './panels/EmployeePanel';
-import ClassPanel from './panels/ClassPanel';
+import DesktopClassPanel from './panels/DesktopClassPanel';
+import MobileClassPanel from './panels/MobileClassPanel';
 import css from './ResultsLoader.css';
 
 // The Home.js component now keeps track of how many to render. 
@@ -117,7 +119,12 @@ class ResultsLoader extends React.Component {
           <div className='page-home' ref='elementsContainer'>
             {this.state.visibleObjects.map((obj) => {
               if (obj.type === 'class') {
-                return <ClassPanel key={ Keys.create(obj.data).getHash() } aClass={ obj.data } />;
+                if (macros.isMobile) {
+                  return <MobileClassPanel key={ Keys.create(obj.data).getHash() } aClass={ obj.data } />;
+                }
+                else {
+                  return <DesktopClassPanel key={ Keys.create(obj.data).getHash() } aClass={ obj.data } />;
+                }
               }
               else if (obj.type === 'employee') {
                 return <EmployeePanel key = {obj.data.id} employee = {obj.data} />

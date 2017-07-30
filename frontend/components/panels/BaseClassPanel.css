@@ -1,0 +1,22 @@
+.container {
+    padding: 0px !important;
+    font-size: 16px !important;
+}
+.body {
+    padding: 20px;
+}
+.header {
+    background: #fafafb;
+    padding: 11px;
+    margin-top: 0px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: 700;
+}
+.showMoreButton {
+    cursor: pointer;
+    padding: 10px;
+    color: #888888;
+    font-weight: 600;
+    border-top: 1px solid #ddd;
+}
