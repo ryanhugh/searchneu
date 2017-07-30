@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 
 import globe from './globe.svg';
 import chevronDown from './chevron-down.svg';
+import chevronRight from './chevron-right.svg';
 import mobileCss from './MobileClassPanel.css';
 import baseCss from './BaseClassPanel.css';
 import MobileSectionPanel from './MobileSectionPanel';
@@ -33,31 +34,43 @@ class MobileClassPanel extends BaseClassPanel {
 
     this.state.showMoreThanTitle = false;
     this.state.showAllClassDetails = false; 
+
+    this.toggleShoreMoreThanTitle = this.toggleShoreMoreThanTitle.bind(this);
   }
 
+  toggleShoreMoreThanTitle() {
+    this.setState({
+      showMoreThanTitle: !this.state.showMoreThanTitle
+    })
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    let commonShouldUpdate = BaseClassPanel.prototype.shouldComponentUpdate.call(this, nextProps, nextState);
+    if (commonShouldUpdate) {
+      return true;
+    }
+
+    if (this.state.showMoreThanTitle !== nextState.showMoreThanTitle) {
+      return true;
+    }
+
+    if (this.state.showAllClassDetails !== nextState.showAllClassDetails) {
+      return true;
+    }
+    
+    return false;
+  }
 
   render() {
     const aClass = this.props.aClass;
 
+    let sectionTable = null;
 
-
-
-    if (!this.state.showMoreThanTitle) {
-      
+    if (aClass.sections && aClass.sections.length > 0) {
+      sectionTable = this.state.renderedSections.map((section) => {
+        return <MobileSectionPanel key={ Keys.create(section).getHash() } section={ section } />;
+      });
     }
-
-
-
-
-    // if (aClass.sections && aClass.sections.length > 0) {
-    //   sectionTable = this.state.renderedSections.map((section) => {
-    //         return <MobileSectionPanel key={ Keys.create(section).getHash() } section={ section } />;
-    //       });
-    // }
-
-    // {sectionTable} 
-
-
 
     // Render the Show More.. Button
     let showMoreSections = this.getShowMoreButton();
@@ -66,43 +79,52 @@ class MobileClassPanel extends BaseClassPanel {
     let creditsString = this.getCreditsString();
 
 
-
-    // Globe link (to be moved into body under updated and credits)
-    // <span className = {css.classGlobeLinkContainer}> 
-    //   <a target="_blank" rel="noopener noreferrer" className={ css.classGlobeLink } data-tip={ "View on " + aClass.host} href={ aClass.prettyUrl || aClass.url }>
-    //     <img src={ globe } alt="link"/>
-    //   </a>
-    // </span>
-
+    // Decide which chevron to use based on whether the panel is expanded or not.
+    let chevron;
+    if (this.state.showMoreThanTitle) {
+      chevron = chevronDown
+    }
+    else {
+      chevron = chevronRight
+    }
 
     return (
       <div>
         <div className={ `${css.container} ui segment` }>
-          <div className={ css.header }>
-            <img className = {css.chevronDown} src = {chevronDown}/>
+          <div className={ css.header } onClick={this.toggleShoreMoreThanTitle}>
+            <img className = {css.chevron} src = {chevron}/>
             <span className = { css.classTitle }>
               {aClass.subject} {aClass.classId}: {aClass.name}
             </span>
-            
           </div>
 
-          <div className={ css.body }>
-            {aClass.desc}
-            <br />
-            <br />
-            <div className={ css.leftPanel }>
-              Prerequisites: {aClass.getPrereqsString()}
+          <span className={ cx({
+            displayNone: !this.state.showMoreThanTitle
+          }) }>
+
+            <div className={ css.body }>
+              {aClass.desc}
               <br />
-              Corequisites: {aClass.getCoreqsString()}
-            </div>
-            <div className={ css.rightPanel }>
-              Updated {aClass.getLastUpdateString()}
               <br />
-              {creditsString}
+              <div>
+                Updated {aClass.getLastUpdateString()}
+                <br />
+                {creditsString}
+                <br />
+                <a target='_blank' rel='noopener noreferrer' href={aClass.prettyUrl || aClass.url}>
+                  {'View on ' + aClass.host}
+                </a>
+                <br />
+                Corequisites: {aClass.getCoreqsString()}
+                <br />
+                Prerequisites: {aClass.getPrereqsString()}
+              </div>
             </div>
-          </div>
-          
-          {showMoreSections}
+
+            {sectionTable} 
+
+            {showMoreSections}
+          </span>
         </div>
       </div>
     );
