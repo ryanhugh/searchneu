@@ -35,12 +35,19 @@ class MobileClassPanel extends BaseClassPanel {
     this.state.showMoreThanTitle = false;
     this.state.showAllClassDetails = false; 
 
-    this.toggleShoreMoreThanTitle = this.toggleShoreMoreThanTitle.bind(this);
+    this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
+    this.toggleShowAllClassDetails = this.toggleShowAllClassDetails.bind(this);
   }
 
-  toggleShoreMoreThanTitle() {
+  toggleShowMoreThanTitle() {
     this.setState({
       showMoreThanTitle: !this.state.showMoreThanTitle
+    })
+  }
+
+  toggleShowAllClassDetails() {
+    this.setState({
+      showAllClassDetails: !this.state.showAllClassDetails
     })
   }
 
@@ -57,8 +64,86 @@ class MobileClassPanel extends BaseClassPanel {
     if (this.state.showAllClassDetails !== nextState.showAllClassDetails) {
       return true;
     }
-    
+
     return false;
+  }
+
+  getClassBody() {
+    const aClass = this.props.aClass;
+
+    let showFullClassBody = false;
+
+    if (this.state.showAllClassDetails) {
+      showFullClassBody = true;
+    }
+    else if (!aClass.desc || aClass.desc.length < 50) {
+      showFullClassBody = true;
+    }
+
+    if (showFullClassBody) {
+
+      // Figure out the credits string
+      let creditsString = this.getCreditsString();
+
+      return (
+        <span>
+          {aClass.desc}
+          <br />
+          <br />
+          <div>
+            {creditsString}
+            <br />
+            Updated {aClass.getLastUpdateString()}
+            <br />
+            <a target='_blank' rel='noopener noreferrer' href={aClass.prettyUrl || aClass.url}>
+              {'View on ' + aClass.host}
+            </a>
+            <br />
+            Corequisites: {aClass.getCoreqsString()}
+            <br />
+            Prerequisites: {aClass.getPrereqsString()}
+          </div>
+        </span>
+        );
+    }
+    else {
+
+      // Remove everything past 80 characters
+      // and then keep on removing characters until the end of a word is hit. 
+      let sliceDesc = aClass.desc.slice(0, 80);
+      while (!sliceDesc.endsWith(' ')) {
+        sliceDesc = sliceDesc.slice(0, sliceDesc.length - 1)
+      }
+
+      // Also remove any symbols.
+      while (!sliceDesc[sliceDesc.length - 1].match(/[a-z]/i)) {
+        sliceDesc = sliceDesc.slice(0, sliceDesc.length - 1)
+      }
+      sliceDesc = sliceDesc.trim()
+
+      return (
+        <span>
+          <span>
+            {sliceDesc + '...'}&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+
+          <span>
+            <a onClick={this.toggleShowAllClassDetails} style={{display:'inline-block'}}>
+              Show More...
+            </a>
+
+          </span>
+
+        </span>
+
+        )
+    }
+
+
+
+    
+
+
   }
 
   render() {
@@ -75,10 +160,6 @@ class MobileClassPanel extends BaseClassPanel {
     // Render the Show More.. Button
     let showMoreSections = this.getShowMoreButton();
 
-    // Figure out the credits string
-    let creditsString = this.getCreditsString();
-
-
     // Decide which chevron to use based on whether the panel is expanded or not.
     let chevron;
     if (this.state.showMoreThanTitle) {
@@ -91,7 +172,7 @@ class MobileClassPanel extends BaseClassPanel {
     return (
       <div>
         <div className={ `${css.container} ui segment` }>
-          <div className={ css.header } onClick={this.toggleShoreMoreThanTitle}>
+          <div className={ css.header } onClick={this.toggleShowMoreThanTitle}>
             <img className = {css.chevron} src = {chevron}/>
             <span className = { css.classTitle }>
               {aClass.subject} {aClass.classId}: {aClass.name}
@@ -103,22 +184,7 @@ class MobileClassPanel extends BaseClassPanel {
           }) }>
 
             <div className={ css.body }>
-              {aClass.desc}
-              <br />
-              <br />
-              <div>
-                Updated {aClass.getLastUpdateString()}
-                <br />
-                {creditsString}
-                <br />
-                <a target='_blank' rel='noopener noreferrer' href={aClass.prettyUrl || aClass.url}>
-                  {'View on ' + aClass.host}
-                </a>
-                <br />
-                Corequisites: {aClass.getCoreqsString()}
-                <br />
-                Prerequisites: {aClass.getPrereqsString()}
-              </div>
+              {this.getClassBody()}
             </div>
 
             {sectionTable} 
