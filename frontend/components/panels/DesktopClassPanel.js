@@ -6,7 +6,6 @@ import classNames from 'classnames/bind';
 import globe from './globe.svg';
 import desktopCss from './DesktopClassPanel.css';
 import baseCss from './BaseClassPanel.css';
-import MobileSectionPanel from './MobileSectionPanel';
 import macros from '../macros';
 import Keys from '../../../common/Keys';
 import LocationLinks from './LocationLinks';
@@ -83,135 +82,129 @@ class DesktopClassPanel extends BaseClassPanel {
     // Render the section table if this class has sections
     let sectionTable = null;
     if (aClass.sections && aClass.sections.length > 0) {
-      // If this is mobile, use the mobile panels.
-      if (macros.isMobile) {
-        sectionTable = this.state.renderedSections.map((section) => {
-          return <MobileSectionPanel key={ Keys.create(section).getHash() } section={ section } />;
-        });
-      } else {
-        // Add the Exam column headers if there are any sections in this class that has exam listed
-        let examColumnHeaders = null;
-        if (aClass.sectionsHaveExam()) {
-          examColumnHeaders = [
-            <th key='1'>Exam start</th>,
-            <th key='2'>Exam end</th>,
-            <th key='3'>Exam date</th>,
-          ];
-        }
 
-        // Add the Online sections head if there are any sections that are online
-        const showOnlineColumn = aClass.getHasOnlineSections();
+      // Add the Exam column headers if there are any sections in this class that has exam listed
+      let examColumnHeaders = null;
+      if (aClass.sectionsHaveExam()) {
+        examColumnHeaders = [
+          <th key='1'>Exam start</th>,
+          <th key='2'>Exam end</th>,
+          <th key='3'>Exam date</th>,
+        ];
+      }
 
-        const showWaitList = this.shouldShowWaitlist();
+      // Add the Online sections head if there are any sections that are online
+      const showOnlineColumn = aClass.getHasOnlineSections();
 
-        sectionTable = (
-          <table className={ `ui celled striped table ${css.resultsTable}` }>
-            <thead>
-              <tr>
-                <th>
-                  <div className={ css.inlineBlock } data-tip='Course Reference Number'>
-                      CRN
-                    </div>
-                </th>
-                <th> Professors </th>
-                <th> Weekdays </th>
-                <th> Start </th>
-                <th> End </th>
-                {examColumnHeaders}
-                <th> Location </th>
-                <th> Seats </th>
+      const showWaitList = this.shouldShowWaitlist();
 
-                <th
-                  className={ cx({
-                    displayNone: !showWaitList,
-                  }) }
-                > Waitlist seats </th>
-                <th> Link </th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* The CSS applied to the table stripes every other row, starting with the second one.
-                This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
-              <tr style={{ display:'none', paddingTop: 0, paddingBottom: '1px' }} />
-              {this.state.renderedSections.map((section) => {
+      sectionTable = (
+        <table className={ `ui celled striped table ${css.resultsTable}` }>
+          <thead>
+            <tr>
+              <th>
+                <div className={ css.inlineBlock } data-tip='Course Reference Number'>
+                    CRN
+                  </div>
+              </th>
+              <th> Professors </th>
+              <th> Weekdays </th>
+              <th> Start </th>
+              <th> End </th>
+              {examColumnHeaders}
+              <th> Location </th>
+              <th> Seats </th>
+
+              <th
+                className={ cx({
+                  displayNone: !showWaitList,
+                }) }
+              > Waitlist seats </th>
+              <th> Link </th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* The CSS applied to the table stripes every other row, starting with the second one.
+              This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
+            <tr style={{ display:'none', paddingTop: 0, paddingBottom: '1px' }} />
+            {this.state.renderedSections.map((section) => {
 
 
-                // Instead of calculating a lot of these individually and putting them together in the return call
-                // Append to this array as we go.
-                // So the logic can be separated into distinct if statements.
-                let tdElements = [];
+              // Instead of calculating a lot of these individually and putting them together in the return call
+              // Append to this array as we go.
+              // So the logic can be separated into distinct if statements.
+              let tdElements = [];
 
-                // If it is online, just put one super wide cell
-                if (section.online) {
-                  tdElements.push(
-                    <td colSpan="4" className={css.wideOnlineCell}>
-                      <span className={css.onlineDivLineContainer}>
-                        <span className = {css.onlineDivLine +' ' + css.onlineLeftLine}></span>
-                        <span className= {css.onlineText}>Online Class</span>
-                        <span className = {css.onlineDivLine}></span>
-                      </span>
-                    </td>)
-                
-                // Have individual cells for the different columns
-                } else {
-                  tdElements.push(<td> <WeekdayBoxes section={ section } /> </td>)
-                  tdElements.push(<td>{section.getUniqueStartTimes().join(', ')}</td>)
-                  tdElements.push(<td>{section.getUniqueEndTimes().join(', ')}</td>)
+              // If it is online, just put one super wide cell
+              if (section.online) {
+                tdElements.push(
+                  <td colSpan="4" className={css.wideOnlineCell}>
+                    <span className={css.onlineDivLineContainer}>
+                      <span className = {css.onlineDivLine +' ' + css.onlineLeftLine}></span>
+                      <span className= {css.onlineText}>Online Class</span>
+                      <span className = {css.onlineDivLine}></span>
+                    </span>
+                  </td>)
+              
+              // Have individual cells for the different columns
+              } else {
+                tdElements.push(<td> <WeekdayBoxes section={ section } /> </td>)
+                tdElements.push(<td>{section.getUniqueStartTimes().join(', ')}</td>)
+                tdElements.push(<td>{section.getUniqueEndTimes().join(', ')}</td>)
 
-                  // If there are exams, fill in those cells too
-                  // Calculate the exam elements in each row
-                  if (aClass.sectionsHaveExam()) {
-                    const examMoments = section.getExamMoments();
-                    if (examMoments) {
-                      tdElements.push(<td key='1'>{examMoments.start.format('h:mm a')}</td>)
-                      tdElements.push(<td key='2'>{examMoments.end.format('h:mm a')}</td>)
-                      tdElements.push(<td key='3'>{examMoments.start.format('MMM Do')}</td>)
-                    } else {
-                      tdElements.push(<td key='1'></td>)
-                      tdElements.push(<td key='2'></td>)
-                      tdElements.push(<td key='3'></td>)
-                    }
+                // If there are exams, fill in those cells too
+                // Calculate the exam elements in each row
+                if (aClass.sectionsHaveExam()) {
+                  const examMoments = section.getExamMoments();
+                  if (examMoments) {
+                    tdElements.push(<td key='1'>{examMoments.start.format('h:mm a')}</td>)
+                    tdElements.push(<td key='2'>{examMoments.end.format('h:mm a')}</td>)
+                    tdElements.push(<td key='3'>{examMoments.start.format('MMM Do')}</td>)
+                  } else {
+                    tdElements.push(<td key='1'></td>)
+                    tdElements.push(<td key='2'></td>)
+                    tdElements.push(<td key='3'></td>)
                   }
-
-                  tdElements.push(<td> <LocationLinks section={ section } /> </td>);
                 }
 
+                tdElements.push(<td> <LocationLinks section={ section } /> </td>);
+              }
 
-                return (
-                  <tr key={ Keys.create(section).getHash() }>
-                    <td> {section.crn} </td>
-                    <td> {section.getProfs().join(', ')} </td>
 
-                    {tdElements}
+              return (
+                <tr key={ Keys.create(section).getHash() }>
+                  <td> {section.crn} </td>
+                  <td> {section.getProfs().join(', ')} </td>
 
-                    <td>
-                      <div data-tip='Open Seats/Total Seats' className={ css.inlineBlock }>
-                        {section.seatsRemaining}/{section.seatsCapacity}
-                      </div>
-                    </td>
+                  {tdElements}
 
-                    <td
-                      className={ cx({
-                        displayNone: !showWaitList,
-                      }) }
-                    >
-                      <div data-tip='Open/Total Waitlist Seats' className={ css.inlineBlock }>
-                        {section.waitRemaining}/{section.waitCapacity}
-                      </div>
-                    </td>
+                  <td>
+                    <div data-tip='Open Seats/Total Seats' className={ css.inlineBlock }>
+                      {section.seatsRemaining}/{section.seatsCapacity}
+                    </div>
+                  </td>
 
-                    <td>
-                      <a target='_blank' rel='noopener noreferrer' className={ css.inlineBlock + ' ' + css.sectionGlobe } data-tip={ `View on ${section.host}` } href={ section.prettyUrl || section.url }>
-                        <img src={ globe } alt='link' />
-                      </a>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        );
-      }
+                  <td
+                    className={ cx({
+                      displayNone: !showWaitList,
+                    }) }
+                  >
+                    <div data-tip='Open/Total Waitlist Seats' className={ css.inlineBlock }>
+                      {section.waitRemaining}/{section.waitCapacity}
+                    </div>
+                  </td>
+
+                  <td>
+                    <a target='_blank' rel='noopener noreferrer' className={ css.inlineBlock + ' ' + css.sectionGlobe } data-tip={ `View on ${section.host}` } href={ section.prettyUrl || section.url }>
+                      <img src={ globe } alt='link' />
+                    </a>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      );
     }
 
     // Render the Show More.. Button
