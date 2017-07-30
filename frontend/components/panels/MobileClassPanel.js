@@ -40,8 +40,18 @@ class MobileClassPanel extends BaseClassPanel {
   }
 
   toggleShowMoreThanTitle() {
+
+    const newState = !this.state.showMoreThanTitle;
+    let newShowAllClassDetails = this.state.showAllClassDetails;
+
+    // If closing the class accordian, reset the showAllClassDetails back to the default. 
+    if (!newState) {
+      newShowAllClassDetails = false;
+    }
+
     this.setState({
-      showMoreThanTitle: !this.state.showMoreThanTitle
+      showMoreThanTitle: newState,
+      showAllClassDetails: newShowAllClassDetails
     })
   }
 
@@ -127,12 +137,12 @@ class MobileClassPanel extends BaseClassPanel {
             {sliceDesc + '...'}&nbsp;&nbsp;&nbsp;&nbsp;
           </span>
 
-          <span>
+          <div>
             <a onClick={this.toggleShowAllClassDetails} style={{display:'inline-block'}}>
               Show More...
             </a>
 
-          </span>
+          </div>
 
         </span>
 
