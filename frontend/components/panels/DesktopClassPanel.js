@@ -250,6 +250,9 @@ class DesktopClassPanel extends BaseClassPanel {
   }
 }
 
+// Number of sections to show by default. This is different on mobile. 
+DesktopClassPanel.sectionsShownByDefault = 3;
+
 DesktopClassPanel.propTypes = {
   aClass: PropTypes.object.isRequired,
 };

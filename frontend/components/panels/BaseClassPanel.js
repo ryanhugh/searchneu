@@ -11,14 +11,25 @@ class BaseClassPanel extends React.Component {
   constructor(props) {
     super(props);
 
-    // Show 3 sections by default
-    this.state = {
-      renderedSections: props.aClass.sections.slice(0, macros.sectionsShownByDefault),
-      unrenderedSections: props.aClass.sections.slice(macros.sectionsShownByDefault),
-    };
-
+    this.state = this.getInitialRenderedSectionState();
 
     this.onShowMoreClick = this.onShowMoreClick.bind(this);
+  }
+
+  getInitialRenderedSectionState() {
+    let sectionsShownByDefault;
+    if (this.constructor.sectionsShownByDefault) {
+      sectionsShownByDefault = this.constructor.sectionsShownByDefault
+    }
+    else {
+      sectionsShownByDefault = macros.sectionsShownByDefault;
+    }
+
+    // Show 3 sections by default
+    return {
+      renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
+      unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
+    };
   }
 
   onShowMoreClick() {

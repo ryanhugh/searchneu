@@ -41,18 +41,21 @@ class MobileClassPanel extends BaseClassPanel {
 
   toggleShowMoreThanTitle() {
 
-    const newState = !this.state.showMoreThanTitle;
+    const newTitleValue = !this.state.showMoreThanTitle;
     let newShowAllClassDetails = this.state.showAllClassDetails;
 
     // If closing the class accordian, reset the showAllClassDetails back to the default. 
-    if (!newState) {
+    let newState = {};
+    if (!newTitleValue) {
       newShowAllClassDetails = false;
+      newState = this.getInitialRenderedSectionState();
+      console.log("resetting!", newState)
     }
 
-    this.setState({
-      showMoreThanTitle: newState,
-      showAllClassDetails: newShowAllClassDetails
-    })
+    newState.showMoreThanTitle = newTitleValue;
+    newState.showAllClassDetails = newShowAllClassDetails;
+
+    this.setState(newState);
   }
 
   toggleShowAllClassDetails() {
@@ -204,13 +207,12 @@ class MobileClassPanel extends BaseClassPanel {
         </div>
       </div>
     );
-
-
-
-
   }
 
 }
+
+// Number of sections to show by default.
+MobileClassPanel.sectionsShownByDefault = 1;
 
 
 MobileClassPanel.propTypes = {
