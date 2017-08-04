@@ -30,3 +30,20 @@
     opacity: .8;
     float: right;
 }
+
+/* These were copied from class panel. */
+.chevron {
+  width: 18px;
+  opacity: .6;
+  vertical-align: top;
+  margin-right: 10px;
+  margin-top: 2px;
+}
+.displayNone {
+    display: none;
+}
+.titleText {
+  display: inline-block;
+  max-width: calc(100% - 30px);
+  font-size: 19px;
+}

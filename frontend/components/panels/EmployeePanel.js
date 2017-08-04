@@ -6,6 +6,8 @@ import classNames from 'classnames/bind';
 import macros from '../macros';
 import css from './EmployeePanel.css';
 import globe from './globe.svg';
+import chevronDown from './chevron-down.svg';
+import chevronRight from './chevron-right.svg';
 
 
 const cx = classNames.bind(css);
@@ -41,6 +43,24 @@ const cx = classNames.bind(css);
 // not standardized yet: personalSite, bigPictureLink
 class EmployeePanel extends React.Component {
 
+  constructor(props) {
+    super(props);
+    
+
+    this.state = {
+      showMoreThanTitle: false
+    }
+
+    this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
+  }
+
+  toggleShowMoreThanTitle() {
+    console.log('now it is ', this.state.showMoreThanTitle)
+    this.setState({
+      showMoreThanTitle: !this.state.showMoreThanTitle
+    })
+  }
+
   static injectBRs(arr) {
     const retVal = [];
 
@@ -56,7 +76,10 @@ class EmployeePanel extends React.Component {
     return retVal;
   }
 
-  shouldComponentUpdate() {
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.showMoreThanTitle !== this.state.showMoreThanTitle) {
+      return true;
+    }
     return false;
   }
 
@@ -122,8 +145,30 @@ class EmployeePanel extends React.Component {
       }
     }
 
+
+    // Decide which chevron to use based on whether the panel is expanded or not. (Mobile only)
+    let chevronSource = null;
+    let chevron = null;
+    if (macros.isMobile) {
+      if (this.state.showMoreThanTitle) {
+        chevronSource = chevronDown
+      }
+      else {
+        chevronSource = chevronRight
+      }
+
+      chevron = <img className = {css.chevron} src = {chevronSource}/>
+    }
+
+    // Set up the onclick listener, if this is mobile.
+    let titleClickListener = null;
+    if (macros.isMobile) {
+      titleClickListener = this.toggleShowMoreThanTitle;
+    }
+
+
     let linkElement = null;
-    if (employee.url) {
+    if (employee.url && !macros.isMobile) {
       linkElement = (
         <span className={ css.link }>
           <a key='jfdalsj' target='_blank' rel='noopener noreferrer' className={ css.inlineBlock } href={ employee.url }>
@@ -135,12 +180,18 @@ class EmployeePanel extends React.Component {
 
     return (
       <div className={ `${css.container} ui segment` }>
-        <div className={ css.header }>
-          {employee.name}
+        <div className={ css.header } onClick={titleClickListener}>
+          {chevron}
+          <span className = {css.titleText}>
+            {employee.name}
+          </span>
           {linkElement}
         </div>
 
-        <div className={ css.body }>
+        <div className={ cx({
+          displayNone: !this.state.showMoreThanTitle && macros.isMobile,
+          body: true
+        }) }>
           <div className={ `${css.inlineBlock} ${css.contactBox}` }>
             {this.constructor.injectBRs(firstColumn)}
           </div>

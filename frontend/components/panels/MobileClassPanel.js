@@ -49,7 +49,6 @@ class MobileClassPanel extends BaseClassPanel {
     if (!newTitleValue) {
       newShowAllClassDetails = false;
       newState = this.getInitialRenderedSectionState();
-      console.log("resetting!", newState)
     }
 
     newState.showMoreThanTitle = newTitleValue;
