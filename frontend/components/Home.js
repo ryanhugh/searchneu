@@ -2,6 +2,7 @@ import React from 'react';
 import CSSModules from 'react-css-modules';
 import 'semantic-ui-css/semantic.min.css';
 import ReactTooltip from 'react-tooltip';
+import classNames from 'classnames/bind';
 
 import '../css/base.css';
 
@@ -11,6 +12,8 @@ import css from './home.css';
 import macros from './macros';
 import ResultsLoader from './ResultsLoader';
 
+
+const cx = classNames.bind(css);
 
 // Home page component
 class Home extends React.Component {
@@ -299,7 +302,14 @@ class Home extends React.Component {
 
         <div className={ css.topPadding } />
         <div>
-          <div id='top-header' className='ui center aligned icon header'>
+          <div id='top-header' className={cx({
+            ui: true,
+            center: true,
+            aligned: true,
+            icon: true,
+            header: true,
+            mobileHeader: macros.isMobile
+          })}>
             <h1 className={ css.title }>
             Search
           </h1>

@@ -78,3 +78,6 @@
     box-shadow: 0 0 20px 12px #dcdcdc;
     max-width: 100%;
 }
+.mobileHeader {
+    padding-bottom: 20px !important;
+}
