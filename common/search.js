@@ -7,6 +7,21 @@ import CourseProData from './classModels/DataLib';
 // The plan is to use this in both the frontend and the backend.
 // Right now it is only in use in the backend.
 
+// Should eventually get some tests running to make sure these stay working
+// cs2500 (this one and not the lab)
+// cs2501
+// ood 
+// ml (ml should be high up there)
+// ai 
+// razzaq
+// cooperman
+// cs
+// math
+// algo (CS 5800)
+// algo and data (CS 4800)
+// orgo (this one and fundies are hardcoded)
+// fundies
+
 
 const classSearchConfig = {
   fields: {
@@ -22,8 +37,10 @@ const classSearchConfig = {
     desc: {
       boost: 1,
     },
+
+    // Don't make the name value too high or searching for "cs2500" will come up with the lab (which mentions cs 2500 in it's name) instead of CS 2500. 
     name: {
-      boost: 1,
+      boost: 1.1,
     },
     profs: {
       boost: 1,
@@ -46,11 +63,14 @@ const employeeSearchConfig = {
     name: {
       boost: 2,
     },
+
+    // It is very unlikely that someone will search for these,
+    //so we want to keep the scoring low so they don't come up when the user searches for one of the other fields. 
     primaryRole: {
-      boost: 1,
+      boost: .4,
     },
     primaryDepartment: {
-      boost: 1,
+      boost: .4,
     },
     emails: {
       boost: 1,
