@@ -28,6 +28,12 @@ class DesktopClassPanel extends BaseClassPanel {
 
   constructor(props) {
     super(props);
+
+    this.formatPrereqClasses = this.formatPrereqClasses.bind(this);
+  }
+
+  formatPrereqClasses(aClass) {
+    return <a href={"/" + aClass.subject + '+' + aClass.classId}>{aClass.subject + ' ' + aClass.classId}</a>
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -232,7 +238,7 @@ class DesktopClassPanel extends BaseClassPanel {
             <br />
             <br />
             <div className={ css.leftPanel }>
-              Prerequisites: {aClass.getPrereqsString()}
+              Prerequisites: {aClass.getPrereqsString(this.formatPrereqClasses)}
               <br />
               Corequisites: {aClass.getCoreqsString()}
             </div>

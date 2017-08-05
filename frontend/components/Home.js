@@ -157,6 +157,8 @@ class Home extends React.Component {
     }
   }
 
+  
+
   // Called from ResultsLoader to load more
   loadMore() {
     this.search(this.state.searchTerm, this.state.results.length + 10);
