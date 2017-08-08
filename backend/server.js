@@ -174,6 +174,7 @@ app.get('/search', wrap(async (req, res) => {
 
 
 
+// Webhook to respond to facebook messages. 
 async function sendTextMessage(sender, text) {
     let messageData = { text:text }
     
@@ -196,16 +197,19 @@ async function sendTextMessage(sender, text) {
 }
 
 
-// for Facebook verification
+// for Facebook verification of the endpoint.
 app.get('/webhook/', function (req, res) {
         console.log(req.query);
         if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
-                console.log("yup!");
-                res.send(req.query['hub.challenge'])
+          console.log("yup!");
+          res.send(req.query['hub.challenge'])
         }
-        res.send('Error, wrong token')
+        else {
+          res.send('Error, wrong token')
+        }
 })
 
+// Respond to the messages
 app.post('/webhook/', function (req, res) {
     let messaging_events = req.body.entry[0].messaging
     for (let i = 0; i < messaging_events.length; i++) {
@@ -213,7 +217,13 @@ app.post('/webhook/', function (req, res) {
 	    let sender = event.sender.id
 	    if (event.message && event.message.text) {
 		    let text = event.message.text
-		    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+		    
+		    if (text === 'test') {
+  		    sendTextMessage(sender, "CS 1800 now has 1 seat avalible!! Check it out on https://searchneu.com/cs1800 !");
+		    }
+		    else {
+  		    sendTextMessage(sender, "Yo! 👋😃😆 I'm the Search NEU bot. Someday, I will notify you when seats open up in classes that are full. 😎👌🍩 But that day is not today...");
+		    }
 	    }
     }
     res.sendStatus(200)
