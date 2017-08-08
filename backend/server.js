@@ -6,10 +6,14 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import wrap from 'express-async-wrap';
 import fs from 'fs-promise';
 import compress from 'compression';
+import bodyParser from 'body-parser';
+import Request from './scrapers/request';
 
 import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
+
+const request = new Request('server');
 
 const app = express();
 
@@ -167,6 +171,29 @@ app.get('/search', wrap(async (req, res) => {
   res.setHeader("Content-Type", "application/json; charset=UTF-8");
   res.send(string);
 }));
+
+
+
+async function sendTextMessage(sender, text) {
+    let messageData = { text:text }
+    
+    let token = await macros.getEnvVariable('fbToken')
+    request.post({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+		json: {
+		    recipient: {id:sender},
+			message: messageData,
+		}
+	}, function(error, response, body) {
+		if (error) {
+		    console.log('Error sending messages: ', error)
+		} else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
+}
 
 
 // for Facebook verification
