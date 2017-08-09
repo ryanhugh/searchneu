@@ -26,18 +26,6 @@ const cx = classNames.bind(css);
 // DesktopClassPanel page component
 class DesktopClassPanel extends BaseClassPanel {
 
-  constructor(props) {
-    super(props);
-
-    this.formatPrereqClasses = this.formatPrereqClasses.bind(this);
-  }
-
-  formatPrereqClasses(aClass) {
-    
-    var event = new CustomEvent(macros.searchEvent, { detail: aClass });
-
-    return <a key={Keys.create(aClass).getHash()} onClick={() => {window.dispatchEvent(event)}} className={css.reqClassLink}>{aClass.subject + ' ' + aClass.classId}</a>
-  }
 
   componentDidUpdate(prevProps, prevState) {
     macros.debounceTooltipRebuild();
