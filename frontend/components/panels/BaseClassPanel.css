@@ -23,3 +23,6 @@
 .displayNone {
     display: none;
 }
+.reqClassLink {
+  cursor: pointer;
+}

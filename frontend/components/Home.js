@@ -49,6 +49,7 @@ class Home extends React.Component {
     this.onKeyDown = this.onKeyDown.bind(this);
     this.loadMore = this.loadMore.bind(this);
     this.onPopState = this.onPopState.bind(this);
+    this.onDOMEventSearch = this.onDOMEventSearch.bind(this);
     this.onSearchDebounced = this.onSearchDebounced.bind(this);
 
     // Count the number of times the user searched this session. Used for analytics. 
@@ -86,6 +87,7 @@ class Home extends React.Component {
   // Even this component will never go away in prod, it can go away in dev due to HMR. 
   componentWillUnmount() {
     window.removeEventListener('onpopstate', this.onPopState);
+    window.removeEventListener(macros.searchEvent, this.onDOMEventSearch);
   }
 
   logSearch(searchTerm) {
@@ -104,6 +106,28 @@ class Home extends React.Component {
       window.amplitude.logEvent('Homepage visit');
       window.ga('send', 'pageview', '/');
     }
+  }
+  
+  
+  onDOMEventSearch(event) {
+    const aClass = event.detail;
+    
+    // Get the query
+    const query = aClass.subject + ' ' + aClass.classId
+    
+    // Update the text box.
+    if (this.inputElement) {
+      this.inputElement.value = query
+    }
+    
+    // Update the url
+    this.onSearchDebounced(query);
+    
+    // Scroll to the top
+    document.body.scrollTop = 0;
+    
+    // console.log('yooo', event)
+    this.search(query);
   }
 
 
@@ -137,10 +161,11 @@ class Home extends React.Component {
   }
 
 
-  async componentDidMount() {
+  componentDidMount() {
 
     // Add a listener for location changes. 
     window.addEventListener('popstate', this.onPopState);
+    window.addEventListener(macros.searchEvent, this.onDOMEventSearch);
 
     if (this.state.searchTerm) {
       console.log('Going to serach for', this.state.searchTerm);

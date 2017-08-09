@@ -33,7 +33,10 @@ class DesktopClassPanel extends BaseClassPanel {
   }
 
   formatPrereqClasses(aClass) {
-    return <a href={"/" + aClass.subject + '+' + aClass.classId}>{aClass.subject + ' ' + aClass.classId}</a>
+    
+    var event = new CustomEvent(macros.searchEvent, { detail: aClass });
+
+    return <a onClick={() => {window.dispatchEvent(event)}} className={css.reqClassLink}>{aClass.subject + ' ' + aClass.classId}</a>
   }
 
   componentDidUpdate(prevProps, prevState) {
