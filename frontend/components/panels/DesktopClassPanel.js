@@ -229,9 +229,9 @@ class DesktopClassPanel extends BaseClassPanel {
             <br />
             <br />
             <div className={ css.leftPanel }>
-              Prerequisites: {aClass.getPrereqsString(this.formatPrereqClasses)}
+              Prerequisites: {aClass.getPrereqsString(this.formatReqClasses)}
               <br />
-              Corequisites: {aClass.getCoreqsString()}
+              Corequisites: {aClass.getCoreqsString(this.formatReqClasses)}
             </div>
             <div className={ css.rightPanel }>
               Updated {aClass.getLastUpdateString()}

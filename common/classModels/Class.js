@@ -507,38 +507,104 @@ Class.prototype.getPrereqsString = function (wrapperFunc) {
 };
 
 
-
-Class.prototype.getCoreqsString = function () {
+// The argument wrapper func is optional
+// If it exists, it is called on when formatting the classes 
+// It is called with a class
+// and can return either a string or a react element. 
+Class.prototype.getCoreqsString = function (wrapperFunc) {
 	var retVal = [];
+
+	// Keep track of which subject+classId combonations have been used so far.
+	// If you encounter the same subject+classId combo in the same loop, skip the second one.
+	// This is because there is no need to show (eg. CS 2500 and CS 2500 (hon)) in the same group
+	// because only the subject and the classId are going to be shown. 
+	let processedSubjectClassIds = {}
+
 	this.coreqs.values.forEach(function (childBranch) {
 		if (!(childBranch instanceof RequisiteBranch)) {
 			if (childBranch.isString) {
+
+				// Skip if already seen
+				if (processedSubjectClassIds[childBranch.desc]) {
+					return;
+				}
+				processedSubjectClassIds[childBranch.desc] = true;
+
+
 				retVal.push(childBranch.desc)
 			}
 			else {
-				retVal.push(childBranch.subject + ' ' + childBranch.classId)
+
+				// Skip if already seen
+				if (processedSubjectClassIds[childBranch.subject + childBranch.classId]) {
+					return;
+				}
+				processedSubjectClassIds[childBranch.subject + childBranch.classId] = true;
+
+
+				if (wrapperFunc) {
+					retVal.push(wrapperFunc(childBranch))
+				}
+				else {
+					retVal.push(childBranch.subject + ' ' + childBranch.classId)
+				}
 			}
 		}
 		else {
-			elog('need to have classes as coreqs, not RequisiteBranch')
-			retVal.push('something')
+			macros.error("???", childBranch)
 		}
 	}.bind(this))
 
-	// Dedupe retVal
-	// If two classes have the same classId (eg. CS 2500 and CS 2500 (hon))
-	// remove one of them
-	retVal = _.uniq(retVal);
+
+	// Now insert the type divider ("and" vs "or") between the elements.
+	// Can't use the join in case the objects are react elements
+	for (var i = retVal.length - 1; i >= 1; i--) {
+		retVal.splice(i, 0, ' ' + this.prereqs.type + ' ');
+	}
 
 	if (retVal.length === 0) {
 		return 'None'
 	}
 	else {
-		retVal = retVal.join(' ' + this.coreqs.type + ' ')
+		// retVal = retVal.join(' ' + this.prereqs.type + ' ')
 
 		return retVal;
 	}
 };
+
+
+
+// Class.prototype.getCoreqsString = function () {
+// 	var retVal = [];
+// 	this.coreqs.values.forEach(function (childBranch) {
+// 		if (!(childBranch instanceof RequisiteBranch)) {
+// 			if (childBranch.isString) {
+// 				retVal.push(childBranch.desc)
+// 			}
+// 			else {
+// 				retVal.push(childBranch.subject + ' ' + childBranch.classId)
+// 			}
+// 		}
+// 		else {
+// 			elog('need to have classes as coreqs, not RequisiteBranch')
+// 			retVal.push('something')
+// 		}
+// 	}.bind(this))
+
+// 	// Dedupe retVal
+// 	// If two classes have the same classId (eg. CS 2500 and CS 2500 (hon))
+// 	// remove one of them
+// 	retVal = _.uniq(retVal);
+
+// 	if (retVal.length === 0) {
+// 		return 'None'
+// 	}
+// 	else {
+// 		retVal = retVal.join(' ' + this.coreqs.type + ' ')
+
+// 		return retVal;
+// 	}
+// };
 
 
 Class.prototype.loadSectionsFromSectionMap = function (sectionMap) {
