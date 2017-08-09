@@ -6,13 +6,25 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import wrap from 'express-async-wrap';
 import fs from 'fs-promise';
 import compress from 'compression';
+import bodyParser from 'body-parser';
+import Request from './scrapers/request';
 
 import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 
+const request = new Request('server');
+
 const app = express();
-app.use(compress()); // gzip the output
+
+// gzip the output
+app.use(compress()); 
+
+// Process application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: false}))
+
+// Process application/json
+app.use(bodyParser.json())
 
 // Prevent being in an iFrame.
 app.use(function (req, res, next) {
@@ -159,6 +171,67 @@ app.get('/search', wrap(async (req, res) => {
   res.setHeader("Content-Type", "application/json; charset=UTF-8");
   res.send(string);
 }));
+
+
+
+// Webhook to respond to facebook messages. 
+async function sendTextMessage(sender, text) {
+    let messageData = { text:text }
+    
+    let token = await macros.getEnvVariable('fbToken')
+    request.post({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+		json: {
+		    recipient: {id:sender},
+			message: messageData,
+		}
+	}, function(error, response, body) {
+		if (error) {
+		    console.log('Error sending messages: ', error)
+		} else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
+}
+
+
+// for Facebook verification of the endpoint.
+app.get('/webhook/', async function (req, res) {
+        console.log(req.query);
+        
+        let verifyToken = await macros.getEnvVariable('fbVerifyToken')
+        
+        if (req.query['hub.verify_token'] === verifyToken) {
+          console.log("yup!");
+          res.send(req.query['hub.challenge'])
+        }
+        else {
+          res.send('Error, wrong token')
+        }
+})
+
+// Respond to the messages
+app.post('/webhook/', function (req, res) {
+    let messaging_events = req.body.entry[0].messaging
+    for (let i = 0; i < messaging_events.length; i++) {
+	    let event = req.body.entry[0].messaging[i]
+	    let sender = event.sender.id
+	    if (event.message && event.message.text) {
+		    let text = event.message.text
+		    
+		    if (text === 'test') {
+  		    sendTextMessage(sender, "CS 1800 now has 1 seat avalible!! Check it out on https://searchneu.com/cs1800 !");
+		    }
+		    else {
+  		    sendTextMessage(sender, "Yo! 👋😃😆 I'm the Search NEU bot. Someday, I will notify you when seats open up in classes that are full. 😎👌🍩 But that day is not today...");
+		    }
+	    }
+    }
+    res.sendStatus(200)
+})
+
 
 
 let middleware;

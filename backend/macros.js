@@ -158,7 +158,22 @@ class Macros extends commonMacros {
       }
     }
     return n;
-  };
+  }
+  
+  static async getEnvVariable(name) {
+    let exists = await fs.exists('/etc/searchneu/config.json');
+    
+    if (!exists) {
+      return null;
+    }
+    
+    
+    let body = await fs.readFile('/etc/searchneu/config.json')
+    
+    let obj = JSON.parse(body)
+    
+    return obj[name]
+  }
 
 
   // This is for programming errors. This will cause the program to exit anywhere.
@@ -166,7 +181,7 @@ class Macros extends commonMacros {
   static critical(...args) {
     Macros.error.apply(Macros.error, args);
     process.exit(1);
-  };
+  }
 
   // Use this for stuff that should never happen, but does not mean the program cannot continue.
   // This will continue running in dev, but will exit on CI
@@ -180,7 +195,7 @@ class Macros extends commonMacros {
     if (process.env.CI) {
       process.exit(1);
     }
-  };
+  }
 
   // Use console.warn to log stuff during testing
 
@@ -190,7 +205,7 @@ class Macros extends commonMacros {
     }
 
     console.log.apply(console.log, args);
-  };
+  }
 
 }
 

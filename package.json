@@ -31,6 +31,7 @@
     "acorn": "^5.0.3",
     "another-name-parser": "^0.0.4",
     "async": "^2.1.5",
+    "body-parser": "^1.17.2",
     "cheerio": "^0.22.0",
     "classnames": "^2.2.5",
     "compression": "^1.6.2",
