@@ -198,9 +198,12 @@ async function sendTextMessage(sender, text) {
 
 
 // for Facebook verification of the endpoint.
-app.get('/webhook/', function (req, res) {
+app.get('/webhook/', async function (req, res) {
         console.log(req.query);
-        if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
+        
+        let verifyToken = await macros.getEnvVariable('fbVerifyToken')
+        
+        if (req.query['hub.verify_token'] === verifyToken) {
           console.log("yup!");
           res.send(req.query['hub.challenge'])
         }
