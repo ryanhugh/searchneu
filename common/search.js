@@ -404,7 +404,7 @@ class Search {
       // Sort the objects by chunks that have the same score.
       objects = this.constructor.sortObjectsAfterScore(objects);
 
-      macros.log('Sorting took ', Date.now() - startTime, 'ms', objects.length, startOffset, returnItemCount);
+      // macros.log('Sorting took ', Date.now() - startTime, 'ms', objects.length, startOffset, returnItemCount);
     }
 
 
