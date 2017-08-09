@@ -36,7 +36,7 @@ class DesktopClassPanel extends BaseClassPanel {
     
     var event = new CustomEvent(macros.searchEvent, { detail: aClass });
 
-    return <a onClick={() => {window.dispatchEvent(event)}} className={css.reqClassLink}>{aClass.subject + ' ' + aClass.classId}</a>
+    return <a key={Keys.create(aClass).getHash()} onClick={() => {window.dispatchEvent(event)}} className={css.reqClassLink}>{aClass.subject + ' ' + aClass.classId}</a>
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -157,9 +157,9 @@ class DesktopClassPanel extends BaseClassPanel {
               
               // Have individual cells for the different columns
               } else {
-                tdElements.push(<td> <WeekdayBoxes section={ section } /> </td>)
-                tdElements.push(<td>{section.getUniqueStartTimes().join(', ')}</td>)
-                tdElements.push(<td>{section.getUniqueEndTimes().join(', ')}</td>)
+                tdElements.push(<td key="4"> <WeekdayBoxes section={ section } /> </td>)
+                tdElements.push(<td key="5">{section.getUniqueStartTimes().join(', ')}</td>)
+                tdElements.push(<td key="6">{section.getUniqueEndTimes().join(', ')}</td>)
 
                 // If there are exams, fill in those cells too
                 // Calculate the exam elements in each row
@@ -176,7 +176,7 @@ class DesktopClassPanel extends BaseClassPanel {
                   }
                 }
 
-                tdElements.push(<td> <LocationLinks section={ section } /> </td>);
+                tdElements.push(<td key="8"> <LocationLinks section={ section } /> </td>);
               }
 
 
