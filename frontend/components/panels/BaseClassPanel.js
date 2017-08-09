@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 
 import css from './BaseClassPanel.css';
+import Keys from '../../../common/Keys';
 import macros from '../macros';
 
 
@@ -13,7 +14,14 @@ class BaseClassPanel extends React.Component {
 
     this.state = this.getInitialRenderedSectionState();
 
+    this.formatPrereqClasses = this.formatPrereqClasses.bind(this);
     this.onShowMoreClick = this.onShowMoreClick.bind(this);
+  }
+  
+  // Takes in a class and returns a react <a> element that will search for the class when clicked. Used in the prereq and coreq strings. 
+  formatPrereqClasses(aClass) {
+    const event = new CustomEvent(macros.searchEvent, { detail: aClass });
+    return <a key={Keys.create(aClass).getHash()} onClick={() => {window.dispatchEvent(event)}} className={css.reqClassLink}>{aClass.subject + ' ' + aClass.classId}</a>
   }
 
   getInitialRenderedSectionState() {
