@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 
+import RequisiteBranch from '../../../common/classModels/RequisiteBranch';
 import css from './BaseClassPanel.css';
 import Keys from '../../../common/Keys';
 import macros from '../macros';
@@ -14,14 +15,7 @@ class BaseClassPanel extends React.Component {
 
     this.state = this.getInitialRenderedSectionState();
 
-    this.formatReqClasses = this.formatReqClasses.bind(this);
     this.onShowMoreClick = this.onShowMoreClick.bind(this);
-  }
-  
-  // Takes in a class and returns a react <a> element that will search for the class when clicked. Used in the prereq and coreq strings. 
-  formatReqClasses(aClass) {
-    const event = new CustomEvent(macros.searchEvent, { detail: aClass });
-    return <a key={Keys.create(aClass).getHash()} onClick={() => {window.dispatchEvent(event)}} className={css.reqClassLink}>{aClass.subject + ' ' + aClass.classId}</a>
   }
 
   getInitialRenderedSectionState() {
@@ -89,7 +83,7 @@ class BaseClassPanel extends React.Component {
   // If it exists, it is called on when formatting the classes 
   // It is called with a class
   // and can return either a string or a react element. 
-  getReqsString(parsingPrereqs = true, wrapperFunc = null) {
+  getReqsString(parsingPrereqs = true, aClass = this.props.aClass) {
   	var retVal = [];
   
   	// Keep track of which subject+classId combonations have been used so far.
@@ -101,10 +95,10 @@ class BaseClassPanel extends React.Component {
   	let childNodes;
   	
   	if (parsingPrereqs) {
-  	  childNodes = this.prereqs
+  	  childNodes = aClass.prereqs
   	}
   	else {
-  	  childNodes = this.coreqs
+  	  childNodes = aClass.coreqs
   	}
   	
   
@@ -130,14 +124,12 @@ class BaseClassPanel extends React.Component {
   					return;
   				}
   				processedSubjectClassIds[childBranch.subject + childBranch.classId] = true;
+  				
+  				// Create the React element and add it to retVal
+          const event = new CustomEvent(macros.searchEvent, { detail: childBranch });
+          const element =  <a key={Keys.create(childBranch).getHash()} onClick={() => {window.dispatchEvent(event)}} className={css.reqClassLink}>{childBranch.subject + ' ' + childBranch.classId}</a>
   
-  
-  				if (wrapperFunc) {
-  					retVal.push(wrapperFunc(childBranch))
-  				}
-  				else {
-  					retVal.push(childBranch.subject + ' ' + childBranch.classId)
-  				}
+					retVal.push(element)
   			}
   		}
   		
@@ -145,10 +137,10 @@ class BaseClassPanel extends React.Component {
   		else if (parsingPrereqs) {
     		//Ghetto fix until this tree is simplified
     		if (_.uniq(childBranch.prereqs.values).length === 1) {
-    			retVal.push(childBranch.getReqsString(parsingPrereqs, wrapperFunc))
+    			retVal.push(this.getReqsString(parsingPrereqs, childBranch))
     		}
     		else {
-    			retVal.push(['(', childBranch.getReqsString(parsingPrereqs, wrapperFunc), ')'])
+    			retVal.push(['(', this.getReqsString(parsingPrereqs, childBranch), ')'])
     		}
   		}
   		else {
@@ -160,7 +152,7 @@ class BaseClassPanel extends React.Component {
   	// Now insert the type divider ("and" vs "or") between the elements.
   	// Can't use the join in case the objects are react elements
   	for (var i = retVal.length - 1; i >= 1; i--) {
-  		retVal.splice(i, 0, ' ' + this.prereqs.type + ' ');
+  		retVal.splice(i, 0, ' ' + aClass.prereqs.type + ' ');
   	}
   
   	if (retVal.length === 0) {
