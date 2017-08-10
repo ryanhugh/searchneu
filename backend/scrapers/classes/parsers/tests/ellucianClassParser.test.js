@@ -24,7 +24,7 @@ import ellucianClassParser from '../ellucianClassParser';
 
 
 beforeAll(() => {
-  MockDate.set('10/10/2016', 0);
+  MockDate.set('Mon Oct 10 2016 00:00:00 -0000')
 });
 
 afterAll(() => {
@@ -51,7 +51,7 @@ it('can parse crns', async (done) => {
 
   expect(aClass).toEqual({
     url: url,
-    lastUpdateTime: 1476072000000,
+    lastUpdateTime: 1476057600000,
     name: 'Embedded Design Enabling Robotics',
     crns: ['15633', '15636', '15639', '16102', '17799', '17800'],
   });
@@ -79,7 +79,7 @@ it('should parse a bunch of deps', async (done) => {
 
   expect(aClass).toEqual({
     url: url,
-    lastUpdateTime: 1476072000000,
+    lastUpdateTime: 1476057600000,
     name: 'Thermodynamic/ Mech',
     crns: ['24600'],
   });
@@ -103,7 +103,7 @@ it('should parse a bunch of crns', async (done) => {
 
   expect(aClass).toEqual({
     url: url,
-    lastUpdateTime: 1476072000000,
+    lastUpdateTime: 1476057600000,
     name: 'Managerial Accounting',
     crns: ['11018', '11019', '11020', '11679', '19962', '20800', '22497', '23294', '23295', '24435', '6073', '6074', '6075', '6077', '6129', '6130', '8145'],
   });
@@ -131,7 +131,7 @@ it('should parse a bunch of meetings', async (done) => {
 
   expect(aClass).toEqual({
     url: url,
-    lastUpdateTime: 1476072000000,
+    lastUpdateTime: 1476057600000,
     name: 'The Evolution of U.S. Aerospace Power II',
     crns: ['12090'],
   });
