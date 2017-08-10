@@ -33,7 +33,6 @@ import ellucianSectionParser from './ellucianSectionParser';
 
 const request = new Request('EllucianClassParser');
 
-const timeZero = moment('0', 'h');
 
 class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
@@ -59,14 +58,6 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     // Returns a list of class objects wrapped.
     const { classWrappersMap, sectionStartingDatas } = this.parse(resp.body, url, catalogTitle);
-
-    // Add the last update times to the classes.
-    // This is not done in parse because the clock is not mocked out yet.
-    for (const className of Object.keys(classWrappersMap)) {
-      // Also set the last update time. 
-      classWrappersMap[className].value.lastUpdateTime = Date.now();
-    }
-
 
     // Load all the section datas.
     const promises = [];
@@ -128,13 +119,17 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
       }
 
       const timesMatch = times.match(/(.*?) - (.*?)$/i);
+      
+      let startMoment = moment(timesMatch[1], 'hh:mm a')
+      let endMoment = moment(timesMatch[2], 'hh:mm a')
 
-      let start = moment(timesMatch[1], 'hh:mm a').diff(timeZero, 'seconds');
-      let end = moment(timesMatch[2], 'hh:mm a').diff(timeZero, 'seconds');
+      // Convert the parsed moments to seconds since the day started.
+      let start = startMoment.hours() * 60 * 60 + startMoment.minutes() * 60;
+      let end = endMoment.hours() * 60 * 60 + endMoment.minutes() * 60;
 
-      // One day, moment shouldn't return anything more that this...
-      start %= 86400;
-      end %= 86400;
+      if (start < 0 || end < 0 || start > 86400 || end > 86400) {
+        macros.error("Error parsing, got invalid times", timesMatch, startMoment, start, end);
+      }
 
       retVal[dayIndex] = [{
         start: start,
@@ -316,6 +311,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
         parsedClassMap[className] = {
           type: 'classes',
           value: {
+            lastUpdateTime: Date.now(),
             name: className,
             url: url,
             crns: [sectionURLParsed.crn],
