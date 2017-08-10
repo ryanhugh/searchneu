@@ -24,7 +24,7 @@ import ellucianTermsParser from '../ellucianTermsParser';
 
 
 beforeAll(() => {
-  MockDate.set('10/10/2016');
+  MockDate.set('Mon Oct 10 2016 00:00:00 -0000')
 });
 
 afterAll(() => {
