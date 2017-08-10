@@ -24,7 +24,7 @@ import ellucianClassParser from '../ellucianClassParser';
 
 
 beforeAll(() => {
-  MockDate.set('10/10/2016');
+  MockDate.set('10/10/2016', 0);
 });
 
 afterAll(() => {
