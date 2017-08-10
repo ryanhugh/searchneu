@@ -22,38 +22,39 @@ var he = require('he')
 var moment = require('moment')
 import Keys from '../Keys'
 
+import RequisiteNode from './RequisiteNode';
 var Section = require('./Section')
 var RequisiteBranch = require('./RequisiteBranch')
 
-
-
-
-function Class(config) {
-
-
-	//true, if for instance "AP placement exam, etc"
-	this.isString = false;
-
-	// A class that is listed as a prereq for another class on the site, but this class dosen't actually exist
-	// Currently, missing prereqs are not even added as prereqs for classes because I can't think of any reason to list classes
-	// that don't exist anywhere on the site. Could be changed in future, the fitlter is in this file. 
-	// this.missing = false;
-
-	//instances of Section()
-	this.sections = []
-
-	this.prereqs = {
-		type: 'or',
-		values: []
-	}
-
-
-	this.coreqs = {
-		type: 'or',
-		values: []
-	}
-
-	this.crns = [];
+class Class extends RequisiteNode {
+  
+  constructor(config) {
+    super();
+      
+  	//true, if for instance "AP placement exam, etc"
+  	this.isString = false;
+  
+  	// A class that is listed as a prereq for another class on the site, but this class dosen't actually exist
+  	// Currently, missing prereqs are not even added as prereqs for classes because I can't think of any reason to list classes
+  	// that don't exist anywhere on the site. Could be changed in future, the fitlter is in this file. 
+  	// this.missing = false;
+  
+  	//instances of Section()
+  	this.sections = []
+  
+  	this.prereqs = {
+  		type: 'or',
+  		values: []
+  	}
+  
+  
+  	this.coreqs = {
+  		type: 'or',
+  		values: []
+  	}
+  
+  	this.crns = [];
+  }
 }
 
 
