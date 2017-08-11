@@ -44,7 +44,7 @@ if (macros.PROD && !window.localStorage.noTrack) {
   if(!n._iq.hasOwnProperty(e)){n._iq[e]={_q:[]};v(n._iq[e])}return n._iq[e]};e.amplitude=n;
   })(window,document);
 
-  amplitude.getInstance().init("e0801e33a10c3b66a3c1ac8ebff53359");
+  amplitude.getInstance().init(macros.amplitudeToken);
 }
 else {
   window.ga = function(...args){
