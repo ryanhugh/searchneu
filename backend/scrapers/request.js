@@ -192,12 +192,21 @@ class Request {
 
       macros.log(hostname);
       macros.log(JSON.stringify(totalAnalytics, null, 4));
+      
+      // Also log the event to Amplitude.
+      totalAnalytics.hostname = hostname;
+      macros.logAmplitudeEvent('request', totalAnalytics);
     }
 
     this.activeHostnames = {};
 
     // Shared pool
-    macros.log(JSON.stringify(this.getAnalyticsFromAgent(separateReqDefaultPool), null, 4));
+    const sharedPoolAnalytics = this.getAnalyticsFromAgent(separateReqDefaultPool);
+    macros.log(JSON.stringify(sharedPoolAnalytics, null, 4));
+    
+    // Also upload it to Amplitude.
+    sharedPoolAnalytics.hostname = 'shared';
+    macros.logAmplitudeEvent('request', sharedPoolAnalytics);
 
     if (this.openRequests === 0) {
       clearInterval(this.timer);
@@ -337,7 +346,7 @@ class Request {
       clearInterval(this.timer);
       macros.log('Starting request analytics timer.');
       this.analytics[hostname].startTime = Date.now();
-      this.timer = setInterval(this.onInterval.bind(this), 5000);
+      this.timer = setInterval(this.onInterval.bind(this), 1000);
       setTimeout(() => {
         this.onInterval();
       }, 0);
