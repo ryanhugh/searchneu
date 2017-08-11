@@ -68,6 +68,7 @@
     "request": "^2.81.0",
     "request-promise-native": "^1.0.3",
     "resolve-url-loader": "^2.0.2",
+    "rollbar": "^2.1.3",
     "semantic-ui-css": "^2.2.4",
     "urijs": "^1.18.8",
     "whois": "^2.3.9",

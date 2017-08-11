@@ -2,6 +2,7 @@ import path from 'path';
 import URI from 'urijs';
 import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
+import rollbar from 'rollbar';
 
 import commonMacros from '../common/macros';
 
@@ -25,6 +26,10 @@ while (1) {
   break;
 }
 
+
+// This is the JSON object saved in /etc/searchneu/config.json
+// opened once getEnvVariable is called once. 
+let envVariablesPromise = null;
 
 class Macros extends commonMacros {
 
@@ -160,19 +165,26 @@ class Macros extends commonMacros {
     return n;
   }
   
-  static async getEnvVariable(name) {
-    let exists = await fs.exists('/etc/searchneu/config.json');
+  static async getAllEnvVariables() {
+    const configFileName = '/etc/searchneu/config.json';
+      
+    let exists = await fs.exists(configFileName);
     
     if (!exists) {
       return null;
     }
     
+    let body = await fs.readFile(configFileName)
     
-    let body = await fs.readFile('/etc/searchneu/config.json')
+    return JSON.parse(body)
+  }
+  
+  static async getEnvVariable(name) {
+    if (!envVariablesPromise) {
+      envVariablesPromise = this.getAllEnvVariables();
+    }
     
-    let obj = JSON.parse(body)
-    
-    return obj[name]
+    return (await envVariablesPromise)[name]
   }
 
 
@@ -206,7 +218,6 @@ class Macros extends commonMacros {
 
     console.log.apply(console.log, args);
   }
-
 }
 
 
@@ -219,16 +230,36 @@ Macros.ALPHABET = 'maqwertyuiopsdfghjklzxcvbn';
 
 Macros.verbose('Starting in verbose mode.');
 
+
+async function handleUncaught(err) {
+  console.log('Error: An unhandledRejection occurred.');
+  console.log(`Rejected Promise: ${p}`);
+  console.log(`Rejection Stack Trace: ${err.stack}`);
+  if (Macros.PROD) {
+    
+    // If running on Travis, just exit 1 and travis will send off an email.
+    if (process.env.CI) {
+      process.exit(1);
+    
+    // If running on AWS, tell rollbar about the error so rollbar sends off an email.
+    } else {
+      const rollbarKey = await macros.getEnvVariable('rollbarPostServerItemToken');
+      rollbar.init(rollbarKey);
+      
+      // If needed, we can also pass in a data object between the err and the callback. 
+      rollbar.handleError(err, function() {
+        process.exit(1);
+      });
+    }
+  }
+}
+
+
+// Sometimes it helps debugging to enable this test mode too. 
 if ((Macros.PROD || Macros.DEV || 1) && !global.addedRejectionHandler) {
   global.addedRejectionHandler = true;
-  process.on('unhandledRejection', (err, p) => {
-    console.log('Error: An unhandledRejection occurred.');
-    console.log(`Rejected Promise: ${p}`);
-    console.log(`Rejection Stack Trace: ${err.stack}`);
-    if (Macros.PROD) {
-      process.exit(1);
-    }
-  });
+  process.on('unhandledRejection', handleUncaught);
+  process.on('uncaughtException', handleUncaught);
 }
 
 
