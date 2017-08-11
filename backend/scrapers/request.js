@@ -195,7 +195,7 @@ class Request {
       
       // Also log the event to Amplitude.
       totalAnalytics.hostname = hostname;
-      macros.logAmplitudeEvent('request', totalAnalytics);
+      macros.logAmplitudeEvent('Scrapers', totalAnalytics);
     }
 
     this.activeHostnames = {};
@@ -206,7 +206,7 @@ class Request {
     
     // Also upload it to Amplitude.
     sharedPoolAnalytics.hostname = 'shared';
-    macros.logAmplitudeEvent('request', sharedPoolAnalytics);
+    macros.logAmplitudeEvent('Scrapers', sharedPoolAnalytics);
 
     if (this.openRequests === 0) {
       clearInterval(this.timer);
