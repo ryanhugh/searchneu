@@ -6,6 +6,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import wrap from 'express-async-wrap';
 import fs from 'fs-promise';
 import compress from 'compression';
+import rollbar from 'rollbar'; 
 import bodyParser from 'body-parser';
 import Request from './scrapers/request';
 
@@ -270,7 +271,6 @@ app.get('/google840b636639b40c3c.html', (req, res) => {
   res.end();
 })
 
-
 app.get('*', (req, res) => {
   res.setHeader("Content-Type", "text/html; charset=UTF-8");
   if (macros.PROD) {
@@ -292,7 +292,21 @@ else {
 }
 
 
-app.listen(port, '0.0.0.0', (err) => {
-  if (err) console.log(err);
-  console.info(`Listening on port ${port}.`);
-});
+async function startServer() {
+  const rollbarKey = await macros.getEnvVariable('rollbarPostServerItemToken');
+  rollbar.init(rollbarKey);
+  const rollbarFunc = rollbar.errorHandler(rollbarKey)
+
+  // https://rollbar.com/docs/notifier/node_rollbar/
+  // Use the rollbar error handler to send exceptions to your rollbar account
+  app.use(rollbarFunc);
+  
+  app.listen(port, '0.0.0.0', (err) => {
+    if (err) { 
+      macros.log(err); 
+    }
+    console.info(`Listening on port ${port}.`);
+  });
+
+}
+startServer();
