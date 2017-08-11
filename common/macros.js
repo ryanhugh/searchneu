@@ -1,7 +1,12 @@
-
+import Amplitude from 'amplitude';
 // Setup environmental constants. This is used in both the frontend and the backend. The process.env is set in webpack and in package.jsonp
 // These are setup in the webpack config
 
+
+// This is the same token in the frontend and the backend, and does not need to be kept private. . 
+const amplitudeToken = "e0801e33a10c3b66a3c1ac8ebff53359";
+
+const amplitude = new Amplitude(amplitudeToken)
 
 // This class is never instantiated.
 // So there is no point in adding a constructor.
@@ -41,7 +46,23 @@ class Macros {
   static isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
-
+  
+  static async logAmplitudeEvent(type, event) {
+    if (!Macros.PROD) {
+      return;
+    }
+    
+    var data = {
+      event_type: type,
+      device_id: 'backend',
+      session_id: Date.now(),
+      event_properties: event
+    };   // WANT TO DO AN ABSTRACT MACROS AND A COMMON MACROS WHERE THE COMMON MACROS JUST DECIES WHICH ONE TO IMPORT??? OR SOMETHING
+    // could do if (typeof window here too, but might need this dynamic functionallity in future (want to solve it now or later)
+    
+    
+    let ret = await amplitude.track(data);
+  }
 
   // Strips the middle name from a name.
   // The given full name is the person's full name, including first, middle, and last names
@@ -130,8 +151,6 @@ class Macros {
 // XXX: This is stuff that is hardcoded for now, need to change when expanding to other schools.
 Macros.collegeName = 'Northeastern University';
 
-// This is the same token in the frontend and the backend, and does not need to be kept private. . 
-Macros.amplitudeToken = "e0801e33a10c3b66a3c1ac8ebff53359";
 
 // Set up the Macros.TESTS, Macros.DEV, and Macros.PROD based on some env variables. 
 if (process.env.PROD || process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prod') {
