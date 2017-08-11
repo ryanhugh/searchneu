@@ -130,6 +130,9 @@ class Macros {
 // XXX: This is stuff that is hardcoded for now, need to change when expanding to other schools.
 Macros.collegeName = 'Northeastern University';
 
+// This is the same token in the frontend and the backend, and does not need to be kept private. . 
+Macros.amplitudeToken = "e0801e33a10c3b66a3c1ac8ebff53359";
+
 // Set up the Macros.TESTS, Macros.DEV, and Macros.PROD based on some env variables. 
 if (process.env.PROD || process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prod') {
   Macros.PROD = true;
