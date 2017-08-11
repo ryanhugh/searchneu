@@ -3,6 +3,7 @@ import CSSModules from 'react-css-modules';
 import 'semantic-ui-css/semantic.min.css';
 import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames/bind';
+import amplitude from 'amplitude';
 
 import '../css/base.css';
 
@@ -12,6 +13,7 @@ import css from './home.css';
 import macros from './macros';
 import ResultsLoader from './ResultsLoader';
 
+console.log(amplitude)
 
 const cx = classNames.bind(css);
 
@@ -101,9 +103,10 @@ class Home extends React.Component {
     if (searchTerm) {
       this.searchCount ++;
       window.ga('send', 'pageview', `/?search=${searchTerm}`);
-      window.amplitude.logEvent('Search', {'query': searchTerm, sessionCount: this.searchCount});
+      
+      amplitude.logEvent('Search', {'query': searchTerm, sessionCount: this.searchCount});
     } else {
-      window.amplitude.logEvent('Homepage visit');
+      amplitude.logEvent('Homepage visit');
       window.ga('send', 'pageview', '/');
     }
   }

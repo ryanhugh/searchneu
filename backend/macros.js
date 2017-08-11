@@ -27,7 +27,7 @@ while (1) {
   break;
 }
 
-const amplitude = new Amplitude(commonMacros.amplitudeToken)
+
 
 
 // This is the JSON object saved in /etc/searchneu/config.json
@@ -190,23 +190,6 @@ class Macros extends commonMacros {
     return (await envVariablesPromise)[name]
   }
   
-  static async logAmplitudeEvent(type, event) {
-    if (!Macros.PROD) {
-      return;
-    }
-    
-    var data = {
-      event_type: type,
-      device_id: 'backend',
-      session_id: Date.now(),
-      event_properties: event
-    }
-    
-    
-    let ret = await amplitude.track(data);
-    console.log(ret)
-
-  }
 
 
   // This is for programming errors. This will cause the program to exit anywhere.
