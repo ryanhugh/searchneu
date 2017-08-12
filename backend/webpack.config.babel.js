@@ -83,12 +83,14 @@ export default {
     {
       test: /\.js$/,
       loader: 'babel-loader',
+      
       include: path.join(rootDir, 'frontend'),
     }, 
 
     {
       test: /\.js$/,
       loader: 'babel-loader',
+      
       include: path.join(rootDir, 'common'),
     }, 
 

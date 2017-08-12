@@ -1,6 +1,6 @@
 import isMobile from 'is-mobile';
 import ReactTooltip from 'react-tooltip';
-import commonMacros from '../../common/macros';
+import commonMacros from '../../common/abstractMacros';
 
 
 // Macros and other utility constants and things that are just relevant in the frontend. 

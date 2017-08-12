@@ -1,7 +1,7 @@
 import elasticlunr from 'elasticlunr';
 
 import Keys from './Keys';
-import macros from './macros';
+import macros from './commonMacros';
 import CourseProData from './classModels/DataLib';
 
 // The plan is to use this in both the frontend and the backend.

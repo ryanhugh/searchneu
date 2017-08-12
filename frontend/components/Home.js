@@ -3,7 +3,6 @@ import CSSModules from 'react-css-modules';
 import 'semantic-ui-css/semantic.min.css';
 import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames/bind';
-import amplitude from 'amplitude';
 
 import '../css/base.css';
 
@@ -13,7 +12,7 @@ import css from './home.css';
 import macros from './macros';
 import ResultsLoader from './ResultsLoader';
 
-console.log(amplitude)
+// console.log(amplitude)
 
 const cx = classNames.bind(css);
 
