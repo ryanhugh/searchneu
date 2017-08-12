@@ -5,7 +5,7 @@ import fs from 'fs-promise';
 import rollbar from 'rollbar';
 import Amplitude from 'amplitude';
 
-import commonMacros from '../common/macros';
+import commonMacros from '../common/abstractMacros';
 
 // Collection of small functions that are used in many different places in the backend. 
 // This includes things related to saving and loading the dev data, parsing specific fields from pages and more. 
@@ -237,7 +237,6 @@ Macros.verbose('Starting in verbose mode.');
 
 async function handleUncaught(err) {
   console.log('Error: An unhandledRejection occurred.');
-  console.log(`Rejected Promise: ${p}`);
   console.log(`Rejection Stack Trace: ${err.stack}`);
   if (Macros.PROD) {
     

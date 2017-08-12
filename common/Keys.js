@@ -16,12 +16,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>. 
  */
 
-'use strict';
-
 // This file is used to manage the {host:, termId: subject:...} objects used to get more data. 
 // This is used in both the backend and the frontend.
 // So anything that is required is is added many different places. 
-import macros from './macros'
+import macros from './commonMacros'
 
 
 // feature request from server.js: add classId if not given classUid and given host+termId+subject
