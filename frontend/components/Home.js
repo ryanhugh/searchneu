@@ -7,6 +7,7 @@ import classNames from 'classnames/bind';
 import '../css/base.css';
 
 import aoun from './aouuuuuuuuun.png'
+import SplashPage from './SplashPage';
 import search from './search';
 import css from './home.css';
 import macros from './macros';
@@ -170,12 +171,12 @@ class Home extends React.Component {
     if (this.state.searchTerm) {
       console.log('Going to serach for', this.state.searchTerm);
       this.search(this.state.searchTerm);
-    }
+    // }
 
     // If testing locally, bring up some results without typing in anything.
     // (This is just for testing, feel free to change it to whatever.)
-    else if (macros.DEV) {
-      this.search('cs');
+    // else if (macros.DEV) {
+      // this.search('cs');
     } else {
       // Force an update on the screen so the loading bar disappears and the page shows.
       this.forceUpdate();
@@ -256,7 +257,10 @@ class Home extends React.Component {
   render() {
     let resultsElement = null;
 
-    if (this.state.results) {
+    if (this.state.searchTerm.length === 0) {
+      resultsElement = <SplashPage/>
+    }
+    else if (this.state.results) {
 
       let memeMatches = {
         meme: true,
