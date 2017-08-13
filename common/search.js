@@ -230,7 +230,7 @@ class Search {
       return Object.keys(object.employee);
     }
 
-    console.error('Yooooooo omg y', object);
+    macros.error('Yooooooo omg y', object);
     return 0;
   }
 
@@ -275,7 +275,7 @@ class Search {
   // Eg, if you want results 10 through 20, call search('hi there', 10, 20)
   search(searchTerm, minIndex = 0, maxIndex = 1000) {
     if (maxIndex <= minIndex) {
-      console.error('Error. Max index < Min index.', minIndex, maxIndex, maxIndex <= minIndex, typeof maxIndex, typeof minIndex);
+      macros.error('Error. Max index < Min index.', minIndex, maxIndex, maxIndex <= minIndex, typeof maxIndex, typeof minIndex);
       return [];
     }
     // Searches are case insensitive.

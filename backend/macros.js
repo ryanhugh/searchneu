@@ -213,7 +213,7 @@ class Macros extends commonMacros {
     
     return amplitude.track(data);
   }
-  
+
 
   // This is for programming errors. This will cause the program to exit anywhere.
   // This *should* never be called.
@@ -229,10 +229,44 @@ class Macros extends commonMacros {
   // so CI will send an email
   static error(...args) {
     super.error(...args);
-   
-    // So I get an email about it
-    if (process.env.CI) {
-      process.exit(1);
+
+    if (Macros.PROD) {
+    
+      // If running on Travis, just exit 1 and travis will send off an email.
+      if (process.env.CI) {
+        process.exit(1);
+      
+      // If running on AWS, tell rollbar about the error so rollbar sends off an email.
+      } else {
+        const rollbarKey = await macros.getEnvVariable('rollbarPostServerItemToken');
+        rollbar.init(rollbarKey);
+
+        let stack = (new Error()).stack
+        let message;
+
+        // The middle object can include any properties and values, much like amplitude. 
+        args.stack = stack;
+
+        if (args.length === 0) {
+          args.push('Error had no message?')
+        }
+
+        if (args[0] instanceof Error) {
+
+          // The middle object can include any properties and values, much like amplitude. 
+          rollbar.handleError(args[0], args, function() {
+
+            // And kill the process to recover.
+            // forver.js will restart it.
+            process.exit(1);
+          });
+        }
+        else {
+          rollbar.error(args[0], args, function() {
+            process.exit(1);
+          });
+        }
+      }
     }
   }
 
@@ -261,23 +295,7 @@ Macros.verbose('Starting in verbose mode.');
 async function handleUncaught(err) {
   console.log('Error: An unhandledRejection occurred.');
   console.log(`Rejection Stack Trace: ${err.stack}`);
-  if (Macros.PROD) {
-    
-    // If running on Travis, just exit 1 and travis will send off an email.
-    if (process.env.CI) {
-      process.exit(1);
-    
-    // If running on AWS, tell rollbar about the error so rollbar sends off an email.
-    } else {
-      const rollbarKey = await macros.getEnvVariable('rollbarPostServerItemToken');
-      rollbar.init(rollbarKey);
-      
-      // If needed, we can also pass in a data object between the err and the callback. 
-      rollbar.handleError(err, function() {
-        process.exit(1);
-      });
-    }
-  }
+  Macros.error(err.stack)
 }
 
 
