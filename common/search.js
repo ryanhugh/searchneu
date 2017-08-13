@@ -322,6 +322,13 @@ class Search {
       };
     }
 
+    // If there are no results, log an event to Amplitude.
+    if (refs.length === 0) {
+      macros.logAmplitudeEvent('Backend No Search Results', {
+        query: searchTerm
+      })
+    }
+
     // If there were no results or asking for a range beyond the results length, stop here.
     if (refs.length === 0 || minIndex >= refs.length) {
       return [];
