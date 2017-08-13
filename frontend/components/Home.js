@@ -7,7 +7,7 @@ import classNames from 'classnames/bind';
 import '../css/base.css';
 
 import aoun from './aouuuuuuuuun.png'
-import SplashPage from './SplashPage';
+import SplashPage from './SplashPage/SplashPage';
 import search from './search';
 import css from './home.css';
 import macros from './macros';
@@ -93,7 +93,7 @@ class Home extends React.Component {
   logSearch(searchTerm) {
     searchTerm = searchTerm.trim();
     if (searchTerm === this.lastSearch) {
-      console.log('Not logging because same as last search', searchTerm);
+      macros.log('Not logging because same as last search', searchTerm);
       return;
     }
     this.lastSearch = searchTerm;
@@ -127,7 +127,7 @@ class Home extends React.Component {
     // Scroll to the top
     document.body.scrollTop = 0;
     
-    // console.log('yooo', event)
+    // macros.log('yooo', event)
     this.search(query);
   }
 
@@ -169,7 +169,7 @@ class Home extends React.Component {
     window.addEventListener(macros.searchEvent, this.onDOMEventSearch);
 
     if (this.state.searchTerm) {
-      console.log('Going to serach for', this.state.searchTerm);
+      macros.log('Going to serach for', this.state.searchTerm);
       this.search(this.state.searchTerm);
     // }
 
@@ -195,7 +195,7 @@ class Home extends React.Component {
     const results = await search.search(searchTerm, termCount);
 
     if (searchTerm !== this.currentQuery) {
-      console.log('Did not come back in order, discarding ', searchTerm);
+      macros.log('Did not come back in order, discarding ', searchTerm);
       return;
     }
 
