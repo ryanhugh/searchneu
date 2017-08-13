@@ -18,6 +18,22 @@ class Macros extends commonMacros {
     clearTimeout(tooltipTimer);
     tooltipTimer = setTimeout(ReactTooltip.rebuild.bind(ReactTooltip), 20);
   };
+
+
+  // Log an event to amplitude. Same function signature as the function for the backend/. 
+  // This call just uses the script included in index.js
+  static async logAmplitudeEvent(type, event) {
+    if (!Macros.PROD) {
+      return;
+    }
+
+  	if (!window.amplitude) {
+  		Macros.error("Can't log to amplitude without amplitude script!");
+  		return;
+  	}
+    window.amplitude.logEvent(type, event);
+  }
+  
 }
 
 // How many sections to show in a class panel by default.

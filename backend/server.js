@@ -294,13 +294,19 @@ else {
 
 async function startServer() {
   const rollbarKey = await macros.getEnvVariable('rollbarPostServerItemToken');
-  rollbar.init(rollbarKey);
-  const rollbarFunc = rollbar.errorHandler(rollbarKey)
 
-  // https://rollbar.com/docs/notifier/node_rollbar/
-  // Use the rollbar error handler to send exceptions to your rollbar account
-  app.use(rollbarFunc);
-  
+  if (rollbarKey) {
+    rollbar.init(rollbarKey);
+    const rollbarFunc = rollbar.errorHandler(rollbarKey)
+
+    // https://rollbar.com/docs/notifier/node_rollbar/
+    // Use the rollbar error handler to send exceptions to your rollbar account
+    app.use(rollbarFunc);
+  }
+  else {
+    macros.error("Don't have rollbar key! Skipping rollbar. :O");
+  }
+
   app.listen(port, '0.0.0.0', (err) => {
     if (err) { 
       macros.log(err); 
