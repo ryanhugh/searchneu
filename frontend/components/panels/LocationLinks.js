@@ -35,6 +35,10 @@ class LocationLinks extends React.Component {
         return 'TBA';
       }
 
+      if (location.toUpperCase() === 'BOSTON DEPT') {
+        return <span>TBA &nbsp;(Boston Campus)</span>
+      }
+
       // The <a> tag needs to be on one line, or else react will insert spaces in the generated HTML.
       // And we only want spaces between these span elements, and not after the location and the comma. 
       // eg YMCA, Hurting Hall and not YMCA , Hurting Hall
