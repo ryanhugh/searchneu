@@ -12,8 +12,6 @@ import css from './home.css';
 import macros from './macros';
 import ResultsLoader from './ResultsLoader';
 
-// console.log(amplitude)
-
 const cx = classNames.bind(css);
 
 // Home page component
@@ -103,9 +101,9 @@ class Home extends React.Component {
       this.searchCount ++;
       window.ga('send', 'pageview', `/?search=${searchTerm}`);
       
-      amplitude.logEvent('Search', {'query': searchTerm, sessionCount: this.searchCount});
+      macros.logAmplitudeEvent('Search', {'query': searchTerm, sessionCount: this.searchCount});
     } else {
-      amplitude.logEvent('Homepage visit');
+      macros.logAmplitudeEvent('Homepage visit');
       window.ga('send', 'pageview', '/');
     }
   }

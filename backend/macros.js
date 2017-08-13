@@ -7,6 +7,8 @@ import Amplitude from 'amplitude';
 
 import commonMacros from '../common/abstractMacros';
 
+const amplitude = new Amplitude(commonMacros.amplitudeToken)
+
 // Collection of small functions that are used in many different places in the backend. 
 // This includes things related to saving and loading the dev data, parsing specific fields from pages and more. 
 // Would be ok with splitting up this file into separate files (eg, one for stuff related to scraping and another one for other stuff) if this file gets too big. 
@@ -169,9 +171,15 @@ class Macros extends commonMacros {
   }
   
   static async getAllEnvVariables() {
-    const configFileName = '/etc/searchneu/config.json';
+    let configFileName = '/etc/searchneu/config.json';
       
     let exists = await fs.exists(configFileName);
+
+    // Also check /mnt/c/etc... in case we are running inside WSL.
+    if (!exists) {
+      configFileName = '/mnt/c/etc/searchneu/config.json'
+      exists = await fs.exists(configFileName)
+    }
     
     if (!exists) {
       return null;
@@ -189,8 +197,25 @@ class Macros extends commonMacros {
     
     return (await envVariablesPromise)[name]
   }
-  
 
+  // Log an event to amplitude. Same function signature as the function for the frontend. 
+  static async logAmplitudeEvent(type, event) {
+    if (!Macros.PROD) {
+      return;
+    }
+    
+    var data = {
+      event_type: type,
+      device_id: 'backend',
+      session_id: Date.now(),
+      event_properties: event
+    };   // WANT TO DO AN ABSTRACT MACROS AND A COMMON MACROS WHERE THE COMMON MACROS JUST DECIES WHICH ONE TO IMPORT??? OR SOMETHING
+    // could do if (typeof window here too, but might need this dynamic functionallity in future (want to solve it now or later)
+    
+    
+    return amplitude.track(data);
+  }
+  
 
   // This is for programming errors. This will cause the program to exit anywhere.
   // This *should* never be called.
