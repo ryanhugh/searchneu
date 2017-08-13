@@ -227,7 +227,7 @@ class Macros extends commonMacros {
   // Will log stack trace
   // and cause CI to fail
   // so CI will send an email
-  static error(...args) {
+  static async error(...args) {
     super.error(...args);
 
     if (Macros.PROD) {
