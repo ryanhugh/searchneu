@@ -35,7 +35,7 @@ class Cache {
 
   constructor() {
     
-    // Map of filepaths to dirty object promises 
+    // Map of filepaths to a promise that resolves to the parsed body of this file
     this.dataPromiseMap = {}
 
     // Timeout for saving the file. Save file after 20 seconds with no set calls. 
