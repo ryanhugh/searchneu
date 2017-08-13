@@ -1,4 +1,4 @@
-import macros from '../macros';
+import macros from '../abstractMacros';
 
 it('stripMiddleName should work', function() {
   
