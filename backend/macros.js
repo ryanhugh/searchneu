@@ -209,9 +209,7 @@ class Macros extends commonMacros {
       device_id: 'backend',
       session_id: Date.now(),
       event_properties: event
-    };   // WANT TO DO AN ABSTRACT MACROS AND A COMMON MACROS WHERE THE COMMON MACROS JUST DECIES WHICH ONE TO IMPORT??? OR SOMETHING
-    // could do if (typeof window here too, but might need this dynamic functionallity in future (want to solve it now or later)
-    
+    };   
     
     return amplitude.track(data);
   }
