@@ -7,6 +7,10 @@
 	height: 600px;
 }
 
+.rightSideFirstRow {
+    padding-left: 4% !important;
+}
+
 .cs2510Desktop {
 	width: 90%;
 	position: absolute;
@@ -26,7 +30,7 @@
 	height: 62%;
 }
 
-.firstRow > h1 {
+.firstRow h1 {
 	padding-bottom: 3px;
 	font-size: 44px;
     color: rgb(90, 90, 90);
@@ -34,6 +38,7 @@
     letter-spacing: -0.8px;
     line-height: 50px;
     font-weight: normal;
+    max-width: 540px;
 }
 
 
@@ -42,4 +47,19 @@
     margin-top: 16px;
     margin-bottom: 23px;
     font-size: 16px;
+}
+
+
+.engw1111Desktop {
+	width: 90%;
+}
+
+
+.leftSideSecondRow {
+	padding-left: 8% !important;
+}
+
+.secondRow {
+	margin-top: 50px !important;
+	/*height: 500px;*/
 }
