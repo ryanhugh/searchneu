@@ -28,13 +28,13 @@ class SplashPage extends React.Component {
     const searchForOODEvent = new CustomEvent(macros.searchEvent, { detail: 'OOD' });
 
     return  (
-      <span>
+      <span className={css.splashPageContainer}>
         <div className={css.topPadding}></div>
 
-        <Grid className={css.firstRow}>
+        <Grid stackable reversed="mobile" className={css.firstRow}>
           {/* These widths must add up to 16.*/}
           <Grid.Column width={9}>
-            <div style={{paddingTop:'56%'}}> </div>
+            <div className={css.firstRowImgDivHeightPadding}> </div>
             <img className = {css.cs2510Desktop} src={cs2510Desktop}/>
             <img className = {css.lernerMobile} src={lernerMobile}/>
           </Grid.Column>
@@ -42,6 +42,7 @@ class SplashPage extends React.Component {
             <h1>All of NEU's classes. Instantly searchable.</h1>
             <div className={css.firstPanelDesc}>Easily search through classes, professors, sections, and subjects at Northeastern. Going to add more stuff (like TRACE surveys) soon!</div>
             <Button onClick={() => {window.dispatchEvent(searchForCS2510Event)}} primary>Search for CS 2510</Button>
+            <div className={css.firstRowMobilePadding}></div>
           </Grid.Column>
         </Grid>
 
@@ -49,7 +50,7 @@ class SplashPage extends React.Component {
 
         <div className='ui divider' />
 
-        <Grid className={css.secondRow}>
+        <Grid stackable className={css.secondRow}>
           <Grid.Column width={7} className={css.leftSideSecondRow}>
             <h1>Everything you could be looking for.</h1>
             <div className={css.firstPanelDesc}>See class descriptions, Prereqs, Coreqs, CRNs, Professors, Meetings, and Locations! Going to add even more stuff soon!</div>
@@ -67,7 +68,7 @@ class SplashPage extends React.Component {
         <div style={{height:'50px'}}></div>
 
 
-         <Grid className={css.thirdRow}>
+         <Grid stackable reversed="mobile" className={css.thirdRow}>
           <Grid.Column width={9}>
             <div style={{paddingTop:'61%'}}> </div>
             <img className = {css.oodMobile1} src={oodMobile1}/>
