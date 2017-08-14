@@ -39,8 +39,8 @@ class SplashPage extends React.Component {
             <img className = {css.lernerMobile} src={lernerMobile}/>
           </Grid.Column>
           <Grid.Column width={7} className={css.rightSideFirstRow}>
-            <h1>All of NEU's classes. Instantly searchable.</h1>
-            <div className={css.firstPanelDesc}>Easily search through classes, professors, sections, and subjects at Northeastern. Going to add more stuff (like TRACE surveys) soon!</div>
+            <h1>Instantly search through all of NEU's classes.</h1>
+            <div className={css.firstPanelDesc}>Search through classes, professors, sections, and subjects at Northeastern. Going to add more stuff (like TRACE surveys) soon!</div>
             <Button onClick={() => {window.dispatchEvent(searchForCS2510Event)}} primary>Search for CS 2510</Button>
             <div className={css.firstRowMobilePadding}></div>
           </Grid.Column>
@@ -53,7 +53,7 @@ class SplashPage extends React.Component {
         <Grid stackable className={css.secondRow}>
           <Grid.Column width={7} className={css.leftSideSecondRow}>
             <h1>Everything you could be looking for.</h1>
-            <div className={css.firstPanelDesc}>See class descriptions, Prereqs, Coreqs, CRNs, Professors, Meetings, and Locations! Going to add even more stuff soon!</div>
+            <div className={css.firstPanelDesc}>See class descriptions, prereqs, coreqs, CRNs, professors, meetings, and locations! Going to add even more stuff soon!</div>
             <Button onClick={() => {window.dispatchEvent(searchForENGW1111Event)}}  primary>Search for ENGW 1111</Button>
           </Grid.Column>
           <Grid.Column width={9} className={css.rightSideFirstRow}>
