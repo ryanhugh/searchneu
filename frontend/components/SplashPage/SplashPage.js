@@ -47,9 +47,9 @@ class SplashPage extends React.Component {
           </Grid.Column>
           <Grid.Column width={7}>
             <h1>All of NEU's classes. Instantly Searchable.</h1>
-            <div>Search for classes, subjects, sections, professors, CRNs, and and more. Instantly find what you are looking for.</div>
+            <div className={css.firstPanelDesc}>Search for classes, subjects, sections, professors, CRNs, and and more. Instantly find what you are looking for.</div>
             <a></a>
-            <Button primary> Search for CS 2510 >></Button>
+            <Button primary>Search for CS 2510</Button>
           </Grid.Column>
         </Grid>
       </span>
