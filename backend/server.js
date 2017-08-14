@@ -8,8 +8,9 @@ import fs from 'fs-promise';
 import compress from 'compression';
 import rollbar from 'rollbar'; 
 import bodyParser from 'body-parser';
-import Request from './scrapers/request';
+import mkdirp from 'mkdirp-promise';
 
+import Request from './scrapers/request';
 import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
@@ -82,6 +83,43 @@ app.use(function (req, res, next) {
 })
 
 
+// Used for loading the data required to make the frontend work.
+// This is just the data stored in public and not in cache.
+// Tries to load from a local file and if that fails loads from https://searchneu.com
+// And caches that locally.
+async function getFrontendData(file) {
+
+  let localPath = path.join('.', 'public', file)
+  let exists = await fs.exists(localPath)
+
+  // Exists locally, great
+  if (exists) {
+    let body = await fs.readFile(localPath)
+    return JSON.parse(body)
+  }
+
+  macros.log("Downloading ", file, ' from searchneu.com becaues it does not exist locally.')
+
+  // Download from https://searchneu.com
+  // Note this goes through the local request cache
+  let resp;
+  try {
+    resp = await request.get('https://searchneu.com/' + file)
+  }
+  catch (e) {
+    macros.error('Unable to load frontend data from locally or from searchneu.com!', e);
+    return null;
+  }
+
+  await mkdirp(path.dirname(localPath))
+
+  // Save that locally
+  await fs.writeFile(localPath, resp.body);
+
+  return JSON.parse(resp.body);
+}
+
+
 
 let searchPromise = null;
 
@@ -90,22 +128,13 @@ async function getSearch() {
     return searchPromise;
   }
 
-  const termDumpPromise = fs.readFile('./public/data/getTermDump/neu.edu/201810.json').then((body) => {
-    return JSON.parse(body);
-  });
+  const termDumpPromise = getFrontendData('data/getTermDump/neu.edu/201810.json')
 
-  const searchIndexPromise = fs.readFile('./public/data/getSearchIndex/neu.edu/201810.json').then((body) => {
-    return JSON.parse(body);
-  });
+  const searchIndexPromise = getFrontendData('data/getSearchIndex/neu.edu/201810.json')
 
+  const employeeMapPromise = getFrontendData('data/employeeMap.json');
 
-  const employeeMapPromise = fs.readFile('./public/data/employeeMap.json').then((body) => {
-    return JSON.parse(body);
-  });
-
-  const employeesSearchIndexPromise = fs.readFile('./public/data/employeesSearchIndex.json').then((body) => {
-    return JSON.parse(body);
-  });
+  const employeesSearchIndexPromise = getFrontendData('data/employeesSearchIndex.json');
 
   try {
     searchPromise = Promise.all([termDumpPromise, searchIndexPromise, employeeMapPromise, employeesSearchIndexPromise]).then((...args) => {
