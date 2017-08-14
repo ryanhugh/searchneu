@@ -4,7 +4,6 @@
 
 .firstRow {
 	width: 100%;
-	height: 600px;
 }
 
 .rightSideFirstRow {
@@ -67,36 +66,36 @@
 
 .thirdRow {
 	position: relative;
-	height: 600px;
 	padding-left: 10px;
 }
 
 .oodMobile1 {
     position: absolute;
     top: 0%;
-    left: 25%;
-    height: 90%;
+    left: 16.8%;
+    /*height: 90%;*/
     z-index: 2;
+    width: 32.5%;
 }
 
 .oodMobile2 {
     position: absolute;
     top: 10%;
-    left: 15%;
-    height: 90%;
+    left: 7%;
+    width: 32.5%;
 }
 
 .cs2500Mobile {
     position: absolute;
     top: 0%;
-    left: 65%;
-    height: 90%;
+    left: 63%;
+    width: 32.5%;
     z-index: 2;
 }
 
 .cs2500Resultsmobile {
     position: absolute;
     top: 10%;
-    left: 55%;
-    height: 90%;
+    left: 53%;
+    width: 32.5%;
 }
