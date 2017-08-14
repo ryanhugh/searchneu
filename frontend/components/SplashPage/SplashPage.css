@@ -9,6 +9,7 @@
 
 .rightSideFirstRow {
     padding-left: 4% !important;
+    overflow: hidden;
 }
 
 .cs2510Desktop {
@@ -104,38 +105,61 @@
 
 .oodMobile1 {
     position: absolute;
-    top: 0%;
-    left: 16.8%;
-    /*height: 90%;*/
+    top: 5%;
+    left: 30%;
     z-index: 2;
-    width: 32.5%;
+    width: 65%;
 }
 
 .oodMobile2 {
     position: absolute;
-    top: 10%;
+    top: 20%;
     left: 7%;
-    width: 32.5%;
+    width: 65%;
 }
 
 .cs2500Mobile {
     position: absolute;
     top: 0%;
-    left: 63%;
-    width: 32.5%;
+    left: 52%;
+    width: 50%;
     z-index: 2;
+    display: none;
 }
 
 .cs2500Resultsmobile {
     position: absolute;
-    top: 10%;
-    left: 53%;
-    width: 32.5%;
+    top: 20%;
+    left: 42%;
+    width: 50%;
+    display: none;
 }
 
 
-@media screen and (min-width: 480px) {
-    body {
-        /*background-color: lightgreen;*/
-    }
+
+@media only screen and (max-width: 767px) {
+		
+	.oodMobile1 {
+	    position: absolute;
+	    top: 5%;
+	    left: 30%;
+	    z-index: 2;
+	    width: 65%;
+	}
+
+	.oodMobile2 {
+	    position: absolute;
+	    top: 20%;
+	    left: 7%;
+	    width: 65%;
+	}
+
+	.cs2500Mobile {
+	    display: none;
+	}
+
+	.cs2500Resultsmobile {
+	    display: none;
+	}
 }
+
