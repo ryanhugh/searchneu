@@ -333,7 +333,12 @@ async function startServer() {
     app.use(rollbarFunc);
   }
   else {
-    macros.log("Don't have rollbar key! Skipping rollbar. :O");
+    if (macros.PROD) {
+      macros.error("Don't have rollbar key! Skipping rollbar. :O");
+    }
+    else {
+      macros.log("Don't have rollbar key! Skipping rollbar. :O");
+    }
   }
 
   app.listen(port, '0.0.0.0', (err) => {
