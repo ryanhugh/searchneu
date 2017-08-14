@@ -70,7 +70,7 @@ class SplashPage extends React.Component {
 
          <Grid stackable reversed="mobile" className={css.thirdRow}>
           <Grid.Column width={9}>
-            <div style={{paddingTop:'140%'}}> </div>
+            <div className={css.thirdRowPadding}> </div>
             <img className = {css.oodMobile1} src={oodMobile1}/>
             <img className = {css.oodMobile2} src={oodMobile2}/>
             <img className = {css.cs2500Mobile} src={cs2500Mobile}/>
