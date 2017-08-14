@@ -28,10 +28,10 @@ class SplashPage extends React.Component {
 
   render () {
 
+    // Events that fire when the buttons are clicked.
     const searchForCS2510Event = new CustomEvent(macros.searchEvent, { detail: 'CS 2510' });
-
     const searchForENGW1111Event = new CustomEvent(macros.searchEvent, { detail: 'ENGW 1111' });
-    const searchForLernerEvent = new CustomEvent(macros.searchEvent, { detail: 'Ben Lerner' });
+    const searchForOODEvent = new CustomEvent(macros.searchEvent, { detail: 'OOD' });
 
     return  (
       <div className = {css.splashPage}>

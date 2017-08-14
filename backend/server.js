@@ -8,8 +8,9 @@ import fs from 'fs-promise';
 import compress from 'compression';
 import rollbar from 'rollbar'; 
 import bodyParser from 'body-parser';
-import Request from './scrapers/request';
+import mkdirp from 'mkdirp-promise';
 
+import Request from './scrapers/request';
 import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
@@ -76,10 +77,47 @@ app.use(function (req, res, next) {
   else {
     // Cache the http to https redirect for 2 months. 
     res.setHeader('Cache-Control', 'public, max-age=5256000');
-    console.log(remoteIp, 'redirecting to https')
+    macros.log(remoteIp, 'redirecting to https')
     res.redirect('https://' + req.get('host') + req.originalUrl);
   }
 })
+
+
+// Used for loading the data required to make the frontend work.
+// This is just the data stored in public and not in cache.
+// Tries to load from a local file and if that fails loads from https://searchneu.com
+// And caches that locally.
+async function getFrontendData(file) {
+
+  let localPath = path.join('.', 'public', file)
+  let exists = await fs.exists(localPath)
+
+  // Exists locally, great
+  if (exists) {
+    let body = await fs.readFile(localPath)
+    return JSON.parse(body)
+  }
+
+  macros.log("Downloading ", file, ' from searchneu.com becaues it does not exist locally.')
+
+  // Download from https://searchneu.com
+  // Note this goes through the local request cache
+  let resp;
+  try {
+    resp = await request.get('https://searchneu.com/' + file)
+  }
+  catch (e) {
+    macros.error('Unable to load frontend data from locally or from searchneu.com!', e);
+    return null;
+  }
+
+  await mkdirp(path.dirname(localPath))
+
+  // Save that locally
+  await fs.writeFile(localPath, resp.body);
+
+  return JSON.parse(resp.body);
+}
 
 
 
@@ -90,22 +128,13 @@ async function getSearch() {
     return searchPromise;
   }
 
-  const termDumpPromise = fs.readFile('./public/data/getTermDump/neu.edu/201810.json').then((body) => {
-    return JSON.parse(body);
-  });
+  const termDumpPromise = getFrontendData('data/getTermDump/neu.edu/201810.json')
 
-  const searchIndexPromise = fs.readFile('./public/data/getSearchIndex/neu.edu/201810.json').then((body) => {
-    return JSON.parse(body);
-  });
+  const searchIndexPromise = getFrontendData('data/getSearchIndex/neu.edu/201810.json')
 
+  const employeeMapPromise = getFrontendData('data/employeeMap.json');
 
-  const employeeMapPromise = fs.readFile('./public/data/employeeMap.json').then((body) => {
-    return JSON.parse(body);
-  });
-
-  const employeesSearchIndexPromise = fs.readFile('./public/data/employeesSearchIndex.json').then((body) => {
-    return JSON.parse(body);
-  });
+  const employeesSearchIndexPromise = getFrontendData('data/employeesSearchIndex.json');
 
   try {
     searchPromise = Promise.all([termDumpPromise, searchIndexPromise, employeeMapPromise, employeesSearchIndexPromise]).then((...args) => {
@@ -113,8 +142,8 @@ async function getSearch() {
     });
   }
   catch (e) {
-    console.error("Error:", e)
-    console.error('Not starting search backend.')
+    macros.error("Error:", e)
+    macros.error('Not starting search backend.')
     return null;
   }
 
@@ -126,7 +155,7 @@ getSearch();
 
 app.get('/search', wrap(async (req, res) => {
   if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500) {
-    console.log('Need query.', req.query);
+    macros.log('Need query.', req.query);
     res.send(JSON.stringify({
       error: 'Need query param.'
     }));
@@ -134,7 +163,7 @@ app.get('/search', wrap(async (req, res) => {
   }
 
   if (!macros.isNumeric(req.query.minIndex) || !macros.isNumeric(req.query.maxIndex)) {
-    console.log("Need numbers as max and min index.")
+    macros.log("Need numbers as max and min index.")
     res.send(JSON.stringify({
       error: "Max and Min index must be numbers."
     }))
@@ -166,7 +195,7 @@ app.get('/search', wrap(async (req, res) => {
   const results = index.search(req.query.query, minIndex, maxIndex);
   const midTime = Date.now();
   const string = JSON.stringify(results)
-  console.log(req.connection.remoteAddress, 'Search for', req.query.query, 'took ', midTime-startTime, 'ms and stringify took', Date.now()-midTime, 'with', results.length, 'results');
+  macros.log(req.connection.remoteAddress, 'Search for', req.query.query, 'took ', midTime-startTime, 'ms and stringify took', Date.now()-midTime, 'with', results.length, 'results');
 
   // Set the header for application/json and send the data.
   res.setHeader("Content-Type", "application/json; charset=UTF-8");
@@ -190,9 +219,9 @@ async function sendTextMessage(sender, text) {
 		}
 	}, function(error, response, body) {
 		if (error) {
-		    console.log('Error sending messages: ', error)
+		    macros.log('Error sending messages: ', error)
 		} else if (response.body.error) {
-		    console.log('Error: ', response.body.error)
+		    macros.log('Error: ', response.body.error)
 	    }
     })
 }
@@ -200,12 +229,12 @@ async function sendTextMessage(sender, text) {
 
 // for Facebook verification of the endpoint.
 app.get('/webhook/', async function (req, res) {
-        console.log(req.query);
+        macros.log(req.query);
         
         let verifyToken = await macros.getEnvVariable('fbVerifyToken')
         
         if (req.query['hub.verify_token'] === verifyToken) {
-          console.log("yup!");
+          macros.log("yup!");
           res.send(req.query['hub.challenge'])
         }
         else {
@@ -304,7 +333,12 @@ async function startServer() {
     app.use(rollbarFunc);
   }
   else {
-    macros.error("Don't have rollbar key! Skipping rollbar. :O");
+    if (macros.PROD) {
+      macros.error("Don't have rollbar key! Skipping rollbar. :O");
+    }
+    else {
+      macros.log("Don't have rollbar key! Skipping rollbar. :O");
+    }
   }
 
   app.listen(port, '0.0.0.0', (err) => {
