@@ -182,7 +182,7 @@ class Macros extends commonMacros {
     }
     
     if (!exists) {
-      return null;
+      return {};
     }
     
     let body = await fs.readFile(configFileName)

@@ -1,100 +1,170 @@
 .topPadding {
-	height: 25px;
+  height: 25px;
 }
 
 .firstRow {
-	width: 100%;
-	height: 600px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .rightSideFirstRow {
-    padding-left: 4% !important;
+  padding-left: 4% !important;
+  overflow: hidden;
 }
 
 .cs2510Desktop {
-	width: 90%;
-	position: absolute;
-	top: 0px;
-	right: 3%;
+  width: 90%;
+  position: absolute;
+  top: 0px;
+  right: 3%;
 }
 
 .lernerMobile {
+<<<<<<< HEAD
 	width: 29%;
 	position: absolute;
 	top: 50px;
 	right: 10%;
+=======
+  width: 29%;
+  position: absolute;
+  top: 50px;
+  right: 10%;
+>>>>>>> origin/homepage
 }
 
-.firstContainer {
-	position: relative;
-	height: 62%;
+
+.firstRowImgDivHeightPadding {
+  padding-top: 56%;
 }
 
-.firstRow h1 {
-	padding-bottom: 3px;
-	font-size: 44px;
-    color: rgb(90, 90, 90);
-    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    letter-spacing: -0.8px;
-    line-height: 50px;
-    font-weight: normal;
-    max-width: 540px;
+@media only screen and (max-width: 767px) {
+  .cs2510Desktop {
+    width: 181%;
+    position: absolute;
+    top: 0px;
+    left: -6px;
+  }
+
+  .lernerMobile {
+    width: 62%;
+    top: 100px;
+  }
+
+  .firstRowImgDivHeightPadding {
+    padding-top: 135%;
+  }
+
+  .firstRowMobilePadding {
+    margin-bottom: 20px;
+  }
+}
+
+
+
+
+
+/* This applies to all the H1s in the splash page. */
+
+.splashPageContainer h1 {
+  padding-bottom: 3px;
+  font-size: 44px;
+  color: rgb(90, 90, 90);
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: -0.8px;
+  line-height: 50px;
+  font-weight: normal;
+  max-width: 540px;
 }
 
 
 .firstPanelDesc {
-	max-width: 413px;
-    margin-top: 16px;
-    margin-bottom: 23px;
-    font-size: 16px;
+  max-width: 413px;
+  margin-top: 16px;
+  margin-bottom: 23px;
+  font-size: 16px;
 }
 
 
 .engw1111Desktop {
-	width: 90%;
+  width: 90%;
+}
+
+
+@media only screen and (max-width: 767px) {
+  .engw1111Desktop {
+    margin-left: -20px;
+    width: 184%;
+  }
 }
 
 
 .leftSideSecondRow {
-	padding-left: 8% !important;
+  padding-left: 8% !important;
 }
 
 .secondRow {
-	margin-top: 50px !important;
-	/*height: 500px;*/
+  margin-top: 50px !important;
 }
 
 
 .thirdRow {
-	position: relative;
-	height: 600px;
-	padding-left: 10px;
+  position: relative;
+  padding-left: 10px;
 }
 
 .oodMobile1 {
-    position: absolute;
-    top: 0%;
-    left: 25%;
-    height: 90%;
-    z-index: 2;
+  position: absolute;
+  top: 0%;
+  left: 16.8%;
+  z-index: 2;
+  width: 32.5%;
 }
 
 .oodMobile2 {
-    position: absolute;
-    top: 10%;
-    left: 15%;
-    height: 90%;
+  position: absolute;
+  top: 10%;
+  left: 7%;
+  width: 32.5%;
 }
 
 .cs2500Mobile {
-    position: absolute;
-    top: 0%;
-    left: 65%;
-    height: 90%;
-    z-index: 2;
+  position: absolute;
+  top: 0%;
+  left: 63%;
+  width: 32.5%;
+  z-index: 2;
 }
 
 .cs2500Resultsmobile {
+  position: absolute;
+  top: 10%;
+  left: 53%;
+  width: 32.5%;
+}
+
+
+.thirdRowPadding {
+  padding-top: 61%;
+}
+
+
+
+@media only screen and (max-width: 767px) {
+
+  .thirdRowPadding {
+    padding-top: 140%;
+  }
+
+  .oodMobile1 {
+    position: absolute;
+    top: 5%;
+    left: 30%;
+    z-index: 2;
+    width: 65%;
+  }
+
+  .oodMobile2 {
     position: absolute;
     top: 10%;
     left: 55%;
