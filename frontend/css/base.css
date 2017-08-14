@@ -93,7 +93,7 @@ p {
 	top: 12px;
 }
 #search-wrapper label i {
-	color: #333333;
+	color: #ef6e7e;
 	display: inline-block;
 	font-size: inherit;
 	text-rendering: auto;
@@ -117,12 +117,12 @@ input[type=search] {
 	box-sizing: border-box;
 }
 input[type=search]:focus {
-	border-color: #39CCCC;
-	box-shadow: 0 0 10px #39CCCC;
+	border-color: rgba(239,110,126,.5);
+	box-shadow: 0 0 10px rgba(239,110,126, .5);
 	outline: none;
 }
 .active-icon, .category h5 i:hover {
-	background-color: #39CCCC;
+	background-color: #ef6e7e;
 	color: white;
 }
 .active-icon+small, .category h5 i:hover+small {
@@ -245,5 +245,5 @@ span.progress {
 }
 
 .ui.segment:first-child {
-     margin-top: 1rem !important; 
+     margin-top: 1rem !important;
 }

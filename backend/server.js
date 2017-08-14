@@ -122,10 +122,10 @@ async function getSearch() {
 }
 
 // Load the index as soon as the app starts. 
-getSearch();
+//getSearch();
 
 app.get('/search', wrap(async (req, res) => {
-  if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500) {
+  if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500 || 1) {
     console.log('Need query.', req.query);
     res.send(JSON.stringify({
       error: 'Need query param.'
@@ -293,9 +293,9 @@ else {
 
 
 async function startServer() {
-  const rollbarKey = await macros.getEnvVariable('rollbarPostServerItemToken');
+//  const rollbarKey = await macros.getEnvVariable('rollbarPostServerItemToken');
 
-  if (rollbarKey) {
+  if (0) {
     rollbar.init(rollbarKey);
     const rollbarFunc = rollbar.errorHandler(rollbarKey)
 

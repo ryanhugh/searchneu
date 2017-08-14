@@ -13,6 +13,10 @@ import css from './home.css';
 import macros from './macros';
 import ResultsLoader from './ResultsLoader';
 
+// sean stuff
+import logo from './logo.svg';
+import boston from './boston.svg';
+
 const cx = classNames.bind(css);
 
 // Home page component
@@ -52,7 +56,7 @@ class Home extends React.Component {
     this.onDOMEventSearch = this.onDOMEventSearch.bind(this);
     this.onSearchDebounced = this.onSearchDebounced.bind(this);
 
-    // Count the number of times the user searched this session. Used for analytics. 
+    // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
 
     // Log the initial search or pageview.
@@ -83,8 +87,8 @@ class Home extends React.Component {
     }
   }
 
-  // Remove the listener when this component goes away. 
-  // Even this component will never go away in prod, it can go away in dev due to HMR. 
+  // Remove the listener when this component goes away.
+  // Even this component will never go away in prod, it can go away in dev due to HMR.
   componentWillUnmount() {
     window.removeEventListener('onpopstate', this.onPopState);
     window.removeEventListener(macros.searchEvent, this.onDOMEventSearch);
@@ -101,29 +105,29 @@ class Home extends React.Component {
     if (searchTerm) {
       this.searchCount ++;
       window.ga('send', 'pageview', `/?search=${searchTerm}`);
-      
+
       macros.logAmplitudeEvent('Search', {'query': searchTerm, sessionCount: this.searchCount});
     } else {
       macros.logAmplitudeEvent('Homepage visit');
       window.ga('send', 'pageview', '/');
     }
   }
-  
-  
+
+
   onDOMEventSearch(event) {
     const query = event.detail;
-    
+
     // Update the text box.
     if (this.inputElement) {
       this.inputElement.value = query
     }
-    
+
     // Update the url
     this.onSearchDebounced(query);
-    
+
     // Scroll to the top
     document.body.scrollTop = 0;
-    
+
     // macros.log('yooo', event)
     this.search(query);
   }
@@ -147,7 +151,7 @@ class Home extends React.Component {
     // There was one error received by rollbar that said:
     // Uncaught SecurityError: Failed to execute 'pushState' on 'History': A history state object with URL 'https:' cannot be created in a document with origin 'https://searchneu.com' and URL 'https://searchneu.com/...'.
     // Which doesn't really make sense because 'https:' is not a valid URL,
-    // but just in case there is a try-catch around this call (no real reason not to have one). 
+    // but just in case there is a try-catch around this call (no real reason not to have one).
     // https://rollbar.com/ryanhugh/searchneu/items/10/
     try {
       history.pushState(null, null, `/${encodedQuery}`);
@@ -161,7 +165,7 @@ class Home extends React.Component {
 
   componentDidMount() {
 
-    // Add a listener for location changes. 
+    // Add a listener for location changes.
     window.addEventListener('popstate', this.onPopState);
     window.addEventListener(macros.searchEvent, this.onDOMEventSearch);
 
@@ -180,7 +184,7 @@ class Home extends React.Component {
     }
   }
 
-  
+
 
   // Called from ResultsLoader to load more
   loadMore() {
@@ -266,8 +270,8 @@ class Home extends React.Component {
 
       if (memeMatches[this.state.searchTerm.toLowerCase().trim()]) {
         resultsElement = (
-          <div className = { css.aounContainer }> 
-            <img src={aoun}/> 
+          <div className = { css.aounContainer }>
+            <img src={aoun}/>
           </div>
         )
       }
@@ -328,11 +332,15 @@ class Home extends React.Component {
           {/* eslint-enable max-len */}
         </a>
 
+        <img src={logo} className={ css.logo } alt="logo" />
+        <img src={boston} className={ css.boston } alt="logo" />
+
         <div className={ css.topPadding } />
         <div>
           <div id='top-header' className={cx({
             ui: true,
             center: true,
+            spacing: true,
             aligned: true,
             icon: true,
             header: true,
@@ -341,18 +349,15 @@ class Home extends React.Component {
             <h1 className={ css.title }>
             Search
           </h1>
-            <h3 className={ css.subtitle }>
-              For Northeastern
-            </h3>
-            <div className = {css.semester}>
-              Fall 2017
-            </div>
+            <p className={ css.subtitle }>
+              For Northeastern classes, proffesors, times, etc.
+            </p>
             <div id='search-wrapper' className='sub header' style = {mobileSearchBoxStyle}>
               <label htmlFor='search_id'>
                 <i className='search icon' />
               </label>
               <input
-                autoFocus 
+                autoFocus
                 type='search'
                 id='seach_id'
                 placeholder='Search Classes, Professors, and Employees'
