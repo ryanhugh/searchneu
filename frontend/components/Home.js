@@ -111,10 +111,7 @@ class Home extends React.Component {
   
   
   onDOMEventSearch(event) {
-    const aClass = event.detail;
-    
-    // Get the query
-    const query = aClass.subject + ' ' + aClass.classId
+    const query = event.detail;
     
     // Update the text box.
     if (this.inputElement) {

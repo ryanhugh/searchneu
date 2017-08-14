@@ -63,3 +63,40 @@
 	margin-top: 50px !important;
 	/*height: 500px;*/
 }
+
+
+.thirdRow {
+	position: relative;
+	height: 600px;
+	padding-left: 10px;
+}
+
+.oodMobile1 {
+    position: absolute;
+    top: 0%;
+    left: 25%;
+    height: 90%;
+    z-index: 2;
+}
+
+.oodMobile2 {
+    position: absolute;
+    top: 10%;
+    left: 15%;
+    height: 90%;
+}
+
+.cs2500Mobile {
+    position: absolute;
+    top: 0%;
+    left: 65%;
+    height: 90%;
+    z-index: 2;
+}
+
+.cs2500Resultsmobile {
+    position: absolute;
+    top: 10%;
+    left: 55%;
+    height: 90%;
+}
