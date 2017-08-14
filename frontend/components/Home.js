@@ -255,7 +255,7 @@ class Home extends React.Component {
     let resultsElement = null;
 
     if (this.state.searchTerm.length === 0) {
-      resultsElement = <SplashPage/>
+      // resultsElement = <SplashPage/>
     }
     else if (this.state.results) {
 
