@@ -24,7 +24,7 @@ class SplashPage extends React.Component {
     // <Segment className={css.firstContainer}>
 
         //<div className={css.firstRow}> 
-        //<div className={css.imagesFirstRow}>
+        //<div className={css.imagesFirstRow}> Instantly
 //
         //</div>
 //
@@ -45,9 +45,9 @@ class SplashPage extends React.Component {
             <img className = {css.lernerMobile} src={lernerMobile}/>
           </Grid.Column>
           <Grid.Column width={7}>
-            <h1> fdja fdja fdsja fd</h1>
-            <div> hi j flkdsaj fldjaf ldsjf dlsaf jldsaj flkdsa jflkdsjf ljfa lsjflkdsajf lkdsjf slaj f</div>
-            <a> Search for CS 2510>></a>
+            <h1>All of NEU's classes. Instantly Searchable.</h1>
+            <div>Search for classes, subjects, sections, professors, CRNs, and and more. Instantly find what you are looking for.</div>
+            <a> Search for CS 2510 >></a>
           </Grid.Column>
         </Grid>
       </span>

@@ -11,17 +11,21 @@
 	width: 90%;
 	position: absolute;
 	top: 0px;
-	right: 0px;
+	right: 3%;
 }
 
 .lernerMobile {
 	width: 29%;	
 	position: absolute;
 	top: 50px;
-	right: 50px;
+	right: 10%;
 }
 
 .firstContainer {
 	position: relative;
 	height: 62%;
+}
+
+.firstRow > h1 {
+	padding-bottom: 3px;
 }
