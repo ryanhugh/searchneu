@@ -26,6 +26,8 @@
     ]
   },
   "_comment": "domutils upgrade is faster for parsing html (stack instead of recursive) but requires some code changes. Shoudn't be too bad.",
+  "_comment2": "Async adds about 30k to the final bundled output. There are smaller libraries that can also do async.retry (only thing that is being used in async)",
+  "_comment3": "but that is only about 3% of the final JS size.",
   "dependencies": {
     "@mapbox/togeojson": "^0.16.0",
     "acorn": "^5.0.3",
