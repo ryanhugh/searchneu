@@ -25,7 +25,7 @@ class SplashPage extends React.Component {
     const searchForCS2510Event = new CustomEvent(macros.searchEvent, { detail: 'CS 2510' });
 
     const searchForENGW1111Event = new CustomEvent(macros.searchEvent, { detail: 'ENGW 1111' });
-    const searchForLernerEvent = new CustomEvent(macros.searchEvent, { detail: 'Ben Lerner' });
+    const searchForOODEvent = new CustomEvent(macros.searchEvent, { detail: 'OOD' });
 
     return  (
       <span>
@@ -34,11 +34,12 @@ class SplashPage extends React.Component {
         <Grid className={css.firstRow}>
           {/* These widths must add up to 16.*/}
           <Grid.Column width={9}>
+            <div style={{paddingTop:'56%'}}> </div>
             <img className = {css.cs2510Desktop} src={cs2510Desktop}/>
             <img className = {css.lernerMobile} src={lernerMobile}/>
           </Grid.Column>
           <Grid.Column width={7} className={css.rightSideFirstRow}>
-            <h1>All of NEU's classes. Instantly Searchable.</h1>
+            <h1>All of NEU's classes. Instantly searchable.</h1>
             <div className={css.firstPanelDesc}>Easily search through classes, professors, sections, and subjects at Northeastern. Going to add more stuff (like TRACE surveys) soon!</div>
             <Button onClick={() => {window.dispatchEvent(searchForCS2510Event)}} primary>Search for CS 2510</Button>
           </Grid.Column>
@@ -64,17 +65,20 @@ class SplashPage extends React.Component {
         <div className='ui divider' />
 
         <div style={{height:'50px'}}></div>
+
+
          <Grid className={css.thirdRow}>
           <Grid.Column width={9}>
+            <div style={{paddingTop:'61%'}}> </div>
             <img className = {css.oodMobile1} src={oodMobile1}/>
             <img className = {css.oodMobile2} src={oodMobile2}/>
             <img className = {css.cs2500Mobile} src={cs2500Mobile}/>
             <img className = {css.cs2500Resultsmobile} src={cs2500Resultsmobile}/>
           </Grid.Column>
           <Grid.Column width={7} className={css.rightSideFirstRow}>
-            <h1>Works Great on Mobile!</h1>
+            <h1>Works great on mobile!</h1>
             <div className={css.firstPanelDesc}>holla holla</div>
-            <Button onClick={() => {window.dispatchEvent(searchForLernerEvent)}} primary>Search for Ben Lerner</Button>
+            <Button onClick={() => {window.dispatchEvent(searchForOODEvent)}} primary>Search for OOD</Button>
           </Grid.Column>
         </Grid>
 
