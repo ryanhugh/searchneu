@@ -22,14 +22,14 @@ class SplashPage extends React.Component {
 
   render () {
 
+    // Events that fire when the buttons are clicked. 
     const searchForCS2510Event = new CustomEvent(macros.searchEvent, { detail: 'CS 2510' });
-
     const searchForENGW1111Event = new CustomEvent(macros.searchEvent, { detail: 'ENGW 1111' });
     const searchForOODEvent = new CustomEvent(macros.searchEvent, { detail: 'OOD' });
 
     return  (
       <span className={css.splashPageContainer}>
-        <div className={css.topPadding}></div>
+        <div className={css.topPadding}/>
 
         <Grid stackable reversed="mobile" className={css.firstRow}>
           {/* These widths must add up to 16.*/}
@@ -46,14 +46,14 @@ class SplashPage extends React.Component {
           </Grid.Column>
         </Grid>
 
-        <div style={{height:'50px'}}></div>
+        <div className={css.divider}/>
 
         <div className='ui divider' />
 
         <Grid stackable className={css.secondRow}>
           <Grid.Column width={7} className={css.leftSideSecondRow}>
             <h1>Everything you could be looking for.</h1>
-            <div className={css.firstPanelDesc}>See class descriptions, prereqs, coreqs, CRNs, professors, meetings, and locations! Going to add even more stuff soon!</div>
+            <div className={css.firstPanelDesc}>See class descriptions, prereqs, coreqs, CRNs, professors, meetings, and locations! Even more stuff coming soon!</div>
             <Button onClick={() => {window.dispatchEvent(searchForENGW1111Event)}}  primary>Search for ENGW 1111</Button>
           </Grid.Column>
           <Grid.Column width={9} className={css.rightSideFirstRow}>
@@ -61,11 +61,11 @@ class SplashPage extends React.Component {
           </Grid.Column>
         </Grid>
 
-        <div style={{height:'50px'}}></div>
+        <div className={css.divider}/>
 
-        <div className='ui divider' />
+        <div className='ui divider'/>
 
-        <div style={{height:'50px'}}></div>
+        <div className={css.divider}/>
 
 
          <Grid stackable reversed="mobile" className={css.thirdRow}>
@@ -83,7 +83,7 @@ class SplashPage extends React.Component {
           </Grid.Column>
         </Grid>
 
-        <div style={{height:'50px'}}></div>
+        <div className={css.divider}/>
 
       </span>
 
