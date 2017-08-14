@@ -156,7 +156,6 @@ class SearchIndex {
 
 
   async createSearchIndex(termDump) {
-    let errorCount = 0;
 
     const classLists = {};
 
@@ -200,14 +199,12 @@ class SearchIndex {
       if (!classLists[termHash]) {
         // The objects should all have been created when looping over the classes.
         macros.error('Dont have obj in section for loop?', termHash, classHash, section);
-        errorCount++;
         return;
       }
 
       if (!classLists[termHash].classHash[classHash]) {
         // This should never happen now that the bug has been fixed.
         macros.error('No class exists with same data?', classHash, section.url);
-        errorCount++;
         return;
       }
 
@@ -235,9 +232,6 @@ class SearchIndex {
       const termData = classLists[attrName];
       promises.push(this.createSearchIndexFromClassLists(termData));
     }
-
-    console.log('Errorcount: ', errorCount);
-
 
     return Promise.all(promises);
   }

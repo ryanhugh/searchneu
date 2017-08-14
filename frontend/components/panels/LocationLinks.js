@@ -36,7 +36,7 @@ class LocationLinks extends React.Component {
       }
 
       if (location.toUpperCase() === 'BOSTON DEPT') {
-        return <span>TBA &nbsp;(Boston Campus)</span>
+        return <span key='Boston DEPT'>TBA &nbsp;(Boston Campus)</span>
       }
 
       // The <a> tag needs to be on one line, or else react will insert spaces in the generated HTML.
