@@ -1,9 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
+
 .title {
     font-size: 50px;
+    color: #414042;
+    font-weight: 700;
 }
 .subtitle {
-    color: grey !important;
-    font-size: 29px !important;
+    color: #a3a3a3 !important;
+    font-size: 19px !important;
+    font-weight: 400;
+    margin: 10px 0px 25px 0px;
 }
 .semester {
     color: grey !important;
@@ -17,7 +23,7 @@
     height: '20px';
 }
 .githubCornerIcon {
-    fill: #39CCCC;
+    fill: #ef6e7e;
     color: #FFFFFF;
     position: absolute;
     top: 0;
@@ -76,9 +82,24 @@
     padding-bottom: 40px;
 }
 .aounContainer > img {
-    box-shadow: 0 0 20px 12px #dcdcdc;
+    box-shadow: 0 0 20px 12px #ef6e7e;
     max-width: 100%;
 }
 .mobileHeader {
     padding-bottom: 20px !important;
+}
+.spacing{
+  height: 100vh!important;
+padding-top: 280px!important;
+margin-bottom: 0px!important;
+}
+.logo {
+  position: absolute;
+  height: 80px;
+  top: 25px;
+  left: 25px;
+}
+.boston {
+  position: absolute;
+  bottom: 0px;
 }
