@@ -28,4 +28,18 @@
 
 .firstRow > h1 {
 	padding-bottom: 3px;
+	font-size: 44px;
+    color: rgb(90, 90, 90);
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    letter-spacing: -0.8px;
+    line-height: 50px;
+    font-weight: normal;
+}
+
+
+.firstPanelDesc {
+	max-width: 413px;
+    margin-top: 16px;
+    margin-bottom: 23px;
+    font-size: 16px;
 }
