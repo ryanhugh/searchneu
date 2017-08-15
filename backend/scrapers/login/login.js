@@ -540,7 +540,7 @@ async function main() {
 	cookieJar.setCookie("awBrowserCheck=true;path=/", 'https://applyweb.com')
 	cookieJar.setCookie("awBrowserCheck=true;path=/", 'http://www.applyweb.com')
 	cookieJar.setCookie("awBrowserCheck=true;path=/", 'http://applyweb.com')
-	debugger
+	// debugger
 
 
 
@@ -562,7 +562,7 @@ async function main() {
 	console.log('JGot body:', respJ.body)
 
 	nextUrl = respJ.headers.location
-	debugger
+	// debugger
 
 
 	let respK = await request.get({
@@ -581,6 +581,30 @@ async function main() {
 	console.log('KRecieved headers:', respK.headers)
 	console.log('KCookie jar:', cookieJar)
 	console.log('KGot body:', respK.body)
+
+	// debugger
+
+
+	// Done! Send a request for one of the data elements
+
+
+
+	let respZ = await request.get({
+		url: 'https://www.applyweb.com/eval/new/showreport?c=23076&i=2309&t=55&r=2&embedded=true',
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.A0 Safari/537.36',
+		}
+	})
+
+
+	console.log('ZSent headers:', respZ.req._headers)
+	console.log('ZStatus code:', respZ.statusCode)
+	console.log('ZRecieved headers:', respZ.headers)
+	console.log('ZCookie jar:', cookieJar)
+	console.log('ZGot body:', respZ.body)
 
 	debugger
 
