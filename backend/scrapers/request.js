@@ -91,7 +91,7 @@ const separateReqPools = {
 };
 
 
-const MAX_RETRY_COUNT = 35;
+const MAX_RETRY_COUNT = 2;
 
 // These numbers are in ms.
 const RETRY_DELAY = 100;
@@ -329,7 +329,7 @@ class Request {
     Object.assign(headers, defaultConfig.headers, config.headers);
     Object.assign(output, defaultConfig, config);
 
-    output.url = urlWithIp;
+    // output.url = urlWithIp;
     output.headers = headers;
 
     macros.verbose('Firing request to', output.url);
@@ -419,7 +419,9 @@ class Request {
 
     let newKey;
 
-    if (macros.DEV) {
+    if (config.jar) {
+      console.log("Not caching because request has a cookie jar.")
+    } else if (macros.DEV) {
 
 
       // Skipping the hashing when it is not necessary significantly speeds this up. 
@@ -614,6 +616,10 @@ class RequestInput {
 
     config.method = 'HEAD';
     return instance.request(config);
+  }
+
+  jar() {
+    return request.jar();
   }
 
   // Do a head request. If that fails, do a get request. If that fails, the site is down and return false
