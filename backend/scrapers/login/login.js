@@ -7,6 +7,12 @@ import Request from '../request';
 import macros from '../../macros';
 
 
+// Login code for MyNEU
+// Just uses reqeust and cheerio, no headless browser
+// It looks like MyNEU is fingerprinting the browser when the tokens/cookies are generated
+// and keeping track of what the UA and possibly? other things are too
+// so they need to stay the same between requests. 
+
 
 const request = new Request('login');
 
@@ -43,7 +49,7 @@ async function main() {
 
     // const ast = acorn.parse(initialGet.body);
 
-    debugger;
+    // debugger;
 
 
 
@@ -66,17 +72,9 @@ async function main() {
 
 	$ = cheerio.load(resp.body)
 	console.log($('#msg_txt').text())
-	debugger	
+	// debugger	
 	// return;
 
-
-
-	// let resp2 = await request.get({
-	// 	url: 'http://myneu.neu.edu/tag.121e5fb84b31691f.render.userLayoutRootNode.uP?uP_root=root&uP_sparam=activeTab&activeTab=u117660l1s42&uP_tparam=frm&frm=',
-	// 	jar: cookieJar
-	// })
-
-	// console.log(resp2.body)
 
 	let resp2 = await request.get({
 		url: 'http://myneu.neu.edu/cps/welcome/loginok.html',
@@ -94,7 +92,7 @@ async function main() {
 	console.log('2Got body:', resp2.body)
 
 
-	debugger
+	// debugger
 
 	let resp3 = await request.get({
 		url: 'http://myneu.neu.edu/cp/home/next',
@@ -111,8 +109,125 @@ async function main() {
 	console.log('3Cookie jar:', cookieJar)
 	console.log('3Got body:', resp3.body)
 
+	// debugger
+
+
+	// Hit the Self-Service tab
+	let resp4 = await request.get({
+		url: 'http://myneu.neu.edu/tag.121e5fb84b31691f.render.userLayoutRootNode.uP?uP_root=root&uP_sparam=activeTab&activeTab=u117660l1s42&uP_tparam=frm&frm=',
+		jar: cookieJar,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+		}
+	})
+
+
+	console.log('4Sent headers:', resp4.req._headers)
+	console.log('4Status code:', resp4.statusCode)
+	console.log('4Recieved headers:', resp4.headers)
+	console.log('4Cookie jar:', cookieJar)
+	console.log('4Got body:', resp4.body)
+
+
+	// debugger
+
+
+	// Hit the TRACE link
+	let resp5 = await request.get({
+		url: 'http://myneu.neu.edu/cp/ip/login?sys=cas&url=https://www.applyweb.com/eval/shibboleth/neu/36892',
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+		}
+	})
+
+
+	console.log('5Sent headers:', resp5.req._headers)
+	console.log('5Status code:', resp5.statusCode)
+	console.log('5Recieved headers:', resp5.headers)
+	console.log('5Cookie jar:', cookieJar)
+	console.log('5Got body:', resp5.body)
+
+	let nextUrl = resp5.headers.location
+
+	if (resp5.statusCode!==302) {
+		console.log("not a 302?", resp5)
+	}
+
+	
+	// Hit the next TRACE link
+	let resp6 = await request.get({
+		url: nextUrl,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+		}
+	})
+
+
+	console.log('6Sent headers:', resp6.req._headers)
+	console.log('6Status code:', resp6.statusCode)
+	console.log('6Recieved headers:', resp6.headers)
+	console.log('6Cookie jar:', cookieJar)
+	console.log('6Got body:', resp6.body)
+
+
+	nextUrl = resp6.headers.location
+
+	if (resp6.statusCode!==302) {
+		console.log("not a 302?", resp5)
+	}
+
+	
+	// Hit the next TRACE link
+	let resp7 = await request.get({
+		url: nextUrl,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+		}
+	})
+
+
+	console.log('7Sent headers:', resp7.req._headers)
+	console.log('7Status code:', resp7.statusCode)
+	console.log('7Recieved headers:', resp7.headers)
+	console.log('7Cookie jar:', cookieJar)
+	console.log('7Got body:', resp7.body)
+
+
 
 	debugger
+
+
+
+	// // Hit the actually TRACE page
+	// let resp6 = await request.get({
+	// 	url: 'https://www.applyweb.com/eval/shibboleth/neu/36892',
+	// 	jar: cookieJar,
+	// 	headers: {
+	// 		'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+	// 	}
+	// })
+
+
+	// console.log('6Sent headers:', resp6.req._headers)
+	// console.log('6Status code:', resp6.statusCode)
+	// console.log('6Recieved headers:', resp6.headers)
+	// console.log('6Cookie jar:', cookieJar)
+	// console.log('6Got body:', resp6.body)
+
+
+	// debugger
+
+
+
 
 
 }
