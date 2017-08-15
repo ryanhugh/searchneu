@@ -2,6 +2,7 @@ import cookie from 'cookie'
 import cheerio from 'cheerio'
 import * as acorn from 'acorn';
 import URI from 'urijs';
+import formUrlencoded from 'form-urlencoded';
 
 
 import Request from '../request';
@@ -232,7 +233,7 @@ async function main() {
 
 
 
-	debugger
+	// debugger
 
 
 	
@@ -258,7 +259,7 @@ async function main() {
 	// 8 is 302'ed right now, going to let is auto-follow and if that dosen't work just follow manually
 
 	nextUrl = resp8.headers.location
-	debugger
+	// debugger
 
 	
 	let resp9 = await request.get({
@@ -284,7 +285,7 @@ async function main() {
 	// 8 is 302'ed right now, going to let is auto-follow and if that dosen't work just follow manually
 
 	nextUrl = resp9.headers.location
-	debugger
+	// debugger
 
 	
 	let respA = await request.get({
@@ -310,7 +311,7 @@ async function main() {
 	// 8 is 302'ed right now, going to let is auto-follow and if that dosen't work just follow manually
 
 	nextUrl = respA.headers.location
-	debugger
+	// debugger
 
 	
 	let respB = await request.get({
@@ -334,7 +335,7 @@ async function main() {
 
 
 	nextUrl = respB.headers.location
-	debugger
+	// debugger
 
 	let respC = await request.get({
 		url: nextUrl,
@@ -356,7 +357,7 @@ async function main() {
 	// 302 to login?service=
 
 	nextUrl = respC.headers.location
-	debugger
+	// debugger
 
 	let respD = await request.get({
 		url: nextUrl,
@@ -379,7 +380,7 @@ async function main() {
 
 
 	nextUrl = respD.headers.location
-	debugger
+	// debugger
 
 	let respE = await request.get({
 		url: nextUrl,
@@ -400,6 +401,186 @@ async function main() {
 
 	// 200 at SSO?execution - 
 
+
+	// debugger
+
+	// This page returns a 200 with a form on it with stuff pre-filled in
+	// and as soon as the page loads, some javascript on the page submits the form
+	// and the 302s continue...
+
+	// parse the details out of the form
+	// and submit it.
+	$ = cheerio.load(respE.body)
+
+    nextUrl = $('form').attr('action')
+
+    let inputs = $('input')
+
+    let obj = {}
+
+    for (var i = 0; i < inputs.length; i++) {
+        let input = inputs[i]
+
+        let type = $(input).attr('type')
+
+        if (type !== 'hidden') {
+            continue;
+        }
+
+        let name = $(input).attr('name')
+        let value = $(input).attr('value')
+
+        obj[name] = value
+    }
+
+    let postBody = formUrlencoded(obj)
+
+    console.log("Submitting the post request: ", nextUrl, postBody)
+
+
+	// debugger
+
+	let respF = await request.post({
+		url: nextUrl,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.A0 Safari/537.36',
+		},
+		body: postBody
+	})
+
+
+	console.log('FSent headers:', respF.req._headers)
+	console.log('FStatus code:', respF.statusCode)
+	console.log('FRecieved headers:', respF.headers)
+	console.log('FCookie jar:', cookieJar)
+	console.log('FGot body:', respF.body)
+
+
+	nextUrl = respF.headers.location
+	// debugger
+
+
+
+	let respG = await request.get({
+		url: nextUrl,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.A0 Safari/537.36',
+		}
+	})
+
+
+	console.log('GSent headers:', respG.req._headers)
+	console.log('GStatus code:', respG.statusCode)
+	console.log('GRecieved headers:', respG.headers)
+	console.log('GCookie jar:', cookieJar)
+	console.log('GGot body:', respG.body)
+
+
+	
+	nextUrl = respG.headers.location
+	// debugger
+
+
+
+	let respH = await request.get({
+		url: nextUrl,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.A0 Safari/537.36',
+		}
+	})
+
+
+	console.log('HSent headers:', respH.req._headers)
+	console.log('HStatus code:', respH.statusCode)
+	console.log('HRecieved headers:', respH.headers)
+	console.log('HCookie jar:', cookieJar)
+	console.log('HGot body:', respH.body)
+
+	nextUrl = respH.headers.location
+	// debugger
+
+
+
+	let respI = await request.get({
+		url: nextUrl,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.A0 Safari/537.36',
+		}
+	})
+
+
+	console.log('ISent headers:', respI.req._headers)
+	console.log('IStatus code:', respI.statusCode)
+	console.log('IRecieved headers:', respI.headers)
+	console.log('ICookie jar:', cookieJar)
+	console.log('IGot body:', respI.body)
+
+
+
+	// The next url here comes from the prior url haha
+
+	let urlParsed = new URI(nextUrl)
+	nextUrl = urlParsed.query()
+
+	// Also set the cookie that says we have passed the browser check
+	cookieJar.setCookie("awBrowserCheck=true;path=/", 'https://www.applyweb.com')
+	cookieJar.setCookie("awBrowserCheck=true;path=/", 'https://applyweb.com')
+	cookieJar.setCookie("awBrowserCheck=true;path=/", 'http://www.applyweb.com')
+	cookieJar.setCookie("awBrowserCheck=true;path=/", 'http://applyweb.com')
+	debugger
+
+
+
+	let respJ = await request.get({
+		url: nextUrl,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.A0 Safari/537.36',
+		}
+	})
+
+
+	console.log('JSent headers:', respJ.req._headers)
+	console.log('JStatus code:', respJ.statusCode)
+	console.log('JRecieved headers:', respJ.headers)
+	console.log('JCookie jar:', cookieJar)
+	console.log('JGot body:', respJ.body)
+
+	nextUrl = respJ.headers.location
+	debugger
+
+
+	let respK = await request.get({
+		url: nextUrl,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.A0 Safari/537.36',
+		}
+	})
+
+
+	console.log('KSent headers:', respK.req._headers)
+	console.log('KStatus code:', respK.statusCode)
+	console.log('KRecieved headers:', respK.headers)
+	console.log('KCookie jar:', cookieJar)
+	console.log('KGot body:', respK.body)
 
 	debugger
 
