@@ -20,17 +20,10 @@
 }
 
 .lernerMobile {
-<<<<<<< HEAD
 	width: 29%;
 	position: absolute;
 	top: 50px;
 	right: 10%;
-=======
-  width: 29%;
-  position: absolute;
-  top: 50px;
-  right: 10%;
->>>>>>> origin/homepage
 }
 
 
@@ -169,6 +162,7 @@
     top: 10%;
     left: 55%;
     height: 90%;
+	}
 }
 .splashPage{
 	background: #f1f2f2;
