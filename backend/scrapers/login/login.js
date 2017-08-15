@@ -46,6 +46,10 @@ async function main() {
 
 	let uuid = parsedJS.body[8].body.body[2].expression.right.value
 
+	// Example uuid:
+	// A new one of these are generated every time the site is hit. 
+	// a8f5faa2-7e15-4d4b-8a05-d2884aa82a36
+
 
 	console.log(uuid)
 
@@ -74,6 +78,15 @@ async function main() {
 
 	$ = cheerio.load(resp.body)
 	console.log($('#msg_txt').text())
+
+	// The body of the first request looks like this: 
+	//    <html><head>
+//    <script Language="JavaScript">
+//    document.location="http://myneu.neu.edu/cps/welcome/loginok.html";
+//    </script>
+//    </head><body></body></html>
+
+
 	// debugger	
 	// return;
 
@@ -92,6 +105,15 @@ async function main() {
 	console.log('2Recieved headers:', resp2.headers)
 	console.log('2Cookie jar:', cookieJar)
 	console.log('2Got body:', resp2.body)
+
+	// resp2.body:
+	// <html><title>Login Successful</title>
+	// <head>
+	// <script language="javascript">
+	// window.top.location=/*URL*/ "/cp/home/next"
+	// </script>
+	// </head>
+	// </html>
 
 
 	// debugger
@@ -113,6 +135,8 @@ async function main() {
 
 	// debugger
 
+
+	// resp3.body is the HTML of the default tab on MyNEU
 
 	// Hit the Self-Service tab
 	let resp4 = await request.get({
