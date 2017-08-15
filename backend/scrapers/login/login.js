@@ -1,6 +1,7 @@
 import cookie from 'cookie'
 import cheerio from 'cheerio'
 import * as acorn from 'acorn';
+import URI from 'urijs';
 
 
 import Request from '../request';
@@ -202,10 +203,208 @@ async function main() {
 	console.log('7Got body:', resp7.body)
 
 
+	// This page has some JS that parsed some cookies from the current URL
+	// and sets them in the browser
+	// and goes to another page.
+
+	// Run that cookie logic and then go to the next page. 
+	let parsedUrl = new URI(nextUrl)
+	let queries = parsedUrl.query(true)
+
+	for (let cookie of queries.cookie) {
+
+	    // This was copied from the JS that appears on this page.
+	    // Instead of running the entire JS, just run the important parts.
+	    let cookieToSet = cookie.replace(";domain=neuidmsso.neu.edu", "");
+	    console.log(cookieToSet)
+
+	    // Not 100% sure about this line/??
+	    // Also the path/// attribute in the cookie might need modifyig? idk
+	    cookieJar.setCookie(cookieToSet, 'http://neu.edu')
+	    cookieJar.setCookie(cookieToSet, 'https://neu.edu')
+	    cookieJar.setCookie(cookieToSet, 'http://neuidmsso.neu.edu')
+	    cookieJar.setCookie(cookieToSet, 'https://neuidmsso.neu.edu')
+	}
+
+	console.log(queries.dest)
+	console.log(queries.dest)
+
+
+
 
 	debugger
 
 
+	
+	// Hit the next TRACE link
+	let resp8 = await request.get({
+		url: queries.dest,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+		}
+	})
+
+
+	console.log('8Sent headers:', resp8.req._headers)
+	console.log('8Status code:', resp8.statusCode)
+	console.log('8Recieved headers:', resp8.headers)
+	console.log('8Cookie jar:', cookieJar)
+	console.log('8Got body:', resp8.body)
+
+
+	// 8 is 302'ed right now, going to let is auto-follow and if that dosen't work just follow manually
+
+	nextUrl = resp8.headers.location
+	debugger
+
+	
+	let resp9 = await request.get({
+		url: nextUrl,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+		}
+	})
+
+
+	console.log('9Sent headers:', resp9.req._headers)
+	console.log('9Status code:', resp9.statusCode)
+	console.log('9Recieved headers:', resp9.headers)
+	console.log('9Cookie jar:', cookieJar)
+	console.log('9Got body:', resp9.body)
+
+
+
+
+	// 8 is 302'ed right now, going to let is auto-follow and if that dosen't work just follow manually
+
+	nextUrl = resp9.headers.location
+	debugger
+
+	
+	let respA = await request.get({
+		url: nextUrl,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.A0 Safari/537.36',
+		}
+	})
+
+
+	console.log('ASent headers:', respA.req._headers)
+	console.log('AStatus code:', respA.statusCode)
+	console.log('ARecieved headers:', respA.headers)
+	console.log('ACookie jar:', cookieJar)
+	console.log('AGot body:', respA.body)
+
+
+
+
+	// 8 is 302'ed right now, going to let is auto-follow and if that dosen't work just follow manually
+
+	nextUrl = respA.headers.location
+	debugger
+
+	
+	let respB = await request.get({
+		url: nextUrl,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.A0 Safari/537.36',
+		}
+	})
+
+
+	console.log('BSent headers:', respB.req._headers)
+	console.log('BStatus code:', respB.statusCode)
+	console.log('BRecieved headers:', respB.headers)
+	console.log('BCookie jar:', cookieJar)
+	console.log('BGot body:', respB.body)
+
+	// going to 302 to extcas
+
+
+	nextUrl = respB.headers.location
+	debugger
+
+	let respC = await request.get({
+		url: nextUrl,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.A0 Safari/537.36',
+		}
+	})
+
+
+	console.log('CSent headers:', respC.req._headers)
+	console.log('CStatus code:', respC.statusCode)
+	console.log('CRecieved headers:', respC.headers)
+	console.log('CCookie jar:', cookieJar)
+	console.log('CGot body:', respC.body)
+
+	// 302 to login?service=
+
+	nextUrl = respC.headers.location
+	debugger
+
+	let respD = await request.get({
+		url: nextUrl,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.A0 Safari/537.36',
+		}
+	})
+
+
+	console.log('DSent headers:', respD.req._headers)
+	console.log('DStatus code:', respD.statusCode)
+	console.log('DRecieved headers:', respD.headers)
+	console.log('DCookie jar:', cookieJar)
+	console.log('DGot body:', respD.body)
+
+	// 302 to ExtCas with a ticket param
+
+
+	nextUrl = respD.headers.location
+	debugger
+
+	let respE = await request.get({
+		url: nextUrl,
+		jar: cookieJar,
+		followRedirect: false,
+		simple: false,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.A0 Safari/537.36',
+		}
+	})
+
+
+	console.log('ESent headers:', respE.req._headers)
+	console.log('EStatus code:', respE.statusCode)
+	console.log('ERecieved headers:', respE.headers)
+	console.log('ECookie jar:', cookieJar)
+	console.log('EGot body:', respE.body)
+
+	// 200 at SSO?execution - 
+
+
+	debugger
+
+
+	
 
 	// // Hit the actually TRACE page
 	// let resp6 = await request.get({

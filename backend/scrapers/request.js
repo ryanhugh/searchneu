@@ -618,8 +618,13 @@ class RequestInput {
     return instance.request(config);
   }
 
+  // Pass through methods to deal with cookies. 
   jar() {
     return request.jar();
+  }
+
+  cookie(cookie) {
+    return request.cookie(cookie);
   }
 
   // Do a head request. If that fails, do a get request. If that fails, the site is down and return false
