@@ -16,10 +16,6 @@ import { Button } from 'semantic-ui-react';
 import css from './SplashPage.css';
 import macros from '../macros';
 
-// seanstuff
-import TabPanel from 'react-tab-panel'
-import 'react-tab-panel/index.css'
-
 
 
 const cx = classNames.bind(css);
@@ -36,15 +32,54 @@ class SplashPage extends React.Component {
     return  (
       <div className = {css.splashPage}>
 
-      <TabPanel>
-        <div tabTitle="First Tab">
-          First tab contents here
-        </div>
+      <span className={css.splashPageContainer}>
+        <div className={css.topPadding}/>
 
-        <div tabTitle="Second Tab">
-          Content for second tab here
-        </div>
-      </TabPanel>
+        <Grid stackable reversed="mobile" className={css.firstRow}>
+          {/* These widths must add up to 16.*/}
+          <Grid.Column width={9}>
+            <div className={css.firstRowImgDivHeightPadding}> </div>
+            <img className = {css.cs2510Desktop} src={cs2510Desktop}/>
+            <img className = {css.lernerMobile} src={lernerMobile}/>
+          </Grid.Column>
+          <Grid.Column width={7} className={css.rightSideFirstRow}>
+            <h1>Instantly search through all of NEUs classes.</h1>
+            <div className={css.firstPanelDesc}>Search through classes, professors, sections, and subjects at Northeastern. Going to add more stuff (like TRACE surveys) soon!</div>
+            <Button onClick={() => {window.dispatchEvent(searchForCS2510Event)}} primary>Search for CS 2510</Button>
+            <div className={css.firstRowMobilePadding}></div>
+          </Grid.Column>
+        </Grid>
+        <div className={css.divider}/>
+        <div className='ui divider' />
+        <Grid stackable className={css.secondRow}>
+          <Grid.Column width={7} className={css.leftSideSecondRow}>
+            <h1>Everything you could be looking for.</h1>
+            <div className={css.firstPanelDesc}>See class descriptions, prereqs, coreqs, CRNs, professors, meetings, and locations! Even more stuff coming soon!</div>
+            <Button onClick={() => {window.dispatchEvent(searchForENGW1111Event)}}  primary>Search for ENGW 1111</Button>
+          </Grid.Column>
+          <Grid.Column width={9} className={css.rightSideFirstRow}>
+            <img className = {css.engw1111Desktop} src={engw1111Desktop}/>
+          </Grid.Column>
+        </Grid>
+        <div className={css.divider}/>
+        <div className='ui divider'/>
+        <div className={css.divider}/>
+         <Grid stackable reversed="mobile" className={css.thirdRow}>
+          <Grid.Column width={9}>
+            <div className={css.thirdRowPadding}> </div>
+            <img className = {css.oodMobile1} src={oodMobile1}/>
+            <img className = {css.oodMobile2} src={oodMobile2}/>
+            <img className = {css.cs2500Mobile} src={cs2500Mobile}/>
+            <img className = {css.cs2500Resultsmobile} src={cs2500Resultsmobile}/>
+          </Grid.Column>
+          <Grid.Column width={7} className={css.rightSideFirstRow}>
+            <h1>Works great on mobile!</h1>
+            <div className={css.firstPanelDesc}>holla holla</div>
+            <Button onClick={() => {window.dispatchEvent(searchForOODEvent)}} primary>Search for OOD</Button>
+          </Grid.Column>
+        </Grid>
+        <div className={css.divider}/>
+      </span>
 
       </div>
 

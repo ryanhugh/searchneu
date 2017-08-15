@@ -100,6 +100,10 @@ margin-bottom: 0px!important;
   left: 25px;
 }
 .boston {
+  left: 50%;
+  margin-top: -300px;
+  margin-left: -300px;
   position: absolute;
   bottom: 0px;
+  width: 600px;
 }
