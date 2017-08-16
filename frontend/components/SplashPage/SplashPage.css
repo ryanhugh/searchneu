@@ -56,7 +56,7 @@
 .rotatedDiv {
   height: 50%;
   width: 50%;
-  background: rgb(246, 104, 104);
+  background: rgb(231, 83, 83);
   transform: rotate(65deg);
   float:right;
   /*display: none;*/
