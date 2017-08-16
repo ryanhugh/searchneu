@@ -32,8 +32,6 @@ class SplashPage extends React.Component {
     // <img className = {css.lernerMobile} src={lernerMobile}/>
 
     return  (
-      <div className = {css.splashPage}>
-
       <span className={css.splashPageContainer}>
         
 
@@ -77,37 +75,36 @@ class SplashPage extends React.Component {
 
 
 
-        <div className={css.divider}/>
-
-        <div className='ui divider'/>
-
-        <div className={css.divider}/>
-
 
 
          <Grid stackable reversed="mobile" className={css.thirdRow}>
-          <Grid.Column width={9}>
-            <div className={css.thirdRowPadding}> </div>
-            <img className = {css.oodMobile1} src={oodMobile1}/>
-            <img className = {css.oodMobile2} src={oodMobile2}/>
-            <img className = {css.cs2500Mobile} src={cs2500Mobile}/>
-            <img className = {css.cs2500Resultsmobile} src={cs2500Resultsmobile}/>
+          <Grid.Column width={7} className={css.thirdRowText}>
+            <div className = {css.thirdRowTextInner}>
+              <h1>Works great on mobile!</h1>
+              <div className={css.allTextDesc}>holla holla</div>
+              <Button onClick={() => {window.dispatchEvent(searchForOODEvent)}} primary>Search for OOD</Button>
+            </div>
           </Grid.Column>
-          <Grid.Column width={7} className={css.rightSideFirstRow}>
-            <h1>Works great on mobile!</h1>
-            <div className={css.allTextDesc}>holla holla</div>
-            <Button onClick={() => {window.dispatchEvent(searchForOODEvent)}} primary>Search for OOD</Button>
+          <Grid.Column width={9} className={css.thirdRowImgContainer}>  
+            <div>          
+              <img className = {css.oodMobile1} src={oodMobile1}/>
+              <img className = {css.oodMobile2} src={oodMobile2}/>
+              <img className = {css.cs2500Mobile} src={cs2500Mobile}/>
+              <img className = {css.cs2500Resultsmobile} src={cs2500Resultsmobile}/>
+            </div>
           </Grid.Column>
         </Grid>
         <div className={css.divider}/>
       </span>
-
-      </div>
-
     )
   }
 
 }
+
+// this was for mobile
+// <div className={css.thirdRowPadding}> </div>
+
+
 //             <div className={css.allTextDesc}>Search for classes, subjects, sections, professors, CRNs, and more. Instantly find what you are looking for.</div>
 
 

@@ -72,7 +72,7 @@
 .firstRowImgDivHeightPadding {
   padding-top: 56%;
 }
-
+/* Mobile for the first row. */
 @media only screen and (max-width: 767px) {
   .cs2510Desktop {
     width: 181%;
@@ -114,7 +114,6 @@
 }
 
 .secondRowText {
-  /*padding-left: 8% !important;*/
   color: white;
   display: flex !important;
   align-items: center;
@@ -186,6 +185,101 @@
   max-width: 540px;
 }
 
+/* 3rd row */
+
+.thirdRow {
+  margin: 0px !important;
+  height: 906px;
+  width: 100%;
+  overflow: hidden;
+  background: rgb(221, 218, 210);
+}
+
+
+
+.thirdRowTextInner {
+  display: inline-block;
+  max-width: 540px;
+}
+
+.thirdRowText {
+  color: rgb(125, 128, 121);
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.thirdRowText h1 {
+  font-weight: 300;
+  padding-bottom: 30px;
+}
+
+.thirdRowTextInner > button {
+  background: rgb(246, 104, 104) !important;
+  box-shadow: 0px 5px 0px -2px rgb(215, 68, 68) !important;}
+
+
+.oodMobile1 {
+  position: absolute;
+  top: 0%;
+  left: 16.8%;
+  z-index: 2;
+  width: 26.5%;
+}
+
+.oodMobile2 {
+  position: absolute;
+  top: 10%;
+  left: 7%;
+  width: 26.5%;
+}
+
+.cs2500Mobile {
+  position: absolute;
+  top: 0%;
+  left: 63%;
+  width: 26.5%;
+  z-index: 2;
+}
+
+.cs2500Resultsmobile {
+  position: absolute;
+  top: 10%;
+  left: 53%;
+  width: 26.5%;
+}
+
+
+
+.thirdRowImgContainer {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding-left: 4% !important;
+  overflow: hidden;
+}
+
+.thirdRowImgContainerInner {
+  display: inline-block;
+  max-width: 540px;
+  height: 55%;
+  width: 55%;
+  position: relative;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @media only screen and (max-width: 767px) {
@@ -201,36 +295,6 @@
 .thirdRow {
   position: relative;
   padding-left: 10px;
-}
-
-.oodMobile1 {
-  position: absolute;
-  top: 0%;
-  left: 16.8%;
-  z-index: 2;
-  width: 32.5%;
-}
-
-.oodMobile2 {
-  position: absolute;
-  top: 10%;
-  left: 7%;
-  width: 32.5%;
-}
-
-.cs2500Mobile {
-  position: absolute;
-  top: 0%;
-  left: 63%;
-  width: 32.5%;
-  z-index: 2;
-}
-
-.cs2500Resultsmobile {
-  position: absolute;
-  top: 10%;
-  left: 53%;
-  width: 32.5%;
 }
 
 
@@ -260,9 +324,4 @@
     left: 55%;
     height: 90%;
 	}
-}
-.splashPage{
-	background: #f1f2f2;
-	padding: 100px 0px;
-  padding-top: 0px;
 }
