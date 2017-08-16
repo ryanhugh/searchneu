@@ -43,7 +43,7 @@ class SplashPage extends React.Component {
           <Grid.Column width={7} className={css.firstRowText}>
             <div className={css.firstRowTextInner}>
               <h1>Instantly search through all of NEU's classes.</h1>
-              <div className={css.firstPanelDesc}>Search through classes, professors, sections, and subjects at Northeastern. Going to add more stuff (like TRACE surveys) soon!</div>
+              <div className={css.allTextDesc}>Search through classes, professors, sections, and subjects at Northeastern. Going to add more stuff (like TRACE surveys) soon!</div>
               <Button onClick={() => {window.dispatchEvent(searchForCS2510Event)}} primary>Search for CS 2510</Button>
               <div className={css.firstRowMobilePadding}></div>
             </div>
@@ -58,25 +58,31 @@ class SplashPage extends React.Component {
         </Grid>
 
 
-        {/* Dividers. */}
-        <div className={css.divider}/>
-        <div className='ui divider' />
-
 
         {/* Second Row. */}
         <Grid stackable className={css.secondRow}>
-          <Grid.Column width={7} className={css.leftSideSecondRow}>
-            <h1>Everything you could be looking for.</h1>
-            <div className={css.firstPanelDesc}>See class descriptions, prereqs, coreqs, CRNs, professors, meetings, and locations! Even more stuff coming soon!</div>
-            <Button onClick={() => {window.dispatchEvent(searchForENGW1111Event)}}  primary>Search for ENGW 1111</Button>
-          </Grid.Column>
           <Grid.Column width={9} className={css.rightSideFirstRow}>
             <img className = {css.engw1111Desktop} src={engw1111Desktop}/>
           </Grid.Column>
+          <Grid.Column width={7} className={css.secondRowText}>
+            <div className={css.secondRowTextInner}>
+              <h1>Everything you could be looking for.</h1>
+              <div className={css.allTextDesc}>See class descriptions, prereqs, coreqs, CRNs, professors, meetings, and locations! Even more stuff coming soon!</div>
+              <Button onClick={() => {window.dispatchEvent(searchForENGW1111Event)}}  primary>Search for ENGW 1111</Button>
+            </div>
+          </Grid.Column>
         </Grid>
+
+
+
         <div className={css.divider}/>
+
         <div className='ui divider'/>
+
         <div className={css.divider}/>
+
+
+
          <Grid stackable reversed="mobile" className={css.thirdRow}>
           <Grid.Column width={9}>
             <div className={css.thirdRowPadding}> </div>
@@ -87,7 +93,7 @@ class SplashPage extends React.Component {
           </Grid.Column>
           <Grid.Column width={7} className={css.rightSideFirstRow}>
             <h1>Works great on mobile!</h1>
-            <div className={css.firstPanelDesc}>holla holla</div>
+            <div className={css.allTextDesc}>holla holla</div>
             <Button onClick={() => {window.dispatchEvent(searchForOODEvent)}} primary>Search for OOD</Button>
           </Grid.Column>
         </Grid>
@@ -100,7 +106,7 @@ class SplashPage extends React.Component {
   }
 
 }
-//             <div className={css.firstPanelDesc}>Search for classes, subjects, sections, professors, CRNs, and more. Instantly find what you are looking for.</div>
+//             <div className={css.allTextDesc}>Search for classes, subjects, sections, professors, CRNs, and more. Instantly find what you are looking for.</div>
 
 
 
