@@ -63,6 +63,8 @@ class SplashPage extends React.Component {
         <Grid stackable className={css.secondRow}>
           <Grid.Column width={9} className={css.rightSideFirstRow}>
             <img className = {css.engw1111Desktop} src={engw1111Desktop}/>
+            <img className = {css.lernerMobile} src={lernerMobile}/>
+            <div className={css.rotatedDivSecondRow}></div>
           </Grid.Column>
           <Grid.Column width={7} className={css.secondRowText}>
             <div className={css.secondRowTextInner}>
