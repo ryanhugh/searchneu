@@ -60,16 +60,6 @@
   right: 29%;
 }
 
-/*
-
-.lernerMobile {
-	width: 29%;
-	position: absolute;
-	top: 50px;
-	right: 10%;
-}
-*/
-
 .allTextDesc {
   margin-top: 16px;
   margin-bottom: 50px;
@@ -143,7 +133,35 @@
 }
 
 
+.engw1111Desktop {
+  border-radius: 5px;
+  box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
+  width: 67%;
+  z-index: 2;
+  position: relative;
+}
 
+.rotatedDivSecondRow {
+  padding-top: 50%;
+  width: 50%;
+  background: rgb(125, 128, 121);
+  transform: rotate(65deg);
+  float:right;
+  position: absolute;    
+  top: 21%;
+  right: 26%;
+}
+
+
+.lernerMobile {
+  width: 25%;
+  position: absolute;
+  top: 33%;
+  right: 24%;
+  border-radius: 5px;
+  box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
+  z-index: 3;
+}
 
 
 
@@ -168,11 +186,6 @@
   max-width: 540px;
 }
 
-
-
-.engw1111Desktop {
-  width: 90%;
-}
 
 
 @media only screen and (max-width: 767px) {
