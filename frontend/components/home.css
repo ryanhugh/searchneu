@@ -17,12 +17,6 @@
     font-size: 19px !important;
     padding-bottom: 30px !important;
 }
-.top-padding {
-    height: '50px';
-}
-.bottom-padding {
-    height: '20px';
-}
 .githubCornerIcon {
     fill: rgba(175, 174, 171, 1);
     color: #FFFFFF;
