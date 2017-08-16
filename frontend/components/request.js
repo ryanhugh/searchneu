@@ -1,4 +1,5 @@
 import URI from 'urijs';
+import asyncjs from 'async';
 
 // All the requests from the frontend to the backend go through this file.
 // There used to be a lot of logic in here for loading the term dump from the service worker cache/IDB, etc
@@ -113,6 +114,33 @@ class Request {
   }
 
 
+  async getFromInternetWithRetry(url, config, isKeyUpdated) {
+
+    return new Promise((resolve, reject) => {
+      asyncjs.retry({
+        times: 3,
+        interval: 500,
+      }, async (callback) => {
+        let resp;
+        try {
+          resp = await this.getFromInternet(url, config, isKeyUpdated)
+          callback(null, resp)
+        }
+        catch(e) {
+          callback(e)
+        }
+      }, (err, resp) => {
+        if (err) {
+          reject(err)
+        }
+        else {
+          resolve(resp)
+        }
+      })
+    })
+  }
+
+
   async get(config) {
     if (typeof config === 'string') {
       config = {
@@ -124,7 +152,7 @@ class Request {
 
 
     if (!config.useCache) {
-      return this.getFromInternet(config.url);
+      return this.getFromInternetWithRetry(config.url);
     }
 
     let url = config.url;
@@ -136,7 +164,7 @@ class Request {
       url = new URI(config.url).query({ loadFromCache: isKeyUpdated }).toString();
     }
 
-    const internetValue = await this.getFromInternet(url, config, isKeyUpdated);
+    const internetValue = await this.getFromInternetWithRetry(url, config, isKeyUpdated);
 
     if (config.useCache) {
       window.localStorage[LOCALSTORAGE_PREFIX + config.url] = Date.now();
