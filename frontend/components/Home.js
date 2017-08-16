@@ -259,7 +259,7 @@ class Home extends React.Component {
     let resultsElement = null;
 
     if (this.state.searchTerm.length === 0) {
-      // resultsElement = <SplashPage/>
+      resultsElement = <SplashPage/>
     }
     else if (this.state.results) {
 
@@ -333,7 +333,9 @@ class Home extends React.Component {
         </a>
 
         <img src={logo} className={ css.logo } alt="logo" />
-        <img src={boston} className={ css.boston } alt="logo" />
+        <div className={css.bostonContainer} > 
+          <img src={boston} className={ css.boston } alt="logo" />
+        </div>
 
         <div className={ css.topPadding } />
         <div>
@@ -346,29 +348,31 @@ class Home extends React.Component {
             header: true,
             mobileHeader: macros.isMobile
           })}>
-            <h1 className={ css.title }>
-            Search
-          </h1>
-            <p className={ css.subtitle }>
-              For Northeastern classes, proffesors, times, etc.
-            </p>
-            <div id='search-wrapper' className='sub header' style = {mobileSearchBoxStyle}>
-              <label htmlFor='search_id'>
-                <i className='search icon' />
-              </label>
-              <input
-                autoFocus
-                type='search'
-                id='seach_id'
-                placeholder='Search Classes, Professors, and Employees'
-                autoComplete='off'
-                spellCheck='false'
-                tabIndex='0'
-                onChange={ this.onClick }
-                onKeyDown={ this.onKeyDown }
-                defaultValue={ this.state.searchTerm }
-                ref={(element) => { this.inputElement = element; }}
-              />
+            <div className={css.centerTextContainer}>
+              <h1 className={ css.title }>
+                Find new classes. Schedule Better.
+              </h1>
+              <p className={ css.subtitle }>
+                Search for Northeastern classes, proffesors, times, etc.
+              </p>
+              <div id='search-wrapper' className='sub header' style = {mobileSearchBoxStyle}>
+                <label htmlFor='search_id'>
+                  <i className='search icon' />
+                </label>
+                <input
+                  autoFocus
+                  type='search'
+                  id='seach_id'
+                  autoComplete='off'
+                  spellCheck='false'
+                  tabIndex='0'
+                  className={css.searchBox}
+                  onChange={ this.onClick }
+                  onKeyDown={ this.onKeyDown }
+                  defaultValue={ this.state.searchTerm }
+                  ref={(element) => { this.inputElement = element; }}
+                />
+              </div>
             </div>
             {hitEnterToSearch}
           </div>
