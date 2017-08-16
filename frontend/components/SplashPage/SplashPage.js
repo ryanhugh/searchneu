@@ -86,11 +86,16 @@ class SplashPage extends React.Component {
             </div>
           </Grid.Column>
           <Grid.Column width={9} className={css.thirdRowImgContainer}>  
-            <div>          
-              <img className = {css.oodMobile1} src={oodMobile1}/>
-              <img className = {css.oodMobile2} src={oodMobile2}/>
-              <img className = {css.cs2500Mobile} src={cs2500Mobile}/>
-              <img className = {css.cs2500Resultsmobile} src={cs2500Resultsmobile}/>
+            <div  className={css.thirdRowImgContainerInner}>
+              <div>
+                <img className = {css.oodMobile1} src={oodMobile1}/>
+                <img className = {css.oodMobile2} src={oodMobile2}/>
+              </div>
+              <div>
+                <img className = {css.cs2500Mobile} src={cs2500Mobile}/>
+                <img className = {css.cs2500Resultsmobile} src={cs2500Resultsmobile}/>
+              </div>
+              <div className={css.rotatedDivThirdRow}></div>
             </div>
           </Grid.Column>
         </Grid>
