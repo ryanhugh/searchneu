@@ -353,7 +353,7 @@ class Home extends React.Component {
                 Find new classes. Schedule Better.
               </h1>
               <p className={ css.subtitle }>
-                Search for Northeastern classes, proffesors, times, etc.
+                Search for Northeastern classes, professors, times, etc.
               </p>
               <div id='search-wrapper' className='sub header' style = {mobileSearchBoxStyle}>
                 <label htmlFor='search_id'>

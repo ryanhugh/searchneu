@@ -29,28 +29,41 @@ class SplashPage extends React.Component {
     const searchForENGW1111Event = new CustomEvent(macros.searchEvent, { detail: 'ENGW 1111' });
     const searchForOODEvent = new CustomEvent(macros.searchEvent, { detail: 'OOD' });
 
+    // <img className = {css.lernerMobile} src={lernerMobile}/>
+
     return  (
       <div className = {css.splashPage}>
 
       <span className={css.splashPageContainer}>
-        <div className={css.topPadding}/>
+        
 
+        {/* First Row. */}
         <Grid stackable reversed="mobile" className={css.firstRow}>
           {/* These widths must add up to 16.*/}
-          <Grid.Column width={9}>
-            <div className={css.firstRowImgDivHeightPadding}> </div>
-            <img className = {css.cs2510Desktop} src={cs2510Desktop}/>
-            <img className = {css.lernerMobile} src={lernerMobile}/>
+          <Grid.Column width={7} className={css.firstRowText}>
+            <div className={css.firstRowTextInner}>
+              <h1>Instantly search through all of NEU's classes.</h1>
+              <div className={css.firstPanelDesc}>Search through classes, professors, sections, and subjects at Northeastern. Going to add more stuff (like TRACE surveys) soon!</div>
+              <Button onClick={() => {window.dispatchEvent(searchForCS2510Event)}} primary>Search for CS 2510</Button>
+              <div className={css.firstRowMobilePadding}></div>
+            </div>
           </Grid.Column>
-          <Grid.Column width={7} className={css.rightSideFirstRow}>
-            <h1>Instantly search through all of NEUs classes.</h1>
-            <div className={css.firstPanelDesc}>Search through classes, professors, sections, and subjects at Northeastern. Going to add more stuff (like TRACE surveys) soon!</div>
-            <Button onClick={() => {window.dispatchEvent(searchForCS2510Event)}} primary>Search for CS 2510</Button>
-            <div className={css.firstRowMobilePadding}></div>
+          <Grid.Column width={9} className={css.rightSideFirstRow}>
+            <div className={css.firstRowImgContainer}>
+              
+              <img className={css.cs2510Desktop} src={cs2510Desktop}/>
+              <div className={css.rotatedDiv}></div>
+            </div>
           </Grid.Column>
         </Grid>
+
+
+        {/* Dividers. */}
         <div className={css.divider}/>
         <div className='ui divider' />
+
+
+        {/* Second Row. */}
         <Grid stackable className={css.secondRow}>
           <Grid.Column width={7} className={css.leftSideSecondRow}>
             <h1>Everything you could be looking for.</h1>
