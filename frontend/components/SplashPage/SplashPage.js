@@ -58,7 +58,7 @@ class SplashPage extends React.Component {
 
 
         {/* Second Row. */}
-        <Grid stackable className={css.secondRow}>
+        <Grid stackable  reversed="mobile" className={css.secondRow}>
           <Grid.Column width={9} className={css.rightSideFirstRow}>
             <img className = {css.engw1111Desktop} src={engw1111Desktop}/>
             <img className = {css.lernerMobile} src={lernerMobile}/>
@@ -77,7 +77,7 @@ class SplashPage extends React.Component {
 
 
 
-         <Grid stackable reversed="mobile" className={css.thirdRow}>
+         <Grid stackable className={css.thirdRow}>
           <Grid.Column width={7} className={css.thirdRowText}>
             <div className = {css.thirdRowTextInner}>
               <h1>Works great on mobile!</h1>
