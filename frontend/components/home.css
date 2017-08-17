@@ -30,6 +30,7 @@
         padding-bottom: 20px !important;
         height: 100%;
     }
+
 }
 
 .title {
@@ -63,6 +64,8 @@
 
     .subtitle {
         font-size: 22px !important;
+        max-width: 76%;
+        margin: 0 auto;
     }
 }
 
@@ -157,10 +160,6 @@
 
 .mobileCompact .title {
     line-height: 1.1;
-}
-
-.mobileCompact .subtitle {
-    max-width: 95%;
 }
 
 .mobileCompact .logo {
