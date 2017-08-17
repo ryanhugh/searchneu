@@ -1,65 +1,101 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
 
+.displayNone {
+    display: none;
+}
 
 
 .topHeader {
-    padding: 3em 0 !important;
     display: flex !important;
     align-items: center;
     justify-content: center;
     margin-bottom: 0px !important;
 }
 
-
-
-
-.displayNone {
-    display: none;
-}
-
-/* Desktop only. */
-@media only screen and (min-width: 767px) {
-    .topHeader {
-        transition: width 2s, height .75s;
-    }
-}
-
-/* Mobile only. */
-@media only screen and (max-width: 767px) {
-    .topHeader {
-        padding-bottom: 20px !important;
-        height: 100%;
-    }
-
+.mobileCompact .topHeader {
+    padding: 0 !important;
+    display: inherit !important;
+    align-items: inherit;
+    justify-content: inherit;
+    margin-bottom: 0px !important;
+    height: initial;
 }
 
 .title {
-    font-size: 54px;
     color: rgb(174, 69, 67);
     font-weight: 400;
     font: Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 
+.mobileCompact .title {
+    line-height: 1.1;
+    padding-top: 15px;
+}
 
 .subtitle {
     color: #a3a3a3 !important;
-    font-size: 27px !important;
     font-weight: 200;
-    margin: 10px 0px 25px 0px;
-}
-.semester {
-    color: grey !important;
-    font-size: 19px !important;
-    padding-bottom: 30px !important;
 }
 
+.logo {
+    position: absolute;
+    height: 30px;
+    top: 40px;
+    left: 40px;
+}
+
+.mobileCompact .logo {
+    display: none;
+}
+.bostonContainer {
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+}
+.boston {
+    width: 1500px;
+    max-width: 90%
+}
+
+
+/* Don't show the boston container or the logo if the width of the screen is mobile or less and the height is also very (keyboard is open).  */
+
+.mobileCompact .bostonContainer {
+    display: none;
+}
+
+
+
+
+/* Title and subtitle area. Desktop only. */
+
+@media only screen and (min-width: 767px) {
+    .topHeader {
+        padding: 3em 0 !important;
+        transition: width 2s, height .75s;
+    }
+    .title {
+        font-size: 54px;
+    }
+
+    .subtitle {
+        font-size: 27px !important;
+        margin: 10px 0px 25px 0px;
+    }
+}
+
+
+/* Title and subtitle area. Mobile only. */
 
 @media only screen and (max-width: 767px) {
+    .topHeader {
+        padding-bottom: 20px !important;
+        height: 100%;
+    }
     .title {
-        color: rgb(174, 69, 67);
         font-size: 45px;
-        color: rgb(174, 69, 67);
-        font-weight: 400;
     }
 
     .subtitle {
@@ -68,6 +104,11 @@
         margin: 0 auto;
     }
 }
+
+
+
+
+/* Github corner. */
 
 .githubCornerIcon {
     fill: rgba(175, 174, 171, 1);
@@ -80,6 +121,20 @@
 .octopusArm {
     transform-origin: 130px 106px;
 }
+
+.mobileCompact .githubCornerIcon {
+    display: none;
+}
+
+
+
+
+
+
+
+
+/* No results text. */
+
 .noResultsContainer {
     font-size: 19px;
     padding-top: 30px;
@@ -97,6 +152,10 @@
     padding-top: 7px;
 }
 
+
+
+/* Styles on tooltips that appear on desktop in the ClassPanel.js. Need to pass in the styles once, in Home.js, and not in every ClassPanel that appears. */
+
 .listIconTooltip {
     font-size: 14px !important;
     z-index: 999999;
@@ -107,96 +166,29 @@
     border-radius: 7px !important;
     white-space: nowrap !important;
 }
-.credits {
-    margin-bottom: 5px !important;
-    padding-bottom: 0 !important;
-}
-.contact {
-    margin: 0 !important;
-    padding: 0 !important;
-    /*margin-top: -32px !important;*/
-    font-size: 14px !important;
-    padding-bottom: 30px !important;
-}
-.contact > a {
-    padding-right: 1px;
-    padding-left: 1px;
-}
+
+
+/* For when Aoun shows up. */
+
 .aounContainer {
     text-align: center;
     padding-bottom: 40px;
 }
-.aounContainer > img {
+.aounContainer>img {
     box-shadow: 0 0 20px 12px #ef6e7e;
     max-width: 100%;
 }
 
-.logo {
-  position: absolute;
-  height: 30px;
-  top: 40px;
-  left: 40px;
-}
-.bostonContainer {
-    width: 100%;
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    text-align: center;
-}
-.boston {
-  width: 1500px;
-  max-width: 90%
-}
+
 
 .hitEnterToSearch {
     display: none;
 }
 
-/* Move the footer down in compact mode so you can't see the top of it when typing. */
-.mobileCompact .footer {
-    padding-top: 30px;
-}
-
-.mobileCompact .bostonContainer {
-    display: none;
-}
-
-
-.mobileCompact .title {
-    line-height: 1.1;
-    padding-top: 15px;
-}
-
-.mobileCompact .logo {
-    display: none;
-}
-
-
-.mobileCompact .githubCornerIcon {
-    display: none;
-}
-
-
-.mobileCompact .topHeader {    
-    padding: 0 !important;
-    display: inherit !important;
-    align-items: inherit;
-    justify-content: inherit;
-    margin-bottom: 0px !important;
-}
 
 .mobileCompact .hitEnterToSearch {
     display: block;
     padding-top: 14px;
-}
-
-.mobileCompact .topHeader {
-    height: initial;
-}
-
-.mobileCompact .centerTextContainer {
-    /*padding-top: 100px;*/
 }
 
 .mobileCompact .splashPage {
@@ -204,5 +196,28 @@
 }
 
 
-/* Don't show the boston container or the logo if the width of the screen is mobile or less and the height is also very (keyboard is open).  */
 
+
+/* Footer. */
+
+.credits {
+    margin-bottom: 5px !important;
+    padding-bottom: 0 !important;
+}
+.contact {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+    padding-bottom: 30px !important;
+}
+.contact>a {
+    padding-right: 1px;
+    padding-left: 1px;
+}
+
+
+/* Move the footer down in compact mode so you can't see the top of it when typing. */
+
+.mobileCompact .footer {
+    padding-top: 30px;
+}
