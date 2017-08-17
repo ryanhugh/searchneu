@@ -14,6 +14,7 @@
   height: 100%;
 }
 
+
 .firstRowText h1 {
   font-weight: 300;
   padding-bottom: 30px;
@@ -98,7 +99,7 @@
     transform: rotate(65deg);
     float: right;
     position: absolute;
-    top: 16%;
+    top: 14%;
     right: 18%;
   }
 }
@@ -115,6 +116,13 @@
   background: rgb(231, 83, 83);
 }
 
+.secondRowImgContainer {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding-left: 4% !important;
+  overflow: hidden;
+}
 
 .secondRowTextInner {
   display: inline-block;
@@ -175,6 +183,14 @@
 
 /* Mobile for the second row. */
 @media only screen and (max-width: 767px) {
+
+  .secondRowImgContainer {
+    height: 500px;
+  }
+
+  .secondRow {
+    height: initial;
+  }
   
   .secondRowText {
     color: white;
@@ -185,6 +201,7 @@
   }
 
   .engw1111Desktop {
+    margin-top: 0px;
     border-radius: 5px;
     box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
     width: 132%;
@@ -379,7 +396,7 @@ padding-top: 70%;
     align-items: center;
     justify-content: center;
     padding-left: 4% !important;
-    overflow: hidden;
+    overflow: initial;
     height: 608px;
   }
 

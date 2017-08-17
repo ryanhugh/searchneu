@@ -445,45 +445,46 @@ class Home extends React.Component {
         <div className={ css.botttomPadding } />
 
 
-        {/*<div className='ui divider' />*/}
+        <div className={css.footer}> 
 
-        <div className='footer ui basic center aligned segment'>
-          See an issue or want to add to this website? Fork it or create an issue on
-          <a target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu'>
-            &nbsp;GitHub
-          </a>.
+          <div className='footer ui basic center aligned segment'>
+            See an issue or want to add to this website? Fork it or create an issue on
+            <a target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu'>
+              &nbsp;GitHub
+            </a>.
+          </div>
+
+          <div className='ui divider' />
+
+          <div className={'footer ui basic center aligned segment ' + css.credits}>
+            Made with&nbsp;
+            <i className='rocket circular small icon' />
+            &nbsp;by&nbsp;
+            <a target='_blank' rel='noopener noreferrer' href='http://github.com/ryanhugh'>
+              Ryan Hughes
+            </a>
+            &nbsp;and UI inspired by&nbsp;
+            <a target='_blank' rel='noopener noreferrer' href='https://github.com/2factorauth/twofactorauth'>
+              Two Factor Authenticaton
+            </a>.
+          </div>
+
+          <div className={"footer ui basic center aligned segment " + css.contact}>
+            <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
+              Feedback
+            </a>
+            &nbsp;•&nbsp;
+            <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
+              Report a bug
+            </a>
+            &nbsp;•&nbsp;
+            <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
+              Contact
+            </a>
+          </div>
+
+
         </div>
-
-        <div className='ui divider' />
-
-        <div className={'footer ui basic center aligned segment ' + css.credits}>
-          Made with&nbsp;
-          <i className='rocket circular small icon' />
-          &nbsp;by&nbsp;
-          <a target='_blank' rel='noopener noreferrer' href='http://github.com/ryanhugh'>
-            Ryan Hughes
-          </a>
-          &nbsp;and UI inspired by&nbsp;
-          <a target='_blank' rel='noopener noreferrer' href='https://github.com/2factorauth/twofactorauth'>
-            Two Factor Authenticaton
-          </a>.
-        </div>
-
-        <div className={"footer ui basic center aligned segment " + css.contact}>
-          <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
-            Feedback
-          </a>
-          &nbsp;•&nbsp;
-          <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
-            Report a bug
-          </a>
-          &nbsp;•&nbsp;
-          <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
-            Contact
-          </a>
-        </div>
-
-
         <ReactTooltip effect='solid' className={ css.listIconTooltip } />
       </div>
     );
