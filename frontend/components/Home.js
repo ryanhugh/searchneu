@@ -34,6 +34,11 @@ class Home extends React.Component {
       // If we a waiting on a user on a slow computer to click enter to search.
       // On desktop, the data is searched every time, but it is only searched after you click enter on mobile.
       waitingOnEnter: false,
+
+      // Keeps track of whether to show the results or the splash screen.
+      // Is the same as this.state.searchTerm.length === 0 most of the time, but when the search results are deleted,
+      // they animate away instead of switching instantly. 
+      showSearchResults: false,
     };
 
     // Timer used to debounce search queries
@@ -48,6 +53,9 @@ class Home extends React.Component {
     // Reference to the raw DOM element of the input box.
     // Updated with react refs when the render function runs.
     this.inputElement = null;
+
+    // Timer used for hidding the search results after an interval
+    this.hideSearchResultsTimeout = null;
 
     this.onClick = this.onClick.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
@@ -72,15 +80,7 @@ class Home extends React.Component {
     let query = this.getSearchQueryFromUrl()
 
     // Only search if the query is longer than 0
-    if (query) {
-      this.search(query)
-    }
-    else {
-      this.setState({
-        results: [],
-        searchTerm: query,
-      });
-    }
+    this.search(query)
 
     if (this.inputElement) {
       this.inputElement.value = query
@@ -193,6 +193,7 @@ class Home extends React.Component {
 
   async search(searchTerm, termCount = 5) {
     this.currentQuery = searchTerm;
+
     const results = await search.search(searchTerm, termCount);
 
     if (searchTerm !== this.currentQuery) {
@@ -200,22 +201,36 @@ class Home extends React.Component {
       return;
     }
 
-    this.setState({
-      results: results,
+    clearTimeout(this.hideSearchResultsTimeout);
+
+
+    let newState = {
+      showSearchResults: true,
       searchTerm: searchTerm,
       waitingOnEnter: false,
-    });
+    }
+
+    if (searchTerm.length !== 0) {
+      newState.results = results;
+    }
+
+
+    this.setState(newState);
+
+
+    // Hide the results after some delay
+    if (searchTerm.length === 0) {
+      this.hideSearchResultsTimeout = setTimeout(() => {
+        this.setState({
+          results: [],
+          showSearchResults: false
+        })
+      }, 2000);
+    }
+
   }
 
   searchFromUserAction(event) {
-    if (!event.target.value) {
-      this.setState({
-        results: [],
-        searchTerm: event.target.value,
-      });
-      return;
-    }
-
     this.search(event.target.value);
   }
 
@@ -258,7 +273,7 @@ class Home extends React.Component {
   render() {
     let resultsElement = null;
 
-    if (this.state.searchTerm.length === 0) {
+    if (!this.state.showSearchResults) {
       resultsElement = <SplashPage/>
     }
     else if (this.state.results) {
@@ -319,6 +334,24 @@ class Home extends React.Component {
       }
     }
 
+    // Styles for the search header and the boston outline at the bottom of the above-the-fold content.
+    let bostonContainerStyle = {}
+    let topHeaderStyle = {}
+    if (this.state.searchTerm.length === 0) {
+      topHeaderStyle.height = '100%'
+      topHeaderStyle['transition-delay'] = '1s';
+
+      bostonContainerStyle.opacity = 1;
+      bostonContainerStyle['transition-delay'] = '1s';
+      bostonContainerStyle.transition = 'opacity 1s'
+    }
+    else {
+      topHeaderStyle.height = '216px'
+
+      bostonContainerStyle.opacity = 0;
+      bostonContainerStyle.transition = 'opacity 1s'
+    }
+
     return (
       <div>
 
@@ -333,21 +366,22 @@ class Home extends React.Component {
         </a>
 
         <img src={logo} className={ css.logo } alt="logo" />
-        <div className={css.bostonContainer} > 
+
+       <div className={css.bostonContainer} style={bostonContainerStyle} > 
           <img src={boston} className={ css.boston } alt="logo" />
         </div>
 
         <div className={ css.topPadding } />
         <div>
           <div id='top-header' className={cx({
-            ui: true,
-            center: true,
-            spacing: true,
-            aligned: true,
-            icon: true,
-            header: true,
-            mobileHeader: macros.isMobile
-          })}>
+              ui: true,
+              center: true,
+              spacing: true,
+              aligned: true,
+              icon: true,
+              header: true,
+              topHeader: true,
+            })} style={topHeaderStyle}>
             <div className={css.centerTextContainer}>
               <h1 className={ css.title }>
                 Find new classes. Schedule Better.
@@ -381,7 +415,7 @@ class Home extends React.Component {
         <div className={ css.botttomPadding } />
 
 
-        <div className='ui divider' />
+        {/*<div className='ui divider' />*/}
 
         <div className='footer ui basic center aligned segment'>
           See an issue or want to add to this website? Fork it or create an issue on

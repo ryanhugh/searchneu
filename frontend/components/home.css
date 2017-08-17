@@ -1,11 +1,37 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
 
+
+
+.topHeader {
+    padding: 3em 0 !important;;
+    display: flex !important;;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0px !important;
+    transition: width 2s, height .75s;
+}
+.topHeaderNoText {
+    height: 100%;
+}
+
+.displayNone {
+    display: none;
+}
+
+@media only screen and (max-width: 767px) {
+    .topHeader {
+        padding-bottom: 20px !important;
+    }
+}
+
 .title {
     font-size: 54px;
     color: rgb(174, 69, 67);
     font-weight: 400;
     font: Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
+
+
 .subtitle {
     color: #a3a3a3 !important;
     font-size: 27px !important;
@@ -17,6 +43,23 @@
     font-size: 19px !important;
     padding-bottom: 30px !important;
 }
+
+
+@media only screen and (max-width: 767px) {
+    .title {
+        color: rgb(174, 69, 67);
+        font-size: 45px;
+        color: rgb(174, 69, 67);
+        font-weight: 400;
+    }
+
+    .subtitle {
+        font-size: 22px !important;
+    }
+}
+
+
+
 .githubCornerIcon {
     fill: rgba(175, 174, 171, 1);
     color: #FFFFFF;
@@ -79,9 +122,6 @@
 .aounContainer > img {
     box-shadow: 0 0 20px 12px #ef6e7e;
     max-width: 100%;
-}
-.mobileHeader {
-    padding-bottom: 20px !important;
 }
 
 .logo {

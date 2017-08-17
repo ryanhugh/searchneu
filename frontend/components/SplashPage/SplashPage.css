@@ -50,7 +50,7 @@
 }
 
 .rotatedDiv {
-  height: 50%;
+  padding-top: 50%;
   width: 50%;
   background: rgb(231, 83, 83);
   transform: rotate(65deg);
@@ -274,7 +274,7 @@
 .rotatedDivThirdRow {
 padding-top: 70%;
     width: 70%;
-    background: rgb(125, 128, 121);
+    background: rgb(174, 69, 67);
     transform: rotate(65deg);
     float: right;
     position: absolute;

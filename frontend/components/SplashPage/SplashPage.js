@@ -99,7 +99,6 @@ class SplashPage extends React.Component {
             </div>
           </Grid.Column>
         </Grid>
-        <div className={css.divider}/>
       </span>
     )
   }
