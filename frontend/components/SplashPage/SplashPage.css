@@ -1,6 +1,18 @@
+
+/* This applies to all the h1's in the splash page. */
+.splashPageContainer h1 {
+  font-size: 44px;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: -0.8px;
+  line-height: 50px;
+  max-width: 540px;
+}
+
+
+/* First row. */
+
 .firstRow {
   margin: 0px !important;
-  height: 906px;
   width: 100%;
   overflow: hidden;
   background: rgb(125, 128, 121);
@@ -73,16 +85,22 @@
 .firstRowImgDivHeightPadding {
   padding-top: 56%;
 }
-/* Mobile for the first row. */
-@media only screen and (max-width: 767px) {
+
+
+
+/* First row, Desktop. */
+@media only screen and (min-width: 767px) {
   .firstRow {
-    height: inherit; 
+    height: 906px;
   }
 
   .firstRowText {
-    height: inherit; 
+    height: 100%;
   }
+}
 
+/* First row, Mobile. */
+@media only screen and (max-width: 767px) {
   .rightSideFirstRow {
     height: 400px;
   }
@@ -95,10 +113,6 @@
   .rotatedDiv {
     padding-top: 71%;
     width: 71%;
-    background: rgb(231, 83, 83);
-    transform: rotate(65deg);
-    float: right;
-    position: absolute;
     top: 14%;
     right: 18%;
   }
@@ -110,7 +124,6 @@
 
 .secondRow {
   margin: 0px !important;
-  height: 906px;
   width: 100%;
   overflow: hidden;
   background: rgb(231, 83, 83);
@@ -131,10 +144,6 @@
 
 .secondRowText {
   color: white;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
 }
 
 .secondRowText h1 {
@@ -169,35 +178,44 @@
 
 
 .lernerMobile {
-  width: 25%;
   position: absolute;
-  top: 33%;
-  right: 24%;
   border-radius: 0.285714rem;
   box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
   z-index: 3;
 }
 
 
+/* Second row, Desktop. */
+@media only screen and (min-width: 767px) {
+     
+  .secondRow {
+    height: 906px;
+  }
+
+  .secondRowText {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .lernerMobile {
+    width: 25%;
+    top: 33%;
+    right: 24%;
+  }
+}
 
 
-/* Mobile for the second row. */
+/* Second row, Mobile. */
 @media only screen and (max-width: 767px) {
 
   .secondRowImgContainer {
     height: 500px;
   }
 
-  .secondRow {
-    height: initial;
-  }
-  
   .secondRowText {
-    color: white;
     display: block !important;
-    align-items: inherit;
-    justify-content: inherit;
-    height: initial;
   }
 
   .engw1111Desktop {
@@ -212,20 +230,13 @@
 
   .lernerMobile {
     width: 51%;
-    position: absolute;
-    top: initial;
     right: 14%;
-    border-radius: 0.285714rem;
-    box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
-    z-index: 3;
     bottom: 20px;
   }
 
   .rotatedDivSecondRow {
     top: 8%;
   }
-
-
 }
 
 
@@ -237,16 +248,6 @@
 
 
 
-
-/* This applies to all the H1s in the splash page. */
-
-.splashPageContainer h1 {
-  font-size: 44px;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  letter-spacing: -0.8px;
-  line-height: 50px;
-  max-width: 540px;
-}
 
 /* 3rd row */
 
