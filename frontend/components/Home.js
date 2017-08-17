@@ -62,6 +62,7 @@ class Home extends React.Component {
     this.loadMore = this.loadMore.bind(this);
     this.onPopState = this.onPopState.bind(this);
     this.onDOMEventSearch = this.onDOMEventSearch.bind(this);
+    this.onScroll = this.onScroll.bind(this);
     this.onSearchDebounced = this.onSearchDebounced.bind(this);
 
     // Count the number of times the user searched this session. Used for analytics.
@@ -92,6 +93,7 @@ class Home extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('onpopstate', this.onPopState);
     window.removeEventListener(macros.searchEvent, this.onDOMEventSearch);
+    window.removeEventListener('scroll', this.onScroll);
   }
 
   logSearch(searchTerm) {
@@ -128,8 +130,13 @@ class Home extends React.Component {
     // Scroll to the top
     document.body.scrollTop = 0;
 
-    // macros.log('yooo', event)
     this.search(query);
+  }
+
+  onScroll(event) {
+    if (this.state.searchTerm.length === 0) {
+      
+    }
   }
 
 
@@ -168,19 +175,11 @@ class Home extends React.Component {
     // Add a listener for location changes.
     window.addEventListener('popstate', this.onPopState);
     window.addEventListener(macros.searchEvent, this.onDOMEventSearch);
+    window.addEventListener('scroll', this.onScroll);
 
     if (this.state.searchTerm) {
       macros.log('Going to serach for', this.state.searchTerm);
       this.search(this.state.searchTerm);
-    // }
-
-    // If testing locally, bring up some results without typing in anything.
-    // (This is just for testing, feel free to change it to whatever.)
-    // else if (macros.DEV) {
-      // this.search('cs');
-    } else {
-      // Force an update on the screen so the loading bar disappears and the page shows.
-      this.forceUpdate();
     }
   }
 
