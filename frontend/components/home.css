@@ -153,6 +153,11 @@
     display: none;
 }
 
+/* Move the footer down in compact mode so you can't see the top of it when typing. */
+.mobileCompact .footer {
+    padding-top: 30px;
+}
+
 .mobileCompact .bostonContainer {
     display: none;
 }
@@ -160,6 +165,7 @@
 
 .mobileCompact .title {
     line-height: 1.1;
+    padding-top: 15px;
 }
 
 .mobileCompact .logo {
