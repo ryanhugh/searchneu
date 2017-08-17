@@ -149,7 +149,7 @@
 
 
 .engw1111Desktop {
-  border-radius: 5px;
+  border-radius: 0.285714rem;
   box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
   width: 67%;
   z-index: 2;
@@ -173,7 +173,7 @@
   position: absolute;
   top: 33%;
   right: 24%;
-  border-radius: 5px;
+  border-radius: 0.285714rem;
   box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
   z-index: 3;
 }
@@ -202,7 +202,7 @@
 
   .engw1111Desktop {
     margin-top: 0px;
-    border-radius: 5px;
+    border-radius: 0.285714rem;
     box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
     width: 132%;
     z-index: 2;
@@ -213,11 +213,16 @@
   .lernerMobile {
     width: 51%;
     position: absolute;
-    top: 19%;
+    top: initial;
     right: 14%;
-    border-radius: 5px;
+    border-radius: 0.285714rem;
     box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
     z-index: 3;
+    bottom: 20px;
+  }
+
+  .rotatedDivSecondRow {
+    top: 8%;
   }
 
 
@@ -285,6 +290,7 @@
   width: 35%;
   z-index: 2;
   box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
+  border-radius: 0.285714rem;
 }
 
 .oodMobile2 {
@@ -294,6 +300,7 @@
   width: 35%;
   z-index: 1;
   box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
+  border-radius: 0.285714rem;
 }
 
 .cs2500Mobile {
@@ -303,6 +310,7 @@
   width: 35%;
   z-index: 2;
   box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
+  border-radius: 0.285714rem;
 }
 
 .cs2500Resultsmobile {
@@ -312,6 +320,7 @@
   width: 35%;
   z-index: 1;
   box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
+  border-radius: 0.285714rem;
 }
 
 
