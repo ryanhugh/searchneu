@@ -3,24 +3,32 @@
 
 
 .topHeader {
-    padding: 3em 0 !important;;
-    display: flex !important;;
+    padding: 3em 0 !important;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     margin-bottom: 0px !important;
-    transition: width 2s, height .75s;
 }
-.topHeaderNoText {
-    height: 100%;
-}
+
+
+
 
 .displayNone {
     display: none;
 }
 
+/* Desktop only. */
+@media only screen and (min-width: 767px) {
+    .topHeader {
+        transition: width 2s, height .75s;
+    }
+}
+
+/* Mobile only. */
 @media only screen and (max-width: 767px) {
     .topHeader {
         padding-bottom: 20px !important;
+        height: 100%;
     }
 }
 
@@ -58,8 +66,6 @@
     }
 }
 
-
-
 .githubCornerIcon {
     fill: rgba(175, 174, 171, 1);
     color: #FFFFFF;
@@ -87,9 +93,7 @@
 .noResultsBottomLine {
     padding-top: 7px;
 }
-.hitEnterToSearch {
-    padding-top: 42px;
-}
+
 .listIconTooltip {
     font-size: 14px !important;
     z-index: 999999;
@@ -140,4 +144,55 @@
 .boston {
   width: 1500px;
   max-width: 90%
+}
+
+.hitEnterToSearch {
+    display: none;
+}
+
+
+/* Don't show the boston container or the logo if the width of the screen is mobile or less and the height is also very (keyboard is open).  */
+@media only screen and (max-height: 500px) and (max-width: 767px) {
+    .bostonContainer {
+        display: none;
+    }
+
+    .title {
+        display: none;
+    }
+
+    .logo {
+        height: 62px;
+        top: 0;
+        left: 0;
+        margin: 0 auto;
+        display: block;
+        position: inherit;
+        margin-top: 14px;
+    }
+
+    .githubCornerIcon {
+        display: none;
+    }
+
+    /* When the keyboard is open, the veritical align is no longer needed. Move the header to the top of the page. */
+    .topHeader {    
+        padding: 0 !important;
+        display: inherit !important;
+        align-items: inherit;
+        justify-content: inherit;
+        margin-bottom: 0px !important;
+    }
+
+    .hitEnterToSearch {
+        display: block;
+        padding-top: 14px;
+    }
+
+    .centerTextContainer {
+        padding-top: 100px;
+    }
+
+
+
 }

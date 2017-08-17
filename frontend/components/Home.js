@@ -315,13 +315,18 @@ class Home extends React.Component {
     }
 
     let hitEnterToSearch = null;
-    if (this.state.waitingOnEnter) {
+    if (document.activeElement == this.inputElement || 1) {
       hitEnterToSearch = (
         <div className={ css.hitEnterToSearch }>
           Hit Enter to Search ...
         </div>
       );
+      console.log('yup')
     }
+    else {
+      console.log('nope')
+    }
+
 
     let mobileSearchBoxStyle = {}
     if (macros.isMobile) {
@@ -336,19 +341,21 @@ class Home extends React.Component {
     // Styles for the search header and the boston outline at the bottom of the above-the-fold content.
     let bostonContainerStyle = {}
     let topHeaderStyle = {}
-    if (this.state.searchTerm.length === 0) {
-      topHeaderStyle.height = '100%'
-      topHeaderStyle.transitionDelay = '1s';
+    if (!macros.isMobile) {
+      if (this.state.searchTerm.length === 0) {
+        topHeaderStyle.height = '100%'
+        topHeaderStyle.transitionDelay = '1s';
 
-      bostonContainerStyle.opacity = 1;
-      bostonContainerStyle.transitionDelay = '1s';
-      bostonContainerStyle.transition = 'opacity 1s'
-    }
-    else {
-      topHeaderStyle.height = '216px'
+        bostonContainerStyle.opacity = 1;
+        bostonContainerStyle.transitionDelay = '1s';
+        bostonContainerStyle.transition = 'opacity 1s'
+      }
+      else {
+        topHeaderStyle.height = '216px'
 
-      bostonContainerStyle.opacity = 0;
-      bostonContainerStyle.transition = 'opacity 1s'
+        bostonContainerStyle.opacity = 0;
+        bostonContainerStyle.transition = 'opacity 1s'
+      }
     }
 
     return (
@@ -406,8 +413,8 @@ class Home extends React.Component {
                   ref={(element) => { this.inputElement = element; }}
                 />
               </div>
+              {hitEnterToSearch}
             </div>
-            {hitEnterToSearch}
           </div>
           {resultsElement}
         </div>
