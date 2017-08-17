@@ -150,49 +150,54 @@
     display: none;
 }
 
+.mobileCompact .bostonContainer {
+    display: none;
+}
+
+
+.mobileCompact .title {
+    line-height: 1.1;
+}
+
+.mobileCompact .subtitle {
+    max-width: 95%;
+}
+
+.mobileCompact .logo {
+    display: none;
+}
+
+
+.mobileCompact .githubCornerIcon {
+    display: none;
+}
+
+
+.mobileCompact .topHeader {    
+    padding: 0 !important;
+    display: inherit !important;
+    align-items: inherit;
+    justify-content: inherit;
+    margin-bottom: 0px !important;
+}
+
+.mobileCompact .hitEnterToSearch {
+    display: block;
+    padding-top: 14px;
+}
+
+.mobileCompact .topHeader {
+    height: initial;
+}
+
+.mobileCompact .centerTextContainer {
+    /*padding-top: 100px;*/
+}
+
+.mobileCompact .splashPage {
+    display: none;
+}
+
 
 /* Don't show the boston container or the logo if the width of the screen is mobile or less and the height is also very (keyboard is open).  */
-@media only screen and (max-height: 500px) and (max-width: 767px) {
-    .bostonContainer {
-        display: none;
-    }
 
-    .title {
-        display: none;
-    }
-
-    .logo {
-        height: 62px;
-        top: 0;
-        left: 0;
-        margin: 0 auto;
-        display: block;
-        position: inherit;
-        margin-top: 14px;
-    }
-
-    .githubCornerIcon {
-        display: none;
-    }
-
-    /* When the keyboard is open, the veritical align is no longer needed. Move the header to the top of the page. */
-    .topHeader {    
-        padding: 0 !important;
-        display: inherit !important;
-        align-items: inherit;
-        justify-content: inherit;
-        margin-bottom: 0px !important;
-    }
-
-    .hitEnterToSearch {
-        display: block;
-        padding-top: 14px;
-    }
-
-    .centerTextContainer {
-        padding-top: 100px;
-    }
-
-
-
-}
