@@ -74,24 +74,12 @@
 }
 /* Mobile for the first row. */
 @media only screen and (max-width: 767px) {
-  .cs2510Desktop {
-    width: 181%;
-    position: absolute;
-    top: 0px;
-    left: -6px;
+  .firstRow {
+    height: inherit; 
   }
 
-  .lernerMobile {
-    width: 62%;
-    top: 100px;
-  }
-
-  .firstRowImgDivHeightPadding {
-    padding-top: 135%;
-  }
-
-  .firstRowMobilePadding {
-    margin-bottom: 20px;
+  .firstRowText {
+    height: inherit; 
   }
 }
 

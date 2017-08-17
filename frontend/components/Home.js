@@ -415,10 +415,10 @@ class Home extends React.Component {
             })} style={topHeaderStyle}>
             <div className={css.centerTextContainer}>
               <h1 className={ css.title }>
-                Find new classes. Schedule Better.
+                Search For Northeastern
               </h1>
               <p className={ css.subtitle }>
-                Search for Northeastern classes, professors, times, etc.
+                Search for classes, professors, times, etc.
               </p>
               <div id='search-wrapper' className='sub header' style = {mobileSearchBoxStyle}>
                 <label htmlFor='search_id'>

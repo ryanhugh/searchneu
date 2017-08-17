@@ -36,7 +36,7 @@ class SplashPage extends React.Component {
         
 
         {/* First Row. */}
-        <Grid stackable reversed="mobile" className={css.firstRow}>
+        <Grid stackable className={css.firstRow}>
           {/* These widths must add up to 16.*/}
           <Grid.Column width={7} className={css.firstRowText}>
             <div className={css.firstRowTextInner}>
