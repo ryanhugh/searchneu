@@ -137,11 +137,13 @@ class Home extends React.Component {
   }
 
   onInputFocus(event) {
-    console.log('fired')
-    this.forceUpdate();
-    // if (this.state.searchTerm.length === 0) {
 
-    // }
+    if (macros.isMobile) {
+      this.setState({
+        results: [],
+        waitingOnEnter: true
+      })
+    }
   }
 
 

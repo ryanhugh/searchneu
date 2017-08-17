@@ -406,7 +406,7 @@ padding-top: 70%;
     justify-content: center;
     padding-left: 4% !important;
     overflow: initial;
-    height: 608px;
+    height: 636px;
   }
 
   .thirdRowImgContainerInner {
@@ -436,10 +436,11 @@ padding-top: 70%;
 
   .oodMobile2 {
     position: absolute;
-    top: 27%;
     left: 3%;
     width: 65%;
     z-index: 1;
+    top: initial;
+    bottom: 25px;
 	}
 
   .cs2500Mobile {
