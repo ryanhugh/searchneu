@@ -135,7 +135,7 @@ class Home extends React.Component {
 
   onScroll(event) {
     if (this.state.searchTerm.length === 0) {
-      
+
     }
   }
 
@@ -338,10 +338,10 @@ class Home extends React.Component {
     let topHeaderStyle = {}
     if (this.state.searchTerm.length === 0) {
       topHeaderStyle.height = '100%'
-      topHeaderStyle['transition-delay'] = '1s';
+      topHeaderStyle.transitionDelay = '1s';
 
       bostonContainerStyle.opacity = 1;
-      bostonContainerStyle['transition-delay'] = '1s';
+      bostonContainerStyle.transitionDelay = '1s';
       bostonContainerStyle.transition = 'opacity 1s'
     }
     else {
