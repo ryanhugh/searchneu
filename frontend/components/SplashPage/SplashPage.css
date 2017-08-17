@@ -81,6 +81,26 @@
   .firstRowText {
     height: inherit; 
   }
+
+  .rightSideFirstRow {
+    height: 400px;
+  }
+
+  .cs2510Desktop {
+    width: 179%;
+    margin-left: 5%;
+  }
+
+  .rotatedDiv {
+    padding-top: 71%;
+    width: 71%;
+    background: rgb(231, 83, 83);
+    transform: rotate(65deg);
+    float: right;
+    position: absolute;
+    top: 16%;
+    right: 18%;
+  }
 }
 
 
@@ -153,6 +173,39 @@
 
 
 
+/* Mobile for the second row. */
+@media only screen and (max-width: 767px) {
+  
+  .secondRowText {
+    color: white;
+    display: block !important;
+    align-items: inherit;
+    justify-content: inherit;
+    height: initial;
+  }
+
+  .engw1111Desktop {
+    border-radius: 5px;
+    box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
+    width: 132%;
+    z-index: 2;
+    position: relative;
+    margin-left: 100px;
+  }
+
+  .lernerMobile {
+    width: 51%;
+    position: absolute;
+    top: 19%;
+    right: 14%;
+    border-radius: 5px;
+    box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
+    z-index: 3;
+  }
+
+
+}
+
 
 
 
@@ -214,6 +267,7 @@
   left: 12.8%;
   width: 35%;
   z-index: 2;
+  box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
 }
 
 .oodMobile2 {
@@ -222,6 +276,7 @@
   left: 3%;
   width: 35%;
   z-index: 1;
+  box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
 }
 
 .cs2500Mobile {
@@ -230,6 +285,7 @@
   left: 60%;
   width: 35%;
   z-index: 2;
+  box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
 }
 
 .cs2500Resultsmobile {
@@ -238,6 +294,7 @@
   left: 50%;
   width: 35%;
   z-index: 1;
+  box-shadow: 0px 0px 9px 6px rgba(72, 75, 78, 0.44);
 }
 
 
@@ -247,8 +304,8 @@
   align-items: center;
   justify-content: center;
   padding-left: 4% !important;
-  overflow: hidden
-;}
+  overflow: hidden;
+}
 
 .thirdRowImgContainerInner {
     height: 0;
@@ -281,7 +338,7 @@ padding-top: 70%;
 
 
 
-
+/*
 @media only screen and (max-width: 767px) {
   .engw1111Desktop {
     margin-left: -20px;
@@ -290,7 +347,7 @@ padding-top: 70%;
 }
 
 
-
+*/
 
 .thirdRow {
   position: relative;
@@ -306,6 +363,39 @@ padding-top: 70%;
 
 @media only screen and (max-width: 767px) {
 
+  .thirdRow {
+    height: initial;
+  }
+
+  .thirdRowText {
+    display: block !important;
+    align-items: initial;
+    justify-content: initial;
+    height: initial;
+  }
+
+  .thirdRowImgContainer {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding-left: 4% !important;
+    overflow: hidden;
+    height: 608px;
+  }
+
+  .thirdRowImgContainerInner {
+    height: initial;
+    padding-top: initial;
+    width: initial;
+    position: initial;
+    margin-right: initial;
+  }
+
+
+  .rotatedDivThirdRow {
+    top: 7%;
+  }
+
   .thirdRowPadding {
     padding-top: 140%;
   }
@@ -320,8 +410,16 @@ padding-top: 70%;
 
   .oodMobile2 {
     position: absolute;
-    top: 10%;
-    left: 55%;
-    height: 90%;
+    top: 27%;
+    left: 3%;
+    width: 65%;
+    z-index: 1;
 	}
+
+  .cs2500Mobile {
+    display: none;
+  }
+  .cs2500Resultsmobile {
+    display: none;
+  }
 }
