@@ -62,7 +62,7 @@ class Home extends React.Component {
     this.loadMore = this.loadMore.bind(this);
     this.onPopState = this.onPopState.bind(this);
     this.onDOMEventSearch = this.onDOMEventSearch.bind(this);
-    this.onScroll = this.onScroll.bind(this);
+    this.onInputFocus = this.onInputFocus.bind(this);
     this.onSearchDebounced = this.onSearchDebounced.bind(this);
 
     // Count the number of times the user searched this session. Used for analytics.
@@ -93,7 +93,10 @@ class Home extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('onpopstate', this.onPopState);
     window.removeEventListener(macros.searchEvent, this.onDOMEventSearch);
-    window.removeEventListener('scroll', this.onScroll);
+    if (this.inputElement) {
+      console.log("noooooope")
+      this.inputElement.removeEventListener('focus', this.onInputFocus);
+    }
   }
 
   logSearch(searchTerm) {
@@ -133,10 +136,12 @@ class Home extends React.Component {
     this.search(query);
   }
 
-  onScroll(event) {
-    if (this.state.searchTerm.length === 0) {
+  onInputFocus(event) {
+    console.log('fired')
+    this.forceUpdate();
+    // if (this.state.searchTerm.length === 0) {
 
-    }
+    // }
   }
 
 
@@ -175,7 +180,17 @@ class Home extends React.Component {
     // Add a listener for location changes.
     window.addEventListener('popstate', this.onPopState);
     window.addEventListener(macros.searchEvent, this.onDOMEventSearch);
-    window.addEventListener('scroll', this.onScroll);
+    if (this.inputElement) {
+      console.log('uupppppppp')
+      this.inputElement.addEventListener('focus', this.onInputFocus);
+
+      // Don't autofocus on mobile so when the user clicks it we can handle the event and move some elements around. 
+      if (!macros.isMobile) {
+        this.inputElement.focus();
+      }
+
+
+    }
 
     if (this.state.searchTerm) {
       macros.log('Going to serach for', this.state.searchTerm);
@@ -273,7 +288,7 @@ class Home extends React.Component {
     let resultsElement = null;
 
     if (!this.state.showSearchResults) {
-      resultsElement = <SplashPage/>
+      resultsElement = <span  className={css.splashPage}> <SplashPage/> </span>
     }
     else if (this.state.results) {
 
@@ -315,16 +330,12 @@ class Home extends React.Component {
     }
 
     let hitEnterToSearch = null;
-    if (document.activeElement == this.inputElement || 1) {
+    if (document.activeElement == this.inputElement) {
       hitEnterToSearch = (
         <div className={ css.hitEnterToSearch }>
           Hit Enter to Search ...
         </div>
       );
-      console.log('yup')
-    }
-    else {
-      console.log('nope')
     }
 
 
@@ -358,8 +369,22 @@ class Home extends React.Component {
       }
     }
 
+    // On mobile only show the logo and the github corner if there are no results and the search box is not focused (the virtual keyboard is not on the screen)
+
+    let mobileClassType;
+    if (!macros.isMobile) {
+      mobileClassType = '';
+    }
+    else if (document.activeElement == this.inputElement || this.state.results.length > 0) {
+      mobileClassType = css.mobileCompact;
+    }
+    else {
+      mobileClassType = css.mobileFull
+    }
+
+
     return (
-      <div>
+      <div className={mobileClassType}>
 
         <a href='https://github.com/ryanhugh/searchneu' className='github-corner'>
           {/* eslint-disable max-len */}
@@ -400,7 +425,6 @@ class Home extends React.Component {
                   <i className='search icon' />
                 </label>
                 <input
-                  autoFocus
                   type='search'
                   id='seach_id'
                   autoComplete='off'
