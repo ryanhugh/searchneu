@@ -124,6 +124,7 @@
     top: 0;
     border: 0;
     right: 0;
+    z-index: 10;
 }
 .octopusArm {
     transform-origin: 130px 106px;
