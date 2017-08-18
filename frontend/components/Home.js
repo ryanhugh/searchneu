@@ -412,7 +412,7 @@ class Home extends React.Component {
     return (
       <div className={mobileClassType} style={{height:'100%'}}>
 
-        <a href='https://github.com/ryanhugh/searchneu' className='github-corner'>
+        <a  target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu' className='github-corner'>
           {/* eslint-disable max-len */}
           <svg width='80' height='80' viewBox='0 0 250 250' className={ css.githubCornerIcon } >
             <path d='M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z' />
