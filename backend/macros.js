@@ -238,7 +238,7 @@ class Macros extends commonMacros {
       
       // If running on AWS, tell rollbar about the error so rollbar sends off an email.
       } else {
-        const rollbarKey = await macros.getEnvVariable('rollbarPostServerItemToken');
+        const rollbarKey = await Macros.getEnvVariable('rollbarPostServerItemToken');
         rollbar.init(rollbarKey);
 
         let stack = (new Error()).stack
