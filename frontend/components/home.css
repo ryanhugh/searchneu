@@ -53,6 +53,7 @@
     bottom: 0px;
     width: 100%;
     text-align: center;
+    transition-delay: 1s;
 }
 .boston {
     width: 1500px;

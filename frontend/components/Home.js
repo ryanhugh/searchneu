@@ -186,14 +186,12 @@ class Home extends React.Component {
     window.addEventListener('popstate', this.onPopState);
     window.addEventListener(macros.searchEvent, this.onDOMEventSearch);
     if (this.inputElement) {
-      console.log('uupppppppp')
       this.inputElement.addEventListener('focus', this.onInputFocus);
 
       // Don't autofocus on mobile so when the user clicks it we can handle the event and move some elements around. 
       if (!macros.isMobile) {
         this.inputElement.focus();
       }
-
 
     }
 
@@ -380,26 +378,11 @@ class Home extends React.Component {
         
         resultsContainerStyle.transform = 'translateY(-' + height + 'px)'
 
-        // if (this.resultsContainerElement) {
-
-        //   if (this.resultsContainerElement.style.height) {
-        //     resultsContainerStyle.height = this.resultsContainerElement.style.height
-        //   }
-        //   else {
-        //     console.log(this.resultsContainerElement)
-        //     resultsContainerStyle.height = (this.resultsContainerElement.offsetHeight - height) + 'px'
-        //   }
-        // }
-
-
-
-
         bostonContainerStyle.opacity = 0;
         bostonContainerStyle.transition = 'opacity 1s'
 
 
         topHeaderStyle.transitionDelay = '1s';
-        bostonContainerStyle.transitionDelay = '1s';
         resultsContainerStyle.transitionDelay = '1s';
 
       }
