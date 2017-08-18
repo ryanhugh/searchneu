@@ -418,9 +418,9 @@ class Home extends React.Component {
       mobileClassType = css.mobileFull
     }
 
-
+    // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation. 
     return (
-      <div className={mobileClassType}>
+      <div className={mobileClassType} style={{height:'100%'}}>
 
         <a href='https://github.com/ryanhugh/searchneu' className='github-corner'>
           {/* eslint-disable max-len */}
