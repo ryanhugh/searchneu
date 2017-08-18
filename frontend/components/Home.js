@@ -98,7 +98,6 @@ class Home extends React.Component {
     window.removeEventListener('onpopstate', this.onPopState);
     window.removeEventListener(macros.searchEvent, this.onDOMEventSearch);
     if (this.inputElement) {
-      console.log("noooooope")
       this.inputElement.removeEventListener('focus', this.onInputFocus);
     }
   }
