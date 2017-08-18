@@ -74,7 +74,11 @@
 @media only screen and (min-width: 767px) {
     .topHeader {
         padding: 3em 0 !important;
-        transition: width 2s, height .75s;
+        /*transition: height .75s;*/
+        transition: transform .75s;
+    }
+    .resultsContainer {
+        transition: transform .75s;
     }
     .title {
         font-size: 54px;

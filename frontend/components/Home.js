@@ -54,6 +54,9 @@ class Home extends React.Component {
     // Updated with react refs when the render function runs.
     this.inputElement = null;
 
+    // Used to get the height of the results container element so we can move the stuff below the container up the amount it was transformed.
+    this.resultsContainerElement = null;
+
     // Timer used for hidding the search results after an interval
     this.hideSearchResultsTimeout = null;
 
@@ -354,20 +357,51 @@ class Home extends React.Component {
     // Styles for the search header and the boston outline at the bottom of the above-the-fold content.
     let bostonContainerStyle = {}
     let topHeaderStyle = {}
+    let resultsContainerStyle = {}
     if (!macros.isMobile) {
       if (this.state.searchTerm.length === 0) {
         topHeaderStyle.height = '100%'
+        // topHeaderStyle.height = '900px'
         topHeaderStyle.transitionDelay = '1s';
 
         bostonContainerStyle.opacity = 1;
         bostonContainerStyle.transitionDelay = '1s';
         bostonContainerStyle.transition = 'opacity 1s'
+
+
+        resultsContainerStyle.transitionDelay = '1s';
       }
       else {
-        topHeaderStyle.height = '216px'
+        // topHeaderStyle.height = '216px'
+        topHeaderStyle.height = '100%'
+        topHeaderStyle.transform = 'translateY(-35%)'
+
+        let height = window.innerHeight - 305
+        
+        resultsContainerStyle.transform = 'translateY(-' + height + 'px)'
+
+        // if (this.resultsContainerElement) {
+
+        //   if (this.resultsContainerElement.style.height) {
+        //     resultsContainerStyle.height = this.resultsContainerElement.style.height
+        //   }
+        //   else {
+        //     console.log(this.resultsContainerElement)
+        //     resultsContainerStyle.height = (this.resultsContainerElement.offsetHeight - height) + 'px'
+        //   }
+        // }
+
+
+
 
         bostonContainerStyle.opacity = 0;
         bostonContainerStyle.transition = 'opacity 1s'
+
+
+        topHeaderStyle.transitionDelay = '1s';
+        bostonContainerStyle.transitionDelay = '1s';
+        resultsContainerStyle.transitionDelay = '1s';
+
       }
     }
 
@@ -404,7 +438,6 @@ class Home extends React.Component {
           <img src={boston} className={ css.boston } alt="logo" />
         </div>
 
-        <div className={ css.topPadding } />
         <div>
           <div id='top-header' className={cx({
               ui: true,
@@ -442,51 +475,57 @@ class Home extends React.Component {
               {hitEnterToSearch}
             </div>
           </div>
-          {resultsElement}
         </div>
-        <div className={ css.botttomPadding } />
 
-
-        <div className={css.footer}> 
-
-          <div className='footer ui basic center aligned segment'>
-            See an issue or want to add to this website? Fork it or create an issue on
-            <a target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu'>
-              &nbsp;GitHub
-            </a>.
+        <div style={resultsContainerStyle} className={css.resultsContainer} >
+          <div ref={(element) => {this.resultsContainerElement = element;}}>
+            {resultsElement}
           </div>
 
-          <div className='ui divider' />
+          <div className={ css.botttomPadding } />
 
-          <div className={'footer ui basic center aligned segment ' + css.credits}>
-            Made with&nbsp;
-            <i className='rocket circular small icon' />
-            &nbsp;by&nbsp;
-            <a target='_blank' rel='noopener noreferrer' href='http://github.com/ryanhugh'>
-              Ryan Hughes
-            </a>
-            &nbsp;and UI inspired by&nbsp;
-            <a target='_blank' rel='noopener noreferrer' href='https://github.com/2factorauth/twofactorauth'>
-              Two Factor Authenticaton
-            </a>.
+          <div className={css.footer}> 
+
+            <div className='footer ui basic center aligned segment'>
+              See an issue or want to add to this website? Fork it or create an issue on
+              <a target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu'>
+                &nbsp;GitHub
+              </a>.
+            </div>
+
+            <div className='ui divider' />
+
+            <div className={'footer ui basic center aligned segment ' + css.credits}>
+              Made with&nbsp;
+              <i className='rocket circular small icon' />
+              &nbsp;by&nbsp;
+              <a target='_blank' rel='noopener noreferrer' href='http://github.com/ryanhugh'>
+                Ryan Hughes
+              </a>
+              &nbsp;and UI inspired by&nbsp;
+              <a target='_blank' rel='noopener noreferrer' href='https://github.com/2factorauth/twofactorauth'>
+                Two Factor Authenticaton
+              </a>.
+            </div>
+
+            <div className={"footer ui basic center aligned segment " + css.contact}>
+              <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
+                Feedback
+              </a>
+              &nbsp;•&nbsp;
+              <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
+                Report a bug
+              </a>
+              &nbsp;•&nbsp;
+              <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
+                Contact
+              </a>
+            </div>
           </div>
-
-          <div className={"footer ui basic center aligned segment " + css.contact}>
-            <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
-              Feedback
-            </a>
-            &nbsp;•&nbsp;
-            <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
-              Report a bug
-            </a>
-            &nbsp;•&nbsp;
-            <a target='_blank' rel='noopener noreferrer' href="https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform">
-              Contact
-            </a>
-          </div>
-
-
         </div>
+
+
+
         <ReactTooltip effect='solid' className={ css.listIconTooltip } />
       </div>
     );
