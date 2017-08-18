@@ -67,6 +67,7 @@ class Home extends React.Component {
     this.onDOMEventSearch = this.onDOMEventSearch.bind(this);
     this.onInputFocus = this.onInputFocus.bind(this);
     this.onSearchDebounced = this.onSearchDebounced.bind(this);
+    this.onLogoClick = this.onLogoClick.bind(this);
 
     // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
@@ -149,6 +150,14 @@ class Home extends React.Component {
     }
   }
 
+  
+  onLogoClick () {
+    if (this.inputElement) {
+      this.inputElement.value = ''
+    }
+
+    this.search('');
+  }
 
   // On mobile, this is called whenever the user clicks enter.
   // On desktop, this is called 500ms after they user stops typing.
@@ -366,11 +375,9 @@ class Home extends React.Component {
         bostonContainerStyle.transitionDelay = '1s';
         bostonContainerStyle.transition = 'opacity 1s'
 
-
         resultsContainerStyle.transitionDelay = '1s';
       }
       else {
-        // topHeaderStyle.height = '216px'
         topHeaderStyle.height = '100%'
         topHeaderStyle.transform = 'translateY(-35%)'
 
@@ -380,7 +387,6 @@ class Home extends React.Component {
 
         bostonContainerStyle.opacity = 0;
         bostonContainerStyle.transition = 'opacity 1s'
-
 
         topHeaderStyle.transitionDelay = '1s';
         resultsContainerStyle.transitionDelay = '1s';
@@ -401,7 +407,8 @@ class Home extends React.Component {
       mobileClassType = css.mobileFull
     }
 
-    // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation. 
+    // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation.
+    // Actually it only removes the extra whitespace on chrome. Need to come up with a better solution for other browsers.  
     return (
       <div className={mobileClassType} style={{height:'100%'}}>
 
@@ -415,9 +422,9 @@ class Home extends React.Component {
           {/* eslint-enable max-len */}
         </a>
 
-        <img src={logo} className={ css.logo } alt="logo" />
+        <img src={logo} className={ css.logo } alt="logo" onClick={this.onLogoClick}/>
 
-       <div className={css.bostonContainer} style={bostonContainerStyle} > 
+        <div className={css.bostonContainer} style={bostonContainerStyle} > 
           <img src={boston} className={ css.boston } alt="logo" />
         </div>
 
