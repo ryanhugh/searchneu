@@ -58,6 +58,7 @@ ssh-add ~/.ssh/id_rsa
 if [ "$TRAVIS_BRANCH" == "prod" ]; then
   echo 'Deploying to prod'
   
+  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git reset --hard'
   ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git pull'
   ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git checkout prod'
 
