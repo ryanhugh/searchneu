@@ -4,7 +4,6 @@
 ## Quick overview of the code and how it is setup. 
 All the data shown on the site is scraped from various parts of Northeastern's website. All the scrapers are under the backend/scrapers folder. All of the scrapers are written in Node.js, use [request](https://github.com/request/request) for downloading the HTML and [cheerio](https://github.com/cheeriojs/cheerio) for parsing it. The scrapers run as a [daily cron job on Travis-CI](https://travis-ci.org/ryanhugh/searchneu/builds). All of data is then uploaded to the main AWS server which serves the site. The AWS server is running behind Cloudflare, which makes the site faster and more secure. Elasticlunr.js is used to search through all the data. Right now, all the data and the search index can easily fit into RAM so there is no need to use a bigger solution (AWS's CloudSearch, ElasticSearch, etc), but might switch over to one of them in the future. The search itself takes about ~4ms which is awesome. The frontend is made with React and Webpack.
 
-
 # Setup
 
 
@@ -31,5 +30,18 @@ https://searchneu.com/data/getTermDump/neu.edu/201810.json
 
 ### Employee data link
 https://searchneu.com/data/employees.json
+
+
+# Changelog
+
+### Summer 2017
+ - Added support for online classes ([Example](https://searchneu.com/engw3302))
+ - Significantly improved the mobile site
+ - Hyperlinked the classes in the Prereqs and Coreqs section
+ - Redid the homepage
+ - Refactored scraping code
+ - Added feedback link
+ - Bug fixes
+
 
 
