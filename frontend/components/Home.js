@@ -350,16 +350,6 @@ class Home extends React.Component {
     }
 
 
-    let mobileSearchBoxStyle = {}
-    if (macros.isMobile) {
-      mobileSearchBoxStyle = {
-        width: '95%',
-        marginRight: '10px',
-        marginLeft: '10px',
-        maxWidth: 'none'
-      }
-    }
-
     // Styles for the search header and the boston outline at the bottom of the above-the-fold content.
     let bostonContainerStyle = {}
     let topHeaderStyle = {}
@@ -443,7 +433,7 @@ class Home extends React.Component {
               <p className={ css.subtitle }>
                 Search for classes, professors, times, etc.
               </p>
-              <div className={'sub header ' + css.searchWrapper} style = {mobileSearchBoxStyle}>
+              <div className={'sub header ' + css.searchWrapper}>
                 <label htmlFor='search_id'>
                   <i className='search icon' />
                 </label>
