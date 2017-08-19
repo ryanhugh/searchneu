@@ -68,11 +68,27 @@
 
 .searchWrapper {
     margin: 10px auto !important;
-    max-width: 80%;
     position: relative;
     text-align: left;
-    width: 782px;
 }
+
+
+@media only screen and (min-width: 767px) {
+    .searchWrapper {
+        max-width: 80%;
+        width: 782px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .searchWrapper {
+        width: 95% !important;
+        margin-right: 10px !important;
+        margin-left: 10px !important;
+        max-width: none !important;
+    }
+}
+
 .searchWrapper label {
     left: 17px;
     position: absolute;
