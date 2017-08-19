@@ -10,6 +10,7 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 0px !important;
+    height: 100%;
 }
 
 .centerTextContainer {
@@ -59,7 +60,6 @@
     bottom: 0px;
     width: 100%;
     text-align: center;
-    transition-delay: 1s;
 }
 .boston {
     width: 1500px;
@@ -72,14 +72,20 @@
     text-align: left;
 }
 
-
+/* Desktop. */
 @media only screen and (min-width: 767px) {
     .searchWrapper {
         max-width: 80%;
         width: 782px;
     }
+
+    .bostonContainer {
+        transition-delay: 1s !important;
+        transition: opacity 1s;
+    }
 }
 
+/* MObile. */
 @media only screen and (max-width: 767px) {
     .searchWrapper {
         width: 95% !important;
@@ -126,7 +132,6 @@
 }
 
 /* Don't show the boston container or the logo if the width of the screen is mobile or less and the height is also very (keyboard is open).  */
-
 .mobileCompact .bostonContainer {
     display: none;
 }
@@ -135,15 +140,16 @@
 
 
 /* Title and subtitle area. Desktop only. */
-
 @media only screen and (min-width: 767px) {
     .topHeader {
         padding: 3em 0 !important;
-        /*transition: height .75s;*/
+        transition-delay: 1s !important;
         transition: transform .75s;
+        transition: 1s;
     }
     .resultsContainer {
         transition: transform .75s;
+        transition-delay: 1s !important;
     }
     .title {
         font-size: 54px;

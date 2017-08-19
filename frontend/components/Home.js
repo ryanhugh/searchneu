@@ -354,36 +354,16 @@ class Home extends React.Component {
     let bostonContainerStyle = {}
     let topHeaderStyle = {}
     let resultsContainerStyle = {}
-    if (!macros.isMobile) {
-      if (this.state.searchTerm.length === 0) {
-        topHeaderStyle.height = '100%'
-        topHeaderStyle.transitionDelay = '1s';
 
-        bostonContainerStyle.opacity = 1;
-        bostonContainerStyle.transitionDelay = '1s';
-        bostonContainerStyle.transition = 'opacity 1s'
-
-        resultsContainerStyle.transitionDelay = '1s';
-      }
-      else {
-        topHeaderStyle.height = '100%'
-        topHeaderStyle.transform = 'translateY(calc(-50% + 230px))'
-
-        let height = window.innerHeight - 305
-        
-        resultsContainerStyle.transform = 'translateY(-' + height + 'px)'
-
-        bostonContainerStyle.opacity = 0;
-        bostonContainerStyle.transition = 'opacity 1s'
-
-        topHeaderStyle.transitionDelay = '1s';
-        resultsContainerStyle.transitionDelay = '1s';
-
-      }
+    // Don't animate anything on mobile. 
+    // and set the second state of the animations if there is something in the text box. 
+    if (!macros.isMobile && this.state.searchTerm.length !== 0) {
+      topHeaderStyle.transform = 'translateY(calc(-50% + 230px))'
+      resultsContainerStyle.transform = 'translateY(-' + (window.innerHeight - 305) + 'px)'
+      bostonContainerStyle.opacity = 0;
     }
 
-    // On mobile only show the logo and the github corner if there are no results and the search box is not focused (the virtual keyboard is not on the screen)
-
+    // On mobile only show the logo and the github corner if there are no results and the search box is not focused (the virtual keyboard is not on the screen).
     let mobileClassType;
     if (!macros.isMobile) {
       mobileClassType = '';
