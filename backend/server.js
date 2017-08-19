@@ -206,6 +206,7 @@ app.get('/search', wrap(async (req, res) => {
 
 // Webhook to respond to facebook messages. 
 async function sendTextMessage(sender, text) {
+    console.log("Sending a fb message to ", sender, text)
     let messageData = { text:text }
     
     let token = await macros.getEnvVariable('fbToken')
