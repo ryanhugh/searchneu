@@ -12,6 +12,10 @@
     margin-bottom: 0px !important;
 }
 
+.centerTextContainer {
+    padding-bottom: 8%; 
+}
+
 .mobileCompact .topHeader {
     padding: 0 !important;
     display: inherit !important;
