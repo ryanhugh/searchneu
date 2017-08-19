@@ -378,7 +378,7 @@ class Home extends React.Component {
       }
       else {
         topHeaderStyle.height = '100%'
-        topHeaderStyle.transform = 'translateY(-35%)'
+        topHeaderStyle.transform = 'translateY(calc(-50% + 230px))'
 
         let height = window.innerHeight - 305
         

@@ -1,22 +1,3 @@
-div.positive, .ui.table td.positive {
-	background-color: rgba(46, 204, 64, 0.1)!important;
-}
-div.positive p, .ui.table td.positive p {
-	color: rgba(45, 135, 46, 0.91);
-}
-div.negative, .ui.table td.negative {
-	background-color: rgba(255, 65, 54, 0.1)!important;
-}
-div.negative p, .ui.table td.negative p {
-	color: rgba(195, 45, 42, 0.7);
-	margin-top: 10px;
-}
-div.progress, .ui.table td.progress {
-	background-color: rgba(255, 133, 27, 0.15)!important;
-}
-div.progress p, .ui.table td.progress p {
-	color: rgba(195, 99, 27, 0.51);
-}
 html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td {
 	margin: 0;
 	padding: 0;
@@ -51,29 +32,8 @@ body {
 p {
 	margin: 1em 0;
 }
-.website-table .left, .website-table .right {
-	display: inline-block;
-	height: 100%;
-	line-height: 2em;
-}
-.website-table .left {
-	width: 60%;
-}
-.website-table .left .name {
-	font-size: 22px;
-	font-weight: 300;
-}
-.website-table .left p {
-	margin-top: 10px;
-}
-.website-table .right {
-	float: right;
-	padding-left: 30px;
-	width: 40%;
-}
-.ui.inverted.teal.menu {
-	border-radius: 0;
-}
+
+/* Below here is actually used. */
 #top-header > .centerTextContainer {
     padding-bottom: 8%
 }
