@@ -36,6 +36,30 @@ class Macros extends commonMacros {
   
 }
 
+// The backtick on the third row and all the backslashes need to be escaped. 
+// This was generated with this site http://patorjk.com/software/taag/#p=display&f=Stacey&t=Search%20NEU
+const searchneu = `
+   ____                     _       _   _ _____ _   _ 
+ / ___|  ___  __ _ _ __ ___| |__   | \\ | | ____| | | |
+ \\___ \\ / _ \\/ _\` | '__/ __| '_ \\  |  \\| |  _| | | | |
+  ___) |  __/ (_| | | | (__| | | | | |\\  | |___| |_| |
+ |____/ \\___|\\__,_|_|  \\___|_| |_| |_| \\_|_____|\\___/ 
+
+
+
+ Hi There!
+
+ We're looking for talented individuals who want to build great products
+ that impact thousands of student's lives. Interested? Help us build Search NEU!
+
+ Shoot an email to ryanhughes624@gmail.com and mention that you saw this text :)
+ `
+ 
+if (Macros.PROD) {
+  console.log(searchneu)
+}
+
+
 // How many sections to show in a class panel by default.
 Macros.sectionsShownByDefault = 3;
 
