@@ -14,7 +14,7 @@ class Macros {
       return;
     }
 
-    console.log.apply(console.log, args);
+    console.log(...args);
   };
 
   static error(...args) {
@@ -22,7 +22,9 @@ class Macros {
     //   return;
     // }
 
-    console.error.apply(console.error, ['Error:'].concat(args));
+    args = ['Error:'].concat(args)
+
+    console.error(...args);
     console.trace();
   }
 
