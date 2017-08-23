@@ -11,6 +11,16 @@ let tooltipTimer = null;
 
 class Macros extends commonMacros {
 
+  static log(...args) {
+
+    // Don't log stuff in prod mode
+    if (Macros.PROD) {
+      return;
+    }
+
+    commonMacros.log(...args)
+  }
+
   // Call this to reload the tooltip rendering on the entire page.
   // Feel free to call as often as you want, this has internal debouncing so it will only rebuild the tooltips 20ms after the last update call.
   // Currently used in just ClassPanel.js.
