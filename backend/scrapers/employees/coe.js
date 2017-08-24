@@ -15,217 +15,219 @@ const request = new Request('COE');
 
 // http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=A
 
+class COE {
 
-async function scrapeDetailpage(obj) {
-  const resp = await request.get(obj.url);
-  // const resp = await request.get('http://www.ece.neu.edu/people/erdogmus-deniz');
+  async scrapeDetailpage(obj) {
+    const resp = await request.get(obj.url);
 
-  const $ = cheerio.load(resp.body);
+    const $ = cheerio.load(resp.body);
 
-  // full resolution image
-  obj.profilePic = $('#faculty-profile > div.upper-content > div > div.left-content > a').attr('href');
+    // Full resolution image.
+    obj.profilePic = $('#faculty-profile > div.upper-content > div > div.left-content > a').attr('href');
 
-  // linkedin link
-  obj.linkedin = $('div.field-name-field-nucoe-social-link-url > div > div > a.linkedin').attr('href');
+    // Linkedin link.
+    obj.linkedin = $('div.field-name-field-nucoe-social-link-url > div > div > a.linkedin').attr('href');
 
-  const googleScholarLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.googlescholar').attr('href');
+    const googleScholarLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.googlescholar').attr('href');
 
-  const userId = macros.parseGoogleScolarLink(googleScholarLink);
-  if (userId) {
-    obj.googleScholarId = userId;
-  }
-
-
-  obj.youtubeLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.youtube').attr('href');
-
-  // example of person who has multiple roles in departments
-  // http://www.che.neu.edu/people/ebong-eno
-  // Position and department
-  const roles = $('div.field-collection-container > div.faculty-roles > div.faculty-roles__role');
-  const positions = [];
-  for (let i = 0; i < roles.length; i++) {
-    let role = roles[i].children[0].data.trim();
-    const department = $('a', $(roles[i])).text();
-
-    if (role.endsWith(',')) {
-      role = role.slice(0, role.length - 1);
+    const userId = macros.parseGoogleScolarLink(googleScholarLink);
+    if (userId) {
+      obj.googleScholarId = userId;
     }
 
-    positions.push({
-      role: role,
-      department: department,
-    });
-  }
 
-  if (positions.length > 0) {
-    obj.primaryRole = positions[0].role;
-    obj.primaryDepartment = positions[0].department;
+    obj.youtubeLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.youtube').attr('href');
 
-    // Hold off on keeping the positions for now.
-    // Need to ensure it is the same schema as CCIS (which does not have department for each role).
-    // obj.positions = positions;
-  }
+    // Example of person who has multiple roles in departments.
+    // http://www.che.neu.edu/people/ebong-eno
 
-  // address
-  let officeSplit = $('div.faculty-profile__address').text().trim();
-  officeSplit = officeSplit.replace(/[\n\r]+\s*/gi, '\n').split('\n');
+    // Position and department
+    const roles = $('div.field-collection-container > div.faculty-roles > div.faculty-roles__role');
+    const positions = [];
+    for (let i = 0; i < roles.length; i++) {
+      let role = roles[i].children[0].data.trim();
+      const department = $('a', $(roles[i])).text();
 
-  obj.officeRoom = officeSplit[0];
-  obj.officeStreetAddress = officeSplit[1];
-
-  // might be more than one of these, need to check .text() for each one
-  // if text matches Faculty Website then get href
-  // also need to do head checks or get checks to make sure their site is up
-  const links = $('div.field-name-field-faculty-links a');
-  const otherLinks = [];
-  for (let i = 0; i < links.length; i++) {
-    const href = $(links[i]).attr('href');
-    const text = $(links[i]).text();
-
-    const compareText = text.toLowerCase();
-    if (compareText === 'faculty website' || compareText === 'faculty website & cv') {
-      obj.personalSite = href;
-    } else if (href.includes('scholar.google.com')) {
-      // If it is a link to Google Scholar, parse it.
-      // If already parsed a google scholar link for this person, log a warning and ignore this one.
-      const otherGoogleId = macros.parseGoogleScolarLink(href);
-      if (!obj.googleScholarId) {
-        obj.googleScholarId = userId;
-      } else if (obj.googleScholarId !== otherGoogleId) {
-        console.log('Employee had 2 google id links pointing to different IDs, ignoring the second one.', obj.url, obj.googleScholarId, otherGoogleId);
+      if (role.endsWith(',')) {
+        role = role.slice(0, role.length - 1);
       }
-    } else {
-      otherLinks.push({
-        link: href,
-        text: text,
+
+      positions.push({
+        role: role,
+        department: department,
       });
     }
-  }
 
-  if (otherLinks.length > 0) {
-    obj.otherLinks = otherLinks;
-  }
+    if (positions.length > 0) {
+      obj.primaryRole = positions[0].role;
+      obj.primaryDepartment = positions[0].department;
 
-  return obj;
-}
-
-
-async function scrapeLetter(letter) {
-  const resp = await request.get(`http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=${letter.toUpperCase()}`);
-
-  const $ = cheerio.load(resp.body);
-
-  const peopleElements = $('div.item-list > ul > li.views-row');
-
-  const people = [];
-  for (let i = 0; i < peopleElements.length; i++) {
-    const personElement = peopleElements[i];
-
-    const $personElement = $(personElement);
-
-    const obj = {};
-
-    // thumbnail image of them
-    obj.picThumbnail = $('h4 > a > img', $personElement).attr('src');
-
-    // link to their page
-    obj.url = $('h4 > a', $personElement).attr('href');
-    if (!obj.url) {
-      console.log('Error, could not parse url for', obj);
+      // Hold off on keeping the positions for now.
+      // Need to ensure it is the same schema as CCIS (which does not have department for each role).
+      // obj.positions = positions;
     }
 
-    // name of prof
-    obj.name = $('div.views-field.views-field-field-faculty-last-name > h4 > a', $personElement).text().trim();
+    // Address
+    let officeSplit = $('div.faculty-profile__address').text().trim();
+    officeSplit = officeSplit.replace(/[\n\r]+\s*/gi, '\n').split('\n');
 
-    // Parse the first name and the last name from the given name
-    const { firstName, lastName } = macros.parseNameWithSpaces(obj.name);
+    obj.officeRoom = officeSplit[0];
+    obj.officeStreetAddress = officeSplit[1];
 
-    if (firstName && lastName) {
-      obj.firstName = firstName;
-      obj.lastName = lastName;
-    }
+    // Might be more than one of these, need to check .text() for each one
+    // if text matches Faculty Website then get href
+    // also need to do head checks or get checks to make sure their site is up
+    const links = $('div.field-name-field-faculty-links a');
+    const otherLinks = [];
+    for (let i = 0; i < links.length; i++) {
+      const href = $(links[i]).attr('href');
+      const text = $(links[i]).text();
 
-    // interests
-    obj.interests = $('div.field-name-field-faculty-interests', $personElement).text().trim();
-
-    // Parse email
-    let email = $('div.views-field-field-faculty-email > div.field-content > a', $personElement).attr('href');
-    email = macros.standardizeEmail(email);
-
-    if (email) {
-      obj.emails = [email];
-    } else {
-      console.log('Could not parse email');
-    }
-
-
-    // Phone
-    let phone = $('div.views-field-field-faculty-phone > div.field-content', $personElement).text();
-
-    phone = macros.standardizePhone(phone);
-
-    if (phone) {
-      obj.phone = phone;
-    }
-
-
-    ['picThumbnail', 'url', 'name', 'interests', 'emails', 'phone'].forEach((attr) => {
-      if (!obj[attr]) {
-        console.log('obj missing ', attr, obj.name);
+      const compareText = text.toLowerCase();
+      if (compareText === 'faculty website' || compareText === 'faculty website & cv') {
+        obj.personalSite = href;
+      } else if (href.includes('scholar.google.com')) {
+        // If it is a link to Google Scholar, parse it.
+        // If already parsed a google scholar link for this person, log a warning and ignore this one.
+        const otherGoogleId = macros.parseGoogleScolarLink(href);
+        if (!obj.googleScholarId) {
+          obj.googleScholarId = userId;
+        } else if (obj.googleScholarId !== otherGoogleId) {
+          console.log('Employee had 2 google id links pointing to different IDs, ignoring the second one.', obj.url, obj.googleScholarId, otherGoogleId);
+        }
+      } else {
+        otherLinks.push({
+          link: href,
+          text: text,
+        });
       }
+    }
+
+    if (otherLinks.length > 0) {
+      obj.otherLinks = otherLinks;
+    }
+
+    return obj;
+  }
+
+
+  async scrapeLetter(letter) {
+    const resp = await request.get(`http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=${letter.toUpperCase()}`);
+
+    const $ = cheerio.load(resp.body);
+
+    const peopleElements = $('div.item-list > ul > li.views-row');
+
+    const people = [];
+    for (let i = 0; i < peopleElements.length; i++) {
+      const personElement = peopleElements[i];
+
+      const $personElement = $(personElement);
+
+      const obj = {};
+
+      // thumbnail image of them
+      obj.picThumbnail = $('h4 > a > img', $personElement).attr('src');
+
+      // link to their page
+      obj.url = $('h4 > a', $personElement).attr('href');
+      if (!obj.url) {
+        console.log('Error, could not parse url for', obj);
+      }
+
+      // name of prof
+      obj.name = $('div.views-field.views-field-field-faculty-last-name > h4 > a', $personElement).text().trim();
+
+      // Parse the first name and the last name from the given name
+      const { firstName, lastName } = macros.parseNameWithSpaces(obj.name);
+
+      if (firstName && lastName) {
+        obj.firstName = firstName;
+        obj.lastName = lastName;
+      }
+
+      // interests
+      obj.interests = $('div.field-name-field-faculty-interests', $personElement).text().trim();
+
+      // Parse email
+      let email = $('div.views-field-field-faculty-email > div.field-content > a', $personElement).attr('href');
+      email = macros.standardizeEmail(email);
+
+      if (email) {
+        obj.emails = [email];
+      } else {
+        console.log('Could not parse email');
+      }
+
+
+      // Phone
+      let phone = $('div.views-field-field-faculty-phone > div.field-content', $personElement).text();
+
+      phone = macros.standardizePhone(phone);
+
+      if (phone) {
+        obj.phone = phone;
+      }
+
+
+      ['picThumbnail', 'url', 'name', 'interests', 'emails', 'phone'].forEach((attr) => {
+        if (!obj[attr]) {
+          console.log('obj missing ', attr, obj.name);
+        }
+      });
+
+      people.push(obj);
+    }
+
+    return people;
+  }
+
+
+  async main() {
+
+    if (macros.DEV && require.main !== module) {
+      const devData = await cache.get('dev_data', this.constructor.name, 'main');
+      if (devData) {
+        return devData;
+      }
+    }
+
+    const promises = [];
+    let people = [];
+
+
+    macros.ALPHABET.split('').forEach((letter) => {
+      promises.push(this.scrapeLetter(letter).then((peopleFromLetter) => {
+        people = people.concat(peopleFromLetter);
+      }));
     });
 
-    people.push(obj);
-  }
+    await Promise.all(promises);
 
-  return people;
-}
+    console.log(people.length);
 
 
-async function main() {
-
-  // Change this to this.constructor.name once this file is refactored into a class. 
-  let cacheName = 'COE'
-
-  if (macros.DEV && require.main !== module) {
-    const devData = await cache.get('dev_data', cacheName, 'main');
-    if (devData) {
-      return devData;
-    }
-  }
-
-  const promises = [];
-  let people = [];
-
-
-  macros.ALPHABET.split('').forEach((letter) => {
-    promises.push(scrapeLetter(letter).then((peopleFromLetter) => {
-      people = people.concat(peopleFromLetter);
+    const detailPeopleList = await Promise.all(people.map((person) => {
+      return this.scrapeDetailpage(person);
     }));
-  });
 
-  await Promise.all(promises);
+    console.log(detailPeopleList.length);
 
-  console.log(people.length);
+    if (macros.DEV) {
+      await cache.set('dev_data', this.constructor.name, 'main', people);
+      console.log('coe file saved!');
+    }
 
-
-  const detailPeopleList = await Promise.all(people.map((person) => {
-    return scrapeDetailpage(person);
-  }));
-
-  console.log(detailPeopleList.length);
-
-  if (macros.DEV) {
-    await cache.set('dev_data', cacheName, 'main', people);
-    console.log('coe file saved!');
+    return people;
   }
 
-  return people;
 }
 
 
-exports.main = main;
+
+const instance = new COE();
+export default instance;
 
 if (require.main === module) {
-  main();
+  instance.main();
 }
