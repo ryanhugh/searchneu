@@ -170,12 +170,12 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
 
 
   logWarning(message) {
-    macros.log.apply(this, this.getLogString(message));
+    macros.log(...this.getLogString(message));
   }
 
 
   logError(message) {
-    macros.error.apply(this, this.getLogString(message));
+    macros.error(...this.getLogString(message));
   }
 
 
