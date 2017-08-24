@@ -28,13 +28,13 @@ class Camd {
   }
 
 
-  parseDetailpage(url, resp) {
+  parseDetailpage(url, body) {
     const obj = {};
 
     // The url of the person's profile page
     obj.url = url;
 
-    const $ = cheerio.load(resp.body);
+    const $ = cheerio.load(body);
 
     // Name of person
     obj.name = $('#main > div.pagecenter > div > div > div > div > div.col10.last.right > h1.entry-title').text().trim().split(',')[0];
@@ -159,7 +159,7 @@ class Camd {
 
     profileUrls.forEach((url) => {
       promises.push(request.get(url).then((response) => {
-        return this.parseDetailpage(url, response);
+        return this.parseDetailpage(url, response.body);
       }));
     });
 
