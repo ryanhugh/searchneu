@@ -218,7 +218,7 @@ class Macros extends commonMacros {
   // This is for programming errors. This will cause the program to exit anywhere.
   // This *should* never be called.
   static critical(...args) {
-    Macros.error.apply(Macros.error, args);
+    Macros.error(...args);
     process.exit(1);
   }
 
@@ -277,7 +277,7 @@ class Macros extends commonMacros {
       return;
     }
 
-    console.log.apply(console.log, args);
+    console.log(...args);
   }
 }
 
