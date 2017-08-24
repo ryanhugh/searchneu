@@ -26,7 +26,10 @@ class COE {
     obj.profilePic = $('#faculty-profile > div.upper-content > div > div.left-content > a').attr('href');
 
     // Linkedin link.
-    obj.linkedin = $('div.field-name-field-nucoe-social-link-url > div > div > a.linkedin').attr('href');
+    let linkedin = $('div.field-name-field-nucoe-social-link-url > div > div > a.linkedin').attr('href');
+    if (linkedin) {
+      obj.linkedin = linkedin
+    }
 
     const googleScholarLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.googlescholar').attr('href');
 
@@ -35,8 +38,10 @@ class COE {
       obj.googleScholarId = userId;
     }
 
-
-    obj.youtubeLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.youtube').attr('href');
+    let youtubeLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.youtube').attr('href')
+    if (youtubeLink) {
+      obj.youtubeLink = youtubeLink;
+    }
 
     // Example of person who has multiple roles in departments.
     // http://www.che.neu.edu/people/ebong-eno
