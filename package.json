@@ -54,7 +54,7 @@
     "htmlparser2": "^3.9.2",
     "identity-obj-proxy": "^3.0.0",
     "is-mobile": "^0.2.2",
-    "jest": "^20.0.1",
+    "jest": "^20.0.4",
     "lodash": "^4.17.4",
     "mkdirp-promise": "^5.0.1",
     "mockdate": "^2.0.1",
