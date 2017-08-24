@@ -570,7 +570,7 @@ class RequestInput {
   // Helpers for get and post
   async get(config) {
     if (!config) {
-      console.log('Warning, request called with no config');
+      macros.error('Warning, request called with no config');
       return null;
     }
     if (typeof config === 'string') {

@@ -17,10 +17,10 @@ const request = new Request('COE');
 
 class COE {
 
-  async scrapeDetailpage(obj) {
-    const resp = await request.get(obj.url);
+  scrapeDetailpage(body) {
+    let obj = {}
 
-    const $ = cheerio.load(resp.body);
+    const $ = cheerio.load(body);
 
     // Full resolution image.
     obj.profilePic = $('#faculty-profile > div.upper-content > div > div.left-content > a').attr('href');
@@ -93,7 +93,7 @@ class COE {
         if (!obj.googleScholarId) {
           obj.googleScholarId = userId;
         } else if (obj.googleScholarId !== otherGoogleId) {
-          console.log('Employee had 2 google id links pointing to different IDs, ignoring the second one.', obj.url, obj.googleScholarId, otherGoogleId);
+          macros.log('Employee had 2 google id links pointing to different IDs, ignoring the second one.', obj.url, obj.googleScholarId, otherGoogleId);
         }
       } else {
         otherLinks.push({
@@ -111,11 +111,8 @@ class COE {
   }
 
 
-  async scrapeLetter(letter) {
-    const resp = await request.get(`http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=${letter.toUpperCase()}`);
-
-    const $ = cheerio.load(resp.body);
-
+  scrapeLetter(body) {
+    const $ = cheerio.load(body);
     const peopleElements = $('div.item-list > ul > li.views-row');
 
     const people = [];
@@ -132,7 +129,7 @@ class COE {
       // link to their page
       obj.url = $('h4 > a', $personElement).attr('href');
       if (!obj.url) {
-        console.log('Error, could not parse url for', obj);
+        macros.log('Error, could not parse url for', obj);
       }
 
       // name of prof
@@ -156,7 +153,7 @@ class COE {
       if (email) {
         obj.emails = [email];
       } else {
-        console.log('Could not parse email');
+        macros.log('Could not parse email');
       }
 
 
@@ -172,7 +169,7 @@ class COE {
 
       ['picThumbnail', 'url', 'name', 'interests', 'emails', 'phone'].forEach((attr) => {
         if (!obj[attr]) {
-          console.log('obj missing ', attr, obj.name);
+          macros.log('obj missing ', attr, obj.name);
         }
       });
 
@@ -181,7 +178,6 @@ class COE {
 
     return people;
   }
-
 
   async main() {
 
@@ -197,25 +193,35 @@ class COE {
 
 
     macros.ALPHABET.split('').forEach((letter) => {
-      promises.push(this.scrapeLetter(letter).then((peopleFromLetter) => {
+
+      let promise = request.get(`http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=${letter.toUpperCase()}`);
+
+      promise.then((resp) => {
+        const peopleFromLetter = this.scrapeLetter(resp.body)
         people = people.concat(peopleFromLetter);
-      }));
+      })
+
+      promises.push(promise);
     });
 
     await Promise.all(promises);
 
-    console.log(people.length);
 
+    const detailPeopleList = await Promise.all(people.map(async (person) => {
+      const resp = await request.get(person.url);
 
-    const detailPeopleList = await Promise.all(people.map((person) => {
-      return this.scrapeDetailpage(person);
+      // Get more details for this person and save it with the same object. 
+      const moreDetails = this.scrapeDetailpage(resp.body);
+      const retVal = {}
+      Object.assign(retVal, person, moreDetails)
+      return retVal;
     }));
 
-    console.log(detailPeopleList.length);
+    macros.log(detailPeopleList.length);
 
     if (macros.DEV) {
       await cache.set('dev_data', this.constructor.name, 'main', people);
-      console.log('coe file saved!');
+      macros.log('coe file saved!');
     }
 
     return people;
