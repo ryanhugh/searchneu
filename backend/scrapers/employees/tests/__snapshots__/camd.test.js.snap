@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should work for profile page 1`] = `
+Object {
+  "emails": Array [
+    "j.duhaime@northeastern.edu",
+  ],
+  "firstName": "Jason",
+  "image": "https://camd.northeastern.edu/gamedesign/wp-content/uploads/sites/6/2014/10/Jason-Duhaime-392x261.jpg",
+  "lastName": "Duhaime",
+  "name": "Jason Duhaime",
+  "officeRoom": "121 Holmes Hall",
+  "phone": "6173736262",
+  "primaryRole": "Applications Systems Architect",
+  "url": "https://camd.northeastern.edu/gamedesign/people/jason-duhaime/",
+}
+`;
