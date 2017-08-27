@@ -76,6 +76,9 @@ Macros.sectionsShownByDefault = 3;
 // How many sections to add when the user clicks the show more button. 
 Macros.sectionsAddedWhenShowMoreClicked = 5;
 
+// If this number of section is shown, the show more button will just show the rest of them instead of showing just a couple more. 
+Macros.sectionsShowAllThreshold = 15;
+
 Macros.searchEvent = 'customSearch';
 
 // True if is a Phone or other mobile device (iPod). Will be false for iPads.
