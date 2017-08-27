@@ -31,6 +31,8 @@ https://searchneu.com/data/getTermDump/neu.edu/201810.json
 ### Employee data link
 https://searchneu.com/data/employees.json
 
+If you have any questions or are interested in using the API let me know! I'd be happy to help and/or change some things around so it is easier to use. 
+
 
 # Changelog
 
