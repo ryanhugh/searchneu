@@ -27,6 +27,11 @@ class BaseClassPanel extends React.Component {
       sectionsShownByDefault = macros.sectionsShownByDefault;
     }
 
+    // If this is desktop and there is exactly one section hidden by the button, just show them all. 
+    if (!macros.isMobile && this.props.aClass.sections.length == sectionsShownByDefault + 1) {
+      sectionsShownByDefault++
+    }
+
     // Show 3 sections by default
     return {
       renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
