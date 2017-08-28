@@ -21,6 +21,12 @@ npm install
 npm run start
 ```
 
+# Contributing 🎉🎉🎉
+We'd love to have more people help out with the project! 
+
+If you are interested shoot us an email at [hey@searchneu.com](mailto:hey@searchneu.com) ! 🎉👍
+
+
 # API
 
 All the data used on the site is avalible to download! There are two different endpoints - one for downloading all the class data and another for downloading all the employee data. The data is updated [daily on travis](https://travis-ci.org/ryanhugh/searchneu/builds). There are no endpoints for downloading a specific class or employee, you have to download everything or nothing.  Note that the class url contains the termId of the semester of data you want to download (201810 = Fall 2017).
