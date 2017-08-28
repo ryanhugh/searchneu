@@ -300,6 +300,13 @@ app.get('/google840b636639b40c3c.html', (req, res) => {
   res.end();
 })
 
+
+app.get('/cookietest', (req, res) => {
+  res.set('Set-Cookie', 'NID=110=wMKSrFPAuUHyZpP0UYP_yTkr7P577dXF6FzsXFhVNXmY_5ETUnhk6N8r9NM_qguv6o8d3dETYQM-y5DgZFjSv8Wo7MNQOp4fT9p0wVTULU0BLxx4g40fCrVKTlX9gp9y; expires=Mon, 26-Feb-2018 22:55:12 GMT; path=/; domain=.google.com; HttpOnly');
+  res.write('test');
+  res.end();
+})
+
 app.get('*', (req, res) => {
   res.setHeader("Content-Type", "text/html; charset=UTF-8");
   if (macros.PROD) {
