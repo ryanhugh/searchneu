@@ -91,7 +91,7 @@ const separateReqPools = {
 };
 
 
-const MAX_RETRY_COUNT = 2;
+const MAX_RETRY_COUNT = 35;
 
 // These numbers are in ms.
 const RETRY_DELAY = 100;
@@ -328,6 +328,10 @@ class Request {
 
     Object.assign(headers, defaultConfig.headers, config.headers);
     Object.assign(output, defaultConfig, config);
+
+    if (config.jar) {
+      let cookies = config.jar.getCookies(config.url)
+    }
 
     // output.url = urlWithIp;
     output.headers = headers;
