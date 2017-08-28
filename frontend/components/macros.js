@@ -62,7 +62,7 @@ const searchneu = `
  We're looking for talented individuals who want to build great products
  that impact thousands of student's lives. Interested? Help us build Search NEU!
 
- Shoot an email to ryanhughes624@gmail.com and mention that you saw this text :)
+ Contact us at hey@searchneu.com :)
  `
  
 if (Macros.PROD) {
