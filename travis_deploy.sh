@@ -42,7 +42,7 @@ npm run build
 if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
   # npm -g install babel-cli
   cd backend_compiled/scrapers
-  PROD=true NODE_ENV=prod node --max_old_space_size=4096 startup
+  PROD=true NODE_ENV=prod node --max_old_space_size=8192 startup
   cd ../..
   find public
 fi
