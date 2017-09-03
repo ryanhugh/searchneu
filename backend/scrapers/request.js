@@ -283,10 +283,6 @@ class Request {
     Object.assign(headers, defaultConfig.headers, config.headers);
     Object.assign(output, defaultConfig, config);
 
-    if (config.jar) {
-      let cookies = config.jar.getCookies(config.url)
-    }
-
     output.headers = headers;
 
     macros.verbose('Firing request to', output.url);
