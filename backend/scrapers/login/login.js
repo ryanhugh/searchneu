@@ -18,6 +18,38 @@ import macros from '../../macros';
 
 const request = new Request('login');
 
+const ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36';
+
+async function followRedirects(cookieJar, resp) {
+
+  let nextUrl;
+
+  // While status code on the response is a 302, follow it and get the new response.
+  while (resp.statusCode == 302) {
+
+    nextUrl = resp.headers.location
+    
+    resp = await request.get({
+      url: nextUrl,
+      jar: cookieJar,
+      followRedirect: false,
+      simple: false,
+      headers: {
+        'User-Agent': ua,
+      }
+    })
+
+    macros.log("Followed a 302 and got ", resp.statusCode, resp.headers.location)
+
+  }
+
+  return {
+    cookieJar: cookieJar,
+    url: nextUrl,
+    resp: resp
+  }
+}
+
 async function main() {
 
 	let user = await macros.getEnvVariable('myNEUUsername')
@@ -169,56 +201,12 @@ async function main() {
 		}
 	})
 
+  let redirectObject = await followRedirects(cookieJar, resp5)
 
-	// console.log('5Sent headers:', resp5.req._headers)
-	console.log('5Status code:', resp5.statusCode)
-	console.log('5Recieved headers:', resp5.headers)
-	console.log('5Cookie jar:', cookieJar)
-	console.log('5Got body:', resp5.body)
-
-	let nextUrl = resp5.headers.location
-
-	if (resp5.statusCode!==302) {
-		console.log("not a 302?", resp5)
-	}
-
-	
-	// Hit the next TRACE link
-	let resp6 = await request.get({
-		url: nextUrl,
-		jar: cookieJar,
-		followRedirect: false,
-		simple: false,
-		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
-		}
-	})
-
-
-	// console.log('6Sent headers:', resp6.req._headers)
-	console.log('6Status code:', resp6.statusCode)
-	console.log('6Recieved headers:', resp6.headers)
-	console.log('6Cookie jar:', cookieJar)
-	console.log('6Got body:', resp6.body)
-
-
-	nextUrl = resp6.headers.location
-
-	if (resp6.statusCode!==302) {
-		console.log("not a 302?", resp5)
-	}
-
-	
-	// Hit the next TRACE link
-	let resp7 = await request.get({
-		url: nextUrl,
-		jar: cookieJar,
-		followRedirect: false,
-		simple: false,
-		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
-		}
-	})
+  cookieJar = redirectObject.cookieJar;
+  let resp7 = redirectObject.resp;
+  let currentUrl = redirectObject.url;
+  debugger
 
 
 	// console.log('7Sent headers:', resp7.req._headers)
@@ -233,7 +221,7 @@ async function main() {
 	// and goes to another page.
 
 	// Run that cookie logic and then go to the next page. 
-	let parsedUrl = new URI(nextUrl)
+	let parsedUrl = new URI(currentUrl)
 	let queries = parsedUrl.query(true)
 
 	for (let cookie of queries.cookie) {
@@ -282,7 +270,7 @@ async function main() {
 
 	// 8 is 302'ed right now, going to let is auto-follow and if that dosen't work just follow manually
 
-	nextUrl = resp8.headers.location
+	let nextUrl = resp8.headers.location
 	// debugger
 
 	
