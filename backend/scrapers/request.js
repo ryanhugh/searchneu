@@ -373,6 +373,9 @@ class Request {
 
   // Outputs a response object. Get the body of this object with ".body".
   async request(config) {
+    if (!config.url) {
+      debugger
+    }
 
     macros.verbose('Request hitting', config);
 
