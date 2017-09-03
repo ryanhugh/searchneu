@@ -90,6 +90,8 @@ const separateReqPools = {
 };
 
 // Enable the DNS cache. This module replaces the .lookup method on the built in dns module to cache lookups. 
+// The old way of doing DNS caching was to do a dns lookup of the domain before the request was made,
+// and then swap out the domain with the ip in the url. (And cache the dns lookup manually.)
 // Use this instead of swapping out the domain with the ip in the fireRequest function so the cookies still work. 
 // (There was some problems with saving them because, according to request, the host was the ip, but the cookies were configured to match the domain)
 // It would be possible to go back to manual dns lookups and therefore manual cookie jar management if necessary (wouldn't be that big of a deal).
@@ -351,7 +353,7 @@ class Request {
 
     const listOfConfigOptions = Object.keys(config)
 
-    _.pull(listOfConfigOptions, 'method', 'headers', 'url', 'requiredInBody', 'cacheName')
+    _.pull(listOfConfigOptions, 'method', 'headers', 'url', 'requiredInBody', 'cacheName', 'jar')
 
     if (listOfConfigOptions.length > 0) {
       console.log('Not caching by url b/c it has other config options', listOfConfigOptions)
@@ -372,9 +374,7 @@ class Request {
 
     let newKey;
 
-    if (config.jar) {
-      console.log("Not caching because request has a cookie jar.")
-    } else if (macros.DEV) {
+    if (macros.DEV) {
 
 
       // Skipping the hashing when it is not necessary significantly speeds this up. 
@@ -385,7 +385,7 @@ class Request {
       }
       else {
 
-        // Make a new requeset without the cookies
+        // Make a new requeset without the cookies and the cookie jar. 
         const headersWithoutCookie = {};
         Object.assign(headersWithoutCookie, config.headers);
         headersWithoutCookie.Cookie = undefined;
@@ -393,6 +393,7 @@ class Request {
         const configToHash = {};
         Object.assign(configToHash, config);
         configToHash.headers = headersWithoutCookie;
+        configToHash.jar = undefined;
 
         newKey = objectHash(configToHash)
       }
@@ -587,12 +588,6 @@ class RequestInput {
     // this.head(config)
   }
 }
-
-// let config =  {
-//   "requiredInBody": ["Ellucian", "<LINK REL=\"stylesheet\" HREF=\"/css/web_defaultapp.css\" TYPE=\"text/css\">"],
-//   "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CRIM&crse_numb_in=7336",
-//   "headers": {}
-// }
 
 
 export default RequestInput;
