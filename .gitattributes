@@ -1,7 +1,2 @@
-*tests/data/* linguist-vendored
-tests/data linguist-vendored
-*/tests/data* linguist-vendored
-.*tests/data.* linguist-vendored
 
-
-
+data/*.html linguist-vendored
