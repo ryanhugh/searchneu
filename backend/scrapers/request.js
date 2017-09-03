@@ -297,7 +297,7 @@ class Request {
       clearInterval(this.timer);
       macros.log('Starting request analytics timer.');
       this.analytics[hostname].startTime = Date.now();
-      this.timer = setInterval(this.onInterval.bind(this), 1000);
+      this.timer = setInterval(this.onInterval.bind(this), 5000);
       setTimeout(() => {
         this.onInterval();
       }, 0);
@@ -350,7 +350,12 @@ class Request {
 
     _.pull(listOfHeaders, "Cookie");
     if (listOfHeaders.length > 0) {
-      console.log('Not caching by url b/c it has other headers', listOfHeaders, config)
+
+      const configToLog = {}
+      Object.assign(configToLog, config)
+      configToLog.jar = null;
+
+      macros.log('Not caching by url b/c it has other headers', listOfHeaders, configToLog)
       return false;
     }
 
@@ -359,7 +364,7 @@ class Request {
     _.pull(listOfConfigOptions, 'method', 'headers', 'url', 'requiredInBody', 'cacheName', 'jar')
 
     if (listOfConfigOptions.length > 0) {
-      console.log('Not caching by url b/c it has other config options', listOfConfigOptions)
+      macros.log('Not caching by url b/c it has other config options', listOfConfigOptions)
       return false;
     }
 
