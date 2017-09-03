@@ -70,7 +70,7 @@ async function main() {
 		body: 'pass=' + pass + '&user=' + user + '&uuid=' + uuid
 	})
 
-	console.log('Sent headers:', resp.req._headers)
+	// console.log('Sent headers:', resp.req._headers)
 	console.log('Status code:', resp.statusCode)
 	console.log('Recieved headers:', resp.headers)
 	console.log('Cookie jar:', cookieJar)
@@ -100,7 +100,7 @@ async function main() {
 	})
 
 
-	console.log('2Sent headers:', resp2.req._headers)
+	// console.log('2Sent headers:', resp2.req._headers)
 	console.log('2Status code:', resp2.statusCode)
 	console.log('2Recieved headers:', resp2.headers)
 	console.log('2Cookie jar:', cookieJar)
@@ -127,7 +127,7 @@ async function main() {
 	})
 
 
-	console.log('3Sent headers:', resp3.req._headers)
+	// console.log('3Sent headers:', resp3.req._headers)
 	console.log('3Status code:', resp3.statusCode)
 	console.log('3Recieved headers:', resp3.headers)
 	console.log('3Cookie jar:', cookieJar)
@@ -148,7 +148,7 @@ async function main() {
 	})
 
 
-	console.log('4Sent headers:', resp4.req._headers)
+	// console.log('4Sent headers:', resp4.req._headers)
 	console.log('4Status code:', resp4.statusCode)
 	console.log('4Recieved headers:', resp4.headers)
 	console.log('4Cookie jar:', cookieJar)
@@ -170,7 +170,7 @@ async function main() {
 	})
 
 
-	console.log('5Sent headers:', resp5.req._headers)
+	// console.log('5Sent headers:', resp5.req._headers)
 	console.log('5Status code:', resp5.statusCode)
 	console.log('5Recieved headers:', resp5.headers)
 	console.log('5Cookie jar:', cookieJar)
@@ -195,7 +195,7 @@ async function main() {
 	})
 
 
-	console.log('6Sent headers:', resp6.req._headers)
+	// console.log('6Sent headers:', resp6.req._headers)
 	console.log('6Status code:', resp6.statusCode)
 	console.log('6Recieved headers:', resp6.headers)
 	console.log('6Cookie jar:', cookieJar)
@@ -221,7 +221,7 @@ async function main() {
 	})
 
 
-	console.log('7Sent headers:', resp7.req._headers)
+	// console.log('7Sent headers:', resp7.req._headers)
 	console.log('7Status code:', resp7.statusCode)
 	console.log('7Recieved headers:', resp7.headers)
 	console.log('7Cookie jar:', cookieJar)
@@ -273,7 +273,7 @@ async function main() {
 	})
 
 
-	console.log('8Sent headers:', resp8.req._headers)
+	// console.log('8Sent headers:', resp8.req._headers)
 	console.log('8Status code:', resp8.statusCode)
 	console.log('8Recieved headers:', resp8.headers)
 	console.log('8Cookie jar:', cookieJar)
@@ -297,7 +297,7 @@ async function main() {
 	})
 
 
-	console.log('9Sent headers:', resp9.req._headers)
+	// console.log('9Sent headers:', resp9.req._headers)
 	console.log('9Status code:', resp9.statusCode)
 	console.log('9Recieved headers:', resp9.headers)
 	console.log('9Cookie jar:', cookieJar)
@@ -323,7 +323,7 @@ async function main() {
 	})
 
 
-	console.log('ASent headers:', respA.req._headers)
+	// console.log('ASent headers:', respA.req._headers)
 	console.log('AStatus code:', respA.statusCode)
 	console.log('ARecieved headers:', respA.headers)
 	console.log('ACookie jar:', cookieJar)
@@ -349,7 +349,7 @@ async function main() {
 	})
 
 
-	console.log('BSent headers:', respB.req._headers)
+	// console.log('BSent headers:', respB.req._headers)
 	console.log('BStatus code:', respB.statusCode)
 	console.log('BRecieved headers:', respB.headers)
 	console.log('BCookie jar:', cookieJar)
@@ -372,7 +372,7 @@ async function main() {
 	})
 
 
-	console.log('CSent headers:', respC.req._headers)
+	// console.log('CSent headers:', respC.req._headers)
 	console.log('CStatus code:', respC.statusCode)
 	console.log('CRecieved headers:', respC.headers)
 	console.log('CCookie jar:', cookieJar)
@@ -394,7 +394,7 @@ async function main() {
 	})
 
 
-	console.log('DSent headers:', respD.req._headers)
+	// console.log('DSent headers:', respD.req._headers)
 	console.log('DStatus code:', respD.statusCode)
 	console.log('DRecieved headers:', respD.headers)
 	console.log('DCookie jar:', cookieJar)
@@ -417,7 +417,7 @@ async function main() {
 	})
 
 
-	console.log('ESent headers:', respE.req._headers)
+	// console.log('ESent headers:', respE.req._headers)
 	console.log('EStatus code:', respE.statusCode)
 	console.log('ERecieved headers:', respE.headers)
 	console.log('ECookie jar:', cookieJar)
@@ -477,7 +477,7 @@ async function main() {
 	})
 
 
-	console.log('FSent headers:', respF.req._headers)
+	// console.log('FSent headers:', respF.req._headers)
 	console.log('FStatus code:', respF.statusCode)
 	console.log('FRecieved headers:', respF.headers)
 	console.log('FCookie jar:', cookieJar)
@@ -500,7 +500,7 @@ async function main() {
 	})
 
 
-	console.log('GSent headers:', respG.req._headers)
+	// console.log('GSent headers:', respG.req._headers)
 	console.log('GStatus code:', respG.statusCode)
 	console.log('GRecieved headers:', respG.headers)
 	console.log('GCookie jar:', cookieJar)
@@ -524,7 +524,7 @@ async function main() {
 	})
 
 
-	console.log('HSent headers:', respH.req._headers)
+	// console.log('HSent headers:', respH.req._headers)
 	console.log('HStatus code:', respH.statusCode)
 	console.log('HRecieved headers:', respH.headers)
 	console.log('HCookie jar:', cookieJar)
@@ -546,7 +546,7 @@ async function main() {
 	})
 
 
-	console.log('ISent headers:', respI.req._headers)
+	// console.log('ISent headers:', respI.req._headers)
 	console.log('IStatus code:', respI.statusCode)
 	console.log('IRecieved headers:', respI.headers)
 	console.log('ICookie jar:', cookieJar)
@@ -579,7 +579,7 @@ async function main() {
 	})
 
 
-	console.log('JSent headers:', respJ.req._headers)
+	// console.log('JSent headers:', respJ.req._headers)
 	console.log('JStatus code:', respJ.statusCode)
 	console.log('JRecieved headers:', respJ.headers)
 	console.log('JCookie jar:', cookieJar)
@@ -600,7 +600,7 @@ async function main() {
 	})
 
 
-	console.log('KSent headers:', respK.req._headers)
+	// console.log('KSent headers:', respK.req._headers)
 	console.log('KStatus code:', respK.statusCode)
 	console.log('KRecieved headers:', respK.headers)
 	console.log('KCookie jar:', cookieJar)
@@ -624,7 +624,7 @@ async function main() {
 	})
 
 
-	console.log('ZSent headers:', respZ.req._headers)
+	// console.log('ZSent headers:', respZ.req._headers)
 	console.log('ZStatus code:', respZ.statusCode)
 	console.log('ZRecieved headers:', respZ.headers)
 	console.log('ZCookie jar:', cookieJar)
