@@ -1,4 +1,1 @@
-*tests/data/* linguist-vendored=false
-tests/data linguist-vendored=false
-*tests/data* linguist-vendored=false
-.*tests/data.* linguist-vendored=false
+* linguist-vendored
