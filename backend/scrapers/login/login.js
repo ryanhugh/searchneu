@@ -142,14 +142,10 @@ async function main() {
 		}
 	})
 
-
-	// macros.verbose('3Sent headers:', resp3.req._headers)
 	macros.verbose('3Status code:', resp3.statusCode)
 	macros.verbose('3Recieved headers:', resp3.headers)
 	macros.verbose('3Cookie jar:', cookieJar)
 	macros.verbose('3Got body:', resp3.body)
-
-	// debugger
 
 
 	// resp3.body is the HTML of the default tab on MyNEU
@@ -164,14 +160,10 @@ async function main() {
 	})
 
 
-	// macros.verbose('4Sent headers:', resp4.req._headers)
 	macros.verbose('4Status code:', resp4.statusCode)
 	macros.verbose('4Recieved headers:', resp4.headers)
 	macros.verbose('4Cookie jar:', cookieJar)
 	macros.verbose('4Got body:', resp4.body)
-
-
-	// debugger
 
 
 	// Hit the TRACE link
@@ -190,10 +182,8 @@ async function main() {
   cookieJar = redirectObject.cookieJar;
   let resp7 = redirectObject.resp;
   let currentUrl = redirectObject.url;
-  // debugger
 
 
-	// macros.verbose('7Sent headers:', resp7.req._headers)
 	macros.verbose('7Status code:', resp7.statusCode)
 	macros.verbose('7Recieved headers:', resp7.headers)
 	macros.verbose('7Cookie jar:', cookieJar)
@@ -223,8 +213,7 @@ async function main() {
 	    cookieJar.setCookie(cookieToSet, 'https://neuidmsso.neu.edu')
 	}
 
-	macros.verbose(queries.dest)
-	macros.verbose(queries.dest)
+	macros.verbose('Next url is:', queries.dest)
 
 
 	// Hit the next TRACE link
@@ -304,8 +293,6 @@ async function main() {
 	macros.verbose('FCookie jar:', cookieJar)
 	macros.verbose('FGot body:', respF.body)
 
-
-
   redirectObject = await followRedirects(cookieJar, respF)
 
   cookieJar = redirectObject.cookieJar;
@@ -313,7 +300,6 @@ async function main() {
   currentUrl = redirectObject.url;
 
 
-	// macros.verbose('ISent headers:', respI.req._headers)
 	macros.verbose('IStatus code:', respI.statusCode)
 	macros.verbose('IRecieved headers:', respI.headers)
 	macros.verbose('ICookie jar:', cookieJar)
@@ -321,7 +307,6 @@ async function main() {
 
 
 	// The next url here comes from the prior url haha
-
 	let urlParsed = new URI(currentUrl)
 	nextUrl = urlParsed.query()
 
@@ -330,7 +315,6 @@ async function main() {
 	cookieJar.setCookie("awBrowserCheck=true;path=/", 'https://applyweb.com')
 	cookieJar.setCookie("awBrowserCheck=true;path=/", 'http://www.applyweb.com')
 	cookieJar.setCookie("awBrowserCheck=true;path=/", 'http://applyweb.com')
-
 
 
 	let respJ = await request.get({
@@ -344,7 +328,6 @@ async function main() {
 	})
 
 
-	// macros.verbose('JSent headers:', respJ.req._headers)
 	macros.verbose('JStatus code:', respJ.statusCode)
 	macros.verbose('JRecieved headers:', respJ.headers)
 	macros.verbose('JCookie jar:', cookieJar)
@@ -364,7 +347,6 @@ async function main() {
 	})
 
 
-	// macros.verbose('KSent headers:', respK.req._headers)
 	macros.verbose('KStatus code:', respK.statusCode)
 	macros.verbose('KRecieved headers:', respK.headers)
 	macros.verbose('KCookie jar:', cookieJar)
@@ -387,38 +369,12 @@ async function main() {
 	})
 
 
-	// macros.verbose('ZSent headers:', respZ.req._headers)
 	macros.verbose('ZStatus code:', respZ.statusCode)
 	macros.verbose('ZRecieved headers:', respZ.headers)
 	macros.verbose('ZCookie jar:', cookieJar)
 	macros.log('ZGot body:', respZ.body)
 
 	debugger
-
-
-	
-
-	// // Hit the actually TRACE page
-	// let resp6 = await request.get({
-	// 	url: 'https://www.applyweb.com/eval/shibboleth/neu/36892',
-	// 	jar: cookieJar,
-	// 	headers: {
-	// 		'User-Agent': ua,
-	// 	}
-	// })
-
-
-	// macros.verbose('6Sent headers:', resp6.req._headers)
-	// macros.log('6Status code:', resp6.statusCode)
-	// macros.log('6Recieved headers:', resp6.headers)
-	// macros.log('6Cookie jar:', cookieJar)
-	// macros.log('6Got body:', resp6.body)
-
-
-	// debugger
-
-
-
 
 
 }
