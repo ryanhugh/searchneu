@@ -376,7 +376,7 @@ async function main() {
 
 	debugger
 
-
+  return cookieJar;
 }
 
 
