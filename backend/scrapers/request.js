@@ -24,7 +24,6 @@ import asyncjs from 'async';
 import mkdirp from 'mkdirp-promise';
 import objectHash from 'object-hash';
 import path from 'path';
-import htmlparser from 'htmlparser2';
 import moment from 'moment';
 import _ from 'lodash';
 import dnsCache from 'dnscache'
