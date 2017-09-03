@@ -180,14 +180,14 @@ async function main() {
   let redirectObject = await followRedirects(cookieJar, resp5)
 
   cookieJar = redirectObject.cookieJar;
-  let resp7 = redirectObject.resp;
+  let resp6 = redirectObject.resp;
   let currentUrl = redirectObject.url;
 
 
-	macros.verbose('7Status code:', resp7.statusCode)
-	macros.verbose('7Recieved headers:', resp7.headers)
-	macros.verbose('7Cookie jar:', cookieJar)
-	macros.verbose('7Got body:', resp7.body)
+	macros.verbose('6Status code:', resp6.statusCode)
+	macros.verbose('6Recieved headers:', resp6.headers)
+	macros.verbose('6Cookie jar:', cookieJar)
+	macros.verbose('6Got body:', resp6.body)
 
 
 	// This page has some JS that parsed some cookies from the current URL
@@ -217,7 +217,7 @@ async function main() {
 
 
 	// Hit the next TRACE link
-	let resp8 = await request.get({
+	let resp7 = await request.get({
 		url: queries.dest,
 		jar: cookieJar,
 		followRedirect: false,
@@ -228,15 +228,15 @@ async function main() {
 	})
 
 
-  redirectObject = await followRedirects(cookieJar, resp8)
+  redirectObject = await followRedirects(cookieJar, resp7)
 
   cookieJar = redirectObject.cookieJar;
-  let respE = redirectObject.resp;
+  let resp8 = redirectObject.resp;
 
-  macros.verbose('EStatus code:', respE.statusCode)
-  macros.verbose('ERecieved headers:', respE.headers)
-  macros.verbose('ECookie jar:', cookieJar)
-  macros.verbose('EGot body:', respE.body)
+  macros.verbose('8Status code:', resp8.statusCode)
+  macros.verbose('8Recieved headers:', resp8.headers)
+  macros.verbose('8Cookie jar:', cookieJar)
+  macros.verbose('8Got body:', resp8.body)
 
   let nextUrl;
 
@@ -247,7 +247,7 @@ async function main() {
 
 	// parse the details out of the form
 	// and submit it.
-	$ = cheerio.load(respE.body)
+	$ = cheerio.load(resp8.body)
 
     nextUrl = $('form').attr('action')
 
@@ -275,7 +275,7 @@ async function main() {
     macros.verbose("Submitting the post request: ", nextUrl, postBody)
 
 
-	let respF = await request.post({
+	let resp9 = await request.post({
 		url: nextUrl,
 		jar: cookieJar,
 		followRedirect: false,
@@ -288,22 +288,22 @@ async function main() {
 	})
 
 
-	macros.verbose('FStatus code:', respF.statusCode)
-	macros.verbose('FRecieved headers:', respF.headers)
-	macros.verbose('FCookie jar:', cookieJar)
-	macros.verbose('FGot body:', respF.body)
+	macros.verbose('9Status code:', resp9.statusCode)
+	macros.verbose('9Recieved headers:', resp9.headers)
+	macros.verbose('9Cookie jar:', cookieJar)
+	macros.verbose('9Got body:', resp9.body)
 
-  redirectObject = await followRedirects(cookieJar, respF)
+  redirectObject = await followRedirects(cookieJar, resp9)
 
   cookieJar = redirectObject.cookieJar;
-  let respI = redirectObject.resp;
+  let resp10 = redirectObject.resp;
   currentUrl = redirectObject.url;
 
 
-	macros.verbose('IStatus code:', respI.statusCode)
-	macros.verbose('IRecieved headers:', respI.headers)
-	macros.verbose('ICookie jar:', cookieJar)
-	macros.verbose('IGot body:', respI.body)
+	macros.verbose('10Status code:', resp10.statusCode)
+	macros.verbose('10Recieved headers:', resp10.headers)
+	macros.verbose('10Cookie jar:', cookieJar)
+	macros.verbose('10Got body:', resp10.body)
 
 
 	// The next url here comes from the prior url haha
@@ -317,7 +317,7 @@ async function main() {
 	cookieJar.setCookie("awBrowserCheck=true;path=/", 'http://applyweb.com')
 
 
-	let respJ = await request.get({
+	let resp11 = await request.get({
 		url: nextUrl,
 		jar: cookieJar,
 		followRedirect: false,
@@ -328,15 +328,15 @@ async function main() {
 	})
 
 
-	macros.verbose('JStatus code:', respJ.statusCode)
-	macros.verbose('JRecieved headers:', respJ.headers)
-	macros.verbose('JCookie jar:', cookieJar)
-	macros.verbose('JGot body:', respJ.body)
+	macros.verbose('10Status code:', resp11.statusCode)
+	macros.verbose('10Recieved headers:', resp11.headers)
+	macros.verbose('10Cookie jar:', cookieJar)
+	macros.verbose('10Got body:', resp11.body)
 
-	nextUrl = respJ.headers.location
+	nextUrl = resp11.headers.location
 
 
-	let respK = await request.get({
+	let resp12 = await request.get({
 		url: nextUrl,
 		jar: cookieJar,
 		followRedirect: false,
@@ -347,10 +347,10 @@ async function main() {
 	})
 
 
-	macros.verbose('KStatus code:', respK.statusCode)
-	macros.verbose('KRecieved headers:', respK.headers)
-	macros.verbose('KCookie jar:', cookieJar)
-	macros.verbose('KGot body:', respK.body)
+	macros.verbose('11Status code:', resp12.statusCode)
+	macros.verbose('11Recieved headers:', resp12.headers)
+	macros.verbose('11Cookie jar:', cookieJar)
+	macros.verbose('11Got body:', resp12.body)
 
 
 
