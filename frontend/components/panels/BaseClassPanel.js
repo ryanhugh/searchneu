@@ -27,6 +27,11 @@ class BaseClassPanel extends React.Component {
       sectionsShownByDefault = macros.sectionsShownByDefault;
     }
 
+    // If this is desktop and there is exactly one section hidden by the button, just show them all. 
+    if (!macros.isMobile && this.props.aClass.sections.length == sectionsShownByDefault + 1) {
+      sectionsShownByDefault++
+    }
+
     // Show 3 sections by default
     return {
       renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
@@ -37,7 +42,14 @@ class BaseClassPanel extends React.Component {
   onShowMoreClick() {
     macros.log('Adding more sections to the bottom.');
 
-    const newElements = this.state.unrenderedSections.splice(0, macros.sectionsAddedWhenShowMoreClicked);
+    let newElements;
+    if (this.state.renderedSections.length > macros.sectionsShowAllThreshold) {
+      newElements = this.state.unrenderedSections.splice(0, this.state.unrenderedSections.length);
+    }
+    else {
+      newElements = this.state.unrenderedSections.splice(0, macros.sectionsAddedWhenShowMoreClicked);
+    }
+
 
     this.setState({
       unrenderedSections: this.state.unrenderedSections,

@@ -42,7 +42,7 @@ npm run build
 if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
   # npm -g install babel-cli
   cd backend_compiled/scrapers
-  PROD=true NODE_ENV=prod node --max_old_space_size=4096 startup
+  PROD=true NODE_ENV=prod node --max_old_space_size=8192 startup
   cd ../..
   find public
 fi
@@ -58,6 +58,7 @@ ssh-add ~/.ssh/id_rsa
 if [ "$TRAVIS_BRANCH" == "prod" ]; then
   echo 'Deploying to prod'
   
+  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git reset --hard'
   ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git pull'
   ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git checkout prod'
 

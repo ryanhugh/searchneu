@@ -11,6 +11,16 @@ let tooltipTimer = null;
 
 class Macros extends commonMacros {
 
+  static log(...args) {
+
+    // Don't log stuff in prod mode
+    if (Macros.PROD) {
+      return;
+    }
+
+    commonMacros.log(...args)
+  }
+
   // Call this to reload the tooltip rendering on the entire page.
   // Feel free to call as often as you want, this has internal debouncing so it will only rebuild the tooltips 20ms after the last update call.
   // Currently used in just ClassPanel.js.
@@ -36,11 +46,38 @@ class Macros extends commonMacros {
   
 }
 
+// The backtick on the third row and all the backslashes need to be escaped. 
+// This was generated with this site http://patorjk.com/software/taag/#p=display&f=Stacey&t=Search%20NEU
+const searchneu = `
+   ____                     _       _   _ _____ _   _ 
+ / ___|  ___  __ _ _ __ ___| |__   | \\ | | ____| | | |
+ \\___ \\ / _ \\/ _\` | '__/ __| '_ \\  |  \\| |  _| | | | |
+  ___) |  __/ (_| | | | (__| | | | | |\\  | |___| |_| |
+ |____/ \\___|\\__,_|_|  \\___|_| |_| |_| \\_|_____|\\___/ 
+
+
+
+ Hi There!
+
+ We're looking for talented individuals who want to build great products
+ that impact thousands of student's lives. Interested? Help us build Search NEU!
+
+ Contact us at hey@searchneu.com :)
+ `
+ 
+if (Macros.PROD) {
+  console.log(searchneu)
+}
+
+
 // How many sections to show in a class panel by default.
 Macros.sectionsShownByDefault = 3;
 
 // How many sections to add when the user clicks the show more button. 
 Macros.sectionsAddedWhenShowMoreClicked = 5;
+
+// If this number of section is shown, the show more button will just show the rest of them instead of showing just a couple more. 
+Macros.sectionsShowAllThreshold = 15;
 
 Macros.searchEvent = 'customSearch';
 
