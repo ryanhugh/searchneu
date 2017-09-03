@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should parse a 1`] = `
+Array [
+  Object {
+    "emails": Array [
+      "abur@ece.neu.edu",
+    ],
+    "firstName": "Ali",
+    "interests": "power system monitoring, estimation and optimization, fault location and identification in power grids",
+    "lastName": "Abur",
+    "name": "Ali Abur",
+    "phone": "6173733051",
+    "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/ece/abur-a.jpg?itok=lGTlrN4m",
+    "url": "http://www.ece.neu.edu/people/abur-ali",
+  },
+  Object {
+    "emails": Array [
+      "adams_g@coe.neu.edu",
+    ],
+    "firstName": "George",
+    "interests": "Contact mechanics including adhesion, friction, and plasticity; modeling and analysis of MEMS; modeling and analysis in nanomechanics",
+    "lastName": "Adams",
+    "name": "George G. Adams",
+    "phone": "6173733826",
+    "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/mie/adams-g.jpg?itok=pWJW13K3",
+    "url": "http://www.mie.neu.edu/people/adams-george",
+  },
+  Object {
+    "emails": Array [
+      "mnalam@northeastern.edu",
+    ],
+    "firstName": "Muhammad",
+    "interests": "Operations Research, Data Analytics, Healthcare, Resilience, Supply Chain, Manufacturing Systems",
+    "lastName": "Alam",
+    "name": "Muhammad Noor E Alam",
+    "phone": "6173732275",
+    "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/noor_5.jpg?itok=45St3GAt",
+    "url": "http://www.mie.neu.edu/people/alam-md-noor-e",
+  },
+  Object {
+    "emails": Array [
+      "m.allshouse@northeastern.edu",
+    ],
+    "firstName": "Michael",
+    "interests": "nonlinear dynamics, geophysical fluid dynamics, computational fluid mechanics, disaster response, experimental fluids",
+    "lastName": "Allshouse",
+    "name": "Michael Allshouse",
+    "phone": "6173732138",
+    "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/michael_allshouse.jpeg?itok=RE7QZf4l",
+    "url": "http://www.mie.neu.edu/people/allshouse-michael",
+  },
+  Object {
+    "firstName": "Akram",
+    "interests": "Geoenvironmental engineering, soil and groundwater remediation; electrokinetic and electrochemical processes; contaminant fate and transport environmental restoration",
+    "lastName": "Alshawabkeh",
+    "name": "Akram N. Alshawabkeh",
+    "phone": "6173733994",
+    "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/cee/alshawabkeh-a.jpg?itok=tAla-CPN",
+    "url": "http://www.civ.neu.edu/people/alshawabkeh-akram",
+  },
+  Object {
+    "emails": Array [
+      "m.amirabadi@northeastern.edu",
+    ],
+    "firstName": "Mahshid",
+    "interests": "design, modeling and control of power converters, power electronics for renewable energy systems, microgrids, variable speed drives and wireless power transfer",
+    "lastName": "Amirabadi",
+    "name": "Mahshid Amirabadi",
+    "phone": "6173738177",
+    "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/ece/amirabadi-m.jpg?itok=Axlf-RNl",
+    "url": "http://www.ece.neu.edu/people/amirabadi-mahshid",
+  },
+  Object {
+    "emails": Array [
+      "tando@coe.neu.edu",
+    ],
+    "firstName": "Teiichi",
+    "interests": "Rapid solidification processing, droplet-based materials processing, powder metallurgy, material processing by severe plastic deformation, processing-structure-property relationships in materials",
+    "lastName": "Ando",
+    "name": "Teiichi Ando",
+    "phone": "6173733811",
+    "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/mie/ando-t.jpg?itok=KRqXrwoY",
+    "url": "http://www.mie.neu.edu/people/ando-teiichi",
+  },
+  Object {
+    "emails": Array [
+      "n.annabi@northeastern.edu",
+    ],
+    "firstName": "Nasim",
+    "interests": "Engineering Advanced biomaterials for cardiovascular tissue engineering applications",
+    "lastName": "Annabi",
+    "name": "Nasim Annabi",
+    "phone": "6173735350",
+    "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/che/annabi-n.jpg?itok=3FlIam8k",
+    "url": "http://www.che.neu.edu/people/annabi-nasim",
+  },
+  Object {
+    "emails": Array [
+      "a.asthagiri@northeastern.edu",
+    ],
+    "firstName": "Anand",
+    "interests": "Elucidates design principles for engineering living cells and tissues.",
+    "lastName": "Asthagiri",
+    "name": "Anand Asthagiri",
+    "phone": "6173732996",
+    "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/bioe/asthagiri-a.jpg?itok=RA6-bHZv",
+    "url": "http://www.bioe.neu.edu/people/asthagiri-anand",
+  },
+  Object {
+    "emails": Array [
+      "n.aubry@northeastern.edu",
+    ],
+    "firstName": "Nadine",
+    "interests": "Fluid dynamics, microfluids, chaotic mixing, particle manipulation",
+    "lastName": "Aubry",
+    "name": "Nadine Aubry",
+    "phone": "6173735847",
+    "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/mie/aubry-n.jpg?itok=_qwIMCKA",
+    "url": "http://www.mie.neu.edu/people/aubry-nadine",
+  },
+  Object {
+    "emails": Array [
+      "d.auguste@northeastern.edu",
+    ],
+    "firstName": "Debra",
+    "interests": "Bioresponsive drug delivery; cell and tissue engineering; tissue architecture; targeted therapeutics",
+    "lastName": "Auguste",
+    "name": "Debra Auguste",
+    "phone": "6173736243",
+    "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/che/auguste-d.jpg?itok=jOI7Z6Zz",
+    "url": "http://www.che.neu.edu/people/auguste-debra",
+  },
+]
+`;
+
+exports[`should parse q 1`] = `
+Object {
+  "googleScholarId": "1o2bvEAAAAAJ",
+  "officeRoom": "334 SN360 Huntington Avenue                  ",
+  "officeStreetAddress": "Boston, MA 02115",
+  "primaryDepartment": "Mechanical and Industrial Engineering",
+  "primaryRole": "Assistant Professor",
+  "profilePic": "http://www.mie.neu.edu/sites/default/files/portraits/mie/felton-s.jpg",
+}
+`;
