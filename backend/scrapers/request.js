@@ -382,7 +382,7 @@ class Request {
 
     let newKey;
 
-    if (macros.DEV) {
+    if (macros.DEV && config.cache) {
 
 
       // Skipping the hashing when it is not necessary significantly speeds this up. 
@@ -488,11 +488,18 @@ const instance = new Request();
 
 class RequestInput {
 
-  constructor(cacheName) {
+  constructor(cacheName, cacheDefault=true) {
       this.cacheName = cacheName;
+      this.cacheDefault = cacheDefault;
   }
 
   async request(config){
+
+    // Set the cache to the default if it was not specified here
+    if (config.cache === undefined) {
+      config.cache = this.cacheDefault
+    }
+
     config = this.standardizeInputConfig(config)
     return instance.request(config)
   }
