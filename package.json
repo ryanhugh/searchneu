@@ -41,7 +41,7 @@
     "cookie": "^0.3.1",
     "cross-env": "^5.0.0",
     "deep-diff": "^0.3.8",
-    "dns-then": "^0.1.0",
+    "dnscache": "^1.0.1",
     "domutils": "1.5.1",
     "elasticlunr": "^0.9.5",
     "express": "^4.15.2",

@@ -21,13 +21,13 @@ import promiseQueue from 'promise-queue';
 import URI from 'urijs';
 import fs from 'fs-promise';
 import asyncjs from 'async';
-import dns from 'dns-then';
 import mkdirp from 'mkdirp-promise';
 import objectHash from 'object-hash';
 import path from 'path';
 import htmlparser from 'htmlparser2';
 import moment from 'moment';
 import _ from 'lodash';
+import dnsCache from 'dnscache'
 
 import cache from './cache';
 import macros from '../macros';
@@ -90,6 +90,16 @@ const separateReqPools = {
   'wl11gp.neu.edu':  { maxSockets: 100, keepAlive: true, maxFreeSockets: 100 },
 };
 
+// Enable the DNS cache. This module replaces the .lookup method on the built in dns module to cache lookups. 
+// Use this instead of swapping out the domain with the ip in the fireRequest function so the cookies still work. 
+// (There was some problems with saving them because, according to request, the host was the ip, but the cookies were configured to match the domain)
+// It would be possible to go back to manual dns lookups and therefore manual cookie jar management if necessary (wouldn't be that big of a deal).
+dnsCache({
+  enable: true,
+  ttl: 999999999,
+  cachesize: 999999999
+})
+
 
 const MAX_RETRY_COUNT = 35;
 
@@ -103,8 +113,6 @@ class Request {
 
   constructor() {
     this.openRequests = 0;
-
-    this.dnsPromises = {};
 
     // Stuff for analytics on a per-hostname basis.
     this.analytics = {};
@@ -210,38 +218,6 @@ class Request {
     macros.log('Uptime:', moment.duration(moment().diff(LAUNCH_TIME)).asMinutes(), `(${currentTime.format('h:mm:ss a')})`);
   }
 
-  // By default, needle and nodejs does a DNS lookup for each request.
-  // Avoid that by only doing a dns lookup once per domain
-  async getDns(hostname) {
-    if (this.dnsPromises[hostname]) {
-      return this.dnsPromises[hostname];
-    }
-
-    macros.verbose('Hitting dns lookup for', hostname);
-
-    // Just the host + subdomains are needed, eg blah.google.com
-    if (hostname.startsWith('http://') || hostname.startsWith('https://')) {
-      macros.error(hostname);
-    }
-
-    const promise = dns.lookup(hostname, {
-      all: true,
-      family: 4,
-    });
-
-    this.dnsPromises[hostname] = promise;
-
-    const result = await promise;
-
-    if (result.length > 1) {
-      console.log('INFO: more than 1 dns result', result, hostname);
-    }
-
-    return result;
-  }
-
-
-
   async fireRequest(config) {
 
     // Default to JSON for POST bodies
@@ -254,27 +230,6 @@ class Request {
     const hostname = urlParsed.hostname();
     this.ensureAnalyticsObject(hostname);
     this.activeHostnames[hostname] = true;
-
-    const dnsResults = await this.getDns(hostname);
-
-
-    let ip;
-    if (dnsResults.length === 0) {
-      macros.error('DNS lookup returned 0 results!', JSON.stringify(config));
-      return null;
-    } else if (dnsResults.length === 1) {
-      ip = dnsResults[0].address;
-    } else {
-      const index = Math.floor(Math.random() * dnsResults.length);
-      ip = dnsResults[index].address;
-    }
-
-    // Make the start of the new url with the ip from the DNS lookup and the protocol from the url
-    const urlStart = new URI(ip).protocol(urlParsed.protocol()).toString();
-
-    // Then add on everything after the host
-    const urlWithIp = new URI(urlParsed.resource()).absoluteTo(urlStart).port(urlParsed.port()).toString();
-
 
     // Setup the default config
     // Change some settings from the default request settings for
@@ -333,7 +288,6 @@ class Request {
       let cookies = config.jar.getCookies(config.url)
     }
 
-    // output.url = urlWithIp;
     output.headers = headers;
 
     macros.verbose('Firing request to', output.url);
