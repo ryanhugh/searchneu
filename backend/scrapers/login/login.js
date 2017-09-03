@@ -55,9 +55,6 @@ async function main() {
 	let user = await macros.getEnvVariable('myNEUUsername')
 	let pass = await macros.getEnvVariable('myNEUPassword')
 
-	console.log(user, pass)
-
-
 	let cookieJar = request.jar()
 
 	let initialGet = await request.get({
@@ -72,7 +69,7 @@ async function main() {
 	let inside = $('script[language="javascript1.1"]')
 	let parsedJS = acorn.parse(inside.text())
 	if (parsedJS.body[8].id.name !== 'login') {
-		console.log("not equal to login!", parsedJS, parsedJS.body[8].id.name)
+		macros.log("not equal to login!", parsedJS, parsedJS.body[8].id.name)
 		return;
 	}
 
@@ -82,13 +79,7 @@ async function main() {
 	// A new one of these are generated every time the site is hit. 
 	// a8f5faa2-7e15-4d4b-8a05-d2884aa82a36
 
-
-	console.log(uuid)
-
-    // const ast = acorn.parse(initialGet.body);
-
-    // debugger;
-
+	macros.log('Parsed UUID from login page:', uuid)
 
 
 	let resp = await request.post({
@@ -102,25 +93,19 @@ async function main() {
 		body: 'pass=' + pass + '&user=' + user + '&uuid=' + uuid
 	})
 
-	// console.log('Sent headers:', resp.req._headers)
-	console.log('Status code:', resp.statusCode)
-	console.log('Recieved headers:', resp.headers)
-	console.log('Cookie jar:', cookieJar)
-	console.log('Got body:', resp.body)
+	macros.log('Status code:', resp.statusCode)
+	macros.log('Recieved headers:', resp.headers)
+	macros.log('Cookie jar:', cookieJar)
+	macros.log('Got body:', resp.body)
 
-	$ = cheerio.load(resp.body)
-	console.log($('#msg_txt').text())
 
 	// The body of the first request looks like this: 
 	//    <html><head>
-//    <script Language="JavaScript">
-//    document.location="http://myneu.neu.edu/cps/welcome/loginok.html";
-//    </script>
-//    </head><body></body></html>
+  //    <script Language="JavaScript">
+  //    document.location="http://myneu.neu.edu/cps/welcome/loginok.html";
+  //    </script>
+  //    </head><body></body></html>
 
-
-	// debugger	
-	// return;
 
 
 	let resp2 = await request.get({
@@ -132,11 +117,10 @@ async function main() {
 	})
 
 
-	// console.log('2Sent headers:', resp2.req._headers)
-	console.log('2Status code:', resp2.statusCode)
-	console.log('2Recieved headers:', resp2.headers)
-	console.log('2Cookie jar:', cookieJar)
-	console.log('2Got body:', resp2.body)
+	macros.verbose('2Status code:', resp2.statusCode)
+	macros.verbose('2Recieved headers:', resp2.headers)
+	macros.verbose('2Cookie jar:', cookieJar)
+	macros.verbose('2Got body:', resp2.body)
 
 	// resp2.body:
 	// <html><title>Login Successful</title>
@@ -148,8 +132,6 @@ async function main() {
 	// </html>
 
 
-	// debugger
-
 	let resp3 = await request.get({
 		url: 'http://myneu.neu.edu/cp/home/next',
 		jar: cookieJar,
@@ -159,11 +141,11 @@ async function main() {
 	})
 
 
-	// console.log('3Sent headers:', resp3.req._headers)
-	console.log('3Status code:', resp3.statusCode)
-	console.log('3Recieved headers:', resp3.headers)
-	console.log('3Cookie jar:', cookieJar)
-	console.log('3Got body:', resp3.body)
+	// macros.verbose('3Sent headers:', resp3.req._headers)
+	macros.verbose('3Status code:', resp3.statusCode)
+	macros.verbose('3Recieved headers:', resp3.headers)
+	macros.verbose('3Cookie jar:', cookieJar)
+	macros.verbose('3Got body:', resp3.body)
 
 	// debugger
 
@@ -180,11 +162,11 @@ async function main() {
 	})
 
 
-	// console.log('4Sent headers:', resp4.req._headers)
-	console.log('4Status code:', resp4.statusCode)
-	console.log('4Recieved headers:', resp4.headers)
-	console.log('4Cookie jar:', cookieJar)
-	console.log('4Got body:', resp4.body)
+	// macros.verbose('4Sent headers:', resp4.req._headers)
+	macros.verbose('4Status code:', resp4.statusCode)
+	macros.verbose('4Recieved headers:', resp4.headers)
+	macros.verbose('4Cookie jar:', cookieJar)
+	macros.verbose('4Got body:', resp4.body)
 
 
 	// debugger
@@ -209,11 +191,11 @@ async function main() {
   debugger
 
 
-	// console.log('7Sent headers:', resp7.req._headers)
-	console.log('7Status code:', resp7.statusCode)
-	console.log('7Recieved headers:', resp7.headers)
-	console.log('7Cookie jar:', cookieJar)
-	console.log('7Got body:', resp7.body)
+	// macros.verbose('7Sent headers:', resp7.req._headers)
+	macros.verbose('7Status code:', resp7.statusCode)
+	macros.verbose('7Recieved headers:', resp7.headers)
+	macros.verbose('7Cookie jar:', cookieJar)
+	macros.verbose('7Got body:', resp7.body)
 
 
 	// This page has some JS that parsed some cookies from the current URL
@@ -229,7 +211,7 @@ async function main() {
 	    // This was copied from the JS that appears on this page.
 	    // Instead of running the entire JS, just run the important parts.
 	    let cookieToSet = cookie.replace(";domain=neuidmsso.neu.edu", "");
-	    console.log(cookieToSet)
+	    macros.log(cookieToSet)
 
 	    // Not 100% sure about this line/??
 	    // Also the path/// attribute in the cookie might need modifyig? idk
@@ -239,8 +221,8 @@ async function main() {
 	    cookieJar.setCookie(cookieToSet, 'https://neuidmsso.neu.edu')
 	}
 
-	console.log(queries.dest)
-	console.log(queries.dest)
+	macros.verbose(queries.dest)
+	macros.verbose(queries.dest)
 
 
 
@@ -261,11 +243,11 @@ async function main() {
 	})
 
 
-	// console.log('8Sent headers:', resp8.req._headers)
-	console.log('8Status code:', resp8.statusCode)
-	console.log('8Recieved headers:', resp8.headers)
-	console.log('8Cookie jar:', cookieJar)
-	console.log('8Got body:', resp8.body)
+	// macros.verbose('8Sent headers:', resp8.req._headers)
+	macros.verbose('8Status code:', resp8.statusCode)
+	macros.verbose('8Recieved headers:', resp8.headers)
+	macros.verbose('8Cookie jar:', cookieJar)
+	macros.verbose('8Got body:', resp8.body)
 
 
 	// 8 is 302'ed right now, going to let is auto-follow and if that dosen't work just follow manually
@@ -285,11 +267,11 @@ async function main() {
 	})
 
 
-	// console.log('9Sent headers:', resp9.req._headers)
-	console.log('9Status code:', resp9.statusCode)
-	console.log('9Recieved headers:', resp9.headers)
-	console.log('9Cookie jar:', cookieJar)
-	console.log('9Got body:', resp9.body)
+	// macros.verbose('9Sent headers:', resp9.req._headers)
+	macros.verbose('9Status code:', resp9.statusCode)
+	macros.verbose('9Recieved headers:', resp9.headers)
+	macros.verbose('9Cookie jar:', cookieJar)
+	macros.verbose('9Got body:', resp9.body)
 
 
 
@@ -311,11 +293,11 @@ async function main() {
 	})
 
 
-	// console.log('ASent headers:', respA.req._headers)
-	console.log('AStatus code:', respA.statusCode)
-	console.log('ARecieved headers:', respA.headers)
-	console.log('ACookie jar:', cookieJar)
-	console.log('AGot body:', respA.body)
+	// macros.verbose('ASent headers:', respA.req._headers)
+	macros.verbose('AStatus code:', respA.statusCode)
+	macros.verbose('ARecieved headers:', respA.headers)
+	macros.verbose('ACookie jar:', cookieJar)
+	macros.verbose('AGot body:', respA.body)
 
 
 
@@ -337,11 +319,11 @@ async function main() {
 	})
 
 
-	// console.log('BSent headers:', respB.req._headers)
-	console.log('BStatus code:', respB.statusCode)
-	console.log('BRecieved headers:', respB.headers)
-	console.log('BCookie jar:', cookieJar)
-	console.log('BGot body:', respB.body)
+	// macros.verbose('BSent headers:', respB.req._headers)
+	macros.verbose('BStatus code:', respB.statusCode)
+	macros.verbose('BRecieved headers:', respB.headers)
+	macros.verbose('BCookie jar:', cookieJar)
+	macros.verbose('BGot body:', respB.body)
 
 	// going to 302 to extcas
 
@@ -360,11 +342,11 @@ async function main() {
 	})
 
 
-	// console.log('CSent headers:', respC.req._headers)
-	console.log('CStatus code:', respC.statusCode)
-	console.log('CRecieved headers:', respC.headers)
-	console.log('CCookie jar:', cookieJar)
-	console.log('CGot body:', respC.body)
+	// macros.verbose('CSent headers:', respC.req._headers)
+	macros.verbose('CStatus code:', respC.statusCode)
+	macros.verbose('CRecieved headers:', respC.headers)
+	macros.verbose('CCookie jar:', cookieJar)
+	macros.verbose('CGot body:', respC.body)
 
 	// 302 to login?service=
 
@@ -382,11 +364,11 @@ async function main() {
 	})
 
 
-	// console.log('DSent headers:', respD.req._headers)
-	console.log('DStatus code:', respD.statusCode)
-	console.log('DRecieved headers:', respD.headers)
-	console.log('DCookie jar:', cookieJar)
-	console.log('DGot body:', respD.body)
+	// macros.verbose('DSent headers:', respD.req._headers)
+	macros.verbose('DStatus code:', respD.statusCode)
+	macros.verbose('DRecieved headers:', respD.headers)
+	macros.verbose('DCookie jar:', cookieJar)
+	macros.verbose('DGot body:', respD.body)
 
 	// 302 to ExtCas with a ticket param
 
@@ -405,11 +387,11 @@ async function main() {
 	})
 
 
-	// console.log('ESent headers:', respE.req._headers)
-	console.log('EStatus code:', respE.statusCode)
-	console.log('ERecieved headers:', respE.headers)
-	console.log('ECookie jar:', cookieJar)
-	console.log('EGot body:', respE.body)
+	// macros.verbose('ESent headers:', respE.req._headers)
+	macros.verbose('EStatus code:', respE.statusCode)
+	macros.verbose('ERecieved headers:', respE.headers)
+	macros.verbose('ECookie jar:', cookieJar)
+	macros.verbose('EGot body:', respE.body)
 
 	// 200 at SSO?execution - 
 
@@ -447,7 +429,7 @@ async function main() {
 
     let postBody = formUrlencoded(obj)
 
-    console.log("Submitting the post request: ", nextUrl, postBody)
+    macros.verbose("Submitting the post request: ", nextUrl, postBody)
 
 
 	// debugger
@@ -465,11 +447,11 @@ async function main() {
 	})
 
 
-	// console.log('FSent headers:', respF.req._headers)
-	console.log('FStatus code:', respF.statusCode)
-	console.log('FRecieved headers:', respF.headers)
-	console.log('FCookie jar:', cookieJar)
-	console.log('FGot body:', respF.body)
+	// macros.verbose('FSent headers:', respF.req._headers)
+	macros.verbose('FStatus code:', respF.statusCode)
+	macros.verbose('FRecieved headers:', respF.headers)
+	macros.verbose('FCookie jar:', cookieJar)
+	macros.verbose('FGot body:', respF.body)
 
 
 	nextUrl = respF.headers.location
@@ -488,11 +470,11 @@ async function main() {
 	})
 
 
-	// console.log('GSent headers:', respG.req._headers)
-	console.log('GStatus code:', respG.statusCode)
-	console.log('GRecieved headers:', respG.headers)
-	console.log('GCookie jar:', cookieJar)
-	console.log('GGot body:', respG.body)
+	// macros.verbose('GSent headers:', respG.req._headers)
+	macros.verbose('GStatus code:', respG.statusCode)
+	macros.verbose('GRecieved headers:', respG.headers)
+	macros.verbose('GCookie jar:', cookieJar)
+	macros.verbose('GGot body:', respG.body)
 
 
 	
@@ -512,11 +494,11 @@ async function main() {
 	})
 
 
-	// console.log('HSent headers:', respH.req._headers)
-	console.log('HStatus code:', respH.statusCode)
-	console.log('HRecieved headers:', respH.headers)
-	console.log('HCookie jar:', cookieJar)
-	console.log('HGot body:', respH.body)
+	// macros.verbose('HSent headers:', respH.req._headers)
+	macros.verbose('HStatus code:', respH.statusCode)
+	macros.verbose('HRecieved headers:', respH.headers)
+	macros.verbose('HCookie jar:', cookieJar)
+	macros.verbose('HGot body:', respH.body)
 
 	nextUrl = respH.headers.location
 	// debugger
@@ -534,11 +516,11 @@ async function main() {
 	})
 
 
-	// console.log('ISent headers:', respI.req._headers)
-	console.log('IStatus code:', respI.statusCode)
-	console.log('IRecieved headers:', respI.headers)
-	console.log('ICookie jar:', cookieJar)
-	console.log('IGot body:', respI.body)
+	// macros.verbose('ISent headers:', respI.req._headers)
+	macros.verbose('IStatus code:', respI.statusCode)
+	macros.verbose('IRecieved headers:', respI.headers)
+	macros.verbose('ICookie jar:', cookieJar)
+	macros.verbose('IGot body:', respI.body)
 
 
 
@@ -567,11 +549,11 @@ async function main() {
 	})
 
 
-	// console.log('JSent headers:', respJ.req._headers)
-	console.log('JStatus code:', respJ.statusCode)
-	console.log('JRecieved headers:', respJ.headers)
-	console.log('JCookie jar:', cookieJar)
-	console.log('JGot body:', respJ.body)
+	// macros.verbose('JSent headers:', respJ.req._headers)
+	macros.verbose('JStatus code:', respJ.statusCode)
+	macros.verbose('JRecieved headers:', respJ.headers)
+	macros.verbose('JCookie jar:', cookieJar)
+	macros.verbose('JGot body:', respJ.body)
 
 	nextUrl = respJ.headers.location
 	// debugger
@@ -588,11 +570,11 @@ async function main() {
 	})
 
 
-	// console.log('KSent headers:', respK.req._headers)
-	console.log('KStatus code:', respK.statusCode)
-	console.log('KRecieved headers:', respK.headers)
-	console.log('KCookie jar:', cookieJar)
-	console.log('KGot body:', respK.body)
+	// macros.verbose('KSent headers:', respK.req._headers)
+	macros.verbose('KStatus code:', respK.statusCode)
+	macros.verbose('KRecieved headers:', respK.headers)
+	macros.verbose('KCookie jar:', cookieJar)
+	macros.verbose('KGot body:', respK.body)
 
 	// debugger
 
@@ -612,11 +594,11 @@ async function main() {
 	})
 
 
-	// console.log('ZSent headers:', respZ.req._headers)
-	console.log('ZStatus code:', respZ.statusCode)
-	console.log('ZRecieved headers:', respZ.headers)
-	console.log('ZCookie jar:', cookieJar)
-	console.log('ZGot body:', respZ.body)
+	// macros.verbose('ZSent headers:', respZ.req._headers)
+	macros.verbose('ZStatus code:', respZ.statusCode)
+	macros.verbose('ZRecieved headers:', respZ.headers)
+	macros.verbose('ZCookie jar:', cookieJar)
+	macros.verbose('ZGot body:', respZ.body)
 
 	debugger
 
@@ -633,11 +615,11 @@ async function main() {
 	// })
 
 
-	// console.log('6Sent headers:', resp6.req._headers)
-	// console.log('6Status code:', resp6.statusCode)
-	// console.log('6Recieved headers:', resp6.headers)
-	// console.log('6Cookie jar:', cookieJar)
-	// console.log('6Got body:', resp6.body)
+	// macros.verbose('6Sent headers:', resp6.req._headers)
+	// macros.log('6Status code:', resp6.statusCode)
+	// macros.log('6Recieved headers:', resp6.headers)
+	// macros.log('6Cookie jar:', cookieJar)
+	// macros.log('6Got body:', resp6.body)
 
 
 	// debugger
