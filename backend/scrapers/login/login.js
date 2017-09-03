@@ -16,7 +16,7 @@ import macros from '../../macros';
 // so they need to stay the same between requests. 
 
 
-const request = new Request('login');
+const request = new Request('login', false);
 
 const ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36';
 
