@@ -188,7 +188,7 @@ async function main() {
   cookieJar = redirectObject.cookieJar;
   let resp7 = redirectObject.resp;
   let currentUrl = redirectObject.url;
-  debugger
+  // debugger
 
 
 	// macros.verbose('7Sent headers:', resp7.req._headers)
@@ -288,7 +288,7 @@ async function main() {
 		followRedirect: false,
 		simple: false,
 		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.A0 Safari/537.36',
+			'User-Agent': ua,
 		}
 	})
 
@@ -314,7 +314,7 @@ async function main() {
 		followRedirect: false,
 		simple: false,
 		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.A0 Safari/537.36',
+			'User-Agent': ua,
 		}
 	})
 
@@ -598,7 +598,7 @@ async function main() {
 	macros.verbose('ZStatus code:', respZ.statusCode)
 	macros.verbose('ZRecieved headers:', respZ.headers)
 	macros.verbose('ZCookie jar:', cookieJar)
-	macros.verbose('ZGot body:', respZ.body)
+	macros.log('ZGot body:', respZ.body)
 
 	debugger
 
