@@ -10,9 +10,11 @@ import macros from '../../macros';
 
 
 // Login code for MyNEU
-// Just uses reqeust and cheerio, no headless browser
+// Just uses request and cheerio, no headless browser
 // It looks like MyNEU is fingerprinting the browser when the tokens/cookies are generated
-// and keeping track of what the UA and possibly? other things are too
+// and keeping track of what the UA the browser is sending and will log you out if it changes
+// TRACE is doing the same thing
+// Might be doing weird other random stuff too
 // so they need to stay the same between requests. 
 
 
