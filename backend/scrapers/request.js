@@ -95,6 +95,9 @@ const separateReqPools = {
 // Use this instead of swapping out the domain with the ip in the fireRequest function so the cookies still work. 
 // (There was some problems with saving them because, according to request, the host was the ip, but the cookies were configured to match the domain)
 // It would be possible to go back to manual dns lookups and therefore manual cookie jar management if necessary (wouldn't be that big of a deal).
+// https://stackoverflow.com/questions/35026131/node-override-request-ip-resolution
+// https://gitter.im/request/request
+// https://github.com/yahoo/dnscache
 dnsCache({
   enable: true,
   ttl: 999999999,
