@@ -304,10 +304,8 @@ async function main() {
 
 
 
-	// 8 is 302'ed right now, going to let is auto-follow and if that dosen't work just follow manually
 
 	nextUrl = respA.headers.location
-	// debugger
 
 	
 	let respB = await request.get({
@@ -321,17 +319,14 @@ async function main() {
 	})
 
 
-	// macros.verbose('BSent headers:', respB.req._headers)
 	macros.verbose('BStatus code:', respB.statusCode)
 	macros.verbose('BRecieved headers:', respB.headers)
 	macros.verbose('BCookie jar:', cookieJar)
 	macros.verbose('BGot body:', respB.body)
 
-	// going to 302 to extcas
 
 
 	nextUrl = respB.headers.location
-	// debugger
 
 	let respC = await request.get({
 		url: nextUrl,
@@ -344,16 +339,13 @@ async function main() {
 	})
 
 
-	// macros.verbose('CSent headers:', respC.req._headers)
 	macros.verbose('CStatus code:', respC.statusCode)
 	macros.verbose('CRecieved headers:', respC.headers)
 	macros.verbose('CCookie jar:', cookieJar)
 	macros.verbose('CGot body:', respC.body)
 
-	// 302 to login?service=
 
 	nextUrl = respC.headers.location
-	// debugger
 
 	let respD = await request.get({
 		url: nextUrl,
@@ -366,17 +358,14 @@ async function main() {
 	})
 
 
-	// macros.verbose('DSent headers:', respD.req._headers)
 	macros.verbose('DStatus code:', respD.statusCode)
 	macros.verbose('DRecieved headers:', respD.headers)
 	macros.verbose('DCookie jar:', cookieJar)
 	macros.verbose('DGot body:', respD.body)
 
-	// 302 to ExtCas with a ticket param
 
 
 	nextUrl = respD.headers.location
-	// debugger
 
 	let respE = await request.get({
 		url: nextUrl,
@@ -389,16 +378,11 @@ async function main() {
 	})
 
 
-	// macros.verbose('ESent headers:', respE.req._headers)
 	macros.verbose('EStatus code:', respE.statusCode)
 	macros.verbose('ERecieved headers:', respE.headers)
 	macros.verbose('ECookie jar:', cookieJar)
 	macros.verbose('EGot body:', respE.body)
 
-	// 200 at SSO?execution - 
-
-
-	// debugger
 
 	// This page returns a 200 with a form on it with stuff pre-filled in
 	// and as soon as the page loads, some javascript on the page submits the form
@@ -434,8 +418,6 @@ async function main() {
     macros.verbose("Submitting the post request: ", nextUrl, postBody)
 
 
-	// debugger
-
 	let respF = await request.post({
 		url: nextUrl,
 		jar: cookieJar,
@@ -449,7 +431,6 @@ async function main() {
 	})
 
 
-	// macros.verbose('FSent headers:', respF.req._headers)
 	macros.verbose('FStatus code:', respF.statusCode)
 	macros.verbose('FRecieved headers:', respF.headers)
 	macros.verbose('FCookie jar:', cookieJar)
@@ -457,8 +438,6 @@ async function main() {
 
 
 	nextUrl = respF.headers.location
-	// debugger
-
 
 
 	let respG = await request.get({
@@ -481,8 +460,6 @@ async function main() {
 
 	
 	nextUrl = respG.headers.location
-	// debugger
-
 
 
 	let respH = await request.get({
@@ -503,7 +480,6 @@ async function main() {
 	macros.verbose('HGot body:', respH.body)
 
 	nextUrl = respH.headers.location
-	// debugger
 
 
 
@@ -536,7 +512,6 @@ async function main() {
 	cookieJar.setCookie("awBrowserCheck=true;path=/", 'https://applyweb.com')
 	cookieJar.setCookie("awBrowserCheck=true;path=/", 'http://www.applyweb.com')
 	cookieJar.setCookie("awBrowserCheck=true;path=/", 'http://applyweb.com')
-	// debugger
 
 
 
@@ -558,7 +533,6 @@ async function main() {
 	macros.verbose('JGot body:', respJ.body)
 
 	nextUrl = respJ.headers.location
-	// debugger
 
 
 	let respK = await request.get({
@@ -578,7 +552,6 @@ async function main() {
 	macros.verbose('KCookie jar:', cookieJar)
 	macros.verbose('KGot body:', respK.body)
 
-	// debugger
 
 
 	// Done! Send a request for one of the data elements
