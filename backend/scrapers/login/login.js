@@ -60,7 +60,7 @@ async function main() {
 	let initialGet = await request.get({
 		url: 'https://myneu.neu.edu/cp/home/displaylogin',
 		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36'
+			'User-Agent': ua
 		},
 		jar: cookieJar
 	})
@@ -85,7 +85,7 @@ async function main() {
 	let resp = await request.post({
 		url: 'https://myneu.neu.edu/cp/home/login',
 		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+			'User-Agent': ua,
 			'Content-Type': 'application/x-www-form-urlencoded',
 			Referer: 'https://myneu.neu.edu/cp/home/displaylogin'
 		},
@@ -112,7 +112,7 @@ async function main() {
 		url: 'http://myneu.neu.edu/cps/welcome/loginok.html',
 		jar: cookieJar,
 		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+			'User-Agent': ua,
 		}
 	})
 
@@ -136,7 +136,7 @@ async function main() {
 		url: 'http://myneu.neu.edu/cp/home/next',
 		jar: cookieJar,
 		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+			'User-Agent': ua,
 		}
 	})
 
@@ -157,7 +157,7 @@ async function main() {
 		url: 'http://myneu.neu.edu/tag.121e5fb84b31691f.render.userLayoutRootNode.uP?uP_root=root&uP_sparam=activeTab&activeTab=u117660l1s42&uP_tparam=frm&frm=',
 		jar: cookieJar,
 		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+			'User-Agent': ua,
 		}
 	})
 
@@ -179,7 +179,7 @@ async function main() {
 		followRedirect: false,
 		simple: false,
 		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+			'User-Agent': ua,
 		}
 	})
 
@@ -238,7 +238,7 @@ async function main() {
 		followRedirect: false,
 		simple: false,
 		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+			'User-Agent': ua,
 		}
 	})
 
@@ -262,7 +262,7 @@ async function main() {
 		followRedirect: false,
 		simple: false,
 		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+			'User-Agent': ua,
 		}
 	})
 
@@ -610,7 +610,7 @@ async function main() {
 	// 	url: 'https://www.applyweb.com/eval/shibboleth/neu/36892',
 	// 	jar: cookieJar,
 	// 	headers: {
-	// 		'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+	// 		'User-Agent': ua,
 	// 	}
 	// })
 
