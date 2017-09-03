@@ -465,7 +465,7 @@ class Request {
         }
 
         // Save the response to a file for development
-        if (macros.DEV) {
+        if (macros.DEV && config.cache) {
           cache.set('requests', config.cacheName, newKey, response.toJSON(), true)
         }
 
