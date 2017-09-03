@@ -227,12 +227,6 @@ async function main() {
 	macros.verbose(queries.dest)
 
 
-
-
-	// debugger
-
-
-	
 	// Hit the next TRACE link
 	let resp8 = await request.get({
 		url: queries.dest,
@@ -311,61 +305,12 @@ async function main() {
 	macros.verbose('FGot body:', respF.body)
 
 
-	nextUrl = respF.headers.location
 
+  redirectObject = await followRedirects(cookieJar, respF)
 
-	let respG = await request.get({
-		url: nextUrl,
-		jar: cookieJar,
-		followRedirect: false,
-		simple: false,
-		headers: {
-			'User-Agent': ua,
-		}
-	})
-
-
-	// macros.verbose('GSent headers:', respG.req._headers)
-	macros.verbose('GStatus code:', respG.statusCode)
-	macros.verbose('GRecieved headers:', respG.headers)
-	macros.verbose('GCookie jar:', cookieJar)
-	macros.verbose('GGot body:', respG.body)
-
-
-	
-	nextUrl = respG.headers.location
-
-
-	let respH = await request.get({
-		url: nextUrl,
-		jar: cookieJar,
-		followRedirect: false,
-		simple: false,
-		headers: {
-			'User-Agent': ua,
-		}
-	})
-
-
-	// macros.verbose('HSent headers:', respH.req._headers)
-	macros.verbose('HStatus code:', respH.statusCode)
-	macros.verbose('HRecieved headers:', respH.headers)
-	macros.verbose('HCookie jar:', cookieJar)
-	macros.verbose('HGot body:', respH.body)
-
-	nextUrl = respH.headers.location
-
-
-
-	let respI = await request.get({
-		url: nextUrl,
-		jar: cookieJar,
-		followRedirect: false,
-		simple: false,
-		headers: {
-			'User-Agent': ua,
-		}
-	})
+  cookieJar = redirectObject.cookieJar;
+  let respI = redirectObject.resp;
+  currentUrl = redirectObject.url;
 
 
 	// macros.verbose('ISent headers:', respI.req._headers)
@@ -375,10 +320,9 @@ async function main() {
 	macros.verbose('IGot body:', respI.body)
 
 
-
 	// The next url here comes from the prior url haha
 
-	let urlParsed = new URI(nextUrl)
+	let urlParsed = new URI(currentUrl)
 	nextUrl = urlParsed.query()
 
 	// Also set the cookie that says we have passed the browser check
