@@ -245,143 +245,17 @@ async function main() {
 	})
 
 
-	// macros.verbose('8Sent headers:', resp8.req._headers)
-	macros.verbose('8Status code:', resp8.statusCode)
-	macros.verbose('8Recieved headers:', resp8.headers)
-	macros.verbose('8Cookie jar:', cookieJar)
-	macros.verbose('8Got body:', resp8.body)
+  redirectObject = await followRedirects(cookieJar, resp8)
 
+  cookieJar = redirectObject.cookieJar;
+  let respE = redirectObject.resp;
 
-	// 8 is 302'ed right now, going to let is auto-follow and if that dosen't work just follow manually
+  macros.verbose('EStatus code:', respE.statusCode)
+  macros.verbose('ERecieved headers:', respE.headers)
+  macros.verbose('ECookie jar:', cookieJar)
+  macros.verbose('EGot body:', respE.body)
 
-	let nextUrl = resp8.headers.location
-	// debugger
-
-	
-	let resp9 = await request.get({
-		url: nextUrl,
-		jar: cookieJar,
-		followRedirect: false,
-		simple: false,
-		headers: {
-			'User-Agent': ua,
-		}
-	})
-
-
-	// macros.verbose('9Sent headers:', resp9.req._headers)
-	macros.verbose('9Status code:', resp9.statusCode)
-	macros.verbose('9Recieved headers:', resp9.headers)
-	macros.verbose('9Cookie jar:', cookieJar)
-	macros.verbose('9Got body:', resp9.body)
-
-
-
-
-	// 8 is 302'ed right now, going to let is auto-follow and if that dosen't work just follow manually
-
-	nextUrl = resp9.headers.location
-	// debugger
-
-	
-	let respA = await request.get({
-		url: nextUrl,
-		jar: cookieJar,
-		followRedirect: false,
-		simple: false,
-		headers: {
-			'User-Agent': ua,
-		}
-	})
-
-
-	// macros.verbose('ASent headers:', respA.req._headers)
-	macros.verbose('AStatus code:', respA.statusCode)
-	macros.verbose('ARecieved headers:', respA.headers)
-	macros.verbose('ACookie jar:', cookieJar)
-	macros.verbose('AGot body:', respA.body)
-
-
-
-
-
-	nextUrl = respA.headers.location
-
-	
-	let respB = await request.get({
-		url: nextUrl,
-		jar: cookieJar,
-		followRedirect: false,
-		simple: false,
-		headers: {
-			'User-Agent': ua,
-		}
-	})
-
-
-	macros.verbose('BStatus code:', respB.statusCode)
-	macros.verbose('BRecieved headers:', respB.headers)
-	macros.verbose('BCookie jar:', cookieJar)
-	macros.verbose('BGot body:', respB.body)
-
-
-
-	nextUrl = respB.headers.location
-
-	let respC = await request.get({
-		url: nextUrl,
-		jar: cookieJar,
-		followRedirect: false,
-		simple: false,
-		headers: {
-			'User-Agent': ua,
-		}
-	})
-
-
-	macros.verbose('CStatus code:', respC.statusCode)
-	macros.verbose('CRecieved headers:', respC.headers)
-	macros.verbose('CCookie jar:', cookieJar)
-	macros.verbose('CGot body:', respC.body)
-
-
-	nextUrl = respC.headers.location
-
-	let respD = await request.get({
-		url: nextUrl,
-		jar: cookieJar,
-		followRedirect: false,
-		simple: false,
-		headers: {
-			'User-Agent': ua,
-		}
-	})
-
-
-	macros.verbose('DStatus code:', respD.statusCode)
-	macros.verbose('DRecieved headers:', respD.headers)
-	macros.verbose('DCookie jar:', cookieJar)
-	macros.verbose('DGot body:', respD.body)
-
-
-
-	nextUrl = respD.headers.location
-
-	let respE = await request.get({
-		url: nextUrl,
-		jar: cookieJar,
-		followRedirect: false,
-		simple: false,
-		headers: {
-			'User-Agent': ua,
-		}
-	})
-
-
-	macros.verbose('EStatus code:', respE.statusCode)
-	macros.verbose('ERecieved headers:', respE.headers)
-	macros.verbose('ECookie jar:', cookieJar)
-	macros.verbose('EGot body:', respE.body)
+  let nextUrl;
 
 
 	// This page returns a 200 with a form on it with stuff pre-filled in
