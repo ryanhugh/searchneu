@@ -1,2 +1,2 @@
 
-*.html linguist-vendored
+data/**/*.html linguist-vendored
