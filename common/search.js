@@ -125,6 +125,14 @@ class Search {
 
     // Clear out any cache that has not been used in over a day.
     for (const key of keys) {
+
+      // the .time check was failing (cannot read .time of undefined) in some really weird cases...
+      // not totally sure why but it is an easy fix. 
+      // https://rollbar.com/ryanhugh/searchneu/items/32/ 
+      // and noticed a bunch of times in dev too. 
+      if (!this.refCache[key]) {
+        continue;
+      }
       if (this.refCache[key].time < dayAgo) {
         this.refCache[key] = undefined;
       }
