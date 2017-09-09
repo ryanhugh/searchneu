@@ -83,7 +83,7 @@ class Macros extends commonMacros {
       email = `${email.split('@')[0]}@northeastern.edu`;
     }
 
-    return email.toLowerCase();
+    return email.toLowerCase().trim();
   };
 
 
