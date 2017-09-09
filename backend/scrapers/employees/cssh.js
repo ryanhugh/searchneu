@@ -68,8 +68,8 @@ class Cssh {
     emailElement = $(emailElement);
 
     // Parse both the email it is linked to and the email that is displayed to ensure they are the same.
-    const mailto = macros.standardizeEmail(emailElement.attr('href')).trim();
-    const email = macros.standardizeEmail(emailElement.text().trim()).trim();
+    const mailto = macros.standardizeEmail(emailElement.attr('href'));
+    const email = macros.standardizeEmail(emailElement.text().trim());
 
     // If they are different, log a warning and skip this email.
     if ((mailto || email) && mailto !== email) {
