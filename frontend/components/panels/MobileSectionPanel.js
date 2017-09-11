@@ -69,13 +69,17 @@ class MobileSectionPanel extends React.Component {
     // Add a row for exam, if the section has an exam.
     let examRow = null;
     if (this.props.section.getHasExam()) {
-      const examMoments = this.props.section.getExamMoments();
-      if (examMoments) {
+      const examMeeting = this.props.section.getExamMeeting();
+      if (examMeeting) {
+        let examDayMoment = examMeeting.endDate
+        let examTimeMoment = examMeeting.times[0][0].start
+
+
         examRow = (
           <tr>
             <td className={ css.firstColumn }>Exam</td>
             <td className={ css.secondColumn }>
-              {examMoments.start.format('MMMM Do @ h:mm a')}
+              {examDayMoment.format('MMMM Do @ ') + examTimeMoment.format('h:mm a')}
             </td>
           </tr>
       );
