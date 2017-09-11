@@ -134,8 +134,16 @@ class DesktopClassPanel extends BaseClassPanel {
 
               // If it is online, just put one super wide cell
               if (section.online) {
+
+                // How many cells to span
+                // need to span more cells if final exam columns are being shown. 
+                let length = 4;
+                if (aClass.sectionsHaveExam()) {
+                  length = 7
+                }
+
                 tdElements.push(
-                  <td key="onlineWideCell" colSpan="4" className={css.wideOnlineCell}>
+                  <td key="onlineWideCell" colSpan={length} className={css.wideOnlineCell}>
                     <span className={css.onlineDivLineContainer}>
                       <span className = {css.onlineDivLine +' ' + css.onlineLeftLine}></span>
                       <span className= {css.onlineText}>Online Class</span>
