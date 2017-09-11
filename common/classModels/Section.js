@@ -133,12 +133,12 @@ Section.prototype.getHasExam = function () {
 
 //returns the {start:end:} moment object of the first exam found
 //else returns null
-Section.prototype.getExamMoments = function () {
+Section.prototype.getExamMeeting = function () {
 	for (var i = 0; i < this.meetings.length; i++) {
 		var meeting = this.meetings[i]
 		if (meeting.getIsExam()) {
 			if (meeting.times.length > 0) {
-				return meeting.times[0][0];
+				return meeting;
 			};
 		};
 	};

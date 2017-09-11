@@ -94,12 +94,6 @@ Meeting.prototype.getBuilding = function () {
 	return this.where.replace(/\d+\s*$/i, '').trim()
 };
 
-Meeting.prototype.getIsExam = function () {
-
-	// this could be improved by scraping more data...
-	return meeting.startDate == meeting.endDate;
-};
-
 Meeting.prototype.getHoursPerWeek = function () {
 
 	var retVal = 0;
@@ -154,6 +148,7 @@ Meeting.prototype.getIsHidden = function () {
 };
 
 Meeting.prototype.getIsExam = function () {
+	// this could be improved by scraping more data...
 	if (this.startDate.unix() == this.endDate.unix()) {
 		return true;
 	}
