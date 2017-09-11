@@ -361,7 +361,7 @@ class Request {
 
     const listOfConfigOptions = Object.keys(config)
 
-    _.pull(listOfConfigOptions, 'method', 'headers', 'url', 'requiredInBody', 'cacheName', 'jar')
+    _.pull(listOfConfigOptions, 'method', 'headers', 'url', 'requiredInBody', 'cacheName', 'jar', 'cache')
 
     if (listOfConfigOptions.length > 0) {
       macros.log('Not caching by url b/c it has other config options', listOfConfigOptions)
