@@ -19,6 +19,13 @@ const request = new Request('psylink');
 
 class Psylink {
   
+  constructor() {
+    
+    
+    this.lastData = {}
+    
+  }
+  
   async login () {
     
     let username = await macros.getEnvVariable('psylinkUsername')
@@ -36,13 +43,20 @@ class Psylink {
     let theCookie = cookie.parse(response.headers['set-cookie'][0]);
     
     
+    return theCookie.PHPSESSID
     
+  }
+  
+  async scrape () {
+    
+    let theCookie = await this.login()
+  
     // Hit the list of avalible studies. 
     let resp2 = await request.get({
       url: 'http://psylink.psych.neu.edu/main.php?item=1',
       simple: false,
       headers: {
-        Cookie: 'PHPSESSID=' + theCookie.PHPSESSID
+        Cookie: 'PHPSESSID=' + theCookie
       }})
       
     // console.log(resp2.body)
@@ -67,30 +81,47 @@ class Psylink {
       row.labphone = output.tableData.labphone[i]
       row.expdescrip = output.tableData.expdescrip[i]
       row.expnotes = output.tableData.expnotes[i]
+      
+      
+      row.hash = row.date + row.time
+      
       retVal.push(row)
     }
     
-    return retVal;
+    // console.log(JSON.stringify(retVal, null, 4))
     
-    // return theCookie.PHPSESSID
+    return retVal;
     
   }
   
   
   
-  async getExperiments() {
+  // NEED a way to load up this.lastData initially
+  
+  async onInterval() {
     
-    let theCookie = this.login();
     
-    // let response = await request.get({
-    //   url: 'http://psylink.psych.neu.edu/main.php?item=1',
-    //   headers: {
-    //     Cookie: 'PHPSESSID=' + theCookie
-    //   }
-    // })
     
-    // console.log(response.body)
     
+    let thisData = this.scrape()
+    
+    let lastData = this.lastData
+    
+    let newData = {}
+    
+    for (let row of thisData) {
+      newData[row.hash] = row
+      if (lastData[row.hash]) {
+        continue;
+      }
+      
+      // Got a new lab!
+      console.log('got a new lab!!!')
+      
+    }
+    
+    this.lastData = newData;
+
     
   }
   
