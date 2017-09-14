@@ -6,6 +6,7 @@ import baseParser from '../classes/parsers/baseParser'
 import Request from '../request';
 import macros from '../../macros';
 import cache from '../cache';
+import notifyer from '../notifyer'
 
 const request = new Request('psylink');
 
@@ -112,6 +113,8 @@ class Psylink {
       if (sendNotifications) {
         // Got a new lab!
         console.log('got a new lab!!!')
+        
+        this.sendFBNotification('1397905100304615', "New lab!" + row.date + " " + row.time + '\n http://psylink.psych.neu.edu/login.php')
       }
     }
     
