@@ -15,10 +15,15 @@ import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 import notifyer from './notifyer'
+import psylink from './scrapers/psylink/psylink'
 
 const request = new Request('server');
 
 const app = express();
+
+
+// Start watching for new labs
+psylink.startWatch();
 
 // gzip the output
 app.use(compress()); 

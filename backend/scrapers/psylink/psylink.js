@@ -6,7 +6,7 @@ import baseParser from '../classes/parsers/baseParser'
 import Request from '../request';
 import macros from '../../macros';
 import cache from '../cache';
-import notifyer from '../notifyer'
+import notifyer from '../../notifyer'
 
 const request = new Request('psylink');
 
@@ -98,7 +98,9 @@ class Psylink {
   
   async onInterval(sendNotifications = true) {
     
-    let thisData = this.scrape()
+    let thisData = await this.scrape()
+    
+    console.log("Scraped. Got ", thisData.length, 'labs')
     
     let lastData = this.lastData
     
@@ -110,11 +112,11 @@ class Psylink {
         continue;
       }
       
-      if (sendNotifications) {
+      if (1 || sendNotifications) {
         // Got a new lab!
         console.log('got a new lab!!!')
         
-        this.sendFBNotification('1397905100304615', "New lab!" + row.date + " " + row.time + '\n http://psylink.psych.neu.edu/login.php')
+        notifyer.sendFBNotification('1397905100304615', "New lab!" + row.date + " " + row.time + '\n http://psylink.psych.neu.edu/login.php')
       }
     }
     
@@ -130,7 +132,7 @@ class Psylink {
     this.onInterval(false);
     
     // 5 Min in ms
-    this.setInterval(this.onInterval.bind(this), 300000);
+    setInterval(this.onInterval.bind(this), 300000);
   }
   
   main() {
