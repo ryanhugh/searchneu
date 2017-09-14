@@ -112,7 +112,7 @@ class Psylink {
         continue;
       }
       
-      if (1 || sendNotifications) {
+      if (sendNotifications) {
         // Got a new lab!
         console.log('got a new lab!!!')
         
@@ -127,6 +127,10 @@ class Psylink {
   
   
   startWatch() {
+    
+    if (!macros.PROD) {
+      return;
+    }
     
     // Run once to get initial state
     this.onInterval(false);
