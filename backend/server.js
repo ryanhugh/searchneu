@@ -14,6 +14,7 @@ import Request from './scrapers/request';
 import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
+import notifyer from './notifyer'
 
 const request = new Request('server');
 
@@ -204,30 +205,6 @@ app.get('/search', wrap(async (req, res) => {
 
 
 
-// Webhook to respond to facebook messages. 
-async function sendTextMessage(sender, text) {
-    console.log("Sending a fb message to ", sender, text)
-    let messageData = { text:text }
-    
-    let token = await macros.getEnvVariable('fbToken')
-    request.post({
-	    url: 'https://graph.facebook.com/v2.6/me/messages',
-	    qs: {access_token:token},
-	    method: 'POST',
-		json: {
-		    recipient: {id:sender},
-			message: messageData,
-		}
-	}, function(error, response, body) {
-		if (error) {
-		    macros.log('Error sending messages: ', error)
-		} else if (response.body.error) {
-		    macros.log('Error: ', response.body.error)
-	    }
-    })
-}
-
-
 // for Facebook verification of the endpoint.
 app.get('/webhook/', async function (req, res) {
         macros.log(req.query);
@@ -253,10 +230,10 @@ app.post('/webhook/', function (req, res) {
 		    let text = event.message.text
 		    
 		    if (text === 'test') {
-  		    sendTextMessage(sender, "CS 1800 now has 1 seat avalible!! Check it out on https://searchneu.com/cs1800 !");
+  		    notifyer.sendFBNotification(sender, "CS 1800 now has 1 seat avalible!! Check it out on https://searchneu.com/cs1800 !");
 		    }
 		    else {
-  		    sendTextMessage(sender, "Yo! 👋😃😆 I'm the Search NEU bot. Someday, I will notify you when seats open up in classes that are full. 😎👌🍩 But that day is not today...");
+  		    notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. Someday, I will notify you when seats open up in classes that are full. 😎👌🍩 But that day is not today...");
 		    }
 	    }
     }
