@@ -95,13 +95,7 @@ class Psylink {
   }
   
   
-  
-  // NEED a way to load up this.lastData initially
-  
-  async onInterval() {
-    
-    
-    
+  async onInterval(sendNotifications = true) {
     
     let thisData = this.scrape()
     
@@ -115,14 +109,25 @@ class Psylink {
         continue;
       }
       
-      // Got a new lab!
-      console.log('got a new lab!!!')
-      
+      if (sendNotifications) {
+        // Got a new lab!
+        console.log('got a new lab!!!')
+      }
     }
     
     this.lastData = newData;
 
     
+  }
+  
+  
+  startWatch() {
+    
+    // Run once to get initial state
+    this.onInterval(false);
+    
+    // 5 Min in ms
+    this.setInterval(this.onInterval.bind(this), 300000);
   }
   
   main() {
