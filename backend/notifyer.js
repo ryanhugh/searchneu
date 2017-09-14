@@ -18,7 +18,6 @@ class Notifyer {
       let messageData = { text:text }
       
       let token = await macros.getEnvVariable('fbToken')
-      console.log(token)
       
       request.post({
   	    url: 'https://graph.facebook.com/v2.6/me/messages',
@@ -52,11 +51,6 @@ class Notifyer {
   
   
   main() {
-    
-    // 1397905100 = me
-    
-    // 1397905100
-    
     
     this.sendFBNotification('1397905100304615', "test notification")
   }
