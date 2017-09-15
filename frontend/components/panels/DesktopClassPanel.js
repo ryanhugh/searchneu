@@ -87,6 +87,7 @@ class DesktopClassPanel extends BaseClassPanel {
           <th key='1'>Exam start</th>,
           <th key='2'>Exam end</th>,
           <th key='3'>Exam date</th>,
+          <th key='4'>Exam location</th>,
         ];
       }
 
@@ -108,8 +109,8 @@ class DesktopClassPanel extends BaseClassPanel {
               <th> Weekdays </th>
               <th> Start </th>
               <th> End </th>
-              {examColumnHeaders}
               <th> Location </th>
+              {examColumnHeaders}
               <th> Seats </th>
 
               <th
@@ -139,7 +140,7 @@ class DesktopClassPanel extends BaseClassPanel {
                 // need to span more cells if final exam columns are being shown. 
                 let length = 4;
                 if (aClass.sectionsHaveExam()) {
-                  length = 7
+                  length = 8
                 }
 
                 tdElements.push(
@@ -156,6 +157,7 @@ class DesktopClassPanel extends BaseClassPanel {
                 tdElements.push(<td key="weekDayBoxes"> <WeekdayBoxes section={ section } /> </td>)
                 tdElements.push(<td key="startTimes">{section.getUniqueStartTimes().join(', ')}</td>)
                 tdElements.push(<td key="endTimes">{section.getUniqueEndTimes().join(', ')}</td>)
+                tdElements.push(<td key="locationLinks"> <LocationLinks section={ section } /> </td>);
 
                 // If there are exams, fill in those cells too
                 // Calculate the exam elements in each row
@@ -165,14 +167,16 @@ class DesktopClassPanel extends BaseClassPanel {
                     tdElements.push(<td key='exam1'>{examMeeting.times[0][0].start.format('h:mm a')}</td>)
                     tdElements.push(<td key='exam2'>{examMeeting.times[0][0].end.format('h:mm a')}</td>)
                     tdElements.push(<td key='exam3'>{examMeeting.endDate.format('MMM Do')}</td>)
+                    tdElements.push(<td key='exam4'>{examMeeting.where}</td>)
                   } else {
-                    tdElements.push(<td key='exam4'></td>)
                     tdElements.push(<td key='exam5'></td>)
                     tdElements.push(<td key='exam6'></td>)
+                    tdElements.push(<td key='exam7'></td>)
+                    tdElements.push(<td key='exam8'></td>)
                   }
                 }
 
-                tdElements.push(<td key="locationLinks"> <LocationLinks section={ section } /> </td>);
+                
               }
 
 
