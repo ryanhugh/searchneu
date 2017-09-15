@@ -73,6 +73,22 @@ class DesktopClassPanel extends BaseClassPanel {
     // If there are plenty of seats left, don't show the waitlist
     return false;
   }
+  
+  // Create the 4:35 - 5:40 pm string.
+  // This was copied from mobile section panel.js
+  // TODO: deduplicate
+  getTimeStingFromMeetings(meetingMoments) {
+    const times = [];
+    meetingMoments.forEach((time) => {
+      const startString = time.start.format('h:mm');
+      const endString = time.end.format('h:mm a');
+      const combinedString = `${startString} - ${endString}`;
+      if (!times.includes(combinedString)) {
+        times.push(combinedString);
+      }
+    });
+    return times.join(', ')
+  }
 
   render() {
     const aClass = this.props.aClass;
@@ -84,8 +100,7 @@ class DesktopClassPanel extends BaseClassPanel {
       let examColumnHeaders = null;
       if (aClass.sectionsHaveExam()) {
         examColumnHeaders = [
-          <th key='1'>Exam start</th>,
-          <th key='2'>Exam end</th>,
+          <th key='1'>Exam time</th>,
           <th key='3'>Exam date</th>,
           <th key='4'>Exam location</th>,
         ];
@@ -107,8 +122,8 @@ class DesktopClassPanel extends BaseClassPanel {
               </th>
               <th> Professors </th>
               <th> Weekdays </th>
-              <th> Start </th>
-              <th> End </th>
+              <th> Time </th>
+              
               <th> Location </th>
               {examColumnHeaders}
               <th> Seats </th>
@@ -138,9 +153,9 @@ class DesktopClassPanel extends BaseClassPanel {
 
                 // How many cells to span
                 // need to span more cells if final exam columns are being shown. 
-                let length = 4;
+                let length = 3;
                 if (aClass.sectionsHaveExam()) {
-                  length = 8
+                  length = 6
                 }
 
                 tdElements.push(
@@ -154,9 +169,22 @@ class DesktopClassPanel extends BaseClassPanel {
               
               // Have individual cells for the different columns
               } else {
+              
+              
+                
+                const meetingMoments = section.getAllMeetingMoments();
+                let meetingStrings = this.getTimeStingFromMeetings(meetingMoments);
+                
+                const examMeeting = section.getExamMeeting();
+                 
+                let examTimeString = null;
+                if (examMeeting) {
+                  examTimeString = this.getTimeStingFromMeetings(examMeeting.times[0]);
+                }
+                
+              
                 tdElements.push(<td key="weekDayBoxes"> <WeekdayBoxes section={ section } /> </td>)
-                tdElements.push(<td key="startTimes">{section.getUniqueStartTimes().join(', ')}</td>)
-                tdElements.push(<td key="endTimes">{section.getUniqueEndTimes().join(', ')}</td>)
+                tdElements.push(<td key="times">{meetingStrings}</td>)
                 tdElements.push(<td key="locationLinks"> <LocationLinks section={ section } /> </td>);
 
                 // If there are exams, fill in those cells too
@@ -164,8 +192,8 @@ class DesktopClassPanel extends BaseClassPanel {
                 if (aClass.sectionsHaveExam()) {
                   const examMeeting = section.getExamMeeting();
                   if (examMeeting) {
-                    tdElements.push(<td key='exam1'>{examMeeting.times[0][0].start.format('h:mm a')}</td>)
-                    tdElements.push(<td key='exam2'>{examMeeting.times[0][0].end.format('h:mm a')}</td>)
+                    tdElements.push(<td key='exam1'>{examTimeString}</td>)
+                    //tdElements.push(<td key='exam2'>{examMeeting.times[0][0].end.format('h:mm a')}</td>)
                     tdElements.push(<td key='exam3'>{examMeeting.endDate.format('MMM Do')}</td>)
                     tdElements.push(<td key='exam4'>{examMeeting.where}</td>)
                   } else {
