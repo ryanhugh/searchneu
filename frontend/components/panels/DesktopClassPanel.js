@@ -270,8 +270,7 @@ class DesktopClassPanel extends BaseClassPanel {
               Corequisites: {this.getReqsString(false, aClass)}
             </div>
             <div className={ css.rightPanel }>
-              Updated {aClass.getLastUpdateString()}
-              <br />
+              <div data-tip="Check neu.edu for the most up-to-date info"> Updated {aClass.getLastUpdateString()}</div>
               {creditsString}
             </div>
           </div>
