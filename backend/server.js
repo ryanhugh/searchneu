@@ -271,10 +271,6 @@ if (macros.DEV) {
 
 app.use(express.static('public'));
 
-app.get('/sw.js', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'sw.js'));
-});
-
 // Google Search Console Site Verification. 
 // I could make this a static file... but it is never going to change so though this would be easier. 
 // If this is removed, the domain will no longer be verified with Google. 
