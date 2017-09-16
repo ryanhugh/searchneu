@@ -131,6 +131,7 @@ class Psylink {
     if (!macros.PROD) {
       return;
     }
+    return;
     
     // Run once to get initial state
     this.onInterval(false);
