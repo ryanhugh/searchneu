@@ -169,9 +169,7 @@ class DesktopClassPanel extends BaseClassPanel {
               
               // Have individual cells for the different columns
               } else {
-              
-              
-                
+  
                 const meetingMoments = section.getAllMeetingMoments();
                 let meetingStrings = this.getTimeStingFromMeetings(meetingMoments);
                 
