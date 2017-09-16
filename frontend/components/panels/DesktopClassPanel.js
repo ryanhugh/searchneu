@@ -191,14 +191,12 @@ class DesktopClassPanel extends BaseClassPanel {
                   const examMeeting = section.getExamMeeting();
                   if (examMeeting) {
                     tdElements.push(<td key='exam1'>{examTimeString}</td>)
-                    //tdElements.push(<td key='exam2'>{examMeeting.times[0][0].end.format('h:mm a')}</td>)
                     tdElements.push(<td key='exam3'>{examMeeting.endDate.format('MMM Do')}</td>)
                     tdElements.push(<td key='exam4'>{examMeeting.where}</td>)
                   } else {
                     tdElements.push(<td key='exam5'></td>)
                     tdElements.push(<td key='exam6'></td>)
                     tdElements.push(<td key='exam7'></td>)
-                    tdElements.push(<td key='exam8'></td>)
                   }
                 }
 
