@@ -63,11 +63,7 @@ Section.prototype.meetsOnWeekends = function () {
 	return false;
 }
 
-Section.prototype.getAllMeetingMoments = function (ignoreExams) {
-	if (ignoreExams === undefined) {
-		ignoreExams = true;
-	};
-
+Section.prototype.getAllMeetingMoments = function (ignoreExams = true) {
 
 	var retVal = [];
 	this.meetings.forEach(function (meeting) {

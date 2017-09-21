@@ -11,7 +11,7 @@
     "build_frontend": "mkdir -p public; cp frontend/static/* public/; cross-env NODE_ENV=prod babel-node ./node_modules/webpack/bin/webpack.js --config ./backend/webpack.config.babel.js --profile --colors",
     "build_backend": "mkdir -p backend_compiled; ./node_modules/babel-cli/bin/babel.js backend -d backend_compiled",
     "build": "npm run build_backend; npm run build_frontend",
-    "start_prod": "sudo setcap 'cap_net_bind_service=+ep' $(which nodejs); ./node_modules/forever/bin/forever stopall; NODE_ENV=prod ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start backend_compiled/startup.js"
+    "start_prod": "sudo setcap 'cap_net_bind_service=+ep' $(which nodejs); sudo setcap 'cap_net_bind_service=+ep' $(which node); ./node_modules/forever/bin/forever stopall; NODE_ENV=prod ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start backend_compiled/startup.js"
   },
   "babel": {
     "presets": [
