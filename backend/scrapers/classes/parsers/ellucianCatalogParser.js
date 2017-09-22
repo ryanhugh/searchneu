@@ -187,6 +187,11 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     // This is the raw JSON data from the catalog page. No wrapper object with type and value.
     const catalogData = this.parse(resp.body, url);
 
+    // There was an error parsing the catalog data. 
+    if (!catalogData) {
+      return null;
+    }
+
     // This is a list of class wrapper objects that have deps of sections
     const classListData = await ellucianClassParser.main(catalogData.url, catalogData.name);
 

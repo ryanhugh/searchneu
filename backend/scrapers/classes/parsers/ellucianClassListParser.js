@@ -57,6 +57,8 @@ class EllucianClassListParser extends EllucianBaseParser.EllucianBaseParser {
       return ellucianCatalogParser.main(catalogUrl);
     }));
 
+    // If there were any errors and ellucianCatalogParser.main returned null, continue. 
+    _.pull(classesObjects, null)
 
     // So the catalog parser returns a list of classes it found at that catalog url.
     // So flatten the array to just have a list of classes
