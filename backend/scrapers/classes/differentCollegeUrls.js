@@ -42,7 +42,7 @@
 //     They mentioned that they have some way of getting subdomains though. Looks like it just spiders the site, which can totally work.
 //     Some sites have robots.txt set to deny so Google and Bing do not spider it.
 
-// The spiders were re-written over the summer of 2017 and MongoDB is no longer involved so any scraping before that should be at least 4x faster. 
+// The spiders were re-written over the summer of 2017 and MongoDB is no longer involved. Any scraping should Summer 2017 now be at least 4x faster!
 
  module.exports = ['https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_dyn_sched', //works
    'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched', //works
