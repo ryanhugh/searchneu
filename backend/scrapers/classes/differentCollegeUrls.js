@@ -42,6 +42,8 @@
 //     They mentioned that they have some way of getting subdomains though. Looks like it just spiders the site, which can totally work.
 //     Some sites have robots.txt set to deny so Google and Bing do not spider it.
 
+// The spiders were re-written over the summer of 2017 and MongoDB is no longer involved so any scraping before that should be at least 4x faster. 
+
  module.exports = ['https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_dyn_sched', //works
    'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched', //works
    'https://sisssb.clemson.edu/sisbnprd/bwckschd.p_disp_dyn_sched', //works
@@ -92,8 +94,8 @@
    'https://infobear.bridgew.edu/BANP/bwckschd.p_disp_dyn_sched',
    'https://new-sis-app.sph.harvard.edu:9010/prod/bwckschd.p_disp_dyn_sched', // This is Harvard's School of public health, not the Undergraduate College.
    'https://novasis.villanova.edu/pls/bannerprd/bwckschd.p_disp_dyn_sched',
-   'https://www.bannerssb.bucknell.edu/ERPPRD/bwckschd.p_disp_dyn_sched',
-   'https://banweb.gwu.edu/PRODCartridge/bwckschd.p_disp_dyn_sched'
+   'https://www.bannerssb.bucknell.edu/ERPPRD/bwckschd.p_disp_dyn_sched', // take 8 min. Sept 21st. 2017
+   'https://banweb.gwu.edu/PRODCartridge/bwckschd.p_disp_dyn_sched' // Takes 18min Sept 22 2017
  ];
 
 // https://ssb.vcu.edu/proddad/bwckschd.p_disp_dyn_sched
