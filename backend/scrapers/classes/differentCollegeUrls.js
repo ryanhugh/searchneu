@@ -92,7 +92,8 @@
    'https://infobear.bridgew.edu/BANP/bwckschd.p_disp_dyn_sched',
    'https://new-sis-app.sph.harvard.edu:9010/prod/bwckschd.p_disp_dyn_sched', // This is Harvard's School of public health, not the Undergraduate College.
    'https://novasis.villanova.edu/pls/bannerprd/bwckschd.p_disp_dyn_sched',
-   'https://www.bannerssb.bucknell.edu/ERPPRD/bwckschd.p_disp_dyn_sched'
+   'https://www.bannerssb.bucknell.edu/ERPPRD/bwckschd.p_disp_dyn_sched',
+   'https://banweb.gwu.edu/PRODCartridge/bwckschd.p_disp_dyn_sched'
  ];
 
 // https://ssb.vcu.edu/proddad/bwckschd.p_disp_dyn_sched
