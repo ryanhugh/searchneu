@@ -167,8 +167,6 @@ class Main {
 
 
     // Find the name of the college (neu.edu -> Northeastern University)
-    // This is the first of the efforts to rewrite the old es5 code to es6,
-    // and remove a lot of the uncessecary logic
     const host = macros.getBaseHost(url);
     const collegeNamePromise = collegeNamesParser.main(host);
 
@@ -225,7 +223,7 @@ class Main {
 const instance = new Main();
 
 if (require.main === module) {
-  instance.main(['gwu']);
+  instance.main(['neu']);
 }
 
 export default instance;
