@@ -71,6 +71,10 @@ class Macros extends commonMacros {
   // Removes a 'mailto:' from the beginning
   // Ensures the email contains a @
   static standardizeEmail(email) {
+    if (!email) {
+      return null;
+    }
+
     if (email.startsWith('mailto:')) {
       email = email.slice('mailto:'.length);
     }
@@ -88,6 +92,10 @@ class Macros extends commonMacros {
 
 
   static standardizePhone(phone) {
+    if (!phone) {
+      return null;
+    }
+    
     phone = phone.trim();
 
     if (phone.startsWith('tel:')) {
