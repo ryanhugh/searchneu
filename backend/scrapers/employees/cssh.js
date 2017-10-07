@@ -32,7 +32,14 @@ class Cssh {
     const $ = cheerio.load(resp.body);
 
     // Scrape the name from a h1
-    obj.name = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > h1').text().trim();
+    let name = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > h1').text()
+    if (name) {
+      obj.name = name.trim();
+    }
+    else {
+      obj.name = ''
+      macros.error("Could not scrape prof name.", url)
+    }
 
     // Parse the first name and the last name from the given name
     const { firstName, lastName } = macros.parseNameWithSpaces(obj.name);
@@ -43,12 +50,24 @@ class Cssh {
     }
 
     // Scrape the picture of the prof
-    obj.image = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > img.headshot').attr('src').trim();
+    let image = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > img.headshot').attr('src')
+    if (image) {
+      obj.image = image.trim();
+    }
+    else {
+      macros.log("Could not scrape image.", url)
+    }
 
     // Job Title
     // "Assistant Professor Sociology and Health Science"
-    const primaryRole = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > div.fac-single-title').text().trim().split(';')[0];
-    obj.primaryRole = primaryRole.replace(/\s+/gi, ' ');
+    let primaryRole = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > div.fac-single-title').text()
+    if (primaryRole) {
+      primaryRole = primaryRole.trim().split(';')[0];
+      obj.primaryRole = primaryRole.replace(/\s+/gi, ' ');
+    }
+    else {
+      macros.log('Could not scrape job title', url)
+    }
 
     // Parse out the email.
     const emailElements = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > p > a');
@@ -58,7 +77,7 @@ class Cssh {
       const element = emailElements[i];
       if (element.attribs.href.startsWith('mailto')) {
         if (emailElement) {
-          console.log('Error, already saw a email element');
+          macros.log('Error, already saw a email element');
         } else {
           emailElement = element;
         }
@@ -73,7 +92,7 @@ class Cssh {
 
     // If they are different, log a warning and skip this email.
     if ((mailto || email) && mailto !== email) {
-      console.log('Warning; mailto !== email, skipping', mailto, email, 'done yo');
+      macros.log('Warning; mailto !== email, skipping', mailto, email, 'done yo');
     } else if (mailto === email && email) {
       // If they are the same and they are not an empty string or undefined, keep the email.
       obj.emails = [email];
@@ -109,7 +128,7 @@ class Cssh {
 
         // The phone number is under the contact field
         else if (category === 'Contact:') {
-          console.log(element.data.trim(), 'phone??');
+          macros.log(element.data.trim(), 'phone??');
         }
       }
 
@@ -119,14 +138,14 @@ class Cssh {
         if (element.name === 'h4') {
           // If an h4 element but not a category, log an error
           if (element.children.length !== 1 || element.children[0].type !== 'text') {
-            console.log('error finding category text', element.children);
+            macros.log('error finding category text', element.children);
             continue;
           }
 
           // Ensure that its children is valid too.
           const h4Text = element.children[0].data.trim();
           if (h4Text.length < 0) {
-            console.log('Found h4 with no text?', element.children);
+            macros.log('Found h4 with no text?', element.children);
             continue;
           }
 
@@ -190,7 +209,7 @@ class Cssh {
 
     if (macros.DEV) {
       await cache.set('dev_data', this.constructor.name, 'main', people);
-      console.log('cssh file saved!');
+      macros.log('cssh file saved!');
     }
 
     return people;
