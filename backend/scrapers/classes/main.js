@@ -1,10 +1,12 @@
 import fs from 'fs-promise';
 import _ from 'lodash';
 import URI from 'urijs';
+import moment from 'moment';
 
 import cache from '../cache';
 import macros from '../../macros';
 import Keys from '../../../common/Keys';
+import Section from '../../../common/classModels/Section'
 import searchIndex from './searchIndex';
 import termDump from './termDump';
 import differentCollegeUrls from './differentCollegeUrls';
@@ -139,6 +141,147 @@ class Main {
     return urlsToProcess;
   }
 
+  getSemesterlySchema(dump) {
+    let result = []      
+    let meetings = []
+
+    let subjectMap = {}
+    for (let subject of dump.subjects) {
+      subjectMap[subject.subject] = subject.text
+    }
+
+
+    let classMap = {}
+    for (let aClass of dump.classes) {
+      classMap[aClass.classUid] = aClass
+    }
+
+    //  Questions: do they support corequisites?
+    for (let aClass of dump.classes) {
+      if (aClass.host !== 'neu.edu') {
+        continue;
+      }
+
+      result.push({
+        kind: 'course',
+        code: aClass.subject + ' ' + aClass.classId,
+        credits: aClass.maxCredits,
+        department: {
+          code: aClass.subject,
+          name: subjectMap[aClass.subject]
+        },
+        name: aClass.name,
+        prerequisites: [''], // todo
+        description: aClass.desc,
+        school: {
+          'code': 'gw'
+        }
+      })
+    }
+
+
+    for (let section of dump.sections) {
+      if (section.host !== 'neu.edu') {
+        continue;
+      }
+
+      let instance = Section.create(section)
+      instance.getAllMeetingMoments()
+      debugger;
+
+
+      let professors = instance.getProfs()
+      let code = section.subject + ' ' + section.classId
+
+      if (section.meetings) {
+        for (let meeting of section.meetings) {
+
+          let meetingDays = []
+          const dayCodes = ["M", "T", "W", "R", "F", "S", "U"]
+
+          if (meeting.times) {
+            const days = Object.keys(meeting.times)
+
+            for (let int of days) {
+              meetingDays.push(dayCodes[int])
+            }
+          }
+
+          if (meetingDays.length === 0) {
+            continue;
+          }
+
+          event.end * 1000
+
+
+          meetings.push({
+            kind: 'meeting',
+            course: {
+              code: code
+            },
+            days: meetingDays,
+            location: {
+              where: meeting.where
+            },
+            section: {
+              code: section.crn,
+              term: section.termId,
+              year: '2017'
+            },
+            time: {
+              start: '08:00', // todo
+              end: '09:00' // todo
+            }
+          })
+
+        }
+      }
+
+      professors = _.uniq(professors)
+
+      professors = professors.map(function (name) {
+        return {
+          name: name
+        }
+      })
+
+      result.push({
+        capacity: section.seatsCapacity,
+        code: section.crn,
+        course: {
+          code: code
+        },
+        enrollment: section.seatsCapacity - section.seatsRemaining,
+        instructors: professors,
+        year: '2017',
+        kind: 'section',
+        term: section.termId
+      })
+    }
+
+
+
+    let retVal = {
+      "$data": result.concat(meetings),
+       "$meta": {
+        "$schools": {
+          "gw": {
+            "2017": [
+              "201730",
+              "201740",
+              "201750",
+              "201760",
+              "201810"
+            ]
+          }
+        },
+        "$timestamp": 1504757352.946159
+      }
+    }
+
+    return retVal;
+  }
+
 
   async main(collegeAbbrs) {
     if (!collegeAbbrs) {
@@ -206,6 +349,13 @@ class Main {
     // Add new processors here.
     simplifyProfList.go(dump);
 
+    let semesterlySchema = this.getSemesterlySchema(dump);
+
+    let semesterlyString = JSON.stringify(semesterlySchema, null, 4)
+    await fs.writeFile('courses.json', semesterlyString)
+    console.log('saved gw data')
+
+
 
     await searchIndex.main(dump);
     await termDump.main(dump);
@@ -213,6 +363,7 @@ class Main {
 
     if (macros.DEV) {
       await cache.set('dev_data', 'classes', cacheKey, dump);
+      await cache.set('dev_data', 'semesterly', cacheKey, semesterlySchema);
       macros.log('classes file saved for', collegeAbbrs, '!');
     }
 
