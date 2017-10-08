@@ -243,7 +243,7 @@ class Main {
                 },
                 section: {
                   code: section.crn,
-                  term: 'Fall',
+                  term: section.termId,
                   year: '2017'
                 },
                 time: {
@@ -278,7 +278,7 @@ class Main {
         instructors: professors,
         year: '2017',
         kind: 'section',
-        term: 'Fall'
+        term: section.termId
       })
     }
 
@@ -298,7 +298,7 @@ class Main {
             ]
           }
         },
-        "$timestamp": 1504757352.946159
+        "$timestamp": Date.now()/1000
       }
     }
 
