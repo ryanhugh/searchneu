@@ -161,6 +161,11 @@ class Main {
       if (aClass.host !== 'neu.edu') {
         continue;
       }
+      
+      // Skip all the other terms for now too
+      if (aClass.termId !== '201810') {
+        continue;
+      }
 
       result.push({
         kind: 'course',
@@ -172,7 +177,7 @@ class Main {
         },
         name: aClass.name,
         prerequisites: [''], // todo
-        description: aClass.desc,
+        description: aClass.termId + aClass.desc,
         school: {
           'code': 'neu'
         }
@@ -181,7 +186,14 @@ class Main {
 
 
     for (let section of dump.sections) {
+
+      // Skip all the neu.edu/law and neu.edu/cps for now
       if (section.host !== 'neu.edu') {
+        continue;
+      }
+
+      // Skip all the other terms for now too
+      if (section.termId !== '201810') {
         continue;
       }
 
@@ -200,6 +212,11 @@ class Main {
 
       if (instance.meetings) {
         for (let meeting of instance.meetings) {
+
+          // TODO make this work
+          if (meeting.getIsExam()) {
+            continue;
+          }
 
           let times = _.flatten(meeting.times);
 
@@ -226,7 +243,7 @@ class Main {
                 },
                 section: {
                   code: section.crn,
-                  term: section.termId,
+                  term: 'Fall',
                   year: '2017'
                 },
                 time: {
@@ -261,7 +278,7 @@ class Main {
         instructors: professors,
         year: '2017',
         kind: 'section',
-        term: section.termId
+        term: 'Fall'
       })
     }
 
