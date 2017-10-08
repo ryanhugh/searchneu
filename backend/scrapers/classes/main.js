@@ -174,7 +174,7 @@ class Main {
         prerequisites: [''], // todo
         description: aClass.desc,
         school: {
-          'code': 'gw'
+          'code': 'neu'
         }
       })
     }
@@ -186,58 +186,64 @@ class Main {
       }
 
       let instance = Section.create(section)
-      instance.getAllMeetingMoments()
-      debugger;
-
 
       let professors = instance.getProfs()
       let code = section.subject + ' ' + section.classId
 
-      if (section.meetings) {
-        for (let meeting of section.meetings) {
+      // Semester.ly groups meetings by the start and end time of the meeting on each day of the week
+      // so we need to get a list of all the meetings for each section and then re-group them
+      // by start/end time
+      // The key for this is just start+end (eg. "08:0010:00" (army time))
+      let meetingsByStartEndTime = {}
 
-          let meetingDays = []
-          const dayCodes = ["M", "T", "W", "R", "F", "S", "U"]
+      const dayCodes = ["U", "M", "T", "W", "R", "F", "S"]
 
-          if (meeting.times) {
-            const days = Object.keys(meeting.times)
+      if (instance.meetings) {
+        for (let meeting of instance.meetings) {
 
-            for (let int of days) {
-              meetingDays.push(dayCodes[int])
+          let times = _.flatten(meeting.times);
+
+          for (let time of times) {
+            let start = time.start.format('HH:mm')
+            let end = time.end.format("HH:mm")
+            let dayOfWeek = parseInt(time.start.format('d'))
+
+            // Small sanity check
+            if (dayOfWeek !== parseInt(time.end.format('d'))) {
+              macros.error("Meeting ends on a different day than it starts?", instance.termId, instance.classUid, instance.subject)
             }
-          }
 
-          if (meetingDays.length === 0) {
-            continue;
-          }
-
-          event.end * 1000
-
-
-          meetings.push({
-            kind: 'meeting',
-            course: {
-              code: code
-            },
-            days: meetingDays,
-            location: {
-              where: meeting.where
-            },
-            section: {
-              code: section.crn,
-              term: section.termId,
-              year: '2017'
-            },
-            time: {
-              start: '08:00', // todo
-              end: '09:00' // todo
+            let key = start+end;
+            if (!meetingsByStartEndTime[key]) {
+              meetingsByStartEndTime[key] = {
+                kind: 'meeting',
+                course: {
+                  code: code
+                },
+                days: [],
+                location: {
+                  where: meeting.where
+                },
+                section: {
+                  code: section.crn,
+                  term: section.termId,
+                  year: '2017'
+                },
+                time: {
+                  start: start,
+                  end: end
+                }
+              }
             }
-          })
 
+            meetingsByStartEndTime[key].days.push(dayCodes[dayOfWeek])
+            meetingsByStartEndTime[key].days = _.uniq(meetingsByStartEndTime[key].days)
+          }
         }
       }
 
-      professors = _.uniq(professors)
+      // Add all the meetings
+      meetings = meetings.concat(Object.values(meetingsByStartEndTime))
 
       professors = professors.map(function (name) {
         return {
@@ -265,7 +271,7 @@ class Main {
       "$data": result.concat(meetings),
        "$meta": {
         "$schools": {
-          "gw": {
+          "neu": {
             "2017": [
               "201730",
               "201740",

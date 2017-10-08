@@ -5,3 +5,4 @@ backend_compiled
 sandbox.js
 public
 *.log
+courses.json
