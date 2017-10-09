@@ -105,7 +105,6 @@ class TermStartEndDate extends BaseProcessor.BaseProcessor {
 
     term.startDate = finalStartDate;
     term.endDate = finalEndDate;
-    macros.log(JSON.stringify(term, null, 4));
     return term;
   }
 

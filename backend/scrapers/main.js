@@ -25,7 +25,16 @@ if (process.env.TRAVIS && macros.DEV) {
 
 
 async function main() {
-  const promises = [matchEmployees.main(), classes.main(['neu'])];
+
+
+  let promises = []
+
+  promises.push(classes.main(['neu']))
+
+  // If not only scraping stuff for semesterly, scrape the employees too
+  if (!process.env.SEMESTERLY) {
+    promises.push(matchEmployees.main())
+  }
 
   await Promise.all(promises);
 

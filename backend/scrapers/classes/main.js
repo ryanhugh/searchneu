@@ -1,12 +1,10 @@
 import fs from 'fs-promise';
 import _ from 'lodash';
 import URI from 'urijs';
-import moment from 'moment';
 
 import cache from '../cache';
 import macros from '../../macros';
 import Keys from '../../../common/Keys';
-import Section from '../../../common/classModels/Section'
 import searchIndex from './searchIndex';
 import termDump from './termDump';
 import differentCollegeUrls from './differentCollegeUrls';
@@ -16,6 +14,7 @@ import addClassUids from './processors/addClassUids';
 import prereqClassUids from './processors/prereqClassUids';
 import termStartEndDate from './processors/termStartEndDate';
 import simplifyProfList from './processors/simplifyProfList';
+import semesterly from './processors/semesterly'
 
 // Parsers
 import collegeNamesParser from './parsers/collegeNamesParser';
@@ -141,170 +140,6 @@ class Main {
     return urlsToProcess;
   }
 
-  getSemesterlySchema(dump) {
-    let result = []      
-    let meetings = []
-
-    let subjectMap = {}
-    for (let subject of dump.subjects) {
-      subjectMap[subject.subject] = subject.text
-    }
-
-
-    let classMap = {}
-    for (let aClass of dump.classes) {
-      classMap[aClass.classUid] = aClass
-    }
-
-    //  Questions: do they support corequisites?
-    for (let aClass of dump.classes) {
-      if (aClass.host !== 'neu.edu') {
-        continue;
-      }
-      
-      // Skip all the other terms for now too
-      if (aClass.termId !== '201810') {
-        continue;
-      }
-
-      result.push({
-        kind: 'course',
-        code: aClass.subject + ' ' + aClass.classId,
-        credits: aClass.maxCredits,
-        department: {
-          code: aClass.subject,
-          name: subjectMap[aClass.subject]
-        },
-        name: aClass.name,
-        prerequisites: [''], // todo
-        description: aClass.termId + aClass.desc,
-        school: {
-          'code': 'neu'
-        }
-      })
-    }
-
-
-    for (let section of dump.sections) {
-
-      // Skip all the neu.edu/law and neu.edu/cps for now
-      if (section.host !== 'neu.edu') {
-        continue;
-      }
-
-      // Skip all the other terms for now too
-      if (section.termId !== '201810') {
-        continue;
-      }
-
-      let instance = Section.create(section)
-
-      let professors = instance.getProfs()
-      let code = section.subject + ' ' + section.classId
-
-      // Semester.ly groups meetings by the start and end time of the meeting on each day of the week
-      // so we need to get a list of all the meetings for each section and then re-group them
-      // by start/end time
-      // The key for this is just start+end (eg. "08:0010:00" (army time))
-      let meetingsByStartEndTime = {}
-
-      const dayCodes = ["U", "M", "T", "W", "R", "F", "S"]
-
-      if (instance.meetings) {
-        for (let meeting of instance.meetings) {
-
-          // TODO make this work
-          if (meeting.getIsExam()) {
-            continue;
-          }
-
-          let times = _.flatten(meeting.times);
-
-          for (let time of times) {
-            let start = time.start.format('HH:mm')
-            let end = time.end.format("HH:mm")
-            let dayOfWeek = parseInt(time.start.format('d'))
-
-            // Small sanity check
-            if (dayOfWeek !== parseInt(time.end.format('d'))) {
-              macros.error("Meeting ends on a different day than it starts?", instance.termId, instance.classUid, instance.subject)
-            }
-
-            let key = start+end;
-            if (!meetingsByStartEndTime[key]) {
-              meetingsByStartEndTime[key] = {
-                kind: 'meeting',
-                course: {
-                  code: code
-                },
-                days: [],
-                location: {
-                  where: meeting.where
-                },
-                section: {
-                  code: section.crn,
-                  term: section.termId,
-                  year: '2017'
-                },
-                time: {
-                  start: start,
-                  end: end
-                }
-              }
-            }
-
-            meetingsByStartEndTime[key].days.push(dayCodes[dayOfWeek])
-            meetingsByStartEndTime[key].days = _.uniq(meetingsByStartEndTime[key].days)
-          }
-        }
-      }
-
-      // Add all the meetings
-      meetings = meetings.concat(Object.values(meetingsByStartEndTime))
-
-      professors = professors.map(function (name) {
-        return {
-          name: name
-        }
-      })
-
-      result.push({
-        capacity: section.seatsCapacity,
-        code: section.crn,
-        course: {
-          code: code
-        },
-        enrollment: section.seatsCapacity - section.seatsRemaining,
-        instructors: professors,
-        year: '2017',
-        kind: 'section',
-        term: section.termId
-      })
-    }
-
-
-
-    let retVal = {
-      "$data": result.concat(meetings),
-       "$meta": {
-        "$schools": {
-          "neu": {
-            "2017": [
-              "201730",
-              "201740",
-              "201750",
-              "201760",
-              "201810"
-            ]
-          }
-        },
-        "$timestamp": Date.now()/1000
-      }
-    }
-
-    return retVal;
-  }
-
 
   async main(collegeAbbrs) {
     if (!collegeAbbrs) {
@@ -347,10 +182,6 @@ class Main {
 
     this.waterfallIdentifyers(rootNode);
 
-    await fs.writeFile('out.log', JSON.stringify(rootNode, null, 4));
-    macros.log('out.log saved');
-
-
     const dump = this.pageDataStructureToTermDump(rootNode);
 
     // Add the data that was calculatd here
@@ -372,21 +203,19 @@ class Main {
     // Add new processors here.
     simplifyProfList.go(dump);
 
-    let semesterlySchema = this.getSemesterlySchema(dump);
-
-    let semesterlyString = JSON.stringify(semesterlySchema, null, 4)
-    await fs.writeFile('courses.json', semesterlyString)
-    console.log('saved gw data')
-
-
-
-    await searchIndex.main(dump);
-    await termDump.main(dump);
+    // If running with semesterly, save in the semesterly schema
+    // If not, save in the searchneu schema
+    if (process.env.SEMESTERLY) {
+      await semesterly.main(dump);
+    }
+    else {
+      await searchIndex.main(dump);
+      await termDump.main(dump);
+    }
 
 
     if (macros.DEV) {
       await cache.set('dev_data', 'classes', cacheKey, dump);
-      await cache.set('dev_data', 'semesterly', cacheKey, semesterlySchema);
       macros.log('classes file saved for', collegeAbbrs, '!');
     }
 
