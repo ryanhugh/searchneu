@@ -109,7 +109,7 @@ class Semesterly {
                 },
                 section: {
                   code: section.crn,
-                  term: section.termId,
+                  term: 'Fall',
                   year: '2017'
                 },
                 time: {
@@ -144,7 +144,7 @@ class Semesterly {
         instructors: professors,
         year: '2017',
         kind: 'section',
-        term: section.termId
+        term: 'Fall'
       })
     }
 
