@@ -135,7 +135,7 @@ Macros.collegeName = 'Northeastern University';
 Macros.amplitudeToken = "e0801e33a10c3b66a3c1ac8ebff53359";
 
 // Set up the Macros.TESTS, Macros.DEV, and Macros.PROD based on some env variables. 
-if (process.env.PROD || process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prod' || process.env.CI) {
+if (process.env.PROD || process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prod' || (process.env.CI && process.env.NODE_ENV !== 'test')) {
   Macros.PROD = true;
   console.log('Running in prod mode.');
 } else if (process.env.DEV || process.env.NODE_ENV === 'dev') {
