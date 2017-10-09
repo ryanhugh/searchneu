@@ -82,6 +82,10 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
     -F revision=$REVISION \
     -F local_username=$LOCAL_USERNAME
 
+
+    # Deploy to npm
+    echo $NPM_TOKEN >> ~/.npmrc
+
 fi
 
 
