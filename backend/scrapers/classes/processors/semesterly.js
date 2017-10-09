@@ -8,7 +8,7 @@ import Section from '../../../../common/classModels/Section'
 
 class Semesterly {
 
-  async main(dump) {
+  main(dump) {
     let result = []      
     let meetings = []
 
@@ -169,17 +169,7 @@ class Semesterly {
     }
 
 
-    let exists = await fs.exists('parsing/schools/neu/data/')
-
-    if (!exists) {
-      macros.error('parsing/schools/neu/data/ does not exist, exiting')
-      return;
-    }
-
-    
-    let semesterlyString = JSON.stringify(retVal, null, 4)
-    await fs.writeFile('parsing/schools/neu/data/courses.json', semesterlyString)
-    macros.log('saved semesterly data')
+    return retVal;
   }
 }
 

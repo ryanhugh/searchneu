@@ -18,12 +18,24 @@ const amplitude = new Amplitude(commonMacros.amplitudeToken)
 // TODO: improve getBaseHost by using a list of top level domains. (public on the internet)
 
 // Change the current working directory to the directory with package.json and .git folder.
+let originalCwd = process.cwd();
+let oldcwd;
 while (1) {
   try {
     fs.statSync('package.json');
   } catch (e) {
+    oldcwd = process.cwd();
     //cd .. until in the same dir as package.json, the root of the project
     process.chdir('..');
+
+    // Prevent an infinate loop: If we keep cd'ing upward and we hit the root dir and still haven't found
+    // a package.json, just return to the original directory and break out of this loop.
+    if (oldcwd === process.cwd()) {
+      console.log("Can't find directory with package.json, returning to", originalCwd);
+      process.chdir(originalCwd)
+      break;
+    }
+
     continue;
   }
   break;
