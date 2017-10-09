@@ -205,8 +205,8 @@ class Main {
 
     // If running with semesterly, save in the semesterly schema
     // If not, save in the searchneu schema
-    if (process.env.SEMESTERLY) {
-      await semesterly.main(dump);
+    if (semesterly) {
+      return semesterly.main(dump);
     }
     else {
       await searchIndex.main(dump);

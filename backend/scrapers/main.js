@@ -24,17 +24,18 @@ if (process.env.TRAVIS && macros.DEV) {
 }
 
 
-async function main() {
+async function main(semesterly=false) {
 
 
-  let promises = []
+  let classesPromise = classes.main(['neu'], semesterly=semesterly)
 
-  promises.push(classes.main(['neu']))
-
-  // If not only scraping stuff for semesterly, scrape the employees too
-  if (!process.env.SEMESTERLY) {
-    promises.push(matchEmployees.main())
+  // If scraping stuff for semesterly, scrape just the classes
+  if (semesterly) {
+    return classesPromise;
   }
+
+
+  let promises = [classesPromise, matchEmployees.main()]
 
   await Promise.all(promises);
 
@@ -42,4 +43,11 @@ async function main() {
 }
 
 
-main();
+
+if (require.main === module) {
+  main();
+}
+
+
+
+
