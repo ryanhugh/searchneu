@@ -41,7 +41,7 @@ npm run build
 # Also this has less RAM usage so it should be Killed less on travis.
 if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
   # npm -g install babel-cli
-  cd backend_compiled/scrapers
+  cd dist/scrapers
   PROD=true NODE_ENV=prod node --max_old_space_size=8192 startup
   cd ../..
   find public
@@ -63,10 +63,10 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
   ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git checkout prod'
 
   ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; mkdir -p public'
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; mkdir -p backend_compiled'
+  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; mkdir -p dist'
 
   scp -o StrictHostKeyChecking=no -r public/* ubuntu@34.225.112.42:~/searchneu/public
-  scp -o StrictHostKeyChecking=no -r backend_compiled/* ubuntu@34.225.112.42:~/searchneu/backend_compiled
+  scp -o StrictHostKeyChecking=no -r dist/* ubuntu@34.225.112.42:~/searchneu/dist
 
   ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; yarn; npm run start_prod'
 
@@ -85,6 +85,10 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
 
     # Deploy to npm
     echo $NPM_TOKEN >> ~/.npmrc
+
+    # The new version is one greater than the one currently in prod
+    yarn publish --new-version $(./node_modules/semver/bin/semver -i $(npm show searchneu version))
+
 
 fi
 
