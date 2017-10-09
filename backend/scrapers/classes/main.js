@@ -141,7 +141,7 @@ class Main {
   }
 
 
-  async main(collegeAbbrs) {
+  async main(collegeAbbrs, semesterlySchema) {
     if (!collegeAbbrs) {
       macros.error('Need collegeAbbrs for scraping classes');
       return null;
@@ -150,7 +150,7 @@ class Main {
     const cacheKey = collegeAbbrs.join(',');
 
     // if this is dev and this data is already scraped, just return the data
-    if (macros.DEV && require.main !== module) {
+    if (macros.DEV && require.main !== module && !semesterlySchema) {
       const devData = await cache.get('dev_data', 'classes', cacheKey);
       if (devData) {
         return devData;
@@ -205,7 +205,8 @@ class Main {
 
     // If running with semesterly, save in the semesterly schema
     // If not, save in the searchneu schema
-    if (semesterly) {
+    console.log("semesterly:", semesterlySchema)
+    if (semesterlySchema) {
       return semesterly.main(dump);
     }
     else {
