@@ -20,7 +20,7 @@ const amplitude = new Amplitude(commonMacros.amplitudeToken)
 // Change the current working directory to the directory with package.json and .git folder.
 while (1) {
   try {
-    fs.statSync('.git');
+    fs.statSync('package.json');
   } catch (e) {
     //cd .. until in the same dir as package.json, the root of the project
     process.chdir('..');
