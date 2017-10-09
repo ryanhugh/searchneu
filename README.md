@@ -39,6 +39,8 @@ https://searchneu.com/data/employees.json
 
 If you have any questions or are interested in using the API let me know! I'd be happy to help and/or change some things around so it is easier to use. 
 
+Search NEU is also published as a NPM module (here!)[https://www.npmjs.com/package/searchneu]. This module includes all the scrapers behind Search NEU. 
+
 
 # Changelog
 
