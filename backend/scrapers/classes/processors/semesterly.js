@@ -6,6 +6,9 @@ import Section from '../../../../common/classModels/Section'
 
 // Dumps the data in the semester.ly schema
 
+// This is also duplicated schools/neu/config.json in semesterly. If this is updated update it there too. 
+const semesterlyCourseCodeRegex = /[A-Z]{0,4} [0-9]{4}/
+
 class Semesterly {
 
   main(dump) {
@@ -30,12 +33,18 @@ class Semesterly {
       
       // Skip all the other terms for now too
       if (aClass.termId !== '201810') {
-        continue;
+        continue
+      }
+
+      let code = aClass.subject + ' ' + aClass.classId;
+
+      if (!code.match(semesterlyCourseCodeRegex)) {
+        macors.error("Regex didn't match!", code, semesterlyCourseCodeRegex)
       }
 
       result.push({
         kind: 'course',
-        code: aClass.subject + ' ' + aClass.classId,
+        code: code,
         credits: aClass.maxCredits,
         department: {
           code: aClass.subject,
@@ -43,7 +52,7 @@ class Semesterly {
         },
         name: aClass.name,
         prerequisites: [''], // todo
-        description: aClass.termId + aClass.desc, // todo: add corequisites to the end of this
+        description: aClass.desc, // todo: add corequisites to the end of this
         school: {
           'code': 'neu'
         }

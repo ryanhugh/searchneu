@@ -141,7 +141,7 @@ class Main {
   }
 
 
-  async main(collegeAbbrs, semesterlySchema) {
+  async main(collegeAbbrs, semesterlySchema=false) {
     if (!collegeAbbrs) {
       macros.error('Need collegeAbbrs for scraping classes');
       return null;
@@ -227,7 +227,7 @@ class Main {
 const instance = new Main();
 
 if (require.main === module) {
-  instance.main(['neu']);
+  instance.main(['neu'], true);
 }
 
 export default instance;
