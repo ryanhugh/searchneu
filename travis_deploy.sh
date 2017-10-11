@@ -99,6 +99,7 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
     echo $NEWVER
     # # The new version is one greater than the one currently in prod
     node ./node_modules/json/lib/json.js  -I -f package.json -e 'this.version="'$NEWVER'"'
+    git commit -a -m "Updated version"
     # yarn publish --new-version 
 
 
