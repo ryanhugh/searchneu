@@ -86,6 +86,10 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
     # Deploy to npm
     echo $NPM_TOKEN > ~/.npmrc
 
+    echo email ryanhughes624@gmail.com > ~/.yarnrc
+    echo username ryanhugh >> ~/.yarnrc
+    cat ~/.yarnrc
+
     # The new version is one greater than the one currently in prod
     yarn publish --new-version $(./node_modules/semver/bin/semver -i $(npm show searchneu version))
 
