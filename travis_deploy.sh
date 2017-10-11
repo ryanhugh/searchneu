@@ -4,7 +4,7 @@ trap 'exit' ERR
 # Echo each command as they are ran
 set -v
 
-# npm run test
+npm run test
 
 # Pull requests and commits to other branches shouldn't try to deploy
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
@@ -96,7 +96,7 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
     # yarn login
 
     NEWVER=$(./node_modules/semver/bin/semver -i $(npm show searchneu version))
-    echo NEWVER
+    echo $NEWVER
     # # The new version is one greater than the one currently in prod
     node ./node_modules/json/lib/json.js  -I -f package.json -e 'this.version="'$NEWVER'"'
     # yarn publish --new-version 
