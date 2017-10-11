@@ -1,6 +1,6 @@
 {
   "name": "searchneu",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "scripts": {
     "_comment": "These commands are used in dev.",
     "start": "cross-env NODE_ENV=dev babel-node backend/server.js",
