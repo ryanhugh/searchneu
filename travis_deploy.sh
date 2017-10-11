@@ -84,24 +84,12 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
 
 
     # Deploy to npm
-    # echo $NPM_TOKEN | base64 --decode > ~/.npmrc
-    # echo email ryanhughes624@gmail.com >> ~/.yarnrc
-    # echo username ryanhugh >> ~/.yarnrc
-    # echo >> ~/.yarnrc
-    # echo "HIII"
-    # cat ~/.yarnrc
-    # cat ~/.npmrc
-    # echo "HIII2"
-
-    # yarn login
-
+    # This part just increments the version in package.json to one greater than the one currently in prod
+    # The actually deploying is handled by travis. 
     NEWVER=$(./node_modules/semver/bin/semver -i $(npm show searchneu version))
     echo $NEWVER
-    # # The new version is one greater than the one currently in prod
     node ./node_modules/json/lib/json.js  -I -f package.json -e 'this.version="'$NEWVER'"'
     git commit -a -m "Updated version"
-    # yarn publish --new-version 
-
 
 fi
 
