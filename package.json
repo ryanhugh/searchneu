@@ -13,6 +13,10 @@
     "build": "npm run build_backend; npm run build_frontend",
     "start_prod": "sudo setcap 'cap_net_bind_service=+ep' $(which nodejs); sudo setcap 'cap_net_bind_service=+ep' $(which node); ./node_modules/forever/bin/forever stopall; NODE_ENV=prod ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start dist/backend/startup.js"
   },
+  "repository": { 
+    "type": "git",
+    "url": "https://github.com/ryanhugh/searchneu.git"
+  },
   "babel": {
     "presets": [
       "es2015",
