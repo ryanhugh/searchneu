@@ -40,10 +40,9 @@ npm run build
 # We are going to combile the backend to ES5 anyway, so might as well run the ES5 to do the scraping too.
 # Also this has less RAM usage so it should be Killed less on travis.
 if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
-  # npm -g install babel-cli
-  cd dist/scrapers
+  cd dist/backend/scrapers
   PROD=true NODE_ENV=prod node --max_old_space_size=8192 startup
-  cd ../..
+  cd ../../..
   find public
 fi
 
