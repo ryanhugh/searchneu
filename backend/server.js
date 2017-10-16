@@ -289,7 +289,7 @@ app.get('/cookietest', (req, res) => {
 app.get('*', (req, res) => {
   res.setHeader("Content-Type", "text/html; charset=UTF-8");
   if (macros.PROD) {
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+    res.sendFile(path.join('public', 'index.html'));
   }
   else {
     res.write(middleware.fileSystem.readFileSync(path.join(webpackConfig.output.path, 'index.html')));
