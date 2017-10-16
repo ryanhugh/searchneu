@@ -303,7 +303,7 @@ if (macros.DEV) {
   port = 5000;
 }
 else {
-  port = 80;
+  port = 5000;
 }
 
 
