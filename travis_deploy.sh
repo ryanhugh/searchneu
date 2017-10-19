@@ -39,12 +39,12 @@ npm run build
 # If this is a cron job, run the scrapers.
 # We are going to combile the backend to ES5 anyway, so might as well run the ES5 to do the scraping too.
 # Also this has less RAM usage so it should be Killed less on travis.
-if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
+# if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
   cd dist/backend/scrapers
   PROD=true NODE_ENV=prod node --max_old_space_size=8192 startup
   cd ../../..
   find public
-fi
+# fi
 
 
 eval "$(ssh-agent -s)"
