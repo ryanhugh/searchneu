@@ -289,7 +289,7 @@ app.get('/cookietest', (req, res) => {
 app.get('*', (req, res) => {
   res.setHeader("Content-Type", "text/html; charset=UTF-8");
   if (macros.PROD) {
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+    res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
   }
   else {
     res.write(middleware.fileSystem.readFileSync(path.join(webpackConfig.output.path, 'index.html')));
@@ -303,7 +303,7 @@ if (macros.DEV) {
   port = 5000;
 }
 else {
-  port = 80;
+  port = 5000;
 }
 
 
