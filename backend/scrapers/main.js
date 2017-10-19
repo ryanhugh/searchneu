@@ -18,7 +18,6 @@ if (process.env.TRAVIS_EVENT_TYPE !== 'cron' && process.env.TRAVIS) {
   process.exit(0);
 }
 
-console.log("hi there")
 
 if (process.env.TRAVIS && macros.DEV) {
   console.log('Not running DEV mode on travis');
