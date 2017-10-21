@@ -11,7 +11,11 @@
     "build_frontend": "mkdir -p public; cp frontend/static/* public/; cross-env NODE_ENV=prod babel-node ./node_modules/webpack/bin/webpack.js --config ./backend/webpack.config.babel.js --profile --colors",
     "build_backend": "mkdir -p dist; mkdir -p dist/backend; ./node_modules/babel-cli/bin/babel.js backend -d dist/backend; ./node_modules/babel-cli/bin/babel.js common -d dist/common",
     "build": "npm run build_backend; npm run build_frontend",
-    "start_prod": "sudo setcap 'cap_net_bind_service=+ep' $(which nodejs); sudo setcap 'cap_net_bind_service=+ep' $(which node); ./node_modules/forever/bin/forever stopall; NODE_ENV=prod ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start dist/backend/startup.js"
+    "start_prod": "./node_modules/forever/bin/forever stopall; NODE_ENV=prod ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start dist/backend/startup.js"
+  },
+  "repository": { 
+    "type": "git",
+    "url": "https://github.com/ryanhugh/searchneu.git"
   },
   "babel": {
     "presets": [
