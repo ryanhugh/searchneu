@@ -9,6 +9,7 @@ import compress from 'compression';
 import rollbar from 'rollbar'; 
 import bodyParser from 'body-parser';
 import mkdirp from 'mkdirp-promise';
+import moment from 'moment';
 
 import Request from './scrapers/request';
 import search from '../common/search';
@@ -83,7 +84,7 @@ function getIpPath(req) {
 }
 
 function getTime() {
-  return new Date().toLocaleTimeString();
+  return moment().format('hh:mm:ss a')
 }
 
 
