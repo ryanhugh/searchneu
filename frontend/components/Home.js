@@ -233,7 +233,8 @@ class Home extends React.Component {
   async search(searchTerm, termCount = 5) {
     this.currentQuery = searchTerm;
 
-    const results = await search.search(searchTerm, termCount);
+    // Should the selected term be a part of the URL? and should it be a part of this user history? (when the user clicks forward and backward)
+    const results = await search.search(searchTerm, this.state.selectedTerm, termCount);
 
     if (searchTerm !== this.currentQuery) {
       macros.log('Did not come back in order, discarding ', searchTerm);

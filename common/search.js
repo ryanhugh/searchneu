@@ -450,7 +450,7 @@ class Search {
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
     const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
-    const subjects = this.termDump.getSubjects();
+    const subjects = this.termDumps[termId].termDump.getSubjects();
 
     for (let i = 0; i < subjects.length; i++) {
       const subject = subjects[i];

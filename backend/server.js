@@ -169,12 +169,8 @@ async function getFrontendData(file) {
 
 
 
-let searchPromise = null;
 
 async function getSearch() {
-  if (searchPromise) {
-    return searchPromise;
-  }
 
   const termDumpPromise = getFrontendData('data/getTermDump/neu.edu/201810.json')
   
@@ -229,7 +225,7 @@ async function getSearch() {
 }
 
 // Load the index as soon as the app starts. 
-getSearch();
+let searchPromise = getSearch();
 
 app.get('/search', wrap(async (req, res) => {
   if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500) {
@@ -267,7 +263,7 @@ app.get('/search', wrap(async (req, res) => {
   }
 
 
-  const index = await getSearch();
+  const index = await searchPromise;
 
   if (!index) {
 
