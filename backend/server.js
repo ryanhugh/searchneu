@@ -208,12 +208,6 @@ async function getSearch() {
         termDump: fallData,
         termId: '201810'
       }]);
-
-    // })
-
-    // searchPromise = Promise.all([termDumpPromise, spring2018DataPromise, searchIndexPromise, employeeMapPromise, employeesSearchIndexPromise]).then((...args) => {
-    //   return search.create(...args[0]);
-    // });
   }
   catch (e) {
     macros.error("Error:", e)

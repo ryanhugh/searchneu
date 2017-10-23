@@ -449,24 +449,34 @@ class Home extends React.Component {
               <p className={ css.subtitle }>
                 Search for classes, professors, times, etc.
               </p>
-              <div className={'sub header ' + css.searchWrapper}>
-                <label htmlFor='search_id'>
-                  <i className='search icon' />
-                </label>
-                <input
-                  type='search'
-                  id='seach_id'
-                  autoComplete='off'
-                  spellCheck='false'
-                  tabIndex='0'
-                  className={css.searchBox}
-                  onChange={ this.onClick }
-                  onKeyDown={ this.onKeyDown }
-                  defaultValue={ this.state.searchTerm }
-                  ref={(element) => { this.inputElement = element; }}
+              <div>
+                <div className={'sub header ' + css.searchWrapper}>
+                  <label htmlFor='search_id'>
+                    <i className='search icon' />
+                  </label>
+                  <input
+                    type='search'
+                    id='seach_id'
+                    autoComplete='off'
+                    spellCheck='false'
+                    tabIndex='0'
+                    className={css.searchBox}
+                    onChange={ this.onClick }
+                    onKeyDown={ this.onKeyDown }
+                    defaultValue={ this.state.searchTerm }
+                    ref={(element) => { this.inputElement = element; }}
+                  />
+                </div>
+                <Dropdown 
+                  fluid 
+                  selection 
+                  defaultValue='201830' 
+                  placeholder='Spring 2018' 
+                  className={css.termDropdown}
+                  options={termDropDownOptions} 
+                  onChange={this.onTermdropdownChange}
                 />
               </div>
-              <Dropdown placeholder='Select term' fluid selection defaultValue='201830' options={termDropDownOptions} onChange={this.onTermdropdownChange}/>
               {hitEnterToSearch}
             </div>
           </div>
