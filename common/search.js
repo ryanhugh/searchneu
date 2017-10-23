@@ -88,9 +88,21 @@ const employeeSearchConfig = {
 
 class Search {
 
-  constructor(termDump, classSearchIndex, employeeMap, employeeSearchIndex) {
-    this.termDump = CourseProData.loadData(termDump);
-    this.classSearchIndex = elasticlunr.Index.load(classSearchIndex);
+  constructor(employeeMap, employeeSearchIndex, termDumps) {
+    debugger
+
+    // map of termId to search index and dump
+    this.termDumps = {}
+
+    for (const termDump of termDumps) {
+      this.termDumps[termDump.termId] = {
+        searchIndex: elasticlunr.Index.load(termDump.searchIndex),
+        termDump: CourseProData.loadData(termDump.termDump)
+      }
+    }
+
+    // this.termDump = CourseProData.loadData(termDump);
+    // this.classSearchIndex = ;
     this.employeeMap = employeeMap;
     this.employeeSearchIndex = elasticlunr.Index.load(employeeSearchIndex);
 
@@ -107,15 +119,15 @@ class Search {
 
   // Use this to create a search intance
   // All of these arguments should already be JSON.parsed(). (Eg, they should be objects, not strings).
-  static create(termDump, classSearchIndex, employeeMap, employeeSearchIndex) {
+  static create(employeeMap, employeeSearchIndex, termDumps) {
     // Some sanitiy checking
-    if (!termDump || !classSearchIndex || !employeeMap || !employeeSearchIndex) {
-      console.error('Error, missing arguments.', termDump, classSearchIndex, employeeMap, employeeSearchIndex);
+    if (!employeeMap || !employeeSearchIndex || !termDumps) {
+      macros.error('Error, missing arguments.', !!employeeMap, !!employeeSearchIndex, !!termDumps);
       return null;
     }
 
 
-    return new this(termDump, classSearchIndex, employeeMap, employeeSearchIndex);
+    return new this(employeeMap, employeeSearchIndex, termDumps);
   }
 
   onInterval() {
@@ -139,11 +151,12 @@ class Search {
     }
   }
 
-  checkForSubjectMatch(searchTerm) {
+  checkForSubjectMatch(searchTerm, termId) {
+    debugger
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
     const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
-    const subjects = this.termDump.getSubjects();
+    const subjects = this.termDumps[termId].termDump.getSubjects();
 
     for (let i = 0; i < subjects.length; i++) {
       const subject = subjects[i];
@@ -154,7 +167,7 @@ class Search {
       if (lowerCaseSubject === lowerCaseSearchTerm || lowerCaseSearchTerm === lowerCaseText) {
         macros.log('Perfect match for subject!', subject.subject);
 
-        const results = this.termDump.getClassesInSubject(subject.subject);
+        const results = this.termDumps[termId].termDump.getClassesInSubject(subject.subject);
 
         const output = [];
         results.forEach((result) => {
@@ -281,9 +294,14 @@ class Search {
 
   // Main search function. The min and max index are used for pagenation.
   // Eg, if you want results 10 through 20, call search('hi there', 10, 20)
-  search(searchTerm, minIndex = 0, maxIndex = 1000) {
+  search(searchTerm, termId, minIndex = 0, maxIndex = 1000) {
     if (maxIndex <= minIndex) {
       macros.error('Error. Max index < Min index.', minIndex, maxIndex, maxIndex <= minIndex, typeof maxIndex, typeof minIndex);
+      return [];
+    }
+
+    if (!this.termDumps[termId]) {
+      macros.log('Invalid termId', termId)
       return [];
     }
     // Searches are case insensitive.
@@ -315,12 +333,12 @@ class Search {
       // Update the timestamp of this cache item.
       this.refCache[searchTerm].time = Date.now();
     } else {
-      const possibleSubjectMatch = this.checkForSubjectMatch(searchTerm);
+      const possibleSubjectMatch = this.checkForSubjectMatch(searchTerm, termId);
       if (possibleSubjectMatch) {
         refs = possibleSubjectMatch;
         wasSubjectMatch = true;
       } else {
-        refs = this.getRefs(searchTerm);
+        refs = this.getRefs(searchTerm, termId);
       }
 
       this.refCache[searchTerm] = {
@@ -369,7 +387,7 @@ class Search {
     refs = refs.slice(minIndex, maxIndex + 1);
     for (const ref of refs) {
       if (ref.type === 'class') {
-        const aClass = this.termDump.getClassServerDataFromHash(ref.ref);
+        const aClass = this.termDumps[termId].termDump.getClassServerDataFromHash(ref.ref);
 
         if (!aClass) {
           console.error('yoooooo omg', ref);
@@ -391,7 +409,7 @@ class Search {
               console.error('Error no hash', crn, aClass);
             }
 
-            sections.push(this.termDump.getSectionServerDataFromHash(sectionKey));
+            sections.push(this.termDumps[termId].termDump.getSectionServerDataFromHash(sectionKey));
           }
         }
 
@@ -428,7 +446,7 @@ class Search {
 
 
   // This returns an object like {ref: 'neu.edu/201810/CS/...' , type: 'class'}
-  getRefs(searchTerm) {
+  getRefs(searchTerm, termId) {
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
     const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
@@ -467,7 +485,7 @@ class Search {
     // The array is sorted by score (with the highest matching closest to the beginning)
     // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
     // macros.log(searchTerm)
-    const classResults = this.classSearchIndex.search(searchTerm, classSearchConfig);
+    const classResults = this.termDumps[termId].searchIndex.search(searchTerm, classSearchConfig);
 
     const employeeResults = this.employeeSearchIndex.search(searchTerm, employeeSearchConfig);
 
