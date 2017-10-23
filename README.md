@@ -47,12 +47,12 @@ If you find a security vulnerability on Search NEU I'll buy you a burrito from Q
 
 Security vulnerabilities include: 
 - Changing the code on production
-- XSS vulnerabilities (Running code in other people's browsers)
-- Publishing a new version of the searchneu package on npm without permission 
-- Accessing the tokens in the enviornment on [travis](https://travis-ci.org/ryanhugh/searchneu/builds)
+- XSS vulnerabilities/running code in other people's browsers
+- Publishing a new version of the searchneu package on [npm](https://www.npmjs.com/package/searchneu) without permission 
+- Accessing the enviornmental variables on [travis](https://travis-ci.org/ryanhugh/searchneu/builds)
 
 Vulnerabilities do not include:
-- DDOSing the server (please don't DDOS the server 😖)
+- DDOSing the server (please don't spam the server with requests 😖).
 
 # Changelog
 
