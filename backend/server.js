@@ -330,6 +330,19 @@ app.get('*', (req, res) => {
 });
 
 
+// your express error handler
+app.use(function(err, req, res, next) {
+    // in case of specific URIError
+    if (err instanceof URIError) {
+        macros.log("Warning, could not process malformed url: ", req.url)
+        return res.send("Invalid url.");
+    } else {
+      macros.error(err)
+      return res.send(err);
+    }
+});
+
+
 let port;
 if (macros.DEV) {
   port = 5000;
