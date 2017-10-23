@@ -45,6 +45,15 @@ Search NEU is also published as a NPM module [here!](https://www.npmjs.com/packa
 
 If you find a security vulnerability on Search NEU I'll buy you a burrito from Qdoba 🌯🎉! Make sure to keep the vulnerability details secret when letting us know about it. A great way to let us know is to email us at hey@searchneu.com or to send Ryan a FB message at [m.me/ryanhughez](https://m.me/ryanhughez). 
 
+Security vulnerabilities include: 
+- Changing the code on production
+- XSS vulnerabilities (Running code in other people's browsers)
+- Publishing a new version of the searchneu package on npm without permission 
+- Accessing the tokens in the enviornment on travis
+
+Vulnerabilities do not include:
+- DDOSing the server (please don't DDOS the server XD)
+
 # Changelog
 
 ### Summer 2017
