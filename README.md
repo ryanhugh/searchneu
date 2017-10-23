@@ -52,7 +52,7 @@ Security vulnerabilities include:
 - Accessing the tokens in the enviornment on travis
 
 Vulnerabilities do not include:
-- DDOSing the server (please don't DDOS the server XD)
+- DDOSing the server (please don't DDOS the server 😖)
 
 # Changelog
 
