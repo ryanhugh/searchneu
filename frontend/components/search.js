@@ -38,8 +38,8 @@ class Search {
     }
 
     // Cache hit
-    if (termCount <= existingTermCount && existingTermCount > 0 || this.allLoaded[query]) {
-      console.log('Cache hit.', this.allLoaded[query]);
+    if (termCount <= existingTermCount && existingTermCount > 0 || this.allLoaded[termId + query]) {
+      console.log('Cache hit.', this.allLoaded[termId + query]);
       return this.cache[termId + query].slice(0, termCount);
     }
 
@@ -72,7 +72,7 @@ class Search {
     this.cache[termId + query] = this.cache[termId + query].concat(results);
 
     if (results.length < termCount - existingTermCount) {
-      this.allLoaded[query] = true;
+      this.allLoaded[termId + query] = true;
     }
 
     return this.cache[termId + query];
