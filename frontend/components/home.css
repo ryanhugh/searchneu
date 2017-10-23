@@ -327,3 +327,7 @@
 .mobileCompact .footer {
     padding-top: 30px;
 }
+
+.termDropdown {
+    background: blue;
+}
