@@ -314,6 +314,10 @@ class Home extends React.Component {
     this.setState({
       selectedTerm: data.value
     })
+
+    if (this.state.searchTerm) {
+      this.search(this.state.searchTerm)
+    }
   }
 
 
