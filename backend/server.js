@@ -266,6 +266,13 @@ app.post('/webhook/', function (req, res) {
   res.send('hi')
   return;
 
+  // TODO: when get this working again:
+  // 1. make sure that the requests are coming from facebook
+  // 2. check to see if the body is valid (https://rollbar.com/ryanhugh/searchneu/items/54/)
+  // Ex:
+  //   TypeError: Cannot read property '0' of undefined at line var messaging_events = req.body.entry[0].messaging;
+
+
     let messaging_events = req.body.entry[0].messaging
     for (let i = 0; i < messaging_events.length; i++) {
 	    let event = req.body.entry[0].messaging[i]
