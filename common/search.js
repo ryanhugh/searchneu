@@ -326,12 +326,12 @@ class Search {
 
     // Cache the refs.
     let refs;
-    if (this.refCache[searchTerm]) {
-      refs = this.refCache[searchTerm].refs;
-      wasSubjectMatch = this.refCache[searchTerm].wasSubjectMatch;
+    if (this.refCache[termId + searchTerm]) {
+      refs = this.refCache[termId + searchTerm].refs;
+      wasSubjectMatch = this.refCache[termId + searchTerm].wasSubjectMatch;
 
       // Update the timestamp of this cache item.
-      this.refCache[searchTerm].time = Date.now();
+      this.refCache[termId + searchTerm].time = Date.now();
     } else {
       const possibleSubjectMatch = this.checkForSubjectMatch(searchTerm, termId);
       if (possibleSubjectMatch) {
@@ -341,7 +341,7 @@ class Search {
         refs = this.getRefs(searchTerm, termId);
       }
 
-      this.refCache[searchTerm] = {
+      this.refCache[termId + searchTerm] = {
         refs: refs,
         wasSubjectMatch: wasSubjectMatch,
         time: Date.now(),
