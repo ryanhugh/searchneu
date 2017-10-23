@@ -39,8 +39,11 @@ https://searchneu.com/data/employees.json
 
 If you have any questions or are interested in using the API let me know! I'd be happy to help and/or change some things around so it is easier to use. 
 
-Search NEU is also published as a NPM module (here!)[https://www.npmjs.com/package/searchneu]. This module includes all the scrapers behind Search NEU. 
+Search NEU is also published as a NPM module [here!](https://www.npmjs.com/package/searchneu). This module includes all the scrapers behind Search NEU. 
 
+# Bug Bounty
+
+If you find a security vulnerability on Search NEU I'll buy you a burrito from Qdoba 🌯🎉! Make sure to keep the vulnerability details secret when letting us know about it. A great way to let us know is to email us at hey@searchneu.com or to send Ryan a FB message at [m.me/ryanhughez](https://m.me/ryanhughez). 
 
 # Changelog
 

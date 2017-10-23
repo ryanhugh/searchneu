@@ -1,3 +1,5 @@
 require("babel-core/register");
 require("babel-polyfill");
-require('./main.js')
+let main = require('./main.js')
+
+main.default.main()
