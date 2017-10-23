@@ -82,7 +82,8 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
     -F local_username=$LOCAL_USERNAME
 
 
-    # Deploy to npm
+  # Deploy to npm if this is a PROD deploy and not a cron job.
+  if [ "$TRAVIS_EVENT_TYPE" != "cron" ]; then
     # This part just increments the version in package.json to one greater than the one currently in prod
     # The actually deploying is handled by travis. 
     NEWVER=$(./node_modules/semver/bin/semver -i $(npm show searchneu version))
@@ -90,6 +91,7 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
     node ./node_modules/json/lib/json.js  -I -f package.json -e 'this.version="'$NEWVER'"'
     git commit -a -m "Updated version"
 
+  fi
 fi
 
 
