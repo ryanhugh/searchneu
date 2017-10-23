@@ -57,11 +57,40 @@ app.use(function (req, res, next) {
   next()
 }.bind(this))
 
+// Prefer the headers if they are present so we get the real ip instead of localhost (nginx) or a cloudflare IP
+function getIpPath(req) {
+
+  let output = []
+
+  let realIpHeader = req.headers['x-real-ip']
+  if (realIpHeader) {
+    output.push('Real:')
+    output.push(realIpHeader)
+    output.push(' ')
+  }
+  
+  let forwardedForHeader = req.headers['x-forwarded-for']
+  if (forwardedForHeader) {
+    output.push('ForwardedFor:')
+    output.push(forwardedForHeader)
+    output.push(' ')
+  }
+
+  output.push('remoteIp: ')
+  output.push(req.connection.remoteAddress)
+
+  return output.join('')
+}
+
+function getTime() {
+  return new Date().toLocaleTimeString();
+}
+
 
 // Http to https redirect. 
 app.use(function (req, res, next) {
   
-  var remoteIp = req.connection.remoteAddress;
+  var remoteIp = getIpPath(req);
 
 
   // If this is https request, done. 
@@ -83,7 +112,7 @@ app.use(function (req, res, next) {
   else {
     // Cache the http to https redirect for 2 months. 
     res.setHeader('Cache-Control', 'public, max-age=5256000');
-    macros.log(remoteIp, 'redirecting to https')
+    macros.log(getTime(), remoteIp, 'redirecting to https')
     res.redirect('https://' + req.get('host') + req.originalUrl);
   }
 })
@@ -161,7 +190,7 @@ getSearch();
 
 app.get('/search', wrap(async (req, res) => {
   if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500) {
-    macros.log('Need query.', req.query);
+    macros.log(getTime(), 'Need query.', req.query);
     res.send(JSON.stringify({
       error: 'Need query param.'
     }));
@@ -201,7 +230,7 @@ app.get('/search', wrap(async (req, res) => {
   const results = index.search(req.query.query, minIndex, maxIndex);
   const midTime = Date.now();
   const string = JSON.stringify(results)
-  macros.log(req.connection.remoteAddress, 'Search for', req.query.query, 'took ', midTime-startTime, 'ms and stringify took', Date.now()-midTime, 'with', results.length, 'results');
+  macros.log(getTime(), getIpPath(req), 'Search for', req.query.query, 'took ', midTime-startTime, 'ms and stringify took', Date.now()-midTime, 'with', results.length, 'results');
 
   // Set the header for application/json and send the data.
   res.setHeader("Content-Type", "application/json; charset=UTF-8");
@@ -212,7 +241,7 @@ app.get('/search', wrap(async (req, res) => {
 
 // for Facebook verification of the endpoint.
 app.get('/webhook/', async function (req, res) {
-  console.log(req.connection.remoteAddress, 'Tried to send a webhook')
+  console.log(getTime(), getIpPath(req), 'Tried to send a webhook')
   res.send('hi')
   return;
   
@@ -232,7 +261,7 @@ app.get('/webhook/', async function (req, res) {
 // Respond to the messages
 app.post('/webhook/', function (req, res) {
   // Disable temporarily
-  console.log(req.connection.remoteAddress, 'Tried to send a webhook')
+  console.log(getTime(), getIpPath(req), 'Tried to send a webhook')
   res.send('hi')
   return;
 
@@ -285,13 +314,6 @@ app.use(express.static('public'));
 // If this is removed, the domain will no longer be verified with Google. 
 app.get('/google840b636639b40c3c.html', (req, res) => {
   res.write('google-site-verification: google840b636639b40c3c.html')
-  res.end();
-})
-
-
-app.get('/cookietest', (req, res) => {
-  res.set('Set-Cookie', 'NID=110=wMKSrFPAuUHyZpP0UYP_yTkr7P577dXF6FzsXFhVNXmY_5ETUnhk6N8r9NM_qguv6o8d3dETYQM-y5DgZFjSv8Wo7MNQOp4fT9p0wVTULU0BLxx4g40fCrVKTlX9gp9y; expires=Mon, 26-Feb-2018 22:55:12 GMT; path=/; domain=.google.com; HttpOnly');
-  res.write('test');
   res.end();
 })
 
