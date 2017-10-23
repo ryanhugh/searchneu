@@ -149,10 +149,22 @@ async function getFrontendData(file) {
 
   await mkdirp(path.dirname(localPath))
 
+  let data;
+
+  try {
+    data = JSON.parse(resp.body);
+  }
+  catch (e) {
+    console.log("Could not download term", file, 'from server!');
+    console.log("Probably going to crash");
+    return null;
+  }
+
   // Save that locally
   await fs.writeFile(localPath, resp.body);
 
-  return JSON.parse(resp.body);
+  return data;
+
 }
 
 
@@ -165,17 +177,47 @@ async function getSearch() {
   }
 
   const termDumpPromise = getFrontendData('data/getTermDump/neu.edu/201810.json')
+  
+  const spring2018DataPromise = getFrontendData('data/getTermDump/neu.edu/201830.json')
 
   const searchIndexPromise = getFrontendData('data/getSearchIndex/neu.edu/201810.json')
+
+  const spring2018SearchIndexPromise = getFrontendData('data/getSearchIndex/neu.edu/201830.json')
 
   const employeeMapPromise = getFrontendData('data/employeeMap.json');
 
   const employeesSearchIndexPromise = getFrontendData('data/employeesSearchIndex.json');
 
   try {
-    searchPromise = Promise.all([termDumpPromise, searchIndexPromise, employeeMapPromise, employeesSearchIndexPromise]).then((...args) => {
-      return search.create(...args[0]);
-    });
+    const fallData = await termDumpPromise;
+    const springData = await spring2018DataPromise;
+    const fallSearchIndex = await searchIndexPromise;
+    const springSearchIndex = await spring2018SearchIndexPromise;
+    const employeeMap = await employeeMapPromise;
+    const employeesSearchIndex = await employeesSearchIndexPromise;
+
+    if (!fallData || !springData || !fallSearchIndex || !springSearchIndex || !employeeMap || !employeesSearchIndex) {
+      console.log("Couldn't download a file.", !!fallData, !!springData, !!fallSearchIndex, !!springSearchIndex, !!employeeMap, !!employeesSearchIndex)
+      return;
+    }
+
+    return search.create(employeeMap, employeesSearchIndex, 
+      [{
+        searchIndex: springSearchIndex,
+        termDump: springData,
+        termId: '201830'
+      },
+      {
+        searchIndex: fallSearchIndex,
+        termDump: fallData,
+        termId: '201810'
+      }]);
+
+    // })
+
+    // searchPromise = Promise.all([termDumpPromise, spring2018DataPromise, searchIndexPromise, employeeMapPromise, employeesSearchIndexPromise]).then((...args) => {
+    //   return search.create(...args[0]);
+    // });
   }
   catch (e) {
     macros.error("Error:", e)
@@ -216,6 +258,14 @@ app.get('/search', wrap(async (req, res) => {
     maxIndex = parseInt(req.query.maxIndex);
   } 
 
+  if (!req.query.termId || req.query.termId.length !== 6) {
+    macros.log("Invalid termId.")
+    res.send(JSON.stringify({
+      error: "Invalid termid."
+    }));
+    return;
+  }
+
 
   const index = await getSearch();
 
@@ -228,7 +278,7 @@ app.get('/search', wrap(async (req, res) => {
   }
 
   const startTime = Date.now();
-  const results = index.search(req.query.query, minIndex, maxIndex);
+  const results = index.search(req.query.query, req.query.termId, minIndex, maxIndex);
   const midTime = Date.now();
   const string = JSON.stringify(results)
   macros.log(getTime(), getIpPath(req), 'Search for', req.query.query, 'took ', midTime-startTime, 'ms and stringify took', Date.now()-midTime, 'with', results.length, 'results');
@@ -362,22 +412,23 @@ else {
 async function startServer() {
   const rollbarKey = await macros.getEnvVariable('rollbarPostServerItemToken');
 
-  if (rollbarKey) {
-    rollbar.init(rollbarKey);
-    const rollbarFunc = rollbar.errorHandler(rollbarKey)
+  if (macros.PROD) {
+    if (rollbarKey) {
+      rollbar.init(rollbarKey);
+      const rollbarFunc = rollbar.errorHandler(rollbarKey)
 
-    // https://rollbar.com/docs/notifier/node_rollbar/
-    // Use the rollbar error handler to send exceptions to your rollbar account
-    app.use(rollbarFunc);
-  }
-  else {
-    if (macros.PROD) {
-      macros.error("Don't have rollbar key! Skipping rollbar. :O");
+      // https://rollbar.com/docs/notifier/node_rollbar/
+      // Use the rollbar error handler to send exceptions to your rollbar account
+      app.use(rollbarFunc);
     }
     else {
-      macros.log("Don't have rollbar key! Skipping rollbar. :O");
+      macros.error("Don't have rollbar key! Skipping rollbar. :O");
     }
   }
+  else if (macros.DEV && !rollbarKey) {
+    macros.log("Don't have rollbar key! Skipping rollbar. :O");
+  }
+
 
   app.listen(port, '0.0.0.0', (err) => {
     if (err) { 
