@@ -212,6 +212,10 @@ app.get('/search', wrap(async (req, res) => {
 
 // for Facebook verification of the endpoint.
 app.get('/webhook/', async function (req, res) {
+  console.log(req.connection.remoteAddress, 'Tried to send a webhook')
+  res.send('hi')
+  return;
+  
         macros.log(req.query);
         
         let verifyToken = await macros.getEnvVariable('fbVerifyToken')
@@ -227,6 +231,11 @@ app.get('/webhook/', async function (req, res) {
 
 // Respond to the messages
 app.post('/webhook/', function (req, res) {
+  // Disable temporarily
+  console.log(req.connection.remoteAddress, 'Tried to send a webhook')
+  res.send('hi')
+  return;
+
     let messaging_events = req.body.entry[0].messaging
     for (let i = 0; i < messaging_events.length; i++) {
 	    let event = req.body.entry[0].messaging[i]
