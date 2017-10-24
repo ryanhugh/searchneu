@@ -470,7 +470,7 @@ class Home extends React.Component {
                 <Dropdown 
                   fluid 
                   selection 
-                  defaultValue='201830' 
+                  defaultValue={this.state.selectedTerm}
                   placeholder='Spring 2018' 
                   className={css.termDropdown}
                   options={termDropDownOptions} 
