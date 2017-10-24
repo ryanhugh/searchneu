@@ -447,7 +447,7 @@ class Home extends React.Component {
                 Search For Northeastern
               </h1>
               <p className={ css.subtitle }>
-                Search for classes, professors, times, etc.
+                Search for classes, professors, subjects, etc.
               </p>
               <div>
                 <div className={'sub header ' + css.searchWrapper}>
