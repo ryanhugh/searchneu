@@ -56,19 +56,19 @@ else {
 }
 
 
-// Register the Service Worker
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').then(function (reg) {
-   // Registration worked.
-   console.log('Registration succeeded. Scope is', reg.scope);
-  }).catch(function (error) {
-   // Registration failed.
-   macros.error('Service worker registration failed with ', error);
-  });
-}
-else {
-  console.log("Browser does not support Service Worker.")
-}
+// // Register the Service Worker
+// if ('serviceWorker' in navigator) {
+//   navigator.serviceWorker.register('sw.js').then(function (reg) {
+//    // Registration worked.
+//    console.log('Registration succeeded. Scope is', reg.scope);
+//   }).catch(function (error) {
+//    // Registration failed.
+//    macros.error('Service worker registration failed with ', error);
+//   });
+// }
+// else {
+//   console.log("Browser does not support Service Worker.")
+// }
 
 
 const root = document.getElementById('app');
