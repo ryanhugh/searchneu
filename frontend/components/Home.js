@@ -313,11 +313,11 @@ class Home extends React.Component {
     localStorage.selectedTerm = data.value
     this.setState({
       selectedTerm: data.value
+    }, function () {
+      if (this.state.searchTerm) {
+        this.search(this.state.searchTerm)
+      }
     })
-
-    if (this.state.searchTerm) {
-      this.search(this.state.searchTerm)
-    }
   }
 
 
