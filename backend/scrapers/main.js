@@ -51,7 +51,7 @@ class Main{
 const instance = new Main();
 
 if (require.main === module) {
-  instance.main();
+  instance.main(true);
 }
 
 export default instance;
