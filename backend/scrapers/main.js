@@ -58,7 +58,7 @@ async function localRun() {
     let semesterlyData = await instance.main(true);
 
     if (semesterlyData) {
-      await fs.writeFile(`courses.json`, JSON.stringify(semesterlyData));
+      await fs.writeFile(`courses2.json`, JSON.stringify(semesterlyData));
     }
   }
 }
