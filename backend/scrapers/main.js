@@ -1,4 +1,5 @@
 import matchEmployees from './employees/matchEmployees';
+import fs from 'fs-promise';
 
 import macros from '../macros';
 import classes from './classes/main';
@@ -50,8 +51,18 @@ class Main{
 
 const instance = new Main();
 
-if (require.main === module) {
-  instance.main(true);
+
+async function localRun() {
+  
+  if (require.main === module) {
+    let semesterlyData = await instance.main(true);
+
+    if (semesterlyData) {
+      await fs.writeFile(`courses.json`, JSON.stringify(semesterlyData));
+    }
+  }
 }
+
+localRun();
 
 export default instance;
