@@ -20,34 +20,31 @@ class addPreRequisiteFor extends BaseProcessor.BaseProcessor {
 
     return termDump;
   }
+  // Recursively traverse the prerequsite structure
+  outputParsePreReqs(prereqs) {
+    return `${prereqs.values.reduce((sum, aclass) => {
+      if (!aclass.missing) {
+        return `${sum} ${aclass.classUid}`;
+      }
+      return `${sum} 00000`;
+    }, `(${prereqs.type}`)} )`;
+  }
 
-  // Prerequisite -> null
-  // Parses the Prerequisite and calls the respective function to deal with
-  // each one
+  // Recursively traverse the prerequsite structure
   parsePreReqs(prereqs) {
-    if (prereqs.type === 'and') {
-      this.parseAndPreReqs(prereqs.values);
-    } else {
-      this.parseOrPreReqs(prereqs.values);
-    }
+    return prereqs.values.map((obj) => {
+      // If there's a type, then it's not a class but rather a structure obj.
+      if (obj.type) {
+        return this.parsePreReqs(obj);
+      }
+
+      // Deal with the class
+      return this.parseClass(obj);
+    });
   }
 
-  // Prerequisite -> null
-  // Parses a prerequisite that
-  parseAndPreReqs(prereq) {
-    if (Array.isArray(prereq)) {
-      prereq.forEach((req) => { this.parsePreReqs(req); });
-    } else {
-
-    }
-  }
-
-  parseOrPreReqs(prereq) {
-    if (Array.isArray) {
-      prereq.forEach((req) => { this.parsePreReqs(req); });
-    } else {
-
-    }
+  parseClass(aclass) {
+    return aclass.classUid;
   }
 }
 
