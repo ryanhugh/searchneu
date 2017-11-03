@@ -28,13 +28,13 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
   // Recursively traverse the prerequsite structure
   parsePreReqs(mainClass, prereqs, type) {
     if (Array.isArray(prereqs)) {
-      return prereqs.values.map((obj) => {
+      prereqs.values.map((obj) => {
         return this.parsePreReqs(mainClass, obj, prereqs.type);
       });
     }
 
     // Deal with the class
-    return this.parseClass(mainClass, prereqs, type);
+    this.parseClass(mainClass, prereqs, type);
   }
 
   // Append mainClass to the prereqsFor array of prereqClass
