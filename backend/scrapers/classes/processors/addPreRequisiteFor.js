@@ -11,41 +11,55 @@
  */
 
 import BaseProcessor from './baseProcessor';
+import Keys from '../../../../common/Keys';
 
-class addPreRequisiteFor extends BaseProcessor.BaseProcessor {
+class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
+  termDump = {}
+
   go(termDump) {
-    for (const aClass of termDump.classes) {
-      this.parsePreReqs(aClass.prereqs);
+    this.termDump = termDump;
+    for (const aClass of this.termDump.classes) {
+      this.parsePreReqs(aClass, aClass.prereqs);
     }
 
     return termDump;
   }
-  // Recursively traverse the prerequsite structure
-  outputParsePreReqs(prereqs) {
-    return `${prereqs.values.reduce((sum, aclass) => {
-      if (!aclass.missing) {
-        return `${sum} ${aclass.classUid}`;
-      }
-      return `${sum} 00000`;
-    }, `(${prereqs.type}`)} )`;
-  }
 
   // Recursively traverse the prerequsite structure
-  parsePreReqs(prereqs) {
-    return prereqs.values.map((obj) => {
-      // If there's a type, then it's not a class but rather a structure obj.
-      if (obj.type) {
-        return this.parsePreReqs(obj);
-      }
+  parsePreReqs(mainClass, prereqs, type) {
+    if (Array.isArray(prereqs)) {
+      return prereqs.values.map((obj) => {
+        return this.parsePreReqs(mainClass, obj, prereqs.type);
+      });
+    }
 
-      // Deal with the class
-      return this.parseClass(obj);
-    });
+    // Deal with the class
+    return this.parseClass(mainClass, prereqs, type);
   }
 
-  parseClass(aclass) {
-    return aclass.classUid;
+  // Append mainClass to the prereqsFor array of prereqClass
+  parseClass(mainClass, prereqClass, type) {
+    const find = Keys.create(prereqClass).getHash();
+    let found = {};
+    for (const aClass of this.termDump.classes) {
+      if (Keys.create(aClass).getHash() === find) {
+        found = aClass;
+        break;
+      }
+    }
+
+    if (type === 'and') {
+      if (found.prereqsFor === undefined) {
+        found.prereqsFor = [];
+      }
+      found.prereqsFor.push(mainClass);
+    } else {
+      if (found.optPrereqsFor === undefined) {
+        found.optPrereqsFor = [];
+      }
+      found.optPrereqsFor.push(mainClass);
+    }
   }
 }
 
-export default addPreRequisiteFor;
+export default new AddPreRequisiteFor();
