@@ -38,7 +38,7 @@ describe('addPreRequisiteFor tests', () => {
     },
     classId: '2510',
     termId: '201830',
-    host: 'neu.edu',
+    subject: 'CS',
   };
 
   const termDump = {
@@ -80,7 +80,7 @@ describe('addPreRequisiteFor tests', () => {
           found = aClass;
         }
       }
-      expect(found).toBe(outputPreReqClass);
+      expect(found).toContain(outputPreReqClass);
     });
   });
 });
