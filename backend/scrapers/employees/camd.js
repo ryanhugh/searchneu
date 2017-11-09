@@ -168,7 +168,7 @@ class Camd {
 
     if (macros.DEV) {
       await cache.set('dev_data', this.constructor.name, 'main', people);
-      console.log('camd file saved!');
+      console.log(people.length, 'camd people saved to the cache file!');
     }
 
     return people;
