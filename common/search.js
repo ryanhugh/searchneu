@@ -152,7 +152,6 @@ class Search {
   }
 
   checkForSubjectMatch(searchTerm, termId) {
-    debugger
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
     const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();

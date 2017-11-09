@@ -226,7 +226,7 @@ class COE {
 
     if (macros.DEV) {
       await cache.set('dev_data', this.constructor.name, 'main', people);
-      macros.log('coe file saved!');
+      macros.log(people.length, 'coe people saved!');
     }
 
     return people;
