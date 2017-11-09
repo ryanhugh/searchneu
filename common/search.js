@@ -312,7 +312,9 @@ class Search {
     // Acronyms such as ood and ai and ml are generated dynamically based on the name
     let slangMap = {
       fundies: 'fundamentals of computer science',
-      orgo: 'Organic Chemistry'
+      orgo: 'Organic Chemistry',
+      numeri: 'MATH 7203',
+      numerica: 'MATH 7203'
     }
 
     for (const word in slangMap) {
