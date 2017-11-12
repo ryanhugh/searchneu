@@ -437,7 +437,7 @@ class Request {
           // This will retry for any error code.
 
           this.analytics[hostname].totalErrors++;
-          if (!process.env.CI || tryCount > 5) {
+          if (!macros.PROD || tryCount > 5) {
             console.log('Try#:', tryCount, 'Code:', err.statusCode || err.RequestError || err.Error || err.message || err, ' Open request count: ', this.openRequests, 'Url:', config.url);
           }
 
@@ -474,7 +474,7 @@ class Request {
 
         // Don't log this on travis because it causes more than 4 MB to be logged and travis will kill the job
         this.analytics[hostname].totalBytesDownloaded += response.body.length;
-        if (!process.env.CI) {
+        if (!macros.PROD) {
           console.log('Parsed', response.body.length, 'in', requestDuration, 'ms from ', config.url);
         }
 

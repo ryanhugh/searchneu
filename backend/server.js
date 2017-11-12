@@ -9,6 +9,7 @@ import compress from 'compression';
 import rollbar from 'rollbar'; 
 import bodyParser from 'body-parser';
 import mkdirp from 'mkdirp-promise';
+import moment from 'moment';
 
 import Request from './scrapers/request';
 import search from '../common/search';
@@ -57,11 +58,40 @@ app.use(function (req, res, next) {
   next()
 }.bind(this))
 
+// Prefer the headers if they are present so we get the real ip instead of localhost (nginx) or a cloudflare IP
+function getIpPath(req) {
+
+  let output = []
+
+  let realIpHeader = req.headers['x-real-ip']
+  if (realIpHeader) {
+    output.push('Real:')
+    output.push(realIpHeader)
+    output.push(' ')
+  }
+  
+  let forwardedForHeader = req.headers['x-forwarded-for']
+  if (forwardedForHeader) {
+    output.push('ForwardedFor:')
+    output.push(forwardedForHeader)
+    output.push(' ')
+  }
+
+  output.push('remoteIp: ')
+  output.push(req.connection.remoteAddress)
+
+  return output.join('')
+}
+
+function getTime() {
+  return moment().format('hh:mm:ss a')
+}
+
 
 // Http to https redirect. 
 app.use(function (req, res, next) {
   
-  var remoteIp = req.connection.remoteAddress;
+  var remoteIp = getIpPath(req);
 
 
   // If this is https request, done. 
@@ -83,7 +113,7 @@ app.use(function (req, res, next) {
   else {
     // Cache the http to https redirect for 2 months. 
     res.setHeader('Cache-Control', 'public, max-age=5256000');
-    macros.log(remoteIp, 'redirecting to https')
+    macros.log(getTime(), remoteIp, 'redirecting to https')
     res.redirect('https://' + req.get('host') + req.originalUrl);
   }
 })
@@ -119,33 +149,65 @@ async function getFrontendData(file) {
 
   await mkdirp(path.dirname(localPath))
 
+  let data;
+
+  try {
+    data = JSON.parse(resp.body);
+  }
+  catch (e) {
+    console.log("Could not download term", file, 'from server!');
+    console.log("Probably going to crash");
+    return null;
+  }
+
   // Save that locally
   await fs.writeFile(localPath, resp.body);
 
-  return JSON.parse(resp.body);
+  return data;
+
 }
 
 
 
-let searchPromise = null;
 
 async function getSearch() {
-  if (searchPromise) {
-    return searchPromise;
-  }
 
   const termDumpPromise = getFrontendData('data/getTermDump/neu.edu/201810.json')
+  
+  const spring2018DataPromise = getFrontendData('data/getTermDump/neu.edu/201830.json')
 
   const searchIndexPromise = getFrontendData('data/getSearchIndex/neu.edu/201810.json')
+
+  const spring2018SearchIndexPromise = getFrontendData('data/getSearchIndex/neu.edu/201830.json')
 
   const employeeMapPromise = getFrontendData('data/employeeMap.json');
 
   const employeesSearchIndexPromise = getFrontendData('data/employeesSearchIndex.json');
 
   try {
-    searchPromise = Promise.all([termDumpPromise, searchIndexPromise, employeeMapPromise, employeesSearchIndexPromise]).then((...args) => {
-      return search.create(...args[0]);
-    });
+    const fallData = await termDumpPromise;
+    const springData = await spring2018DataPromise;
+    const fallSearchIndex = await searchIndexPromise;
+    const springSearchIndex = await spring2018SearchIndexPromise;
+    const employeeMap = await employeeMapPromise;
+    const employeesSearchIndex = await employeesSearchIndexPromise;
+
+    if (!fallData || !springData || !fallSearchIndex || !springSearchIndex || !employeeMap || !employeesSearchIndex) {
+      console.log("Couldn't download a file.", !!fallData, !!springData, !!fallSearchIndex, !!springSearchIndex, !!employeeMap, !!employeesSearchIndex)
+      return;
+    }
+
+    return search.create(employeeMap, employeesSearchIndex, 
+      [{
+        searchIndex: springSearchIndex,
+        termDump: springData,
+        termId: '201830'
+      },
+      {
+        searchIndex: fallSearchIndex,
+        termDump: fallData,
+        termId: '201810'
+      }]);
   }
   catch (e) {
     macros.error("Error:", e)
@@ -157,11 +219,11 @@ async function getSearch() {
 }
 
 // Load the index as soon as the app starts. 
-getSearch();
+let searchPromise = getSearch();
 
 app.get('/search', wrap(async (req, res) => {
   if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500) {
-    macros.log('Need query.', req.query);
+    macros.log(getTime(), 'Need query.', req.query);
     res.send(JSON.stringify({
       error: 'Need query param.'
     }));
@@ -186,8 +248,16 @@ app.get('/search', wrap(async (req, res) => {
     maxIndex = parseInt(req.query.maxIndex);
   } 
 
+  if (!req.query.termId || req.query.termId.length !== 6) {
+    macros.log("Invalid termId.")
+    res.send(JSON.stringify({
+      error: "Invalid termid."
+    }));
+    return;
+  }
 
-  const index = await getSearch();
+
+  const index = await searchPromise;
 
   if (!index) {
 
@@ -198,10 +268,10 @@ app.get('/search', wrap(async (req, res) => {
   }
 
   const startTime = Date.now();
-  const results = index.search(req.query.query, minIndex, maxIndex);
+  const results = index.search(req.query.query, req.query.termId, minIndex, maxIndex);
   const midTime = Date.now();
   const string = JSON.stringify(results)
-  macros.log(req.connection.remoteAddress, 'Search for', req.query.query, 'took ', midTime-startTime, 'ms and stringify took', Date.now()-midTime, 'with', results.length, 'results');
+  macros.log(getTime(), getIpPath(req), 'Search for', req.query.query, 'took ', midTime-startTime, 'ms and stringify took', Date.now()-midTime, 'with', results.length, 'results');
 
   // Set the header for application/json and send the data.
   res.setHeader("Content-Type", "application/json; charset=UTF-8");
@@ -212,6 +282,10 @@ app.get('/search', wrap(async (req, res) => {
 
 // for Facebook verification of the endpoint.
 app.get('/webhook/', async function (req, res) {
+  console.log(getTime(), getIpPath(req), 'Tried to send a webhook')
+  res.send('hi')
+  return;
+  
         macros.log(req.query);
         
         let verifyToken = await macros.getEnvVariable('fbVerifyToken')
@@ -227,6 +301,18 @@ app.get('/webhook/', async function (req, res) {
 
 // Respond to the messages
 app.post('/webhook/', function (req, res) {
+  // Disable temporarily
+  console.log(getTime(), getIpPath(req), 'Tried to send a webhook')
+  res.send('hi')
+  return;
+
+  // TODO: when get this working again:
+  // 1. make sure that the requests are coming from facebook
+  // 2. check to see if the body is valid (https://rollbar.com/ryanhugh/searchneu/items/54/)
+  // Ex:
+  //   TypeError: Cannot read property '0' of undefined at line var messaging_events = req.body.entry[0].messaging;
+
+
     let messaging_events = req.body.entry[0].messaging
     for (let i = 0; i < messaging_events.length; i++) {
 	    let event = req.body.entry[0].messaging[i]
@@ -279,13 +365,6 @@ app.get('/google840b636639b40c3c.html', (req, res) => {
   res.end();
 })
 
-
-app.get('/cookietest', (req, res) => {
-  res.set('Set-Cookie', 'NID=110=wMKSrFPAuUHyZpP0UYP_yTkr7P577dXF6FzsXFhVNXmY_5ETUnhk6N8r9NM_qguv6o8d3dETYQM-y5DgZFjSv8Wo7MNQOp4fT9p0wVTULU0BLxx4g40fCrVKTlX9gp9y; expires=Mon, 26-Feb-2018 22:55:12 GMT; path=/; domain=.google.com; HttpOnly');
-  res.write('test');
-  res.end();
-})
-
 app.get('*', (req, res) => {
   res.setHeader("Content-Type", "text/html; charset=UTF-8");
   if (macros.PROD) {
@@ -295,6 +374,19 @@ app.get('*', (req, res) => {
     res.write(middleware.fileSystem.readFileSync(path.join(webpackConfig.output.path, 'index.html')));
     res.end();
   }
+});
+
+
+// your express error handler
+app.use(function(err, req, res, next) {
+    // in case of specific URIError
+    if (err instanceof URIError) {
+        macros.log("Warning, could not process malformed url: ", req.url)
+        return res.send("Invalid url.");
+    } else {
+      macros.error(err)
+      return res.send(err);
+    }
 });
 
 
@@ -310,22 +402,23 @@ else {
 async function startServer() {
   const rollbarKey = await macros.getEnvVariable('rollbarPostServerItemToken');
 
-  if (rollbarKey) {
-    rollbar.init(rollbarKey);
-    const rollbarFunc = rollbar.errorHandler(rollbarKey)
+  if (macros.PROD) {
+    if (rollbarKey) {
+      rollbar.init(rollbarKey);
+      const rollbarFunc = rollbar.errorHandler(rollbarKey)
 
-    // https://rollbar.com/docs/notifier/node_rollbar/
-    // Use the rollbar error handler to send exceptions to your rollbar account
-    app.use(rollbarFunc);
-  }
-  else {
-    if (macros.PROD) {
-      macros.error("Don't have rollbar key! Skipping rollbar. :O");
+      // https://rollbar.com/docs/notifier/node_rollbar/
+      // Use the rollbar error handler to send exceptions to your rollbar account
+      app.use(rollbarFunc);
     }
     else {
-      macros.log("Don't have rollbar key! Skipping rollbar. :O");
+      macros.error("Don't have rollbar key! Skipping rollbar. :O");
     }
   }
+  else if (macros.DEV && !rollbarKey) {
+    macros.log("Don't have rollbar key! Skipping rollbar. :O");
+  }
+
 
   app.listen(port, '0.0.0.0', (err) => {
     if (err) { 
