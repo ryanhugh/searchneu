@@ -11,6 +11,9 @@
     justify-content: center;
     margin-bottom: 0px !important;
     height: 100%;
+    z-index: 100;
+    position: relative;
+    pointer-events: none;
 }
 
 .centerTextContainer {
@@ -30,6 +33,7 @@
     color: rgb(174, 69, 67);
     font-weight: 400;
     font: Roboto, 'Segoe UI', Tahoma, sans-serif;
+    pointer-events: initial;
 }
 
 .mobileCompact .title {
@@ -40,6 +44,7 @@
 .subtitle {
     color: #a3a3a3 !important;
     font-weight: 200;
+    pointer-events: initial;
 }
 
 .logo {
@@ -70,6 +75,7 @@
     margin: 10px auto !important;
     position: relative;
     text-align: left;
+    pointer-events: initial;
 }
 
 /* Desktop. */
@@ -327,3 +333,21 @@
 .mobileCompact .footer {
     padding-top: 30px;
 }
+
+.termDropdown {
+    border: none !important;
+    display: inline-block;
+    max-width: 158px;
+    color: rgb(174, 69, 67) !important;
+    margin: 0 auto;
+    box-shadow: none !important;
+    border: none !important;
+    pointer-events: initial;
+}
+.termDropdown * {
+    font-weight: initial !important;
+    /*box-shadow: none !important;*/
+    border: none !important;
+    color: rgb(174, 69, 67) !important;
+}
+

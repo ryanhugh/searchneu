@@ -62,6 +62,10 @@ class Macros {
       return null;
     }
 
+    if (!fullName) {
+      return null;
+    }
+
 
     const indexOfFirstSpace = fullName.indexOf(' ');
 

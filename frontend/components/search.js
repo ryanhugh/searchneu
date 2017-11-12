@@ -17,7 +17,7 @@ class Search {
   // Min terms is the minimum number of terms needed.
   // When this function is called for the first time for a given query, it will be 4.
   // Then, on subsequent calls, it will be 14, 24, etc. (if increasing by 10)
-  async search(query, termCount) {
+  async search(query, termId, termCount) {
     // Searches are case insensitive.
     query = query.trim().toLowerCase();
 
@@ -26,15 +26,21 @@ class Search {
       return []
     }
 
+    if (!termId || termId.length !== 6) {
+      debugger
+      console.log("No termId given in frontend/search.js. Returning empty array.", termId, termCount)
+      return []
+    }
+
     let existingTermCount = 0;
-    if (this.cache[query]) {
-      existingTermCount = this.cache[query].length;
+    if (this.cache[termId + query]) {
+      existingTermCount = this.cache[termId + query].length;
     }
 
     // Cache hit
-    if (termCount <= existingTermCount && existingTermCount > 0 || this.allLoaded[query]) {
-      console.log('Cache hit.', this.allLoaded[query]);
-      return this.cache[query].slice(0, termCount);
+    if (termCount <= existingTermCount && existingTermCount > 0 || this.allLoaded[termId + query]) {
+      console.log('Cache hit.', this.allLoaded[termId + query]);
+      return this.cache[termId + query].slice(0, termCount);
     }
 
     // If we got here, we need to hit the network.
@@ -43,6 +49,7 @@ class Search {
 
     const url = new URI('/search').query({
       query: query,
+      termId: termId,
       minIndex: existingTermCount,
       maxIndex: termCount,
     }).toString();
@@ -57,18 +64,18 @@ class Search {
     }
 
 
-    if (!this.cache[query]) {
-      this.cache[query] = [];
+    if (!this.cache[termId + query]) {
+      this.cache[termId + query] = [];
     }
 
     // Add to the end of exiting results.
-    this.cache[query] = this.cache[query].concat(results);
+    this.cache[termId + query] = this.cache[termId + query].concat(results);
 
     if (results.length < termCount - existingTermCount) {
-      this.allLoaded[query] = true;
+      this.allLoaded[termId + query] = true;
     }
 
-    return this.cache[query];
+    return this.cache[termId + query];
   }
 
 

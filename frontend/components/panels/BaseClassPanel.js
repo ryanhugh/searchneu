@@ -139,7 +139,15 @@ class BaseClassPanel extends React.Component {
   				
   				// Create the React element and add it to retVal
           const event = new CustomEvent(macros.searchEvent, { detail: childBranch.subject + ' ' + childBranch.classId });
-          const element =  <a key={Keys.create(childBranch).getHash()} onClick={() => {window.dispatchEvent(event)}} className={css.reqClassLink}>{childBranch.subject + ' ' + childBranch.classId}</a>
+
+          //   href={"/" + encodeURIComponent(childBranch.subject + ' ' + childBranch.classId)}
+          const element =  <a 
+                              key={Keys.create(childBranch).getHash()} 
+                              onClick={(e) => {window.dispatchEvent(event); e.preventDefault(); return false;}} 
+                              className={css.reqClassLink}
+                            >
+                               {childBranch.subject + ' ' + childBranch.classId}
+                            </a>
   
 					retVal.push(element)
   			}

@@ -3,6 +3,7 @@ import CSSModules from 'react-css-modules';
 import 'semantic-ui-css/semantic.min.css';
 import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames/bind';
+import { Dropdown } from 'semantic-ui-react'
 
 import '../css/base.css';
 
@@ -24,6 +25,15 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
 
+    let selectedTerm;
+    // Check localStorage for the most recently selected term. Keeping this in localStorage makes it sticky across page loads/
+    if (localStorage.selectedTerm) {
+      selectedTerm = localStorage.selectedTerm
+    } else {
+      // Defalt to Spring 2018 (need to make this dynamic in the future...)
+      selectedTerm = '201830'
+    }
+
     this.state = {
       results: [],
 
@@ -39,6 +49,9 @@ class Home extends React.Component {
       // Is the same as this.state.searchTerm.length === 0 most of the time, but when the search results are deleted,
       // they animate away instead of switching instantly. 
       showSearchResults: false,
+
+      // Keep track of which term the user is searching over. The employee data is the same regardless of the term. 
+      selectedTerm: selectedTerm
     };
 
     // Timer used to debounce search queries
@@ -68,6 +81,7 @@ class Home extends React.Component {
     this.onInputFocus = this.onInputFocus.bind(this);
     this.onSearchDebounced = this.onSearchDebounced.bind(this);
     this.onLogoClick = this.onLogoClick.bind(this);
+    this.onTermdropdownChange = this.onTermdropdownChange.bind(this);
 
     // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
@@ -219,7 +233,8 @@ class Home extends React.Component {
   async search(searchTerm, termCount = 5) {
     this.currentQuery = searchTerm;
 
-    const results = await search.search(searchTerm, termCount);
+    // Should the selected term be a part of the URL? and should it be a part of this user history? (when the user clicks forward and backward)
+    const results = await search.search(searchTerm, this.state.selectedTerm, termCount);
 
     if (searchTerm !== this.currentQuery) {
       macros.log('Did not come back in order, discarding ', searchTerm);
@@ -292,6 +307,17 @@ class Home extends React.Component {
     }
 
     this.searchFromUserAction(event);
+  }
+
+  onTermdropdownChange(event, data) {
+    localStorage.selectedTerm = data.value
+    this.setState({
+      selectedTerm: data.value
+    }, function () {
+      if (this.state.searchTerm) {
+        this.search(this.state.searchTerm)
+      }
+    })
   }
 
 
@@ -375,6 +401,16 @@ class Home extends React.Component {
       mobileClassType = css.mobileFull
     }
 
+    const termDropDownOptions = [
+    {
+      text: 'Fall 2017',
+      value: '201810'
+    },
+    {
+      text: 'Spring 2018',
+      value: '201830'
+    }]
+
     // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation.
     // Actually it only removes the extra whitespace on chrome. Need to come up with a better solution for other browsers.  
     return (
@@ -411,23 +447,34 @@ class Home extends React.Component {
                 Search For Northeastern
               </h1>
               <p className={ css.subtitle }>
-                Search for classes, professors, times, etc.
+                Search for classes, professors, subjects, etc.
               </p>
-              <div className={'sub header ' + css.searchWrapper}>
-                <label htmlFor='search_id'>
-                  <i className='search icon' />
-                </label>
-                <input
-                  type='search'
-                  id='seach_id'
-                  autoComplete='off'
-                  spellCheck='false'
-                  tabIndex='0'
-                  className={css.searchBox}
-                  onChange={ this.onClick }
-                  onKeyDown={ this.onKeyDown }
-                  defaultValue={ this.state.searchTerm }
-                  ref={(element) => { this.inputElement = element; }}
+              <div>
+                <div className={'sub header ' + css.searchWrapper}>
+                  <label htmlFor='search_id'>
+                    <i className='search icon' />
+                  </label>
+                  <input
+                    type='search'
+                    id='seach_id'
+                    autoComplete='off'
+                    spellCheck='false'
+                    tabIndex='0'
+                    className={css.searchBox}
+                    onChange={ this.onClick }
+                    onKeyDown={ this.onKeyDown }
+                    defaultValue={ this.state.searchTerm }
+                    ref={(element) => { this.inputElement = element; }}
+                  />
+                </div>
+                <Dropdown 
+                  fluid 
+                  selection 
+                  defaultValue={this.state.selectedTerm}
+                  placeholder='Spring 2018' 
+                  className={css.termDropdown}
+                  options={termDropDownOptions} 
+                  onChange={this.onTermdropdownChange}
                 />
               </div>
               {hitEnterToSearch}
