@@ -9,6 +9,7 @@ Table of Contents
 * [Employees](Employees.md)   
 * [Scrapers](Scrapers.md)
 * [Search](Search.md)  
+* [Frontend](Frontend.md)  
 
 
 About Search NEU
