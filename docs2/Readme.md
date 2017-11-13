@@ -6,6 +6,9 @@ Table of Contents
 * [Installation](Installation.md)  
 * [How It All Works](How%20it%20all%20works.md)  
 * [Learning the stack](Learning%20the%20stack.md)  
+* [Contributing](Contributing.md)  
+* [Bug Bounty 🌯🎉](Bug%20bounty.md)  
+* [API](API.md)  
 * Data structures
    * [Class data](Classes.md)   
    * [Employee data](Employees.md)   
@@ -13,9 +16,6 @@ Table of Contents
    * [Scrapers](Scrapers.md)  
    * [Search](Search.md)  
    * [Frontend](Frontend.md)  
-* [API](API.md)
-* [Contributing](Contributing.md)
-* [Bug Bounty](Bug%20bounty.md)
 
 About Search NEU
 =================
