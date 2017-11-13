@@ -1,5 +1,16 @@
 ### This documentation is still under development and will probably change a lot before it is finished! Feel free to email us at hey@searchneu.com or send Ryan an FB message at https://m.me/ryanhughez if you have any questions. 
 
+Table of Contents
+=================
+* [Home](Home.md)  
+* [How It All Works](How-It-All-Works.md)  
+* [Installation](Installation.md)  
+* [Classes](Classes.md)   
+* [Employees](Employees.md)   
+* [Scrapers](Scrapers.md)
+* [Search](Search.md)  
+
+
 About Search NEU
 =================
 **Built for students by students.** Search NEU is a web platform created to bring modern technology to the most difficult and archaic parts of higher education. We believe in the same things [Semester.ly](https://semester.ly) does: course registration is a pain. Spreadsheets, sticky notes, PDFs of course evaluations, and an outdated registration platform....it is all too much in the heat of classes and exams. We set out with the mission to make college more collaborative and more stress free.
