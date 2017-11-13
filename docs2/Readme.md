@@ -1,5 +1,3 @@
-### This documentation is still under development and will probably change a lot before it is finished! Feel free to email us at hey@searchneu.com or send Ryan an FB message at https://m.me/ryanhughez if you have any questions. 
-
 Table of Contents
 =================
 * [Home](Readme.md)  
@@ -16,6 +14,8 @@ Table of Contents
    * [Scrapers](Scrapers.md)  
    * [Search](Search.md)  
    * [Frontend](Frontend.md)  
+   
+If you have any questions about the site or the documentation feel free to reach out! hey@searchneu.com
 
 About Search NEU
 =================
