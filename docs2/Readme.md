@@ -13,9 +13,9 @@ Table of Contents
    * [Scrapers](Scrapers.md)  
    * [Search](Search.md)  
    * [Frontend](Frontend.md)  
-* API
-* Contributing
-* Bug Bounty
+* [API](API.md)
+* [Contributing](Contributing.md)
+* [Bug Bounty](Bug%20bounty.md)
 
 About Search NEU
 =================
