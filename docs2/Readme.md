@@ -2,7 +2,7 @@
 
 Table of Contents
 =================
-* [Home](Home.md)  
+* [Home](Readme.md)  
 * [How It All Works](How-it-all-works.md)  
 * [Installation](Installation.md)  
 * [Classes](Classes.md)   
