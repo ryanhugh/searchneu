@@ -7,7 +7,7 @@ All the data shown on the site is scraped from various parts of Northeastern's w
 # Setup
 
 
-```
+```bash
 # Clone
 git clone git@github.com:ryanhugh/searchneu.git
 
