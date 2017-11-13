@@ -3,8 +3,8 @@
 Table of Contents
 =================
 * [Home](Readme.md)  
-* [How It All Works](How-it-all-works.md)  
 * [Installation](Installation.md)  
+* [How It All Works](How-it-all-works.md)  
 * [Classes](Classes.md)   
 * [Employees](Employees.md)   
 * [Scrapers](Scrapers.md)
