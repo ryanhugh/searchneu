@@ -11,7 +11,7 @@ Learning a new thing can be scary. Especially when all you have are some docs an
 
 I'm sure there are some great Node.js tutorials out there, but am not aware of any of the top of my head. If you find a great one, drop us a line! hey@searchneu.com
 
-## Learning React/Redux
+## Learning React
 
 React is a Javascript library created by Facebook for "building user interfaces". It allows developers to make encapsulated components that can be written once and used anywhere. 
 
