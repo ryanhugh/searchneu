@@ -3,7 +3,7 @@
 Table of Contents
 =================
 * [Home](Home.md)  
-* [How It All Works](How-It-All-Works.md)  
+* [How It All Works](How-it-all-works.md)  
 * [Installation](Installation.md)  
 * [Classes](Classes.md)   
 * [Employees](Employees.md)   
