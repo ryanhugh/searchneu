@@ -5,6 +5,7 @@ Table of Contents
 * [Home](Readme.md)  
 * [Installation](Installation.md)  
 * [How It All Works](How-it-all-works.md)  
+* [Learning the stack](Learning-the-stack.md)  
 * [Classes](Classes.md)   
 * [Employees](Employees.md)   
 * [Scrapers](Scrapers.md)
