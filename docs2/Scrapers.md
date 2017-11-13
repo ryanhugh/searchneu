@@ -7,7 +7,7 @@ The scrapers run daily on [travis](https://travis-ci.org/ryanhugh/searchneu/buil
 
 More documentation about specific scrapers below:
 
-- [Scrapers](Scrapers.md)
+- [Classes](Classes.md)
 - [Employees](Employees.md)
 
 # The cache
