@@ -17,7 +17,7 @@ Search NEU is also published as a NPM module [here!](https://www.npmjs.com/packa
 
 ### The search endpoint
 
-If you want to, you can also hit the search endpoint directly. All the calls to the search endpoint are HTTP GET requests. For example:
+If you want to, you can also hit the search endpoint directly. All the calls to the search endpoint are HTTP GET requests. Please don't send more than 100 requests to the search endpoint per hour. For example:
 
 ```
 https://searchneu.com/search?query=cs&termId=201810&minIndex=0&maxIndex=5
