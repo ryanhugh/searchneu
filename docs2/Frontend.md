@@ -41,3 +41,24 @@ Mobile:
 Desktop:  
 ![Employe Desktop Panel screenshot](https://i.imgur.com/Eyk3AYd.png)
 
+# Other components
+
+### Location Link
+
+The location link component renders the location of a section. If it is a valid section, it also hyperlinks it to Google Maps. Screenshot:
+
+![Location Link screenshot](https://i.imgur.com/tQ849bd.png)
+
+
+### Weekday boxes
+
+The Weekday boxes component renders the boxes of when a section meets. Screenshot:
+
+![Weekday boxes screenshot](https://i.imgur.com/SIEeiCP.png)
+
+
+
+
+
+
+
