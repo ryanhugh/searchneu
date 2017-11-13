@@ -6,12 +6,16 @@ Table of Contents
 * [Installation](Installation.md)  
 * [How It All Works](How%20it%20all%20works.md)  
 * [Learning the stack](Learning%20the%20stack.md)  
-* [Classes](Classes.md)   
-* [Employees](Employees.md)   
-* [Scrapers](Scrapers.md)
-* [Search](Search.md)  
-* [Frontend](Frontend.md)  
-
+* Data structures
+   * [Class data](Classes.md)   
+   * [Employee data](Employees.md)   
+* Processes
+   * [Scrapers](Scrapers.md)  
+   * [Search](Search.md)  
+   * [Frontend](Frontend.md)  
+* API
+* Contributing
+* Bug Bounty
 
 About Search NEU
 =================
