@@ -1,7 +1,43 @@
 # Frontend
 
-Overall, we try to follow React best practices. React is used for all of the DOM formatting and event handlers in the frontend. The frontend is compiled with Webpack. Redux isn't used at the moment but may be used in the future. All of the react components are located in `frontend/components`. All of the static files (robots.txt, etc) are located in `frontend/static`.
+The frontend was made with React and Webpack. Redux isn't used at the moment but may be used in the future. All of the react components are located in `frontend/components`. All of the static files (robots.txt, etc) are located in `frontend/static`.
 
 ### Home.js
 
-Home.js is the main React component in Search NEU. It has many different event listeners 
+Home.js is the main React component in Search NEU. It handles many different event listeners such as the back and forward buttons in the browser, the search box events, and the term selector events. When a user searches for a query, Home.js fetches the results from the server with `Search.js` and then sends the results to `ResultsLoader.js` to be rendered. 
+
+# The Panels
+
+## Classes
+
+The class panels are responsible for rendering one class results on either mobile or desktop. 
+
+### Desktop Class Panel
+
+The desktop class panel renders one class and all the sections in the class on desktop. Example:
+
+![Desktop Class Panel screenshot](https://i.imgur.com/h93IlBP.png)
+
+
+### Mobile Class Panel
+
+The desktop class panel renders one class result on mobile devices. Example:
+
+![Mobile Class Panel screenshot](https://i.imgur.com/lqIFmcm.png)
+
+### Mobile Section Panel
+
+The mobile section panel renders one section on mobile devices. Example:
+
+![Mobile Section Panel screenshot](https://i.imgur.com/izVuPL3.png)
+
+### Employee Panel
+
+The employee panel renders one class result on either mobile devices or desktop devices. Examples:
+
+Mobile:  
+![Employe Mobile Panel screenshot](https://i.imgur.com/JCgjW3a.png)
+
+Desktop:  
+![Employe Desktop Panel screenshot](https://i.imgur.com/Eyk3AYd.png)
+
