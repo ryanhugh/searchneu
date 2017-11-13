@@ -1,9 +1,14 @@
 
 # The Scrapers
 
-This is where it all starts: getting the data. All the code for the scrapers live in `searchneu/backend/scrapers`. Node.js works really well for high-performance web scraping because it can handle a very large number of simultaneous connections. All of the scraping is done with raw HTTP requests using the [requests](https://www.npmjs.com/package/request) library. The requests library is a lot faster than using a headless browser to scrape because it dosen't load or process the CSS, images, or any other files on the site. [Cheerio](https://cheerio.js.org/) is used to parse the HTML. Cheerio has a API that is pretty similar to jQuery which lets us quickly scan through HTML elements and parse info from them. Some of the older parsers use domutils and htmlparser2, which is not as widely used or as easy to understand as cheerio. Right now, there are two main data sources - employees and classes. All of the current data sources are public on the internet and don't require any log credentials to view them. 
+This is where the entire process starts: getting the data. All the code for the scrapers live in `searchneu/backend/scrapers`. Node.js works really well for high-performance web scraping because it can handle a very large number of simultaneous connections. All of the scraping is done with raw HTTP requests using the [requests](https://www.npmjs.com/package/request) library. The requests library is a lot faster than using a headless browser to scrape because it dosen't load or process the CSS, images, or any other files on the sites. [Cheerio](https://cheerio.js.org/) is used to parse the HTML. Cheerio has a API that is pretty similar to jQuery which lets us quickly scan through HTML elements and parse info from them. Some of the older parsers use domutils and htmlparser2. Right now, there are two main data sources - employees and classes. All of the current data sources are public on the internet and don't require any log credentials to view them. 
 
-All the logs from all the scrapers are public on travis [here](https://travis-ci.org/ryanhugh/searchneu/builds). All the ones with the cron tag that took about 17 minutes to run are the scrapers. The scrapers download just over 1GB of HTML and send out just over 100,000 HTTP requests. There are about 6,000 sections and 7,000 scraped every day. 
+The scrapers run daily on [travis](https://travis-ci.org/ryanhugh/searchneu/builds). All the ones with the cron tag that took about 17 minutes to run are the scrapers. The scrapers download just over 1GB of HTML and send out just over 100,000 HTTP requests. There are about 6,000 sections and 7,000 scraped every day. 
+
+More documentation about specific scrapers below:
+
+- [Scrapers](Scrapers.md)
+- [Employees](Employees.md)
 
 # The cache
 
