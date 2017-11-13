@@ -33,7 +33,7 @@ The mobile section panel renders one section on mobile devices. Example:
 
 ### Employee Panel
 
-The employee panel renders one class result on either mobile devices or desktop devices. Examples:
+The employee panel renders one employee result on either mobile devices or desktop devices. Examples:
 
 Mobile:  
 ![Employe Mobile Panel screenshot](https://i.imgur.com/JCgjW3a.png)
@@ -45,7 +45,7 @@ Desktop:
 
 ### Location Link
 
-The location link component renders the location of a section. If it is a valid section, it also hyperlinks it to Google Maps. Screenshot:
+The location link component renders the location of a section. If it is a valid building, it also hyperlinks it to Google Maps. Screenshot:
 
 ![Location Link screenshot](https://i.imgur.com/tQ849bd.png)
 
