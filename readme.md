@@ -1,9 +1,10 @@
-
+<br/>
 <p align="center">
   <a href="https://searchneu.com/">
-    <img alt="Search NEU" src="https://i.imgur.com/6hPgLSP.png" width="500" style="width: 370px;padding: 40px;"/>
+    <img alt="Search NEU" src="https://i.imgur.com/6hPgLSP.png" width="400"/>
   </a>
 </p>
+<br/>
 <p align="center">
   <a href="https://travis-ci.org/ryanhugh/searchneu/"><img src="https://travis-ci.org/ryanhugh/searchneu.svg?branch=master" alt="Travis CI Builds"></a> <a href="#"><img src="https://cdn.rawgit.com/aleen42/badges/master/src/sublime_text.svg" alt="Sublime Text Badge"></a> <a href="#"><img src="https://cdn.rawgit.com/aleen42/badges/master/src/webpack.svg" alt="Webpack Badge"></a> <a href="#"><img src="https://cdn.rawgit.com/aleen42/badges/master/src/react.svg" alt="React Badge"></a>  <a href="#"><img src="https://cdn.rawgit.com/aleen42/badges/master/src/node.svg" alt="Node.js"></a>  <a href="#"><img src="https://img.shields.io/badge/license-AGPLv3-blue.svg" alt="GitHub license"></a> <a href="https://searchneu.com"><img src="https://img.shields.io/website/https/searchneu.com.svg" alt="Website"></a>
 </p>
