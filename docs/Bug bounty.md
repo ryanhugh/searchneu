@@ -10,7 +10,7 @@ Security vulnerabilities include:
 - Accessing the enviornmental variables on [travis](https://travis-ci.org/ryanhugh/searchneu/builds)
 
 Vulnerabilities do not include:
-- DDOSing the server (please don't spam the server with requests 😖).:
+- DDOSing the server (please don't spam the server with requests 😖).
 - Social engineering attempts on our team or trying to change things with unauthorized access to a team member's computer
 
 In the end the ultimate decision over the burrito award 🌯 is a decision that is entirely up to the team. 
