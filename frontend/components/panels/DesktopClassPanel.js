@@ -19,8 +19,8 @@ const cx = classNames.bind(css);
 
 
 // Class Panel that renders the box with the class title, class description, and class sections
-// If mobile, uses MobileSectionPanel to show the sections. 
-// The code for desktop is inside this file. 
+// If mobile, uses MobileSectionPanel to show the sections.
+// The code for desktop is inside this file.
 
 
 // DesktopClassPanel page component
@@ -73,7 +73,7 @@ class DesktopClassPanel extends BaseClassPanel {
     // If there are plenty of seats left, don't show the waitlist
     return false;
   }
-  
+
   // Create the 4:35 - 5:40 pm string.
   // This was copied from mobile section panel.js
   // TODO: deduplicate
@@ -123,7 +123,7 @@ class DesktopClassPanel extends BaseClassPanel {
               <th> Professors </th>
               <th> Weekdays </th>
               <th> Time </th>
-              
+
               <th> Location </th>
               {examColumnHeaders}
               <th> Seats </th>
@@ -152,7 +152,7 @@ class DesktopClassPanel extends BaseClassPanel {
               if (section.online) {
 
                 // How many cells to span
-                // need to span more cells if final exam columns are being shown. 
+                // need to span more cells if final exam columns are being shown.
                 let length = 3;
                 if (aClass.sectionsHaveExam()) {
                   length = 6
@@ -166,21 +166,21 @@ class DesktopClassPanel extends BaseClassPanel {
                       <span className = {css.onlineDivLine}></span>
                     </span>
                   </td>)
-              
+
               // Have individual cells for the different columns
               } else {
-  
+
                 const meetingMoments = section.getAllMeetingMoments();
                 let meetingStrings = this.getTimeStingFromMeetings(meetingMoments);
-                
+
                 const examMeeting = section.getExamMeeting();
-                 
+
                 let examTimeString = null;
                 if (examMeeting) {
                   examTimeString = this.getTimeStingFromMeetings(examMeeting.times[0]);
                 }
-                
-              
+
+
                 tdElements.push(<td key="weekDayBoxes"> <WeekdayBoxes section={ section } /> </td>)
                 tdElements.push(<td key="times">{meetingStrings}</td>)
                 tdElements.push(<td key="locationLinks"> <LocationLinks section={ section } /> </td>);
@@ -200,7 +200,7 @@ class DesktopClassPanel extends BaseClassPanel {
                   }
                 }
 
-                
+
               }
 
 
@@ -253,7 +253,7 @@ class DesktopClassPanel extends BaseClassPanel {
             <span className = { css.classTitle }>
               {aClass.subject} {aClass.classId}: {aClass.name}
             </span>
-            <span className = {css.classGlobeLinkContainer}> 
+            <span className = {css.classGlobeLinkContainer}>
               <a target="_blank" rel="noopener noreferrer" className={ css.classGlobeLink } data-tip={ "View on " + aClass.host} href={ aClass.prettyUrl || aClass.url }>
                 <img src={ globe } alt="link"/>
               </a>
@@ -268,6 +268,8 @@ class DesktopClassPanel extends BaseClassPanel {
               Prerequisites: {this.getReqsString(true, aClass)}
               <br />
               Corequisites: {this.getReqsString(false, aClass)}
+              <br />
+              Prerequisites for: {this.getReqsString(false, aClass)}
             </div>
             <div className={ css.rightPanel }>
               <div data-tip="Check neu.edu for possible updates"> Updated {aClass.getLastUpdateString()}</div>
@@ -282,7 +284,7 @@ class DesktopClassPanel extends BaseClassPanel {
   }
 }
 
-// Number of sections to show by default. This is different on mobile. 
+// Number of sections to show by default. This is different on mobile.
 DesktopClassPanel.sectionsShownByDefault = 3;
 
 DesktopClassPanel.propTypes = {
