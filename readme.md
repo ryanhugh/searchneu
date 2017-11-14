@@ -1,7 +1,7 @@
 
 <p align="center">
   <a href="https://searchneu.com/">
-    <img alt="Node.js" src="https://i.imgur.com/6hPgLSP.png" width="500"/>
+    <img alt="Search NEU" src="https://i.imgur.com/6hPgLSP.png" width="500" style="width: 370px;padding: 40px;/>
   </a>
 </p>
 <p align="center">
