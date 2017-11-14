@@ -23,8 +23,8 @@ const cx = classNames.bind(css);
 
 
 // Class Panel that renders the box with the class title, class description, and class sections
-// If mobile, uses MobileSectionPanel to show the sections. 
-// The code for desktop is inside this file. 
+// If mobile, uses MobileSectionPanel to show the sections.
+// The code for desktop is inside this file.
 
 
 class MobileClassPanel extends BaseClassPanel {
@@ -33,7 +33,7 @@ class MobileClassPanel extends BaseClassPanel {
     super(props);
 
     this.state.showMoreThanTitle = false;
-    this.state.showAllClassDetails = false; 
+    this.state.showAllClassDetails = false;
 
     this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
     this.toggleShowAllClassDetails = this.toggleShowAllClassDetails.bind(this);
@@ -44,7 +44,7 @@ class MobileClassPanel extends BaseClassPanel {
     const newTitleValue = !this.state.showMoreThanTitle;
     let newShowAllClassDetails = this.state.showAllClassDetails;
 
-    // If closing the class accordian, reset the showAllClassDetails back to the default. 
+    // If closing the class accordian, reset the showAllClassDetails back to the default.
     let newState = {};
     if (!newTitleValue) {
       newShowAllClassDetails = false;
@@ -111,9 +111,11 @@ class MobileClassPanel extends BaseClassPanel {
               {'View on ' + aClass.host}
             </a>
             <br />
+            Prerequisites: {this.getReqsString(true, aClass)}
+            <br />
             Corequisites: {this.getReqsString(false, aClass)}
             <br />
-            Prerequisites: {this.getReqsString(true, aClass)}
+            Prerequisites for: {this.getReqsString(true, aClass)}s
           </div>
         </span>
         );
@@ -121,7 +123,7 @@ class MobileClassPanel extends BaseClassPanel {
     else {
 
       // Remove everything past 80 characters
-      // and then keep on removing characters until the end of a word is hit. 
+      // and then keep on removing characters until the end of a word is hit.
       let sliceDesc = aClass.desc.slice(0, 80);
       while (!sliceDesc.endsWith(' ')) {
         sliceDesc = sliceDesc.slice(0, sliceDesc.length - 1)
@@ -153,7 +155,7 @@ class MobileClassPanel extends BaseClassPanel {
 
 
 
-    
+
 
 
   }
@@ -199,7 +201,7 @@ class MobileClassPanel extends BaseClassPanel {
               {this.getClassBody()}
             </div>
 
-            {sectionTable} 
+            {sectionTable}
 
             {showMoreSections}
           </span>
