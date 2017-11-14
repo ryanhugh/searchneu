@@ -27,7 +27,6 @@ class Search {
     }
 
     if (!termId || termId.length !== 6) {
-      debugger
       console.log("No termId given in frontend/search.js. Returning empty array.", termId, termCount)
       return []
     }
