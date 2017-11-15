@@ -7,7 +7,7 @@ Security vulnerabilities include:
 - Changing the code on production
 - XSS vulnerabilities/running code in other people's browsers
 - Publishing a new version of the searchneu package on [npm](https://www.npmjs.com/package/searchneu) without permission 
-- Accessing the enviornmental variables on [travis](https://travis-ci.org/ryanhugh/searchneu/builds)
+- Accessing the environmental variables on [travis](https://travis-ci.org/ryanhugh/searchneu/builds)
 
 Vulnerabilities do not include:
 - DDOSing the server (please don't spam the server with requests 😖).
