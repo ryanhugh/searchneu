@@ -13,7 +13,7 @@ I'm sure there are some great Node.js tutorials out there, but am not aware of a
 
 ## Learning React
 
-React is a Javascript library created by Facebook for "building user interfaces". It allows developers to make encapsulated components that can be written once and used anywhere. 
+React is a JavaScript library created by Facebook for "building user interfaces". It allows developers to make encapsulated components that can be written once and used anywhere. 
 
 If you're a beginner, we recommend checking out [Semester.ly's React tutorial](https://github.com/noahpresler/React-Tutorial) that will teach you the basics of developing a React app all via codepen. This is a great way to get started! 
 
