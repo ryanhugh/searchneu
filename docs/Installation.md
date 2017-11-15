@@ -30,7 +30,7 @@ yarn start # or npm run start
 
 ### Debugging
 
-Chrome dev tools great for debugging both Node.js code and JavaScript code in a browser. You can debug a Node.js script by running `babel-node` (or `node`) with these arguments:
+Chrome dev tools are great for debugging both Node.js code and JavaScript code in a browser. You can debug a Node.js script by running `babel-node` (or `node`) with these arguments:
 
 ```bash
 babel-node --debug-brk --inspect filename.js
