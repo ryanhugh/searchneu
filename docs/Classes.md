@@ -9,7 +9,7 @@ searchneu/backend/scrapers/classes
 There are two main steps in scraping this data: the parsing and the processing. The parsing takes the vast majority of the time and includes all of the HTTP requests and HTML parsing. The processing re-organizes and cleans up the data, and only takes a couple of seconds.
  
 #### Really cool note about the class scrapers 
-1000s of colleges use the same registration system that Northeastern uses to keep track of classes (Banner). Because of this, these scrapers will work for any one of these colleges. For instance, Brown, Bucknell, GW, Swarthmore, Purdue, Drexel, Temple, Villanova, etc, can all easily be scraped with these scrapers. Many of these colleges' URLs are listed in [differentCollegeUrls.js](https://github.com/ryanhugh/searchneu/blob/master/backend/scrapers/classes/differentCollegeUrls.js).
+Thousands of colleges use the same registration system that Northeastern uses to keep track of classes (Banner). Because of this, these scrapers will work for any one of these colleges. For instance, Brown, Bucknell, GW, Swarthmore, Purdue, Drexel, Temple, Villanova, etc, can all easily be scraped with these scrapers. Many of these colleges' URLs are listed in [differentCollegeUrls.js](https://github.com/ryanhugh/searchneu/blob/master/backend/scrapers/classes/differentCollegeUrls.js).
 
 
 # The data
@@ -206,7 +206,7 @@ Schema:
     // Mminimum credits the class offers.
     "minCredits": 4,
     
-    // The class descrption. This is scraped from the Catalog page. 
+    // The class description. This is scraped from the Catalog page. 
     "desc": "Continues CS 2500. Examines object-oriented programming and associated algorithms using more complex data structures as the focus. Discusses nested structures and nonlinear structures including hash tables, trees, and graphs. Emphasizes abstraction, encapsulation, inheritance, polymorphism, recursion, and object-oriented design patterns. Applies these ideas to sample applications that illustrate the breadth of computer science. 4.000 Lecture hours",
 
     // The id of the class. 
