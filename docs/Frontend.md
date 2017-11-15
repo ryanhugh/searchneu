@@ -1,6 +1,6 @@
 # Frontend
 
-The frontend was made with React and Webpack. Redux isn't used at the moment but may be used in the future. All of the react components are located in `frontend/components`. All of the static files (robots.txt, etc) are located in `frontend/static`.
+The frontend was made with React and Webpack. Redux isn't used at the moment but may be used in the future. All the react components are located in `frontend/components`. All the static files (robots.txt, etc.) are located in `frontend/static`.
 
 ### Home.js
 
