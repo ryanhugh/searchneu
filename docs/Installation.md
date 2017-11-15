@@ -22,7 +22,7 @@ Also, install the React Developer tools browser extension ([Chrome](https://chro
 
 ### Start the server
 
-This will start Search NEU in development mode locally. It will listen on port 5000. If you make any changes to the frontend code while the server is running, webpack will automatically recompile the code and send the updates to the browser. Most of the time, the changes should appear in the browser without needing to reloading the page ([More info about Hot Module Reloading](https://webpack.js.org/concepts/hot-module-replacement/)). Sometimes this will fail and a message will appear in Chrome's developer tools asking you to reload the page to see the changes. 
+This will start Search NEU in development mode locally. It will listen on port 5000. If you make any changes to the frontend code while the server is running, webpack will automatically recompile the code and send the updates to the browser. Most of the time, the changes should appear in the browser without needing to reload the page ([More info about Hot Module Reloading](https://webpack.js.org/concepts/hot-module-replacement/)). Sometimes this will fail and a message will appear in Chrome's developer tools asking you to reload the page to see the changes. 
 
 ```bash
 yarn start # or npm run start
@@ -30,7 +30,7 @@ yarn start # or npm run start
 
 ### Debugging
 
-Chrome dev tools great for debugging both Node.js code and JavaScript code in a browser. You can debug a Node.js script by running `babel-node` (or `node`) with these arguments:
+Chrome dev tools are great for debugging both Node.js code and JavaScript code in a browser. You can debug a Node.js script by running `babel-node` (or `node`) with these arguments:
 
 ```bash
 babel-node --debug-brk --inspect filename.js
@@ -39,10 +39,10 @@ babel-node --debug-brk --inspect filename.js
 If Node.js ever runs out of memory and crashes, run either `babel-node` or `node` with `--max_old_space_size=8192`. This will let Node.js use up to 8GB of RAM. Example:
 
 ```bash
-babel-node --max_old_space_size=8192 --debug-brk --inspect  main
+babel-node --max_old_space_size=8192 --debug-brk --inspect main
 ```
 
-If Node.js ever unexpectedly exits and en error appears that says `Killed`, it means that the Operating System is out of memory. Try closing other programs to free up memory or using a different computer with more RAM. The only part of the code that uses a lot of memory is the scrapers, which, as of November of 2017, around 4GB of RAM .
+If Node.js ever unexpectedly exits and en error appears that says `Killed`, it means that the Operating System is out of memory. Try closing other programs to free up memory or using a different computer with more RAM. The only part of the code that uses a lot of memory is the scrapers, which, as of November of 2017, around 4GB of RAM.
 
 ### Run the tests
 
