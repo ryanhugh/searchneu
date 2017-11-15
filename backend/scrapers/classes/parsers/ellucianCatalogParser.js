@@ -193,8 +193,7 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     }
 
     // This is a list of class wrapper objects that have deps of sections
-    const classListData = await ellucianClassParser.main(catalogData.url, catalogData.name);
-
+    let classListData = await ellucianClassParser.main(catalogData.url, catalogData.name);
 
     // from the class parser:
     // { name: 'Advanced Writing in the Technical Professions',
@@ -253,9 +252,15 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       }
     }
 
-
-    // need to merge classListData and catalogData here aka add catalogData to all the classListDatas and check for conflicts
-
+    // If no sections were found, add the data from the catalog page the list of classes being returned. 
+    // In other words, if there are sections, it will return the list of classes processes (because the list of sections can become different classes for now)
+    // And if there are no sections, it will just return one class with the info from the catalog page.
+    if (classListData.length === 0) {
+      classListData = [{
+        type: 'classes',
+        value: catalogData
+      }]
+    }
 
     // Possibly save to dev
     if (macros.DEV && require.main !== module) {
@@ -269,8 +274,9 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
 
   async test() {
     // const output = await module.exports.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=FINA&crse_numb_in=6283');
-    const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=ENGW&crse_numb_in=3302');
-    console.log(JSON.stringify(output[0].deps))
+    // const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=ENGW&crse_numb_in=3302');
+    const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201830&subj_code_in=GAME&crse_numb_in=3700');
+    console.log(output)
   }
 
 

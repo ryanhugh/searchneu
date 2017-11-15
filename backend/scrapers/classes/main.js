@@ -227,7 +227,7 @@ class Main {
 const instance = new Main();
 
 if (require.main === module) {
-  instance.main(['lafayette']);
+  instance.main(['neu']);
 }
 
 export default instance;
