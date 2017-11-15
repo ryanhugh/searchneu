@@ -104,13 +104,13 @@ As of November of 2017 it includes about 379 people. The following information i
   // The street address of the building. 
   "officeStreetAddress": "440 Huntington Avenue",
   
-  // The employee's personal website. Not allways present. 
+  // The employee's personal website. Not always present. 
   "personalSite": "http://www.ccs.neu.edu/home/blerner/",
   
   // The URL to the employee's picture. For CCIS employees, this is a large cover photo. 
-  // The size and focus of the photos is different on different data souces. 
+  // The size and focus of the photos is different on different data sources. 
   // For example, the College of Engineering has smaller profile photos instead of larger cover photos.
-  // As of November 2017 these URLs are not used in the frontend. 
+  // As of November 2017, these URLs are not used in the frontend. 
   "bigPictureUrl": "http://www.ccis.northeastern.edu/wp-content/uploads/2016/02/Benjamin-Lerner-hero-image.jpg"
 }
 ```
@@ -131,7 +131,7 @@ As of November of 2017 it includes about 169 people. The following information i
 
 ```javascript
 {
-  // Thmbnail picture of the employee. Much smaller than the CCIS photos. 
+  // Thumbnail picture of the employee. Much smaller than the CCIS photos. 
   "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/bioe/makowski-l.jpg?itok=GcFdXL97",
   
   // URL to the employee's profile page.
@@ -169,7 +169,7 @@ This data source provides a lot of information about all the employees in CAMD. 
 searchneu\backend\scrapers\employees\camd.js
 ```
 
-The data is scraped from these urls
+The data is scraped from these URLs
 
 https://camd.northeastern.edu/architecture/faculty-staff   
 https://camd.northeastern.edu/artdesign/faculty-staff   
