@@ -91,7 +91,7 @@ class Meeting {
 
   // returns sorted list of weekday strings, eg
   //["Monday","Friday"]
-  getHoursPerWeek() {
+  getWeekdayStrings() {
     const retVal = [];
 
     const flatTimes = _.flatten(this.times);
@@ -108,7 +108,7 @@ class Meeting {
 
     flatTimes.forEach((time) => {
       const weekdayString = time.start.format('dddd');
-      if (!_(retVal).includes(weekdayString)) {
+      if (!retVal.includes(weekdayString)) {
         retVal.push(weekdayString);
       }
     });
@@ -126,7 +126,7 @@ class Meeting {
 
   getIsExam() {
     // this could be improved by scraping more data...
-    if (this.startDate.unix() == this.endDate.unix()) {
+    if (this.startDate.unix() === this.endDate.unix()) {
       return true;
     }
 
@@ -162,7 +162,7 @@ class Meeting {
 
   // no idea if this is right
   compareTo(other) {
-    if (this.times.length == 0) {
+    if (this.times.length === 0) {
       return 1;
     } else if (other.times.length === 0) {
       return -1;
