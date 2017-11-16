@@ -10,10 +10,10 @@
 
 let toExport;
 if (typeof window !== 'undefined') {
-  toExport = require('../frontend/components/macros');
+  toExport = require('../frontend/components/macros'); // eslint-disable-line global-require
 } else {
   // This module.require trick is to trick webpack into not bundling these files with the frontend.
-  toExport = module.require('../backend/macros');
+  toExport = module['require']('../backend/macros'); // eslint-disable-line dot-notation
 }
 
 export default toExport.default;

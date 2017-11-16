@@ -12,8 +12,11 @@ import macros from '../commonMacros';
 import Section from './Section';
 import RequisiteBranch from './RequisiteBranch';
 
+// This file used to have an equals method as part of coursepro, but then it was removed.
+// It might still be in the git history, or you can just ask Ryan if you ever find that you need an equals method.
+
 class Class {
-  constructor(config) {
+  constructor() {
     //true, if for instance "AP placement exam, etc"
     this.isString = false;
 
@@ -39,25 +42,10 @@ class Class {
     this.crns = [];
   }
 
-
-  static isValidCreatingData(config) {
-    if (config.isString) {
-      return true;
-    }
-
-    // Can make a class with clasid, not recommended and not geruentted to only have 1 or 0 results
-
-    if (config.host && config.termId && config.subject && config.classId && !config.classUid) {
-      console.warn('created class with classId');
-      return true;
-    }
-
-    return BaseData.isValidCreatingData.apply(this, arguments);
-  }
-
   static create(config) {
     if (!config) {
-
+      macros.error('Passed null config?', config);
+      return null;
     }
     const instance = new this(config);
     instance.updateWithData(config);
@@ -95,9 +83,9 @@ class Class {
       });
 
       data.prereqs.values = newPrereqs;
-    }
-    //given a branch in the prereqs
-    else if (data.values && data.type) {
+
+    // Given a branch in the prereqs
+    } else if (data.values && data.type) {
       const newValues = [];
       data.values.forEach((subTree) => {
         newValues.push(this.convertServerRequisites(subTree));
@@ -108,10 +96,9 @@ class Class {
         type: data.type,
         values: newValues,
       });
-    }
 
-    //need to create a new Class()
-    else {
+    // Need to create a new Class()
+    } else {
       //basic string
       if ((typeof data) === 'string') {
         data = {
@@ -138,8 +125,8 @@ class Class {
     }
 
     if (!retVal) {
-      macros.error('ERROR creating jawn', retVal, data, retVal == data);
-      return;
+      macros.error('ERROR creating jawn', retVal, data, retVal === data);
+      return null;
     }
 
     return retVal;
@@ -286,22 +273,6 @@ class Class {
   }
 
 
-  equals(other) {
-    // both strings
-    if (this.isString && other.isString) {
-      return this.desc === other.desc;
-    }
-
-    // both classes
-    if (!this.isString && !other.isString) {
-      return BaseData.prototype.equals.call(this, other);
-    }
-
-    // one is a string other is a class
-    return false;
-  }
-
-
   //this is used for panels i think and for class list (settings)
   //sort by classId, if it exists, and then subject
   compareTo(otherClass) {
@@ -316,17 +287,16 @@ class Class {
       return 1;
     }
 
-    const aId = parseInt(this.classId);
-    const bId = parseInt(otherClass.classId);
+    const aId = parseInt(this.classId, 10);
+    const bId = parseInt(otherClass.classId, 10);
 
     if (aId > bId) {
       return 1;
     } else if (aId < bId) {
       return -1;
-    }
 
-    //if ids are the same, sort by subject
-    else if (this.subject > otherClass.subject) {
+    // If ids are the same, sort by subject
+    } else if (this.subject > otherClass.subject) {
       return 1;
     } else if (this.subject < otherClass.subject) {
       return -1;
@@ -388,7 +358,8 @@ class Class {
   loadSectionsFromSectionMap(sectionMap) {
     if (this.isString) {
       macros.error('ERROR cant load sections of !class or string');
-      return callback('!class or string');
+      macros.error('!class or string');
+      return null;
     }
 
     this.sections = [];

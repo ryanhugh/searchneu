@@ -19,7 +19,7 @@ class Meeting {
     this.where = serverData.where;
 
     // if without spaces and case insensitive is tba, make it TBA
-    if (this.where.replace(/\s/gi, '').toUpperCase() == 'TBA') {
+    if (this.where.replace(/\s/gi, '').toUpperCase() === 'TBA') {
       this.where = 'TBA';
     }
 
@@ -36,17 +36,19 @@ class Meeting {
 
     const timeMoments = [];
 
-    for (var dayIndex in serverData.times) {
+    const dayIndexies = Object.keys(serverData.times);
+
+    for (const dayIndex of dayIndexies) {
       serverData.times[dayIndex].forEach((event) => {
         //3 is to set in the second week of 1970
-        const day = parseInt(dayIndex) + 3;
+        const day = parseInt(dayIndex, 10) + 3;
 
         const obj = {
           start: moment.utc(event.start * 1000).add(day, 'day'),
           end: moment.utc(event.end * 1000).add(day, 'day'),
         };
 
-        if (parseInt(obj.start.format('YYYY')) !== 1970) {
+        if (parseInt(obj.start.format('YYYY'), 10) !== 1970) {
           macros.error();
         }
 
