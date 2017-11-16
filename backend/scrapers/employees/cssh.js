@@ -1,3 +1,8 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
+
 import cheerio from 'cheerio';
 import path from 'path';
 
@@ -209,7 +214,7 @@ class Cssh {
 
     if (macros.DEV) {
       await cache.set('dev_data', this.constructor.name, 'main', people);
-      macros.log('cssh file saved!');
+      macros.log(people.length, 'cssh people saved to a file!');
     }
 
     return people;

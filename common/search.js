@@ -1,3 +1,8 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
+
 import elasticlunr from 'elasticlunr';
 
 import Keys from './Keys';
@@ -10,9 +15,9 @@ import CourseProData from './classModels/DataLib';
 // Should eventually get some tests running to make sure these stay working
 // cs2500 (this one and not the lab)
 // cs2501
-// ood 
+// ood
 // ml (ml should be high up there)
-// ai 
+// ai
 // razzaq
 // cooperman
 // cs
@@ -38,7 +43,7 @@ const classSearchConfig = {
       boost: 1,
     },
 
-    // Don't make the name value too high or searching for "cs2500" will come up with the lab (which mentions cs 2500 in it's name) instead of CS 2500. 
+    // Don't make the name value too high or searching for "cs2500" will come up with the lab (which mentions cs 2500 in it's name) instead of CS 2500.
     name: {
       boost: 1.1,
     },
@@ -65,12 +70,12 @@ const employeeSearchConfig = {
     },
 
     // It is very unlikely that someone will search for these,
-    //so we want to keep the scoring low so they don't come up when the user searches for one of the other fields. 
+    //so we want to keep the scoring low so they don't come up when the user searches for one of the other fields.
     primaryRole: {
-      boost: .4,
+      boost: 0.4,
     },
     primaryDepartment: {
-      boost: .4,
+      boost: 0.4,
     },
     emails: {
       boost: 1,
@@ -87,18 +92,15 @@ const employeeSearchConfig = {
 
 
 class Search {
-
   constructor(employeeMap, employeeSearchIndex, termDumps) {
-    debugger
-
     // map of termId to search index and dump
-    this.termDumps = {}
+    this.termDumps = {};
 
     for (const termDump of termDumps) {
       this.termDumps[termDump.termId] = {
         searchIndex: elasticlunr.Index.load(termDump.searchIndex),
-        termDump: CourseProData.loadData(termDump.termDump)
-      }
+        termDump: CourseProData.loadData(termDump.termDump),
+      };
     }
 
     // this.termDump = CourseProData.loadData(termDump);
@@ -137,11 +139,10 @@ class Search {
 
     // Clear out any cache that has not been used in over a day.
     for (const key of keys) {
-
       // the .time check was failing (cannot read .time of undefined) in some really weird cases...
-      // not totally sure why but it is an easy fix. 
-      // https://rollbar.com/ryanhugh/searchneu/items/32/ 
-      // and noticed a bunch of times in dev too. 
+      // not totally sure why but it is an easy fix.
+      // https://rollbar.com/ryanhugh/searchneu/items/32/
+      // and noticed a bunch of times in dev too.
       if (!this.refCache[key]) {
         continue;
       }
@@ -152,7 +153,6 @@ class Search {
   }
 
   checkForSubjectMatch(searchTerm, termId) {
-    debugger
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
     const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
@@ -301,7 +301,7 @@ class Search {
     }
 
     if (!this.termDumps[termId]) {
-      macros.log('Invalid termId', termId)
+      macros.log('Invalid termId', termId);
       return [];
     }
     // Searches are case insensitive.
@@ -310,14 +310,14 @@ class Search {
     // Replace some slang with the meaning of the words.
     // Hard coding isn't a great way to do this, but there is no better way than this lol
     // Acronyms such as ood and ai and ml are generated dynamically based on the name
-    let slangMap = {
+    const slangMap = {
       fundies: 'fundamentals of computer science',
-      orgo: 'Organic Chemistry'
-    }
+      orgo: 'Organic Chemistry',
+    };
 
     for (const word in slangMap) {
       if (searchTerm.startsWith(word)) {
-        searchTerm = slangMap[word] + ' ' + searchTerm.slice(word.length)
+        searchTerm = `${slangMap[word]} ${searchTerm.slice(word.length)}`;
       }
     }
 
@@ -351,8 +351,8 @@ class Search {
     // If there are no results, log an event to Amplitude.
     if (refs.length === 0) {
       macros.logAmplitudeEvent('Backend No Search Results', {
-        query: searchTerm
-      })
+        query: searchTerm,
+      });
     }
 
     // If there were no results or asking for a range beyond the results length, stop here.
@@ -432,7 +432,7 @@ class Search {
 
 
     if (!wasSubjectMatch) {
-      const startTime = Date.now();
+      // const startTime = Date.now();
 
       // Sort the objects by chunks that have the same score.
       objects = this.constructor.sortObjectsAfterScore(objects);
@@ -542,7 +542,6 @@ class Search {
 
     return output;
   }
-
 }
 
 export default Search;

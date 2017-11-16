@@ -1,3 +1,8 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
+
 import cheerio from 'cheerio';
 import path from 'path';
 
@@ -194,7 +199,7 @@ class NeuCCISFaculty {
 
     if (macros.DEV) {
       await cache.set('dev_data', this.constructor.name, 'main', output);
-      console.log('ccis file saved!');
+      console.log(output.length, 'people in ccis saved to a file!');
     }
 
     macros.log('done!');

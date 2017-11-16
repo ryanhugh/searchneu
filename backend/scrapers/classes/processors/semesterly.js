@@ -1,3 +1,8 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
+
 import _ from 'lodash';
 import fs from 'fs-promise';
 
@@ -32,7 +37,7 @@ class Semesterly {
       }
       
       // Skip all the other terms for now too
-      if (aClass.termId !== '201810') {
+      if (aClass.termId !== '201830') {
         continue
       }
 
@@ -68,7 +73,7 @@ class Semesterly {
       }
 
       // Skip all the other terms for now too
-      if (section.termId !== '201810') {
+      if (section.termId !== '201830') {
         continue;
       }
 
@@ -118,8 +123,8 @@ class Semesterly {
                 },
                 section: {
                   code: section.crn,
-                  term: 'Fall',
-                  year: '2017'
+                  term: 'Spring',
+                  year: '2018'
                 },
                 time: {
                   start: start,
@@ -151,9 +156,9 @@ class Semesterly {
         },
         enrollment: section.seatsCapacity - section.seatsRemaining,
         instructors: professors,
-        year: '2017',
+        year: '2018',
         kind: 'section',
-        term: 'Fall'
+        term: 'Spring'
       })
     }
 
@@ -170,6 +175,9 @@ class Semesterly {
               "201750",
               "201760",
               "201810"
+            ],
+            "2018": [
+              "201830"
             ]
           }
         },

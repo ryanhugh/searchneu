@@ -1,19 +1,6 @@
 /*
- * Copyright (c) 2017 Ryan Hughes
- *
- * This file is part of CoursePro.
- *
- * CoursePro is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License
- * version 3 as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
  */
 
 import URI from 'urijs';
@@ -262,7 +249,8 @@ class BaseParser {
   // https://www.npmjs.com/package/change-case
   // https://www.npmjs.com/package/slang
   // https://www.npmjs.com/package/to-title-case -- currently using this one, its ok not great
-  // let a = require("change-case").title
+  // Example of import changeCase from 'change-case':
+  // let a = changeCase.title
 
   // macros.log(a('texas a&m university'));
   // macros.log(a('something something'))

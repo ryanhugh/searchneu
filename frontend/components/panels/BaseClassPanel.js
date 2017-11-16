@@ -1,3 +1,8 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
@@ -139,7 +144,15 @@ class BaseClassPanel extends React.Component {
   				
   				// Create the React element and add it to retVal
           const event = new CustomEvent(macros.searchEvent, { detail: childBranch.subject + ' ' + childBranch.classId });
-          const element =  <a key={Keys.create(childBranch).getHash()} onClick={() => {window.dispatchEvent(event)}} className={css.reqClassLink}>{childBranch.subject + ' ' + childBranch.classId}</a>
+
+          //   href={"/" + encodeURIComponent(childBranch.subject + ' ' + childBranch.classId)}
+          const element =  <a 
+                              key={Keys.create(childBranch).getHash()} 
+                              onClick={(e) => {window.dispatchEvent(event); e.preventDefault(); return false;}} 
+                              className={css.reqClassLink}
+                            >
+                               {childBranch.subject + ' ' + childBranch.classId}
+                            </a>
   
 					retVal.push(element)
   			}

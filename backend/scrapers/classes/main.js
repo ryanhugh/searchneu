@@ -1,3 +1,8 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
+
 import fs from 'fs-promise';
 import _ from 'lodash';
 import URI from 'urijs';
@@ -229,7 +234,7 @@ class Main {
 const instance = new Main();
 
 if (require.main === module) {
-  instance.main(['lafayette']);
+  instance.main(['neu']);
 }
 
 export default instance;

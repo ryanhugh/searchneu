@@ -1,3 +1,8 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
+
 import cheerio from 'cheerio';
 import path from 'path';
 
@@ -226,7 +231,7 @@ class COE {
 
     if (macros.DEV) {
       await cache.set('dev_data', this.constructor.name, 'main', people);
-      macros.log('coe file saved!');
+      macros.log(people.length, 'coe people saved!');
     }
 
     return people;

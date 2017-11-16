@@ -1,3 +1,8 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
+
 import cookie from 'cookie'
 import cheerio from 'cheerio'
 import * as acorn from 'acorn';
