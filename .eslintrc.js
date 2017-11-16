@@ -20,6 +20,8 @@ module.exports = {
     "no-mixed-operators": 0,
     "no-param-reassign": 0,
     'prefer-destructuring': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/no-noninteractive-element-interactions': 0,
 
     // Allow for-of loops. 
     "no-restricted-syntax": [

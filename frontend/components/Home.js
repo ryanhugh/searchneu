@@ -95,19 +95,22 @@ class Home extends React.Component {
     this.logSearch(this.state.searchTerm);
   }
 
-  getSearchQueryFromUrl() {
-    return decodeURIComponent(macros.replaceAll(window.location.pathname.slice(1), '+', ' '));
-  }
-
-  // Runs when the user clicks back or forward in their browser.
-  onPopState() {
-    const query = this.getSearchQueryFromUrl();
-
-    // Only search if the query is longer than 0
-    this.search(query);
-
+  componentDidMount() {
+    // Add a listener for location changes.
+    window.addEventListener('popstate', this.onPopState);
+    window.addEventListener(macros.searchEvent, this.onDOMEventSearch);
     if (this.inputElement) {
-      this.inputElement.value = query;
+      this.inputElement.addEventListener('focus', this.onInputFocus);
+
+      // Don't autofocus on mobile so when the user clicks it we can handle the event and move some elements around.
+      if (!macros.isMobile) {
+        this.inputElement.focus();
+      }
+    }
+
+    if (this.state.searchTerm) {
+      macros.log('Going to serach for', this.state.searchTerm);
+      this.search(this.state.searchTerm);
     }
   }
 
@@ -121,25 +124,17 @@ class Home extends React.Component {
     }
   }
 
-  logSearch(searchTerm) {
-    searchTerm = searchTerm.trim();
-    if (searchTerm === this.lastSearch) {
-      macros.log('Not logging because same as last search', searchTerm);
-      return;
-    }
-    this.lastSearch = searchTerm;
+  // Runs when the user clicks back or forward in their browser.
+  onPopState() {
+    const query = this.getSearchQueryFromUrl();
 
-    if (searchTerm) {
-      this.searchCount++;
-      window.ga('send', 'pageview', `/?search=${searchTerm}`);
+    // Only search if the query is longer than 0
+    this.search(query);
 
-      macros.logAmplitudeEvent('Search', { query: searchTerm, sessionCount: this.searchCount });
-    } else {
-      macros.logAmplitudeEvent('Homepage visit');
-      window.ga('send', 'pageview', '/');
+    if (this.inputElement) {
+      this.inputElement.value = query;
     }
   }
-
 
   onDOMEventSearch(event) {
     const query = event.detail;
@@ -158,7 +153,7 @@ class Home extends React.Component {
     this.search(query);
   }
 
-  onInputFocus(event) {
+  onInputFocus() {
     if (macros.isMobile) {
       this.setState({
         results: [],
@@ -166,7 +161,6 @@ class Home extends React.Component {
       });
     }
   }
-
 
   onLogoClick() {
     if (this.inputElement) {
@@ -196,33 +190,80 @@ class Home extends React.Component {
     // but just in case there is a try-catch around this call (no real reason not to have one).
     // https://rollbar.com/ryanhugh/searchneu/items/10/
     try {
-      history.pushState(null, null, `/${encodedQuery}`);
+      window.history.pushState(null, null, `/${encodedQuery}`);
     } catch (e) {
       macros.error('Could not change URL?', e);
     }
     this.logSearch(searchTerm);
   }
 
-
-  componentDidMount() {
-    // Add a listener for location changes.
-    window.addEventListener('popstate', this.onPopState);
-    window.addEventListener(macros.searchEvent, this.onDOMEventSearch);
-    if (this.inputElement) {
-      this.inputElement.addEventListener('focus', this.onInputFocus);
-
-      // Don't autofocus on mobile so when the user clicks it we can handle the event and move some elements around.
-      if (!macros.isMobile) {
-        this.inputElement.focus();
-      }
+  onClick(event) {
+    if (macros.isMobile) {
+      this.setState({
+        results: [],
+        searchTerm: event.target.value,
+        waitingOnEnter: true,
+      });
+      return;
     }
 
-    if (this.state.searchTerm) {
-      macros.log('Going to serach for', this.state.searchTerm);
-      this.search(this.state.searchTerm);
-    }
+    // Log the query 500 ms from now.
+    clearTimeout(this.searchDebounceTimer);
+    this.searchDebounceTimer = setTimeout(this.onSearchDebounced.bind(this, event.target.value), 500);
+
+    this.searchFromUserAction(event);
   }
 
+  onKeyDown(event) {
+    if (event.key !== 'Enter') {
+      return;
+    }
+
+    if (macros.isMobile) {
+      // Hide the keyboard on android phones.
+      if (document.activeElement) {
+        document.activeElement.blur();
+      }
+
+      this.onSearchDebounced(event.target.value);
+    }
+
+    this.searchFromUserAction(event);
+  }
+
+  onTermdropdownChange(event, data) {
+    localStorage.selectedTerm = data.value;
+    this.setState({
+      selectedTerm: data.value,
+    }, () => {
+      if (this.state.searchTerm) {
+        this.search(this.state.searchTerm);
+      }
+    });
+  }
+
+  getSearchQueryFromUrl() {
+    return decodeURIComponent(macros.replaceAll(window.location.pathname.slice(1), '+', ' '));
+  }
+
+  logSearch(searchTerm) {
+    searchTerm = searchTerm.trim();
+    if (searchTerm === this.lastSearch) {
+      macros.log('Not logging because same as last search', searchTerm);
+      return;
+    }
+    this.lastSearch = searchTerm;
+
+    if (searchTerm) {
+      this.searchCount++;
+      window.ga('send', 'pageview', `/?search=${searchTerm}`);
+
+      macros.logAmplitudeEvent('Search', { query: searchTerm, sessionCount: this.searchCount });
+    } else {
+      macros.logAmplitudeEvent('Homepage visit');
+      window.ga('send', 'pageview', '/');
+    }
+  }
 
   // Called from ResultsLoader to load more
   loadMore() {
@@ -272,53 +313,6 @@ class Home extends React.Component {
     this.search(event.target.value);
   }
 
-
-  onClick(event) {
-    if (macros.isMobile) {
-      this.setState({
-        results: [],
-        searchTerm: event.target.value,
-        waitingOnEnter: true,
-      });
-      return;
-    }
-
-    // Log the query 500 ms from now.
-    clearTimeout(this.searchDebounceTimer);
-    this.searchDebounceTimer = setTimeout(this.onSearchDebounced.bind(this, event.target.value), 500);
-
-    this.searchFromUserAction(event);
-  }
-
-  onKeyDown(event) {
-    if (event.key !== 'Enter') {
-      return;
-    }
-
-    if (macros.isMobile) {
-      // Hide the keyboard on android phones.
-      if (document.activeElement) {
-        document.activeElement.blur();
-      }
-
-      this.onSearchDebounced(event.target.value);
-    }
-
-    this.searchFromUserAction(event);
-  }
-
-  onTermdropdownChange(event, data) {
-    localStorage.selectedTerm = data.value;
-    this.setState({
-      selectedTerm: data.value,
-    }, function () {
-      if (this.state.searchTerm) {
-        this.search(this.state.searchTerm);
-      }
-    });
-  }
-
-
   render() {
     let resultsElement = null;
 
@@ -333,7 +327,7 @@ class Home extends React.Component {
       if (memeMatches[this.state.searchTerm.toLowerCase().trim()]) {
         resultsElement = (
           <div className={ css.aounContainer }>
-            <img src={ aoun } />
+            <img alt='Promised Aoun memes coming soon.' src={ aoun } />
           </div>
         );
       } else if (this.state.results.length === 0 && this.state.searchTerm.length > 0 && !this.state.waitingOnEnter) {
@@ -362,7 +356,7 @@ class Home extends React.Component {
     }
 
     let hitEnterToSearch = null;
-    if (document.activeElement == this.inputElement) {
+    if (document.activeElement === this.inputElement) {
       hitEnterToSearch = (
         <div className={ css.hitEnterToSearch }>
           Hit Enter to Search ...
@@ -388,7 +382,7 @@ class Home extends React.Component {
     let mobileClassType;
     if (!macros.isMobile) {
       mobileClassType = '';
-    } else if (document.activeElement == this.inputElement || this.state.results.length > 0) {
+    } else if (document.activeElement === this.inputElement || this.state.results.length > 0) {
       mobileClassType = css.mobileCompact;
     } else {
       mobileClassType = css.mobileFull;
