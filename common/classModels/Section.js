@@ -4,7 +4,6 @@
  */
 
 import _ from 'lodash';
-import moment from 'moment';
 
 import macros from '../commonMacros';
 import Meeting from './Meeting';
@@ -229,10 +228,10 @@ class Section {
       return -1;
     }
 
-    if (this.meetings.length == 0 && other.meetings.length === 0) {
+    if (this.meetings.length === 0 && other.meetings.length === 0) {
       return 0;
     }
-    if (this.meetings.length > 0 && other.meetings.length == 0) {
+    if (this.meetings.length > 0 && other.meetings.length === 0) {
       return -1;
     } else if (this.meetings.length === 0 && other.meetings.length > 0) {
       return 1;
