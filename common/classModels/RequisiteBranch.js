@@ -19,6 +19,7 @@
 'use strict';
 
 var _ = require('lodash')
+import macros from '../commonMacros'
 
 
 
@@ -30,11 +31,11 @@ var _ = require('lodash')
 function RequisiteBranch(data) {
 
 	if (data.type !== 'and' && data.type !== 'or') {
-		elog('invalid branch type')
+		macros.error('invalid branch type')
 	}
 
 	if (!data.values || !Array.isArray(data.values)) {
-		elog('invalid values for req branch')
+		macros.error('invalid values for req branch')
 	}
 
 	var values = data.values.slice(0).sort(function (a, b) {
@@ -77,7 +78,7 @@ RequisiteBranch.prototype.compareTo = function (other) {
 	}
 
 
-	elog('compareTo in RequisiteBranch needs more code', this, other)
+	macros.error('compareTo in RequisiteBranch needs more code', this, other)
 };
 
 
