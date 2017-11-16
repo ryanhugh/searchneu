@@ -117,8 +117,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(svg|png)$": "<rootDir>/frontend/components/tests/mockSvg.js",
-      "\\.(css|less)$": "identity-obj-proxy"
+      "\\.(css|less|svg|png)$": "identity-obj-proxy"
     }
   }
 }
