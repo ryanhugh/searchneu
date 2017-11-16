@@ -6,7 +6,7 @@
 import Class from './Class';
 import Keys from '../Keys';
 
-export default class DataLib {
+class DataLib {
 
   constructor(termDump) {
     this.termDump = termDump;
@@ -74,3 +74,4 @@ export default class DataLib {
 
 }
 
+export default DataLib;
