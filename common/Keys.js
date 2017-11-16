@@ -33,10 +33,9 @@ class Keys {
       this.host = obj.host;
       this.desc = obj.desc;
       this.isString = true;
-    }
 
     // Prefer obj over hash
-    else if (obj.host) {
+    } else if (obj.host) {
       let endpointIndex;
       if (endpoint) {
         endpointIndex = endpoints.indexOf(endpoint);
