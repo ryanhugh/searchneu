@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import _ from 'lodash';
@@ -9,19 +9,18 @@ import moment from 'moment';
 import macros from '../commonMacros';
 
 class Meeting {
-
   constructor(serverData) {
     if (!serverData) {
       return null;
-    };
+    }
 
     this.profs = serverData.profs;
     this.profs.sort();
     this.where = serverData.where;
 
     // if without spaces and case insensitive is tba, make it TBA
-    if (this.where.replace(/\s/gi,'').toUpperCase() == 'TBA') {
-      this.where = "TBA"
+    if (this.where.replace(/\s/gi, '').toUpperCase() == 'TBA') {
+      this.where = 'TBA';
     }
 
     //beginning of the day that the class starts/ends
@@ -33,63 +32,59 @@ class Meeting {
     // each list must be at least 1 long
     // you would have [[{start:end:},{start:end:},{start:end:}]]
     // where each start:end: object is a different day
-    this.times = []
+    this.times = [];
 
-    var timeMoments = []
+    const timeMoments = [];
 
     for (var dayIndex in serverData.times) {
-      serverData.times[dayIndex].forEach(function (event) {
-
+      serverData.times[dayIndex].forEach((event) => {
         //3 is to set in the second week of 1970
-        var day = parseInt(dayIndex) + 3
+        const day = parseInt(dayIndex) + 3;
 
-        var obj = {
+        const obj = {
           start: moment.utc(event.start * 1000).add(day, 'day'),
           end: moment.utc(event.end * 1000).add(day, 'day'),
-        }
+        };
 
         if (parseInt(obj.start.format('YYYY')) !== 1970) {
-          macros.error()
+          macros.error();
         }
 
-        timeMoments.push(obj)
-      }.bind(this))
+        timeMoments.push(obj);
+      });
     }
 
     // returns objects like this: {3540000041400000: Array[3]}
     // if has three meetings per week that meet at the same times
-    var groupedByTimeOfDay = _.groupBy(timeMoments, function (event) {
-      var zero = moment(event.start).startOf('day');
-      return event.start.diff(zero) + '' + event.end.diff(zero);
-    }.bind(this))
+    let groupedByTimeOfDay = _.groupBy(timeMoments, (event) => {
+      const zero = moment(event.start).startOf('day');
+      return `${event.start.diff(zero)}${event.end.diff(zero)}`;
+    });
 
     // Get the values of the object returned above
     groupedByTimeOfDay = _.values(groupedByTimeOfDay);
 
     // And sort by start time
-    groupedByTimeOfDay.sort(function (meetingsInAday) {
-      var zero = moment(meetingsInAday[0].start).startOf('day');
+    groupedByTimeOfDay.sort((meetingsInAday) => {
+      const zero = moment(meetingsInAday[0].start).startOf('day');
       return meetingsInAday[0].start.diff(zero);
-    }.bind(this))
+    });
 
     this.times = groupedByTimeOfDay;
   }
 
   getBuilding() {
-
     // regex off the room number
-    return this.where.replace(/\d+\s*$/i, '').trim()
+    return this.where.replace(/\d+\s*$/i, '').trim();
   }
 
   getHoursPerWeek() {
+    let retVal = 0;
 
-    var retVal = 0;
-
-    _.flatten(this.times).forEach(function (time) {
-
+    _.flatten(this.times).forEach((time) => {
       // moment#diff returns ms, need hr
-      retVal += time.end.diff(time.start) / (1000 * 60 * 60)
-    }.bind(this))
+      retVal += time.end.diff(time.start) / (1000 * 60 * 60);
+    });
 
     return Math.round(10 * retVal) / 10;
   }
@@ -97,30 +92,26 @@ class Meeting {
   // returns sorted list of weekday strings, eg
   //["Monday","Friday"]
   getHoursPerWeek() {
+    const retVal = [];
 
-    var retVal = [];
+    const flatTimes = _.flatten(this.times);
 
-    var flatTimes = _.flatten(this.times);
-
-    flatTimes.sort(function (a, b) {
+    flatTimes.sort((a, b) => {
       if (a.start.unix() < b.start.unix()) {
         return -1;
-      }
-      else if (a.start.unix() > b.start.unix()) {
+      } else if (a.start.unix() > b.start.unix()) {
         return 1;
       }
-      else {
-        return 0;
-      }
-    }.bind(this))
 
-    flatTimes.forEach(function (time) {
+      return 0;
+    });
 
-      var weekdayString = time.start.format('dddd');
+    flatTimes.forEach((time) => {
+      const weekdayString = time.start.format('dddd');
       if (!_(retVal).includes(weekdayString)) {
-        retVal.push(weekdayString)
+        retVal.push(weekdayString);
       }
-    }.bind(this))
+    });
 
     return retVal;
   }
@@ -129,32 +120,29 @@ class Meeting {
     if (this.getHoursPerWeek() === 0) {
       return true;
     }
-    else {
-      return false;
-    }
-  };
+
+    return false;
+  }
 
   getIsExam() {
     // this could be improved by scraping more data...
     if (this.startDate.unix() == this.endDate.unix()) {
       return true;
     }
-    else {
-      return false;
-    }
+
+    return false;
   }
 
   // 0=sunday, 6 = saterday
   getMeetsOnDay(dayIndex) {
+    const flatTimes = _.flatten(this.times);
 
-    var flatTimes = _.flatten(this.times);
-
-    for (var i = 0; i < flatTimes.length; i++) {
-      var time = flatTimes[i]
+    for (let i = 0; i < flatTimes.length; i++) {
+      const time = flatTimes[i];
       if (time.start.day() === dayIndex) {
         return true;
-      };
-    };
+      }
+    }
     return false;
   }
 
@@ -162,11 +150,11 @@ class Meeting {
   getMeetsOnWeekends() {
     if (this.getIsExam()) {
       return false;
-    };
+    }
 
     if (this.getMeetsOnDay(0) || this.getMeetsOnDay(6)) {
       return true;
-    };
+    }
 
     return false;
   }
@@ -176,24 +164,17 @@ class Meeting {
   compareTo(other) {
     if (this.times.length == 0) {
       return 1;
-    }
-    else if (other.times.length === 0) {
+    } else if (other.times.length === 0) {
       return -1;
-    }
-    else if (this.times[0][0].start.unix() > other.times[0][0].start.unix()) {
+    } else if (this.times[0][0].start.unix() > other.times[0][0].start.unix()) {
       return 1;
-    }
-    else if (this.times[0][0].start.unix() < other.times[0][0].start.unix()) {
+    } else if (this.times[0][0].start.unix() < other.times[0][0].start.unix()) {
       return -1;
     }
-    else {
-      return 0;
-    }
+
+    return 0;
   }
-
 }
-
-
 
 
 export default Meeting;
