@@ -1,46 +1,43 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import _ from 'lodash';
 import he from 'he';
 import moment from 'moment';
 
-import Keys from '../Keys'
+import Keys from '../Keys';
 import macros from '../commonMacros';
 import Section from './Section';
 import RequisiteBranch from './RequisiteBranch';
 
 class Class {
-  
   constructor(config) {
-      
     //true, if for instance "AP placement exam, etc"
     this.isString = false;
-  
+
     // A class that is listed as a prereq for another class on the site, but this class dosen't actually exist
     // Currently, missing prereqs are not even added as prereqs for classes because I can't think of any reason to list classes
-    // that don't exist anywhere on the site. Could be changed in future, the fitlter is in this file. 
+    // that don't exist anywhere on the site. Could be changed in future, the fitlter is in this file.
     // this.missing = false;
-  
+
     //instances of Section()
-    this.sections = []
-  
+    this.sections = [];
+
     this.prereqs = {
       type: 'or',
-      values: []
-    }
-  
-  
+      values: [],
+    };
+
+
     this.coreqs = {
       type: 'or',
-      values: []
-    }
-  
+      values: [],
+    };
+
     this.crns = [];
   }
-
 
 
   static isValidCreatingData(config) {
@@ -51,80 +48,77 @@ class Class {
     // Can make a class with clasid, not recommended and not geruentted to only have 1 or 0 results
 
     if (config.host && config.termId && config.subject && config.classId && !config.classUid) {
-      console.warn('created class with classId')
+      console.warn('created class with classId');
       return true;
     }
 
     return BaseData.isValidCreatingData.apply(this, arguments);
   }
 
-  static create (config) {
+  static create(config) {
     if (!config) {
-      debugger
+
     }
-    var instance = new this(config);
+    const instance = new this(config);
     instance.updateWithData(config);
-    return instance
+    return instance;
   }
 
   //TODO here
   //abstrat away some of the checks that are the same accross fns here
 
   loadFromClassMap(classMap) {
-    var keys = Keys.create(this)
+    const keys = Keys.create(this);
 
-    this.updateWithData(classMap[keys.getHash()])
+    this.updateWithData(classMap[keys.getHash()]);
   }
 
 
   convertServerRequisites(data) {
-    var retVal = {};
+    let retVal = {};
 
     //already processed node, just process the prereqs and coreqs
     if (data instanceof Class) {
       retVal = data;
 
-      var newCoreqs = [];
-      data.coreqs.values.forEach(function (subTree) {
-        newCoreqs.push(this.convertServerRequisites(subTree))
-      }.bind(this))
+      const newCoreqs = [];
+      data.coreqs.values.forEach((subTree) => {
+        newCoreqs.push(this.convertServerRequisites(subTree));
+      });
 
-      data.coreqs.values = newCoreqs
+      data.coreqs.values = newCoreqs;
 
 
-
-      var newPrereqs = [];
-      data.prereqs.values.forEach(function (subTree) {
-        newPrereqs.push(this.convertServerRequisites(subTree))
-      }.bind(this))
+      const newPrereqs = [];
+      data.prereqs.values.forEach((subTree) => {
+        newPrereqs.push(this.convertServerRequisites(subTree));
+      });
 
       data.prereqs.values = newPrereqs;
     }
     //given a branch in the prereqs
     else if (data.values && data.type) {
-
-      var newValues = [];
-      data.values.forEach(function (subTree) {
-        newValues.push(this.convertServerRequisites(subTree))
-      }.bind(this))
+      const newValues = [];
+      data.values.forEach((subTree) => {
+        newValues.push(this.convertServerRequisites(subTree));
+      });
 
 
       retVal = new RequisiteBranch({
         type: data.type,
-        values: newValues
+        values: newValues,
       });
     }
 
     //need to create a new Class()
     else {
-
       //basic string
-      if ((typeof data) == 'string') {
+      if ((typeof data) === 'string') {
         data = {
           isString: true,
           desc: data,
 
-        }
+        };
       }
       // else data is a normal class that has a .subject and a .classUid
 
@@ -133,20 +127,19 @@ class Class {
       //but it is the same as the class that returned it,
       //so copy over the values
       if (!data.host) {
-        data.host = this.host
+        data.host = this.host;
       }
       if (!data.termId) {
-        data.termId = this.termId
+        data.termId = this.termId;
       }
 
 
-      retVal = this.constructor.create(data, {}, false)
-
+      retVal = this.constructor.create(data, {}, false);
     }
 
     if (!retVal) {
-      macros.error("ERROR creating jawn", retVal, data, retVal == data)
-      return
+      macros.error('ERROR creating jawn', retVal, data, retVal == data);
+      return;
     }
 
     return retVal;
@@ -154,16 +147,16 @@ class Class {
 
   removeMissingClasses(data) {
     if (data.values) {
-      var retVal = [];
-      var subClassesHash = {}
-      data.values.forEach(function (subData) {
+      const retVal = [];
+      const subClassesHash = {};
+      data.values.forEach((subData) => {
         if (subData.missing) {
           return;
         }
 
         // Check to see if it duplicates any classes already found in this data.values
         if (subData.subject && subData.classUid) {
-          var key = subData.subject + subData.classUid;
+          const key = subData.subject + subData.classUid;
           if (subClassesHash[key]) {
             return;
           }
@@ -176,35 +169,32 @@ class Class {
         if (subData.values && subData.type) {
           // If all the prereqs are missing and were all removed, don't add
           if (subData.values.length > 0) {
-            retVal.push(subData)
+            retVal.push(subData);
           }
+        } else {
+          retVal.push(subData);
         }
-        else {
-          retVal.push(subData)
-        }
-      }.bind(this))
+      });
 
       return {
         type: data.type,
-        values: retVal
+        values: retVal,
       };
     }
     return data;
   }
 
   flattenCoreqs() {
-
-    var stack = this.coreqs.values.slice(0);
-    var curr;
-    var classes = []
+    let stack = this.coreqs.values.slice(0);
+    let curr;
+    const classes = [];
 
     while ((curr = stack.pop())) {
       if (curr instanceof Class) {
-        classes.push(curr)
-      }
-      else {
+        classes.push(curr);
+      } else {
         // If it is a requisite branch, the classes needed are under prereqs...
-        stack = stack.concat(curr.prereqs.values.slice(0))
+        stack = stack.concat(curr.prereqs.values.slice(0));
       }
     }
 
@@ -215,7 +205,7 @@ class Class {
   // called once
   updateWithData(config) {
     if (config instanceof Class) {
-      macros.error('wtf', config)
+      macros.error('wtf', config);
     }
 
     if (config.title || config.allParents || config.missing || config.updateWithData) {
@@ -223,82 +213,76 @@ class Class {
     }
 
     //copy over all other attr given
-    for (var attrName in config) {
-
+    for (const attrName in config) {
       //dont copy over some attr
       //these are copied below and processed a bit
       if (_(['coreqs', 'prereqs', 'download']).includes(attrName) || config[attrName] === undefined) {
         continue;
-      }
-
-      else {
-        this[attrName] = config[attrName]
+      } else {
+        this[attrName] = config[attrName];
       }
     }
 
     // Remove any prereqs or coreqs that are missing
     if (config.prereqs) {
-      config.prereqs = this.removeMissingClasses(config.prereqs)
+      config.prereqs = this.removeMissingClasses(config.prereqs);
     }
     if (config.coreqs) {
-      config.coreqs = this.removeMissingClasses(config.coreqs)
+      config.coreqs = this.removeMissingClasses(config.coreqs);
     }
 
     if (config.prereqs) {
       if (!config.prereqs.values || !config.prereqs.type) {
-        macros.error('prereqs need values ad type')
-      }
-      else {
-        this.prereqs.type = config.prereqs.type
-        this.prereqs.values = []
+        macros.error('prereqs need values ad type');
+      } else {
+        this.prereqs.type = config.prereqs.type;
+        this.prereqs.values = [];
 
         //add the prereqs to this node, and convert server data
-        config.prereqs.values.forEach(function (subTree) {
-          this.prereqs.values.push(this.convertServerRequisites(_.cloneDeep(subTree)))
-        }.bind(this))
+        config.prereqs.values.forEach((subTree) => {
+          this.prereqs.values.push(this.convertServerRequisites(_.cloneDeep(subTree)));
+        });
 
-        this.prereqs.values.sort(function (a, b) {
-          return a.compareTo(b)
-        }.bind(this))
+        this.prereqs.values.sort((a, b) => {
+          return a.compareTo(b);
+        });
       }
     }
 
     if (config.coreqs) {
       if (!config.coreqs.values || !config.coreqs.type) {
-        macros.error('coreqs need values ad type')
-      }
-      else {
-        this.coreqs.type = config.coreqs.type
-        this.coreqs.values = []
+        macros.error('coreqs need values ad type');
+      } else {
+        this.coreqs.type = config.coreqs.type;
+        this.coreqs.values = [];
 
         //add the coreqs to this node, and convert server data
-        config.coreqs.values.forEach(function (subTree) {
-          this.coreqs.values.push(this.convertServerRequisites(_.cloneDeep(subTree)))
-        }.bind(this))
+        config.coreqs.values.forEach((subTree) => {
+          this.coreqs.values.push(this.convertServerRequisites(_.cloneDeep(subTree)));
+        });
 
-        this.flattenCoreqs()
+        this.flattenCoreqs();
 
-        this.coreqs.values.sort(function (a, b) {
-          return a.compareTo(b)
-        }.bind(this))
+        this.coreqs.values.sort((a, b) => {
+          return a.compareTo(b);
+        });
       }
     }
-
 
 
     //name and description could have HTML entities in them, like &#x2260;, which we need to convert to actuall text
     //setting the innerHTML instead of innerText will work too, but this is better
     if (config.desc) {
-      this.desc = he.decode(config.desc)
+      this.desc = he.decode(config.desc);
     }
     if (config.name) {
-      this.name = he.decode(config.name)
+      this.name = he.decode(config.name);
     }
 
 
     if (!config.prettyUrl && config.url) {
       this.prettyUrl = config.url;
-    };
+    }
   }
 
 
@@ -310,7 +294,7 @@ class Class {
 
     // both classes
     if (!this.isString && !other.isString) {
-      return BaseData.prototype.equals.call(this, other)
+      return BaseData.prototype.equals.call(this, other);
     }
 
     // one is a string other is a class
@@ -330,50 +314,43 @@ class Class {
     }
     if (otherClass.isString) {
       return 1;
-    };
+    }
 
-    var aId = parseInt(this.classId);
-    var bId = parseInt(otherClass.classId);
+    const aId = parseInt(this.classId);
+    const bId = parseInt(otherClass.classId);
 
     if (aId > bId) {
       return 1;
-    }
-    else if (aId < bId) {
+    } else if (aId < bId) {
       return -1;
     }
 
     //if ids are the same, sort by subject
     else if (this.subject > otherClass.subject) {
       return 1;
-    }
-    else if (this.subject < otherClass.subject) {
+    } else if (this.subject < otherClass.subject) {
       return -1;
-    }
-
-    else if (this.name > otherClass.name) {
+    } else if (this.name > otherClass.name) {
       return 1;
-    }
-    else if (this.name < otherClass.name) {
+    } else if (this.name < otherClass.name) {
       return -1;
-    }
-    else if (this.classUid > otherClass.classUid) {
+    } else if (this.classUid > otherClass.classUid) {
       return 1;
-    }
-    else if (this.classUid < otherClass.classUid) {
+    } else if (this.classUid < otherClass.classUid) {
       return -1;
     }
-    return 0
+    return 0;
   }
 
 
   getHeighestProfCount() {
-    var count = 0;
+    let count = 0;
 
-    this.sections.forEach(function (section) {
+    this.sections.forEach((section) => {
       if (section.profs) {
-        count = Math.max(section.profs.length, count)
-      };
-    }.bind(this))
+        count = Math.max(section.profs.length, count);
+      }
+    });
     return count;
   }
 
@@ -382,25 +359,24 @@ class Class {
       return null;
     }
 
-    var prettyClassId = this.classId;
-    while (_(prettyClassId).startsWith('0') && prettyClassId.length > 1) {
-      prettyClassId = prettyClassId.slice(1)
+    let prettyClassId = this.classId;
+    while (prettyClassId.startsWith('0') && prettyClassId.length > 1) {
+      prettyClassId = prettyClassId.slice(1);
     }
-    return prettyClassId
+    return prettyClassId;
   }
 
   getLastUpdateString() {
     if (this.lastUpdateTime) {
-      return moment(this.lastUpdateTime).fromNow()
+      return moment(this.lastUpdateTime).fromNow();
     }
-    else {
-      return null;
-    }
+
+    return null;
   }
 
   //returns true if any sections have an exam, else false
   sectionsHaveExam() {
-    for (var i = 0; i < this.sections.length; i++) {
+    for (let i = 0; i < this.sections.length; i++) {
       if (this.sections[i].getHasExam()) {
         return true;
       }
@@ -411,41 +387,40 @@ class Class {
 
   loadSectionsFromSectionMap(sectionMap) {
     if (this.isString) {
-      macros.error('ERROR cant load sections of !class or string')
-      return callback('!class or string')
-    };
+      macros.error('ERROR cant load sections of !class or string');
+      return callback('!class or string');
+    }
 
-    this.sections = []
+    this.sections = [];
 
 
     this.crns.forEach((crn) => {
-      var keys = Keys.create({
+      const keys = Keys.create({
         host: this.host,
         termId: this.termId,
         subject: this.subject,
         classUid: this.classUid,
-        crn: crn
-      })
+        crn: crn,
+      });
       if (!keys) {
-        console.error('Keys are null!')
-        debugger
+        console.error('Keys are null!');
       }
 
-      var serverData = sectionMap[keys.getHash()]
+      const serverData = sectionMap[keys.getHash()];
       if (!serverData) {
-        console.error('unable to find section in section map', this, crn)
+        console.error('unable to find section in section map', this, crn);
         return;
       }
 
-      var section = Section.create(serverData)
+      const section = Section.create(serverData);
 
       if (!section) {
-        console.error('could not make section with', serverData)
+        console.error('could not make section with', serverData);
         return;
       }
 
-      this.sections.push(section)
-    })
+      this.sections.push(section);
+    });
 
     this.finishLoadingSections();
   }
@@ -454,36 +429,35 @@ class Class {
   // Use this function to load sections from a list of server data of sections.
   // The given sections must all have crns in the class
   loadSectionsFromServerList(serverList) {
-
-    this.sections = []
+    this.sections = [];
 
     // Just for sanity checking to make sure crns on this class match given sections
-    let unmatchedCrns = {}
+    const unmatchedCrns = {};
 
     for (const crn of this.crns) {
-      unmatchedCrns[crn] = true
+      unmatchedCrns[crn] = true;
     }
 
     for (const serverData of serverList) {
       if (!unmatchedCrns[serverData.crn]) {
-        console.log("Given section was not in unmatchedCrns??", serverList.length, this.crns.length, unmatchedCrns, serverList);
+        console.log('Given section was not in unmatchedCrns??', serverList.length, this.crns.length, unmatchedCrns, serverList);
         continue;
       }
 
-      const section = Section.create(serverData)
+      const section = Section.create(serverData);
       if (!section) {
-        console.error("Error could not make section!", serverData)
+        console.error('Error could not make section!', serverData);
         continue;
       }
       unmatchedCrns[serverData.crn] = false;
-      this.sections.push(section)
+      this.sections.push(section);
     }
 
     // Make sure all sections were given
-    let wasMatched = Object.values(unmatchedCrns);
+    const wasMatched = Object.values(unmatchedCrns);
     for (const value of wasMatched) {
       if (value) {
-        console.error('Error, crn was never matched!', unmatchedCrns)
+        console.error('Error, crn was never matched!', unmatchedCrns);
       }
     }
 
@@ -491,80 +465,72 @@ class Class {
   }
 
   // This runs when just after the sections are done loading. This would be at the bottom of this.loadSections*, but was moved to a separate function
-  // so code is not duplicated. 
+  // so code is not duplicated.
   finishLoadingSections() {
-    
-    var hasWaitList = 0;
-    this.sections.forEach(function (section) {
+    let hasWaitList = 0;
+    this.sections.forEach((section) => {
       hasWaitList += section.hasWaitList;
-    }.bind(this))
+    });
 
     if (hasWaitList > this.sections.length / 2) {
       this.hasWaitList = true;
-    }
-    else {
+    } else {
       this.hasWaitList = false;
     }
 
 
     //sort sections
-    this.sections.sort(function (a, b) {
+    this.sections.sort((a, b) => {
       return a.compareTo(b);
-    }.bind(this))
+    });
   }
 
   getHasWaitList() {
-    for (var i = this.sections.length - 1; i >= 0; i--) {
+    for (let i = this.sections.length - 1; i >= 0; i--) {
       if (this.sections[i].getHasWaitList()) {
-        return true
+        return true;
       }
     }
-    return false
+    return false;
   }
 
   getHasOnlineSections() {
-    for (var i = this.sections.length - 1; i >= 0; i--) {
+    for (let i = this.sections.length - 1; i >= 0; i--) {
       if (this.sections[i].online) {
-        return true
+        return true;
       }
     }
-    return false
+    return false;
   }
 
   // Downloads the first layer of prereqs
   async loadPrereqs(classMap) {
-    this.prereqs.values.forEach(function (childBranch) {
+    this.prereqs.values.forEach((childBranch) => {
       if (childBranch instanceof RequisiteBranch) {
-        childBranch.loadPrereqs(classMap)
+        childBranch.loadPrereqs(classMap);
+      } else if (!childBranch.isString) {
+        childBranch.loadFromClassMap(classMap);
       }
-      else if (!childBranch.isString) {
-        childBranch.loadFromClassMap(classMap)
-      }
-    }.bind(this))
+    });
   }
 
 
   // Downloads the first layer of prereqs
-  async loadCoreqs (classMap) {
-    this.coreqs.values.forEach(function (childBranch) {
+  async loadCoreqs(classMap) {
+    this.coreqs.values.forEach((childBranch) => {
       if (childBranch instanceof RequisiteBranch) {
-        console.error('meh')
+        console.error('meh');
+      } else if (!childBranch.isString) {
+        childBranch.loadFromClassMap(classMap);
       }
-      else if (!childBranch.isString) {
-        childBranch.loadFromClassMap(classMap)
-      }
-    }.bind(this))
+    });
   }
-
-
 }
 
 
-
-
-Class.requiredPath = ['host', 'termId', 'subject']
-Class.optionalPath = ['classUid']
-Class.API_ENDPOINT = '/listClasses'
+Class.requiredPath = ['host', 'termId', 'subject'];
+Class.optionalPath = ['classUid'];
+Class.API_ENDPOINT = '/listClasses';
 
 
 export default Class;

@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import _ from 'lodash';
@@ -10,98 +10,90 @@ import macros from '../commonMacros';
 import Meeting from './Meeting';
 
 class Section {
-
   constructor(config) {
     //loading status is done if any sign that has data
     if (config.dataStatus !== undefined) {
-      this.dataStatus = config.dataStatus
-    }
-    else if (this.lastUpdateTime !== undefined || this.meetings) {
-      this.dataStatus = macros.DATASTATUS_DONE
+      this.dataStatus = config.dataStatus;
+    } else if (this.lastUpdateTime !== undefined || this.meetings) {
+      this.dataStatus = macros.DATASTATUS_DONE;
     }
 
     //seperate reasons to meet: eg Lecture or Lab.
     //each of these then has times, and days
     //instances of Meeting
-    this.meetings = []
+    this.meetings = [];
   }
 
   static create(config) {
-    var instance = new this(config);
+    const instance = new this(config);
     instance.updateWithData(config);
-    return instance
+    return instance;
   }
 
 
   meetsOnWeekends() {
-
-    for (var i = 0; i < this.meetings.length; i++) {
-      var meeting = this.meetings[i];
+    for (let i = 0; i < this.meetings.length; i++) {
+      const meeting = this.meetings[i];
 
       if (meeting.getMeetsOnWeekends()) {
         return true;
-      };
+      }
     }
     return false;
   }
 
   getAllMeetingMoments(ignoreExams = true) {
-
-    var retVal = [];
-    this.meetings.forEach(function (meeting) {
+    let retVal = [];
+    this.meetings.forEach((meeting) => {
       if (ignoreExams && meeting.getIsExam()) {
         return;
       }
 
       retVal = retVal.concat(_.flatten(meeting.times));
-    }.bind(this))
+    });
 
-    retVal.sort(function (a, b) {
+    retVal.sort((a, b) => {
       if (a.start.unix() > b.start.unix()) {
         return 1;
-      }
-      else if (a.start.unix() < b.start.unix()) {
+      } else if (a.start.unix() < b.start.unix()) {
         return -1;
       }
-      else {
-        return 0;
-      }
-    }.bind(this))
+
+      return 0;
+    });
 
     return retVal;
   }
 
   //returns [false,true,false,true,false,true,false] if meeting mon, wed, fri
   getWeekDaysAsBooleans() {
+    const retVal = [false, false, false, false, false, false, false];
 
-    var retVal = [false, false, false, false, false, false, false];
 
-
-    this.getAllMeetingMoments().forEach(function (time) {
+    this.getAllMeetingMoments().forEach((time) => {
       retVal[time.start.day()] = true;
-    }.bind(this))
+    });
 
     return retVal;
   }
 
   getWeekDaysAsStringArray() {
+    const retVal = [];
 
-    var retVal = [];
-
-    this.getAllMeetingMoments().forEach(function (time) {
-      var day = time.start.format('dddd');
+    this.getAllMeetingMoments().forEach((time) => {
+      const day = time.start.format('dddd');
       if (retVal.includes(day)) {
         return;
       }
       retVal.push(day);
-    }.bind(this))
+    });
 
     return retVal;
   }
 
   //returns true if has exam, else false
   getHasExam() {
-    for (var i = 0; i < this.meetings.length; i++) {
+    for (let i = 0; i < this.meetings.length; i++) {
       if (this.meetings[i].getIsExam()) {
         return true;
       }
@@ -112,27 +104,27 @@ class Section {
   //returns the {start:end:} moment object of the first exam found
   //else returns null
   getExamMeeting() {
-    for (var i = 0; i < this.meetings.length; i++) {
-      var meeting = this.meetings[i]
+    for (let i = 0; i < this.meetings.length; i++) {
+      const meeting = this.meetings[i];
       if (meeting.getIsExam()) {
         if (meeting.times.length > 0) {
           return meeting;
-        };
-      };
-    };
+        }
+      }
+    }
     return null;
   }
 
   // Unique list of all professors in all meetings, sorted alphabetically
   getProfs() {
-    var retVal = [];
-    this.meetings.forEach(function (meeting) {
-      meeting.profs.forEach(function (prof) {
+    const retVal = [];
+    this.meetings.forEach((meeting) => {
+      meeting.profs.forEach((prof) => {
         if (!retVal.includes(prof)) {
           retVal.push(prof);
-        };
-      }.bind(this))
-    }.bind(this))
+        }
+      });
+    });
 
     retVal.sort();
 
@@ -142,43 +134,42 @@ class Section {
   getLocations(ignoreExams) {
     if (ignoreExams === undefined) {
       ignoreExams = true;
-    };
+    }
 
-    var retVal = [];
-    this.meetings.forEach(function (meeting) {
+    const retVal = [];
+    this.meetings.forEach((meeting) => {
       if (ignoreExams && meeting.getIsExam()) {
         return;
-      };
+      }
 
-      var where = meeting.where;
+      const where = meeting.where;
       if (!retVal.includes(where)) {
         retVal.push(where);
-      };
-    }.bind(this))
+      }
+    });
 
     // If it is at least 1 long with TBAs remove, return the array without any TBAs
-    var noTBAs = _.pull(retVal.slice(0), 'TBA');
+    const noTBAs = _.pull(retVal.slice(0), 'TBA');
     if (noTBAs.length > 0) {
-      return noTBAs
+      return noTBAs;
     }
-    else {
-      return retVal;
-    }
+
+    return retVal;
   }
 
   getUniqueStartTimes(ignoreExams) {
     if (ignoreExams === undefined) {
       ignoreExams = true;
-    };
+    }
 
-    var retVal = [];
+    const retVal = [];
 
-    this.getAllMeetingMoments(ignoreExams).forEach(function (time) {
-      var string = time.start.format('h:mm a');
+    this.getAllMeetingMoments(ignoreExams).forEach((time) => {
+      const string = time.start.format('h:mm a');
       if (!retVal.includes(string)) {
-        retVal.push(string)
-      };
-    }.bind(this))
+        retVal.push(string);
+      }
+    });
 
     return retVal;
   }
@@ -186,16 +177,16 @@ class Section {
   getUniqueEndTimes(ignoreExams) {
     if (ignoreExams === undefined) {
       ignoreExams = true;
-    };
+    }
 
-    var retVal = [];
+    const retVal = [];
 
-    this.getAllMeetingMoments(ignoreExams).forEach(function (time) {
-      var string = time.end.format('h:mm a');
+    this.getAllMeetingMoments(ignoreExams).forEach((time) => {
+      const string = time.end.format('h:mm a');
       if (!retVal.includes(string)) {
-        retVal.push(string)
-      };
-    }.bind(this))
+        retVal.push(string);
+      }
+    });
 
     return retVal;
   }
@@ -204,36 +195,33 @@ class Section {
     if (this.waitCapacity > 0 || this.waitRemaining > 0) {
       return true;
     }
-    else {
-      return false;
-    }
+
+    return false;
   }
 
 
   updateWithData(data) {
-    for (var attrName in data) {
-      if ((typeof data[attrName]) == 'function') {
+    for (const attrName in data) {
+      if ((typeof data[attrName]) === 'function') {
         macros.error('given fn??', data, this, this.constructor.name);
         continue;
       }
-      this[attrName] = data[attrName]
+      this[attrName] = data[attrName];
     }
 
     if (data.meetings) {
-      var newMeetings = []
+      const newMeetings = [];
 
-      data.meetings.forEach(function (serverData) {
-        newMeetings.push(new Meeting(serverData))
-      }.bind(this))
+      data.meetings.forEach((serverData) => {
+        newMeetings.push(new Meeting(serverData));
+      });
 
       this.meetings = newMeetings;
     }
-
   }
 
 
   compareTo(other) {
-
     if (this.online && !other.online) {
       return 1;
     }
@@ -245,25 +233,23 @@ class Section {
       return 0;
     }
     if (this.meetings.length > 0 && other.meetings.length == 0) {
-      return -1
-    }
-    else if (this.meetings.length === 0 && other.meetings.length > 0) {
-      return 1
+      return -1;
+    } else if (this.meetings.length === 0 && other.meetings.length > 0) {
+      return 1;
     }
 
     // If both sections have meetings, then sort alphabetically by professor.
-    const thisProfs = this.getProfs()
-    const otherProfs = other.getProfs()
+    const thisProfs = this.getProfs();
+    const otherProfs = other.getProfs();
     const thisOnlyTBA = thisProfs.length === 1 && thisProfs[0] === 'TBA';
     const otherOnlyTBA = otherProfs.length === 1 && otherProfs[0] === 'TBA';
 
     if (thisProfs.length > 0 || otherProfs.length > 0) {
-
       if (thisProfs.length === 0) {
         return -1;
       }
       if (otherProfs.length === 0) {
-        return 1
+        return 1;
       }
 
       if (thisOnlyTBA && !otherOnlyTBA) {
@@ -294,17 +280,15 @@ class Section {
     if (this.meetings[0].times[0][0].start.unix() > other.meetings[0].times[0][0].start.unix()) {
       return 1;
     }
-    else {
-      return 0;
-    }
+
+    return 0;
   }
 }
 
 
-Section.requiredPath = ['host', 'termId', 'subject', 'classUid']
-Section.optionalPath = ['crn']
-Section.API_ENDPOINT = '/listSections'
-
+Section.requiredPath = ['host', 'termId', 'subject', 'classUid'];
+Section.optionalPath = ['crn'];
+Section.API_ENDPOINT = '/listSections';
 
 
 export default Section;
