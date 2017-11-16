@@ -19,6 +19,7 @@ module.exports = {
     "key-spacing": 0,
     "no-mixed-operators": 0,
     "no-param-reassign": 0,
+    'prefer-destructuring': 0,
 
     // Allow for-of loops. 
     "no-restricted-syntax": [
