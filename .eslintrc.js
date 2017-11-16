@@ -55,7 +55,7 @@ module.exports = {
     "no-continue": 0,
 
     // This rule always triggers on Windows...
-    "import/no-unresolved": Number(process.env.OS !== 'Windows_NT') * 2,
+    // "import/no-unresolved": Number(process.env.OS !== 'Windows_NT') * 2,
     "spaced-comment": 0,
     "react/prefer-stateless-function": [1],
     "react/jsx-filename-extension": [1, {
