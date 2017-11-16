@@ -4,9 +4,6 @@
  */
 
 
-// const baseProcessor = require('../baseProcessor');
-
-
 it('should work', () => {
 
 });

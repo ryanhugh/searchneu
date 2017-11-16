@@ -304,5 +304,4 @@ Section.prototype.compareTo = function (other) {
 };
 
 
-
-module.exports = Section;
+export default Section;

@@ -20,16 +20,15 @@
 
 
 import asyncjs from 'async';
+import realWhois from 'whois';
 
 import macros from '../../../macros';
 import cache from '../../cache';
 import BaseParser from './baseParser';
+import mockWhois from './tests/mockWhois';
 
 
 let whois;
-
-const mockWhois = require('./tests/mockWhois');
-const realWhois = require('whois');
 
 if (macros.TESTS) {
   whois = mockWhois;

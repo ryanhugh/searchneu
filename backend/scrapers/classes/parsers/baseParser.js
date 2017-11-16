@@ -249,7 +249,8 @@ class BaseParser {
   // https://www.npmjs.com/package/change-case
   // https://www.npmjs.com/package/slang
   // https://www.npmjs.com/package/to-title-case -- currently using this one, its ok not great
-  // let a = require("change-case").title
+  // Example of import changeCase from 'change-case':
+  // let a = changeCase.title
 
   // macros.log(a('texas a&m university'));
   // macros.log(a('something something'))
