@@ -1,2 +1,3 @@
 # This file is used to tell GitHub to ignore the files in any data folder that is directly under a tets folder when calculating the language statistics on this repo. There are a lot of html files in the repo for the tests, and they were skewing the language statistics. 
 **/tests/data/** linguist-vendored
+*.js text eol=lf
