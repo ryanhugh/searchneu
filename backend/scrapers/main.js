@@ -1,3 +1,8 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
+
 import matchEmployees from './employees/matchEmployees';
 import fs from 'fs-promise';
 
