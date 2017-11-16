@@ -29,4 +29,4 @@ All the data on Search NEU is availible to download! For more details see [the d
 
 ### License
 
-Search NEU is licensed under AGPL3. Any derivative work, such as projects that use the data on the site, must also be open source. Feel free to reach out if you have any questions about this. hey@searchneu.com 
+Search NEU is licensed under AGPL3. Any derivative work, such as projects that use the data on the site, must also be open source. See the LICENSE file for details. Feel free to reach out if you have any questions about this. hey@searchneu.com 
