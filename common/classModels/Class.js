@@ -3,15 +3,14 @@
  * See the license file in the root folder for details. 
  */
 
-var _ = require('lodash')
-var he = require('he')
-var moment = require('moment')
+import _ from 'lodash';
+import he from 'he';
+import moment from 'moment';
+
 import Keys from '../Keys'
 import macros from '../commonMacros';
-
-// import RequisiteNode from './RequisiteNode';
-var Section = require('./Section')
-var RequisiteBranch = require('./RequisiteBranch')
+import Section from './Section';
+import RequisiteBranch from './RequisiteBranch';
 
 class Class {
   

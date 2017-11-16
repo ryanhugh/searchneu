@@ -3,11 +3,10 @@
  * See the license file in the root folder for details. 
  */
 
-'use strict';
-var _ = require('lodash')
-var moment = require('moment')
-import macros from '../commonMacros';
+import _ from 'lodash';
+import moment from 'moment';
 
+import macros from '../commonMacros';
 
 function Meeting(serverData) {
 	if (!serverData) {
@@ -190,7 +189,6 @@ Meeting.prototype.compareTo = function (other) {
 	else {
 		return 0;
 	}
-
 };
 
-module.exports = Meeting;
+export default Meeting;
