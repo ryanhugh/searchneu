@@ -88,10 +88,9 @@ class Macros {
       if (!fullName.endsWith(lastName)) {
         this.log('Full name does not end with last name?', fullName, '|', lastName);
       }
-    }
 
     // Find the last name and first name by splitting the name by spaces
-    else {
+    } else {
       const indexOfLastSpace = fullName.length - fullName.split('').reverse().join('').indexOf(' ');
 
       firstName = fullName.slice(0, indexOfFirstSpace);
