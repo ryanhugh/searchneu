@@ -13,7 +13,7 @@
     "build": "npm run build_backend; npm run build_frontend",
     "start_prod": "./node_modules/forever/bin/forever stopall; NODE_ENV=prod ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start dist/backend/startup.js"
   },
-  "repository": { 
+  "repository": {
     "type": "git",
     "url": "https://github.com/ryanhugh/searchneu.git"
   },
@@ -37,7 +37,6 @@
     "@mapbox/togeojson": "^0.16.0",
     "acorn": "^5.0.3",
     "amplitude": "^3.5.0",
-    "another-name-parser": "^0.0.4",
     "async": "^2.1.5",
     "body-parser": "^1.17.2",
     "cheerio": "^0.22.0",
