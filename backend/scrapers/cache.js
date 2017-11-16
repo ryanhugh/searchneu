@@ -1,10 +1,16 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
+
 import path from 'path';
 import fs from 'fs-promise';
 import mkdirp from 'mkdirp-promise';
+import msgpackImport from 'msgpack5';
 
 import macros from '../macros';
 
-var msgpack = require('msgpack5')() // namespace our extensions 
+var msgpack = msgpackImport() // namespace our extensions 
 
 
 // Quick history of caching the http requests:

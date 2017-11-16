@@ -1,8 +1,11 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
+
 import Class from './Class';
-import Keys from '../Keys';
 
-export default class DataLib {
-
+class DataLib {
   constructor(termDump) {
     this.termDump = termDump;
   }
@@ -66,6 +69,6 @@ export default class DataLib {
   getSectionServerDataFromHash(hash) {
     return this.termDump.sectionMap[hash];
   }
-
 }
 
+export default DataLib;

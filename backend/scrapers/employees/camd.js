@@ -1,3 +1,8 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
+
 import cheerio from 'cheerio';
 import path from 'path';
 
@@ -168,7 +173,7 @@ class Camd {
 
     if (macros.DEV) {
       await cache.set('dev_data', this.constructor.name, 'main', people);
-      console.log('camd file saved!');
+      console.log(people.length, 'camd people saved to the cache file!');
     }
 
     return people;

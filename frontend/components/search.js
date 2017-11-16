@@ -1,7 +1,11 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
+
 import URI from 'urijs';
 
 import request from './request';
-
 
 class Search {
 
@@ -27,7 +31,6 @@ class Search {
     }
 
     if (!termId || termId.length !== 6) {
-      debugger
       console.log("No termId given in frontend/search.js. Returning empty array.", termId, termCount)
       return []
     }

@@ -1,19 +1,6 @@
 /*
- * Copyright (c) 2017 Ryan Hughes
- *
- * This file is part of CoursePro.
- *
- * CoursePro is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License
- * version 3 as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
  */
 
 import request from 'request-promise-native';
@@ -437,7 +424,7 @@ class Request {
           // This will retry for any error code.
 
           this.analytics[hostname].totalErrors++;
-          if (!process.env.CI || tryCount > 5) {
+          if (!macros.PROD || tryCount > 5) {
             console.log('Try#:', tryCount, 'Code:', err.statusCode || err.RequestError || err.Error || err.message || err, ' Open request count: ', this.openRequests, 'Url:', config.url);
           }
 
@@ -474,7 +461,7 @@ class Request {
 
         // Don't log this on travis because it causes more than 4 MB to be logged and travis will kill the job
         this.analytics[hostname].totalBytesDownloaded += response.body.length;
-        if (!process.env.CI) {
+        if (!macros.PROD) {
           console.log('Parsed', response.body.length, 'in', requestDuration, 'ms from ', config.url);
         }
 

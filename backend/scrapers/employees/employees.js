@@ -1,3 +1,7 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
 
 import htmlparser from 'htmlparser2';
 import domutils from 'domutils';
@@ -360,7 +364,7 @@ class Employee {
 
     if (macros.DEV) {
       await cache.set('dev_data', this.constructor.name, 'main', this.people);
-      console.log('employees file saved!');
+      console.log(this.people.length, 'employees saved to a file!');
     }
 
     return this.people;
