@@ -6,6 +6,7 @@
 'use strict';
 var _ = require('lodash')
 var moment = require('moment')
+import macros from '../commonMacros';
 
 
 function Meeting(serverData) {
@@ -47,7 +48,7 @@ function Meeting(serverData) {
 			}
 
 			if (parseInt(obj.start.format('YYYY')) !== 1970) {
-				elog()
+				macros.error()
 			}
 
 			timeMoments.push(obj)

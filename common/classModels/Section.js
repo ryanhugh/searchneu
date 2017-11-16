@@ -7,6 +7,8 @@
 var _ = require('lodash')
 var moment = require('moment')
 
+import macros from '../commonMacros';
+
 
 var Meeting = require('./Meeting')
 
@@ -218,7 +220,7 @@ Section.prototype.getHasWaitList = function () {
 Section.prototype.updateWithData = function (data) {
 	for (var attrName in data) {
 		if ((typeof data[attrName]) == 'function') {
-			elog('given fn??', data, this, this.constructor.name);
+			macros.error('given fn??', data, this, this.constructor.name);
 			continue;
 		}
 		this[attrName] = data[attrName]
