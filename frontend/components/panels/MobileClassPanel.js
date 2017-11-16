@@ -115,7 +115,7 @@ class MobileClassPanel extends BaseClassPanel {
             <br />
             Corequisites: {this.getReqsString(false, aClass)}
             <br />
-            Prerequisites for: {this.getReqsString(true, aClass)}s
+            Prerequisites for: {this.getReqsString()}
           </div>
         </span>
         );

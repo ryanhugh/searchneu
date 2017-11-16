@@ -19,7 +19,8 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
   go(termDump) {
     this.termDump = termDump;
     for (const aClass of this.termDump.classes) {
-      this.parsePreReqs(aClass, aClass.prereqs);
+      const test = {};
+      this.parsePreReqs(test, aClass.prereqs);
     }
 
     return termDump;
