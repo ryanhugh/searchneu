@@ -3,14 +3,11 @@
  * See the license file in the root folder for details. 
  */
 
-'use strict';
-var _ = require('lodash')
-var moment = require('moment')
+import _ from 'lodash';
+import moment from 'moment';
 
 import macros from '../commonMacros';
-
-
-var Meeting = require('./Meeting')
+import Meeting from './Meeting';
 
 function Section(config) {
 
@@ -97,7 +94,7 @@ Section.prototype.getWeekDaysAsStringArray = function () {
 
 	this.getAllMeetingMoments().forEach(function (time) {
 		var day = time.start.format('dddd');
-		if (_(retVal).includes(day)) {
+		if (retVal.includes(day)) {
 			return;
 		}
 		retVal.push(day);
@@ -135,7 +132,7 @@ Section.prototype.getProfs = function () {
 	var retVal = [];
 	this.meetings.forEach(function (meeting) {
 		meeting.profs.forEach(function (prof) {
-			if (!_(retVal).includes(prof)) {
+			if (!retVal.includes(prof)) {
 				retVal.push(prof);
 			};
 		}.bind(this))
@@ -158,7 +155,7 @@ Section.prototype.getLocations = function (ignoreExams) {
 		};
 
 		var where = meeting.where;
-		if (!_(retVal).includes(where)) {
+		if (!retVal.includes(where)) {
 			retVal.push(where);
 		};
 	}.bind(this))
@@ -182,7 +179,7 @@ Section.prototype.getUniqueStartTimes = function (ignoreExams) {
 
 	this.getAllMeetingMoments(ignoreExams).forEach(function (time) {
 		var string = time.start.format('h:mm a');
-		if (!_(retVal).includes(string)) {
+		if (!retVal.includes(string)) {
 			retVal.push(string)
 		};
 	}.bind(this))
@@ -199,7 +196,7 @@ Section.prototype.getUniqueEndTimes = function (ignoreExams) {
 
 	this.getAllMeetingMoments(ignoreExams).forEach(function (time) {
 		var string = time.end.format('h:mm a');
-		if (!_(retVal).includes(string)) {
+		if (!retVal.includes(string)) {
 			retVal.push(string)
 		};
 	}.bind(this))
