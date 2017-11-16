@@ -19,7 +19,7 @@ const minData = 2;
 
 class Keys {
   constructor(obj, endpoint, config) {
-    if (obj instanceof Keys || !obj || (obj._id && !obj.hash && !obj.host) || (obj.isString && !config.stringAllowed)) {
+    if (obj instanceof Keys || !obj || (!obj.hash && !obj.host) || (obj.isString && !config.stringAllowed)) {
       macros.error('welp', obj);
     }
 
@@ -67,7 +67,7 @@ class Keys {
       if (!obj.subject) {
         if (obj.host && obj.termId && obj.hash) {
           if (obj.hash.startsWith('/list') || obj.hash.startsWith('/') || !config.hashAllowed) {
-            macros.error(obj, endpoint, config.hashAllowed);
+            macros.error(obj);
           } else {
             // this hash shall be "neu.edu/201710/..."
             // A obj hash SHOULD NOT START WITH /LISTsomething
@@ -92,14 +92,14 @@ class Keys {
   // propsEqual (no instance of check)
   static create(obj, endpoint) {
     if (arguments.length > 1) {
-      console.trace('ERROR!', obj, endpoint, config);
+      console.trace('ERROR!', obj, endpoint);
       console.error('Keys called with endpoint, but endpoints not supported anymore.');
     }
     return new this(obj, endpoint, {});
   }
 
   static createWithHash(obj, endpoint) {
-    console.trace('ERROR!', obj, endpoint, config);
+    console.trace('ERROR!', obj, endpoint);
     console.error('Keys called with endpoint, but endpoints not supported anymore.');
     return new this(obj, endpoint, {
       hashAllowed: true,
@@ -107,7 +107,7 @@ class Keys {
   }
 
   static createWithString(obj) {
-    console.trace('ERROR!', obj, endpoint, config);
+    console.trace('ERROR!', obj);
     console.error('Keys called with endpoint, but endpoints not supported anymore.');
     return new this(obj, null, {
       stringAllowed: true,
@@ -236,7 +236,9 @@ class Keys {
 
     const endpointIndex = endpoints.indexOf(endpoint);
 
-    for (var i = 0; i < endpointIndex; i++) {
+    let i = 0;
+
+    for (; i < endpointIndex; i++) {
       if (!this[Keys.allKeys[i]]) {
         return false;
       }

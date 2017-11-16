@@ -3,7 +3,6 @@
  * See the license file in the root folder for details.
  */
 
-import _ from 'lodash';
 
 import macros from '../commonMacros';
 
@@ -58,6 +57,7 @@ class RequisiteBranch {
 
 
     macros.error('compareTo in RequisiteBranch needs more code', this, other);
+    return 0;
   }
 
 
