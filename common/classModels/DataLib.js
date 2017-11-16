@@ -4,7 +4,6 @@
  */
 
 import Class from './Class';
-import Keys from '../Keys';
 
 class DataLib {
   constructor(termDump) {
