@@ -18,7 +18,6 @@ const endpoints = [];
 const minData = 2;
 
 class Keys {
-
   constructor(obj, endpoint, config) {
     if (obj instanceof Keys || !obj || (obj._id && !obj.hash && !obj.host) || (obj.isString && !config.stringAllowed)) {
       macros.error('welp', obj);
@@ -85,7 +84,7 @@ class Keys {
       macros.error(obj, endpoint);
     }
   }
-  
+
   // create with obj or hash or _id (make sure in order and not missing any)
   // func where give array ('host','termId') and it checks if you have all of them
   // func that returns hash (regex to replace (and something else?))
@@ -291,13 +290,11 @@ class Keys {
     }
     return true;
   }
-
 }
 
 
 Keys.allKeys = ['host', 'termId', 'subject', 'classUid', 'crn'];
 Keys.replacementRegex = /[^A-Za-z0-9.]+/g;
-
 
 
 // endpoint string here
