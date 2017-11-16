@@ -1,5 +1,9 @@
-import matchEmployees from '../matchEmployees';
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
 
+import matchEmployees from '../matchEmployees';
 
 it('analytics should work', () => {
   matchEmployees.resetAnalytics();

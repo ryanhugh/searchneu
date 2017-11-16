@@ -1,3 +1,8 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
+
 import elasticlunr from 'elasticlunr';
 import path from 'path';
 import mkdirp from 'mkdirp-promise';

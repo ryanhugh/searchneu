@@ -1,3 +1,8 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
+
 // Setup environmental constants. This is used in both the frontend and the backend. The process.env is set in webpack and in package.json
 // These are setup in the webpack config
 

@@ -1,3 +1,7 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
 
 // This is a little helper file for files in the common folder that want to import macros.js
 // and don't know if they need to import the backend macros.js or the frontend macros.js because they don't yet know where they are running
