@@ -432,7 +432,7 @@ class Search {
 
 
     if (!wasSubjectMatch) {
-      const startTime = Date.now();
+      // const startTime = Date.now();
 
       // Sort the objects by chunks that have the same score.
       objects = this.constructor.sortObjectsAfterScore(objects);
