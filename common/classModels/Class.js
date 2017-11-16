@@ -359,7 +359,7 @@ class Class {
     if (this.isString) {
       macros.error('ERROR cant load sections of !class or string');
       macros.error('!class or string');
-      return null;
+      return;
     }
 
     this.sections = [];
@@ -374,19 +374,19 @@ class Class {
         crn: crn,
       });
       if (!keys) {
-        console.error('Keys are null!');
+        macros.error('Keys are null!');
       }
 
       const serverData = sectionMap[keys.getHash()];
       if (!serverData) {
-        console.error('unable to find section in section map', this, crn);
+        macros.error('unable to find section in section map', this, crn);
         return;
       }
 
       const section = Section.create(serverData);
 
       if (!section) {
-        console.error('could not make section with', serverData);
+        macros.error('could not make section with', serverData);
         return;
       }
 
@@ -411,13 +411,13 @@ class Class {
 
     for (const serverData of serverList) {
       if (!unmatchedCrns[serverData.crn]) {
-        console.log('Given section was not in unmatchedCrns??', serverList.length, this.crns.length, unmatchedCrns, serverList);
+        macros.log('Given section was not in unmatchedCrns??', serverList.length, this.crns.length, unmatchedCrns, serverList);
         continue;
       }
 
       const section = Section.create(serverData);
       if (!section) {
-        console.error('Error could not make section!', serverData);
+        macros.error('Error could not make section!', serverData);
         continue;
       }
       unmatchedCrns[serverData.crn] = false;
@@ -428,7 +428,7 @@ class Class {
     const wasMatched = Object.values(unmatchedCrns);
     for (const value of wasMatched) {
       if (value) {
-        console.error('Error, crn was never matched!', unmatchedCrns);
+        macros.error('Error, crn was never matched!', unmatchedCrns);
       }
     }
 
@@ -490,7 +490,7 @@ class Class {
   async loadCoreqs(classMap) {
     this.coreqs.values.forEach((childBranch) => {
       if (childBranch instanceof RequisiteBranch) {
-        console.error('meh');
+        macros.error('meh');
       } else if (!childBranch.isString) {
         childBranch.loadFromClassMap(classMap);
       }
