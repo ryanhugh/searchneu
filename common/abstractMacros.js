@@ -43,7 +43,7 @@ class Macros {
 
   // https://stackoverflow.com/questions/18082/validate-decimal-numbers-in-javascript-isnumeric
   static isNumeric(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
+    return !isNaN(parseFloat(n)) && isFinite(n); //eslint-disable-line no-restricted-globals
   }
 
 
