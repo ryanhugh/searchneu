@@ -80,6 +80,4 @@ RequisiteBranch.prototype.loadPrereqs = async function (classMap) {
 
 
 
-
-RequisiteBranch.prototype.RequisiteBranch = RequisiteBranch;
-module.exports = RequisiteBranch;
+export default RequisiteBranch;

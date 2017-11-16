@@ -331,5 +331,4 @@ Keys.prototype.propsEqual = function (other) {
 // endpoint string here
 // -- grab from dump database, server, all the datas, and ctrl f frontend backend
 
-
-module.exports = Keys
+export default Keys;
