@@ -30,6 +30,26 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     let selectedTerm;
     // Check localStorage for the most recently selected term. Keeping this in localStorage makes it sticky across page loads/
     if (localStorage.selectedTerm) {

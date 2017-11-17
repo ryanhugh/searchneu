@@ -9,6 +9,9 @@ set -v
 
 npm run test
 
+# Make sure everything passes linting
+./node_modules/eslint/bin/eslint.js backend/ frontend/ common/
+
 # Pull requests and commits to other branches shouldn't try to deploy
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo $TRAVIS_PULL_REQUEST
