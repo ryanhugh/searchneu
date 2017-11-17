@@ -11,7 +11,7 @@ import Home from '../Home';
 it('should render without crashing', () => {
   const tree = renderer.create(<Home />);
 
-  let json = tree.toJSON()
+  tree.toJSON();
 
   // Not sure why, but this dosen't work yet.
   // Use Jest's snapshotting feature to ensure that the DOM does not change.

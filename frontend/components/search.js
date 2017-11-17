@@ -5,7 +5,7 @@
 
 import URI from 'urijs';
 
-import macros from './macros'
+import macros from './macros';
 import request from './request';
 
 class Search {
