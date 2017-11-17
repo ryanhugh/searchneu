@@ -20,6 +20,11 @@ class Macros {
     console.log(...args);
   }
 
+  static warn(...args) {
+    args = ['Warn:'].concat(args);
+    console.warn(...args);
+  }
+
   static error(...args) {
     // if (Macros.TESTS) {
     //   return;
