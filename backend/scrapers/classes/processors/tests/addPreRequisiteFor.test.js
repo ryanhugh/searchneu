@@ -82,6 +82,7 @@ describe('addPreRequisiteFor tests', () => {
       }
       console.log(found);
       console.log(outputPreReqClass);
+
       expect(found).toEqual(outputPreReqClass);
     });
   });

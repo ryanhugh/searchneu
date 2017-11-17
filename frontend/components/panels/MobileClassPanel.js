@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import React from 'react';
@@ -116,11 +116,11 @@ class MobileClassPanel extends BaseClassPanel {
               {'View on ' + aClass.host}
             </a>
             <br />
-            Prerequisites: {this.getReqsString(true, aClass)}
+            Prerequisites: {this.getReqsString('prereqs', aClass)}
             <br />
-            Corequisites: {this.getReqsString(false, aClass)}
+            Corequisites: {this.getReqsString('coreqs', aClass)}
             <br />
-            Prerequisites for: {this.getReqsString()}
+            Prerequisites for: {this.getReqsString('prereqsFor', aClass)}
           </div>
         </span>
         );

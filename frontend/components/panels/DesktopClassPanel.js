@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import React from 'react';
@@ -270,11 +270,11 @@ class DesktopClassPanel extends BaseClassPanel {
             <br />
             <br />
             <div className={ css.leftPanel }>
-              Prerequisites: {this.getReqsString(true, aClass)}
+              Prerequisites: {this.getReqsString('prereqs', aClass)}
               <br />
-              Corequisites: {this.getReqsString(false, aClass)}
+              Corequisites: {this.getReqsString('coreqs', aClass)}
               <br />
-              Prerequisites for: {this.getReqsString(false, aClass)}
+              Prerequisites for: {this.getReqsString('prereqsFor', aClass)}
             </div>
             <div className={ css.rightPanel }>
               <div data-tip="Check neu.edu for possible updates"> Updated {aClass.getLastUpdateString()}</div>
