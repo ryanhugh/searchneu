@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import cheerio from 'cheerio';
@@ -223,9 +223,6 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
         'boston campus': 'Boston',
         'seattle, wa campus': 'Seattle',
       };
-
-
-      
 
 
       // Grab whether the class is an online class or not

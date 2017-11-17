@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import cheerio from 'cheerio';
@@ -80,7 +80,7 @@ async function main() {
   const outputFile = path.join(macros.DEV_DATA_DIR, 'buildings.json');
 
   if (macros.DEV) {
-    await cache.set('dev_data', 'buildings', 'main', json.features)
+    await cache.set('dev_data', 'buildings', 'main', json.features);
     console.log('buildings file saved!');
   }
 

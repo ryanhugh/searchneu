@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import request from 'request-promise-native';
@@ -13,7 +13,7 @@ import objectHash from 'object-hash';
 import path from 'path';
 import moment from 'moment';
 import _ from 'lodash';
-import dnsCache from 'dnscache'
+import dnsCache from 'dnscache';
 
 import cache from './cache';
 import macros from '../macros';
@@ -39,7 +39,7 @@ import macros from '../macros';
 
 // TODO:
 // Sometimes many different hostnames all point to the same IP. Need to limit requests by an IP basis and a hostname basis (COS).
-// Need to improve the cache. Would save everything in one object, but 268435440 (268 MB) is roughly the max limit of the output of JSON.stringify. 
+// Need to improve the cache. Would save everything in one object, but 268435440 (268 MB) is roughly the max limit of the output of JSON.stringify.
 // https://github.com/nodejs/node/issues/9489#issuecomment-279889904
 
 
@@ -76,10 +76,10 @@ const separateReqPools = {
   'wl11gp.neu.edu':  { maxSockets: 100, keepAlive: true, maxFreeSockets: 100 },
 };
 
-// Enable the DNS cache. This module replaces the .lookup method on the built in dns module to cache lookups. 
+// Enable the DNS cache. This module replaces the .lookup method on the built in dns module to cache lookups.
 // The old way of doing DNS caching was to do a dns lookup of the domain before the request was made,
 // and then swap out the domain with the ip in the url. (And cache the dns lookup manually.)
-// Use this instead of swapping out the domain with the ip in the fireRequest function so the cookies still work. 
+// Use this instead of swapping out the domain with the ip in the fireRequest function so the cookies still work.
 // (There was some problems with saving them because, according to request, the host was the ip, but the cookies were configured to match the domain)
 // It would be possible to go back to manual dns lookups and therefore manual cookie jar management if necessary (wouldn't be that big of a deal).
 // https://stackoverflow.com/questions/35026131/node-override-request-ip-resolution
@@ -88,8 +88,8 @@ const separateReqPools = {
 dnsCache({
   enable: true,
   ttl: 999999999,
-  cachesize: 999999999
-})
+  cachesize: 999999999,
+});
 
 
 const MAX_RETRY_COUNT = 35;
@@ -184,7 +184,7 @@ class Request {
 
       macros.log(hostname);
       macros.log(JSON.stringify(totalAnalytics, null, 4));
-      
+
       // Also log the event to Amplitude.
       totalAnalytics.hostname = hostname;
       macros.logAmplitudeEvent('Scrapers', totalAnalytics);
@@ -195,7 +195,7 @@ class Request {
     // Shared pool
     const sharedPoolAnalytics = this.getAnalyticsFromAgent(separateReqDefaultPool);
     macros.log(JSON.stringify(sharedPoolAnalytics, null, 4));
-    
+
     // Also upload it to Amplitude.
     sharedPoolAnalytics.hostname = 'shared';
     macros.logAmplitudeEvent('Scrapers', sharedPoolAnalytics);
@@ -210,7 +210,6 @@ class Request {
   }
 
   async fireRequest(config) {
-
     // Default to JSON for POST bodies
     if (config.method === 'POST' && !config.headers['Content-Type']) {
       config.headers['Content-Type'] = 'application/json';
@@ -325,33 +324,31 @@ class Request {
   }
 
   safeToCacheByUrl(config) {
-
     if (config.method !== 'GET') {
       return false;
     }
 
     // If the only header is Cookie and the only items in the config are url and method===get and headers,
     // The request is safe to cache by just the url, and no hashing is required.
-    // The vast majority of requests follow these rules. 
+    // The vast majority of requests follow these rules.
     const listOfHeaders = Object.keys(config.headers);
 
-    _.pull(listOfHeaders, "Cookie");
+    _.pull(listOfHeaders, 'Cookie');
     if (listOfHeaders.length > 0) {
-
-      const configToLog = {}
-      Object.assign(configToLog, config)
+      const configToLog = {};
+      Object.assign(configToLog, config);
       configToLog.jar = null;
 
-      macros.log('Not caching by url b/c it has other headers', listOfHeaders, configToLog)
+      macros.log('Not caching by url b/c it has other headers', listOfHeaders, configToLog);
       return false;
     }
 
-    const listOfConfigOptions = Object.keys(config)
+    const listOfConfigOptions = Object.keys(config);
 
-    _.pull(listOfConfigOptions, 'method', 'headers', 'url', 'requiredInBody', 'cacheName', 'jar', 'cache')
+    _.pull(listOfConfigOptions, 'method', 'headers', 'url', 'requiredInBody', 'cacheName', 'jar', 'cache');
 
     if (listOfConfigOptions.length > 0) {
-      macros.log('Not caching by url b/c it has other config options', listOfConfigOptions)
+      macros.log('Not caching by url b/c it has other config options', listOfConfigOptions);
       return false;
     }
 
@@ -361,7 +358,7 @@ class Request {
   // Outputs a response object. Get the body of this object with ".body".
   async request(config) {
     if (!config.url) {
-      debugger
+      debugger;
     }
 
     macros.verbose('Request hitting', config);
@@ -373,17 +370,13 @@ class Request {
     let newKey;
 
     if (macros.DEV && config.cache) {
-
-
-      // Skipping the hashing when it is not necessary significantly speeds this up. 
-      // When everything was hashed, the call to objectHash function was the function with the most self-time in the profiler lol. 
-      // Caching by url is faster, so log a warning if had to cache by hash. 
+      // Skipping the hashing when it is not necessary significantly speeds this up.
+      // When everything was hashed, the call to objectHash function was the function with the most self-time in the profiler lol.
+      // Caching by url is faster, so log a warning if had to cache by hash.
       if (this.safeToCacheByUrl(config)) {
-        newKey = config.url
-      }
-      else {
-
-        // Make a new requeset without the cookies and the cookie jar. 
+        newKey = config.url;
+      } else {
+        // Make a new requeset without the cookies and the cookie jar.
         const headersWithoutCookie = {};
         Object.assign(headersWithoutCookie, config.headers);
         headersWithoutCookie.Cookie = undefined;
@@ -393,12 +386,12 @@ class Request {
         configToHash.headers = headersWithoutCookie;
         configToHash.jar = undefined;
 
-        newKey = objectHash(configToHash)
+        newKey = objectHash(configToHash);
       }
 
-      let content = await cache.get('requests', config.cacheName, newKey);
+      const content = await cache.get('requests', config.cacheName, newKey);
       if (content) {
-        return content
+        return content;
       }
     }
 
@@ -456,7 +449,7 @@ class Request {
 
         // Save the response to a file for development
         if (macros.DEV && config.cache) {
-          cache.set('requests', config.cacheName, newKey, response.toJSON(), true)
+          cache.set('requests', config.cacheName, newKey, response.toJSON(), true);
         }
 
         // Don't log this on travis because it causes more than 4 MB to be logged and travis will kill the job
@@ -478,22 +471,21 @@ const instance = new Request();
 
 class RequestInput {
 
-  constructor(cacheName, cacheDefault=true) {
-      this.cacheName = cacheName;
-      this.cacheDefault = cacheDefault;
+  constructor(cacheName, cacheDefault = true) {
+    this.cacheName = cacheName;
+    this.cacheDefault = cacheDefault;
   }
 
-  async request(config){
-
+  async request(config) {
     // Set the cache to the default if it was not specified here
     if (config.cache === undefined) {
-      config.cache = this.cacheDefault
+      config.cache = this.cacheDefault;
     }
 
-    config = this.standardizeInputConfig(config)
-    return instance.request(config)
+    config = this.standardizeInputConfig(config);
+    return instance.request(config);
   }
-  
+
 
   standardizeInputConfig(config, method = 'GET') {
     if (typeof config === 'string') {
@@ -508,16 +500,15 @@ class RequestInput {
     }
 
     if (!config.method) {
-      config.method = method
+      config.method = method;
     }
 
     if (macros.DEV) {
       if (this.cacheName) {
-        config.cacheName = this.cacheName
-      }
-      else {
+        config.cacheName = this.cacheName;
+      } else {
         // Parse the url hostname from the url.
-        config.cacheName = new URI(config.url).hostname()
+        config.cacheName = new URI(config.url).hostname();
       }
     }
 
@@ -525,7 +516,7 @@ class RequestInput {
   }
 
   static get(config) {
-    return new this().get(config)
+    return new this().get(config);
   }
 
   // Helpers for get and post
@@ -577,7 +568,7 @@ class RequestInput {
     return instance.request(config);
   }
 
-  // Pass through methods to deal with cookies. 
+  // Pass through methods to deal with cookies.
   jar() {
     return request.jar();
   }

@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import path from 'path';
@@ -12,18 +12,18 @@ import Amplitude from 'amplitude';
 
 import commonMacros from '../common/abstractMacros';
 
-const amplitude = new Amplitude(commonMacros.amplitudeToken)
+const amplitude = new Amplitude(commonMacros.amplitudeToken);
 
-// Collection of small functions that are used in many different places in the backend. 
-// This includes things related to saving and loading the dev data, parsing specific fields from pages and more. 
-// Would be ok with splitting up this file into separate files (eg, one for stuff related to scraping and another one for other stuff) if this file gets too big. 
-// Stuff in this file can be specific to the backend and will only be ran in the backend. 
+// Collection of small functions that are used in many different places in the backend.
+// This includes things related to saving and loading the dev data, parsing specific fields from pages and more.
+// Would be ok with splitting up this file into separate files (eg, one for stuff related to scraping and another one for other stuff) if this file gets too big.
+// Stuff in this file can be specific to the backend and will only be ran in the backend.
 // If it needs to be ran in both the backend and the frontend, move it to the common macros file :P
 
 // TODO: improve getBaseHost by using a list of top level domains. (public on the internet)
 
 // Change the current working directory to the directory with package.json and .git folder.
-let originalCwd = process.cwd();
+const originalCwd = process.cwd();
 let oldcwd;
 while (1) {
   try {
@@ -37,7 +37,7 @@ while (1) {
     // a package.json, just return to the original directory and break out of this loop.
     if (oldcwd === process.cwd()) {
       console.log("Can't find directory with package.json, returning to", originalCwd);
-      process.chdir(originalCwd)
+      process.chdir(originalCwd);
       break;
     }
 
@@ -47,10 +47,8 @@ while (1) {
 }
 
 
-
-
 // This is the JSON object saved in /etc/searchneu/config.json
-// opened once getEnvVariable is called once. 
+// opened once getEnvVariable is called once.
 let envVariablesPromise = null;
 
 class Macros extends commonMacros {
@@ -82,7 +80,7 @@ class Macros extends commonMacros {
     obj.lastName = splitName[splitName.length - 1];
 
     return obj;
-  };
+  }
 
   // Standardizes email addresses found across different pages
   // Removes a 'mailto:' from the beginning
@@ -105,14 +103,14 @@ class Macros extends commonMacros {
     }
 
     return email.toLowerCase().trim();
-  };
+  }
 
 
   static standardizePhone(phone) {
     if (!phone) {
       return null;
     }
-    
+
     phone = phone.trim();
 
     if (phone.startsWith('tel:')) {
@@ -131,7 +129,7 @@ class Macros extends commonMacros {
     }
 
     return digitsOnly;
-  };
+  }
 
   // Parses the google scholar id from a link that should contain a google scholar link.
   // Get the Google Scholar ID with this: https://scholar.google.com/citations?user=[id here]
@@ -146,14 +144,14 @@ class Macros extends commonMacros {
       return null;
     }
     return userId;
-  };
+  }
 
 
   // Gets the base hostname from a url.
   // fafjl.google.com -> google.com
   // subdomain.bob.co -> bob.co
   // bob.co -> bob.co
-  // This could be improved by using public lists of top-level domains. 
+  // This could be improved by using public lists of top-level domains.
   static getBaseHost(url) {
     const homepage = new URI(url).hostname();
     if (!homepage || homepage === '') {
@@ -168,7 +166,6 @@ class Macros extends commonMacros {
     }
     return match[0];
   }
-
 
 
   // http://stackoverflow.com/questions/4009756/how-to-count-string-occurrence-in-string/7924240#7924240
@@ -194,48 +191,48 @@ class Macros extends commonMacros {
     }
     return n;
   }
-  
+
   static async getAllEnvVariables() {
     let configFileName = '/etc/searchneu/config.json';
-      
+
     let exists = await fs.exists(configFileName);
 
     // Also check /mnt/c/etc... in case we are running inside WSL.
     if (!exists) {
-      configFileName = '/mnt/c/etc/searchneu/config.json'
-      exists = await fs.exists(configFileName)
+      configFileName = '/mnt/c/etc/searchneu/config.json';
+      exists = await fs.exists(configFileName);
     }
-    
+
     if (!exists) {
       return {};
     }
-    
-    let body = await fs.readFile(configFileName)
-    
-    return JSON.parse(body)
+
+    const body = await fs.readFile(configFileName);
+
+    return JSON.parse(body);
   }
-  
+
   static async getEnvVariable(name) {
     if (!envVariablesPromise) {
       envVariablesPromise = this.getAllEnvVariables();
     }
-    
-    return (await envVariablesPromise)[name]
+
+    return (await envVariablesPromise)[name];
   }
 
-  // Log an event to amplitude. Same function signature as the function for the frontend. 
+  // Log an event to amplitude. Same function signature as the function for the frontend.
   static async logAmplitudeEvent(type, event) {
     if (!Macros.PROD) {
       return;
     }
-    
-    var data = {
+
+    const data = {
       event_type: type,
       device_id: 'backend',
       session_id: Date.now(),
-      event_properties: event
-    };   
-    
+      event_properties: event,
+    };
+
     return amplitude.track(data);
   }
 
@@ -256,38 +253,34 @@ class Macros extends commonMacros {
     super.error(...args);
 
     if (Macros.PROD) {
-    
       // If running on Travis, just exit 1 and travis will send off an email.
       if (process.env.CI) {
         process.exit(1);
-      
+
       // If running on AWS, tell rollbar about the error so rollbar sends off an email.
       } else {
         const rollbarKey = await Macros.getEnvVariable('rollbarPostServerItemToken');
         rollbar.init(rollbarKey);
 
-        let stack = (new Error()).stack
+        const stack = (new Error()).stack;
         let message;
 
-        // The middle object can include any properties and values, much like amplitude. 
+        // The middle object can include any properties and values, much like amplitude.
         args.stack = stack;
 
         if (args.length === 0) {
-          args.push('Error had no message?')
+          args.push('Error had no message?');
         }
 
         if (args[0] instanceof Error) {
-
-          // The middle object can include any properties and values, much like amplitude. 
-          rollbar.handleError(args[0], args, function() {
-
+          // The middle object can include any properties and values, much like amplitude.
+          rollbar.handleError(args[0], args, () => {
             // And kill the process to recover.
             // forver.js will restart it.
             process.exit(1);
           });
-        }
-        else {
-          rollbar.error(args[0], args, function() {
+        } else {
+          rollbar.error(args[0], args, () => {
             process.exit(1);
           });
         }
@@ -320,17 +313,16 @@ Macros.verbose('Starting in verbose mode.');
 async function handleUncaught(err) {
   console.log('Error: An unhandledRejection occurred.');
   console.log(`Rejection Stack Trace: ${err.stack}`);
-  Macros.error(err.stack)
+  Macros.error(err.stack);
 }
 
 
-// Sometimes it helps debugging to enable this test mode too. 
+// Sometimes it helps debugging to enable this test mode too.
 if ((Macros.PROD || Macros.DEV || 1) && !global.addedRejectionHandler) {
   global.addedRejectionHandler = true;
   process.on('unhandledRejection', handleUncaught);
   process.on('uncaughtException', handleUncaught);
 }
-
 
 
 export default Macros;

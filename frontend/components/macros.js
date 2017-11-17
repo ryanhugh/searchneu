@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import isMobile from 'is-mobile';
@@ -8,7 +8,7 @@ import ReactTooltip from 'react-tooltip';
 import commonMacros from '../../common/abstractMacros';
 
 
-// Macros and other utility constants and things that are just relevant in the frontend. 
+// Macros and other utility constants and things that are just relevant in the frontend.
 
 
 // Used for debounceTooltipRebuild
@@ -17,13 +17,12 @@ let tooltipTimer = null;
 class Macros extends commonMacros {
 
   static log(...args) {
-
     // Don't log stuff in prod mode
     if (Macros.PROD) {
       return;
     }
 
-    commonMacros.log(...args)
+    commonMacros.log(...args);
   }
 
   // Call this to reload the tooltip rendering on the entire page.
@@ -32,10 +31,10 @@ class Macros extends commonMacros {
   static debounceTooltipRebuild() {
     clearTimeout(tooltipTimer);
     tooltipTimer = setTimeout(ReactTooltip.rebuild.bind(ReactTooltip), 20);
-  };
+  }
 
 
-  // Log an event to amplitude. Same function signature as the function for the backend/. 
+  // Log an event to amplitude. Same function signature as the function for the backend/.
   // This call just uses the script included in index.js
   static async logAmplitudeEvent(type, event) {
     if (!Macros.PROD) {
@@ -48,10 +47,10 @@ class Macros extends commonMacros {
   	}
     window.amplitude.logEvent(type, event);
   }
-  
+
 }
 
-// The backtick on the third row and all the backslashes need to be escaped. 
+// The backtick on the third row and all the backslashes need to be escaped.
 // This was generated with this site http://patorjk.com/software/taag/#p=display&f=Stacey&t=Search%20NEU
 const searchneu = `
    ____                     _       _   _ _____ _   _ 
@@ -68,20 +67,20 @@ const searchneu = `
  that impact thousands of student's lives. Interested? Help us build Search NEU!
 
  Contact us at hey@searchneu.com :)
- `
- 
+ `;
+
 if (Macros.PROD) {
-  console.log(searchneu)
+  console.log(searchneu);
 }
 
 
 // How many sections to show in a class panel by default.
 Macros.sectionsShownByDefault = 3;
 
-// How many sections to add when the user clicks the show more button. 
+// How many sections to add when the user clicks the show more button.
 Macros.sectionsAddedWhenShowMoreClicked = 5;
 
-// If this number of section is shown, the show more button will just show the rest of them instead of showing just a couple more. 
+// If this number of section is shown, the show more button will just show the rest of them instead of showing just a couple more.
 Macros.sectionsShowAllThreshold = 15;
 
 Macros.searchEvent = 'customSearch';

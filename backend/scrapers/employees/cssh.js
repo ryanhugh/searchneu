@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import cheerio from 'cheerio';
@@ -37,13 +37,12 @@ class Cssh {
     const $ = cheerio.load(resp.body);
 
     // Scrape the name from a h1
-    let name = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > h1').text()
+    const name = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > h1').text();
     if (name) {
       obj.name = name.trim();
-    }
-    else {
-      obj.name = ''
-      macros.error("Could not scrape prof name.", url)
+    } else {
+      obj.name = '';
+      macros.error('Could not scrape prof name.', url);
     }
 
     // Parse the first name and the last name from the given name
@@ -55,23 +54,21 @@ class Cssh {
     }
 
     // Scrape the picture of the prof
-    let image = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > img.headshot').attr('src')
+    const image = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > img.headshot').attr('src');
     if (image) {
       obj.image = image.trim();
-    }
-    else {
-      macros.log("Could not scrape image.", url)
+    } else {
+      macros.log('Could not scrape image.', url);
     }
 
     // Job Title
     // "Assistant Professor Sociology and Health Science"
-    let primaryRole = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > div.fac-single-title').text()
+    let primaryRole = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > div.fac-single-title').text();
     if (primaryRole) {
       primaryRole = primaryRole.trim().split(';')[0];
       obj.primaryRole = primaryRole.replace(/\s+/gi, ' ');
-    }
-    else {
-      macros.log('Could not scrape job title', url)
+    } else {
+      macros.log('Could not scrape job title', url);
     }
 
     // Parse out the email.

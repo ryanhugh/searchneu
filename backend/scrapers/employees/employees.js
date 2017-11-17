@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import htmlparser from 'htmlparser2';
@@ -21,10 +21,10 @@ const request = new Request('Employees');
 // TODO:
 // Some of the phone numbers are not 10 digits. Might be able to guess area code, but it is not allways 215 just because some people have offices outside of Boston.
 // Phone numbers that are not 10 digits are ignored right now.
-// The detail page also has a name without the comma, but don't see a reason on scraping that instead of just splitting on comma and moving. 
+// The detail page also has a name without the comma, but don't see a reason on scraping that instead of just splitting on comma and moving.
 // Is that name ever different than the one with the comma?
 // Their office is also in that detail page, but it seems like if is often different than the ones the professors have
-// on their CCIS/COE/CSSH profile. Unsure if it would be worth scraping that too. 
+// on their CCIS/COE/CSSH profile. Unsure if it would be worth scraping that too.
 
 
 // Currently:
@@ -157,7 +157,7 @@ class Employee {
       url: `https://prod-web.neu.edu/wasapp/employeelookup/public/searchEmployees.action?searchBy=Last+Name&queryType=begins+with&searchText=${lastNameStart}&deptText=&addrText=&numText=&divText=&facStaff=1`,
       headers: {
         Cookie: `JSESSIONID=${jsessionCookie}`,
-      }
+      },
     });
   }
 
@@ -245,12 +245,12 @@ class Employee {
               const nameWithComma = he.decode(parsedTable.name[j]).split('\n\n')[0];
 
               if (nameWithComma.includes('Do Not Use ')) {
-                console.log('Skipping entry that says Do Not Use.')
+                console.log('Skipping entry that says Do Not Use.');
                 continue;
               }
 
 
-              // Put the first name before the last name. 
+              // Put the first name before the last name.
               // Another way to do this would be to hit the detail section of each employee and scrape the name from the title.
               const commaNameSplit = nameWithComma.split(',');
 
@@ -337,7 +337,6 @@ class Employee {
   }
 
   async main() {
-
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module) {
       const devData = await cache.get('dev_data', this.constructor.name, 'main');

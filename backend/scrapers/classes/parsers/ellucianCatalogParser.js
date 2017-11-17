@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import domutils from 'domutils';
@@ -174,7 +174,7 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     // This is the raw JSON data from the catalog page. No wrapper object with type and value.
     const catalogData = this.parse(resp.body, url);
 
-    // There was an error parsing the catalog data. 
+    // There was an error parsing the catalog data.
     if (!catalogData) {
       return null;
     }
@@ -239,14 +239,14 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       }
     }
 
-    // If no sections were found, add the data from the catalog page the list of classes being returned. 
+    // If no sections were found, add the data from the catalog page the list of classes being returned.
     // In other words, if there are sections, it will return the list of classes processes (because the list of sections can become different classes for now)
     // And if there are no sections, it will just return one class with the info from the catalog page.
     if (classListData.length === 0) {
       classListData = [{
         type: 'classes',
-        value: catalogData
-      }]
+        value: catalogData,
+      }];
     }
 
     // Possibly save to dev
@@ -263,7 +263,7 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     // const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=FINA&crse_numb_in=6283');
     // const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=ENGW&crse_numb_in=3302');
     const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201830&subj_code_in=GAME&crse_numb_in=3700');
-    console.log(output)
+    console.log(output);
   }
 
 

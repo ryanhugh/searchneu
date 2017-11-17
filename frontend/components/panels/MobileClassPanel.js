@@ -18,11 +18,11 @@ import macros from '../macros';
 import Keys from '../../../common/Keys';
 import LocationLinks from './LocationLinks';
 import WeekdayBoxes from './WeekdayBoxes';
-import BaseClassPanel from './BaseClassPanel'
+import BaseClassPanel from './BaseClassPanel';
 
-const css = {}
+const css = {};
 
-Object.assign(css, mobileCss, baseCss)
+Object.assign(css, mobileCss, baseCss);
 
 const cx = classNames.bind(css);
 
@@ -45,7 +45,6 @@ class MobileClassPanel extends BaseClassPanel {
   }
 
   toggleShowMoreThanTitle() {
-
     const newTitleValue = !this.state.showMoreThanTitle;
     let newShowAllClassDetails = this.state.showAllClassDetails;
 
@@ -64,12 +63,12 @@ class MobileClassPanel extends BaseClassPanel {
 
   toggleShowAllClassDetails() {
     this.setState({
-      showAllClassDetails: !this.state.showAllClassDetails
-    })
+      showAllClassDetails: !this.state.showAllClassDetails,
+    });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    let commonShouldUpdate = BaseClassPanel.prototype.shouldComponentUpdate.call(this, nextProps, nextState);
+    const commonShouldUpdate = BaseClassPanel.prototype.shouldComponentUpdate.call(this, nextProps, nextState);
     if (commonShouldUpdate) {
       return true;
     }
@@ -92,15 +91,13 @@ class MobileClassPanel extends BaseClassPanel {
 
     if (this.state.showAllClassDetails) {
       showFullClassBody = true;
-    }
-    else if (!aClass.desc || aClass.desc.length < 50) {
+    } else if (!aClass.desc || aClass.desc.length < 50) {
       showFullClassBody = true;
     }
 
     if (showFullClassBody) {
-
       // Figure out the credits string
-      let creditsString = this.getCreditsString();
+      const creditsString = this.getCreditsString();
 
       return (
         <span>
@@ -112,8 +109,8 @@ class MobileClassPanel extends BaseClassPanel {
             <br />
             Updated {aClass.getLastUpdateString()}
             <br />
-            <a target='_blank' rel='noopener noreferrer' href={aClass.prettyUrl || aClass.url}>
-              {'View on ' + aClass.host}
+            <a target='_blank' rel='noopener noreferrer' href={ aClass.prettyUrl || aClass.url }>
+              {`View on ${aClass.host}`}
             </a>
             <br />
             Prerequisites: {this.getReqsString('prereqs', aClass)}
@@ -123,46 +120,39 @@ class MobileClassPanel extends BaseClassPanel {
             Prerequisites for: {this.getReqsString('prereqsFor', aClass)}
           </div>
         </span>
-        );
+      );
     }
-    else {
+
 
       // Remove everything past 80 characters
       // and then keep on removing characters until the end of a word is hit.
-      let sliceDesc = aClass.desc.slice(0, 80);
-      while (!sliceDesc.endsWith(' ')) {
-        sliceDesc = sliceDesc.slice(0, sliceDesc.length - 1)
-      }
+    let sliceDesc = aClass.desc.slice(0, 80);
+    while (!sliceDesc.endsWith(' ')) {
+      sliceDesc = sliceDesc.slice(0, sliceDesc.length - 1);
+    }
 
       // Also remove any symbols.
-      while (!sliceDesc[sliceDesc.length - 1].match(/[a-z]/i)) {
-        sliceDesc = sliceDesc.slice(0, sliceDesc.length - 1)
-      }
-      sliceDesc = sliceDesc.trim()
+    while (!sliceDesc[sliceDesc.length - 1].match(/[a-z]/i)) {
+      sliceDesc = sliceDesc.slice(0, sliceDesc.length - 1);
+    }
+    sliceDesc = sliceDesc.trim();
 
-      return (
+    return (
+      <span>
         <span>
-          <span>
-            {sliceDesc + '...'}&nbsp;&nbsp;&nbsp;&nbsp;
-          </span>
+          {`${sliceDesc}...`}&nbsp;&nbsp;&nbsp;&nbsp;
+        </span>
 
-          <div>
-            <a onClick={this.toggleShowAllClassDetails} style={{display:'inline-block'}}>
+        <div>
+          <a onClick={ this.toggleShowAllClassDetails } style={{ display:'inline-block' }}>
               Show More...
             </a>
 
-          </div>
+        </div>
 
-        </span>
+      </span>
 
-        )
-    }
-
-
-
-
-
-
+    );
   }
 
   render() {
@@ -177,30 +167,30 @@ class MobileClassPanel extends BaseClassPanel {
     }
 
     // Render the Show More.. Button
-    let showMoreSections = this.getShowMoreButton();
+    const showMoreSections = this.getShowMoreButton();
 
     // Decide which chevron to use based on whether the panel is expanded or not.
     let chevron;
     if (this.state.showMoreThanTitle) {
-      chevron = chevronDown
-    }
-    else {
-      chevron = chevronRight
+      chevron = chevronDown;
+    } else {
+      chevron = chevronRight;
     }
 
     return (
       <div>
         <div className={ `${css.container} ui segment` }>
-          <div className={ css.header } onClick={this.toggleShowMoreThanTitle}>
-            <img className = {css.chevron} src = {chevron}/>
-            <span className = { css.classTitle }>
+          <div className={ css.header } onClick={ this.toggleShowMoreThanTitle }>
+            <img className={ css.chevron } src={ chevron } />
+            <span className={ css.classTitle }>
               {aClass.subject} {aClass.classId}: {aClass.name}
             </span>
           </div>
 
           <span className={ cx({
-            displayNone: !this.state.showMoreThanTitle
-          }) }>
+            displayNone: !this.state.showMoreThanTitle,
+          }) }
+          >
 
             <div className={ css.body }>
               {this.getClassBody()}

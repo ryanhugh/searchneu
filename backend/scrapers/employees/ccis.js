@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import cheerio from 'cheerio';
@@ -172,7 +172,6 @@ class NeuCCISFaculty {
 
 
   async main() {
-
     // If this is dev and this data is already scraped, just return the data.
     if (macros.DEV && require.main !== module) {
       const devData = await cache.get('dev_data', this.constructor.name, 'main');
