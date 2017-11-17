@@ -190,8 +190,10 @@ class Employee {
       name = name.replace(/, jr.?,/gi, ',');
     }
 
+    name = _.trim(name, ',')
+
     if (macros.occurrences(name, ',') !== 1) {
-      macros.log('Name has != commas', name);
+      macros.log('Name has != 1 commas', name);
       return null;
     }
 
@@ -270,7 +272,11 @@ class Employee {
 
 
               // Generate first name and last name from the name on the person
-              const { firstName, lastName } = this.getFirstLastName(nameWithComma);
+              const firstLastName = this.getFirstLastName(nameWithComma);
+              if (!firstLastName) {
+                continue;
+              }
+              const { firstName, lastName } = firstLastName;
               if (firstName && lastName) {
                 person.firstName = firstName;
                 person.lastName = lastName;
