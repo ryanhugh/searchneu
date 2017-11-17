@@ -36,25 +36,28 @@ class Meeting {
 
     const timeMoments = [];
 
-    const dayIndexies = Object.keys(serverData.times);
+    if (serverData.times) {
+      const dayIndexies = Object.keys(serverData.times);
 
-    for (const dayIndex of dayIndexies) {
-      serverData.times[dayIndex].forEach((event) => {
-        //3 is to set in the second week of 1970
-        const day = parseInt(dayIndex, 10) + 3;
+      for (const dayIndex of dayIndexies) {
+        serverData.times[dayIndex].forEach((event) => {
+          //3 is to set in the second week of 1970
+          const day = parseInt(dayIndex, 10) + 3;
 
-        const obj = {
-          start: moment.utc(event.start * 1000).add(day, 'day'),
-          end: moment.utc(event.end * 1000).add(day, 'day'),
-        };
+          const obj = {
+            start: moment.utc(event.start * 1000).add(day, 'day'),
+            end: moment.utc(event.end * 1000).add(day, 'day'),
+          };
 
-        if (parseInt(obj.start.format('YYYY'), 10) !== 1970) {
-          macros.error();
-        }
+          if (parseInt(obj.start.format('YYYY'), 10) !== 1970) {
+            macros.error();
+          }
 
-        timeMoments.push(obj);
-      });
+          timeMoments.push(obj);
+        });
+      }
     }
+
 
     // returns objects like this: {3540000041400000: Array[3]}
     // if has three meetings per week that meet at the same times
