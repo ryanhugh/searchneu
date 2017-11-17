@@ -116,6 +116,7 @@
     "style-loader": "^0.19.0"
   },
   "jest": {
+    "setupFiles": ["./common/rafTestPolyfill.js"],
     "moduleNameMapper": {
       "\\.(css|less|svg|png)$": "identity-obj-proxy"
     }
