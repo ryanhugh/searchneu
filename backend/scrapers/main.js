@@ -33,7 +33,7 @@ if (process.env.TRAVIS && macros.DEV) {
 class Main {
 
   async main(semesterly = false) {
-    const classesPromise = classes.main(['neu'], semesterly = semesterly);
+    const classesPromise = classes.main(['neu'], semesterly);
 
     // If scraping stuff for semesterly, scrape just the classes
     if (semesterly) {
@@ -46,6 +46,8 @@ class Main {
     await Promise.all(promises);
 
     console.log('done scrapers/main.js');
+
+    return null;
   }
 
 }

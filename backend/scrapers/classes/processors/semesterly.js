@@ -4,7 +4,6 @@
  */
 
 import _ from 'lodash';
-import fs from 'fs-promise';
 
 import macros from '../../../macros';
 import Section from '../../../../common/classModels/Section';
@@ -44,7 +43,7 @@ class Semesterly {
       const code = `${aClass.subject} ${aClass.classId}`;
 
       if (!code.match(semesterlyCourseCodeRegex)) {
-        macors.error("Regex didn't match!", code, semesterlyCourseCodeRegex);
+        macros.error("Regex didn't match!", code, semesterlyCourseCodeRegex);
       }
 
       result.push({
@@ -101,10 +100,10 @@ class Semesterly {
           for (const time of times) {
             const start = time.start.format('HH:mm');
             const end = time.end.format('HH:mm');
-            const dayOfWeek = parseInt(time.start.format('d'));
+            const dayOfWeek = parseInt(time.start.format('d'), 10);
 
             // Small sanity check
-            if (dayOfWeek !== parseInt(time.end.format('d'))) {
+            if (dayOfWeek !== parseInt(time.end.format('d'), 10)) {
               macros.error('Meeting ends on a different day than it starts?', instance.termId, instance.classUid, instance.subject);
             }
 
@@ -189,9 +188,5 @@ class Semesterly {
 
 
 const instance = new Semesterly();
-
-if (require.main === module) {
-
-}
 
 export default instance;

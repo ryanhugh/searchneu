@@ -47,24 +47,6 @@ const cx = classNames.bind(css);
 // not standardized yet: personalSite, bigPictureLink
 class EmployeePanel extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-
-    this.state = {
-      showMoreThanTitle: false,
-    };
-
-    this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
-  }
-
-  toggleShowMoreThanTitle() {
-    console.log('now it is ', this.state.showMoreThanTitle);
-    this.setState({
-      showMoreThanTitle: !this.state.showMoreThanTitle,
-    });
-  }
-
   static injectBRs(arr) {
     const retVal = [];
 
@@ -80,11 +62,29 @@ class EmployeePanel extends React.Component {
     return retVal;
   }
 
+  constructor(props) {
+    super(props);
+
+
+    this.state = {
+      showMoreThanTitle: false,
+    };
+
+    this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     if (nextState.showMoreThanTitle !== this.state.showMoreThanTitle) {
       return true;
     }
     return false;
+  }
+
+  toggleShowMoreThanTitle() {
+    console.log('now it is ', this.state.showMoreThanTitle);
+    this.setState({
+      showMoreThanTitle: !this.state.showMoreThanTitle,
+    });
   }
 
   render() {
@@ -160,7 +160,7 @@ class EmployeePanel extends React.Component {
         chevronSource = chevronRight;
       }
 
-      chevron = <img className={ css.chevron } src={ chevronSource } />;
+      chevron = <img className={ css.chevron } src={ chevronSource } alt='' />;
     }
 
     // Set up the onclick listener, if this is mobile.
@@ -183,7 +183,12 @@ class EmployeePanel extends React.Component {
 
     return (
       <div className={ `${css.container} ui segment` }>
-        <div className={ css.header } onClick={ titleClickListener }>
+        <div
+          className={ css.header }
+          onClick={ titleClickListener }
+          role='button'
+          tabIndex={ 0 }
+        >
           {chevron}
           <span className={ css.titleText }>
             {employee.name}

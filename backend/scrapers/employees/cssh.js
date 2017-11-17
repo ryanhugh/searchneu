@@ -4,8 +4,6 @@
  */
 
 import cheerio from 'cheerio';
-import path from 'path';
-
 
 import macros from '../../macros';
 import linkSpider from '../linkSpider';
@@ -126,16 +124,11 @@ class Cssh {
           if (newText) {
             office.push(newText);
           }
-        }
-
-        // The phone number is under the contact field
-        else if (category === 'Contact:') {
+        } else if (category === 'Contact:') {
+          // The phone number is under the contact field
           macros.log(element.data.trim(), 'phone??');
         }
-      }
-
-      // Behaviors for hitting tags
-      else if (element.type === 'tag') {
+      } else if (element.type === 'tag') { // Behaviors for hitting tags
         // If hit a valid h4 element, change the category to the text in the h4 element
         if (element.name === 'h4') {
           // If an h4 element but not a category, log an error

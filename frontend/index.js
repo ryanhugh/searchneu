@@ -7,7 +7,6 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import URI from 'urijs';
 
 import macros from './components/macros';
 import Home from './components/Home';

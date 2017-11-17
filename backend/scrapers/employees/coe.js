@@ -4,7 +4,6 @@
  */
 
 import cheerio from 'cheerio';
-import path from 'path';
 
 import Request from '../request';
 import cache from '../cache';

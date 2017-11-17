@@ -4,13 +4,9 @@
  */
 
 import request from 'request-promise-native';
-import promiseQueue from 'promise-queue';
 import URI from 'urijs';
-import fs from 'fs-promise';
 import asyncjs from 'async';
-import mkdirp from 'mkdirp-promise';
 import objectHash from 'object-hash';
-import path from 'path';
 import moment from 'moment';
 import _ from 'lodash';
 import dnsCache from 'dnscache';
@@ -357,10 +353,6 @@ class Request {
 
   // Outputs a response object. Get the body of this object with ".body".
   async request(config) {
-    if (!config.url) {
-      debugger;
-    }
-
     macros.verbose('Request hitting', config);
 
     const urlParsed = new URI(config.url);

@@ -7,7 +7,6 @@ import htmlparser from 'htmlparser2';
 import domutils from 'domutils';
 import _ from 'lodash';
 import cookie from 'cookie';
-import path from 'path';
 import he from 'he';
 
 import Request from '../request';
