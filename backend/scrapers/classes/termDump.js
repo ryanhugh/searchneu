@@ -89,9 +89,9 @@ class TermDump {
 
     const promises = [];
 
-    for (const termHash in termMapDump) {
-      const value = termMapDump[termHash];
+    const values = Object.values(termMapDump);
 
+    for (const value of values) {
       // Put them in a different file.
       if (!value.host || !value.termId) {
         macros.error('No host or Id?', value);

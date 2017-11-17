@@ -71,7 +71,7 @@ class Employee {
   //regardless if its part of the header or the first row of the body
   parseTable(table) {
     if (table.name !== 'table') {
-      console.warn('parse table was not given a table..');
+      macros.error('parse table was not given a table..');
       return null;
     }
 
@@ -106,7 +106,7 @@ class Employee {
           return;
         }
         if (index >= heads.length) {
-          console.log('warning, table row is longer than head, ignoring content', index, heads, rows);
+          macros.log('warning, table row is longer than head, ignoring content', index, heads, rows);
           return;
         }
 
@@ -171,7 +171,7 @@ class Employee {
     }
 
 
-    // Only log each warning once, just to not spam the console. This method is called a lot.
+    // Only log each warning once, just to not spam the macros. This method is called a lot.
     const logMatchString = list.join('');
     if (this.couldNotFindNameList[logMatchString]) {
       return null;
@@ -236,14 +236,14 @@ class Employee {
             const parsedTable = tableData.parsedTable;
             const rowCount = tableData.rowCount;
 
-            console.log('Found', rowCount, ' people on page ', lastNameStart);
+            macros.log('Found', rowCount, ' people on page ', lastNameStart);
 
             for (let j = 0; j < rowCount; j++) {
               const person = {};
               const nameWithComma = he.decode(parsedTable.name[j]).split('\n\n')[0];
 
               if (nameWithComma.includes('Do Not Use ')) {
-                console.log('Skipping entry that says Do Not Use.');
+                macros.log('Skipping entry that says Do Not Use.');
                 continue;
               }
 
@@ -262,7 +262,7 @@ class Employee {
 
 
               if (commaNameSplit.length > 2) {
-                console.log('Warning: has more than one comma skipping.', commaNameSplit);
+                macros.log('Warning: has more than one comma skipping.', commaNameSplit);
                 person.name = nameWithComma;
               } else {
                 person.name = `${commaNameSplit[1].trim()} ${commaNameSplit[0].trim()}`;
@@ -279,7 +279,7 @@ class Employee {
 
               const idMatch = parsedTable.name[j].match(/.hrefparameter\s+=\s+"id=(\d+)";/i);
               if (!idMatch) {
-                console.warn('Warn: unable to parse id, using random number', nameWithComma);
+                macros.log('Warn: unable to parse id, using random number', nameWithComma);
                 person.id = String(Math.random());
               } else {
                 person.id = idMatch[1];
@@ -316,9 +316,9 @@ class Employee {
           }
         }
 
-        console.error('YOOOOO it didnt find the table', response.body.length);
-        console.error(response.body);
-        return reject('nope');
+        macros.error('YOOOOO it didnt find the table', response.body.length);
+        macros.error(response.body);
+        return reject();
       });
     });
   }
@@ -361,7 +361,7 @@ class Employee {
 
     if (macros.DEV) {
       await cache.set('dev_data', this.constructor.name, 'main', this.people);
-      console.log(this.people.length, 'employees saved to a file!');
+      macros.log(this.people.length, 'employees saved to a file!');
     }
 
     return this.people;
