@@ -32,7 +32,7 @@ async function followRedirects(cookieJar, resp) {
   while (resp.statusCode === 302) {
     nextUrl = resp.headers.location;
 
-    resp = request.get({
+    resp = await request.get({
       url: nextUrl,
       jar: cookieJar,
       followRedirect: false,
