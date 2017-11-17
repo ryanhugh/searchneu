@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 const neuData = `${'database contains ONLY .EDU domains. \n' +
@@ -72,8 +72,6 @@ const neuData = `${'database contains ONLY .EDU domains. \n' +
 
 
 class MockWhois {
-
-
   constructor() {
     this.tryCount = {};
   }
@@ -93,7 +91,6 @@ class MockWhois {
 
     return callback('dont have data for anything other thatn neu!!');
   }
-
 }
 export default new MockWhois();
 

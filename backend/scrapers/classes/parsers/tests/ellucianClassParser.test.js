@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import path from 'path';
@@ -11,7 +11,7 @@ import ellucianClassParser from '../ellucianClassParser';
 
 
 beforeAll(() => {
-  MockDate.set('Mon Oct 10 2016 00:00:00 -0000')
+  MockDate.set('Mon Oct 10 2016 00:00:00 -0000');
 });
 
 afterAll(() => {

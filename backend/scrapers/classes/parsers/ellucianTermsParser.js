@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import moment from 'moment';
@@ -19,8 +19,6 @@ import ellucianSubjectParser from './ellucianSubjectParser';
 const request = new Request('EllucianTermsParser');
 
 class EllucianTermsParser extends EllucianBaseParser.EllucianBaseParser {
-
-
   supportsPage(url) {
     return url.includes('bwckschd.p_disp_dyn_sched');
   }
@@ -46,7 +44,7 @@ class EllucianTermsParser extends EllucianBaseParser.EllucianBaseParser {
     terms = await this.addSubjects(terms, postUrl);
 
 
-   // Possibly save to dev
+    // Possibly save to dev
     if (macros.DEV && require.main !== module) {
       await cache.set('dev_data', this.constructor.name, url, terms);
 

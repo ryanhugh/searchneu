@@ -1,67 +1,56 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
-import macros from './macros';
-// import Request from './scrapers/request';
 import request from 'request';
+
+import macros from './macros';
 
 // const request = new Request('notifyer');
 
 
 class Notifyer {
-  
-  constructor() {
-    
-  }
-  
-    
-  // Webhook to respond to facebook messages. 
+  // Webhook to respond to facebook messages.
   async sendFBNotification(sender, text) {
-      console.log("Sending a fb message to ", sender, text)
-      let messageData = { text:text }
-      
-      let token = await macros.getEnvVariable('fbToken')
-      
-      request.post({
-  	    url: 'https://graph.facebook.com/v2.6/me/messages',
-  	   // url: 'http://localhost/v2.6/me/messages',
-  	    qs: {access_token:token},
-  	    method: 'POST',
-  		json: {
-  		    recipient: {id:sender},
-  			message: messageData,
-  		}
-  	}, function(error, response, body) {
-  		if (error) {
-  		    macros.log('Error sending messages: ', error)
-  		} else if (response.body.error) {
-  		    macros.log('Error: ', response.body.error)
-  	    }
-      })
-  }
-  
+    console.log('Sending a fb message to ', sender, text);
+    const messageData = { text:text };
 
-  
-  sendEmail() {
-    
+    const token = await macros.getEnvVariable('fbToken');
+
+    request.post({
+      url: 'https://graph.facebook.com/v2.6/me/messages',
+      // url: 'http://localhost/v2.6/me/messages',
+      qs: { access_token:token },
+      method: 'POST',
+      json: {
+        recipient: { id:sender },
+        message: messageData,
+      },
+    }, (error, response) => {
+      if (error) {
+        macros.log('Error sending messages: ', error);
+      } else if (response.body.error) {
+        macros.log('Error: ', response.body.error);
+      }
+    });
   }
-  
-  
-  
-  sendNotification() {
-    
-  }
-  
-  
+
+  // TODO
+  // sendEmail() {
+
+  // }
+
+
+  // sendNotification() {
+
+  // }
+
+
   main() {
-    
-    this.sendFBNotification('1397905100304615', "test notification")
+    this.sendFBNotification('1397905100304615', 'test notification');
   }
-  
 }
-
 
 
 const instance = new Notifyer();
