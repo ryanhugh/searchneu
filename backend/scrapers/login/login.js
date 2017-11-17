@@ -2,8 +2,6 @@
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
  */
-
-import cookie from 'cookie';
 import cheerio from 'cheerio';
 import * as acorn from 'acorn';
 import URI from 'urijs';
@@ -31,10 +29,10 @@ async function followRedirects(cookieJar, resp) {
   let nextUrl;
 
   // While status code on the response is a 302, follow it and get the new response.
-  while (resp.statusCode == 302) {
+  while (resp.statusCode === 302) {
     nextUrl = resp.headers.location;
 
-    resp = await request.get({
+    resp = request.get({
       url: nextUrl,
       jar: cookieJar,
       followRedirect: false,
@@ -73,14 +71,14 @@ async function main() {
   const parsedJS = acorn.parse(inside.text());
   if (parsedJS.body[8].id.name !== 'login') {
     macros.log('not equal to login!', parsedJS, parsedJS.body[8].id.name);
-    return;
+    return null;
   }
 
   const uuid = parsedJS.body[8].body.body[2].expression.right.value;
 
-	// Example uuid:
-	// A new one of these are generated every time the site is hit.
-	// a8f5faa2-7e15-4d4b-8a05-d2884aa82a36
+  // Example uuid:
+  // A new one of these are generated every time the site is hit.
+  // a8f5faa2-7e15-4d4b-8a05-d2884aa82a36
 
   macros.log('Parsed UUID from login page:', uuid);
 
@@ -102,8 +100,8 @@ async function main() {
   macros.log('Got body:', resp.body);
 
 
-	// The body of the first request looks like this:
-	//    <html><head>
+  // The body of the first request looks like this:
+  //    <html><head>
   //    <script Language="JavaScript">
   //    document.location="http://myneu.neu.edu/cps/welcome/loginok.html";
   //    </script>
@@ -124,14 +122,14 @@ async function main() {
   macros.verbose('2Cookie jar:', cookieJar);
   macros.verbose('2Got body:', resp2.body);
 
-	// resp2.body:
-	// <html><title>Login Successful</title>
-	// <head>
-	// <script language="javascript">
-	// window.top.location=/*URL*/ "/cp/home/next"
-	// </script>
-	// </head>
-	// </html>
+  // resp2.body:
+  // <html><title>Login Successful</title>
+  // <head>
+  // <script language="javascript">
+  // window.top.location=/*URL*/ "/cp/home/next"
+  // </script>
+  // </head>
+  // </html>
 
 
   const resp3 = await request.get({
@@ -148,9 +146,9 @@ async function main() {
   macros.verbose('3Got body:', resp3.body);
 
 
-	// resp3.body is the HTML of the default tab on MyNEU
+  // resp3.body is the HTML of the default tab on MyNEU
 
-	// Hit the Self-Service tab
+  // Hit the Self-Service tab
   const resp4 = await request.get({
     url: 'http://myneu.neu.edu/tag.121e5fb84b31691f.render.userLayoutRootNode.uP?uP_root=root&uP_sparam=activeTab&activeTab=u117660l1s42&uP_tparam=frm&frm=',
     jar: cookieJar,
@@ -166,7 +164,7 @@ async function main() {
   macros.verbose('4Got body:', resp4.body);
 
 
-	// Hit the TRACE link
+  // Hit the TRACE link
   const resp5 = await request.get({
     url: 'http://myneu.neu.edu/cp/ip/login?sys=cas&url=https://www.applyweb.com/eval/shibboleth/neu/36892',
     jar: cookieJar,
@@ -190,32 +188,32 @@ async function main() {
   macros.verbose('6Got body:', resp6.body);
 
 
-	// This page has some JS that parsed some cookies from the current URL
-	// and sets them in the browser
-	// and goes to another page.
+  // This page has some JS that parsed some cookies from the current URL
+  // and sets them in the browser
+  // and goes to another page.
 
-	// Run that cookie logic and then go to the next page.
+  // Run that cookie logic and then go to the next page.
   const parsedUrl = new URI(currentUrl);
   const queries = parsedUrl.query(true);
 
   for (const cookie of queries.cookie) {
-	    // This was copied from the JS that appears on this page.
-	    // Instead of running the entire JS, just run the important parts.
-	    const cookieToSet = cookie.replace(';domain=neuidmsso.neu.edu', '');
-	    macros.log(cookieToSet);
+    // This was copied from the JS that appears on this page.
+    // Instead of running the entire JS, just run the important parts.
+    const cookieToSet = cookie.replace(';domain=neuidmsso.neu.edu', '');
+    macros.log(cookieToSet);
 
-	    // Not 100% sure about this line/??
-	    // Also the path/// attribute in the cookie might need modifyig? idk
-	    cookieJar.setCookie(cookieToSet, 'http://neu.edu');
-	    cookieJar.setCookie(cookieToSet, 'https://neu.edu');
-	    cookieJar.setCookie(cookieToSet, 'http://neuidmsso.neu.edu');
-	    cookieJar.setCookie(cookieToSet, 'https://neuidmsso.neu.edu');
+    // Not 100% sure about this line/??
+    // Also the path/// attribute in the cookie might need modifyig? idk
+    cookieJar.setCookie(cookieToSet, 'http://neu.edu');
+    cookieJar.setCookie(cookieToSet, 'https://neu.edu');
+    cookieJar.setCookie(cookieToSet, 'http://neuidmsso.neu.edu');
+    cookieJar.setCookie(cookieToSet, 'https://neuidmsso.neu.edu');
   }
 
   macros.verbose('Next url is:', queries.dest);
 
 
-	// Hit the next TRACE link
+  // Hit the next TRACE link
   const resp7 = await request.get({
     url: queries.dest,
     jar: cookieJar,
@@ -240,12 +238,12 @@ async function main() {
   let nextUrl;
 
 
-	// This page returns a 200 with a form on it with stuff pre-filled in
-	// and as soon as the page loads, some javascript on the page submits the form
-	// and the 302s continue...
+  // This page returns a 200 with a form on it with stuff pre-filled in
+  // and as soon as the page loads, some javascript on the page submits the form
+  // and the 302s continue...
 
-	// parse the details out of the form
-	// and submit it.
+  // parse the details out of the form
+  // and submit it.
   $ = cheerio.load(resp8.body);
 
   nextUrl = $('form').attr('action');
@@ -305,11 +303,11 @@ async function main() {
   macros.verbose('10Got body:', resp10.body);
 
 
-	// The next url here comes from the prior url haha
+  // The next url here comes from the prior url haha
   const urlParsed = new URI(currentUrl);
   nextUrl = urlParsed.query();
 
-	// Also set the cookie that says we have passed the browser check
+  // Also set the cookie that says we have passed the browser check
   cookieJar.setCookie('awBrowserCheck=true;path=/', 'https://www.applyweb.com');
   cookieJar.setCookie('awBrowserCheck=true;path=/', 'https://applyweb.com');
   cookieJar.setCookie('awBrowserCheck=true;path=/', 'http://www.applyweb.com');
@@ -352,7 +350,7 @@ async function main() {
   macros.verbose('11Got body:', resp12.body);
 
 
-	// Done! Send a request for one of the data elements
+  // Done! Send a request for one of the data elements
 
 
   const respZ = await request.get({
@@ -370,8 +368,6 @@ async function main() {
   macros.verbose('ZRecieved headers:', respZ.headers);
   macros.verbose('ZCookie jar:', cookieJar);
   macros.log('ZGot body:', respZ.body);
-
-  debugger;
 
   return cookieJar;
 }

@@ -41,10 +41,10 @@ class Macros extends commonMacros {
       return;
     }
 
-  	if (!window.amplitude) {
-  		Macros.error("Can't log to amplitude without amplitude script!");
-  		return;
-  	}
+    if (!window.amplitude) {
+      Macros.error("Can't log to amplitude without amplitude script!");
+      return;
+    }
     window.amplitude.logEvent(type, event);
   }
 
@@ -53,11 +53,11 @@ class Macros extends commonMacros {
 // The backtick on the third row and all the backslashes need to be escaped.
 // This was generated with this site http://patorjk.com/software/taag/#p=display&f=Stacey&t=Search%20NEU
 const searchneu = `
-   ____                     _       _   _ _____ _   _ 
+   ____                     _       _   _ _____ _   _
  / ___|  ___  __ _ _ __ ___| |__   | \\ | | ____| | | |
  \\___ \\ / _ \\/ _\` | '__/ __| '_ \\  |  \\| |  _| | | | |
   ___) |  __/ (_| | | | (__| | | | | |\\  | |___| |_| |
- |____/ \\___|\\__,_|_|  \\___|_| |_| |_| \\_|_____|\\___/ 
+ |____/ \\___|\\__,_|_|  \\___|_| |_| |_| \\_|_____|\\___/
 
 
 

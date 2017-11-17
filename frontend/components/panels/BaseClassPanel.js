@@ -5,6 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import RequisiteBranch from '../../../common/classModels/RequisiteBranch';
 import css from './BaseClassPanel.css';
@@ -168,10 +169,8 @@ class BaseClassPanel extends React.Component {
 
           retVal.push(element);
         }
-      }
-
-      // If the child branch is a requisite branch
-      else if (parsingPrereqs === 'prereqs') {
+      } else if (parsingPrereqs === 'prereqs') {
+        // If the child branch is a requisite branch
         //Ghetto fix until this tree is simplified
         if (_.uniq(childBranch.prereqs.values).length === 1) {
           retVal.push(this.getReqsString('prereqs', childBranch));

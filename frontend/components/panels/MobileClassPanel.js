@@ -7,17 +7,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
-
-import globe from './globe.svg';
 import chevronDown from './chevron-down.svg';
 import chevronRight from './chevron-right.svg';
 import mobileCss from './MobileClassPanel.css';
 import baseCss from './BaseClassPanel.css';
 import MobileSectionPanel from './MobileSectionPanel';
-import macros from '../macros';
 import Keys from '../../../common/Keys';
-import LocationLinks from './LocationLinks';
-import WeekdayBoxes from './WeekdayBoxes';
 import BaseClassPanel from './BaseClassPanel';
 
 const css = {};
@@ -144,7 +139,12 @@ class MobileClassPanel extends BaseClassPanel {
         </span>
 
         <div>
-          <a onClick={ this.toggleShowAllClassDetails } style={{ display:'inline-block' }}>
+          <a
+            onClick={ this.toggleShowAllClassDetails }
+            style={{ display:'inline-block' }}
+            role='button'
+            tabIndex={ 0 }
+          >
               Show More...
             </a>
 
@@ -180,8 +180,13 @@ class MobileClassPanel extends BaseClassPanel {
     return (
       <div>
         <div className={ `${css.container} ui segment` }>
-          <div className={ css.header } onClick={ this.toggleShowMoreThanTitle }>
-            <img className={ css.chevron } src={ chevron } />
+          <div
+            className={ css.header }
+            onClick={ this.toggleShowMoreThanTitle }
+            role='button'
+            tabIndex={ 0 }
+          >
+            <img className={ css.chevron } src={ chevron } alt='' />
             <span className={ css.classTitle }>
               {aClass.subject} {aClass.classId}: {aClass.name}
             </span>

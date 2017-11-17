@@ -3,7 +3,7 @@
  * See the license file in the root folder for details.
  */
 
-import Home from '../Home';
+// import Home from '../Home';
 
 it('should behave...', () => {
 

@@ -47,7 +47,7 @@ class ResultsLoader extends React.Component {
     this.alreadyLoadedAt = {};
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (prevProps.results !== this.props.results) {
       this.addMoreObjects();
     }

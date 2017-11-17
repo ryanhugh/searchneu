@@ -4,13 +4,11 @@
  */
 
 import cheerio from 'cheerio';
-import path from 'path';
 import cookie from 'cookie';
 
 import baseParser from '../classes/parsers/baseParser';
 import Request from '../request';
 import macros from '../../macros';
-import cache from '../cache';
 import notifyer from '../../notifyer';
 
 const request = new Request('psylink');
@@ -121,18 +119,18 @@ class Psylink {
   }
 
 
-  startWatch() {
-    if (!macros.PROD) {
-      return;
-    }
-    return;
+  // startWatch() {
+  //   if (!macros.PROD) {
+  //     return;
+  //   }
+  //   return;
 
     // Run once to get initial state
-    this.onInterval(false);
+    // this.onInterval(false);
 
-    // 5 Min in ms
-    setInterval(this.onInterval.bind(this), 300000);
-  }
+    // // 5 Min in ms
+    // setInterval(this.onInterval.bind(this), 300000);
+  // }
 
   main() {
     return this.login();

@@ -32,7 +32,7 @@ const cx = classNames.bind(css);
 class DesktopClassPanel extends BaseClassPanel {
 
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     macros.debounceTooltipRebuild();
   }
 
@@ -67,7 +67,7 @@ class DesktopClassPanel extends BaseClassPanel {
 
     // Also show the waitlist if any of the sections have less than 10 seats left.
     // The number 10 is just an arbitrary decision and can be changed in the future.
-    const foundSectionWithLessThanTenSeats = false;
+    // const foundSectionWithLessThanTenSeats = false;
 
     for (const section of aClass.sections) {
       if (section.seatsRemaining < 10) {
@@ -111,7 +111,7 @@ class DesktopClassPanel extends BaseClassPanel {
       }
 
       // Add the Online sections head if there are any sections that are online
-      const showOnlineColumn = aClass.getHasOnlineSections();
+      // const showOnlineColumn = aClass.getHasOnlineSections();
 
       const showWaitList = this.shouldShowWaitlist();
 
@@ -188,11 +188,11 @@ class DesktopClassPanel extends BaseClassPanel {
                 // If there are exams, fill in those cells too
                 // Calculate the exam elements in each row
                 if (aClass.sectionsHaveExam()) {
-                  const examMeeting = section.getExamMeeting();
+                  const sectionExamMeeting = section.getExamMeeting();
                   if (examMeeting) {
                     tdElements.push(<td key='exam1'>{examTimeString}</td>);
-                    tdElements.push(<td key='exam3'>{examMeeting.endDate.format('MMM Do')}</td>);
-                    tdElements.push(<td key='exam4'>{examMeeting.where}</td>);
+                    tdElements.push(<td key='exam3'>{sectionExamMeeting.endDate.format('MMM Do')}</td>);
+                    tdElements.push(<td key='exam4'>{sectionExamMeeting.where}</td>);
                   } else {
                     tdElements.push(<td key='exam5' />);
                     tdElements.push(<td key='exam6' />);
