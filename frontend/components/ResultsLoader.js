@@ -146,6 +146,7 @@ ResultsLoader.loadedClassObjects = {};
 
 ResultsLoader.propTypes = {
   results: PropTypes.array.isRequired,
+  loadMore: PropTypes.func.isRequired,
 };
 
 
