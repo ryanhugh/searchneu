@@ -6,13 +6,20 @@
 import BaseProcessor from './baseProcessor';
 import Keys from '../../../../common/Keys';
 
+/**
+ * Adds the prerequsite-for field for classes that are a predecessor for
+ * other classes.
+ */
 class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
-  termDump = {}
   classMap = {};
 
+  /**
+   * Creates a class hash map based on the term dump, then calls parse every
+   * request to link data.
+   *
+   * @param {Term Dump} termDump the termDump of the semester.
+   */
   go(termDump) {
-    this.termDump = termDump;
-
     for (const aClass of termDump.classes) {
       const key = Keys.create(aClass).getHash();
       this.classMap[key] = aClass;
@@ -25,11 +32,28 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
     }
   }
 
-  // Recursively traverse the prerequsite structure
+  /* A Prerequisite is one of:
+   * - String
+   * - Class
+   * - [Prerequsite]
+   */
+
+  /**
+   * Recursively traverse the prerequsite structure.
+   *
+   * @param {Class Object} mainClass - the class that we're checking the
+   * prereqs for. If it has a prereq, we add this class to the prereq's
+   * optPrereqFor field.
+   * @param {Prerequisite} node - a prerequsite class of mainClass. This is
+   * the field where we add the mainClass information to.
+   * @param {Boolean} isRequired - whether or not the prerequisite is required.
+   */
   parsePreReqs(mainClass, node, isRequired) {
     if (node && node.missing) {
       return;
     }
+
+    // Get the the class we wish to refere to
     if (this.isClass(node)) {
       const find = Keys.create({
         host: mainClass.host,
@@ -40,6 +64,7 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
 
       const nodeRef = this.classMap[find];
 
+      // Checks and creates the optPrereqsFor field in our class, if needed
       if (nodeRef.optPrereqsFor === undefined) {
         nodeRef.optPrereqsFor = [];
       }
@@ -49,13 +74,12 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
         classUid: mainClass.classUid,
         classId: mainClass.classId,
       });
-
     } else {
       const classType = node.type;
 
       if (node.values !== undefined) {
         node.values.map((course) => {
-          // returns if the
+          // TODO: Implement optional prereqs-for
           const reqType = (classType === 'and') ? isRequired : false;
           return this.parsePreReqs(mainClass, course, reqType);
         });
