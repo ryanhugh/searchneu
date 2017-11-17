@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
  // The point of this file is to get the name of a college from the hostname of their domain

@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import fs from 'fs-promise';
@@ -10,15 +10,14 @@ import camd from '../camd';
 
 
 it('should work for profile page', async (done) => {
-
   const body = await fs.readFile(path.join(__dirname, 'data', 'camd', 'profile.html'));
 
-  let url = 'https://camd.northeastern.edu/gamedesign/people/jason-duhaime/'
+  const url = 'https://camd.northeastern.edu/gamedesign/people/jason-duhaime/';
 
-  let output = camd.parseDetailpage(url, body)
+  const output = camd.parseDetailpage(url, body);
 
-  expect(output).toMatchSnapshot()
+  expect(output).toMatchSnapshot();
 
-  done()
+  done();
 });
 

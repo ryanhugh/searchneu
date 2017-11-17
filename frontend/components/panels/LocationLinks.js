@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import React from 'react';
@@ -14,7 +14,7 @@ import macros from '../macros';
 
 class LocationLinks extends React.Component {
   render() {
-    // Don't render anything if the class is online. 
+    // Don't render anything if the class is online.
     if (this.props.section.online) {
       return null;
     }
@@ -41,11 +41,11 @@ class LocationLinks extends React.Component {
       }
 
       if (location.toUpperCase() === 'BOSTON DEPT') {
-        return <span key='Boston DEPT'>TBA &nbsp;(Boston Campus)</span>
+        return <span key='Boston DEPT'>TBA &nbsp;(Boston Campus)</span>;
       }
 
       // The <a> tag needs to be on one line, or else react will insert spaces in the generated HTML.
-      // And we only want spaces between these span elements, and not after the location and the comma. 
+      // And we only want spaces between these span elements, and not after the location and the comma.
       // eg YMCA, Hurting Hall and not YMCA , Hurting Hall
       return (
         <span key={ location }>

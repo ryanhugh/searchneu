@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import React from 'react';
@@ -16,8 +16,7 @@ const cx = classNames.bind(css);
 
 class WeekdayBoxes extends React.Component {
   render() {
-
-    // Don't render anything if the class is online. 
+    // Don't render anything if the class is online.
     if (this.props.section.online) {
       return null;
     }

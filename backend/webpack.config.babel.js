@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -42,7 +42,7 @@ export default {
         'process.env': {
           PROD: 'false',
           DEV: 'true',
-          TESTS: 'false'
+          TESTS: 'false',
         },
       }),
     ] : [
@@ -52,8 +52,8 @@ export default {
           DEV: 'false',
           TESTS: 'false',
 
-          // This is needed so the production version of react is used. 
-          NODE_ENV: '"production"'
+          // This is needed so the production version of react is used.
+          NODE_ENV: '"production"',
         },
       }),
       new webpack.LoaderOptionsPlugin({
@@ -85,7 +85,7 @@ export default {
   module: {
     loaders: [
 
-    // Enable this once everything passes the linting. 
+    // Enable this once everything passes the linting.
     // {
     //    enforce: "pre",
     //     test: /\.js$/,
@@ -96,70 +96,70 @@ export default {
     //     ],
     //   },
 
-    {
-      test: /\.js$/,
-      loader: 'babel-loader',
-      
-      include: path.join(rootDir, 'frontend'),
-    }, 
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
 
-    {
-      test: /\.js$/,
-      loader: 'babel-loader',
-      
-      include: path.join(rootDir, 'common'),
-    }, 
+        include: path.join(rootDir, 'frontend'),
+      },
+
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+
+        include: path.join(rootDir, 'common'),
+      },
 
     // This loader is just for one css file that is global to the project.
-    // Don't want to load this css file with css modules. 
-    {
-      test: /\.css$/,
-      include: [
-        path.join(rootDir, 'frontend', 'css'),
-      ],
-      loaders: [
-        'style-loader',
-        'css-loader?localIdentName=[path]___[name]__[local]___[hash:base64:5]',
-      ],
-    }, 
+    // Don't want to load this css file with css modules.
+      {
+        test: /\.css$/,
+        include: [
+          path.join(rootDir, 'frontend', 'css'),
+        ],
+        loaders: [
+          'style-loader',
+          'css-loader?localIdentName=[path]___[name]__[local]___[hash:base64:5]',
+        ],
+      },
 
     // This is the main css loader. Every css file loaded with this loader is processed with
     // css modules.
-    {
-      test: /\.css$/,
-      include: [
-        path.join(rootDir, 'frontend', 'components'),
-      ],
-      loaders: [
-        'style-loader',
-        'css-loader?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
-      ],
-    }, 
+      {
+        test: /\.css$/,
+        include: [
+          path.join(rootDir, 'frontend', 'components'),
+        ],
+        loaders: [
+          'style-loader',
+          'css-loader?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
+        ],
+      },
 
-    // This css loader is for 3rd party css files. Load them globally. 
-    {
-      test: /\.css$/,
-      include: [
-        path.join(rootDir, 'node_modules'),
-      ],
-      loaders: [
-        'style-loader',
-        'css-loader?localIdentName=[path]___[name]__[local]___[hash:base64:5]',
-      ],
-    }, 
+    // This css loader is for 3rd party css files. Load them globally.
+      {
+        test: /\.css$/,
+        include: [
+          path.join(rootDir, 'node_modules'),
+        ],
+        loaders: [
+          'style-loader',
+          'css-loader?localIdentName=[path]___[name]__[local]___[hash:base64:5]',
+        ],
+      },
 
 
     // Load other stuff as static files.
-    {
-      test: /\.(jpe?g|png|gif|svg)$/i,
-      loaders: [
-        'file-loader?name=[path][name].[ext]',
-      ],
-    }, {
-      test: /\.(eot|ttf|woff|woff2)$/i,
-      loaders: [
-        'file-loader?name=[name].[ext]&mimetype=application/x-font-truetype',
-      ],
-    }],
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loaders: [
+          'file-loader?name=[path][name].[ext]',
+        ],
+      }, {
+        test: /\.(eot|ttf|woff|woff2)$/i,
+        loaders: [
+          'file-loader?name=[name].[ext]&mimetype=application/x-font-truetype',
+        ],
+      }],
   },
 };

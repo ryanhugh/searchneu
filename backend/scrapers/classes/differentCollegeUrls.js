@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 // How to find more sites.
@@ -83,7 +83,7 @@
    'https://novasis.villanova.edu/pls/bannerprd/bwckschd.p_disp_dyn_sched',
    'https://www.bannerssb.bucknell.edu/ERPPRD/bwckschd.p_disp_dyn_sched', // take 8 min. Sept 21st. 2017
    'https://banweb.gwu.edu/PRODCartridge/bwckschd.p_disp_dyn_sched', // Takes 18min Sept 22 2017
-   'https://bannerselfservice.lafayette.edu/pls/bprod/bwckschd.p_disp_dyn_sched' // Takes like 4 min. Oct 29 2017
+   'https://bannerselfservice.lafayette.edu/pls/bprod/bwckschd.p_disp_dyn_sched', // Takes like 4 min. Oct 29 2017
  ];
 
 // https://ssb.vcu.edu/proddad/bwckschd.p_disp_dyn_sched

@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import URI from 'urijs';
@@ -26,13 +26,13 @@ class Search {
     query = query.trim().toLowerCase();
 
     if (!query || query.length === 0) {
-      console.log("No query given in frontend/search.js. Returning empty array.", query, termCount)
-      return []
+      console.log('No query given in frontend/search.js. Returning empty array.', query, termCount);
+      return [];
     }
 
     if (!termId || termId.length !== 6) {
-      console.log("No termId given in frontend/search.js. Returning empty array.", termId, termCount)
-      return []
+      console.log('No termId given in frontend/search.js. Returning empty array.', termId, termCount);
+      return [];
     }
 
     let existingTermCount = 0;
@@ -57,13 +57,13 @@ class Search {
       maxIndex: termCount,
     }).toString();
 
-    let startTime = Date.now()
+    const startTime = Date.now();
     const results = await request.get(url);
-    window.amplitude.logEvent('Search Timing', {query: query, time: Date.now() - startTime});
+    window.amplitude.logEvent('Search Timing', { query: query, time: Date.now() - startTime });
 
     if (results.error) {
-      console.error("Error with networking request", results.error)
-      return []
+      console.error('Error with networking request', results.error);
+      return [];
     }
 
 

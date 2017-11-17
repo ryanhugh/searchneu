@@ -147,7 +147,7 @@ class Main {
   }
 
 
-  async main(collegeAbbrs, semesterlySchema=false) {
+  async main(collegeAbbrs, semesterlySchema = false) {
     if (!collegeAbbrs) {
       macros.error('Need collegeAbbrs for scraping classes');
       return null;
@@ -209,17 +209,16 @@ class Main {
     // Add new processors here.
     simplifyProfList.go(dump);
     addPreRequisiteFor.go(dump);
-    debugger
+    debugger;
     // If running with semesterly, save in the semesterly schema
     // If not, save in the searchneu schema
-    console.log("semesterly:", semesterlySchema)
+    console.log('semesterly:', semesterlySchema);
     if (semesterlySchema) {
       return semesterly.main(dump);
     }
-    else {
-      await searchIndex.main(dump);
-      await termDump.main(dump);
-    }
+
+    await searchIndex.main(dump);
+    await termDump.main(dump);
 
 
     if (macros.DEV) {

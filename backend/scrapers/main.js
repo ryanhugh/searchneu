@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import matchEmployees from './employees/matchEmployees';
@@ -31,12 +31,10 @@ if (process.env.TRAVIS && macros.DEV) {
 }
 
 
-class Main{
+class Main {
 
-  async main(semesterly=false) {
-
-
-    let classesPromise = classes.main(['neu'], semesterly=semesterly)
+  async main(semesterly = false) {
+    const classesPromise = classes.main(['neu'], semesterly = semesterly);
 
     // If scraping stuff for semesterly, scrape just the classes
     if (semesterly) {
@@ -44,7 +42,7 @@ class Main{
     }
 
 
-    let promises = [classesPromise, matchEmployees.main()]
+    const promises = [classesPromise, matchEmployees.main()];
 
     await Promise.all(promises);
 
@@ -58,12 +56,11 @@ const instance = new Main();
 
 
 async function localRun() {
-  
   if (require.main === module) {
-    let semesterlyData = await instance.main(true);
+    const semesterlyData = await instance.main(true);
 
     if (semesterlyData) {
-      await fs.writeFile(`courses2.json`, JSON.stringify(semesterlyData));
+      await fs.writeFile('courses2.json', JSON.stringify(semesterlyData));
     }
   }
 }

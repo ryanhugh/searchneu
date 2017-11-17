@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import mkdirp from 'mkdirp-promise';
@@ -336,7 +336,7 @@ class CombineCCISandEmployees {
     index.addField('phone');
     index.addField('emails');
 
-    // Enable in search.js if this is enabled again. 
+    // Enable in search.js if this is enabled again.
     // index.addField('officeRoom');
     index.addField('primaryRole');
     index.addField('primaryDepartment');
@@ -349,8 +349,8 @@ class CombineCCISandEmployees {
       // If their middle name is one character (not including symbols), don't add it to the search index.
       // This prevents profs like Stacy C. Marsella from coming up when you type in [C]
       // First, remove the first and last names and toLowerCase()
-      // Remove the middle name from the name to index if the middle name (not including symbols) is 1 or 0 characters. 
-      docToIndex.name = macros.stripMiddleName(row.name, true, row.firstName, row.lastName)
+      // Remove the middle name from the name to index if the middle name (not including symbols) is 1 or 0 characters.
+      docToIndex.name = macros.stripMiddleName(row.name, true, row.firstName, row.lastName);
 
       if (docToIndex.emails) {
         for (let i = 0; i < docToIndex.emails.length; i++) {

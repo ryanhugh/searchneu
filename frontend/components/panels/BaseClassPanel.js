@@ -26,15 +26,14 @@ class BaseClassPanel extends React.Component {
   getInitialRenderedSectionState() {
     let sectionsShownByDefault;
     if (this.constructor.sectionsShownByDefault) {
-      sectionsShownByDefault = this.constructor.sectionsShownByDefault
-    }
-    else {
+      sectionsShownByDefault = this.constructor.sectionsShownByDefault;
+    } else {
       sectionsShownByDefault = macros.sectionsShownByDefault;
     }
 
     // If this is desktop and there is exactly one section hidden by the button, just show them all.
     if (!macros.isMobile && this.props.aClass.sections.length == sectionsShownByDefault + 1) {
-      sectionsShownByDefault++
+      sectionsShownByDefault++;
     }
 
     // Show 3 sections by default
@@ -50,8 +49,7 @@ class BaseClassPanel extends React.Component {
     let newElements;
     if (this.state.renderedSections.length > macros.sectionsShowAllThreshold) {
       newElements = this.state.unrenderedSections.splice(0, this.state.unrenderedSections.length);
-    }
-    else {
+    } else {
       newElements = this.state.unrenderedSections.splice(0, macros.sectionsAddedWhenShowMoreClicked);
     }
 
@@ -74,25 +72,22 @@ class BaseClassPanel extends React.Component {
   // This is the same on both desktop and mobile.
   getShowMoreButton() {
   	if (this.state.unrenderedSections.length > 0) {
-
-      return (
-        <div className={ css.showMoreButton } onClick={ this.onShowMoreClick }>
+    return (
+      <div className={ css.showMoreButton } onClick={ this.onShowMoreClick }>
           Show More...
         </div>
-      );
-    }
-    else {
+    );
+  }
+
     	return null;
-    }
   }
 
   getCreditsString() {
     // Figure out the credits string
     if (this.props.aClass.maxCredits === this.props.aClass.minCredits) {
       return `${this.props.aClass.minCredits} credits`;
-    } else {
-      return `${this.props.aClass.minCredits} to ${this.props.aClass.maxCredits} credits`;
     }
+    return `${this.props.aClass.minCredits} to ${this.props.aClass.maxCredits} credits`;
   }
 
 
@@ -101,13 +96,13 @@ class BaseClassPanel extends React.Component {
   // It is called with a class
   // and can return either a string or a react element.
   getReqsString(parsingPrereqs = 'prereqs', aClass = this.props.aClass) {
-  	var retVal = [];
+  	const retVal = [];
 
   	// Keep track of which subject+classId combonations have been used so far.
   	// If you encounter the same subject+classId combo in the same loop, skip the second one.
   	// This is because there is no need to show (eg. CS 2500 and CS 2500 (hon)) in the same group
   	// because only the subject and the classId are going to be shown.
-  	let processedSubjectClassIds = {}
+  	const processedSubjectClassIds = {};
 
   	let childNodes;
 
@@ -116,23 +111,20 @@ class BaseClassPanel extends React.Component {
   	} else if (parsingPrereqs === 'coreqs') {
   	  childNodes = aClass.coreqs;
   	} else if (parsingPrereqs === 'prereqsFor') {
-      console.log(aClass.optPrereqsFor);
+    console.log(aClass.optPrereqsFor);
       // childNodes = aClass.prereqsFor;
-      if (!aClass.optPrereqsFor)
-        return null;
-      childNodes = {
-        type: 'and',
-        values: aClass.optPrereqsFor,
-      };
-    }
-    console.log(childNodes)
+    if (!aClass.optPrereqsFor) { return null; }
+    childNodes = {
+      type: 'and',
+      values: aClass.optPrereqsFor,
+    };
+  }
+    console.log(childNodes);
 
-  	childNodes.values.forEach(function (childBranch) {
-
+  	childNodes.values.forEach((childBranch) => {
   	  // If the childBranch is a class
   		if (!(childBranch instanceof RequisiteBranch)) {
   			if (childBranch.isString) {
-
   				// Skip if already seen
   				if (processedSubjectClassIds[childBranch.desc]) {
   					return;
@@ -140,10 +132,8 @@ class BaseClassPanel extends React.Component {
   				processedSubjectClassIds[childBranch.desc] = true;
 
 
-  				retVal.push(childBranch.desc)
-  			}
-  			else {
-
+  				retVal.push(childBranch.desc);
+  			}  			else {
   				// Skip if already seen
   				if (processedSubjectClassIds[childBranch.subject + childBranch.classId]) {
   					return;
@@ -151,7 +141,7 @@ class BaseClassPanel extends React.Component {
   				processedSubjectClassIds[childBranch.subject + childBranch.classId] = true;
 
   				// Create the React element and add it to retVal
-          const event = new CustomEvent(macros.searchEvent, { detail: childBranch.subject + ' ' + childBranch.classId });
+    const event = new CustomEvent(macros.searchEvent, { detail: `${childBranch.subject} ${childBranch.classId}` });
 
           //   href={"/" + encodeURIComponent(childBranch.subject + ' ' + childBranch.classId)}
 
@@ -169,17 +159,17 @@ class BaseClassPanel extends React.Component {
           // }
 
 
-          let hash = childBranch.subject + ' ' + childBranch.classId;
-          console.log(hash)
-          let element =  <a
-                              key={hash}
-                              onClick={(e) => {window.dispatchEvent(event); e.preventDefault(); return false;}}
-                              className={css.reqClassLink}
-                            >
-                               {childBranch.subject + ' ' + childBranch.classId}
-                            </a>
+    const hash = `${childBranch.subject} ${childBranch.classId}`;
+    console.log(hash);
+    const element = (<a
+      key={ hash }
+      onClick={ (e) => { window.dispatchEvent(event); e.preventDefault(); return false; } }
+      className={ css.reqClassLink }
+    >
+      {`${childBranch.subject} ${childBranch.classId}`}
+    </a>);
 
-					retVal.push(element)
+    retVal.push(element);
   			}
   		}
 
@@ -187,36 +177,32 @@ class BaseClassPanel extends React.Component {
   		else if (parsingPrereqs === 'prereqs') {
     		//Ghetto fix until this tree is simplified
     		if (_.uniq(childBranch.prereqs.values).length === 1) {
-    			retVal.push(this.getReqsString('prereqs', childBranch))
+    			retVal.push(this.getReqsString('prereqs', childBranch));
+    		}    		else {
+    			retVal.push(['(', this.getReqsString('prereqs', childBranch), ')']);
     		}
-    		else {
-    			retVal.push(['(', this.getReqsString('prereqs', childBranch), ')'])
-    		}
+  		}  		else {
+  		  macros.error('Branch found and parsing coreqs?', childBranch);
   		}
-  		else {
-  		  macros.error("Branch found and parsing coreqs?", childBranch)
-  		}
-  	}.bind(this))
+  	});
 
 
   	// Now insert the type divider ("and" vs "or") between the elements.
   	// Can't use the join in case the objects are react elements
-  	for (var i = retVal.length - 1; i >= 1; i--) {
-  		retVal.splice(i, 0, ' ' + aClass.prereqs.type + ' ');
+  	for (let i = retVal.length - 1; i >= 1; i--) {
+  		retVal.splice(i, 0, ` ${aClass.prereqs.type} `);
   	}
 
   	if (retVal.length === 0) {
   		return 'None';
   	}
-  	else {
+
   		// retVal = retVal.join(' ' + this.prereqs.type + ' ')
 
   		return retVal;
-  	}
   }
 
 }
-
 
 
 BaseClassPanel.propTypes = {
