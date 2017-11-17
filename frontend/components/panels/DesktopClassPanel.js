@@ -158,13 +158,18 @@ class DesktopClassPanel extends BaseClassPanel {
                   length = 6;
                 }
 
-                tdElements.push(<td key='onlineWideCell' colSpan={ length } className={ css.wideOnlineCell }>
-                  <span className={ css.onlineDivLineContainer }>
-                    <span className={ `${css.onlineDivLine} ${css.onlineLeftLine}` } />
-                    <span className={ css.onlineText }>Online Class</span>
-                    <span className={ css.onlineDivLine } />
-                  </span>
-                                </td>);
+                const onlineElement = 
+                (
+                  <td key='onlineWideCell' colSpan={ length } className={ css.wideOnlineCell }>
+                    <span className={ css.onlineDivLineContainer }>
+                      <span className={ `${css.onlineDivLine} ${css.onlineLeftLine}` } />
+                      <span className={ css.onlineText }>Online Class</span>
+                      <span className={ css.onlineDivLine } />
+                    </span>
+                  </td>
+                );
+
+                tdElements.push(onlineElement);
 
               // Have individual cells for the different columns
               } else {
