@@ -51,8 +51,6 @@ while (1) {
 let envVariablesPromise = null;
 
 class Macros extends commonMacros {
-
-
   static parseNameWithSpaces(name) {
     // Standardize spaces.
     name = name.replace(/\s+/gi, ' ');
@@ -222,7 +220,7 @@ class Macros extends commonMacros {
   // Log an event to amplitude. Same function signature as the function for the frontend.
   static async logAmplitudeEvent(type, event) {
     if (!Macros.PROD) {
-      return undefined;
+      return null;
     }
 
     const data = {

@@ -20,7 +20,7 @@ import Request from './scrapers/request';
 import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
-import notifyer from './notifyer';
+// import notifyer from './notifyer';
 import psylink from './scrapers/psylink/psylink';
 
 const request = new Request('server');
@@ -98,20 +98,17 @@ app.use((req, res, next) => {
   // If this is https request, done.
   if (req.protocol === 'https') {
     next();
-  }
 
   // If we are behind a cloudflare proxy and cloudflare served a https response, done.
-  else if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === 'https') {
+  } else if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === 'https') {
     next();
-  }
 
   // This is development mode
-  else if (macros.DEV) {
+  } else if (macros.DEV) {
     next();
-  }
 
   // This is prod and still on http, redirect to https.
-  else {
+  } else {
     // Cache the http to https redirect for 2 months.
     res.setHeader('Cache-Control', 'public, max-age=5256000');
     macros.log(getTime(), remoteIp, 'redirecting to https');
@@ -187,11 +184,12 @@ async function getSearch() {
     const employeesSearchIndex = await employeesSearchIndexPromise;
 
     if (!fallData || !springData || !fallSearchIndex || !springSearchIndex || !employeeMap || !employeesSearchIndex) {
-      console.log("Couldn't download a file.", !!fallData, !!springData, !!fallSearchIndex, !!springSearchIndex, !!employeeMap, !!employeesSearchIndex);
-      return;
+      macros.log("Couldn't download a file.", !!fallData, !!springData, !!fallSearchIndex, !!springSearchIndex, !!employeeMap, !!employeesSearchIndex);
+      return null;
     }
 
-    return search.create(employeeMap, employeesSearchIndex,
+    return search.create(
+      employeeMap, employeesSearchIndex,
       [{
         searchIndex: springSearchIndex,
         termDump: springData,
@@ -201,18 +199,17 @@ async function getSearch() {
         searchIndex: fallSearchIndex,
         termDump: fallData,
         termId: '201810',
-      }]);
+      }],
+    );
   } catch (e) {
     macros.error('Error:', e);
     macros.error('Not starting search backend.');
     return null;
   }
-
-  return searchPromise;
 }
 
 // Load the index as soon as the app starts.
-let searchPromise = getSearch();
+const searchPromise = getSearch();
 
 app.get('/search', wrap(async (req, res) => {
   if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500) {
@@ -233,12 +230,12 @@ app.get('/search', wrap(async (req, res) => {
 
   let minIndex = 0;
   if (req.query.minIndex) {
-    minIndex = parseInt(req.query.minIndex);
+    minIndex = parseInt(req.query.minIndex, 10);
   }
 
   let maxIndex = 10;
   if (req.query.maxIndex) {
-    maxIndex = parseInt(req.query.maxIndex);
+    maxIndex = parseInt(req.query.maxIndex, 10);
   }
 
   if (!req.query.termId || req.query.termId.length !== 6) {
@@ -275,18 +272,18 @@ app.get('/search', wrap(async (req, res) => {
 app.get('/webhook/', async (req, res) => {
   console.log(getTime(), getIpPath(req), 'Tried to send a webhook');
   res.send('hi');
-  return;
+  // return;
 
-  macros.log(req.query);
+  // macros.log(req.query);
 
-  const verifyToken = await macros.getEnvVariable('fbVerifyToken');
+  // const verifyToken = await macros.getEnvVariable('fbVerifyToken');
 
-  if (req.query['hub.verify_token'] === verifyToken) {
-    macros.log('yup!');
-    res.send(req.query['hub.challenge']);
-  } else {
-    res.send('Error, wrong token');
-  }
+  // if (req.query['hub.verify_token'] === verifyToken) {
+  //   macros.log('yup!');
+  //   res.send(req.query['hub.challenge']);
+  // } else {
+  //   res.send('Error, wrong token');
+  // }
 });
 
 // Respond to the messages
@@ -294,30 +291,30 @@ app.post('/webhook/', (req, res) => {
   // Disable temporarily
   console.log(getTime(), getIpPath(req), 'Tried to send a webhook');
   res.send('hi');
-  return;
+  // return;
 
-  // TODO: when get this working again:
-  // 1. make sure that the requests are coming from facebook
-  // 2. check to see if the body is valid (https://rollbar.com/ryanhugh/searchneu/items/54/)
-  // Ex:
-  //   TypeError: Cannot read property '0' of undefined at line var messaging_events = req.body.entry[0].messaging;
+  // // TODO: when get this working again:
+  // // 1. make sure that the requests are coming from facebook
+  // // 2. check to see if the body is valid (https://rollbar.com/ryanhugh/searchneu/items/54/)
+  // // Ex:
+  // //   TypeError: Cannot read property '0' of undefined at line var messaging_events = req.body.entry[0].messaging;
 
 
-  const messaging_events = req.body.entry[0].messaging;
-  for (let i = 0; i < messaging_events.length; i++) {
-	    const event = req.body.entry[0].messaging[i];
-	    const sender = event.sender.id;
-	    if (event.message && event.message.text) {
-		    const text = event.message.text;
+  // const messaging_events = req.body.entry[0].messaging;
+  // for (let i = 0; i < messaging_events.length; i++) {
+  //   const event = req.body.entry[0].messaging[i];
+  //   const sender = event.sender.id;
+  //   if (event.message && event.message.text) {
+  //     const text = event.message.text;
 
-		    if (text === 'test') {
-  		    notifyer.sendFBNotification(sender, 'CS 1800 now has 1 seat avalible!! Check it out on https://searchneu.com/cs1800 !');
-		    }		    else {
-  		    notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. Someday, I will notify you when seats open up in classes that are full. 😎👌🍩 But that day is not today...");
-		    }
-	    }
-  }
-  res.sendStatus(200);
+  //     if (text === 'test') {
+  //       notifyer.sendFBNotification(sender, 'CS 1800 now has 1 seat avalible!! Check it out on https://searchneu.com/cs1800 !');
+  //     } else {
+  //       notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. Someday, I will notify you when seats open up in classes that are full. 😎👌🍩 But that day is not today...");
+  //     }
+  //   }
+  // }
+  // res.sendStatus(200);
 });
 
 
@@ -364,8 +361,8 @@ app.get('*', (req, res) => {
 
 
 // your express error handler
-app.use((err, req, res, next) => {
-    // in case of specific URIError
+app.use((err, req, res) => {
+  // in case of specific URIError
   if (err instanceof URIError) {
     macros.log('Warning, could not process malformed url: ', req.url);
     return res.send('Invalid url.');

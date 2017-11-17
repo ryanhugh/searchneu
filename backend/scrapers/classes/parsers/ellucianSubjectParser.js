@@ -15,8 +15,6 @@ import ellucianClassListParser from './ellucianClassListParser';
 const request = new Request('EllucianSubjectParser');
 
 class EllucianSubjectParser extends EllucianBaseParser.EllucianBaseParser {
-
-
   supportsPage(url) {
     return url.indexOf('bwckgens.p_proc_term_date') > -1;
   }
@@ -156,7 +154,7 @@ class EllucianSubjectParser extends EllucianBaseParser.EllucianBaseParser {
     // console.log(subjects)
 
 
-   // Possibly save to dev
+    // Possibly save to dev
     if (macros.DEV) {
       await cache.set('dev_data', this.constructor.name, cacheKey, subjects);
 

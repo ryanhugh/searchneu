@@ -19,8 +19,6 @@ import ellucianRequisitesParser2 from './ellucianRequisitesParser2';
 const request = new Request('EllucianCatalogParser');
 
 class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
-
-
   supportsPage(url) {
     return url.indexOf('bwckctlg.p_disp_course_detail') > -1;
   }
@@ -265,8 +263,6 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201830&subj_code_in=GAME&crse_numb_in=3700');
     console.log(output);
   }
-
-
 }
 
 

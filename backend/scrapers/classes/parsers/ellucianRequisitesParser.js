@@ -14,8 +14,6 @@ import EllucianBaseParser from './ellucianBaseParser';
 // Right now both run every time a requisite section is parsed. The new one supports mismatched parens and this one does not.
 
 class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
-
-
   //follow the order of operations (and before or)
   //and group a (something and something or something) to ((something and something) or something)
   //unnecesary groupings are undone by simplifyRequirements
@@ -399,7 +397,6 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
 
     return text;
   }
-
 }
 
 
