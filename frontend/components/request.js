@@ -62,7 +62,7 @@ class Request {
   }
 
 
-  async getFromInternet(url, config = {}, isKeyUpdated) {
+  async getFromInternet(url, config = {}) {
     return new Promise((resolve, reject) => {
       const startTime = Date.now();
       const xmlhttp = new XMLHttpRequest();
@@ -119,7 +119,7 @@ class Request {
   }
 
 
-  async getFromInternetWithRetry(url, config, isKeyUpdated) {
+  async getFromInternetWithRetry(url, config) {
     return new Promise((resolve, reject) => {
       asyncjs.retry({
         times: 3,
@@ -127,7 +127,7 @@ class Request {
       }, async (callback) => {
         let resp;
         try {
-          resp = await this.getFromInternet(url, config, isKeyUpdated);
+          resp = await this.getFromInternet(url, config);
           callback(null, resp);
         } catch (e) {
           callback(e);
@@ -166,7 +166,7 @@ class Request {
       url = new URI(config.url).query({ loadFromCache: isKeyUpdated }).toString();
     }
 
-    const internetValue = await this.getFromInternetWithRetry(url, config, isKeyUpdated);
+    const internetValue = await this.getFromInternetWithRetry(url, config);
 
     if (config.useCache) {
       window.localStorage[LOCALSTORAGE_PREFIX + config.url] = Date.now();

@@ -3,9 +3,8 @@
  * See the license file in the root folder for details.
  */
 
-import matchEmployees from './employees/matchEmployees';
 import fs from 'fs-promise';
-
+import matchEmployees from './employees/matchEmployees';
 import macros from '../macros';
 import classes from './classes/main';
 

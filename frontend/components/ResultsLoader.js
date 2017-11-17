@@ -62,7 +62,7 @@ class ResultsLoader extends React.Component {
       return;
     }
 
-    const resultsBottom = this.refs.elementsContainer.offsetHeight + this.refs.elementsContainer.offsetTop;
+    const resultsBottom = this.elementsContainer.offsetHeight + this.elementsContainer.offsetTop;
 
     const diff = window.scrollY + 2000 + window.innerHeight - resultsBottom;
 
@@ -119,7 +119,7 @@ class ResultsLoader extends React.Component {
     return (
       <div className={ `ui container ${css.resultsContainer}` }>
         <div className='five column row' >
-          <div className='page-home' ref='elementsContainer'>
+          <div className='page-home' ref={ (c) => { this.elementsContainer = c; } }>
             {this.state.visibleObjects.map((obj) => {
               if (obj.type === 'class') {
                 if (macros.isMobile) {

@@ -5,7 +5,6 @@
 
 import path from 'path';
 import URI from 'urijs';
-import mkdirp from 'mkdirp-promise';
 import fs from 'fs-promise';
 import rollbar from 'rollbar';
 import Amplitude from 'amplitude';
@@ -223,7 +222,7 @@ class Macros extends commonMacros {
   // Log an event to amplitude. Same function signature as the function for the frontend.
   static async logAmplitudeEvent(type, event) {
     if (!Macros.PROD) {
-      return;
+      return undefined;
     }
 
     const data = {
@@ -263,7 +262,6 @@ class Macros extends commonMacros {
         rollbar.init(rollbarKey);
 
         const stack = (new Error()).stack;
-        let message;
 
         // The middle object can include any properties and values, much like amplitude.
         args.stack = stack;
