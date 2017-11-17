@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import React from 'react';
@@ -28,8 +28,8 @@ const cx = classNames.bind(css);
 
 
 // Class Panel that renders the box with the class title, class description, and class sections
-// If mobile, uses MobileSectionPanel to show the sections. 
-// The code for desktop is inside this file. 
+// If mobile, uses MobileSectionPanel to show the sections.
+// The code for desktop is inside this file.
 
 
 class MobileClassPanel extends BaseClassPanel {
@@ -38,7 +38,7 @@ class MobileClassPanel extends BaseClassPanel {
     super(props);
 
     this.state.showMoreThanTitle = false;
-    this.state.showAllClassDetails = false; 
+    this.state.showAllClassDetails = false;
 
     this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
     this.toggleShowAllClassDetails = this.toggleShowAllClassDetails.bind(this);
@@ -49,7 +49,7 @@ class MobileClassPanel extends BaseClassPanel {
     const newTitleValue = !this.state.showMoreThanTitle;
     let newShowAllClassDetails = this.state.showAllClassDetails;
 
-    // If closing the class accordian, reset the showAllClassDetails back to the default. 
+    // If closing the class accordian, reset the showAllClassDetails back to the default.
     let newState = {};
     if (!newTitleValue) {
       newShowAllClassDetails = false;
@@ -116,9 +116,11 @@ class MobileClassPanel extends BaseClassPanel {
               {'View on ' + aClass.host}
             </a>
             <br />
-            Corequisites: {this.getReqsString(false, aClass)}
+            Prerequisites: {this.getReqsString('prereqs', aClass)}
             <br />
-            Prerequisites: {this.getReqsString(true, aClass)}
+            Corequisites: {this.getReqsString('coreqs', aClass)}
+            <br />
+            Prerequisites for: {this.getReqsString('prereqsFor', aClass)}
           </div>
         </span>
         );
@@ -126,7 +128,7 @@ class MobileClassPanel extends BaseClassPanel {
     else {
 
       // Remove everything past 80 characters
-      // and then keep on removing characters until the end of a word is hit. 
+      // and then keep on removing characters until the end of a word is hit.
       let sliceDesc = aClass.desc.slice(0, 80);
       while (!sliceDesc.endsWith(' ')) {
         sliceDesc = sliceDesc.slice(0, sliceDesc.length - 1)
@@ -158,7 +160,7 @@ class MobileClassPanel extends BaseClassPanel {
 
 
 
-    
+
 
 
   }
@@ -204,7 +206,7 @@ class MobileClassPanel extends BaseClassPanel {
               {this.getClassBody()}
             </div>
 
-            {sectionTable} 
+            {sectionTable}
 
             {showMoreSections}
           </span>

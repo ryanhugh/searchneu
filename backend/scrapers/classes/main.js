@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import fs from 'fs-promise';
@@ -19,7 +19,8 @@ import addClassUids from './processors/addClassUids';
 import prereqClassUids from './processors/prereqClassUids';
 import termStartEndDate from './processors/termStartEndDate';
 import simplifyProfList from './processors/simplifyProfList';
-import semesterly from './processors/semesterly'
+import semesterly from './processors/semesterly';
+import addPreRequisiteFor from './processors/addPreRequisiteFor';
 
 // Parsers
 import collegeNamesParser from './parsers/collegeNamesParser';
@@ -207,7 +208,8 @@ class Main {
 
     // Add new processors here.
     simplifyProfList.go(dump);
-
+    addPreRequisiteFor.go(dump);
+    debugger
     // If running with semesterly, save in the semesterly schema
     // If not, save in the searchneu schema
     console.log("semesterly:", semesterlySchema)
