@@ -154,8 +154,25 @@ class BaseClassPanel extends React.Component {
           const event = new CustomEvent(macros.searchEvent, { detail: childBranch.subject + ' ' + childBranch.classId });
 
           //   href={"/" + encodeURIComponent(childBranch.subject + ' ' + childBranch.classId)}
-          const element =  <a
-                              key={Keys.create(childBranch).getHash()}
+
+          // let thethiing ={
+          //   host: aClass.host,
+          //   termId: aClass.termId,
+          //   subject: childBranch.subject,
+          //   classUid: childBranch.classUid,
+          // };
+
+          // let oldthing = Keys.create(childBranch).getHash();
+
+          // if (oldthing !== Keys.create(thethiing).getHash()) {
+          //   debugger
+          // }
+
+
+          let hash = childBranch.subject + ' ' + childBranch.classId;
+          console.log(hash)
+          let element =  <a
+                              key={hash}
                               onClick={(e) => {window.dispatchEvent(event); e.preventDefault(); return false;}}
                               className={css.reqClassLink}
                             >
