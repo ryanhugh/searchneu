@@ -22,7 +22,6 @@ const cx = classNames.bind(css);
 
 // MobileSectionPanel page component
 class MobileSectionPanel extends React.Component {
-
   // This is different than the one in ClassPanel.js because this can show and hide the waitlist based on a per-section basis
   // and ClassPanel.js is show it for all sections or none.
   shouldShowWaitlist() {
@@ -85,7 +84,7 @@ class MobileSectionPanel extends React.Component {
               {examDayMoment.format('MMMM Do @ ') + examTimeMoment.format('h:mm a')}
             </td>
           </tr>
-      );
+        );
       }
     }
 
@@ -162,8 +161,6 @@ class MobileSectionPanel extends React.Component {
       </div>
     );
   }
-
-
 }
 
 

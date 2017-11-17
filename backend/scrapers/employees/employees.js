@@ -50,7 +50,6 @@ const request = new Request('Employees');
 // "primarydepartment": "DMSB Co-op"
 
 class Employee {
-
   constructor() {
     this.people = [];
 

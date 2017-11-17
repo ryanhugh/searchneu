@@ -11,7 +11,6 @@ import Request from './request';
 const request = new Request('LinkSpider');
 
 class LinkSpider {
-
   async main(inputUrls, depth = 1) {
     if (!inputUrls || inputUrls.length === 0) {
       console.error('Link Spider needs a starting url');

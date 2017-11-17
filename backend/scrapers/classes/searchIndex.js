@@ -23,8 +23,6 @@ import Keys from '../../../common/Keys';
 const getSearchIndex = '/getSearchIndex';
 
 class SearchIndex {
-
-
   // Class Lists object is specific to this file, and is created below.
   async createSearchIndexFromClassLists(termData, outputExtention = '', includeDesc = true) {
     const keys = Keys.create(termData);

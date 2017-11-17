@@ -34,7 +34,7 @@ if (macros.PROD && !window.localStorage.noTrack) {
     i.GoogleAnalyticsObject = r; i[r] = i[r] || function () {
       (i[r].q = i[r].q || []).push(arguments);
     }, i[r].l = 1 * new Date(); a = s.createElement(o),
-  m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m);
+    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m);
   }(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga'));
 
   // Don't log a page view here. A page view will be logged in Home.js when it loads. This will contain info about the search query.
@@ -115,19 +115,23 @@ function createApp() {
 if (process.env.NODE_ENV === 'production') {
   ReactDOM.render(createApp(), root);
 } else {
-  ReactDOM.render((
-    <AppContainer>
-      { createApp() }
-    </AppContainer>
-  ), root);
+  ReactDOM.render(
+    (
+      <AppContainer>
+        { createApp() }
+      </AppContainer>
+    ), root,
+  );
 
   if (module.hot) {
     module.hot.accept(() => {
-      ReactDOM.render((
-        <AppContainer>
-          { createApp() }
-        </AppContainer>
-      ), root);
+      ReactDOM.render(
+        (
+          <AppContainer>
+            { createApp() }
+          </AppContainer>
+        ), root,
+      );
     });
   }
 }

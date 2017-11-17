@@ -14,7 +14,6 @@ import Section from '../../../../common/classModels/Section';
 const semesterlyCourseCodeRegex = /[A-Z]{0,4} [0-9]{4}/;
 
 class Semesterly {
-
   main(dump) {
     const result = [];
     let meetings = [];

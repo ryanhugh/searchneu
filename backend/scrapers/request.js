@@ -97,7 +97,6 @@ const RETRY_DELAY_DELTA = 150;
 const LAUNCH_TIME = moment();
 
 class Request {
-
   constructor() {
     this.openRequests = 0;
 
@@ -293,7 +292,7 @@ class Request {
     } catch (e) {
       error = e;
     }
-    this.openRequests --;
+    this.openRequests--;
 
 
     if (this.openRequests === 0) {
@@ -454,7 +453,6 @@ class Request {
       });
     });
   }
-
 }
 
 
@@ -462,7 +460,6 @@ const instance = new Request();
 
 
 class RequestInput {
-
   constructor(cacheName, cacheDefault = true) {
     this.cacheName = cacheName;
     this.cacheDefault = cacheDefault;

@@ -30,8 +30,6 @@ const cx = classNames.bind(css);
 
 // DesktopClassPanel page component
 class DesktopClassPanel extends BaseClassPanel {
-
-
   componentDidUpdate() {
     macros.debounceTooltipRebuild();
   }
@@ -122,7 +120,7 @@ class DesktopClassPanel extends BaseClassPanel {
               <th>
                 <div className={ css.inlineBlock } data-tip='Course Reference Number'>
                     CRN
-                  </div>
+                </div>
               </th>
               <th> Professors </th>
               <th> Weekdays </th>
@@ -136,7 +134,8 @@ class DesktopClassPanel extends BaseClassPanel {
                 className={ cx({
                   displayNone: !showWaitList,
                 }) }
-              > Waitlist seats </th>
+              > Waitlist seats
+              </th>
               <th> Link </th>
             </tr>
           </thead>
@@ -159,14 +158,13 @@ class DesktopClassPanel extends BaseClassPanel {
                   length = 6;
                 }
 
-                tdElements.push(
-                  <td key='onlineWideCell' colSpan={ length } className={ css.wideOnlineCell }>
-                    <span className={ css.onlineDivLineContainer }>
-                      <span className={ `${css.onlineDivLine} ${css.onlineLeftLine}` } />
-                      <span className={ css.onlineText }>Online Class</span>
-                      <span className={ css.onlineDivLine } />
-                    </span>
-                  </td>);
+                tdElements.push(<td key='onlineWideCell' colSpan={ length } className={ css.wideOnlineCell }>
+                  <span className={ css.onlineDivLineContainer }>
+                    <span className={ `${css.onlineDivLine} ${css.onlineLeftLine}` } />
+                    <span className={ css.onlineText }>Online Class</span>
+                    <span className={ css.onlineDivLine } />
+                  </span>
+                                </td>);
 
               // Have individual cells for the different columns
               } else {

@@ -8,7 +8,6 @@ import URI from 'urijs';
 import request from './request';
 
 class Search {
-
   constructor() {
     // Mapping of search term to an array of the results that have been loaded so far.
     this.cache = {};
@@ -80,8 +79,6 @@ class Search {
 
     return this.cache[termId + query];
   }
-
-
 }
 
 export default new Search();

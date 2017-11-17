@@ -19,7 +19,6 @@ import css from './SplashPage.css';
 import macros from '../macros';
 
 class SplashPage extends React.Component {
-
   render() {
     // Events that fire when the buttons are clicked.
     const searchForCS2510Event = new CustomEvent(macros.searchEvent, { detail: 'CS 2510' });
@@ -95,7 +94,6 @@ class SplashPage extends React.Component {
       </span>
     );
   }
-
 }
 
 // this was for mobile

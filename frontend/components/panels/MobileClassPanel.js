@@ -28,7 +28,6 @@ const cx = classNames.bind(css);
 
 
 class MobileClassPanel extends BaseClassPanel {
-
   constructor(props) {
     super(props);
 
@@ -119,14 +118,14 @@ class MobileClassPanel extends BaseClassPanel {
     }
 
 
-      // Remove everything past 80 characters
-      // and then keep on removing characters until the end of a word is hit.
+    // Remove everything past 80 characters
+    // and then keep on removing characters until the end of a word is hit.
     let sliceDesc = aClass.desc.slice(0, 80);
     while (!sliceDesc.endsWith(' ')) {
       sliceDesc = sliceDesc.slice(0, sliceDesc.length - 1);
     }
 
-      // Also remove any symbols.
+    // Also remove any symbols.
     while (!sliceDesc[sliceDesc.length - 1].match(/[a-z]/i)) {
       sliceDesc = sliceDesc.slice(0, sliceDesc.length - 1);
     }
@@ -146,7 +145,7 @@ class MobileClassPanel extends BaseClassPanel {
             tabIndex={ 0 }
           >
               Show More...
-            </a>
+          </a>
 
         </div>
 
@@ -209,7 +208,6 @@ class MobileClassPanel extends BaseClassPanel {
       </div>
     );
   }
-
 }
 
 // Number of sections to show by default.

@@ -14,8 +14,6 @@ import BaseProcessor from './baseProcessor';
 
 
 class FindMissingLabs extends BaseProcessor.BaseProcessor {
-
-
   go(query, callback) {
     this.getClassHash(query, (err, keyToRow) => {
       for (const key of Object.keys(keyToRow)) {

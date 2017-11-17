@@ -7,8 +7,6 @@ import macros from '../../../macros';
 import Keys from '../../../../common/Keys';
 
 class BaseProcessor {
-
-
   groupSectionsByClass(sections) {
     const classHash = {};
 
@@ -75,7 +73,6 @@ class BaseProcessor {
 
     return keyToRows;
   }
-
 }
 
 

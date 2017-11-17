@@ -22,7 +22,6 @@ const request = new Request('psylink');
 
 
 class Psylink {
-
   constructor() {
     this.lastData = {};
   }
@@ -55,7 +54,8 @@ class Psylink {
       simple: false,
       headers: {
         Cookie: `PHPSESSID=${theCookie}`,
-      } });
+      },
+    });
 
     // console.log(resp2.body)
 
@@ -125,18 +125,16 @@ class Psylink {
   //   }
   //   return;
 
-    // Run once to get initial state
-    // this.onInterval(false);
+  // Run once to get initial state
+  // this.onInterval(false);
 
-    // // 5 Min in ms
-    // setInterval(this.onInterval.bind(this), 300000);
+  // // 5 Min in ms
+  // setInterval(this.onInterval.bind(this), 300000);
   // }
 
   main() {
     return this.login();
   }
-
-
 }
 
 
