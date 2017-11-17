@@ -85,17 +85,16 @@ export default {
   module: {
     loaders: [
 
-    // Enable this once everything passes the linting.
-    // {
-    //    enforce: "pre",
-    //     test: /\.js$/,
-    //     exclude: /node_modules/,
-    //     use: [
-    //       "babel-loader",
-    //       "eslint-loader",
-    //     ],
-    //   },
-
+    // Ensure that everything passes eslint. 
+    {
+       enforce: "pre",
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          "babel-loader",
+          "eslint-loader",
+        ],
+      },
       {
         test: /\.js$/,
         loader: 'babel-loader',
