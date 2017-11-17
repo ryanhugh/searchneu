@@ -56,13 +56,12 @@ const instance = new Main();
 
 async function localRun() {
   if (require.main === module) {
-
     // Change it to .main(true) to run the Semester.ly code
     const semesterlyData = await instance.main(false);
 
     if (semesterlyData) {
       await fs.writeFile('semesterly_courses.json', JSON.stringify(semesterlyData));
-      console.log('Saved output for semesterly!')
+      console.log('Saved output for semesterly!');
     }
   }
 }

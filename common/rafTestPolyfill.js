@@ -11,7 +11,6 @@ if (process.env.NODE_ENV === 'test') {
   };
 
   window.ga = function ga() {
-  	
-  }
 
+  };
 }
