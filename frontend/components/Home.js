@@ -32,8 +32,8 @@ class Home extends React.Component {
 
     let selectedTerm;
     // Check localStorage for the most recently selected term. Keeping this in localStorage makes it sticky across page loads/
-    if (localStorage.selectedTerm) {
-      selectedTerm = localStorage.selectedTerm;
+    if (window.localStorage.selectedTerm) {
+      selectedTerm = window.localStorage.selectedTerm;
     } else {
       // Defalt to Spring 2018 (need to make this dynamic in the future...)
       selectedTerm = '201830';
