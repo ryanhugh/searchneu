@@ -2,8 +2,6 @@
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
  */
-
-import fs from 'fs-promise';
 import _ from 'lodash';
 import URI from 'urijs';
 
@@ -209,7 +207,7 @@ class Main {
     // Add new processors here.
     simplifyProfList.go(dump);
     addPreRequisiteFor.go(dump);
-    debugger;
+
     // If running with semesterly, save in the semesterly schema
     // If not, save in the searchneu schema
     console.log('semesterly:', semesterlySchema);

@@ -5,11 +5,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import CSSModules from 'react-css-modules';
 
 import RequisiteBranch from '../../../common/classModels/RequisiteBranch';
 import css from './BaseClassPanel.css';
-import Keys from '../../../common/Keys';
 import macros from '../macros';
 
 
@@ -23,24 +21,12 @@ class BaseClassPanel extends React.Component {
     this.onShowMoreClick = this.onShowMoreClick.bind(this);
   }
 
-  getInitialRenderedSectionState() {
-    let sectionsShownByDefault;
-    if (this.constructor.sectionsShownByDefault) {
-      sectionsShownByDefault = this.constructor.sectionsShownByDefault;
-    } else {
-      sectionsShownByDefault = macros.sectionsShownByDefault;
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.renderedSections.length !== nextState.renderedSections.length) {
+      return true;
     }
 
-    // If this is desktop and there is exactly one section hidden by the button, just show them all.
-    if (!macros.isMobile && this.props.aClass.sections.length == sectionsShownByDefault + 1) {
-      sectionsShownByDefault++;
-    }
-
-    // Show 3 sections by default
-    return {
-      renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
-      unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
-    };
+    return false;
   }
 
   onShowMoreClick() {
@@ -60,26 +46,37 @@ class BaseClassPanel extends React.Component {
     });
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.renderedSections.length !== nextState.renderedSections.length) {
-      return true;
+  getInitialRenderedSectionState() {
+    let sectionsShownByDefault;
+    if (this.constructor.sectionsShownByDefault) {
+      sectionsShownByDefault = this.constructor.sectionsShownByDefault;
+    } else {
+      sectionsShownByDefault = macros.sectionsShownByDefault;
     }
 
-    return false;
+    // If this is desktop and there is exactly one section hidden by the button, just show them all.
+    if (!macros.isMobile && this.props.aClass.sections.length === sectionsShownByDefault + 1) {
+      sectionsShownByDefault++;
+    }
+
+    // Show 3 sections by default
+    return {
+      renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
+      unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
+    };
   }
 
   // Render the Show More.. Button
   // This is the same on both desktop and mobile.
   getShowMoreButton() {
-  	if (this.state.unrenderedSections.length > 0) {
-    return (
-      <div className={ css.showMoreButton } onClick={ this.onShowMoreClick }>
+    if (this.state.unrenderedSections.length > 0) {
+      return (
+        <div className={ css.showMoreButton } role='button' tabIndex={ 0 } onClick={ this.onShowMoreClick }>
           Show More...
         </div>
-    );
-  }
-
-    	return null;
+      );
+    }
+    return null;
   }
 
   getCreditsString() {
@@ -96,52 +93,49 @@ class BaseClassPanel extends React.Component {
   // It is called with a class
   // and can return either a string or a react element.
   getReqsString(parsingPrereqs = 'prereqs', aClass = this.props.aClass) {
-  	const retVal = [];
+    const retVal = [];
 
-  	// Keep track of which subject+classId combonations have been used so far.
-  	// If you encounter the same subject+classId combo in the same loop, skip the second one.
-  	// This is because there is no need to show (eg. CS 2500 and CS 2500 (hon)) in the same group
-  	// because only the subject and the classId are going to be shown.
-  	const processedSubjectClassIds = {};
+    // Keep track of which subject+classId combonations have been used so far.
+    // If you encounter the same subject+classId combo in the same loop, skip the second one.
+    // This is because there is no need to show (eg. CS 2500 and CS 2500 (hon)) in the same group
+    // because only the subject and the classId are going to be shown.
+    const processedSubjectClassIds = {};
 
-  	let childNodes;
+    let childNodes;
 
-  	if (parsingPrereqs === 'prereqs') {
-  	  childNodes = aClass.prereqs;
-  	} else if (parsingPrereqs === 'coreqs') {
-  	  childNodes = aClass.coreqs;
-  	} else if (parsingPrereqs === 'prereqsFor') {
-    console.log(aClass.optPrereqsFor);
-      // childNodes = aClass.prereqsFor;
-    if (!aClass.optPrereqsFor) { return null; }
-    childNodes = {
-      type: 'and',
-      values: aClass.optPrereqsFor,
-    };
-  }
-    console.log(childNodes);
+    if (parsingPrereqs === 'prereqs') {
+      childNodes = aClass.prereqs;
+    } else if (parsingPrereqs === 'coreqs') {
+      childNodes = aClass.coreqs;
+    } else if (parsingPrereqs === 'prereqsFor') {
+      if (!aClass.optPrereqsFor) { return null; }
+      childNodes = {
+        type: 'and',
+        values: aClass.optPrereqsFor,
+      };
+    }
 
-  	childNodes.values.forEach((childBranch) => {
-  	  // If the childBranch is a class
-  		if (!(childBranch instanceof RequisiteBranch)) {
-  			if (childBranch.isString) {
-  				// Skip if already seen
-  				if (processedSubjectClassIds[childBranch.desc]) {
-  					return;
-  				}
-  				processedSubjectClassIds[childBranch.desc] = true;
+    childNodes.values.forEach((childBranch) => {
+      // If the childBranch is a class
+      if (!(childBranch instanceof RequisiteBranch)) {
+        if (childBranch.isString) {
+          // Skip if already seen
+          if (processedSubjectClassIds[childBranch.desc]) {
+            return;
+          }
+          processedSubjectClassIds[childBranch.desc] = true;
 
 
-  				retVal.push(childBranch.desc);
-  			}  			else {
-  				// Skip if already seen
-  				if (processedSubjectClassIds[childBranch.subject + childBranch.classId]) {
-  					return;
-  				}
-  				processedSubjectClassIds[childBranch.subject + childBranch.classId] = true;
+          retVal.push(childBranch.desc);
+        } else {
+            // Skip if already seen
+          if (processedSubjectClassIds[childBranch.subject + childBranch.classId]) {
+            return;
+          }
+          processedSubjectClassIds[childBranch.subject + childBranch.classId] = true;
 
-  				// Create the React element and add it to retVal
-    const event = new CustomEvent(macros.searchEvent, { detail: `${childBranch.subject} ${childBranch.classId}` });
+          // Create the React element and add it to retVal
+          const event = new CustomEvent(macros.searchEvent, { detail: `${childBranch.subject} ${childBranch.classId}` });
 
           //   href={"/" + encodeURIComponent(childBranch.subject + ' ' + childBranch.classId)}
 
@@ -159,49 +153,51 @@ class BaseClassPanel extends React.Component {
           // }
 
 
-    const hash = `${childBranch.subject} ${childBranch.classId}`;
-    console.log(hash);
-    const element = (<a
-      key={ hash }
-      onClick={ (e) => { window.dispatchEvent(event); e.preventDefault(); return false; } }
-      className={ css.reqClassLink }
-    >
-      {`${childBranch.subject} ${childBranch.classId}`}
-    </a>);
+          const hash = `${childBranch.subject} ${childBranch.classId}`;
 
-    retVal.push(element);
-  			}
-  		}
+          const element = (
+            <a
+              key={ hash }
+              role='link'
+              tabIndex={ 0 }
+              onClick={ (e) => { window.dispatchEvent(event); e.preventDefault(); return false; } }
+              className={ css.reqClassLink }
+            >
+              {`${childBranch.subject} ${childBranch.classId}`}
+            </a>);
 
-  		// If the child branch is a requisite branch
-  		else if (parsingPrereqs === 'prereqs') {
-    		//Ghetto fix until this tree is simplified
-    		if (_.uniq(childBranch.prereqs.values).length === 1) {
-    			retVal.push(this.getReqsString('prereqs', childBranch));
-    		}    		else {
-    			retVal.push(['(', this.getReqsString('prereqs', childBranch), ')']);
-    		}
-  		}  		else {
-  		  macros.error('Branch found and parsing coreqs?', childBranch);
-  		}
-  	});
+          retVal.push(element);
+        }
+      }
+
+      // If the child branch is a requisite branch
+      else if (parsingPrereqs === 'prereqs') {
+        //Ghetto fix until this tree is simplified
+        if (_.uniq(childBranch.prereqs.values).length === 1) {
+          retVal.push(this.getReqsString('prereqs', childBranch));
+        } else {
+          retVal.push(['(', this.getReqsString('prereqs', childBranch), ')']);
+        }
+      } else {
+        macros.error('Branch found and parsing coreqs?', childBranch);
+      }
+    });
 
 
-  	// Now insert the type divider ("and" vs "or") between the elements.
-  	// Can't use the join in case the objects are react elements
-  	for (let i = retVal.length - 1; i >= 1; i--) {
-  		retVal.splice(i, 0, ` ${aClass.prereqs.type} `);
-  	}
+    // Now insert the type divider ("and" vs "or") between the elements.
+    // Can't use the join in case the objects are react elements
+    for (let i = retVal.length - 1; i >= 1; i--) {
+      retVal.splice(i, 0, ` ${aClass.prereqs.type} `);
+    }
 
-  	if (retVal.length === 0) {
-  		return 'None';
-  	}
+    if (retVal.length === 0) {
+      return 'None';
+    }
 
-  		// retVal = retVal.join(' ' + this.prereqs.type + ' ')
+      // retVal = retVal.join(' ' + this.prereqs.type + ' ')
 
-  		return retVal;
+    return retVal;
   }
-
 }
 
 

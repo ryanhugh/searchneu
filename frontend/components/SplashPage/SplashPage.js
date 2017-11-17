@@ -5,7 +5,7 @@
 
 import React from 'react';
 import CSSModules from 'react-css-modules';
-import classNames from 'classnames/bind';
+import { Grid, Button } from 'semantic-ui-react';
 
 import cs2500Mobile from './cs2500 mobile.png';
 import cs2500Resultsmobile from './cs2500 results mobile.png';
@@ -15,14 +15,8 @@ import lernerMobile from './lerner mobile.png';
 import oodMobile1 from './ood mobile 1.png';
 import oodMobile2 from './ood mobile 2.png';
 
-import { Grid, Segment, Divider } from 'semantic-ui-react';
-import { Button } from 'semantic-ui-react';
-
 import css from './SplashPage.css';
 import macros from '../macros';
-
-
-const cx = classNames.bind(css);
 
 class SplashPage extends React.Component {
 
@@ -43,7 +37,7 @@ class SplashPage extends React.Component {
           {/* These widths must add up to 16.*/}
           <Grid.Column width={ 7 } className={ css.firstRowText }>
             <div className={ css.firstRowTextInner }>
-              <h1>Instantly search through all of NEU's classes.</h1>
+              <h1>Instantly search through all of NEU&apos;s classes.</h1>
               <div className={ css.allTextDesc }>Search through classes, professors, sections, and subjects at Northeastern. Going to add more stuff (like TRACE surveys) soon!</div>
               <Button onClick={ () => { window.dispatchEvent(searchForCS2510Event); } } primary className={ css.redButton }>Search for CS 2510</Button>
               <div className={ css.firstRowMobilePadding } />
@@ -52,7 +46,7 @@ class SplashPage extends React.Component {
           <Grid.Column width={ 9 } className={ css.rightSideFirstRow }>
             <div className={ css.firstRowImgContainer }>
 
-              <img className={ css.cs2510Desktop } src={ cs2510Desktop } />
+              <img className={ css.cs2510Desktop } src={ cs2510Desktop } alt='Example of a result of searching for CS2510' />
               <div className={ css.rotatedDiv } />
             </div>
           </Grid.Column>
@@ -62,8 +56,8 @@ class SplashPage extends React.Component {
         {/* Second Row. */}
         <Grid stackable reversed='mobile' className={ css.secondRow }>
           <Grid.Column width={ 9 } className={ css.secondRowImgContainer }>
-            <img className={ css.engw1111Desktop } src={ engw1111Desktop } />
-            <img className={ css.lernerMobile } src={ lernerMobile } />
+            <img className={ css.engw1111Desktop } src={ engw1111Desktop } alt='Expanded view of a result of searching for ENGW1111' />
+            <img className={ css.lernerMobile } src={ lernerMobile } alt='Mobile view example' />
             <div className={ css.rotatedDivSecondRow } />
           </Grid.Column>
           <Grid.Column width={ 7 } className={ css.secondRowText }>
@@ -87,12 +81,12 @@ class SplashPage extends React.Component {
           <Grid.Column width={ 9 } className={ css.thirdRowImgContainer }>
             <div className={ css.thirdRowImgContainerInner }>
               <div>
-                <img className={ css.oodMobile1 } src={ oodMobile1 } />
-                <img className={ css.oodMobile2 } src={ oodMobile2 } />
+                <img className={ css.oodMobile1 } src={ oodMobile1 } alt='More mobile examples' />
+                <img className={ css.oodMobile2 } src={ oodMobile2 } alt='More mobile examples' />
               </div>
               <div>
-                <img className={ css.cs2500Mobile } src={ cs2500Mobile } />
-                <img className={ css.cs2500Resultsmobile } src={ cs2500Resultsmobile } />
+                <img className={ css.cs2500Mobile } src={ cs2500Mobile } alt='More mobile examples' />
+                <img className={ css.cs2500Resultsmobile } src={ cs2500Resultsmobile } alt='More mobile examples' />
               </div>
               <div className={ css.rotatedDivThirdRow } />
             </div>

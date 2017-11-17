@@ -3,19 +3,14 @@
  * See the license file in the root folder for details.
  */
 
+import request from 'request';
 import macros from './macros';
 // import Request from './scrapers/request';
-import request from 'request';
 
 // const request = new Request('notifyer');
 
 
 class Notifyer {
-
-  constructor() {
-
-  }
-
 
   // Webhook to respond to facebook messages.
   async sendFBNotification(sender, text) {
@@ -25,20 +20,20 @@ class Notifyer {
     const token = await macros.getEnvVariable('fbToken');
 
     request.post({
-  	    url: 'https://graph.facebook.com/v2.6/me/messages',
-  	   // url: 'http://localhost/v2.6/me/messages',
-  	    qs: { access_token:token },
-  	    method: 'POST',
-  		json: {
-  		    recipient: { id:sender },
-  			message: messageData,
-  		},
-  	}, (error, response, body) => {
-  		if (error) {
-  		    macros.log('Error sending messages: ', error);
-  		} else if (response.body.error) {
-  		    macros.log('Error: ', response.body.error);
-  	    }
+      url: 'https://graph.facebook.com/v2.6/me/messages',
+      // url: 'http://localhost/v2.6/me/messages',
+      qs: { access_token:token },
+      method: 'POST',
+      json: {
+        recipient: { id:sender },
+        message: messageData,
+      },
+    }, (error, response) => {
+      if (error) {
+        macros.log('Error sending messages: ', error);
+      } else if (response.body.error) {
+        macros.log('Error: ', response.body.error);
+      }
     });
   }
 

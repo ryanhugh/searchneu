@@ -62,7 +62,7 @@ class Cache {
 
   async loadFile(filePath) {
     if (this.dataPromiseMap[filePath]) {
-      return;
+      return undefined;
     }
 
     await mkdirp(path.dirname(filePath));
@@ -97,7 +97,7 @@ class Cache {
 
   async ensureLoaded(filePath) {
     if (this.dataPromiseMap[filePath]) {
-      return;
+      return undefined;
     }
 
     const promise = this.loadFile(filePath);
