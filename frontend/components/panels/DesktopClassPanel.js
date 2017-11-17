@@ -158,7 +158,7 @@ class DesktopClassPanel extends BaseClassPanel {
                   length = 6;
                 }
 
-                const onlineElement = 
+                const onlineElement =
                 (
                   <td key='onlineWideCell' colSpan={ length } className={ css.wideOnlineCell }>
                     <span className={ css.onlineDivLineContainer }>

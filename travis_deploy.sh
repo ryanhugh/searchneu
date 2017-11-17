@@ -9,6 +9,13 @@ set -v
 
 npm run test
 
+# Make sure everything passes linting
+./node_modules/eslint/bin/eslint.js backend/ frontend/ common/
+
+# This step runs regardless of branch, to ensure that any changes to the code did not break the build. 
+echo 'Building the code for production.'
+npm run build
+
 # Pull requests and commits to other branches shouldn't try to deploy
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo $TRAVIS_PULL_REQUEST
@@ -30,14 +37,6 @@ git --version
 echo
 bash --version
 echo
-
-# Use this command to get the stuff in prod into the public folder. 
-# time git clone -b gh-pages --single-branch git@github.com:ryanhugh/searchneu.git public
-# rm -rf public/.git
-
-# This step runs regardless of branch, to ensure that any changes to the code did not break the build. 
-echo 'Building the code for production.'
-npm run build
 
 # If this is a cron job, run the scrapers.
 # We are going to combile the backend to ES5 anyway, so might as well run the ES5 to do the scraping too.

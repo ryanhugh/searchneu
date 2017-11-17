@@ -83,7 +83,7 @@ yarn build_backend # build only the backend
 
 ### Linting
 
-Some of the code follows the ESLint config. Right now it is not required that code pass the linting but it may be required in the future. 
+Some of the code follows the ESLint config. All the code in the codebase should pass these linting checks. 
 
 ```bash
 yarn lint
