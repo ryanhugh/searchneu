@@ -19,25 +19,24 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
 
   go(termDump) {
     this.termDump = termDump;
-    for (let aClass of this.termDump.classes) {
-      console.log(`prereqfor: ${aClass}`);
-      console.log(`prereqfor: ${aClass.prereqs}`);
-      if (aClass.prereqs) {
-        aClass = this.parsePreReqs(aClass, aClass.prereqs);
-      }
-    }
 
     for (const aClass of termDump.classes) {
       const key = Keys.create(aClass).getHash();
       this.classMap[key] = aClass;
     }
 
-    return termDump;
+    for (let aClass of this.termDump.classes) {
+      if (aClass.prereqs) {
+        aClass = this.parsePreReqs(aClass, aClass.prereqs);
+      }
+    }
   }
 
   // Recursively traverse the prerequsite structure
   parsePreReqs(mainClass, node, isRequired) {
-
+    if (node && node.missing) {
+      return;
+    }
     if (this.isClass(node)) {
       const find = Keys.create({
         host: mainClass.host,
@@ -46,9 +45,12 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
         classUid: node.classUid,
       }).getHash();
 
-      const nodeRef = this.termDump[find];
+      console.log(nodeRef);
+      console.log(find);
 
-      if (nodeRef.prereqsFor === undefined) {
+      const nodeRef = this.classMap[find];
+
+      if (nodeRef.optPrereqsFor === undefined) {
         nodeRef.optPrereqsFor = [];
       } else {
         nodeRef.optPrereqsFor.push({
@@ -56,6 +58,7 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
           classId: mainClass.classId,
         });
       }
+      debugger
     } else {
       const classType = node.type;
 
@@ -72,40 +75,7 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
   // Prerequisite -> Boolean
   // Checks if a prerequisite is a class or not
   isClass(prereq) {
-    if (!prereq) {
-      debugger
-    }
-    Object.prototype.hasOwnProperty.call(prereq, 'subject');
-  }
-
-  // Append mainClass to the prereqsFor array of prereqClass
-  parseClass(mainClass, prereqClass, type) {
-    const find = Keys.create({
-      host: mainClass.host,
-      termId: mainClass.termId,
-      subject: prereqClass.subject,
-      classUid: prereqClass.classUid,
-    }).getHash();
-
-    let found = {};
-    for (const aClass of this.termDump.classes) {
-      if (Keys.create(aClass).getHash() === find) {
-        found = aClass;
-        break;
-      }
-    }
-
-    if (type === 'and') {
-      if (found.prereqsFor === undefined) {
-        found.prereqsFor = [];
-      }
-      found.prereqsFor.push(mainClass);
-    } else {
-      if (found.optPrereqsFor === undefined) {
-        found.optPrereqsFor = [];
-      }
-      found.optPrereqsFor.push(mainClass);
-    }
+    return Object.prototype.hasOwnProperty.call(prereq, 'subject');
   }
 }
 
