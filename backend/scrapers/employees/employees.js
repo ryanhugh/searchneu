@@ -190,7 +190,7 @@ class Employee {
       name = name.replace(/, jr.?,/gi, ',');
     }
 
-    name = _.trim(name, ',')
+    name = _.trim(name, ',');
 
     if (macros.occurrences(name, ',') !== 1) {
       macros.log('Name has != 1 commas', name);
