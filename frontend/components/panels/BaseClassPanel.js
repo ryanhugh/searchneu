@@ -116,9 +116,16 @@ class BaseClassPanel extends React.Component {
   	} else if (parsingPrereqs === 'coreqs') {
   	  childNodes = aClass.coreqs;
   	} else if (parsingPrereqs === 'prereqsFor') {
+      console.log(aClass.optPrereqsFor);
       // childNodes = aClass.prereqsFor;
-      childNodes = aClass.optPrereqsFor;
+      if (!aClass.optPrereqsFor)
+        return null;
+      childNodes = {
+        type: 'and',
+        values: aClass.optPrereqsFor,
+      };
     }
+    console.log(childNodes)
 
   	childNodes.values.forEach(function (childBranch) {
 
