@@ -1,15 +1,13 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
- 
+
 import URI from 'urijs';
 import macros from '../../../macros';
 import BaseParser from './baseParser';
 
 class EllucianBaseParser extends BaseParser.BaseParser {
-
-
   constructor() {
     super();
     this.requiredInBody = ['Ellucian', '<LINK REL="stylesheet" HREF="/css/web_defaultapp.css" TYPE="text/css">'];
@@ -196,7 +194,6 @@ class EllucianBaseParser extends BaseParser.BaseParser {
     macros.error('Given url does not contain a split from', url);
     return null;
   }
-
 }
 
 
