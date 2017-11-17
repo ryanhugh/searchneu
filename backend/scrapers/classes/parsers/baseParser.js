@@ -9,7 +9,6 @@ import domutils from 'domutils';
 import macros from '../../../macros';
 
 class BaseParser {
-
   supportsPage() {
     macros.error('Base parser supports page was called?');
     return false;
@@ -442,7 +441,6 @@ class BaseParser {
     }
     return 's';
   }
-
 }
 
 

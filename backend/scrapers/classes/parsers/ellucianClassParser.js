@@ -22,8 +22,6 @@ const request = new Request('EllucianClassParser');
 
 
 class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
-
-
   supportsPage(url) {
     return url.indexOf('bwckctlg.p_disp_listcrse') > -1;
   }
@@ -425,7 +423,6 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=PSYC&crse_in=1101&schd_in=LEC');
     console.log(JSON.stringify(output[0].deps, null, 4));
   }
-
 }
 
 

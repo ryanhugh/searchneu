@@ -3,20 +3,20 @@
  * See the license file in the root folder for details.
  */
 
- // The point of this file is to get the name of a college from the hostname of their domain
- // Eg neu.edu -> Northeastern University
- // Couple different ways to do this
- // 1. There is a data dump for 7000 Universities created in 2013 that has many colleges in it.
- //     This was found here https://inventory.data.gov/dataset/032e19b4-5a90-41dc-83ff-6e4cd234f565/resource/38625c3d-5388-4c16-a30f-d105432553a4
- //     and is rehosted here: https://github.com/ryanhugh/coursepro/blob/master/docs/universities%20in%202013.csv
- //     This file, however, sometimes lists different colleges in the same University on the spreadsheet. Probably want manually investigate if there is > 1 row that lists a given domain
- //     Might be able to find the minimum overlap in the college name
- // 2. Hit whois. This has been suprisingly unreliable over the last couple years. Sometimes the whois server switches, etc.
- // 3. Hit the website and inspect the https certificate.
- // 4. https://github.com/leereilly/swot
- // 5. https://nc.me/faq (click the button that shows list of colleges)
- // 5. Hit the website and find the <title> in the html. This is the least reliable of all of them. (Look in git history for a function that did this; it has since been removed. )
- // Once have a name for a given college, can store forever because it is not going to change.
+// The point of this file is to get the name of a college from the hostname of their domain
+// Eg neu.edu -> Northeastern University
+// Couple different ways to do this
+// 1. There is a data dump for 7000 Universities created in 2013 that has many colleges in it.
+//     This was found here https://inventory.data.gov/dataset/032e19b4-5a90-41dc-83ff-6e4cd234f565/resource/38625c3d-5388-4c16-a30f-d105432553a4
+//     and is rehosted here: https://github.com/ryanhugh/coursepro/blob/master/docs/universities%20in%202013.csv
+//     This file, however, sometimes lists different colleges in the same University on the spreadsheet. Probably want manually investigate if there is > 1 row that lists a given domain
+//     Might be able to find the minimum overlap in the college name
+// 2. Hit whois. This has been suprisingly unreliable over the last couple years. Sometimes the whois server switches, etc.
+// 3. Hit the website and inspect the https certificate.
+// 4. https://github.com/leereilly/swot
+// 5. https://nc.me/faq (click the button that shows list of colleges)
+// 5. Hit the website and find the <title> in the html. This is the least reliable of all of them. (Look in git history for a function that did this; it has since been removed. )
+// Once have a name for a given college, can store forever because it is not going to change.
 
 
 import asyncjs from 'async';
@@ -52,8 +52,6 @@ const staticHosts = [
 
 
 class CollegeNamesParser extends BaseParser.BaseParser {
-
-
   async main(hostname) {
     if (macros.DEV && require.main !== module) {
       const devData = await cache.get('dev_data', this.constructor.name, hostname);
@@ -125,10 +123,11 @@ class CollegeNamesParser extends BaseParser.BaseParser {
 
     return new Promise((resolve, reject) => {
       // try calling apiMethod 3 times, waiting 200 ms between each retry
-      asyncjs.retry({
-        times: 30,
-        interval: 500 + parseInt(Math.random() * 1000, 10),
-      },
+      asyncjs.retry(
+        {
+          times: 30,
+          interval: 500 + parseInt(Math.random() * 1000, 10),
+        },
         (callback) => {
           whois.lookup(host, (err, data) => {
             callback(err, data);
@@ -137,7 +136,7 @@ class CollegeNamesParser extends BaseParser.BaseParser {
         (err, data) => {
           if (err) {
             macros.error('whois error', err, host);
-            reject('whois error', err);
+            reject(err);
             return;
           }
 
@@ -146,7 +145,7 @@ class CollegeNamesParser extends BaseParser.BaseParser {
 
           if (!match) {
             macros.error('whois regex fail', data, host);
-            reject('whois error', err);
+            reject(err);
             return;
           }
 
@@ -158,12 +157,13 @@ class CollegeNamesParser extends BaseParser.BaseParser {
 
           if (name.length < 2) {
             macros.error(err);
-            reject('whois error', err);
+            reject(err);
             return;
           }
 
           resolve(name);
-        });
+        },
+      );
     });
   }
 
@@ -175,7 +175,6 @@ class CollegeNamesParser extends BaseParser.BaseParser {
 
     return this.hitWhois(host);
   }
-
 }
 
 

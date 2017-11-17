@@ -4,14 +4,13 @@
  */
 
 import request from 'request';
+
 import macros from './macros';
-// import Request from './scrapers/request';
 
 // const request = new Request('notifyer');
 
 
 class Notifyer {
-
   // Webhook to respond to facebook messages.
   async sendFBNotification(sender, text) {
     console.log('Sending a fb message to ', sender, text);
@@ -37,23 +36,21 @@ class Notifyer {
     });
   }
 
+  // TODO
+  // sendEmail() {
 
-  sendEmail() {
-
-  }
+  // }
 
 
-  sendNotification() {
+  // sendNotification() {
 
-  }
+  // }
 
 
   main() {
     this.sendFBNotification('1397905100304615', 'test notification');
   }
-
 }
-
 
 const instance = new Notifyer();
 export default instance;

@@ -22,8 +22,6 @@ const request = new Request('EllucianSectionParser');
 //good thing tho, is that it is easily scrape-able and does not require login to access seats available
 
 class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
-
-
   async main(url) {
     // Possibly load from DEV
     if (macros.DEV && require.main !== module) {
@@ -211,18 +209,18 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
       // <OPTION VALUE="TOR">Toronto, Canada
       // <OPTION VALUE="VTL">Online
 
-      const possibleCampuses = {
+      // const possibleCampuses = {
 
-        // This one is kindof weird. It is used when the class does not occur in a classroom.
-        // For example, Music Lessons, Independant study, Directed Study, Research, etc
-        // Where all the teaching/learning would probably happen just 1:1 somewhere on campus,
-        // but in some cases it could happen remotely too.
-        'no campus, no room needed campus': 'Boston',
-        'burlington campus': 'Burlington',
-        'boston, main campus': 'Boston',
-        'boston campus': 'Boston',
-        'seattle, wa campus': 'Seattle',
-      };
+      //   // This one is kindof weird. It is used when the class does not occur in a classroom.
+      //   // For example, Music Lessons, Independant study, Directed Study, Research, etc
+      //   // Where all the teaching/learning would probably happen just 1:1 somewhere on campus,
+      //   // but in some cases it could happen remotely too.
+      //   'no campus, no room needed campus': 'Boston',
+      //   'burlington campus': 'Burlington',
+      //   'boston, main campus': 'Boston',
+      //   'boston campus': 'Boston',
+      //   'seattle, wa campus': 'Seattle',
+      // };
 
 
       // Grab whether the class is an online class or not
@@ -264,7 +262,6 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
     const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14579');
     console.log(output);
   }
-
 }
 
 
