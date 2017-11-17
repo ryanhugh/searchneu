@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import React from 'react';
@@ -32,7 +32,7 @@ class BaseClassPanel extends React.Component {
       sectionsShownByDefault = macros.sectionsShownByDefault;
     }
 
-    // If this is desktop and there is exactly one section hidden by the button, just show them all. 
+    // If this is desktop and there is exactly one section hidden by the button, just show them all.
     if (!macros.isMobile && this.props.aClass.sections.length == sectionsShownByDefault + 1) {
       sectionsShownByDefault++
     }
@@ -94,98 +94,99 @@ class BaseClassPanel extends React.Component {
       return `${this.props.aClass.minCredits} to ${this.props.aClass.maxCredits} credits`;
     }
   }
-  
-  
+
+
   // The argument wrapper func is optional
-  // If it exists, it is called on when formatting the classes 
+  // If it exists, it is called on when formatting the classes
   // It is called with a class
-  // and can return either a string or a react element. 
-  getReqsString(parsingPrereqs = true, aClass = this.props.aClass) {
+  // and can return either a string or a react element.
+  getReqsString(parsingPrereqs = 'prereqs', aClass = this.props.aClass) {
   	var retVal = [];
-  
+
   	// Keep track of which subject+classId combonations have been used so far.
   	// If you encounter the same subject+classId combo in the same loop, skip the second one.
   	// This is because there is no need to show (eg. CS 2500 and CS 2500 (hon)) in the same group
-  	// because only the subject and the classId are going to be shown. 
+  	// because only the subject and the classId are going to be shown.
   	let processedSubjectClassIds = {}
-  	
+
   	let childNodes;
-  	
-  	if (parsingPrereqs) {
-  	  childNodes = aClass.prereqs
-  	}
-  	else {
-  	  childNodes = aClass.coreqs
-  	}
-  	
-  
+
+  	if (parsingPrereqs === 'prereqs') {
+  	  childNodes = aClass.prereqs;
+  	} else if (parsingPrereqs === 'coreqs') {
+  	  childNodes = aClass.coreqs;
+  	} else if (parsingPrereqs === 'prereqsFor') {
+      // childNodes = aClass.prereqsFor;
+      childNodes = aClass.prereqs;
+    }
+
   	childNodes.values.forEach(function (childBranch) {
-  	  
-  	  // If the childBranch is a class 
+
+  	  // If the childBranch is a class
   		if (!(childBranch instanceof RequisiteBranch)) {
   			if (childBranch.isString) {
-  
+
   				// Skip if already seen
   				if (processedSubjectClassIds[childBranch.desc]) {
   					return;
   				}
   				processedSubjectClassIds[childBranch.desc] = true;
-  
-  
+
+
   				retVal.push(childBranch.desc)
   			}
   			else {
-  
+
   				// Skip if already seen
   				if (processedSubjectClassIds[childBranch.subject + childBranch.classId]) {
   					return;
   				}
   				processedSubjectClassIds[childBranch.subject + childBranch.classId] = true;
-  				
+
   				// Create the React element and add it to retVal
           const event = new CustomEvent(macros.searchEvent, { detail: childBranch.subject + ' ' + childBranch.classId });
 
           //   href={"/" + encodeURIComponent(childBranch.subject + ' ' + childBranch.classId)}
-          const element =  <a 
-                              key={Keys.create(childBranch).getHash()} 
-                              onClick={(e) => {window.dispatchEvent(event); e.preventDefault(); return false;}} 
+          const element =  <a
+                              key={Keys.create(childBranch).getHash()}
+                              onClick={(e) => {window.dispatchEvent(event); e.preventDefault(); return false;}}
                               className={css.reqClassLink}
                             >
                                {childBranch.subject + ' ' + childBranch.classId}
                             </a>
-  
+
 					retVal.push(element)
   			}
   		}
-  		
+
   		// If the child branch is a requisite branch
-  		else if (parsingPrereqs) {
+  		else if (parsingPrereqs === 'prereqs') {
     		//Ghetto fix until this tree is simplified
     		if (_.uniq(childBranch.prereqs.values).length === 1) {
-    			retVal.push(this.getReqsString(parsingPrereqs, childBranch))
+    			retVal.push(this.getReqsString('prereqs', childBranch))
     		}
     		else {
-    			retVal.push(['(', this.getReqsString(parsingPrereqs, childBranch), ')'])
+    			retVal.push(['(', this.getReqsString('prereqs', childBranch), ')'])
     		}
   		}
   		else {
   		  macros.error("Branch found and parsing coreqs?", childBranch)
   		}
   	}.bind(this))
-  
-  
+
+
   	// Now insert the type divider ("and" vs "or") between the elements.
   	// Can't use the join in case the objects are react elements
   	for (var i = retVal.length - 1; i >= 1; i--) {
   		retVal.splice(i, 0, ' ' + aClass.prereqs.type + ' ');
   	}
-  
+
   	if (retVal.length === 0) {
-  		return 'None'
+  		return 'None';
   	}
   	else {
   		// retVal = retVal.join(' ' + this.prereqs.type + ' ')
-  
+
   		return retVal;
   	}
   }
