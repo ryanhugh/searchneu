@@ -1,9 +1,7 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
-
-import fs from 'fs-promise';
 import _ from 'lodash';
 import URI from 'urijs';
 
@@ -19,7 +17,8 @@ import addClassUids from './processors/addClassUids';
 import prereqClassUids from './processors/prereqClassUids';
 import termStartEndDate from './processors/termStartEndDate';
 import simplifyProfList from './processors/simplifyProfList';
-import semesterly from './processors/semesterly'
+import semesterly from './processors/semesterly';
+import addPreRequisiteFor from './processors/addPreRequisiteFor';
 
 // Parsers
 import collegeNamesParser from './parsers/collegeNamesParser';
@@ -32,7 +31,6 @@ import ellucianTermsParser from './parsers/ellucianTermsParser';
 
 
 class Main {
-
   waterfallIdentifyers(rootNode, attrToAdd = {}) {
     const newChildAttr = {};
 
@@ -146,7 +144,7 @@ class Main {
   }
 
 
-  async main(collegeAbbrs, semesterlySchema=false) {
+  async main(collegeAbbrs, semesterlySchema = false) {
     if (!collegeAbbrs) {
       macros.error('Need collegeAbbrs for scraping classes');
       return null;
@@ -207,17 +205,17 @@ class Main {
 
     // Add new processors here.
     simplifyProfList.go(dump);
+    addPreRequisiteFor.go(dump);
 
     // If running with semesterly, save in the semesterly schema
     // If not, save in the searchneu schema
-    console.log("semesterly:", semesterlySchema)
+    console.log('semesterly:', semesterlySchema);
     if (semesterlySchema) {
       return semesterly.main(dump);
     }
-    else {
-      await searchIndex.main(dump);
-      await termDump.main(dump);
-    }
+
+    await searchIndex.main(dump);
+    await termDump.main(dump);
 
 
     if (macros.DEV) {

@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import macros from '../../../macros';
@@ -12,8 +12,6 @@ import BaseProcessor from './baseProcessor';
 // Lookup by classId and there will be 0+ results.
 
 class AddClassUids extends BaseProcessor.BaseProcessor {
-
-
   // http://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript-jquery
   getStringHash(input) {
     let hash = 0;
@@ -30,7 +28,7 @@ class AddClassUids extends BaseProcessor.BaseProcessor {
       hash = ((hash << 5) - hash) + chr; // eslint-disable-line no-bitwise
 
       // Convert to 32bit integer
-      hash |= 0;  // eslint-disable-line no-bitwise
+      hash |= 0; // eslint-disable-line no-bitwise
     }
     return String(Math.abs(hash));
   }

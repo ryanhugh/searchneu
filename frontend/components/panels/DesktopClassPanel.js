@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import React from 'react';
@@ -15,7 +15,7 @@ import macros from '../macros';
 import Keys from '../../../common/Keys';
 import LocationLinks from './LocationLinks';
 import WeekdayBoxes from './WeekdayBoxes';
-import BaseClassPanel from './BaseClassPanel'
+import BaseClassPanel from './BaseClassPanel';
 
 const css = {};
 Object.assign(css, baseCss, desktopCss);
@@ -24,15 +24,13 @@ const cx = classNames.bind(css);
 
 
 // Class Panel that renders the box with the class title, class description, and class sections
-// If mobile, uses MobileSectionPanel to show the sections. 
-// The code for desktop is inside this file. 
+// If mobile, uses MobileSectionPanel to show the sections.
+// The code for desktop is inside this file.
 
 
 // DesktopClassPanel page component
 class DesktopClassPanel extends BaseClassPanel {
-
-
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     macros.debounceTooltipRebuild();
   }
 
@@ -67,7 +65,7 @@ class DesktopClassPanel extends BaseClassPanel {
 
     // Also show the waitlist if any of the sections have less than 10 seats left.
     // The number 10 is just an arbitrary decision and can be changed in the future.
-    const foundSectionWithLessThanTenSeats = false;
+    // const foundSectionWithLessThanTenSeats = false;
 
     for (const section of aClass.sections) {
       if (section.seatsRemaining < 10) {
@@ -78,7 +76,7 @@ class DesktopClassPanel extends BaseClassPanel {
     // If there are plenty of seats left, don't show the waitlist
     return false;
   }
-  
+
   // Create the 4:35 - 5:40 pm string.
   // This was copied from mobile section panel.js
   // TODO: deduplicate
@@ -92,7 +90,7 @@ class DesktopClassPanel extends BaseClassPanel {
         times.push(combinedString);
       }
     });
-    return times.join(', ')
+    return times.join(', ');
   }
 
   render() {
@@ -100,7 +98,6 @@ class DesktopClassPanel extends BaseClassPanel {
     // Render the section table if this class has sections
     let sectionTable = null;
     if (aClass.sections && aClass.sections.length > 0) {
-
       // Add the Exam column headers if there are any sections in this class that has exam listed
       let examColumnHeaders = null;
       if (aClass.sectionsHaveExam()) {
@@ -112,7 +109,7 @@ class DesktopClassPanel extends BaseClassPanel {
       }
 
       // Add the Online sections head if there are any sections that are online
-      const showOnlineColumn = aClass.getHasOnlineSections();
+      // const showOnlineColumn = aClass.getHasOnlineSections();
 
       const showWaitList = this.shouldShowWaitlist();
 
@@ -123,12 +120,12 @@ class DesktopClassPanel extends BaseClassPanel {
               <th>
                 <div className={ css.inlineBlock } data-tip='Course Reference Number'>
                     CRN
-                  </div>
+                </div>
               </th>
               <th> Professors </th>
               <th> Weekdays </th>
               <th> Time </th>
-              
+
               <th> Location </th>
               {examColumnHeaders}
               <th> Seats </th>
@@ -137,7 +134,8 @@ class DesktopClassPanel extends BaseClassPanel {
                 className={ cx({
                   displayNone: !showWaitList,
                 }) }
-              > Waitlist seats </th>
+              > Waitlist seats
+              </th>
               <th> Link </th>
             </tr>
           </thead>
@@ -146,66 +144,59 @@ class DesktopClassPanel extends BaseClassPanel {
               This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
             <tr style={{ display:'none', paddingTop: 0, paddingBottom: '1px' }} />
             {this.state.renderedSections.map((section) => {
-
-
               // Instead of calculating a lot of these individually and putting them together in the return call
               // Append to this array as we go.
               // So the logic can be separated into distinct if statements.
-              let tdElements = [];
+              const tdElements = [];
 
               // If it is online, just put one super wide cell
               if (section.online) {
-
                 // How many cells to span
-                // need to span more cells if final exam columns are being shown. 
+                // need to span more cells if final exam columns are being shown.
                 let length = 3;
                 if (aClass.sectionsHaveExam()) {
-                  length = 6
+                  length = 6;
                 }
 
-                tdElements.push(
-                  <td key="onlineWideCell" colSpan={length} className={css.wideOnlineCell}>
-                    <span className={css.onlineDivLineContainer}>
-                      <span className = {css.onlineDivLine +' ' + css.onlineLeftLine}></span>
-                      <span className= {css.onlineText}>Online Class</span>
-                      <span className = {css.onlineDivLine}></span>
-                    </span>
-                  </td>)
-              
+                tdElements.push(<td key='onlineWideCell' colSpan={ length } className={ css.wideOnlineCell }>
+                  <span className={ css.onlineDivLineContainer }>
+                    <span className={ `${css.onlineDivLine} ${css.onlineLeftLine}` } />
+                    <span className={ css.onlineText }>Online Class</span>
+                    <span className={ css.onlineDivLine } />
+                  </span>
+                                </td>);
+
               // Have individual cells for the different columns
               } else {
-  
                 const meetingMoments = section.getAllMeetingMoments();
-                let meetingStrings = this.getTimeStingFromMeetings(meetingMoments);
-                
+                const meetingStrings = this.getTimeStingFromMeetings(meetingMoments);
+
                 const examMeeting = section.getExamMeeting();
-                 
+
                 let examTimeString = null;
                 if (examMeeting) {
                   examTimeString = this.getTimeStingFromMeetings(examMeeting.times[0]);
                 }
-                
-              
-                tdElements.push(<td key="weekDayBoxes"> <WeekdayBoxes section={ section } /> </td>)
-                tdElements.push(<td key="times">{meetingStrings}</td>)
-                tdElements.push(<td key="locationLinks"> <LocationLinks section={ section } /> </td>);
+
+
+                tdElements.push(<td key='weekDayBoxes'> <WeekdayBoxes section={ section } /> </td>);
+                tdElements.push(<td key='times'>{meetingStrings}</td>);
+                tdElements.push(<td key='locationLinks'> <LocationLinks section={ section } /> </td>);
 
                 // If there are exams, fill in those cells too
                 // Calculate the exam elements in each row
                 if (aClass.sectionsHaveExam()) {
-                  const examMeeting = section.getExamMeeting();
+                  const sectionExamMeeting = section.getExamMeeting();
                   if (examMeeting) {
-                    tdElements.push(<td key='exam1'>{examTimeString}</td>)
-                    tdElements.push(<td key='exam3'>{examMeeting.endDate.format('MMM Do')}</td>)
-                    tdElements.push(<td key='exam4'>{examMeeting.where}</td>)
+                    tdElements.push(<td key='exam1'>{examTimeString}</td>);
+                    tdElements.push(<td key='exam3'>{sectionExamMeeting.endDate.format('MMM Do')}</td>);
+                    tdElements.push(<td key='exam4'>{sectionExamMeeting.where}</td>);
                   } else {
-                    tdElements.push(<td key='exam5'></td>)
-                    tdElements.push(<td key='exam6'></td>)
-                    tdElements.push(<td key='exam7'></td>)
+                    tdElements.push(<td key='exam5' />);
+                    tdElements.push(<td key='exam6' />);
+                    tdElements.push(<td key='exam7' />);
                   }
                 }
-
-                
               }
 
 
@@ -233,7 +224,7 @@ class DesktopClassPanel extends BaseClassPanel {
                   </td>
 
                   <td>
-                    <a target='_blank' rel='noopener noreferrer' className={ css.inlineBlock + ' ' + css.sectionGlobe } data-tip={ `View on ${section.host}` } href={ section.prettyUrl || section.url }>
+                    <a target='_blank' rel='noopener noreferrer' className={ `${css.inlineBlock} ${css.sectionGlobe}` } data-tip={ `View on ${section.host}` } href={ section.prettyUrl || section.url }>
                       <img src={ globe } alt='link' />
                     </a>
                   </td>
@@ -246,21 +237,21 @@ class DesktopClassPanel extends BaseClassPanel {
     }
 
     // Render the Show More.. Button
-    let showMoreSections = this.getShowMoreButton();
+    const showMoreSections = this.getShowMoreButton();
 
     // Figure out the credits string
-    let creditsString = this.getCreditsString();
+    const creditsString = this.getCreditsString();
 
     return (
       <div>
         <div className={ `${css.container} ui segment` }>
           <div className={ css.header }>
-            <span className = { css.classTitle }>
+            <span className={ css.classTitle }>
               {aClass.subject} {aClass.classId}: {aClass.name}
             </span>
-            <span className = {css.classGlobeLinkContainer}> 
-              <a target="_blank" rel="noopener noreferrer" className={ css.classGlobeLink } data-tip={ "View on " + aClass.host} href={ aClass.prettyUrl || aClass.url }>
-                <img src={ globe } alt="link"/>
+            <span className={ css.classGlobeLinkContainer }>
+              <a target='_blank' rel='noopener noreferrer' className={ css.classGlobeLink } data-tip={ `View on ${aClass.host}` } href={ aClass.prettyUrl || aClass.url }>
+                <img src={ globe } alt='link' />
               </a>
             </span>
           </div>
@@ -270,12 +261,14 @@ class DesktopClassPanel extends BaseClassPanel {
             <br />
             <br />
             <div className={ css.leftPanel }>
-              Prerequisites: {this.getReqsString(true, aClass)}
+              Prerequisites: {this.getReqsString('prereqs', aClass)}
               <br />
-              Corequisites: {this.getReqsString(false, aClass)}
+              Corequisites: {this.getReqsString('coreqs', aClass)}
+              <br />
+              Prerequisites for: {this.getReqsString('prereqsFor', aClass)}
             </div>
             <div className={ css.rightPanel }>
-              <div data-tip="Check neu.edu for possible updates"> Updated {aClass.getLastUpdateString()}</div>
+              <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
               {creditsString}
             </div>
           </div>
@@ -287,7 +280,7 @@ class DesktopClassPanel extends BaseClassPanel {
   }
 }
 
-// Number of sections to show by default. This is different on mobile. 
+// Number of sections to show by default. This is different on mobile.
 DesktopClassPanel.sectionsShownByDefault = 3;
 
 DesktopClassPanel.propTypes = {

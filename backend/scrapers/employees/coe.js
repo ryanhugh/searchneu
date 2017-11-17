@@ -1,10 +1,9 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import cheerio from 'cheerio';
-import path from 'path';
 
 import Request from '../request';
 import cache from '../cache';
@@ -21,9 +20,8 @@ const request = new Request('COE');
 // http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=A
 
 class COE {
-
   scrapeDetailpage(body) {
-    let obj = {}
+    const obj = {};
 
     const $ = cheerio.load(body);
 
@@ -31,9 +29,9 @@ class COE {
     obj.profilePic = $('#faculty-profile > div.upper-content > div > div.left-content > a').attr('href');
 
     // Linkedin link.
-    let linkedin = $('div.field-name-field-nucoe-social-link-url > div > div > a.linkedin').attr('href');
+    const linkedin = $('div.field-name-field-nucoe-social-link-url > div > div > a.linkedin').attr('href');
     if (linkedin) {
-      obj.linkedin = linkedin
+      obj.linkedin = linkedin;
     }
 
     const googleScholarLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.googlescholar').attr('href');
@@ -43,7 +41,7 @@ class COE {
       obj.googleScholarId = userId;
     }
 
-    let youtubeLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.youtube').attr('href')
+    const youtubeLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.youtube').attr('href');
     if (youtubeLink) {
       obj.youtubeLink = youtubeLink;
     }
@@ -190,7 +188,6 @@ class COE {
   }
 
   async main() {
-
     if (macros.DEV && require.main !== module) {
       const devData = await cache.get('dev_data', this.constructor.name, 'main');
       if (devData) {
@@ -203,13 +200,12 @@ class COE {
 
 
     macros.ALPHABET.split('').forEach((letter) => {
-
-      let promise = request.get(`http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=${letter.toUpperCase()}`);
+      const promise = request.get(`http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=${letter.toUpperCase()}`);
 
       promise.then((resp) => {
-        const peopleFromLetter = this.scrapeLetter(resp.body)
+        const peopleFromLetter = this.scrapeLetter(resp.body);
         people = people.concat(peopleFromLetter);
-      })
+      });
 
       promises.push(promise);
     });
@@ -220,10 +216,10 @@ class COE {
     const detailPeopleList = await Promise.all(people.map(async (person) => {
       const resp = await request.get(person.url);
 
-      // Get more details for this person and save it with the same object. 
+      // Get more details for this person and save it with the same object.
       const moreDetails = this.scrapeDetailpage(resp.body);
-      const retVal = {}
-      Object.assign(retVal, person, moreDetails)
+      const retVal = {};
+      Object.assign(retVal, person, moreDetails);
       return retVal;
     }));
 
@@ -236,9 +232,7 @@ class COE {
 
     return people;
   }
-
 }
-
 
 
 const instance = new COE();

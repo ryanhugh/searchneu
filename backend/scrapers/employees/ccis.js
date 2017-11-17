@@ -1,10 +1,9 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import cheerio from 'cheerio';
-import path from 'path';
 
 import Request from '../request';
 import macros from '../../macros';
@@ -14,20 +13,20 @@ const request = new Request('CCIS');
 
 // http://www.ccis.northeastern.edu/people-view-all/
 // Scraped info:
-  // "name": "Amal Ahmed",
-  // "url": "http://www.ccis.northeastern.edu/people/amal-ahmed/",
-  // "positions": ["Assistant Professor"],
-  // "email": "amal@ccs.neu.edu",
-  // "phone": "6173732076",
-  // "office": "440 Huntington Avenue\r\n328 West Village H\r\nBoston, MA 02115",
+// "name": "Amal Ahmed",
+// "url": "http://www.ccis.northeastern.edu/people/amal-ahmed/",
+// "positions": ["Assistant Professor"],
+// "email": "amal@ccs.neu.edu",
+// "phone": "6173732076",
+// "office": "440 Huntington Avenue\r\n328 West Village H\r\nBoston, MA 02115",
 
-  // This varies a lot. Some have links to their page on other schools, some have self hosted sites, etc
-  // "personalSite": "http://www.ccs.neu.edu/home/amal/",
+// This varies a lot. Some have links to their page on other schools, some have self hosted sites, etc
+// "personalSite": "http://www.ccs.neu.edu/home/amal/",
 
-  // Link to some google site. Get url with:
-  // 'https://scholar.google.com/citations?user=' + googleScholarId + '&hl=en&oi=ao'
-  // "googleScholarId": "Y1C007wAAAAJ",
-  // "bigPictureUrl": "http://www.ccis.northeastern.edu/wp-content/uploads/2016/03/Amal-Ahmed-hero-image.jpg"
+// Link to some google site. Get url with:
+// 'https://scholar.google.com/citations?user=' + googleScholarId + '&hl=en&oi=ao'
+// "googleScholarId": "Y1C007wAAAAJ",
+// "bigPictureUrl": "http://www.ccis.northeastern.edu/wp-content/uploads/2016/03/Amal-Ahmed-hero-image.jpg"
 
 
 // There were a few people that put non-google urls on the google url field.
@@ -41,7 +40,6 @@ const request = new Request('CCIS');
 
 
 class NeuCCISFaculty {
-
   parsePeopleList(resp) {
     const $ = cheerio.load(resp.body);
 
@@ -140,7 +138,7 @@ class NeuCCISFaculty {
       if (officeRoom) {
         officeRoom = officeRoom.trim();
 
-         // Need to remove trailing commas
+        // Need to remove trailing commas
         if (officeRoom.endsWith(',')) {
           officeRoom = officeRoom.slice(0, officeRoom.length - 1);
         }
@@ -172,7 +170,6 @@ class NeuCCISFaculty {
 
 
   async main() {
-
     // If this is dev and this data is already scraped, just return the data.
     if (macros.DEV && require.main !== module) {
       const devData = await cache.get('dev_data', this.constructor.name, 'main');

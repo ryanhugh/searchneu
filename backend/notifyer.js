@@ -52,7 +52,6 @@ class Notifyer {
   }
 }
 
-
 const instance = new Notifyer();
 export default instance;
 

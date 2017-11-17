@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import React from 'react';
@@ -11,7 +11,7 @@ import classNames from 'classnames/bind';
 import globe from './globe.svg';
 import css from './MobileSectionPanel.css';
 
-import macros from '../macros'
+import macros from '../macros';
 import WeekdayBoxes from './WeekdayBoxes';
 import LocationLinks from './LocationLinks';
 
@@ -22,16 +22,14 @@ const cx = classNames.bind(css);
 
 // MobileSectionPanel page component
 class MobileSectionPanel extends React.Component {
-
   // This is different than the one in ClassPanel.js because this can show and hide the waitlist based on a per-section basis
-  // and ClassPanel.js is show it for all sections or none. 
+  // and ClassPanel.js is show it for all sections or none.
   shouldShowWaitlist() {
     if (this.props.section.getHasWaitList() && this.props.section.seatsRemaining < 10) {
       return true;
     }
-    else {
-      return false;
-    }
+
+    return false;
   }
 
   render() {
@@ -65,8 +63,7 @@ class MobileSectionPanel extends React.Component {
     let fullTimesString;
     if (times.length > 0) {
       fullTimesString = times.join(', ');
-    }
-    else {
+    } else {
       fullTimesString = 'TBA';
     }
 
@@ -76,8 +73,8 @@ class MobileSectionPanel extends React.Component {
     if (this.props.section.getHasExam()) {
       const examMeeting = this.props.section.getExamMeeting();
       if (examMeeting) {
-        let examDayMoment = examMeeting.endDate
-        let examTimeMoment = examMeeting.times[0][0].start
+        const examDayMoment = examMeeting.endDate;
+        const examTimeMoment = examMeeting.times[0][0].start;
 
 
         examRow = (
@@ -87,25 +84,19 @@ class MobileSectionPanel extends React.Component {
               {examDayMoment.format('MMMM Do @ ') + examTimeMoment.format('h:mm a')}
             </td>
           </tr>
-      );
+        );
       }
     }
 
-    // Calculate the end of the title, which depends on whether the class is an online class and whether it has a start time yet. 
+    // Calculate the end of the title, which depends on whether the class is an online class and whether it has a start time yet.
     let titleEnding;
     if (this.props.section.online) {
-      titleEnding = '-  Online Class'
+      titleEnding = '-  Online Class';
+    } else if (meetingMoments.length > 0) {
+      titleEnding = `@ ${meetingMoments[0].start.format('h:mm a')}`;
+    } else {
+      titleEnding = '@ TBA';
     }
-    else if (meetingMoments.length > 0) {
-      titleEnding = '@ ' + meetingMoments[0].start.format('h:mm a');
-    }
-    else {
-      titleEnding = "@ TBA"
-    }
-
-
-
-
 
 
     return (
@@ -127,27 +118,27 @@ class MobileSectionPanel extends React.Component {
               <td className={ css.firstColumn }>Profs</td>
               <td className={ css.secondColumn }>{this.props.section.getProfs().join(', ')}</td>
             </tr>
-            <tr className={cx({
-              displayNone: this.props.section.online
-            })}
+            <tr className={ cx({
+              displayNone: this.props.section.online,
+            }) }
             >
               <td className={ css.firstColumn }>Place</td>
               <td className={ css.secondColumn }>
                 <LocationLinks section={ this.props.section } />
               </td>
             </tr>
-            <tr className={cx({
-              displayNone: this.props.section.online
-            })}
+            <tr className={ cx({
+              displayNone: this.props.section.online,
+            }) }
             >
               <td className={ css.firstColumn }>Times</td>
               <td className={ css.secondColumn }>
                 {fullTimesString}
               </td>
             </tr>
-            <tr className={cx({
-              displayNone: this.props.section.online
-            })}
+            <tr className={ cx({
+              displayNone: this.props.section.online,
+            }) }
             >
               <td className={ css.firstColumn }>Days</td>
               <td className={ css.secondColumn }>
@@ -170,8 +161,6 @@ class MobileSectionPanel extends React.Component {
       </div>
     );
   }
-
-
 }
 
 
