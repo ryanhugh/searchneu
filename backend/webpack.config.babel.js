@@ -160,6 +160,7 @@ export default {
         loaders: [
           'file-loader?name=[name].[ext]&mimetype=application/x-font-truetype',
         ],
-      }],
+      },
+    ],
   },
 };
