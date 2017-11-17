@@ -45,19 +45,20 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
         classUid: node.classUid,
       }).getHash();
 
-      console.log(nodeRef);
-      console.log(find);
-
       const nodeRef = this.classMap[find];
 
       if (nodeRef.optPrereqsFor === undefined) {
         nodeRef.optPrereqsFor = [];
-      } else {
-        nodeRef.optPrereqsFor.push({
-          subject: mainClass.subject,
-          classId: mainClass.classId,
-        });
       }
+
+      debugger
+
+      nodeRef.optPrereqsFor.push({
+        subject: mainClass.subject,
+        classUid: mainClass.classUid,
+        classId: mainClass.classId,
+      });
+
       debugger
     } else {
       const classType = node.type;
