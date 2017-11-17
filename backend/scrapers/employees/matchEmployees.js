@@ -51,7 +51,6 @@ import camdFaculty from './camd';
 // officeStreetAddress: 177 Huntington Ave
 
 class CombineCCISandEmployees {
-
   constructor() {
     // Keep track of things that can happen during matching.
     // Output analytics and some statistics after merging each list.
@@ -66,7 +65,7 @@ class CombineCCISandEmployees {
     if (this.analytics[eventName] === undefined) {
       this.analytics[eventName] = 0;
     }
-    this.analytics[eventName] ++;
+    this.analytics[eventName]++;
   }
 
 

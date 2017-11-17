@@ -15,7 +15,6 @@ import commonMacros from '../../common/abstractMacros';
 let tooltipTimer = null;
 
 class Macros extends commonMacros {
-
   static log(...args) {
     // Don't log stuff in prod mode
     if (Macros.PROD) {
@@ -47,7 +46,6 @@ class Macros extends commonMacros {
     }
     window.amplitude.logEvent(type, event);
   }
-
 }
 
 // The backtick on the third row and all the backslashes need to be escaped.

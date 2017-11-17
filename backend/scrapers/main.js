@@ -31,7 +31,6 @@ if (process.env.TRAVIS && macros.DEV) {
 
 
 class Main {
-
   async main(semesterly = false) {
     const classesPromise = classes.main(['neu'], semesterly);
 
@@ -49,7 +48,6 @@ class Main {
 
     return null;
   }
-
 }
 
 

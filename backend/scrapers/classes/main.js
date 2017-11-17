@@ -31,7 +31,6 @@ import ellucianTermsParser from './parsers/ellucianTermsParser';
 
 
 class Main {
-
   waterfallIdentifyers(rootNode, attrToAdd = {}) {
     const newChildAttr = {};
 

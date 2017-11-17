@@ -38,7 +38,6 @@ const msgpack = msgpackImport(); // namespace our extensions
 // Right now this is used to cache dev data and http requests to speed up development.
 
 class Cache {
-
   constructor() {
     // Map of filepaths to a promise that resolves to the parsed body of this file
     this.dataPromiseMap = {};

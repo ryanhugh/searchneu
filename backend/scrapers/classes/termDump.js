@@ -14,7 +14,6 @@ import Keys from '../../../common/Keys';
 
 
 class TermDump {
-
   async main(termDump) {
     const termMapDump = {};
 

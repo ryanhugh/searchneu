@@ -33,7 +33,6 @@ const LOCALSTORAGE_PREFIX = 'request_cache';
 const MS_PER_DAY = 86400000;
 
 class Request {
-
   isKeyUpdated(key) {
     const storedValue = window.localStorage[LOCALSTORAGE_PREFIX + key];
 

@@ -13,7 +13,6 @@ import macros from '../macros';
 
 
 class BaseClassPanel extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -129,7 +128,7 @@ class BaseClassPanel extends React.Component {
 
           retVal.push(childBranch.desc);
         } else {
-            // Skip if already seen
+          // Skip if already seen
           if (processedSubjectClassIds[childBranch.subject + childBranch.classId]) {
             return;
           }
@@ -193,7 +192,7 @@ class BaseClassPanel extends React.Component {
       return 'None';
     }
 
-      // retVal = retVal.join(' ' + this.prereqs.type + ' ')
+    // retVal = retVal.join(' ' + this.prereqs.type + ' ')
 
     return retVal;
   }

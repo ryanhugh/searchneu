@@ -14,7 +14,6 @@ import cache from '../cache';
 const request = new Request('Camd');
 
 class Camd {
-
   // Given a list of elements, this will return the text from all the elements that are text elements
   // Each text will be in its own index in the array.
   getShallowText(elements) {
@@ -173,7 +172,6 @@ class Camd {
 
     return people;
   }
-
 }
 
 

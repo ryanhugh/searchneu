@@ -20,7 +20,6 @@ const request = new Request('COE');
 // http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=A
 
 class COE {
-
   scrapeDetailpage(body) {
     const obj = {};
 
@@ -233,7 +232,6 @@ class COE {
 
     return people;
   }
-
 }
 
 

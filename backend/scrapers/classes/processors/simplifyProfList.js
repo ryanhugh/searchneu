@@ -9,8 +9,6 @@ import BaseProcessor from './baseProcessor';
 
 
 class SimplifyProfList extends BaseProcessor.BaseProcessor {
-
-
   go(termDump) {
     const updatedSections = [];
 

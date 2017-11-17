@@ -46,7 +46,6 @@ const cx = classNames.bind(css);
 
 // not standardized yet: personalSite, bigPictureLink
 class EmployeePanel extends React.Component {
-
   static injectBRs(arr) {
     const retVal = [];
 

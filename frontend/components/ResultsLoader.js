@@ -20,7 +20,6 @@ import css from './ResultsLoader.css';
 
 // Home page component
 class ResultsLoader extends React.Component {
-
   constructor(props) {
     super(props);
 

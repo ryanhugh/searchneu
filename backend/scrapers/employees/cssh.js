@@ -26,7 +26,6 @@ const request = new Request('CSSH');
 // Also looks like CSSH uses wordpress blog posts to keep track of their employees (so each employee's profile is a different blog post lol)
 
 class Cssh {
-
   parseDetailpage(url, resp) {
     const obj = {};
 
@@ -209,7 +208,6 @@ class Cssh {
 
     return people;
   }
-
 }
 
 
