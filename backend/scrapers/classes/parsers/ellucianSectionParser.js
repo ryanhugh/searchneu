@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import cheerio from 'cheerio';
@@ -22,8 +22,6 @@ const request = new Request('EllucianSectionParser');
 //good thing tho, is that it is easily scrape-able and does not require login to access seats available
 
 class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
-
-
   async main(url) {
     // Possibly load from DEV
     if (macros.DEV && require.main !== module) {
@@ -225,9 +223,6 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
       };
 
 
-      
-
-
       // Grab whether the class is an online class or not
       const onlineCampus = text.includes('online campus');
       if (onlineCampus) {
@@ -267,7 +262,6 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
     const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14579');
     console.log(output);
   }
-
 }
 
 

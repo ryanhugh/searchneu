@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import URI from 'urijs';
@@ -22,8 +22,6 @@ const request = new Request('EllucianClassParser');
 
 
 class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
-
-
   supportsPage(url) {
     return url.indexOf('bwckctlg.p_disp_listcrse') > -1;
   }
@@ -106,16 +104,16 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
       }
 
       const timesMatch = times.match(/(.*?) - (.*?)$/i);
-      
-      let startMoment = moment(timesMatch[1], 'hh:mm a')
-      let endMoment = moment(timesMatch[2], 'hh:mm a')
+
+      const startMoment = moment(timesMatch[1], 'hh:mm a');
+      const endMoment = moment(timesMatch[2], 'hh:mm a');
 
       // Convert the parsed moments to seconds since the day started.
-      let start = startMoment.hours() * 60 * 60 + startMoment.minutes() * 60;
-      let end = endMoment.hours() * 60 * 60 + endMoment.minutes() * 60;
+      const start = startMoment.hours() * 60 * 60 + startMoment.minutes() * 60;
+      const end = endMoment.hours() * 60 * 60 + endMoment.minutes() * 60;
 
       if (start < 0 || end < 0 || start > 86400 || end > 86400) {
-        macros.error("Error parsing, got invalid times", timesMatch, startMoment, start, end);
+        macros.error('Error parsing, got invalid times', timesMatch, startMoment, start, end);
       }
 
       retVal[dayIndex] = [{
@@ -193,7 +191,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     if (fullSectiondata.online && fullSectiondata.meetings) {
       for (const meeting of fullSectiondata.meetings) {
         if (meeting.where !== 'TBA' || meeting.times) {
-          macros.log('Online class is set to meet in a room or has times?', fullSectiondata)
+          macros.log('Online class is set to meet in a room or has times?', fullSectiondata);
         }
       }
     }
@@ -423,9 +421,8 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
   async test() {
     // const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=ENGW&crse_in=3302&schd_in=LEC');
     const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=PSYC&crse_in=1101&schd_in=LEC');
-    console.log(JSON.stringify(output[0].deps, null, 4))
+    console.log(JSON.stringify(output[0].deps, null, 4));
   }
-
 }
 
 
