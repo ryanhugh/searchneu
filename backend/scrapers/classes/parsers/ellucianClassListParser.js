@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import _ from 'lodash';
@@ -18,8 +18,6 @@ import ellucianCatalogParser from './ellucianCatalogParser';
 const request = new Request('EllucianClassListParser');
 
 class EllucianClassListParser extends EllucianBaseParser.EllucianBaseParser {
-
-
   supportsPage(url) {
     return url.indexOf('bwckctlg.p_display_courses') > -1;
   }
@@ -44,8 +42,8 @@ class EllucianClassListParser extends EllucianBaseParser.EllucianBaseParser {
       return ellucianCatalogParser.main(catalogUrl);
     }));
 
-    // If there were any errors and ellucianCatalogParser.main returned null, continue. 
-    _.pull(classesObjects, null)
+    // If there were any errors and ellucianCatalogParser.main returned null, continue.
+    _.pull(classesObjects, null);
 
     // So the catalog parser returns a list of classes it found at that catalog url.
     // So flatten the array to just have a list of classes
@@ -53,7 +51,7 @@ class EllucianClassListParser extends EllucianBaseParser.EllucianBaseParser {
     classesObjects = _.flatten(classesObjects);
 
 
-   // Possibly save to dev
+    // Possibly save to dev
     if (macros.DEV && require.main !== module) {
       await cache.set('dev_data', this.constructor.name, url, classesObjects);
 
@@ -114,7 +112,6 @@ class EllucianClassListParser extends EllucianBaseParser.EllucianBaseParser {
     const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_display_courses?sel_crse_strt=&sel_crse_end=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&term_in=201830&one_subj=GAME');
     console.log(output);
   }
-
 }
 
 
