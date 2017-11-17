@@ -68,6 +68,7 @@
     "json": "^9.0.6",
     "lodash": "^4.17.4",
     "mkdirp-promise": "^5.0.1",
+    "mock-local-storage": "^1.0.5",
     "mockdate": "^2.0.1",
     "moment": "^2.17.1",
     "msgpack5": "^3.4.1",
@@ -77,8 +78,9 @@
     "react": "^16.1.1",
     "react-css-modules": "^4.1.0",
     "react-dom": "^16.1.1",
-    "react-tooltip": "^3.2.6",
     "react-hot-loader": "^3.0.0-beta.2",
+    "react-test-renderer": "^16.1.1",
+    "react-tooltip": "^3.2.6",
     "request": "^2.81.0",
     "request-promise-native": "^1.0.3",
     "resolve-url-loader": "^2.0.2",
@@ -117,7 +119,9 @@
     "style-loader": "^0.19.0"
   },
   "jest": {
-    "setupFiles": ["./common/rafTestPolyfill.js"],
+    "setupFiles": [
+      "./common/rafTestPolyfill.js"
+    ],
     "moduleNameMapper": {
       "\\.(css|less|svg|png)$": "identity-obj-proxy"
     }
