@@ -1,13 +1,6 @@
 /*
- * Copyright (c) 2017 Edward Shen
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import BaseProcessor from './baseProcessor';
@@ -51,15 +44,12 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
         nodeRef.optPrereqsFor = [];
       }
 
-      debugger
-
       nodeRef.optPrereqsFor.push({
         subject: mainClass.subject,
         classUid: mainClass.classUid,
         classId: mainClass.classId,
       });
 
-      debugger
     } else {
       const classType = node.type;
 
