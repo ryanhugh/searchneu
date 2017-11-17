@@ -25,7 +25,7 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
       this.classMap[key] = aClass;
     }
 
-    for (let aClass of termDump.classes) {
+    for (const aClass of termDump.classes) {
       if (aClass.prereqs) {
         this.parsePreReqs(aClass, aClass.prereqs);
       }
@@ -67,7 +67,6 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
       // Checks and creates the optPrereqsFor field in our class, if needed
       if (nodeRef.optPrereqsFor === undefined) {
         nodeRef.optPrereqsFor = {
-          type: 'and',
           values: [],
         };
       }

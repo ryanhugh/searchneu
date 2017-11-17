@@ -11,7 +11,6 @@ import RequisiteBranch from '../../../common/classModels/RequisiteBranch';
 import css from './BaseClassPanel.css';
 import macros from '../macros';
 
-
 class BaseClassPanel extends React.Component {
   constructor(props) {
     super(props);
@@ -108,8 +107,11 @@ class BaseClassPanel extends React.Component {
     } else if (parsingPrereqs === 'coreqs') {
       childNodes = aClass.coreqs;
     } else if (parsingPrereqs === 'prereqsFor') {
-      if (!aClass.optPrereqsFor) { return null; }
-      childNodes = aClass.optPrereqsFor;
+      if (!aClass.optPrereqsFor) {
+        childNodes = { values:[] };
+      } else {
+        childNodes = aClass.optPrereqsFor;
+      }
     }
 
     childNodes.values.forEach((childBranch) => {
@@ -183,9 +185,16 @@ class BaseClassPanel extends React.Component {
 
 
     // Now insert the type divider ("and" vs "or") between the elements.
+    // If we're parsing prereqsFor, we should use just a comma as a separator.
     // Can't use the join in case the objects are react elements
-    for (let i = retVal.length - 1; i >= 1; i--) {
-      retVal.splice(i, 0, ` ${aClass.prereqs.type} `);
+    if (parsingPrereqs === 'prereqsFor') {
+      for (let i = retVal.length - 1; i >= 1; i--) {
+        retVal.splice(i, 0, ', ');
+      }
+    } else {
+      for (let i = retVal.length - 1; i >= 1; i--) {
+        retVal.splice(i, 0, ` ${aClass.prereqs.type} `);
+      }
     }
 
     if (retVal.length === 0) {
