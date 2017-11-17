@@ -1,11 +1,9 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import cheerio from 'cheerio';
-import path from 'path';
-
 
 import macros from '../../macros';
 import linkSpider from '../linkSpider';
@@ -28,7 +26,6 @@ const request = new Request('CSSH');
 // Also looks like CSSH uses wordpress blog posts to keep track of their employees (so each employee's profile is a different blog post lol)
 
 class Cssh {
-
   parseDetailpage(url, resp) {
     const obj = {};
 
@@ -37,13 +34,12 @@ class Cssh {
     const $ = cheerio.load(resp.body);
 
     // Scrape the name from a h1
-    let name = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > h1').text()
+    const name = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > h1').text();
     if (name) {
       obj.name = name.trim();
-    }
-    else {
-      obj.name = ''
-      macros.error("Could not scrape prof name.", url)
+    } else {
+      obj.name = '';
+      macros.error('Could not scrape prof name.', url);
     }
 
     // Parse the first name and the last name from the given name
@@ -55,23 +51,21 @@ class Cssh {
     }
 
     // Scrape the picture of the prof
-    let image = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > img.headshot').attr('src')
+    const image = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > img.headshot').attr('src');
     if (image) {
       obj.image = image.trim();
-    }
-    else {
-      macros.log("Could not scrape image.", url)
+    } else {
+      macros.log('Could not scrape image.', url);
     }
 
     // Job Title
     // "Assistant Professor Sociology and Health Science"
-    let primaryRole = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > div.fac-single-title').text()
+    let primaryRole = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > div.fac-single-title').text();
     if (primaryRole) {
       primaryRole = primaryRole.trim().split(';')[0];
       obj.primaryRole = primaryRole.replace(/\s+/gi, ' ');
-    }
-    else {
-      macros.log('Could not scrape job title', url)
+    } else {
+      macros.log('Could not scrape job title', url);
     }
 
     // Parse out the email.
@@ -129,16 +123,11 @@ class Cssh {
           if (newText) {
             office.push(newText);
           }
-        }
-
-        // The phone number is under the contact field
-        else if (category === 'Contact:') {
+        } else if (category === 'Contact:') {
+          // The phone number is under the contact field
           macros.log(element.data.trim(), 'phone??');
         }
-      }
-
-      // Behaviors for hitting tags
-      else if (element.type === 'tag') {
+      } else if (element.type === 'tag') { // Behaviors for hitting tags
         // If hit a valid h4 element, change the category to the text in the h4 element
         if (element.name === 'h4') {
           // If an h4 element but not a category, log an error
@@ -219,7 +208,6 @@ class Cssh {
 
     return people;
   }
-
 }
 
 

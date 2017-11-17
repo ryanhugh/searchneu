@@ -1,8 +1,8 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
- 
+
 import BaseProcessor from './baseProcessor';
 
 // THIS DOES NOT WORK YET
@@ -14,8 +14,6 @@ import BaseProcessor from './baseProcessor';
 
 
 class FindMissingLabs extends BaseProcessor.BaseProcessor {
-
-
   go(query, callback) {
     this.getClassHash(query, (err, keyToRow) => {
       for (const key of Object.keys(keyToRow)) {

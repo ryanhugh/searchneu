@@ -1,26 +1,25 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 
-import Keys from '../../common/Keys'
-import macros from './macros'
-import DataLib from '../../common/classModels/DataLib'
+import Keys from '../../common/Keys';
+import macros from './macros';
+import DataLib from '../../common/classModels/DataLib';
 import EmployeePanel from './panels/EmployeePanel';
 import DesktopClassPanel from './panels/DesktopClassPanel';
 import MobileClassPanel from './panels/MobileClassPanel';
 import css from './ResultsLoader.css';
 
-// The Home.js component now keeps track of how many to render. 
-// This component watches for scroll events and tells Home.js if more items need to be requested. 
+// The Home.js component now keeps track of how many to render.
+// This component watches for scroll events and tells Home.js if more items need to be requested.
 
 // Home page component
 class ResultsLoader extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -32,7 +31,7 @@ class ResultsLoader extends React.Component {
     // Number of results that were loaded when handleInfiniteLoad was called.
     // If handleInfiniteLoad is called two different times and the number of components is the same for both,
     // Assume that the first call is still processing and we can safety ignore the second call.
-    // This prevents loading twice the number of elements in this case. 
+    // This prevents loading twice the number of elements in this case.
     this.alreadyLoadedAt = {};
 
     this.handleInfiniteLoad = this.handleInfiniteLoad.bind(this);
@@ -47,7 +46,7 @@ class ResultsLoader extends React.Component {
     this.alreadyLoadedAt = {};
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (prevProps.results !== this.props.results) {
       this.addMoreObjects();
     }
@@ -62,7 +61,7 @@ class ResultsLoader extends React.Component {
       return;
     }
 
-    const resultsBottom = this.refs.elementsContainer.offsetHeight + this.refs.elementsContainer.offsetTop;
+    const resultsBottom = this.elementsContainer.offsetHeight + this.elementsContainer.offsetTop;
 
     const diff = window.scrollY + 2000 + window.innerHeight - resultsBottom;
 
@@ -70,24 +69,22 @@ class ResultsLoader extends React.Component {
     if (diff > 0 && !this.alreadyLoadedAt[this.state.visibleObjects.length]) {
       this.alreadyLoadedAt[this.state.visibleObjects.length] = true;
 
-      this.props.loadMore()
+      this.props.loadMore();
     }
   }
 
   addMoreObjects() {
     const newObjects = [];
 
-    console.log('loading ', this.props.results.length)
+    console.log('loading ', this.props.results.length);
 
     this.props.results.forEach((result) => {
       if (result.type === 'class') {
-
         let aClass;
-        let hash = Keys.create(result.class).getHash()
+        const hash = Keys.create(result.class).getHash();
         if (this.constructor.loadedClassObjects[hash]) {
-          aClass = this.constructor.loadedClassObjects[hash]
-        }
-        else {
+          aClass = this.constructor.loadedClassObjects[hash];
+        } else {
           aClass = DataLib.createClassFromSearchResult(result);
           this.constructor.loadedClassObjects[hash] = aClass;
         }
@@ -121,23 +118,20 @@ class ResultsLoader extends React.Component {
     return (
       <div className={ `ui container ${css.resultsContainer}` }>
         <div className='five column row' >
-          <div className='page-home' ref='elementsContainer'>
+          <div className='page-home' ref={ (c) => { this.elementsContainer = c; } }>
             {this.state.visibleObjects.map((obj) => {
               if (obj.type === 'class') {
                 if (macros.isMobile) {
                   return <MobileClassPanel key={ Keys.create(obj.data).getHash() } aClass={ obj.data } />;
                 }
-                else {
-                  return <DesktopClassPanel key={ Keys.create(obj.data).getHash() } aClass={ obj.data } />;
-                }
+
+                return <DesktopClassPanel key={ Keys.create(obj.data).getHash() } aClass={ obj.data } />;
+              } else if (obj.type === 'employee') {
+                return <EmployeePanel key={ obj.data.id } employee={ obj.data } />;
               }
-              else if (obj.type === 'employee') {
-                return <EmployeePanel key = {obj.data.id} employee = {obj.data} />
-              }
-              else {
-                console.log('Unknown type', obj.type)
-                return null;
-              }
+
+              console.log('Unknown type', obj.type);
+              return null;
             })}
           </div>
         </div>
@@ -146,13 +140,13 @@ class ResultsLoader extends React.Component {
   }
 }
 
-// Keep a cache of class objects that are already instantiated. 
-// Don't need something similar for employees because there is no object that takes a couple ms to instantiate. 
-ResultsLoader.loadedClassObjects = {}
+// Keep a cache of class objects that are already instantiated.
+// Don't need something similar for employees because there is no object that takes a couple ms to instantiate.
+ResultsLoader.loadedClassObjects = {};
 
 ResultsLoader.propTypes = {
-  results: PropTypes.array.isRequired
-}
+  results: PropTypes.array.isRequired,
+};
 
 
 export default CSSModules(ResultsLoader, css);

@@ -1,11 +1,10 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
-import matchEmployees from './employees/matchEmployees';
 import fs from 'fs-promise';
-
+import matchEmployees from './employees/matchEmployees';
 import macros from '../macros';
 import classes from './classes/main';
 
@@ -31,12 +30,9 @@ if (process.env.TRAVIS && macros.DEV) {
 }
 
 
-class Main{
-
-  async main(semesterly=false) {
-
-
-    let classesPromise = classes.main(['neu'], semesterly=semesterly)
+class Main {
+  async main(semesterly = false) {
+    const classesPromise = classes.main(['neu'], semesterly);
 
     // If scraping stuff for semesterly, scrape just the classes
     if (semesterly) {
@@ -44,13 +40,14 @@ class Main{
     }
 
 
-    let promises = [classesPromise, matchEmployees.main()]
+    const promises = [classesPromise, matchEmployees.main()];
 
     await Promise.all(promises);
 
     console.log('done scrapers/main.js');
-  }
 
+    return null;
+  }
 }
 
 
@@ -58,12 +55,11 @@ const instance = new Main();
 
 
 async function localRun() {
-  
   if (require.main === module) {
-    let semesterlyData = await instance.main(true);
+    const semesterlyData = await instance.main(true);
 
     if (semesterlyData) {
-      await fs.writeFile(`courses2.json`, JSON.stringify(semesterlyData));
+      await fs.writeFile('courses2.json', JSON.stringify(semesterlyData));
     }
   }
 }

@@ -1,55 +1,48 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
-
-import globe from './globe.svg';
 import chevronDown from './chevron-down.svg';
 import chevronRight from './chevron-right.svg';
 import mobileCss from './MobileClassPanel.css';
 import baseCss from './BaseClassPanel.css';
 import MobileSectionPanel from './MobileSectionPanel';
-import macros from '../macros';
 import Keys from '../../../common/Keys';
-import LocationLinks from './LocationLinks';
-import WeekdayBoxes from './WeekdayBoxes';
-import BaseClassPanel from './BaseClassPanel'
+import BaseClassPanel from './BaseClassPanel';
 
-const css = {}
+const css = {};
 
-Object.assign(css, mobileCss, baseCss)
+Object.assign(css, mobileCss, baseCss);
 
 const cx = classNames.bind(css);
 
 
 // Class Panel that renders the box with the class title, class description, and class sections
-// If mobile, uses MobileSectionPanel to show the sections. 
-// The code for desktop is inside this file. 
+// If mobile, uses MobileSectionPanel to show the sections.
+// The code for desktop is inside this file.
 
 
 class MobileClassPanel extends BaseClassPanel {
-
   constructor(props) {
     super(props);
 
     this.state.showMoreThanTitle = false;
-    this.state.showAllClassDetails = false; 
+    this.state.showAllClassDetails = false;
 
     this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
     this.toggleShowAllClassDetails = this.toggleShowAllClassDetails.bind(this);
   }
 
   toggleShowMoreThanTitle() {
-
     const newTitleValue = !this.state.showMoreThanTitle;
     let newShowAllClassDetails = this.state.showAllClassDetails;
 
-    // If closing the class accordian, reset the showAllClassDetails back to the default. 
+    // If closing the class accordian, reset the showAllClassDetails back to the default.
     let newState = {};
     if (!newTitleValue) {
       newShowAllClassDetails = false;
@@ -64,12 +57,12 @@ class MobileClassPanel extends BaseClassPanel {
 
   toggleShowAllClassDetails() {
     this.setState({
-      showAllClassDetails: !this.state.showAllClassDetails
-    })
+      showAllClassDetails: !this.state.showAllClassDetails,
+    });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    let commonShouldUpdate = BaseClassPanel.prototype.shouldComponentUpdate.call(this, nextProps, nextState);
+    const commonShouldUpdate = BaseClassPanel.prototype.shouldComponentUpdate.call(this, nextProps, nextState);
     if (commonShouldUpdate) {
       return true;
     }
@@ -92,15 +85,13 @@ class MobileClassPanel extends BaseClassPanel {
 
     if (this.state.showAllClassDetails) {
       showFullClassBody = true;
-    }
-    else if (!aClass.desc || aClass.desc.length < 50) {
+    } else if (!aClass.desc || aClass.desc.length < 50) {
       showFullClassBody = true;
     }
 
     if (showFullClassBody) {
-
       // Figure out the credits string
-      let creditsString = this.getCreditsString();
+      const creditsString = this.getCreditsString();
 
       return (
         <span>
@@ -112,55 +103,55 @@ class MobileClassPanel extends BaseClassPanel {
             <br />
             Updated {aClass.getLastUpdateString()}
             <br />
-            <a target='_blank' rel='noopener noreferrer' href={aClass.prettyUrl || aClass.url}>
-              {'View on ' + aClass.host}
+            <a target='_blank' rel='noopener noreferrer' href={ aClass.prettyUrl || aClass.url }>
+              {`View on ${aClass.host}`}
             </a>
             <br />
-            Corequisites: {this.getReqsString(false, aClass)}
+            Prerequisites: {this.getReqsString('prereqs', aClass)}
             <br />
-            Prerequisites: {this.getReqsString(true, aClass)}
+            Corequisites: {this.getReqsString('coreqs', aClass)}
+            <br />
+            Prerequisites for: {this.getReqsString('prereqsFor', aClass)}
           </div>
         </span>
-        );
+      );
     }
-    else {
 
-      // Remove everything past 80 characters
-      // and then keep on removing characters until the end of a word is hit. 
-      let sliceDesc = aClass.desc.slice(0, 80);
-      while (!sliceDesc.endsWith(' ')) {
-        sliceDesc = sliceDesc.slice(0, sliceDesc.length - 1)
-      }
 
-      // Also remove any symbols.
-      while (!sliceDesc[sliceDesc.length - 1].match(/[a-z]/i)) {
-        sliceDesc = sliceDesc.slice(0, sliceDesc.length - 1)
-      }
-      sliceDesc = sliceDesc.trim()
+    // Remove everything past 80 characters
+    // and then keep on removing characters until the end of a word is hit.
+    let sliceDesc = aClass.desc.slice(0, 80);
+    while (!sliceDesc.endsWith(' ')) {
+      sliceDesc = sliceDesc.slice(0, sliceDesc.length - 1);
+    }
 
-      return (
+    // Also remove any symbols.
+    while (!sliceDesc[sliceDesc.length - 1].match(/[a-z]/i)) {
+      sliceDesc = sliceDesc.slice(0, sliceDesc.length - 1);
+    }
+    sliceDesc = sliceDesc.trim();
+
+    return (
+      <span>
         <span>
-          <span>
-            {sliceDesc + '...'}&nbsp;&nbsp;&nbsp;&nbsp;
-          </span>
-
-          <div>
-            <a onClick={this.toggleShowAllClassDetails} style={{display:'inline-block'}}>
-              Show More...
-            </a>
-
-          </div>
-
+          {`${sliceDesc}...`}&nbsp;&nbsp;&nbsp;&nbsp;
         </span>
 
-        )
-    }
+        <div>
+          <a
+            onClick={ this.toggleShowAllClassDetails }
+            style={{ display:'inline-block' }}
+            role='button'
+            tabIndex={ 0 }
+          >
+              Show More...
+          </a>
 
+        </div>
 
+      </span>
 
-    
-
-
+    );
   }
 
   render() {
@@ -175,36 +166,41 @@ class MobileClassPanel extends BaseClassPanel {
     }
 
     // Render the Show More.. Button
-    let showMoreSections = this.getShowMoreButton();
+    const showMoreSections = this.getShowMoreButton();
 
     // Decide which chevron to use based on whether the panel is expanded or not.
     let chevron;
     if (this.state.showMoreThanTitle) {
-      chevron = chevronDown
-    }
-    else {
-      chevron = chevronRight
+      chevron = chevronDown;
+    } else {
+      chevron = chevronRight;
     }
 
     return (
       <div>
         <div className={ `${css.container} ui segment` }>
-          <div className={ css.header } onClick={this.toggleShowMoreThanTitle}>
-            <img className = {css.chevron} src = {chevron}/>
-            <span className = { css.classTitle }>
+          <div
+            className={ css.header }
+            onClick={ this.toggleShowMoreThanTitle }
+            role='button'
+            tabIndex={ 0 }
+          >
+            <img className={ css.chevron } src={ chevron } alt='' />
+            <span className={ css.classTitle }>
               {aClass.subject} {aClass.classId}: {aClass.name}
             </span>
           </div>
 
           <span className={ cx({
-            displayNone: !this.state.showMoreThanTitle
-          }) }>
+            displayNone: !this.state.showMoreThanTitle,
+          }) }
+          >
 
             <div className={ css.body }>
               {this.getClassBody()}
             </div>
 
-            {sectionTable} 
+            {sectionTable}
 
             {showMoreSections}
           </span>
@@ -212,7 +208,6 @@ class MobileClassPanel extends BaseClassPanel {
       </div>
     );
   }
-
 }
 
 // Number of sections to show by default.

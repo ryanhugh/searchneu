@@ -1,50 +1,48 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import _ from 'lodash';
-import fs from 'fs-promise';
 
 import macros from '../../../macros';
-import Section from '../../../../common/classModels/Section'
+import Section from '../../../../common/classModels/Section';
 
 // Dumps the data in the semester.ly schema
 
-// This is also duplicated schools/neu/config.json in semesterly. If this is updated update it there too. 
-const semesterlyCourseCodeRegex = /[A-Z]{0,4} [0-9]{4}/
+// This is also duplicated schools/neu/config.json in semesterly. If this is updated update it there too.
+const semesterlyCourseCodeRegex = /[A-Z]{0,4} [0-9]{4}/;
 
 class Semesterly {
-
   main(dump) {
-    let result = []      
-    let meetings = []
+    const result = [];
+    let meetings = [];
 
-    let subjectMap = {}
-    for (let subject of dump.subjects) {
-      subjectMap[subject.subject] = subject.text
+    const subjectMap = {};
+    for (const subject of dump.subjects) {
+      subjectMap[subject.subject] = subject.text;
     }
 
 
-    let classMap = {}
-    for (let aClass of dump.classes) {
-      classMap[aClass.classUid] = aClass
+    const classMap = {};
+    for (const aClass of dump.classes) {
+      classMap[aClass.classUid] = aClass;
     }
 
-    for (let aClass of dump.classes) {
+    for (const aClass of dump.classes) {
       if (aClass.host !== 'neu.edu') {
         continue;
       }
-      
+
       // Skip all the other terms for now too
       if (aClass.termId !== '201830') {
-        continue
+        continue;
       }
 
-      let code = aClass.subject + ' ' + aClass.classId;
+      const code = `${aClass.subject} ${aClass.classId}`;
 
       if (!code.match(semesterlyCourseCodeRegex)) {
-        macors.error("Regex didn't match!", code, semesterlyCourseCodeRegex)
+        macros.error("Regex didn't match!", code, semesterlyCourseCodeRegex);
       }
 
       result.push({
@@ -53,20 +51,19 @@ class Semesterly {
         credits: aClass.maxCredits,
         department: {
           code: aClass.subject,
-          name: subjectMap[aClass.subject]
+          name: subjectMap[aClass.subject],
         },
         name: aClass.name,
         prerequisites: [''], // todo
         description: aClass.desc, // todo: add corequisites to the end of this
         school: {
-          'code': 'neu'
-        }
-      })
+          code: 'neu',
+        },
+      });
     }
 
 
-    for (let section of dump.sections) {
-
+    for (const section of dump.sections) {
       // Skip all the neu.edu/law and neu.edu/cps for now
       if (section.host !== 'neu.edu') {
         continue;
@@ -77,113 +74,111 @@ class Semesterly {
         continue;
       }
 
-      let instance = Section.create(section)
+      const instance = Section.create(section);
 
-      let professors = instance.getProfs()
-      let code = section.subject + ' ' + section.classId
+      let professors = instance.getProfs();
+      const code = `${section.subject} ${section.classId}`;
 
       // Semester.ly groups meetings by the start and end time of the meeting on each day of the week
       // so we need to get a list of all the meetings for each section and then re-group them
       // by start/end time
       // The key for this is just start+end (eg. "08:0010:00" (army time))
-      let meetingsByStartEndTime = {}
+      const meetingsByStartEndTime = {};
 
-      const dayCodes = ["U", "M", "T", "W", "R", "F", "S"]
+      const dayCodes = ['U', 'M', 'T', 'W', 'R', 'F', 'S'];
 
       if (instance.meetings) {
-        for (let meeting of instance.meetings) {
-
+        for (const meeting of instance.meetings) {
           // TODO make this work
           if (meeting.getIsExam()) {
             continue;
           }
 
-          let times = _.flatten(meeting.times);
+          const times = _.flatten(meeting.times);
 
-          for (let time of times) {
-            let start = time.start.format('HH:mm')
-            let end = time.end.format("HH:mm")
-            let dayOfWeek = parseInt(time.start.format('d'))
+          for (const time of times) {
+            const start = time.start.format('HH:mm');
+            const end = time.end.format('HH:mm');
+            const dayOfWeek = parseInt(time.start.format('d'), 10);
 
             // Small sanity check
-            if (dayOfWeek !== parseInt(time.end.format('d'))) {
-              macros.error("Meeting ends on a different day than it starts?", instance.termId, instance.classUid, instance.subject)
+            if (dayOfWeek !== parseInt(time.end.format('d'), 10)) {
+              macros.error('Meeting ends on a different day than it starts?', instance.termId, instance.classUid, instance.subject);
             }
 
-            let key = start+end;
+            const key = start + end;
             if (!meetingsByStartEndTime[key]) {
               meetingsByStartEndTime[key] = {
                 kind: 'meeting',
                 course: {
-                  code: code
+                  code: code,
                 },
                 days: [],
                 location: {
-                  where: meeting.where
+                  where: meeting.where,
                 },
                 section: {
                   code: section.crn,
                   term: 'Spring',
-                  year: '2018'
+                  year: '2018',
                 },
                 time: {
                   start: start,
-                  end: end
-                }
-              }
+                  end: end,
+                },
+              };
             }
 
-            meetingsByStartEndTime[key].days.push(dayCodes[dayOfWeek])
-            meetingsByStartEndTime[key].days = _.uniq(meetingsByStartEndTime[key].days)
+            meetingsByStartEndTime[key].days.push(dayCodes[dayOfWeek]);
+            meetingsByStartEndTime[key].days = _.uniq(meetingsByStartEndTime[key].days);
           }
         }
       }
 
       // Add all the meetings
-      meetings = meetings.concat(Object.values(meetingsByStartEndTime))
+      meetings = meetings.concat(Object.values(meetingsByStartEndTime));
 
-      professors = professors.map(function (name) {
+      professors = professors.map((name) => {
         return {
-          name: name
-        }
-      })
+          name: name,
+        };
+      });
 
       result.push({
         capacity: section.seatsCapacity,
         code: section.crn,
         course: {
-          code: code
+          code: code,
         },
         enrollment: section.seatsCapacity - section.seatsRemaining,
         instructors: professors,
         year: '2018',
         kind: 'section',
-        term: 'Spring'
-      })
+        term: 'Spring',
+      });
     }
 
 
-
-    let retVal = {
-      "$data": result.concat(meetings),
-       "$meta": {
-        "$schools": {
-          "neu": {
-            "2017": [
-              "201730",
-              "201740",
-              "201750",
-              "201760",
-              "201810"
+    const retVal = {
+      $data: result.concat(meetings),
+      $meta: {
+        $schools: {
+          neu: {
+            2017: [
+              '201730',
+              '201740',
+              '201750',
+              '201760',
+              '201810',
             ],
-            "2018": [
-              "201830"
-            ]
-          }
+            2018: [
+              '201830',
+            ],
+          },
         },
-        "$timestamp": Date.now()/1000
-      }
-    }
+        $timestamp: Date.now() / 1000,
+      },
+    };
 
 
     return retVal;
@@ -192,9 +187,5 @@ class Semesterly {
 
 
 const instance = new Semesterly();
-
-if (require.main === module) {
-  
-}
 
 export default instance;

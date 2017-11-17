@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import macros from '../../../macros';
@@ -11,7 +11,6 @@ import BaseProcessor from './baseProcessor';
 // if there are multiple results, it creates a 'or' prereq tree, much like Class.js does in the frontend.
 
 class PrereqClassUids extends BaseProcessor.BaseProcessor {
-
   updatePrereqs(prereqs, host, termId, keyToRows) {
     for (let i = prereqs.values.length - 1; i >= 0; i--) {
       const prereqEntry = prereqs.values[i];
@@ -105,7 +104,6 @@ class PrereqClassUids extends BaseProcessor.BaseProcessor {
     }
     return updatedClasses;
   }
-
 }
 
 

@@ -1,10 +1,10 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import cheerio from 'cheerio';
-import path from 'path';
+// import path from 'path';
 
 import macros from '../../macros';
 import linkSpider from '../linkSpider';
@@ -14,7 +14,6 @@ import cache from '../cache';
 const request = new Request('Camd');
 
 class Camd {
-
   // Given a list of elements, this will return the text from all the elements that are text elements
   // Each text will be in its own index in the array.
   getShallowText(elements) {
@@ -87,16 +86,11 @@ class Camd {
         }
 
         obj.phone = possiblePhone;
-      }
-
-      // If the email was not hyperlinked, it would not be picked up by the prior email parsing and instead would appear here.
-      else if (text.match(/[\w\d-.]+@[\w\d-.]+/) && !obj.emails) {
+      } else if (text.match(/[\w\d-.]+@[\w\d-.]+/) && !obj.emails) {
+        // If the email was not hyperlinked, it would not be picked up by the prior email parsing and instead would appear here.
         console.warn('Parsing plain text as email:', text);
         obj.emails = [text];
-      }
-
-      // If phone did not match, check office.
-      else if (text.length > 3) {
+      } else if (text.length > 3) { // If phone did not match, check office.
         if (text.startsWith('Office: ')) {
           text = text.slice('Office: '.length);
         }
@@ -125,7 +119,7 @@ class Camd {
 
 
   async main() {
-    const outputFile = path.join(macros.DEV_DATA_DIR, 'camd.json');
+    // const outputFile = path.join(macros.DEV_DATA_DIR, 'camd.json');
 
     if (macros.DEV && require.main !== module) {
       const devData = await cache.get('dev_data', this.constructor.name, 'main');
@@ -178,7 +172,6 @@ class Camd {
 
     return people;
   }
-
 }
 
 

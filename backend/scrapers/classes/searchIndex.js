@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import elasticlunr from 'elasticlunr';
@@ -23,8 +23,6 @@ import Keys from '../../../common/Keys';
 const getSearchIndex = '/getSearchIndex';
 
 class SearchIndex {
-
-
   // Class Lists object is specific to this file, and is created below.
   async createSearchIndexFromClassLists(termData, outputExtention = '', includeDesc = true) {
     const keys = Keys.create(termData);
@@ -161,7 +159,6 @@ class SearchIndex {
 
 
   async createSearchIndex(termDump) {
-
     const classLists = {};
 
     termDump.classes.forEach((aClass) => {

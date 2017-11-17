@@ -1,14 +1,12 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import macros from '../../../macros';
 import Keys from '../../../../common/Keys';
 
 class BaseProcessor {
-
-
   groupSectionsByClass(sections) {
     const classHash = {};
 
@@ -45,7 +43,7 @@ class BaseProcessor {
 
     termDump.classes.forEach((aClass) => {
       if (!aClass.host || !aClass.termId || !aClass.subject || !aClass.classUid) {
-        macros.error('ERROR class dosent have required fields??', aClass);
+        macros.error('ERROR class doesn\'t have required fields??', aClass);
         return;
       }
 
@@ -75,7 +73,6 @@ class BaseProcessor {
 
     return keyToRows;
   }
-
 }
 
 

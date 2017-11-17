@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import path from 'path';
@@ -10,7 +10,7 @@ import msgpackImport from 'msgpack5';
 
 import macros from '../macros';
 
-var msgpack = msgpackImport() // namespace our extensions 
+const msgpack = msgpackImport(); // namespace our extensions
 
 
 // Quick history of caching the http requests:
@@ -26,8 +26,8 @@ var msgpack = msgpackImport() // namespace our extensions
 // https://github.com/felixge/node-dirty
 // Slower than having each request in its own file (:O)
 
-// Take 3, Use msgpack and just save to disk. 
-// Unsure if msgpack can append to data that is already encoded. 
+// Take 3, Use msgpack and just save to disk.
+// Unsure if msgpack can append to data that is already encoded.
 // Currently re-encoding everything and saving the entire db every so often
 // Much faster than JSON, but not human readable (~x6 faster)
 
@@ -38,57 +38,55 @@ var msgpack = msgpackImport() // namespace our extensions
 // Right now this is used to cache dev data and http requests to speed up development.
 
 class Cache {
-
   constructor() {
-    
     // Map of filepaths to a promise that resolves to the parsed body of this file
-    this.dataPromiseMap = {}
+    this.dataPromiseMap = {};
 
-    // Timeout for saving the file. Save file after 20 seconds with no set calls. 
+    // Timeout for saving the file. Save file after 20 seconds with no set calls.
     this.saveTimeoutMap = {};
 
-    // Save the data every so often. If the process is killed while scraping, it will resume from the last save. 
-    // This number is in milliseconds. 
-    this.SAVE_INTERVAL_LONG = 12000
+    // Save the data every so often. If the process is killed while scraping, it will resume from the last save.
+    // This number is in milliseconds.
+    this.SAVE_INTERVAL_LONG = 12000;
 
-    // Used when optimize for speed is set to false. 
-    this.SAVE_INTERVAL_SHORT = 10000
+    // Used when optimize for speed is set to false.
+    this.SAVE_INTERVAL_SHORT = 10000;
 
     this.totalTimeSpendEncoding = 0;
   }
 
   getFilePath(folderName, className) {
-    return path.join('cache', folderName, className) + '.cache'
+    return `${path.join('cache', folderName, className)}.cache`;
   }
 
   async loadFile(filePath) {
     if (this.dataPromiseMap[filePath]) {
-      return;
+      return undefined;
     }
 
-    await mkdirp(path.dirname(filePath))
+    await mkdirp(path.dirname(filePath));
 
-    // Check to see if the msgpack file exists. 
-    const msgPackFileExtension = filePath + '.msgpack';
+    // Check to see if the msgpack file exists.
+    const msgPackFileExtension = `${filePath}.msgpack`;
     let exists = await fs.exists(msgPackFileExtension);
     if (exists) {
-      const startTime = Date.now()
-      const buffer = await fs.readFile(msgPackFileExtension)
-      const midTime = Date.now()
-      const retVal = msgpack.decode(buffer)
-      console.log("It took ", Date.now() - midTime, 'ms to parse and ', midTime - startTime ,' to load ', msgPackFileExtension)
+      const startTime = Date.now();
+      const buffer = await fs.readFile(msgPackFileExtension);
+      const midTime = Date.now();
+      const retVal = msgpack.decode(buffer);
+      console.log('It took ', Date.now() - midTime, 'ms to parse and ', midTime - startTime, ' to load ', msgPackFileExtension);
       return retVal;
     }
 
     // If it dosen't check to see if the json file exists
-    const jsonFileExtension = filePath + '.json';
+    const jsonFileExtension = `${filePath}.json`;
     exists = await fs.exists(jsonFileExtension);
     if (exists) {
-      const startTime = Date.now()
-      const buffer = await fs.readFile(jsonFileExtension)
-      const midTime = Date.now()
-      const retVal = JSON.parse(buffer)
-      console.log("It took ", Date.now() - midTime, 'ms to parse and ', midTime - startTime ,' to load ', jsonFileExtension)
+      const startTime = Date.now();
+      const buffer = await fs.readFile(jsonFileExtension);
+      const midTime = Date.now();
+      const retVal = JSON.parse(buffer);
+      console.log('It took ', Date.now() - midTime, 'ms to parse and ', midTime - startTime, ' to load ', jsonFileExtension);
       return retVal;
     }
 
@@ -96,23 +94,22 @@ class Cache {
   }
 
 
-
   async ensureLoaded(filePath) {
     if (this.dataPromiseMap[filePath]) {
-      return;
+      return undefined;
     }
 
-    let promise = this.loadFile(filePath)
-    this.dataPromiseMap[filePath] = promise
+    const promise = this.loadFile(filePath);
+    this.dataPromiseMap[filePath] = promise;
     return promise;
   }
 
 
-  // Path, in both set and get, is an array of strings. These strings can be anything and can be the same for separate requests, but just need to be the same for identical requests. 
+  // Path, in both set and get, is an array of strings. These strings can be anything and can be the same for separate requests, but just need to be the same for identical requests.
   // Kindof like hash codes in java for the equals method.
   async get(folderName, className, key) {
     if (!macros.DEV) {
-      macros.error("Called cache.js get but not in DEV mode?");
+      macros.error('Called cache.js get but not in DEV mode?');
     }
 
     // Foldername can be either requests or dev_data
@@ -129,54 +126,50 @@ class Cache {
     // Make sure the cache exists and is loaded.
     this.ensureLoaded(filePath);
 
-    let dataMap = await this.dataPromiseMap[filePath]
+    const dataMap = await this.dataPromiseMap[filePath];
 
     return dataMap[key];
-
   }
 
   async save(filePath, optimizeForSpeed) {
+    const dataMap = await this.dataPromiseMap[filePath];
+    const startTime = Date.now();
 
-    let dataMap = await this.dataPromiseMap[filePath]
-    let startTime = Date.now();
-    
     let buffer;
     let destinationFile = filePath;
 
     if (optimizeForSpeed) {
-      buffer = msgpack.encode(dataMap)
-      destinationFile += '.msgpack'
-    }
-    else {
-
+      buffer = msgpack.encode(dataMap);
+      destinationFile += '.msgpack';
+    } else {
       // Prettify the JSON when stringifying
-      buffer = JSON.stringify(dataMap, null, 4)
-      destinationFile += '.json'
+      buffer = JSON.stringify(dataMap, null, 4);
+      destinationFile += '.json';
     }
 
     const timeSpendEncoding = Date.now() - startTime;
-    this.totalTimeSpendEncoding += timeSpendEncoding
-    console.log("Saving file", destinationFile, 'encoding took', timeSpendEncoding, this.totalTimeSpendEncoding)
-    await fs.writeFile(destinationFile + '.new', buffer)
+    this.totalTimeSpendEncoding += timeSpendEncoding;
+    console.log('Saving file', destinationFile, 'encoding took', timeSpendEncoding, this.totalTimeSpendEncoding);
+    await fs.writeFile(`${destinationFile}.new`, buffer);
 
     // Write to a file with a different name, and then rename the new one. Renaming a file to a filename that already exists
-    // will override the old file in node.js. 
+    // will override the old file in node.js.
     // This prevents the cache file from getting into an invalid state if the process is killed while the program is saving.
     // If the file does not exist, ignore the error
-    await fs.rename(destinationFile + '.new', destinationFile)
-    console.log("It took ", Date.now() - startTime, 'ms to save', destinationFile)
+    await fs.rename(`${destinationFile}.new`, destinationFile);
+    console.log('It took ', Date.now() - startTime, 'ms to save', destinationFile);
   }
 
 
   // Returns a promsie when it is done.
   // The optimize for speed option:
-  //     If set to false, the data is debuffed at 10 seconds and saved as JSON. 
+  //     If set to false, the data is debuffed at 10 seconds and saved as JSON.
   //    This is meant for files that don't save very much data and it would be nice to be able to easily read the cache.
   //     If set to true, the data is debuffed at 120 seconds and saved with msgpack.
   //      This is much faster than JSON, but is binary (not openable by editors easily).
   async set(folderName, className, key, value, optimizeForSpeed = false) {
     if (!macros.DEV) {
-      macros.error("Called cache.js set but not in DEV mode?");
+      macros.error('Called cache.js set but not in DEV mode?');
     }
 
     const filePath = this.getFilePath(folderName, className);
@@ -184,31 +177,29 @@ class Cache {
     this.ensureLoaded(filePath);
 
 
-    let dataMap = await this.dataPromiseMap[filePath]
+    const dataMap = await this.dataPromiseMap[filePath];
 
     dataMap[key] = value;
 
     let intervalTime;
     if (optimizeForSpeed) {
-      intervalTime = this.SAVE_INTERVAL_LONG
-    }
-    else {
-      intervalTime = this.SAVE_INTERVAL_SHORT
+      intervalTime = this.SAVE_INTERVAL_LONG;
+    } else {
+      intervalTime = this.SAVE_INTERVAL_SHORT;
     }
 
-    // Wait 10 seconds before saving. 
+    // Wait 10 seconds before saving.
     if (!this.saveTimeoutMap[filePath]) {
       this.saveTimeoutMap[filePath] = setTimeout(async () => {
         await this.save(filePath, optimizeForSpeed);
         this.saveTimeoutMap[filePath] = null;
-      }, intervalTime)
+      }, intervalTime);
     }
   }
 }
 
 
-let a = new Cache()
-
+const a = new Cache();
 
 
 // console.log(a.get('requests_new2','camd.northeastern.edu',''))
@@ -216,9 +207,6 @@ let a = new Cache()
 // a.dataPromiseMap['cache/requests_new2/camd.northeastern.edu.cache'].then(function(a) {
 //  console.log(Object.keys(a))
 // })
-
-
-
 
 
 export default a;

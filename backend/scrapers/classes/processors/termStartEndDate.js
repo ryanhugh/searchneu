@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import _ from 'lodash';
@@ -13,8 +13,6 @@ import BaseProcessor from './baseProcessor';
 // If no one date has over 10% sections start on that date, it is just the first/last date
 
 class TermStartEndDate extends BaseProcessor.BaseProcessor {
-
-
   runOnTerm(termDump, term) {
     const startDates = {};
     const endDates = {};
@@ -101,7 +99,6 @@ class TermStartEndDate extends BaseProcessor.BaseProcessor {
     }
     return termDump;
   }
-
 }
 
 

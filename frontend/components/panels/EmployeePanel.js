@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import React from 'react';
@@ -41,31 +41,11 @@ const cx = classNames.bind(css);
 // 617-373-5797
 
 
-
 // name, id, phone, emails, primaryRole, primaryDepartment, url, officeRoom, officeStreetAddress are all standardized across different data sources.
-// The other fields may be present for one (eg, COE), but are not common enough to be used. 
+// The other fields may be present for one (eg, COE), but are not common enough to be used.
 
 // not standardized yet: personalSite, bigPictureLink
 class EmployeePanel extends React.Component {
-
-  constructor(props) {
-    super(props);
-    
-
-    this.state = {
-      showMoreThanTitle: false
-    }
-
-    this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
-  }
-
-  toggleShowMoreThanTitle() {
-    console.log('now it is ', this.state.showMoreThanTitle)
-    this.setState({
-      showMoreThanTitle: !this.state.showMoreThanTitle
-    })
-  }
-
   static injectBRs(arr) {
     const retVal = [];
 
@@ -81,11 +61,29 @@ class EmployeePanel extends React.Component {
     return retVal;
   }
 
+  constructor(props) {
+    super(props);
+
+
+    this.state = {
+      showMoreThanTitle: false,
+    };
+
+    this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     if (nextState.showMoreThanTitle !== this.state.showMoreThanTitle) {
       return true;
     }
     return false;
+  }
+
+  toggleShowMoreThanTitle() {
+    console.log('now it is ', this.state.showMoreThanTitle);
+    this.setState({
+      showMoreThanTitle: !this.state.showMoreThanTitle,
+    });
   }
 
   render() {
@@ -156,13 +154,12 @@ class EmployeePanel extends React.Component {
     let chevron = null;
     if (macros.isMobile) {
       if (this.state.showMoreThanTitle) {
-        chevronSource = chevronDown
-      }
-      else {
-        chevronSource = chevronRight
+        chevronSource = chevronDown;
+      } else {
+        chevronSource = chevronRight;
       }
 
-      chevron = <img className = {css.chevron} src = {chevronSource}/>
+      chevron = <img className={ css.chevron } src={ chevronSource } alt='' />;
     }
 
     // Set up the onclick listener, if this is mobile.
@@ -185,9 +182,14 @@ class EmployeePanel extends React.Component {
 
     return (
       <div className={ `${css.container} ui segment` }>
-        <div className={ css.header } onClick={titleClickListener}>
+        <div
+          className={ css.header }
+          onClick={ titleClickListener }
+          role='button'
+          tabIndex={ 0 }
+        >
           {chevron}
-          <span className = {css.titleText}>
+          <span className={ css.titleText }>
             {employee.name}
           </span>
           {linkElement}
@@ -195,8 +197,9 @@ class EmployeePanel extends React.Component {
 
         <div className={ cx({
           displayNone: !this.state.showMoreThanTitle && macros.isMobile,
-          body: true
-        }) }>
+          body: true,
+        }) }
+        >
           <div className={ `${css.inlineBlock} ${css.contactBox}` }>
             {this.constructor.injectBRs(firstColumn)}
           </div>
