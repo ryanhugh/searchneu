@@ -49,35 +49,5 @@ describe('addPreRequisiteFor tests', () => {
     const outputPreReqClass = cs2500;
     outputPreReqClass.prereqsFor = [];
     outputPreReqClass.prereqsFor.push(cs2510);
-
-    // it('should create a prerequsites field and add the class, if one doesn\'t exist', () => {
-    //   addPreRequisiteFor.parseClass(cs2510, cs2500, 'and');
-
-    //   const find = Keys.create(cs2500).getHash();
-    //   let found = {};
-    //   for (const aClass of termDump.classes) {
-    //     if (Keys.create(aClass).getHash() === find) {
-    //       found = aClass;
-    //     }
-    //   }
-    //   expect(found).toBe(outputPreReqClass);
-    // });
-
-    // it('should add a new class to an already existing class', () => {
-    //   addPreRequisiteFor.parseClass(cs2510, cs2500, 'and');
-    //   outputPreReqClass.prereqsFor.push(cs2510);
-
-    //   const find = Keys.create(cs2500).getHash();
-    //   let found = {};
-    //   for (const aClass of termDump.classes) {
-    //     if (Keys.create(aClass).getHash() === find) {
-    //       found = aClass;
-    //     }
-    //   }
-    //   console.log(found);
-    //   console.log(outputPreReqClass);
-
-    //   expect(found).toEqual(outputPreReqClass);
-    // });
   });
 });
