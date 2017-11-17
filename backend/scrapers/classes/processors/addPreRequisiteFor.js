@@ -25,7 +25,7 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
       this.classMap[key] = aClass;
     }
 
-    for (let aClass of this.termDump.classes) {
+    for (let aClass of termDump.classes) {
       if (aClass.prereqs) {
         aClass = this.parsePreReqs(aClass, aClass.prereqs);
       }
