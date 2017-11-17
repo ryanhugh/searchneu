@@ -33,7 +33,7 @@ yarn start # or npm run start
 Chrome dev tools are great for debugging both Node.js code and JavaScript code in a browser. You can debug a Node.js script by running `babel-node` (or `node`) with these arguments:
 
 ```bash
-babel-node --debug-brk --inspect filename.js
+babel-node --debug --inspect-brk filename.js
 ```
 
 If Node.js ever runs out of memory and crashes, run either `babel-node` or `node` with `--max_old_space_size=8192`. This will let Node.js use up to 8GB of RAM. Example:
