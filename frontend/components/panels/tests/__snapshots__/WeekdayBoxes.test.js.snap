@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should behave... 1`] = `
+<div
+  className="inlineBlock daysContainer"
+  data-tip="Meets on Tuesday, Friday"
+>
+  <div
+    className="weekDayBox"
+  />
+  <div
+    className="weekDayBoxChecked weekDayBox"
+  />
+  <div
+    className="weekDayBox"
+  />
+  <div
+    className="weekDayBox"
+  />
+  <div
+    className="weekDayBoxChecked weekDayBox"
+  />
+</div>
+`;
