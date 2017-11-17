@@ -1,25 +1,25 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import URI from 'urijs';
 
 import macros from './components/macros';
 import Home from './components/Home';
 
 if (window.location.hash === '#notrack') {
-  console.log('Turning on no track.')
+  console.log('Turning on no track.');
   window.localStorage.noTrack = true;
 }
 
 // Segment tracket. This includes trackers for Rollbar and Fullstory.
 // These are only used on prod and only used if the user has not opted out of tracking.
 if (macros.PROD && !window.localStorage.noTrack) {
+  /*eslint-disable */
   !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";
   analytics.load("VWqkionywHZjd2YI3Ds8AE7uLW3DuR19");
   analytics.page();
@@ -48,28 +48,27 @@ if (macros.PROD && !window.localStorage.noTrack) {
   }}for(var n=0;n<d.length;n++){t(d[n])}}v(n);n.getInstance=function(e){e=(!e||e.length===0?"$default_instance":e).toLowerCase();
   if(!n._iq.hasOwnProperty(e)){n._iq[e]={_q:[]};v(n._iq[e])}return n._iq[e]};e.amplitude=n;
   })(window,document);
+  /*eslint-enable */
 
-  amplitude.getInstance().init(macros.amplitudeToken);
-}
-else {
-  window.ga = function(...args){
+  window.amplitude.getInstance().init(macros.amplitudeToken);
+} else {
+  window.ga = () => {
     // console.log('GA called:', args)
-  }
+  };
   window.amplitude = {
-    logEvent: window.ga
-  }
+    logEvent: window.ga,
+  };
 }
 
 try {
-   navigator.serviceWorker.getRegistrations().then(function(registrations) {
-       registrations.forEach(function(registration) {
-           console.log('removing registration', registration);
-           registration.unregister();
-       })
-   })
-}
-catch (e) {
-   console.log('failed to unregister all service workers', e);
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    registrations.forEach((registration) => {
+      console.log('removing registration', registration);
+      registration.unregister();
+    });
+  });
+} catch (e) {
+  console.log('failed to unregister all service workers', e);
 }
 
 // // Register the Service Worker
@@ -98,19 +97,23 @@ function createApp() {
 if (process.env.NODE_ENV === 'production') {
   ReactDOM.render(createApp(), root);
 } else {
-  ReactDOM.render((
-    <AppContainer>
-      { createApp() }
-    </AppContainer>
-  ), root);
+  ReactDOM.render(
+    (
+      <AppContainer>
+        { createApp() }
+      </AppContainer>
+    ), root,
+  );
 
   if (module.hot) {
     module.hot.accept(() => {
-      ReactDOM.render((
-        <AppContainer>
-          { createApp() }
-        </AppContainer>
-      ), root);
+      ReactDOM.render(
+        (
+          <AppContainer>
+            { createApp() }
+          </AppContainer>
+        ), root,
+      );
     });
   }
 }
