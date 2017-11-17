@@ -85,14 +85,14 @@ export default {
   module: {
     loaders: [
 
-    // Ensure that everything passes eslint. 
-    {
-       enforce: "pre",
+    // Ensure that everything passes eslint.
+      {
+        enforce: 'pre',
         test: /\.js$/,
         exclude: /node_modules/,
         use: [
-          "babel-loader",
-          "eslint-loader",
+          'babel-loader',
+          'eslint-loader',
         ],
       },
       {
