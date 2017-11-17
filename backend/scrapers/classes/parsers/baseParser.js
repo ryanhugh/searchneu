@@ -1,6 +1,6 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 import URI from 'urijs';
@@ -9,7 +9,6 @@ import domutils from 'domutils';
 import macros from '../../../macros';
 
 class BaseParser {
-
   supportsPage() {
     macros.error('Base parser supports page was called?');
     return false;
@@ -442,7 +441,6 @@ class BaseParser {
     }
     return 's';
   }
-
 }
 
 
