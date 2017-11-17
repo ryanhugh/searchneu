@@ -262,7 +262,7 @@ class Employee {
 
 
               if (commaNameSplit.length > 2) {
-                macros.log('Warning: has more than one comma skipping.', commaNameSplit);
+                macros.warn('Has more than one comma skipping.', commaNameSplit);
                 person.name = nameWithComma;
               } else {
                 person.name = `${commaNameSplit[1].trim()} ${commaNameSplit[0].trim()}`;
@@ -279,7 +279,7 @@ class Employee {
 
               const idMatch = parsedTable.name[j].match(/.hrefparameter\s+=\s+"id=(\d+)";/i);
               if (!idMatch) {
-                macros.log('Warn: unable to parse id, using random number', nameWithComma);
+                macros.warn('Unable to parse id, using random number', nameWithComma);
                 person.id = String(Math.random());
               } else {
                 person.id = idMatch[1];
