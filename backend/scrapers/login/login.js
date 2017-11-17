@@ -32,7 +32,9 @@ async function followRedirects(cookieJar, resp) {
   while (resp.statusCode === 302) {
     nextUrl = resp.headers.location;
 
-    resp = await request.get({
+    // Continuously hit the next url returned by the prior request in a while loop
+    // This is correct, even though eslint is complaining
+    resp = await request.get({ // eslint-disable-line no-await-in-loop
       url: nextUrl,
       jar: cookieJar,
       followRedirect: false,
