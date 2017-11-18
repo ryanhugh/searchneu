@@ -19,13 +19,13 @@ import classes from './classes/main';
 
 
 if (process.env.TRAVIS_EVENT_TYPE !== 'cron' && process.env.TRAVIS) {
-  console.log('not running on travis event', process.env.TRAVIS_EVENT_TYPE);
+  macros.log('not running on travis event', process.env.TRAVIS_EVENT_TYPE);
   process.exit(0);
 }
 
 
 if (process.env.TRAVIS && macros.DEV) {
-  console.log('Not running DEV mode on travis');
+  macros.log('Not running DEV mode on travis');
   process.exit(1);
 }
 
@@ -44,7 +44,7 @@ class Main {
 
     await Promise.all(promises);
 
-    console.log('done scrapers/main.js');
+    macros.log('done scrapers/main.js');
 
     return null;
   }
@@ -56,10 +56,12 @@ const instance = new Main();
 
 async function localRun() {
   if (require.main === module) {
-    const semesterlyData = await instance.main(true);
+    // Change it to .main(true) to run the Semester.ly code
+    const semesterlyData = await instance.main(false);
 
     if (semesterlyData) {
-      await fs.writeFile('courses2.json', JSON.stringify(semesterlyData));
+      await fs.writeFile('semesterly_courses.json', JSON.stringify(semesterlyData));
+      console.log('Saved output for semesterly!');
     }
   }
 }
