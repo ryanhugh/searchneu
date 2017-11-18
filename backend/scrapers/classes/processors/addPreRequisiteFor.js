@@ -73,18 +73,27 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
           values: [],
         };
       }
+      if (nodeRef.prereqsFor === undefined) {
+        nodeRef.prereqsFor = {
+          values: [],
+        };
+      }
 
-      nodeRef.optPrereqsFor.values.push({
+      const classData = {
         subject: mainClass.subject,
         classUid: mainClass.classUid,
         classId: mainClass.classId,
-      });
+      };
+      if (isRequired) {
+        nodeRef.prereqsFor.values.push(classData);
+      } else {
+        nodeRef.optPrereqsFor.values.push(classData);
+      }
     } else {
       const classType = node.type;
 
       if (node.values !== undefined) {
         node.values.map((course) => {
-          // TODO: Implement optional prereqs-for
           const reqType = (classType === 'and') ? isRequired : false;
           return this.parsePreReqs(mainClass, course, reqType);
         });

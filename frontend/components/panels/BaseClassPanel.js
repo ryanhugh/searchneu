@@ -107,6 +107,12 @@ class BaseClassPanel extends React.Component {
     } else if (parsingPrereqs === 'coreqs') {
       childNodes = aClass.coreqs;
     } else if (parsingPrereqs === 'prereqsFor') {
+      if (!aClass.prereqsFor) {
+        childNodes = { values:[] };
+      } else {
+        childNodes = aClass.prereqsFor;
+      }
+    } else if (parsingPrereqs === 'optPrereqsFor') {
       if (!aClass.optPrereqsFor) {
         childNodes = { values:[] };
       } else {
@@ -187,7 +193,7 @@ class BaseClassPanel extends React.Component {
     // Now insert the type divider ("and" vs "or") between the elements.
     // If we're parsing prereqsFor, we should use just a comma as a separator.
     // Can't use the join in case the objects are react elements
-    if (parsingPrereqs === 'prereqsFor') {
+    if (parsingPrereqs === 'prereqsFor' || parsingPrereqs === 'optPrereqsFor') {
       for (let i = retVal.length - 1; i >= 1; i--) {
         retVal.splice(i, 0, ', ');
       }
