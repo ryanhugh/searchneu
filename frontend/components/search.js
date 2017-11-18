@@ -5,6 +5,7 @@
 
 import URI from 'urijs';
 
+import macros from './macros';
 import request from './request';
 
 class Search {
@@ -25,12 +26,12 @@ class Search {
     query = query.trim().toLowerCase();
 
     if (!query || query.length === 0) {
-      console.log('No query given in frontend/search.js. Returning empty array.', query, termCount);
+      macros.log('No query given in frontend/search.js. Returning empty array.', query, termCount);
       return [];
     }
 
     if (!termId || termId.length !== 6) {
-      console.log('No termId given in frontend/search.js. Returning empty array.', termId, termCount);
+      macros.log('No termId given in frontend/search.js. Returning empty array.', termId, termCount);
       return [];
     }
 
@@ -41,12 +42,12 @@ class Search {
 
     // Cache hit
     if (termCount <= existingTermCount && existingTermCount > 0 || this.allLoaded[termId + query]) {
-      console.log('Cache hit.', this.allLoaded[termId + query]);
+      macros.log('Cache hit.', this.allLoaded[termId + query]);
       return this.cache[termId + query].slice(0, termCount);
     }
 
     // If we got here, we need to hit the network.
-    console.log('Requesting terms ', existingTermCount, 'to', termCount);
+    macros.log('Requesting terms ', existingTermCount, 'to', termCount);
 
 
     const url = new URI('/search').query({

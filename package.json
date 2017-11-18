@@ -5,7 +5,8 @@
     "_comment": "These commands are used in dev.",
     "start": "cross-env NODE_ENV=dev babel-node backend/server.js",
     "scrape": "babel-node --max_old_space_size=8192 backend/scrapers/main.js",
-    "lint": "./node_modules/eslint/bin/eslint.js backend/scrapers",
+    "lint": "./node_modules/eslint/bin/eslint.js backend/ common/ frontend/",
+    "fix": "./node_modules/eslint/bin/eslint.js backend/ common/ frontend/ --fix",
     "test": "./node_modules/jest-cli/bin/jest.js",
     "_comment2": "These comands are used to build the code",
     "build_frontend": "mkdir -p public; cp frontend/static/* public/; cross-env NODE_ENV=prod babel-node ./node_modules/webpack/bin/webpack.js --config ./backend/webpack.config.babel.js --profile --colors",
@@ -67,6 +68,7 @@
     "json": "^9.0.6",
     "lodash": "^4.17.4",
     "mkdirp-promise": "^5.0.1",
+    "mock-local-storage": "^1.0.5",
     "mockdate": "^2.0.1",
     "moment": "^2.17.1",
     "msgpack5": "^3.4.1",
@@ -76,8 +78,9 @@
     "react": "^16.1.1",
     "react-css-modules": "^4.1.0",
     "react-dom": "^16.1.1",
-    "react-tooltip": "^3.2.6",
     "react-hot-loader": "^3.0.0-beta.2",
+    "react-test-renderer": "^16.1.1",
+    "react-tooltip": "^3.2.6",
     "request": "^2.81.0",
     "request-promise-native": "^1.0.3",
     "resolve-url-loader": "^2.0.2",
@@ -116,7 +119,9 @@
     "style-loader": "^0.19.0"
   },
   "jest": {
-    "setupFiles": ["./common/rafTestPolyfill.js"],
+    "setupFiles": [
+      "./common/rafTestPolyfill.js"
+    ],
     "moduleNameMapper": {
       "\\.(css|less|svg|png)$": "identity-obj-proxy"
     }
