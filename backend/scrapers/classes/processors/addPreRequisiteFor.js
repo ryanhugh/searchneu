@@ -67,23 +67,14 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
 
       const nodeRef = this.classMap[find];
 
-      // Checks and creates the optPrereqsFor field in our class, if needed
-      if (nodeRef.optPrereqsFor === undefined) {
-        nodeRef.optPrereqsFor = {
-          values: [],
-        };
-      }
-      if (nodeRef.prereqsFor === undefined) {
-        nodeRef.prereqsFor = {
-          values: [],
-        };
-      }
+      this.initializeArray(nodeRef);
 
       const classData = {
         subject: mainClass.subject,
         classUid: mainClass.classUid,
         classId: mainClass.classId,
       };
+
       if (isRequired) {
         nodeRef.prereqsFor.values.push(classData);
       } else {
@@ -94,10 +85,33 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
 
       if (node.values !== undefined) {
         node.values.map((course) => {
+          // A required course becomes effectively optional when we encounter
+          // an 'or' in our tree.
           const reqType = (classType === 'and') ? isRequired : false;
           return this.parsePreReqs(mainClass, course, reqType);
         });
       }
+    }
+  }
+
+  /**
+   * Creates the fields 'optPrereqsFor' and 'prereqsFor' in nodeRef, if and
+   * only if they haven't been initialized already.
+   *
+   * @param {Class} nodeRef the class in our tree that we're creating the
+   * arrays for.
+   */
+  initializeArray(nodeRef) {
+    // Checks and creates the optPrereqsFor field in our class, if needed
+    if (nodeRef.optPrereqsFor === undefined) {
+      nodeRef.optPrereqsFor = {
+        values: [],
+      };
+    }
+    if (nodeRef.prereqsFor === undefined) {
+      nodeRef.prereqsFor = {
+        values: [],
+      };
     }
   }
 

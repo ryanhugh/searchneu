@@ -204,7 +204,7 @@ class BaseClassPanel extends React.Component {
     }
 
     if (retVal.length === 0) {
-      return 'None';
+      return (<span className={ css.grey }>None</span>);
     }
 
     // retVal = retVal.join(' ' + this.prereqs.type + ' ')
