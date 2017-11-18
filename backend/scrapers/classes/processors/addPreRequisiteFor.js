@@ -3,6 +3,7 @@
  * See the license file in the root folder for details.
  */
 
+import _ from 'lodash';
 import BaseProcessor from './baseProcessor';
 import Keys from '../../../../common/Keys';
 
@@ -102,24 +103,15 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
 
     const nodeRef = this.classMap[find];
     if (nodeRef.optPrereqsFor && nodeRef.optPrereqsFor.values) {
-      const filtered = nodeRef.optPrereqsFor.values.filter((prereq) => {
+      const partitioned = _.partition(nodeRef.optPrereqsFor.values, (prereq) => {
         return prereq.subject === nodeRef.subject;
       });
+      const filtered = partitioned[0];
 
-      const nonFiltered = nodeRef.optPrereqsFor.values.filter((prereq) => {
-        return prereq.subject !== nodeRef.subject;
-      });
+      const nonFiltered = partitioned[1];
 
-      nonFiltered.sort((a, b) => {
-        if (a.subject !== b.subject) {
-          return a.subject < b.subject;
-        }
-
-        return parseInt(a.courseId, 10) < parseInt(b.courseId, 10);
-      });
-
+      filtered.reverse();
       filtered.push(...nonFiltered);
-
       nodeRef.optPrereqsFor.values = filtered;
     }
   }
