@@ -27,8 +27,10 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
 
     for (const aClass of termDump.classes) {
       if (aClass.prereqs) {
-        this.parsePreReqs(aClass, aClass.prereqs);
+        this.parsePreReqs(aClass, aClass.prereqs, true);
       }
+
+      this.sortPreReqs(aClass);
     }
   }
 
@@ -86,6 +88,39 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
           return this.parsePreReqs(mainClass, course, reqType);
         });
       }
+    }
+  }
+
+  /**
+   * Recursively traverse the prerequsite structure.
+   *
+   * @param {Class} node - a prerequsite class of mainClass. This is
+   * the field where we add the mainClass information to.
+   */
+  sortPreReqs(node) {
+    const find = Keys.create(node).getHash();
+
+    const nodeRef = this.classMap[find];
+    if (nodeRef.optPrereqsFor && nodeRef.optPrereqsFor.values) {
+      const filtered = nodeRef.optPrereqsFor.values.filter((prereq) => {
+        return prereq.subject === nodeRef.subject;
+      });
+
+      const nonFiltered = nodeRef.optPrereqsFor.values.filter((prereq) => {
+        return prereq.subject !== nodeRef.subject;
+      });
+
+      nonFiltered.sort((a, b) => {
+        if (a.subject !== b.subject) {
+          return a.subject < b.subject;
+        }
+
+        return parseInt(a.courseId, 10) < parseInt(b.courseId, 10);
+      });
+
+      filtered.push(...nonFiltered);
+
+      nodeRef.optPrereqsFor.values = filtered;
     }
   }
 
