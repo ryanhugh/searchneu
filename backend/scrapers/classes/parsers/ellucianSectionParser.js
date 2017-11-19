@@ -158,14 +158,8 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
 
     //find co and pre reqs and restrictions
     const prereqs = ellucianRequisitesParser.parseRequirementSection(url, element.parent.children, 'prerequisites');
-    if (prereqs) {
-      retVal.prereqs = prereqs;
-    }
 
     const coreqs = ellucianRequisitesParser.parseRequirementSection(url, element.parent.children, 'corequisites');
-    if (coreqs) {
-      retVal.coreqs = coreqs;
-    }
 
     //find co and pre reqs and restrictions
     const prereqs2 = ellucianRequisitesParser2.parseRequirementSection(url, element.parent.children, 'prerequisites');
@@ -178,6 +172,14 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
       macros.log('WARNING: coreqs parsed by the new parser are not equal', JSON.stringify(coreqs, null, 4), JSON.stringify(coreqs2, null, 4));
     }
 
+    if (prereqs2) {
+      retVal.prereqs = prereqs2;
+    }
+
+
+    if (coreqs2) {
+      retVal.coreqs = coreqs2;
+    }
 
     //grab credits
     const text = domutils.getText(element.parent).toLowerCase();
