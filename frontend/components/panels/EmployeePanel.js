@@ -80,7 +80,7 @@ class EmployeePanel extends React.Component {
   }
 
   toggleShowMoreThanTitle() {
-    console.log('now it is ', this.state.showMoreThanTitle);
+    macros.log('now it is ', this.state.showMoreThanTitle);
     this.setState({
       showMoreThanTitle: !this.state.showMoreThanTitle,
     });

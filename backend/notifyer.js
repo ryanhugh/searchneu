@@ -13,7 +13,7 @@ import macros from './macros';
 class Notifyer {
   // Webhook to respond to facebook messages.
   async sendFBNotification(sender, text) {
-    console.log('Sending a fb message to ', sender, text);
+    macros.log('Sending a fb message to ', sender, text);
     const messageData = { text:text };
 
     const token = await macros.getEnvVariable('fbToken');

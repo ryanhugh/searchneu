@@ -68,7 +68,7 @@ const searchneu = `
  `;
 
 if (Macros.PROD) {
-  console.log(searchneu);
+  commonMacros.log(searchneu);
 }
 
 

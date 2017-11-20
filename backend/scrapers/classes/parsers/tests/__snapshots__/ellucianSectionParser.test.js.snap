@@ -16,7 +16,7 @@ Object {
 exports[`parse prereqs and coreqs and seat data from 1.html 1`] = `
 Object {
   "coreqs": Object {
-    "type": "or",
+    "type": "and",
     "values": Array [
       Object {
         "classId": "2161",

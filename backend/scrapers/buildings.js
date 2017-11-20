@@ -75,13 +75,13 @@ async function main() {
 
   const json = tj.kml(new DOMParser.DOMParser().parseFromString(kmlRequest.body));
 
-  console.log(json.features);
+  macros.log(json.features);
 
   // const outputFile = path.join(macros.DEV_DATA_DIR, 'buildings.json');
 
   if (macros.DEV) {
     await cache.set('dev_data', 'buildings', 'main', json.features);
-    console.log('buildings file saved!');
+    macros.log('buildings file saved!');
   }
 
 
