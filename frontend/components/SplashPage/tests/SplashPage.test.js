@@ -13,6 +13,6 @@ it('should render without crashing', () => {
 
   tree.toJSON();
 
-  // No need to snapshot the Splash page. 
+  // No need to snapshot the Splash page.
   // Would just have to update the snapshot every time we changed something.
 });
