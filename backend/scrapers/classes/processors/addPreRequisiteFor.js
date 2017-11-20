@@ -76,9 +76,9 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
       };
 
       if (isRequired) {
-        nodeRef.prereqsFor.values.push(classData);
+        nodeRef.prereqsFor.values.unshift(classData);
       } else {
-        nodeRef.optPrereqsFor.values.push(classData);
+        nodeRef.optPrereqsFor.values.unshift(classData);
       }
     } else {
       const classType = node.type;
@@ -133,8 +133,8 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
 
       const nonFiltered = partitioned[1];
 
-      filtered.reverse();
       filtered.push(...nonFiltered);
+
       nodeRef.optPrereqsFor.values = filtered;
     }
   }
