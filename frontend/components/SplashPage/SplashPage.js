@@ -24,8 +24,6 @@ function SplashPage() {
   const searchForENGW1111Event = new CustomEvent(macros.searchEvent, { detail: 'ENGW 1111' });
   const searchForOODEvent = new CustomEvent(macros.searchEvent, { detail: 'OOD' });
 
-  // <img className = {css.lernerMobile} src={lernerMobile}/>
-
   return (
     <span className={ css.splashPageContainer }>
 
@@ -67,7 +65,7 @@ function SplashPage() {
         </Grid.Column>
       </Grid>
 
-
+      {/* Third Row. */}
       <Grid stackable className={ css.thirdRow }>
         <Grid.Column width={ 7 } className={ css.thirdRowText }>
           <div className={ css.thirdRowTextInner }>
@@ -93,12 +91,6 @@ function SplashPage() {
     </span>
   );
 }
-
-// this was for mobile
-// <div className={css.thirdRowPadding}> </div>
-
-
-//             <div className={css.allTextDesc}>Search for classes, subjects, sections, professors, CRNs, and more. Instantly find what you are looking for.</div>
 
 
 export default CSSModules(SplashPage, css);
