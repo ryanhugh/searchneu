@@ -119,7 +119,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
     data = this.simplifyRequirementsBase(data);
     if (!data.values || !data.type) {
       return {
-        type: 'or',
+        type: 'and',
         values: [data],
       };
     }
@@ -362,7 +362,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
 
     if (!this.currFrame.type) {
       if (!this.currFrame.values.length < 2) {
-        this.currFrame.type = 'or';
+        this.currFrame.type = 'and';
       } else {
         macros.error(this.currFrame);
       }

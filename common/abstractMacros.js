@@ -17,12 +17,12 @@ class Macros {
       return;
     }
 
-    console.log(...args);
+    console.log(...args); // eslint-disable-line no-console
   }
 
   static warn(...args) {
     args = ['Warn:'].concat(args);
-    console.warn(...args);
+    console.warn(...args); // eslint-disable-line no-console
   }
 
   static error(...args) {
@@ -32,8 +32,8 @@ class Macros {
 
     args = ['Error:'].concat(args);
 
-    console.error(...args);
-    console.trace();
+    console.error(...args); // eslint-disable-line no-console
+    console.trace(); // eslint-disable-line no-console
   }
 
   // Replace all instances of a substring with another without a regex (faster).
@@ -146,14 +146,14 @@ Macros.amplitudeToken = 'e0801e33a10c3b66a3c1ac8ebff53359';
 // Set up the Macros.TESTS, Macros.DEV, and Macros.PROD based on some env variables.
 if (process.env.PROD || process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prod' || (process.env.CI && process.env.NODE_ENV !== 'test')) {
   Macros.PROD = true;
-  console.log('Running in prod mode.');
+  console.log('Running in prod mode.'); // eslint-disable-line no-console
 } else if (process.env.DEV || process.env.NODE_ENV === 'dev') {
   Macros.DEV = true;
-  console.log('Running in dev mode.');
+  console.log('Running in dev mode.'); // eslint-disable-line no-console
 } else if (process.env.NODE_ENV === 'test') {
   Macros.TESTS = true;
 } else {
-  console.log(`Unknown env! (${process.env.NODE_ENV}) Setting to dev.`);
+  console.log(`Unknown env! (${process.env.NODE_ENV}) Setting to dev.`); // eslint-disable-line no-console
   Macros.DEV = true;
 }
 

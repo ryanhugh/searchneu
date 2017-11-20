@@ -82,13 +82,13 @@ class Camd {
       const possiblePhone = macros.standardizePhone(text);
       if (possiblePhone) {
         if (obj.phone) {
-          console.log('Duplicate phone?', obj.phone, possiblePhone);
+          macros.log('Duplicate phone?', obj.phone, possiblePhone);
         }
 
         obj.phone = possiblePhone;
       } else if (text.match(/[\w\d-.]+@[\w\d-.]+/) && !obj.emails) {
         // If the email was not hyperlinked, it would not be picked up by the prior email parsing and instead would appear here.
-        console.warn('Parsing plain text as email:', text);
+        macros.warn('Parsing plain text as email:', text);
         obj.emails = [text];
       } else if (text.length > 3) { // If phone did not match, check office.
         if (text.startsWith('Office: ')) {
@@ -96,7 +96,7 @@ class Camd {
         }
 
         if (obj.officeRoom) {
-          console.log('Two matches for office, keeping the longer one', obj.office, text);
+          macros.log('Two matches for office, keeping the longer one', obj.office, text);
 
           // Only update the office if the new office is longer.
           // This rarely happens, but the longer the string is the more likely it is to be an office location.
@@ -110,7 +110,7 @@ class Camd {
 
         obj.officeRoom = text;
       } else {
-        console.log('Warn: unknown prop in description', text);
+        macros.log('Warn: unknown prop in description', text);
       }
     });
 
@@ -167,7 +167,7 @@ class Camd {
 
     if (macros.DEV) {
       await cache.set('dev_data', this.constructor.name, 'main', people);
-      console.log(people.length, 'camd people saved to the cache file!');
+      macros.log(people.length, 'camd people saved to the cache file!');
     }
 
     return people;

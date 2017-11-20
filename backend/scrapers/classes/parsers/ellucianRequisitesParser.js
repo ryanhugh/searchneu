@@ -104,7 +104,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
     data = this.simplifyRequirementsBase(data);
     if (!data.values || !data.type) {
       return {
-        type: 'or',
+        type: 'and',
         values: [data],
       };
     }

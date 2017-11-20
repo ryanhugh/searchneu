@@ -69,7 +69,6 @@ module.exports = {
       "spacing": {
         "objectLiterals": "never"
       }
-    }],
-    "no-console": "off"
+    }]
   }
 }
