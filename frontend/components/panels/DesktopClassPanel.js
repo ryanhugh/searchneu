@@ -30,12 +30,21 @@ const cx = classNames.bind(css);
 
 // DesktopClassPanel page component
 class DesktopClassPanel extends BaseClassPanel {
+  constructor(props) {
+    super(props);
+    this.state.optPrereqsForPage = 0;
+  }
+
   componentDidUpdate() {
     macros.debounceTooltipRebuild();
   }
 
   componentDidMount() {
     macros.debounceTooltipRebuild();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.optPrereqsForPage !== nextState.optPrereqsForPage;
   }
 
   // Method to decide whether to show the waitlist or not
@@ -272,7 +281,7 @@ class DesktopClassPanel extends BaseClassPanel {
               <br />
               Prerequisite for: {this.getReqsString('prereqsFor', aClass)}
               <br />
-              Optional Prerequisite for: {this.getReqsString('optPrereqsFor', aClass)}
+              Optional Prerequisite for: {this.optionalDisplay(aClass)} {this.showMore('optPrereqsFor', aClass)}
             </div>
             <div className={ css.rightPanel }>
               <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
@@ -285,10 +294,58 @@ class DesktopClassPanel extends BaseClassPanel {
       </div>
     );
   }
+
+  showMore = (prereqType, aClass) => {
+    const data = this.getReqsString('optPrereqsFor', aClass);
+
+    if (!Array.isArray(data) ||
+    data.length < DesktopClassPanel.classesShownByDefault * 2) {
+      return null;
+    }
+
+    return (
+      <button
+        // className={ css.showMoreButton }
+        tabIndex={ 0 }
+        onClick={ () => {
+          if (prereqType === 'prereqsFor') {
+            this.setState({ });
+          } else {
+            this.setState((prevState) => {
+              return { optPrereqsForPage: prevState.optPrereqsForPage + 1 };
+            });
+          }
+        } }
+      >Show More...
+      </button>
+    );
+  }
+
+  optionalDisplay = (aClass) => {
+    const data = this.getReqsString('optPrereqsFor', aClass);
+
+    if (Array.isArray(data)) {
+      if (this.state.optPrereqsForPage >= 3) {
+        return data;
+      }
+      const showAmt = DesktopClassPanel.classesShownByDefault * 2 + (this.state.optPrereqsForPage * 5);
+      macros.log(showAmt);
+      if (showAmt < data.length) {
+        data.length = showAmt;
+      }
+
+      if (typeof data[data.length - 1] === 'string') {
+        data.length -= 1;
+      }
+    }
+
+    return data;
+  }
 }
 
 // Number of sections to show by default. This is different on mobile.
 DesktopClassPanel.sectionsShownByDefault = 3;
+DesktopClassPanel.classesShownByDefault = 5;
 
 DesktopClassPanel.propTypes = {
   aClass: PropTypes.object.isRequired,
