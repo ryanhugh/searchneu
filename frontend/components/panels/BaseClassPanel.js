@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import RequisiteBranch from '../../../common/classModels/RequisiteBranch';
+import Keys from '../../../common/Keys';
 import css from './BaseClassPanel.css';
 import macros from '../macros';
 
@@ -198,6 +199,24 @@ class BaseClassPanel extends React.Component {
     // retVal = retVal.join(' ' + this.prereqs.type + ' ')
 
     return retVal;
+  }
+
+  // Just used for testing. Not used anywhere in the frontend. 
+  render() {
+    return  (
+      <div>
+        <div>
+          {this.state.renderedSections.map((aClass) => {
+            return Keys.create(aClass).getHash();
+          })}
+        </div>  
+        <div>
+          {this.state.unrenderedSections.map((aClass) => {
+            return Keys.create(aClass).getHash();
+          })}
+        </div>  
+      </div>
+    );
   }
 }
 
