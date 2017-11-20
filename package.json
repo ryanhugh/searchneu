@@ -50,7 +50,7 @@
     "cross-env": "^5.0.0",
     "deep-diff": "^0.3.8",
     "dnscache": "^1.0.1",
-    "domutils": "1.5.1",
+    "domutils": "^1.6.2",
     "elasticlunr": "^0.9.5",
     "eslint-loader": "^1.9.0",
     "express": "^4.15.2",
