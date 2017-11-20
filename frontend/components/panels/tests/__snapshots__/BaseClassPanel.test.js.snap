@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should not render a button 1`] = `null`;
+
+exports[`should render a button 1`] = `
+<div
+  className="showMoreButton"
+  onClick={[Function]}
+  role="button"
+  tabIndex={0}
+>
+  Show More...
+</div>
+`;
