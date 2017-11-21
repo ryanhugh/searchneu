@@ -266,7 +266,7 @@ class DesktopClassPanel extends BaseClassPanel {
             <br />
             <br />
             <div className={ css.leftPanel }>
-              Prerequisites: {this.getReqsString('prereqs', aClass)}
+              Prerequisites: {this.optionalDisplay('prereqs')} {this.showMore('prereqs')}
               <br />
               Corequisites: {this.getReqsString('coreqs', aClass)}
               <br />

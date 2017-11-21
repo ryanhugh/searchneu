@@ -18,6 +18,7 @@ class BaseClassPanel extends React.Component {
     this.state = this.getInitialRenderedSectionState();
     this.state.optPrereqsForPage = 0;
     this.state.prereqsForPage = 0;
+    this.state.prereqsPage = 0;
 
     this.onShowMoreClick = this.onShowMoreClick.bind(this);
   }
@@ -217,6 +218,8 @@ class BaseClassPanel extends React.Component {
         return this.state.optPrereqsForPage;
       case 'prereqsFor':
         return this.state.prereqsForPage;
+      case 'prereqs':
+        return this.state.prereqsPage;
       default:
         return -1;
     }
@@ -285,9 +288,13 @@ class BaseClassPanel extends React.Component {
             this.setState((prevState) => {
               return { prereqsForPage: prevState.prereqsForPage + 1 };
             });
-          } else {
+          } else if (prereqType === 'optPrereqsFor') {
             this.setState((prevState) => {
               return { optPrereqsForPage: prevState.optPrereqsForPage + 1 };
+            });
+          } else if (prereqType === 'prereqs') {
+            this.setState((prevState) => {
+              return { prereqsPage: prevState.prereqsPage + 1 };
             });
           }
         } }
