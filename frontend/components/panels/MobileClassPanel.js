@@ -94,7 +94,7 @@ class MobileClassPanel extends BaseClassPanel {
             <br />
             Corequisites: {this.getReqsString('coreqs', aClass)}
             <br />
-            Prerequisite for: {this.getReqsString('prereqsFor', aClass)}
+            Prerequisite for: {this.optionalDisplay('prereqsFor')} {this.showMore('prereqsFor')}
             <br />
             Optional Prerequisite for: {this.optionalDisplay('optPrereqsFor')} {this.showMore('optPrereqsFor')}
           </div>
