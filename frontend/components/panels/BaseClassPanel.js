@@ -16,6 +16,8 @@ class BaseClassPanel extends React.Component {
     super(props);
 
     this.state = this.getInitialRenderedSectionState();
+    this.state.optPrereqsForPage = 0;
+    this.state.prereqsForPage = 0;
 
     this.onShowMoreClick = this.onShowMoreClick.bind(this);
   }
@@ -210,6 +212,96 @@ class BaseClassPanel extends React.Component {
     // retVal = retVal.join(' ' + this.prereqs.type + ' ')
 
     return retVal;
+  }
+
+  /**
+   * Returns the 'page' of the specified prerequisite.
+   *
+   * @param {String} prereqType type of prerequisite.
+   */
+  getStateValue(prereqType) {
+    switch (prereqType) {
+      case 'optPrereqsFor':
+        return this.state.optPrereqsForPage;
+      case 'prereqsFor':
+        return this.state.prereqsForPage;
+      default:
+        return -1;
+    }
+  }
+
+  /**
+   * Returns how many elements we should return from our array of prerequisites.
+   * Note that we mutliply our value by two because every other value is ', '
+   *
+   * @param {String} prereqType type of prerequisite.
+   */
+  getShowAmount(prereqType) {
+    const classesShownByDefault = 5;
+    const stateValue = this.getStateValue(prereqType);
+    return 2 * classesShownByDefault *
+    (stateValue + 1);
+  }
+
+  /**
+   * Returns the array that we should be displaying
+   *
+   * @param {String} prereqType type of prerequisite.
+   */
+  optionalDisplay(prereqType) {
+    const data = this.getReqsString(prereqType, this.props.aClass);
+
+    if (Array.isArray(data)) {
+      if (this.getStateValue(prereqType) >= 3) {
+        return data;
+      }
+
+      const showAmt = this.getShowAmount(prereqType);
+
+      if (showAmt < data.length) {
+        data.length = showAmt;
+      }
+
+      if (typeof data[data.length - 1] === 'string') {
+        data.length -= 1;
+      }
+    }
+
+    return data;
+  }
+
+  /**
+   * Returns the 'Show More' button of the prereqType, if one is needed.
+   * @param {String} prereqType type of prerequisite.
+   */
+  showMore(prereqType) {
+    const data = this.getReqsString(prereqType, this.props.aClass);
+
+    if (!Array.isArray(data) ||
+      this.state.optPrereqsForPage >= 3 ||
+      this.getShowAmount(prereqType) >= data.length) {
+      return null;
+    }
+
+    return (
+      <a
+        className={ css.prereqShowMore }
+        role='button'
+        tabIndex={ 0 }
+        onClick={ () => {
+          if (prereqType === 'prereqsFor') {
+            this.setState((prevState) => {
+              return { prereqsForPage: prevState.prereqsForPage + 1 };
+            });
+          } else {
+            this.setState((prevState) => {
+              return { optPrereqsForPage: prevState.optPrereqsForPage + 1 };
+            });
+          }
+        } }
+      >Show More...
+      </a>
+    );
   }
 }
 
