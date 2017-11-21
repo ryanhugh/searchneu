@@ -70,6 +70,41 @@ describe('addPreRequisiteFor tests', () => {
     host: 'neu.edu',
   };
 
+  const fakeClass2 = {
+    prereqsFor:
+      {
+        values: [
+          {
+            subject: 'CS',
+            classUid: '2500_699845913',
+            classId: '5',
+          }, {
+            subject: 'MATH',
+            classUid: '2500_699845913',
+            classId: '2',
+          }, {
+            subject: 'EECE',
+            classUid: '2500_699845913',
+            classId: '11',
+          }, {
+            subject: 'EECE',
+            classUid: '2500_699845913',
+            classId: '7',
+          },
+          {
+            subject: 'MATH',
+            classUid: '2500_699845913',
+            classId: '3',
+          },
+        ],
+      },
+    classId: '2510',
+    termId: '201830',
+    classUid: '33333333',
+    subject: 'EECE',
+    host: 'neu.edu',
+  };
+
   const termDump = {
     classes: [cs2500, cs2510, fakeClass1],
     sections: [],
@@ -87,7 +122,7 @@ describe('addPreRequisiteFor tests', () => {
   });
 
 
-  it('should sort some prereqsFor', () => {
+  it('should sort some optPrereqsFor', () => {
     addPreRequisiteFor.termDump = termDump;
     const hash = Keys.create(fakeClass1).getHash();
     addPreRequisiteFor.classMap[hash] = fakeClass1;
@@ -95,5 +130,16 @@ describe('addPreRequisiteFor tests', () => {
     addPreRequisiteFor.sortPreReqs(fakeClass1);
 
     expect(fakeClass1.optPrereqsFor).toMatchSnapshot();
+  });
+
+
+  it('should sort some prereqsFor', () => {
+    addPreRequisiteFor.termDump = termDump;
+    const hash = Keys.create(fakeClass2).getHash();
+    addPreRequisiteFor.classMap[hash] = fakeClass2;
+
+    addPreRequisiteFor.sortPreReqs(fakeClass2);
+
+    expect(fakeClass2.prereqsFor).toMatchSnapshot();
   });
 });
