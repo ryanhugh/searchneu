@@ -20,72 +20,72 @@ const cs0210 = Class.create({
   maxCredits: 49,
 
   // These arn't the actuall prereqs or coreqs for this class
-  "prereqs":
+  prereqs:
         {
-            "type": "and",
-            "values": [
+          type: 'and',
+          values: [
             {
-                "type": "or",
-                "values": [
+              type: 'or',
+              values: [
                 {
-                    "subject": "CHEM",
-                    "classUid": "2313_853783103",
-                    "classId": "2313"
+                  subject: 'CHEM',
+                  classUid: '2313_853783103',
+                  classId: '2313',
                 },
                 {
-                    "subject": "CHEM",
-                    "classUid": "2317_1058823308",
-                    "classId": "2317"
-                }]
+                  subject: 'CHEM',
+                  classUid: '2317_1058823308',
+                  classId: '2317',
+                }],
             },
             {
-                "type": "or",
-                "values": [
+              type: 'or',
+              values: [
                 {
-                    "subject": "CHEM",
-                    "classUid": "2321_865155588",
-                    "classId": "2321"
+                  subject: 'CHEM',
+                  classUid: '2321_865155588',
+                  classId: '2321',
                 },
                 {
-                    "subject": "CHEM",
-                    "classUid": "2331_2069949756",
-                    "classId": "2331"
-                }]
+                  subject: 'CHEM',
+                  classUid: '2331_2069949756',
+                  classId: '2331',
+                }],
             },
             {
-                "type": "or",
-                "values": [
+              type: 'or',
+              values: [
                 {
-                    "subject": "CHEM",
-                    "classUid": "3401_1581191390",
-                    "classId": "3401"
+                  subject: 'CHEM',
+                  classUid: '3401_1581191390',
+                  classId: '3401',
                 },
                 {
-                    "classId": "3421",
-                    "subject": "CHEM",
-                    "missing": true
+                  classId: '3421',
+                  subject: 'CHEM',
+                  missing: true,
                 },
                 {
-                    "subject": "CHEM",
-                    "classUid": "3431_219254629",
-                    "classId": "3431"
-                }]
-            }]
+                  subject: 'CHEM',
+                  classUid: '3431_219254629',
+                  classId: '3431',
+                }],
+            }],
         },
-        "coreqs":
+  coreqs:
         {
-            "type": "and",
-            "values": [
+          type: 'and',
+          values: [
             {
-                "subject": "CHEM",
-                "classUid": "3506_238525520",
-                "classId": "3506"
+              subject: 'CHEM',
+              classUid: '3506_238525520',
+              classId: '3506',
             },
             {
-                "subject": "CHEM",
-                "classUid": "3507_516122019",
-                "classId": "3507"
-            }]
+              subject: 'CHEM',
+              classUid: '3507_516122019',
+              classId: '3507',
+            }],
         },
   minCredits: 1,
   desc: 'Offers students an opportunity to learn and practice how to search in large amounts of unstructured data. Covers basic concepts in search, retrieval models, indexing, querying and ranking, and evaluation. This is a limited engagement course. 1.800 Continuing Education Units 1.800 Lecture hours',

@@ -201,20 +201,20 @@ class BaseClassPanel extends React.Component {
     return retVal;
   }
 
-  // Just used for testing. Not used anywhere in the frontend. 
+  // Just used for testing. Not used anywhere in the frontend.
   render() {
-    return  (
+    return (
       <div>
         <div>
           {this.state.renderedSections.map((aClass) => {
             return Keys.create(aClass).getHash();
           })}
-        </div>  
+        </div>
         <div>
           {this.state.unrenderedSections.map((aClass) => {
             return Keys.create(aClass).getHash();
           })}
-        </div>  
+        </div>
       </div>
     );
   }
