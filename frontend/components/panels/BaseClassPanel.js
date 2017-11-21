@@ -22,14 +22,6 @@ class BaseClassPanel extends React.Component {
     this.onShowMoreClick = this.onShowMoreClick.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.renderedSections.length !== nextState.renderedSections.length) {
-      return true;
-    }
-
-    return false;
-  }
-
   onShowMoreClick() {
     macros.log('Adding more sections to the bottom.');
 
