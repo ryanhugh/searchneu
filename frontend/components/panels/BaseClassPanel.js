@@ -87,7 +87,7 @@ class BaseClassPanel extends React.Component {
   // If it exists, it is called on when formatting the classes
   // It is called with a class
   // and can return either a string or a react element.
-  getReqsString(parsingPrereqs = 'prereqs', aClass = this.props.aClass) {
+  getReqsString(parsingPrereqs, aClass = this.props.aClass) {
     const retVal = [];
 
     // Keep track of which subject+classId combonations have been used so far.
@@ -114,6 +114,8 @@ class BaseClassPanel extends React.Component {
       } else {
         childNodes = aClass.optPrereqsFor;
       }
+    } else {
+      macros.error('Invalid prereqType', parsingPrereqs);
     }
 
     childNodes.values.forEach((childBranch) => {
@@ -176,9 +178,9 @@ class BaseClassPanel extends React.Component {
         // If the child branch is a requisite branch
         //Ghetto fix until this tree is simplified
         if (_.uniq(childBranch.prereqs.values).length === 1) {
-          retVal.push(this.getReqsString('prereqs', childBranch));
+          retVal.push(this.getReqsString(macros.prereqTypes.PREREQ, childBranch));
         } else {
-          retVal.push(['(', this.getReqsString('prereqs', childBranch), ')']);
+          retVal.push(['(', this.getReqsString(macros.prereqTypes.PREREQ, childBranch), ')']);
         }
       } else {
         macros.error('Branch found and parsing coreqs?', childBranch);
