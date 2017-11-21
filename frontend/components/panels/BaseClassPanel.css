@@ -32,18 +32,16 @@
   cursor: pointer;
 }
 
-.grey {
-  color: rgba(0, 0, 0, 0.5);
-  font-style: italic;
+.dynamicText {
+    color: #969696;
+    font-weight: 500;
+    font-size: 30px thefont, monospace;
 }
 
 .prereqShowMore {
     cursor: pointer;
     padding: 1px;
-    color: #969696;
-    font-weight: 500;
     display: inline;
-    font-size: 30px thefont, monospace;
 }
 
 .prereqShowMoreArrow:after {
