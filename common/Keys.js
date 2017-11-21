@@ -91,23 +91,20 @@ class Keys {
   // propsEqual (no instance of check)
   static create(obj, endpoint) {
     if (arguments.length > 1) {
-      console.trace('ERROR!', obj, endpoint);
-      console.error('Keys called with endpoint, but endpoints not supported anymore.');
+      macros.error('Keys called with endpoint, but endpoints not supported anymore.');
     }
     return new this(obj, endpoint, {});
   }
 
   static createWithHash(obj, endpoint) {
-    console.trace('ERROR!', obj, endpoint);
-    console.error('Keys called with endpoint, but endpoints not supported anymore.');
+    macros.trace('ERROR!', obj, endpoint);
     return new this(obj, endpoint, {
       hashAllowed: true,
     });
   }
 
   static createWithString(obj) {
-    console.trace('ERROR!', obj);
-    console.error('Keys called with endpoint, but endpoints not supported anymore.');
+    macros.error('Keys called with endpoint, but endpoints not supported anymore.');
     return new this(obj, null, {
       stringAllowed: true,
     });

@@ -83,7 +83,7 @@ class CombineCCISandEmployees {
         if (emailDomainMap[domain] && emailDomainMap[domain] !== email) {
           this.logAnalyticsEvent('emailDomainMismatch');
 
-          console.log('Not matching people because they had different emails on the same domain.', emailDomainMap[domain], email);
+          macros.log('Not matching people because they had different emails on the same domain.', emailDomainMap[domain], email);
           return false;
         }
       }
@@ -91,7 +91,7 @@ class CombineCCISandEmployees {
 
     if (matchObj.peopleListIndexMatches[peopleListIndex]) {
       this.logAnalyticsEvent('sameListNotMatching');
-      console.log('Not matching ', matchObj.firstName, matchObj.lastName, 'and ', person.name, 'because they came from the same list.');
+      macros.log('Not matching ', matchObj.firstName, matchObj.lastName, 'and ', person.name, 'because they came from the same list.');
       return false;
     }
 
@@ -109,7 +109,7 @@ class CombineCCISandEmployees {
 
     // First, match people from the different data sources. The merging happens after the matching
     for (const peopleList of peopleLists) {
-      console.log('At people list index', peopleListIndex);
+      macros.log('At people list index', peopleListIndex);
 
       this.resetAnalytics();
 
@@ -128,7 +128,7 @@ class CombineCCISandEmployees {
 
             // Final checks to see if it is ok to declare a match.
             if (!this.okToMatch(matchedPerson, person, peopleListIndex)) {
-              console.log('Not ok to match 1.', matchedPerson.firstName, matchedPerson.lastName, person.name);
+              macros.log('Not ok to match 1.', matchedPerson.firstName, matchedPerson.lastName, person.name);
               continue;
             }
 
@@ -144,7 +144,7 @@ class CombineCCISandEmployees {
             matchesFound++;
             this.logAnalyticsEvent('matchedByEmail');
             if (matchesFound > 1) {
-              console.log('Warning 1: ', matchesFound, 'matches found', matchedPerson, person);
+              macros.log('Warning 1: ', matchesFound, 'matches found', matchedPerson, person);
             }
           }
         }
@@ -152,7 +152,7 @@ class CombineCCISandEmployees {
         // The rest of this code requires both a first name and a last name
         if (!person.firstName || !person.lastName) {
           this.logAnalyticsEvent('missingNameUnmatchedEmail');
-          console.log("Don't have person first name or last name and did not match with email.", person);
+          macros.log("Don't have person first name or last name and did not match with email.", person);
           continue;
         }
 
@@ -178,7 +178,7 @@ class CombineCCISandEmployees {
 
             // Final checks to see if it is ok to declare a match.
             if (!this.okToMatch(matchedPerson, person, peopleListIndex)) {
-              console.log('Not ok to match 2.', matchedPerson.firstName, matchedPerson.lastName, person.name);
+              macros.log('Not ok to match 2.', matchedPerson.firstName, matchedPerson.lastName, person.name);
               continue;
             }
 
@@ -189,13 +189,13 @@ class CombineCCISandEmployees {
             matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
             matchedPerson.peopleListIndexMatches[peopleListIndex] = true;
 
-            console.log('Matching:', person.firstName, person.lastName, ':', matchedPerson.firstName, matchedPerson.lastName);
+            macros.log('Matching:', person.firstName, person.lastName, ':', matchedPerson.firstName, matchedPerson.lastName);
 
             // There should only be one match per person. Log a warning if there are more.
             this.logAnalyticsEvent('matchedByName');
             matchesFound++;
             if (matchesFound > 1) {
-              console.log('Warning 2: ', matchesFound, 'matches found', matchedPerson, person);
+              macros.log('Warning 2: ', matchesFound, 'matches found', matchedPerson, person);
             }
           }
         }
@@ -218,7 +218,7 @@ class CombineCCISandEmployees {
           }
 
           if (peopleListIndex > 1) {
-            console.log('Adding', person.firstName, person.lastName);
+            macros.log('Adding', person.firstName, person.lastName);
           }
           if (person.primaryRole === 'PhD Student') {
             this.logAnalyticsEvent('unmatched PhD Student');
@@ -226,7 +226,7 @@ class CombineCCISandEmployees {
 
           mergedPeopleList.push(newMatchPerson);
         } else if (matchesFound > 1) {
-          console.error(matchesFound, 'matches found for ', person.name, '!!!!');
+          macros.error(matchesFound, 'matches found for ', person.name, '!!!!');
         }
       }
 
@@ -236,7 +236,7 @@ class CombineCCISandEmployees {
         this.analytics.unmatched = this.analytics.people - this.analytics.matched;
       }
 
-      console.log(JSON.stringify(this.analytics, null, 4));
+      macros.log(JSON.stringify(this.analytics, null, 4));
       peopleListIndex++;
     }
 
@@ -279,7 +279,7 @@ class CombineCCISandEmployees {
           }
 
           if (output[attrName] && output[attrName] !== profile[attrName]) {
-            console.log('Overriding ', output[attrName], '\twith', profile[attrName]);
+            macros.log('Overriding ', output[attrName], '\twith', profile[attrName]);
           }
 
 
@@ -301,7 +301,7 @@ class CombineCCISandEmployees {
       mergedEmployees[index].id = objectHash(person);
     });
 
-    console.log('Spent', Date.now() - startTime, 'ms generating object hashes for employees without IDs.');
+    macros.log('Spent', Date.now() - startTime, 'ms generating object hashes for employees without IDs.');
 
 
     // Save the file
@@ -313,7 +313,7 @@ class CombineCCISandEmployees {
     const employeeMap = {};
     mergedEmployees.forEach((person) => {
       if (!person.id) {
-        console.error('Error, need id to make map!', person);
+        macros.error('Error, need id to make map!', person);
       }
       if (employeeMap[person.id]) {
         macros.error('Error, duplicate id!', person.id);
@@ -371,7 +371,7 @@ class CombineCCISandEmployees {
 
 
     await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeesSearchIndex.json'), JSON.stringify(index.toJSON()));
-    console.log('wrote employee json files');
+    macros.log('wrote employee json files');
   }
 }
 

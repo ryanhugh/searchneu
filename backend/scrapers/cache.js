@@ -74,7 +74,7 @@ class Cache {
       const buffer = await fs.readFile(msgPackFileExtension);
       const midTime = Date.now();
       const retVal = msgpack.decode(buffer);
-      console.log('It took ', Date.now() - midTime, 'ms to parse and ', midTime - startTime, ' to load ', msgPackFileExtension);
+      macros.log('It took ', Date.now() - midTime, 'ms to parse and ', midTime - startTime, ' to load ', msgPackFileExtension);
       return retVal;
     }
 
@@ -86,7 +86,7 @@ class Cache {
       const buffer = await fs.readFile(jsonFileExtension);
       const midTime = Date.now();
       const retVal = JSON.parse(buffer);
-      console.log('It took ', Date.now() - midTime, 'ms to parse and ', midTime - startTime, ' to load ', jsonFileExtension);
+      macros.log('It took ', Date.now() - midTime, 'ms to parse and ', midTime - startTime, ' to load ', jsonFileExtension);
       return retVal;
     }
 
@@ -149,7 +149,7 @@ class Cache {
 
     const timeSpendEncoding = Date.now() - startTime;
     this.totalTimeSpendEncoding += timeSpendEncoding;
-    console.log('Saving file', destinationFile, 'encoding took', timeSpendEncoding, this.totalTimeSpendEncoding);
+    macros.log('Saving file', destinationFile, 'encoding took', timeSpendEncoding, this.totalTimeSpendEncoding);
     await fs.writeFile(`${destinationFile}.new`, buffer);
 
     // Write to a file with a different name, and then rename the new one. Renaming a file to a filename that already exists
@@ -157,7 +157,7 @@ class Cache {
     // This prevents the cache file from getting into an invalid state if the process is killed while the program is saving.
     // If the file does not exist, ignore the error
     await fs.rename(`${destinationFile}.new`, destinationFile);
-    console.log('It took ', Date.now() - startTime, 'ms to save', destinationFile);
+    macros.log('It took ', Date.now() - startTime, 'ms to save', destinationFile);
   }
 
 

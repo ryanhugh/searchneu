@@ -154,7 +154,7 @@ class SearchIndex {
 
     await mkdirp(folderName);
     await fs.writeFile(fileName, searchIndexString);
-    console.log('Successfully saved', fileName);
+    macros.log('Successfully saved', fileName);
   }
 
 

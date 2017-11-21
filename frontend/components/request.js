@@ -5,6 +5,7 @@
 
 import URI from 'urijs';
 import asyncjs from 'async';
+import macros from './macros';
 
 // All the requests from the frontend to the backend go through this file.
 // There used to be a lot of logic in here for loading the term dump from the service worker cache/IDB, etc
@@ -71,7 +72,7 @@ class Request {
         }
 
         const requestTime = Date.now() - startTime;
-        console.log('Downloading took ', requestTime, 'for url', url);
+        macros.log('Downloading took ', requestTime, 'for url', url);
 
         if (xmlhttp.status !== 200) {
           let err;
@@ -85,7 +86,7 @@ class Request {
 
           err += `config = ${JSON.stringify(url)}`;
 
-          console.warn('error, bad code recievied', xmlhttp.status, err, url);
+          macros.warn('error, bad code recievied', xmlhttp.status, err, url);
 
           reject(err);
           return;
@@ -94,10 +95,10 @@ class Request {
         const startParse = Date.now();
         const response = JSON.parse(xmlhttp.response);
         const parsingTime = Date.now() - startParse;
-        console.log('Parsing took ', parsingTime, 'for url', url);
+        macros.log('Parsing took ', parsingTime, 'for url', url);
 
         if (response.error) {
-          console.warn('ERROR networking error bad reqeust?', url);
+          macros.warn('ERROR networking error bad reqeust?', url);
         }
 
         resolve(response);
@@ -148,7 +149,7 @@ class Request {
         url: config,
       };
     } else if (Object.keys(config).length > 3) {
-      console.error('Nothing is supported except JSON GET requests with an option for caching in sw (and progress callback).', config);
+      macros.error('Nothing is supported except JSON GET requests with an option for caching in sw (and progress callback).', config);
     }
 
 

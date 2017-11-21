@@ -150,8 +150,8 @@ async function getFrontendData(file) {
   try {
     data = JSON.parse(resp.body);
   } catch (e) {
-    console.log('Could not download term', file, 'from server!');
-    console.log('Probably going to crash');
+    macros.log('Could not download term', file, 'from server!');
+    macros.log('Probably going to crash');
     return null;
   }
 
@@ -270,7 +270,7 @@ app.get('/search', wrap(async (req, res) => {
 
 // for Facebook verification of the endpoint.
 app.get('/webhook/', async (req, res) => {
-  console.log(getTime(), getIpPath(req), 'Tried to send a webhook');
+  macros.log(getTime(), getIpPath(req), 'Tried to send a webhook');
   res.send('hi');
   // return;
 
@@ -289,7 +289,7 @@ app.get('/webhook/', async (req, res) => {
 // Respond to the messages
 app.post('/webhook/', (req, res) => {
   // Disable temporarily
-  console.log(getTime(), getIpPath(req), 'Tried to send a webhook');
+  macros.log(getTime(), getIpPath(req), 'Tried to send a webhook');
   res.send('hi');
   // return;
 
@@ -403,7 +403,7 @@ async function startServer() {
     if (err) {
       macros.log(err);
     }
-    console.info(`Listening on port ${port}.`);
+    macros.info(`Listening on port ${port}.`);
   });
 }
 startServer();
