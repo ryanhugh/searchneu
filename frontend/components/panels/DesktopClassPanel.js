@@ -33,6 +33,7 @@ class DesktopClassPanel extends BaseClassPanel {
   constructor(props) {
     super(props);
     this.state.optPrereqsForPage = 0;
+    this.state.prereqsForPage = 0;
   }
 
   componentDidUpdate() {
@@ -281,7 +282,7 @@ class DesktopClassPanel extends BaseClassPanel {
               <br />
               Prerequisite for: {this.getReqsString('prereqsFor', aClass)}
               <br />
-              Optional Prerequisite for: {this.optionalDisplay(aClass)} {this.showMore('optPrereqsFor', aClass)}
+              Optional Prerequisite for: {this.optionalDisplay('optPrereqsFor')} {this.showMore('optPrereqsFor')}
             </div>
             <div className={ css.rightPanel }>
               <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
@@ -295,21 +296,29 @@ class DesktopClassPanel extends BaseClassPanel {
     );
   }
 
-  showMore = (prereqType, aClass) => {
-    const data = this.getReqsString('optPrereqsFor', aClass);
+  /**
+   * Returns the 'Show More' button of the prereqType, if one is needed.
+   * @param {String} prereqType type of prerequisite.
+   */
+  showMore(prereqType) {
+    const data = this.getReqsString(prereqType, this.props.aClass);
 
     if (!Array.isArray(data) ||
-    data.length < DesktopClassPanel.classesShownByDefault * 2) {
+      this.state.optPrereqsForPage >= 3 ||
+      this.getShowAmount(prereqType) >= data.length) {
       return null;
     }
 
     return (
-      <button
-        // className={ css.showMoreButton }
+      <span
+        className={ css.prereqShowMore }
+        role='button'
         tabIndex={ 0 }
         onClick={ () => {
           if (prereqType === 'prereqsFor') {
-            this.setState({ });
+            this.setState((prevState) => {
+              return { prereqsForPage: prevState.prereqsForPage + 1 };
+            });
           } else {
             this.setState((prevState) => {
               return { optPrereqsForPage: prevState.optPrereqsForPage + 1 };
@@ -317,19 +326,25 @@ class DesktopClassPanel extends BaseClassPanel {
           }
         } }
       >Show More...
-      </button>
+      </span>
     );
   }
 
-  optionalDisplay = (aClass) => {
-    const data = this.getReqsString('optPrereqsFor', aClass);
+  /**
+   * Returns the array that we should be displaying
+   *
+   * @param {String} prereqType type of prerequisite.
+   */
+  optionalDisplay(prereqType) {
+    const data = this.getReqsString(prereqType, this.props.aClass);
 
     if (Array.isArray(data)) {
-      if (this.state.optPrereqsForPage >= 3) {
+      if (this.getStateValue(prereqType) >= 3) {
         return data;
       }
-      const showAmt = DesktopClassPanel.classesShownByDefault * 2 + (this.state.optPrereqsForPage * 5);
-      macros.log(showAmt);
+
+      const showAmt = this.getShowAmount(prereqType);
+
       if (showAmt < data.length) {
         data.length = showAmt;
       }
@@ -340,6 +355,34 @@ class DesktopClassPanel extends BaseClassPanel {
     }
 
     return data;
+  }
+
+  /**
+   * Returns the 'page' of the specified prerequisite.
+   *
+   * @param {String} prereqType type of prerequisite.
+   */
+  getStateValue(prereqType) {
+    switch (prereqType) {
+      case 'optPrereqsFor':
+        return this.state.optPrereqsForPage;
+      case 'prereqsFor':
+        return this.state.prereqsForPage;
+      default:
+        return -1;
+    }
+  }
+
+  /**
+   * Returns how many elements we should return from our array of prerequisites.
+   * Note that we mutliply our value by two because every other value is ', '
+   *
+   * @param {String} prereqType type of prerequisite.
+   */
+  getShowAmount(prereqType) {
+    const stateValue = this.getStateValue(prereqType);
+    return 2 * DesktopClassPanel.classesShownByDefault *
+    (stateValue + 1);
   }
 }
 
