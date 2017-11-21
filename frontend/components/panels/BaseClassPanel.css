@@ -42,6 +42,8 @@
     cursor: pointer;
     padding: 1px;
     display: inline;
+    outline: 0;
+    border: none;
 }
 
 .prereqShowMoreArrow:after {
