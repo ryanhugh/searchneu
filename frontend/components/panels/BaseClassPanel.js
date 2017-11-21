@@ -270,7 +270,7 @@ class BaseClassPanel extends React.Component {
     const data = this.getReqsString(prereqType, this.props.aClass);
 
     if (!Array.isArray(data) ||
-      this.state.optPrereqsForPage >= 3 ||
+      this.getStateValue(prereqType) >= 3 ||
       this.getShowAmount(prereqType) >= data.length) {
       return null;
     }
