@@ -310,7 +310,7 @@ class DesktopClassPanel extends BaseClassPanel {
     }
 
     return (
-      <span
+      <a
         className={ css.prereqShowMore }
         role='button'
         tabIndex={ 0 }
@@ -326,7 +326,7 @@ class DesktopClassPanel extends BaseClassPanel {
           }
         } }
       >Show More...
-      </span>
+      </a>
     );
   }
 

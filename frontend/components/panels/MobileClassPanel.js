@@ -36,6 +36,9 @@ class MobileClassPanel extends BaseClassPanel {
 
     this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
     this.toggleShowAllClassDetails = this.toggleShowAllClassDetails.bind(this);
+
+    this.state.optPrereqsForPage = 0;
+    this.state.prereqsForPage = 0;
   }
 
   toggleShowMoreThanTitle() {
@@ -72,6 +75,14 @@ class MobileClassPanel extends BaseClassPanel {
     }
 
     if (this.state.showAllClassDetails !== nextState.showAllClassDetails) {
+      return true;
+    }
+
+    if (this.state.optPrereqsForPage !== nextState.optPrereqsForPage) {
+      return true;
+    }
+
+    if (this.state.prereqsForPage !== nextState.prereqsForPage) {
       return true;
     }
 
@@ -113,7 +124,7 @@ class MobileClassPanel extends BaseClassPanel {
             <br />
             Prerequisite for: {this.getReqsString('prereqsFor', aClass)}
             <br />
-            Optional Prerequisite for: {this.getReqsString('optPrereqsFor', aClass)}
+            Optional Prerequisite for: {this.optionalDisplay('optPrereqsFor')} {this.showMore('optPrereqsFor')}
           </div>
         </span>
       );
@@ -210,10 +221,101 @@ class MobileClassPanel extends BaseClassPanel {
       </div>
     );
   }
+
+
+  /**
+   * Returns the 'Show More' button of the prereqType, if one is needed.
+   * @param {String} prereqType type of prerequisite.
+   */
+  showMore(prereqType) {
+    const data = this.getReqsString(prereqType, this.props.aClass);
+
+    if (!Array.isArray(data) ||
+      this.state.optPrereqsForPage >= 3 ||
+      this.getShowAmount(prereqType) >= data.length) {
+      return null;
+    }
+
+    return (
+      <a
+        className={ css.prereqShowMore }
+        role='button'
+        tabIndex={ 0 }
+        onClick={ () => {
+          if (prereqType === 'prereqsFor') {
+            this.setState((prevState) => {
+              return { prereqsForPage: prevState.prereqsForPage + 1 };
+            });
+          } else {
+            this.setState((prevState) => {
+              return { optPrereqsForPage: prevState.optPrereqsForPage + 1 };
+            });
+          }
+        } }
+      >Show More...
+      </a>
+    );
+  }
+
+  /**
+   * Returns the array that we should be displaying
+   *
+   * @param {String} prereqType type of prerequisite.
+   */
+  optionalDisplay(prereqType) {
+    const data = this.getReqsString(prereqType, this.props.aClass);
+
+    if (Array.isArray(data)) {
+      if (this.getStateValue(prereqType) >= 3) {
+        return data;
+      }
+
+      const showAmt = this.getShowAmount(prereqType);
+
+      if (showAmt < data.length) {
+        data.length = showAmt;
+      }
+
+      if (typeof data[data.length - 1] === 'string') {
+        data.length -= 1;
+      }
+    }
+
+    return data;
+  }
+
+  /**
+   * Returns the 'page' of the specified prerequisite.
+   *
+   * @param {String} prereqType type of prerequisite.
+   */
+  getStateValue(prereqType) {
+    switch (prereqType) {
+      case 'optPrereqsFor':
+        return this.state.optPrereqsForPage;
+      case 'prereqsFor':
+        return this.state.prereqsForPage;
+      default:
+        return -1;
+    }
+  }
+
+  /**
+   * Returns how many elements we should return from our array of prerequisites.
+   * Note that we mutliply our value by two because every other value is ', '
+   *
+   * @param {String} prereqType type of prerequisite.
+   */
+  getShowAmount(prereqType) {
+    const stateValue = this.getStateValue(prereqType);
+    return 2 * MobileClassPanel.classesShownByDefault *
+    (stateValue + 1);
+  }
 }
 
 // Number of sections to show by default.
 MobileClassPanel.sectionsShownByDefault = 1;
+MobileClassPanel.classesShownByDefault = 5;
 
 
 MobileClassPanel.propTypes = {
