@@ -57,7 +57,7 @@ class Psylink {
       },
     });
 
-    // console.log(resp2.body)
+    // macros.log(resp2.body)
 
     const $ = cheerio.load(resp2.body);
 
@@ -86,7 +86,7 @@ class Psylink {
       retVal.push(row);
     }
 
-    // console.log(JSON.stringify(retVal, null, 4))
+    // macros.log(JSON.stringify(retVal, null, 4))
 
     return retVal;
   }
@@ -95,7 +95,7 @@ class Psylink {
   async onInterval(sendNotifications = true) {
     const thisData = await this.scrape();
 
-    console.log('Scraped. Got ', thisData.length, 'labs');
+    macros.log('Scraped. Got ', thisData.length, 'labs');
 
     const lastData = this.lastData;
 
@@ -109,7 +109,7 @@ class Psylink {
 
       if (sendNotifications) {
         // Got a new lab!
-        console.log('got a new lab!!!');
+        macros.log('got a new lab!!!');
 
         notifyer.sendFBNotification('1397905100304615', `New lab!${row.date} ${row.time}\n http://psylink.psych.neu.edu/login.php`);
       }

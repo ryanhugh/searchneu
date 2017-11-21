@@ -48,7 +48,7 @@ class EllucianSubjectParser extends EllucianBaseParser.EllucianBaseParser {
     });
 
     if (subjects.length === 0) {
-      console.log('ERROR, found 0 subjects??', url);
+      macros.log('ERROR, found 0 subjects??', url);
     }
 
     const outputSubjects = [];
@@ -151,7 +151,7 @@ class EllucianSubjectParser extends EllucianBaseParser.EllucianBaseParser {
 
     subjects = await this.addClassLists(subjects, url, termId);
 
-    // console.log(subjects)
+    // macros.log(subjects)
 
 
     // Possibly save to dev
@@ -167,7 +167,7 @@ class EllucianSubjectParser extends EllucianBaseParser.EllucianBaseParser {
 
   async test() {
     const retVal = await this.main('https://wl11gp.neu.edu/udcprod8/bwckgens.p_proc_term_date', 201810);
-    console.log(retVal);
+    macros.log(retVal);
   }
 }
 

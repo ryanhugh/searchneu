@@ -4,6 +4,7 @@
  */
 
 import BaseProcessor from './baseProcessor';
+import macros from '../../../macros';
 
 // THIS DOES NOT WORK YET
 // This find classes that are called "lab for " and "recitation for " and "Interactive Learning Seminar for PHYS 1155"
@@ -31,10 +32,9 @@ class FindMissingLabs extends BaseProcessor.BaseProcessor {
             continue;
           }
 
-          console.warn(match, name, coreqsArray.length, aClass.desc);
+          macros.warn(match, name, coreqsArray.length, aClass.desc);
         }
       }
-      // console.log('done');
       return callback();
     });
   }

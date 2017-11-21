@@ -286,7 +286,7 @@ class EllucianTermsParser extends EllucianBaseParser.EllucianBaseParser {
 
   async test() {
     const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched');
-    console.log(output);
+    macros.log(output);
   }
 }
 

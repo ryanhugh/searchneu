@@ -8,6 +8,7 @@ import matchEmployees from './employees/matchEmployees';
 import macros from '../macros';
 import classes from './classes/main';
 
+
 // Main file for scraping
 // Run this to run all the scrapers
 // Make sure this is in PROD mode when scraping on travis
@@ -61,7 +62,7 @@ async function localRun() {
 
     if (semesterlyData) {
       await fs.writeFile('semesterly_courses.json', JSON.stringify(semesterlyData));
-      console.log('Saved output for semesterly!');
+      macros.log('Saved output for semesterly!');
     }
   }
 }

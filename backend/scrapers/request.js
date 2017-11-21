@@ -409,7 +409,7 @@ class Request {
 
           this.analytics[hostname].totalErrors++;
           if (!macros.PROD || tryCount > 5) {
-            console.log('Try#:', tryCount, 'Code:', err.statusCode || err.RequestError || err.Error || err.message || err, ' Open request count: ', this.openRequests, 'Url:', config.url);
+            macros.log('Try#:', tryCount, 'Code:', err.statusCode || err.RequestError || err.Error || err.message || err, ' Open request count: ', this.openRequests, 'Url:', config.url);
           }
 
           if (err.response) {
@@ -424,11 +424,11 @@ class Request {
 
         // Ensure that body contains given string.
         if (config.requiredInBody && !this.doAnyStringsInArray(config.requiredInBody, response.body)) {
-          console.log('Try#:', tryCount, 'Warning, body did not contain specified text', response.body.length, response.statusCode, this.openRequests, config.url);
+          macros.log('Try#:', tryCount, 'Warning, body did not contain specified text', response.body.length, response.statusCode, this.openRequests, config.url);
           callback('Body missing required text.');
           return;
         } else if (response.body.length < 4000 && !config.shortBodyWarning === false) {
-          console.log('Warning, short body', config.url, response.body, this.openRequests);
+          macros.log('Warning, short body', config.url, response.body, this.openRequests);
         }
 
         callback(null, response);
@@ -446,7 +446,7 @@ class Request {
         // Don't log this on travis because it causes more than 4 MB to be logged and travis will kill the job
         this.analytics[hostname].totalBytesDownloaded += response.body.length;
         if (!macros.PROD) {
-          console.log('Parsed', response.body.length, 'in', requestDuration, 'ms from ', config.url);
+          macros.log('Parsed', response.body.length, 'in', requestDuration, 'ms from ', config.url);
         }
 
         resolve(response);
@@ -527,7 +527,7 @@ class RequestInput {
 
   async post(config) {
     if (!config) {
-      console.log('Warning, request called with no config');
+      macros.log('Warning, request called with no config');
       return null;
     }
     if (typeof config === 'string') {
@@ -543,7 +543,7 @@ class RequestInput {
 
   async head(config) {
     if (!config) {
-      console.log('Warning, request called with no config');
+      macros.log('Warning, request called with no config');
       return null;
     }
     if (typeof config === 'string') {

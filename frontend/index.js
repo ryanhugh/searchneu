@@ -12,7 +12,7 @@ import macros from './components/macros';
 import Home from './components/Home';
 
 if (window.location.hash === '#notrack') {
-  console.log('Turning on no track.');
+  macros.log('Turning on no track.');
   window.localStorage.noTrack = true;
 }
 
@@ -63,12 +63,12 @@ if (macros.PROD && !window.localStorage.noTrack) {
 try {
   navigator.serviceWorker.getRegistrations().then((registrations) => {
     registrations.forEach((registration) => {
-      console.log('removing registration', registration);
+      macros.log('removing registration', registration);
       registration.unregister();
     });
   });
 } catch (e) {
-  console.log('failed to unregister all service workers', e);
+  macros.log('failed to unregister all service workers', e);
 }
 
 // // Register the Service Worker

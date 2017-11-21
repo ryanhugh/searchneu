@@ -62,7 +62,7 @@ class Search {
     window.amplitude.logEvent('Search Timing', { query: query, time: Date.now() - startTime });
 
     if (results.error) {
-      console.error('Error with networking request', results.error);
+      macros.error('Error with networking request', results.error);
       return [];
     }
 

@@ -150,7 +150,7 @@ class Cssh {
         // <br>s should definitely be ignored, and there has been no reason to process other tags yet.
         continue;
       } else if (element.type !== 'script') {
-        console.error('Unknown type of element.', element.type);
+        macros.error('Unknown type of element.', element.type);
       }
     }
 

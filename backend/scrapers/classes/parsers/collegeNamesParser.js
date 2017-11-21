@@ -64,7 +64,7 @@ class CollegeNamesParser extends BaseParser.BaseParser {
 
     if (macros.DEV) {
       await cache.set('dev_data', this.constructor.name, hostname, title);
-      console.log('CollegeNamesParser file saved!');
+      macros.log('CollegeNamesParser file saved!');
     }
 
     return title;
@@ -118,7 +118,7 @@ class CollegeNamesParser extends BaseParser.BaseParser {
     //this one works for edu and ca, but warn if find a different one
     const hostSplitByDot = host.split('.');
     if (!['ca', 'edu'].includes(hostSplitByDot[hostSplitByDot.length - 1])) {
-      console.log(`Warning, unknown domain ${host}`);
+      macros.log(`Warning, unknown domain ${host}`);
     }
 
     return new Promise((resolve, reject) => {
