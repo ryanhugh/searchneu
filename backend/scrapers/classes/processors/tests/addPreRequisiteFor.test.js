@@ -4,7 +4,6 @@
  */
 
 import addPreRequisiteFor from '../addPreRequisiteFor';
-import Keys from '../../../../../common/Keys';
 
 describe('addPreRequisiteFor tests', () => {
   const cs2500 = {

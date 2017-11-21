@@ -3,7 +3,6 @@
  * See the license file in the root folder for details.
  */
 
-import macros from '../../../macros';
 import BaseProcessor from './baseProcessor';
 import Keys from '../../../../common/Keys';
 
