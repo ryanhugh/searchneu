@@ -403,7 +403,7 @@ async function startServer() {
     if (err) {
       macros.log(err);
     }
-    macros.info(`Listening on port ${port}.`);
+    macros.log(`Listening on port ${port}.`);
   });
 }
 startServer();
