@@ -4,6 +4,7 @@
  */
 
 import Class from './Class';
+import macros from '../commonMacros';
 
 class DataLib {
   constructor(termDump) {
@@ -16,7 +17,7 @@ class DataLib {
 
   static loadData(termDump) {
     if (!termDump.classMap || !termDump.sectionMap) {
-      console.error('invalid termDump', termDump);
+      macros.error('invalid termDump', termDump);
       return null;
     }
 
@@ -52,7 +53,7 @@ class DataLib {
     });
 
     // Turn this into a analytics call when that is working
-    console.log('send', 'timing', subject, 'subject', Date.now() - startTime);
+    macros.log('send', 'timing', subject, 'subject', Date.now() - startTime);
 
     return retVal;
   }

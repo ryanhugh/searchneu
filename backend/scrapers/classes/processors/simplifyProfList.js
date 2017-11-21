@@ -5,6 +5,7 @@
 
 import _ from 'lodash';
 
+import macros from '../../../macros';
 import BaseProcessor from './baseProcessor';
 
 
@@ -89,7 +90,7 @@ class SimplifyProfList extends BaseProcessor.BaseProcessor {
 
         if (count > 0) {
           updatedSections.push(section);
-          console.log('Removing ', count, 'profs from ', section.classUid, section.crn);
+          macros.log('Removing ', count, 'profs from ', section.classUid, section.crn);
         }
       });
     });

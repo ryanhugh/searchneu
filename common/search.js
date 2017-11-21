@@ -390,7 +390,7 @@ class Search {
         const aClass = this.termDumps[termId].termDump.getClassServerDataFromHash(ref.ref);
 
         if (!aClass) {
-          console.error('yoooooo omg', ref);
+          macros.error('yoooooo omg', ref);
         }
 
         const sections = [];
@@ -406,7 +406,7 @@ class Search {
             }).getHash();
 
             if (!sectionKey) {
-              console.error('Error no hash', crn, aClass);
+              macros.error('Error no hash', crn, aClass);
             }
 
             sections.push(this.termDumps[termId].termDump.getSectionServerDataFromHash(sectionKey));
@@ -426,7 +426,7 @@ class Search {
           type: ref.type,
         });
       } else {
-        console.error('unknown type!');
+        macros.error('unknown type!');
       }
     }
 

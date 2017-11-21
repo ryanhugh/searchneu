@@ -52,7 +52,7 @@ class TermDump {
       }).getHash();
 
       if (!termMapDump[termHash]) {
-        console.log('Found subject with no class?');
+        macros.log('Found subject with no class?');
         termMapDump[termHash] = {
           classMap: {},
           sectionMap: {},
@@ -74,7 +74,7 @@ class TermDump {
       }).getHash();
 
       if (!termMapDump[termHash]) {
-        console.log('Found section with no class?', termHash, hash);
+        macros.log('Found section with no class?', termHash, hash);
         termMapDump[termHash] = {
           classMap: {},
           sectionMap: {},

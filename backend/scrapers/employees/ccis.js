@@ -196,7 +196,7 @@ class NeuCCISFaculty {
 
     if (macros.DEV) {
       await cache.set('dev_data', this.constructor.name, 'main', output);
-      console.log(output.length, 'people in ccis saved to a file!');
+      macros.log(output.length, 'people in ccis saved to a file!');
     }
 
     macros.log('done!');
