@@ -14,6 +14,7 @@ import baseCss from './BaseClassPanel.css';
 import MobileSectionPanel from './MobileSectionPanel';
 import Keys from '../../../common/Keys';
 import BaseClassPanel from './BaseClassPanel';
+import macros from '../macros';
 
 const css = {};
 
@@ -90,13 +91,13 @@ class MobileClassPanel extends BaseClassPanel {
               {`View on ${aClass.host}`}
             </a>
             <br />
-            Prerequisites: {this.optionalDisplay(this.prereqTypes.PREREQ)} {this.showMore(this.prereqTypes.PREREQ)}
+            Prerequisites: {this.optionalDisplay(macros.prereqTypes.PREREQ)} {this.showMore(macros.prereqTypes.PREREQ)}
             <br />
-            Corequisites: {this.optionalDisplay(this.prereqTypes.COREQ)} {this.showMore(this.prereqTypes.COREQ)}
+            Corequisites: {this.optionalDisplay(macros.prereqTypes.COREQ)} {this.showMore(macros.prereqTypes.COREQ)}
             <br />
-            Prerequisite for: {this.optionalDisplay(this.prereqTypes.PREREQ_FOR)} {this.showMore(this.prereqTypes.PREREQ_FOR)}
+            Prerequisite for: {this.optionalDisplay(macros.prereqTypes.PREREQ_FOR)} {this.showMore(macros.prereqTypes.PREREQ_FOR)}
             <br />
-            Optional Prerequisite for: {this.optionalDisplay(this.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(this.prereqTypes.OPT_PREREQ_FOR)}
+            Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
           </div>
         </span>
       );

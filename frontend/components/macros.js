@@ -32,7 +32,6 @@ class Macros extends commonMacros {
     tooltipTimer = setTimeout(ReactTooltip.rebuild.bind(ReactTooltip), 20);
   }
 
-
   // Log an event to amplitude. Same function signature as the function for the backend/.
   // This call just uses the script included in index.js
   static async logAmplitudeEvent(type, event) {
@@ -85,5 +84,14 @@ Macros.searchEvent = 'customSearch';
 
 // True if is a Phone or other mobile device (iPod). Will be false for iPads.
 Macros.isMobile = isMobile();
+
+
+// Definition of some enums for our prerequsities
+Macros.prereqTypes = Object.freeze({
+  PREREQ: Symbol('prereq'),
+  COREQ: Symbol('coreq'),
+  PREREQ_FOR: Symbol('prereqFor'),
+  OPT_PREREQ_FOR: Symbol('optPrereqFor'),
+});
 
 export default Macros;
