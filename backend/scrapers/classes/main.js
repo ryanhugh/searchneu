@@ -209,7 +209,7 @@ class Main {
 
     // If running with semesterly, save in the semesterly schema
     // If not, save in the searchneu schema
-    console.log('semesterly:', semesterlySchema);
+    macros.log('semesterly:', semesterlySchema);
     if (semesterlySchema) {
       return semesterly.main(dump);
     }

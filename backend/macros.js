@@ -35,7 +35,7 @@ while (1) {
     // Prevent an infinate loop: If we keep cd'ing upward and we hit the root dir and still haven't found
     // a package.json, just return to the original directory and break out of this loop.
     if (oldcwd === process.cwd()) {
-      console.log("Can't find directory with package.json, returning to", originalCwd);
+      commonMacros.warn("Can't find directory with package.json, returning to", originalCwd);
       process.chdir(originalCwd);
       break;
     }
@@ -285,13 +285,12 @@ class Macros extends commonMacros {
   }
 
   // Use console.warn to log stuff during testing
-
   static verbose(...args) {
     if (!process.env.VERBOSE) {
       return;
     }
 
-    console.log(...args);
+    console.log(...args); // eslint-disable-line no-console
   }
 }
 
@@ -307,8 +306,9 @@ Macros.verbose('Starting in verbose mode.');
 
 
 async function handleUncaught(err) {
-  console.log('Error: An unhandledRejection occurred.');
-  console.log(`Rejection Stack Trace: ${err.stack}`);
+  // Don't use the macros.log, because if that crashes it would run into an infinite loop
+  console.log('Error: An unhandledRejection occurred.'); // eslint-disable-line no-console
+  console.log(`Rejection Stack Trace: ${err.stack}`); // eslint-disable-line no-console
   Macros.error(err.stack);
 }
 

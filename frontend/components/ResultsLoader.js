@@ -76,7 +76,7 @@ class ResultsLoader extends React.Component {
   addMoreObjects() {
     const newObjects = [];
 
-    console.log('loading ', this.props.results.length);
+    macros.log('loading ', this.props.results.length);
 
     this.props.results.forEach((result) => {
       if (result.type === 'class') {
@@ -99,7 +99,7 @@ class ResultsLoader extends React.Component {
           data: result.employee,
         });
       } else {
-        console.error('wtf is type', result.type);
+        macros.error('wtf is type', result.type);
       }
     });
 
@@ -130,7 +130,7 @@ class ResultsLoader extends React.Component {
                 return <EmployeePanel key={ obj.data.id } employee={ obj.data } />;
               }
 
-              console.log('Unknown type', obj.type);
+              macros.log('Unknown type', obj.type);
               return null;
             })}
           </div>

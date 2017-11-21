@@ -115,7 +115,7 @@ if (require.main === module) {
   instance.go([{
     host: 'neu.edu',
   }], (err) => {
-    console.log('DONE!', err);
+    macros.log('DONE!', err);
   });
 }
 
