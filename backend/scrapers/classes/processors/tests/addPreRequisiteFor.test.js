@@ -124,8 +124,6 @@ describe('addPreRequisiteFor tests', () => {
 
   it('should sort some optPrereqsFor', () => {
     addPreRequisiteFor.termDump = termDump;
-    const hash = Keys.create(fakeClass1).getHash();
-    addPreRequisiteFor.classMap[hash] = fakeClass1;
 
     addPreRequisiteFor.sortPreReqs(fakeClass1);
 
@@ -135,8 +133,6 @@ describe('addPreRequisiteFor tests', () => {
 
   it('should sort some prereqsFor', () => {
     addPreRequisiteFor.termDump = termDump;
-    const hash = Keys.create(fakeClass2).getHash();
-    addPreRequisiteFor.classMap[hash] = fakeClass2;
 
     addPreRequisiteFor.sortPreReqs(fakeClass2);
 

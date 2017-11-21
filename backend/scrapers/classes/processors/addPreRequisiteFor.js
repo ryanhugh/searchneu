@@ -30,7 +30,9 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
       if (aClass.prereqs) {
         this.parsePreReqs(aClass, aClass.prereqs, true);
       }
+    }
 
+    for (const aClass of termDump.classes) {
       this.sortPreReqs(aClass);
     }
   }
@@ -151,19 +153,15 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
   /**
    * Recursively traverse the prerequsite structure.
    *
-   * @param {Class} node - a prerequsite class of mainClass. This is
-   * the field where we add the mainClass information to.
+   * @param {Class} aClass - a class to sort the optPrereqsFor and prereqsFor of.
    */
-  sortPreReqs(node) {
-    const find = Keys.create(node).getHash();
-    const nodeRef = this.classMap[find];
-
-    if (nodeRef.optPrereqsFor && nodeRef.optPrereqsFor.values) {
-      nodeRef.optPrereqsFor.values = this.sortPrereqsValues(nodeRef.subject, nodeRef.optPrereqsFor.values);
+  sortPreReqs(aClass) {
+    if (aClass.optPrereqsFor && aClass.optPrereqsFor.values) {
+      aClass.optPrereqsFor.values = this.sortPrereqsValues(aClass.subject, aClass.optPrereqsFor.values);
     }
 
-    if (nodeRef.prereqsFor && nodeRef.prereqsFor.values) {
-      nodeRef.prereqsFor.values = this.sortPrereqsValues(nodeRef.subject, nodeRef.prereqsFor.values);
+    if (aClass.prereqsFor && aClass.prereqsFor.values) {
+      aClass.prereqsFor.values = this.sortPrereqsValues(aClass.subject, aClass.prereqsFor.values);
     }
   }
 
