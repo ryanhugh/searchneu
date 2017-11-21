@@ -144,7 +144,6 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
         return 1;
       }
 
-      macros.error('Are these two classes the same?', a, b);
       return 0;
     });
   }
