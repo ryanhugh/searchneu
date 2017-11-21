@@ -243,6 +243,9 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     // In other words, if there are sections, it will return the list of classes processes (because the list of sections can become different classes for now)
     // And if there are no sections, it will just return one class with the info from the catalog page.
     if (classListData.length === 0) {
+
+      catalogData.lastUpdateTime = Date.now();
+      
       classListData = [{
         type: 'classes',
         value: catalogData
