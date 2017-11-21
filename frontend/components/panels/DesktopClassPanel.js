@@ -38,10 +38,6 @@ class DesktopClassPanel extends BaseClassPanel {
     macros.debounceTooltipRebuild();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return this.state.optPrereqsForPage !== nextState.optPrereqsForPage;
-  }
-
   // Method to decide whether to show the waitlist or not
   // This logic is different than it is on mobile (because of formatting differences)
   // See MobileSectionPanel.js

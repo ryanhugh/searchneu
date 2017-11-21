@@ -61,31 +61,6 @@ class MobileClassPanel extends BaseClassPanel {
     });
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const commonShouldUpdate = BaseClassPanel.prototype.shouldComponentUpdate.call(this, nextProps, nextState);
-    if (commonShouldUpdate) {
-      return true;
-    }
-
-    if (this.state.showMoreThanTitle !== nextState.showMoreThanTitle) {
-      return true;
-    }
-
-    if (this.state.showAllClassDetails !== nextState.showAllClassDetails) {
-      return true;
-    }
-
-    if (this.state.optPrereqsForPage !== nextState.optPrereqsForPage) {
-      return true;
-    }
-
-    if (this.state.prereqsForPage !== nextState.prereqsForPage) {
-      return true;
-    }
-
-    return false;
-  }
-
   getClassBody() {
     const aClass = this.props.aClass;
 

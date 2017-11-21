@@ -123,14 +123,14 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
    */
   sortPreReqs(node) {
     const find = Keys.create(node).getHash();
-
     const nodeRef = this.classMap[find];
+
     if (nodeRef.optPrereqsFor && nodeRef.optPrereqsFor.values) {
       const partitioned = _.partition(nodeRef.optPrereqsFor.values, (prereq) => {
         return prereq.subject === nodeRef.subject;
       });
-      const filtered = partitioned[0];
 
+      const filtered = partitioned[0];
       const nonFiltered = partitioned[1];
 
       filtered.push(...nonFiltered);
