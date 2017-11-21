@@ -266,13 +266,13 @@ class DesktopClassPanel extends BaseClassPanel {
             <br />
             <br />
             <div className={ css.leftPanel }>
-              Prerequisites: {this.optionalDisplay('prereqs')} {this.showMore('prereqs')}
+              Prerequisites: {this.optionalDisplay(this.prereqTypes.PREREQ)} {this.showMore(this.prereqTypes.PREREQ)}
               <br />
-              Corequisites: {this.getReqsString('coreqs', aClass)}
+              Corequisites: {this.optionalDisplay(this.prereqTypes.COREQ)} {this.showMore(this.prereqTypes.COREQ)}
               <br />
-              Prerequisite for: {this.optionalDisplay('prereqsFor')} {this.showMore('prereqsFor')}
+              Prerequisite for: {this.optionalDisplay(this.prereqTypes.PREREQ_FOR)} {this.showMore(this.prereqTypes.PREREQ_FOR)}
               <br />
-              Optional Prerequisite for: {this.optionalDisplay('optPrereqsFor')} {this.showMore('optPrereqsFor')}
+              Optional Prerequisite for: {this.optionalDisplay(this.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(this.prereqTypes.OPT_PREREQ_FOR)}
             </div>
             <div className={ css.rightPanel }>
               <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>

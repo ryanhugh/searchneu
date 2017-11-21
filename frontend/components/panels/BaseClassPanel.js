@@ -16,11 +16,22 @@ class BaseClassPanel extends React.Component {
     super(props);
 
     this.state = this.getInitialRenderedSectionState();
-    this.state.optPrereqsForPage = 0;
-    this.state.prereqsForPage = 0;
     this.state.prereqsPage = 0;
+    this.state.coreqsPage = 0;
+    this.state.prereqsForPage = 0;
+    this.state.optPrereqsForPage = 0;
 
     this.onShowMoreClick = this.onShowMoreClick.bind(this);
+
+    // Definition of some enums
+    this.prereqTypes = {
+      PREREQ: Symbol('prereq'),
+      COREQ: Symbol('coreq'),
+      PREREQ_FOR: Symbol('prereqFor'),
+      OPT_PREREQ_FOR: Symbol('optPrereqFor'),
+    };
+
+    Object.freeze(this.prereqTypes);
   }
 
   onShowMoreClick() {
@@ -97,17 +108,17 @@ class BaseClassPanel extends React.Component {
 
     let childNodes;
 
-    if (parsingPrereqs === 'prereqs') {
+    if (parsingPrereqs === this.prereqTypes.PREREQ) {
       childNodes = aClass.prereqs;
-    } else if (parsingPrereqs === 'coreqs') {
+    } else if (parsingPrereqs === this.prereqTypes.COREQ) {
       childNodes = aClass.coreqs;
-    } else if (parsingPrereqs === 'prereqsFor') {
+    } else if (parsingPrereqs === this.prereqTypes.PREREQ_FOR) {
       if (!aClass.prereqsFor) {
         childNodes = { values:[] };
       } else {
         childNodes = aClass.prereqsFor;
       }
-    } else if (parsingPrereqs === 'optPrereqsFor') {
+    } else if (parsingPrereqs === this.prereqTypes.OPT_PREREQ_FOR) {
       if (!aClass.optPrereqsFor) {
         childNodes = { values:[] };
       } else {
@@ -171,7 +182,7 @@ class BaseClassPanel extends React.Component {
 
           retVal.push(element);
         }
-      } else if (parsingPrereqs === 'prereqs') {
+      } else if (parsingPrereqs === this.prereqTypes.PREREQ) {
         // If the child branch is a requisite branch
         //Ghetto fix until this tree is simplified
         if (_.uniq(childBranch.prereqs.values).length === 1) {
@@ -188,7 +199,7 @@ class BaseClassPanel extends React.Component {
     // Now insert the type divider ("and" vs "or") between the elements.
     // If we're parsing prereqsFor, we should use just a comma as a separator.
     // Can't use the join in case the objects are react elements
-    if (parsingPrereqs === 'prereqsFor' || parsingPrereqs === 'optPrereqsFor') {
+    if (parsingPrereqs === this.prereqTypes.PREREQ_FOR || parsingPrereqs === this.prereqTypes.OPT_PREREQ_FOR) {
       for (let i = retVal.length - 1; i >= 1; i--) {
         retVal.splice(i, 0, ', ');
       }
@@ -210,16 +221,18 @@ class BaseClassPanel extends React.Component {
   /**
    * Returns the 'page' of the specified prerequisite.
    *
-   * @param {String} prereqType type of prerequisite.
+   * @param {prereqTypes} prereqType type of prerequisite.
    */
   getStateValue(prereqType) {
     switch (prereqType) {
-      case 'optPrereqsFor':
-        return this.state.optPrereqsForPage;
-      case 'prereqsFor':
-        return this.state.prereqsForPage;
-      case 'prereqs':
+      case this.prereqTypes.PREREQ:
         return this.state.prereqsPage;
+      case this.prereqTypes.COREQ:
+        return this.state.coreqsPage;
+      case this.prereqTypes.PREREQ_FOR:
+        return this.state.prereqsForPage;
+      case this.prereqTypes.OPT_PREREQ_FOR:
+        return this.state.optPrereqsForPage;
       default:
         return -1;
     }
@@ -229,7 +242,7 @@ class BaseClassPanel extends React.Component {
    * Returns how many elements we should return from our array of prerequisites.
    * Note that we mutliply our value by two because every other value is ', '
    *
-   * @param {String} prereqType type of prerequisite.
+   * @param {prereqTypes} prereqType type of prerequisite.
    */
   getShowAmount(prereqType) {
     const classesShownByDefault = 5;
@@ -241,7 +254,7 @@ class BaseClassPanel extends React.Component {
   /**
    * Returns the array that we should be displaying
    *
-   * @param {String} prereqType type of prerequisite.
+   * @param {prereqTypes} prereqType type of prerequisite.
    */
   optionalDisplay(prereqType) {
     const data = this.getReqsString(prereqType, this.props.aClass);
@@ -267,7 +280,7 @@ class BaseClassPanel extends React.Component {
 
   /**
    * Returns the 'Show More' button of the prereqType, if one is needed.
-   * @param {String} prereqType type of prerequisite.
+   * @param {prereqTypes} prereqType type of prerequisite.
    */
   showMore(prereqType) {
     const data = this.getReqsString(prereqType, this.props.aClass);
@@ -284,19 +297,20 @@ class BaseClassPanel extends React.Component {
         role='button'
         tabIndex={ 0 }
         onClick={ () => {
-          if (prereqType === 'prereqsFor') {
-            this.setState((prevState) => {
-              return { prereqsForPage: prevState.prereqsForPage + 1 };
-            });
-          } else if (prereqType === 'optPrereqsFor') {
-            this.setState((prevState) => {
-              return { optPrereqsForPage: prevState.optPrereqsForPage + 1 };
-            });
-          } else if (prereqType === 'prereqs') {
-            this.setState((prevState) => {
-              return { prereqsPage: prevState.prereqsPage + 1 };
-            });
-          }
+          this.setState((prevState) => {
+            switch (prereqType) {
+              case this.prereqTypes.PREREQ:
+                return { prereqsPage: prevState.prereqsPage + 1 };
+              case this.prereqTypes.COREQ:
+                return { prereqsPage: prevState.coreqsPage + 1 };
+              case this.prereqTypes.PREREQ_FOR:
+                return { prereqsForPage: prevState.prereqsForPage + 1 };
+              case this.prereqTypes.OPT_PREREQ_FOR:
+                return { optPrereqsForPage: prevState.optPrereqsForPage + 1 };
+              default:
+                return macros.error(`invalid prereq type!: ${prereqType}`);
+            }
+          });
         } }
       >Show More...
       </a>
