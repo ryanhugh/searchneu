@@ -284,9 +284,10 @@ class BaseClassPanel extends React.Component {
     }
 
     return (
-      <button
+      <div
         className={ css.prereqShowMore }
         tabIndex={ 0 }
+        role='button'
         onClick={ () => {
           this.setState((prevState) => {
             switch (prereqType) {
@@ -303,8 +304,9 @@ class BaseClassPanel extends React.Component {
             }
           });
         } }
-      >Show More...
-      </button>
+      >Show More
+        <span className={ css.prereqShowMoreArrow } />
+      </div>
     );
   }
 }
