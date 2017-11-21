@@ -3,7 +3,7 @@
  * See the license file in the root folder for details.
  */
 
-import _ from 'lodash';
+import macros from '../../../macros';
 import BaseProcessor from './baseProcessor';
 import Keys from '../../../../common/Keys';
 
@@ -126,16 +126,37 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
     const nodeRef = this.classMap[find];
 
     if (nodeRef.optPrereqsFor && nodeRef.optPrereqsFor.values) {
-      const partitioned = _.partition(nodeRef.optPrereqsFor.values, (prereq) => {
-        return prereq.subject === nodeRef.subject;
+      // Sorts the prereqs for in alphabetical order.
+      // except that the classes with the same subject as the nodeRef will be first
+      // If two classes have the same subject, they are sorted by classId
+      nodeRef.optPrereqsFor.values = nodeRef.optPrereqsFor.values.sort((a, b) => {
+        if (a.subject !== b.subject) {
+          if (a.subject === nodeRef.subject) {
+            return -1;
+          }
+          if (b.subject === nodeRef.subject) {
+            return 1;
+          }
+          if (a.subject < b.subject) {
+            return -1;
+          }
+          if (a.subject > b.subject) {
+            return 1;
+          }
+        }
+
+        const firstId = parseInt(a.classId, 10);
+        const secondId = parseInt(b.classId, 10);
+
+        if (firstId < secondId) {
+          return -1;
+        } else if (firstId > secondId) {
+          return 1;
+        }
+
+        macros.error('Are these two classes the same?', a, b);
+        return 0;
       });
-
-      const filtered = partitioned[0];
-      const nonFiltered = partitioned[1];
-
-      filtered.push(...nonFiltered);
-
-      nodeRef.optPrereqsFor.values = filtered;
     }
   }
 

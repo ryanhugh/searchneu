@@ -338,9 +338,9 @@ class Home extends React.Component {
               Want to&nbsp;
               <a target='_blank' rel='noopener noreferrer' href={ `https://google.com/search?q=${macros.collegeName} ${this.state.searchTerm}` }>
                 search for&nbsp;
-                  <div className={ `ui compact segment ${css.noResultsInputText}` }>
-                    <p> {this.state.searchTerm} </p>
-                  </div>
+                <div className={ `ui compact segment ${css.noResultsInputText}` }>
+                  <p> {this.state.searchTerm} </p>
+                </div>
                   &nbsp;on Google
               </a>
               ?
