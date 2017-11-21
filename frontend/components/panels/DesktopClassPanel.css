@@ -20,7 +20,7 @@
 .leftPanel {
     text-align: left;
     display: inline-block;
-    line-height: 15px;
+    line-height: 17px;
     width: calc(100% - 200px);
 }
 
