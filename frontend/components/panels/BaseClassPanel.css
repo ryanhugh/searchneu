@@ -39,11 +39,21 @@
 
 .prereqShowMore {
     cursor: pointer;
-    border: none;
-    color: #505050;
-    background-color: white;
-    border: 1px solid rgba(34, 36, 38, 0.15);
-    border-radius: 4px;
-    box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
-    outline: none;
+    padding: 1px;
+    color: #969696;
+    font-weight: 500;
+    display: inline;
+    font-size: 30px thefont, monospace;
+}
+
+.prereqShowMoreArrow:after {
+    font-size: 30px thefont, monospace;
+    height: 19px;
+    font-weight: 500;
+    display: inline-block;
+    overflow: hidden;
+    font-family: thefont;
+    vertical-align: -3px;
+    content: '\279C';
+    padding-left: 3px;
 }
