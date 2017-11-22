@@ -11,6 +11,8 @@
     padding: 20px;
 }
 .header {
+    outline: 0;
+    border: none;
     background: #fafafa;
     padding: 11px;
     margin-top: 0px;
@@ -23,6 +25,8 @@
     padding: 10px;
     color: #888888;
     font-weight: 600;
+    outline: 0;
+    border: none;
     border-top: 1px solid #ddd;
 }
 .displayNone {
