@@ -200,8 +200,14 @@ class BaseClassPanel extends React.Component {
         retVal.splice(i, 0, ', ');
       }
     } else {
+      let type;
+      if (parsingPrereqs === macros.prereqTypes.PREREQ) {
+        type = aClass.prereqs.type;
+      } else if (parsingPrereqs === macros.prereqTypes.COREQ) {
+        type = aClass.coreqs.type;
+      }
       for (let i = retVal.length - 1; i >= 1; i--) {
-        retVal.splice(i, 0, ` ${aClass.prereqs.type} `);
+        retVal.splice(i, 0, ` ${type} `);
       }
     }
 
