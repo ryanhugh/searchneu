@@ -108,14 +108,9 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
 
     //find co and pre reqs and restrictions
     const prereqs = ellucianRequisitesParser.parseRequirementSection(url, element.children, 'prerequisites');
-    if (prereqs) {
-      depData.prereqs = prereqs;
-    }
 
     const coreqs = ellucianRequisitesParser.parseRequirementSection(url, element.children, 'corequisites');
-    if (coreqs) {
-      depData.coreqs = coreqs;
-    }
+
 
     //find co and pre reqs and restrictions
     const prereqs2 = ellucianRequisitesParser2.parseRequirementSection(url, element.children, 'prerequisites');
@@ -126,6 +121,14 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     const coreqs2 = ellucianRequisitesParser2.parseRequirementSection(url, element.children, 'corequisites');
     if (!_.isEqual(coreqs, coreqs2)) {
       macros.log('WARNING: coreqs parsed by the new parser are not equal', JSON.stringify(coreqs, null, 4), JSON.stringify(coreqs2, null, 4));
+    }
+
+    if (prereqs2) {
+      depData.prereqs = prereqs2;
+    }
+
+    if (coreqs2) {
+      depData.coreqs = coreqs2;
     }
 
     return depData;
@@ -241,9 +244,8 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     // In other words, if there are sections, it will return the list of classes processes (because the list of sections can become different classes for now)
     // And if there are no sections, it will just return one class with the info from the catalog page.
     if (classListData.length === 0) {
-
       catalogData.lastUpdateTime = Date.now();
-      
+
       classListData = [{
         type: 'classes',
         value: catalogData,
