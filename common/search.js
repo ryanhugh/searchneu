@@ -313,11 +313,20 @@ class Search {
     const slangMap = {
       fundies: 'fundamentals of computer science',
       orgo: 'Organic Chemistry',
-      chemistry: 'chem'
+      chemistry: 'chem',
+
+      // Searching for numerica or numeri has no results
+      // Lets show the same results as just searching for numerical
+      // https://github.com/ryanhugh/searchneu/pull/19
+      numerica: 'numerical',
+      numeri: 'numerical',
     };
 
     for (const word in slangMap) {
-      if (searchTerm.startsWith(word)) {
+
+      // Swap out a word if it matches the entire query or there are words after
+      // Don't match if it is part of the first word (Ex. numeri and numerica should not both match numerical)
+      if (searchTerm.startsWith(word + ' ') || searchTerm === word) {
         searchTerm = `${slangMap[word]} ${searchTerm.slice(word.length)}`;
       }
     }
