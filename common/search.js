@@ -323,10 +323,9 @@ class Search {
     };
 
     for (const word in slangMap) {
-
       // Swap out a word if it matches the entire query or there are words after
       // Don't match if it is part of the first word (Ex. numeri and numerica should not both match numerical)
-      if (searchTerm.startsWith(word + ' ') || searchTerm === word) {
+      if (searchTerm.startsWith(`${word} `) || searchTerm === word) {
         searchTerm = `${slangMap[word]} ${searchTerm.slice(word.length)}`;
       }
     }
