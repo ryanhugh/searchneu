@@ -8,6 +8,7 @@ import renderer from 'react-test-renderer';
 
 import mockData from './mockData';
 import BaseClassPanel from '../BaseClassPanel';
+import macros from '../../macros';
 
 
 it('should not render a show more button', () => {
@@ -62,7 +63,7 @@ it('should render prereqs string', () => {
 
   const instance = component.getInstance();
 
-  const prereqs = instance.getReqsString('prereqs');
+  const prereqs = instance.getReqsString(macros.prereqTypes.PREREQ);
 
   expect(prereqs).toMatchSnapshot();
 });
@@ -73,7 +74,7 @@ it('should render coreqs string', () => {
 
   const instance = component.getInstance();
 
-  const coreqs = instance.getReqsString('coreqs');
+  const coreqs = instance.getReqsString(macros.prereqTypes.COREQ);
 
   expect(coreqs).toMatchSnapshot();
 });
