@@ -25,10 +25,14 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
       this.classMap[key] = aClass;
     }
 
-    for (let aClass of termDump.classes) {
+    for (const aClass of termDump.classes) {
       if (aClass.prereqs) {
-        aClass = this.parsePreReqs(aClass, aClass.prereqs);
+        this.parsePreReqs(aClass, aClass.prereqs, true);
       }
+    }
+
+    for (const aClass of termDump.classes) {
+      this.sortPreReqs(aClass);
     }
   }
 
@@ -64,26 +68,99 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
 
       const nodeRef = this.classMap[find];
 
-      // Checks and creates the optPrereqsFor field in our class, if needed
-      if (nodeRef.optPrereqsFor === undefined) {
-        nodeRef.optPrereqsFor = [];
-      }
+      this.initializeArray(nodeRef);
 
-      nodeRef.optPrereqsFor.push({
+      const classData = {
         subject: mainClass.subject,
         classUid: mainClass.classUid,
         classId: mainClass.classId,
-      });
+      };
+
+      if (isRequired) {
+        nodeRef.prereqsFor.values.unshift(classData);
+      } else {
+        nodeRef.optPrereqsFor.values.unshift(classData);
+      }
     } else {
       const classType = node.type;
 
       if (node.values !== undefined) {
         node.values.map((course) => {
-          // TODO: Implement optional prereqs-for
+          // A required course becomes effectively optional when we encounter
+          // an 'or' in our tree.
           const reqType = (classType === 'and') ? isRequired : false;
           return this.parsePreReqs(mainClass, course, reqType);
         });
       }
+    }
+  }
+
+  /**
+   * Creates the fields 'optPrereqsFor' and 'prereqsFor' in nodeRef, if and
+   * only if they haven't been initialized already.
+   *
+   * @param {Class} nodeRef the class in our tree that we're creating the
+   * arrays for.
+   */
+  initializeArray(nodeRef) {
+    // Checks and creates the optPrereqsFor field in our class, if needed
+    if (nodeRef.optPrereqsFor === undefined) {
+      nodeRef.optPrereqsFor = {
+        values: [],
+      };
+    }
+    if (nodeRef.prereqsFor === undefined) {
+      nodeRef.prereqsFor = {
+        values: [],
+      };
+    }
+  }
+
+  // Sorts the prereqs for in alphabetical order.
+  // except that the classes with the same subject as the main classe's subject.
+  // If two classes have the same subject, they are sorted by classId
+  sortPrereqsValues(matchingSubject, values) {
+    return values.sort((a, b) => {
+      if (a.subject !== b.subject) {
+        if (a.subject === matchingSubject) {
+          return -1;
+        }
+        if (b.subject === matchingSubject) {
+          return 1;
+        }
+        if (a.subject < b.subject) {
+          return -1;
+        }
+        if (a.subject > b.subject) {
+          return 1;
+        }
+      }
+
+      const firstId = parseInt(a.classId, 10);
+      const secondId = parseInt(b.classId, 10);
+
+      if (firstId < secondId) {
+        return -1;
+      } else if (firstId > secondId) {
+        return 1;
+      }
+
+      return 0;
+    });
+  }
+
+  /**
+   * Recursively traverse the prerequsite structure.
+   *
+   * @param {Class} aClass - a class to sort the optPrereqsFor and prereqsFor of.
+   */
+  sortPreReqs(aClass) {
+    if (aClass.optPrereqsFor && aClass.optPrereqsFor.values) {
+      aClass.optPrereqsFor.values = this.sortPrereqsValues(aClass.subject, aClass.optPrereqsFor.values);
+    }
+
+    if (aClass.prereqsFor && aClass.prereqsFor.values) {
+      aClass.prereqsFor.values = this.sortPrereqsValues(aClass.subject, aClass.prereqsFor.values);
     }
   }
 

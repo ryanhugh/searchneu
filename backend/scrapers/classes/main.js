@@ -217,7 +217,6 @@ class Main {
     await searchIndex.main(dump);
     await termDump.main(dump);
 
-
     if (macros.DEV) {
       await cache.set('dev_data', 'classes', cacheKey, dump);
       macros.log('classes file saved for', collegeAbbrs, '!');
