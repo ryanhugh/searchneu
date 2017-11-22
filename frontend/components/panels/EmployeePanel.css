@@ -4,6 +4,8 @@
  */
 
  .header {
+    outline: 0;
+    border: none;
     background: #fafafb;
     padding: 11px;
     margin-top: 0px;
