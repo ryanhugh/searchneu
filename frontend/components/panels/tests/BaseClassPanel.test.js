@@ -23,12 +23,11 @@ it('should not render a show more button', () => {
 it('should render a button', () => {
   const component = renderer.create(<BaseClassPanel aClass={ mockData.cs1210 } />);
 
-  // const tree = component.toJSON();
-
   const button = component.getInstance().getShowMoreButton();
 
   expect(button).toMatchSnapshot();
 });
+
 
 it('clicking the button will cause more sections to be rendered', () => {
   const component = renderer.create(<BaseClassPanel aClass={ mockData.cs1210 } />);
