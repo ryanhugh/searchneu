@@ -18,6 +18,7 @@
 }
 .table {
 	width: 100%;
+	border-collapse: collapse;
 }
 .globe {
 	opacity: .6;
