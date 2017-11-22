@@ -313,6 +313,7 @@ class Search {
     const slangMap = {
       fundies: 'fundamentals of computer science',
       orgo: 'Organic Chemistry',
+      chemistry: 'chem'
     };
 
     for (const word in slangMap) {
