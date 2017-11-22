@@ -14,6 +14,7 @@ import baseCss from './BaseClassPanel.css';
 import MobileSectionPanel from './MobileSectionPanel';
 import Keys from '../../../common/Keys';
 import BaseClassPanel from './BaseClassPanel';
+import macros from '../macros';
 
 const css = {};
 
@@ -61,23 +62,6 @@ class MobileClassPanel extends BaseClassPanel {
     });
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const commonShouldUpdate = BaseClassPanel.prototype.shouldComponentUpdate.call(this, nextProps, nextState);
-    if (commonShouldUpdate) {
-      return true;
-    }
-
-    if (this.state.showMoreThanTitle !== nextState.showMoreThanTitle) {
-      return true;
-    }
-
-    if (this.state.showAllClassDetails !== nextState.showAllClassDetails) {
-      return true;
-    }
-
-    return false;
-  }
-
   getClassBody() {
     const aClass = this.props.aClass;
 
@@ -107,11 +91,13 @@ class MobileClassPanel extends BaseClassPanel {
               {`View on ${aClass.host}`}
             </a>
             <br />
-            Prerequisites: {this.getReqsString('prereqs', aClass)}
+            Prerequisites: {this.optionalDisplay(macros.prereqTypes.PREREQ)} {this.showMore(macros.prereqTypes.PREREQ)}
             <br />
-            Corequisites: {this.getReqsString('coreqs', aClass)}
+            Corequisites: {this.optionalDisplay(macros.prereqTypes.COREQ)} {this.showMore(macros.prereqTypes.COREQ)}
             <br />
-            Prerequisites for: {this.getReqsString('prereqsFor', aClass)}
+            Prerequisite for: {this.optionalDisplay(macros.prereqTypes.PREREQ_FOR)} {this.showMore(macros.prereqTypes.PREREQ_FOR)}
+            <br />
+            Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
           </div>
         </span>
       );
@@ -212,7 +198,6 @@ class MobileClassPanel extends BaseClassPanel {
 
 // Number of sections to show by default.
 MobileClassPanel.sectionsShownByDefault = 1;
-
 
 MobileClassPanel.propTypes = {
   aClass: PropTypes.object.isRequired,

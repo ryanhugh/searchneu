@@ -4,7 +4,6 @@
  */
 
 import addPreRequisiteFor from '../addPreRequisiteFor';
-// import Keys from '../../../../../common/Keys';
 
 describe('addPreRequisiteFor tests', () => {
   const cs2500 = {
@@ -35,8 +34,78 @@ describe('addPreRequisiteFor tests', () => {
     subject: 'CS',
   };
 
+  const fakeClass1 = {
+    optPrereqsFor:
+      {
+        values: [
+          {
+            subject: 'CS',
+            classUid: '2500_699845913',
+            classId: '5',
+          }, {
+            subject: 'MATH',
+            classUid: '2500_699845913',
+            classId: '2',
+          }, {
+            subject: 'EECE',
+            classUid: '2500_699845913',
+            classId: '11',
+          }, {
+            subject: 'EECE',
+            classUid: '2500_699845913',
+            classId: '7',
+          },
+          {
+            subject: 'MATH',
+            classUid: '2500_699845913',
+            classId: '3',
+          },
+        ],
+      },
+    classId: '2510',
+    termId: '201830',
+    classUid: '33333333',
+    subject: 'CS',
+    host: 'neu.edu',
+  };
+
+  const fakeClass2 = {
+    prereqsFor:
+      {
+        values: [
+          {
+            subject: 'CS',
+            classUid: '2500_699845913',
+            classId: '5',
+          }, {
+            subject: 'MATH',
+            classUid: '2500_699845913',
+            classId: '2',
+          }, {
+            subject: 'EECE',
+            classUid: '2500_699845913',
+            classId: '11',
+          }, {
+            subject: 'EECE',
+            classUid: '2500_699845913',
+            classId: '7',
+          },
+          {
+            subject: 'MATH',
+            classUid: '2500_699845913',
+            classId: '3',
+          },
+        ],
+      },
+    classId: '2510',
+    termId: '201830',
+    classUid: '33333333',
+    subject: 'EECE',
+    host: 'neu.edu',
+  };
+
   const termDump = {
-    classes: [cs2500, cs2510],
+    classes: [cs2500, cs2510, fakeClass1],
     sections: [],
   };
 
@@ -49,35 +118,23 @@ describe('addPreRequisiteFor tests', () => {
     const outputPreReqClass = cs2500;
     outputPreReqClass.prereqsFor = [];
     outputPreReqClass.prereqsFor.push(cs2510);
+  });
 
-    // it('should create a prerequsites field and add the class, if one doesn\'t exist', () => {
-    //   addPreRequisiteFor.parseClass(cs2510, cs2500, 'and');
 
-    //   const find = Keys.create(cs2500).getHash();
-    //   let found = {};
-    //   for (const aClass of termDump.classes) {
-    //     if (Keys.create(aClass).getHash() === find) {
-    //       found = aClass;
-    //     }
-    //   }
-    //   expect(found).toBe(outputPreReqClass);
-    // });
+  it('should sort some optPrereqsFor', () => {
+    addPreRequisiteFor.termDump = termDump;
 
-    // it('should add a new class to an already existing class', () => {
-    //   addPreRequisiteFor.parseClass(cs2510, cs2500, 'and');
-    //   outputPreReqClass.prereqsFor.push(cs2510);
+    addPreRequisiteFor.sortPreReqs(fakeClass1);
 
-    //   const find = Keys.create(cs2500).getHash();
-    //   let found = {};
-    //   for (const aClass of termDump.classes) {
-    //     if (Keys.create(aClass).getHash() === find) {
-    //       found = aClass;
-    //     }
-    //   }
-    //   console.log(found);
-    //   console.log(outputPreReqClass);
+    expect(fakeClass1.optPrereqsFor).toMatchSnapshot();
+  });
 
-    //   expect(found).toEqual(outputPreReqClass);
-    // });
+
+  it('should sort some prereqsFor', () => {
+    addPreRequisiteFor.termDump = termDump;
+
+    addPreRequisiteFor.sortPreReqs(fakeClass2);
+
+    expect(fakeClass2.prereqsFor).toMatchSnapshot();
   });
 });

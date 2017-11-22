@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`addPreRequisiteFor tests should sort some optPrereqsFor 1`] = `
+Object {
+  "values": Array [
+    Object {
+      "classId": "5",
+      "classUid": "2500_699845913",
+      "subject": "CS",
+    },
+    Object {
+      "classId": "7",
+      "classUid": "2500_699845913",
+      "subject": "EECE",
+    },
+    Object {
+      "classId": "11",
+      "classUid": "2500_699845913",
+      "subject": "EECE",
+    },
+    Object {
+      "classId": "2",
+      "classUid": "2500_699845913",
+      "subject": "MATH",
+    },
+    Object {
+      "classId": "3",
+      "classUid": "2500_699845913",
+      "subject": "MATH",
+    },
+  ],
+}
+`;
+
+exports[`addPreRequisiteFor tests should sort some prereqsFor 1`] = `
+Object {
+  "values": Array [
+    Object {
+      "classId": "7",
+      "classUid": "2500_699845913",
+      "subject": "EECE",
+    },
+    Object {
+      "classId": "11",
+      "classUid": "2500_699845913",
+      "subject": "EECE",
+    },
+    Object {
+      "classId": "5",
+      "classUid": "2500_699845913",
+      "subject": "CS",
+    },
+    Object {
+      "classId": "2",
+      "classUid": "2500_699845913",
+      "subject": "MATH",
+    },
+    Object {
+      "classId": "3",
+      "classUid": "2500_699845913",
+      "subject": "MATH",
+    },
+  ],
+}
+`;
