@@ -140,8 +140,17 @@ class Macros {
 // XXX: This is stuff that is hardcoded for now, need to change when expanding to other schools.
 Macros.collegeName = 'Northeastern University';
 
-// This is the same token in the frontend and the backend, and does not need to be kept private. .
+// This is the same token in the frontend and the backend, and does not need to be kept private.
 Macros.amplitudeToken = 'e0801e33a10c3b66a3c1ac8ebff53359';
+
+// Also decided to keep all the other tracker Id's here because the amplitude one needs to be here and might as well keep them all in the same place.
+Macros.fullStoryToken = '4ZDGH';
+
+// Rollbar token
+Macros.rollbarToken = '3a76015293344e6f9c47e35c9ce4c84c';
+
+// Google analytics token
+Macros.googleAnalyticsToken = 'UA-85376897-3';
 
 // Set up the Macros.TESTS, Macros.DEV, and Macros.PROD based on some env variables.
 if (process.env.PROD || process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prod' || (process.env.CI && process.env.NODE_ENV !== 'test')) {
