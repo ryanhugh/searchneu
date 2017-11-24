@@ -491,15 +491,17 @@ class Home extends React.Component {
             <div className='ui divider' />
 
             <div className={ `footer ui basic center aligned segment ${css.credits}` }>
-              Made with&nbsp;
-              <i className='rocket circular small icon' />
-              &nbsp;by&nbsp;
+              Made with coffee&nbsp;
+              <i className='coffee circular small icon' />
+              by&nbsp;
               <a target='_blank' rel='noopener noreferrer' href='http://github.com/ryanhugh'>
                 Ryan Hughes
               </a>
-              &nbsp;and UI inspired by&nbsp;
-              <a target='_blank' rel='noopener noreferrer' href='https://github.com/2factorauth/twofactorauth'>
-                Two Factor Authenticaton
+              &nbsp;and love&nbsp;
+              <i className='heart circular small icon' />
+              from some awesome&nbsp;
+              <a target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu/graphs/contributors'>
+                Contributors
               </a>.
             </div>
 
