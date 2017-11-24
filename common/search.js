@@ -103,8 +103,6 @@ class Search {
       };
     }
 
-    // this.termDump = CourseProData.loadData(termDump);
-    // this.classSearchIndex = ;
     this.employeeMap = employeeMap;
     this.employeeSearchIndex = elasticlunr.Index.load(employeeSearchIndex);
 
