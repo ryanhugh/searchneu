@@ -247,16 +247,16 @@ class Home extends React.Component {
     });
   }
 
-  openForm() {
-    this.setState({ feedbackModalOpen: true });
+  getSearchQueryFromUrl() {
+    return decodeURIComponent(macros.replaceAll(window.location.pathname.slice(1), '+', ' '));
   }
 
   closeForm() {
     this.setState({ feedbackModalOpen: false });
   }
 
-  getSearchQueryFromUrl() {
-    return decodeURIComponent(macros.replaceAll(window.location.pathname.slice(1), '+', ' '));
+  openForm() {
+    this.setState({ feedbackModalOpen: true });
   }
 
   logSearch(searchTerm) {
@@ -519,15 +519,15 @@ class Home extends React.Component {
             </div>
 
             <div className={ `footer ui basic center aligned segment ${css.contact}` }>
-              <a role='button' tabIndex={ 0 } onClick={this.openForm}>
+              <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
                 Feedback
               </a>
               &nbsp;•&nbsp;
-              <a role='button' tabIndex={ 0 } onClick={this.openForm}>
+              <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
                 Report a bug
               </a>
               &nbsp;•&nbsp;
-              <a role='button' tabIndex={ 0 } onClick={this.openForm}>
+              <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
                 Contact
               </a>
             </div>
@@ -536,20 +536,22 @@ class Home extends React.Component {
 
         <Modal open={ this.state.feedbackModalOpen } onClose={ this.closeForm } size='small'>
           <Header icon='mail' content='Search NEU Feedback' />
-          <Modal.Content>
-            <p>Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.</p>
-            <Form>
-              <TextArea className={ css.feedbackTextbox } />
+          <Modal.Content className={ css.formModalContent }>
+            <Form id='feedbackForm' action='https://formspree.io/ryanhughes624@gmail.com' method='POST'>
+              <div className={ css.feedbackParagraph }>Find a bug in Search NEU? Find a query that dosen&apos;t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.</div>
+              <TextArea name='response' form='feedbackForm' className={ css.feedbackTextbox } />
+              <p>By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.</p>
+              <Input name='contact' form='feedbackForm' className={ css.formModalInput } />
             </Form>
-            <p>By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.</p>
-            <Input />
           </Modal.Content>
           <Modal.Actions>
             <Button basic color='red'>
-              <Icon name='remove' /> Cancel
+              <Icon name='remove' />
+              Cancel
             </Button>
-            <Button color='green'>
-              <Icon name='checkmark' /> Submit
+            <Button type='submit' value='Send' color='green' form='feedbackForm'>
+              <Icon name='checkmark' />
+              Submit
             </Button>
           </Modal.Actions>
         </Modal>
