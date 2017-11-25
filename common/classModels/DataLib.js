@@ -12,9 +12,6 @@ class DataLib {
   }
 
 
-  // Possibly add a downloadData() method here
-  // that downloads the data from github pages with superagent (http library that works in frontend and backend)
-
   static loadData(termDump) {
     if (!termDump.classMap || !termDump.sectionMap) {
       macros.error('invalid termDump', termDump);
