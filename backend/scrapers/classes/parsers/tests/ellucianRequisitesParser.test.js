@@ -30,6 +30,25 @@ it('should load a bunch of string prereqs from many on linked.html', async (done
   done();
 });
 
+it('should load coreqs on different lines as "and"', async (done) => {
+  const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianSectionParser', 'coreqs on diff lines.html'), 'utf8');
+
+  const $ = cheerio.load(body);
+
+  // Get the root dom node.
+  // Cheerio adds a "root" node on top of everything, so the element we are looking for is the root nodes first child.
+  // In this case it is a table.
+  const rootNode = $.root()[0].children;
+
+  const url = 'http://test.hostname.com/PROD/';
+
+  const coreqs = ellucianRequisitesParser.parseRequirementSection(url, rootNode, 'corequisites');
+
+  expect(coreqs).toMatchSnapshot();
+
+  done();
+});
+
 
 it('should filter out prereqs that just say they are prereqs', async (done) => {
   const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianSectionParser', 'blacklistedstring.html'), 'utf8');

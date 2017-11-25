@@ -242,6 +242,22 @@ Object {
 }
 `;
 
+exports[`should load coreqs on different lines as "and" 1`] = `
+Object {
+  "type": "and",
+  "values": Array [
+    Object {
+      "classId": "1101",
+      "subject": "CHEM",
+    },
+    Object {
+      "classId": "1102",
+      "subject": "CHEM",
+    },
+  ],
+}
+`;
+
 exports[`works with a ton of ors 1 1`] = `
 Object {
   "type": "or",
