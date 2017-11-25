@@ -1,0 +1,420 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render some stuff 1`] = `
+<div>
+  <div
+    className="undefined ui segment"
+  >
+    <div
+      className={undefined}
+    >
+      <span
+        className={undefined}
+      >
+        CS
+         
+        1210
+        : 
+        Computer Science/Information Science Overview 2: Co-op Preparation
+      </span>
+      <span
+        className={undefined}
+      >
+        <a
+          className={undefined}
+          data-tip="View on neu.edu"
+          href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <img
+            alt="link"
+            src="file"
+          />
+        </a>
+      </span>
+    </div>
+    <div
+      className={undefined}
+    >
+      Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours
+      <br />
+      <br />
+      <div
+        className={undefined}
+      >
+        Prerequisites: 
+        <span
+          className="dynamicText"
+        >
+          None
+        </span>
+         
+        <br />
+        Corequisites: 
+        <span
+          className="dynamicText"
+        >
+          None
+        </span>
+         
+        <br />
+        Prerequisite for: 
+        <span
+          className="dynamicText"
+        >
+          None
+        </span>
+         
+        <br />
+        Optional Prerequisite for: 
+        <span
+          className="dynamicText"
+        >
+          None
+        </span>
+         
+      </div>
+      <div
+        className={undefined}
+      >
+        <div
+          data-tip="Check neu.edu for possible updates"
+        >
+           Updated 
+          6 days ago
+        </div>
+        1 credits
+      </div>
+    </div>
+    <table
+      className="ui celled striped table undefined"
+    >
+      <thead>
+        <tr>
+          <th>
+            <div
+              className={undefined}
+              data-tip="Course Reference Number"
+            >
+              CRN
+            </div>
+          </th>
+          <th>
+             Professors 
+          </th>
+          <th>
+             Weekdays 
+          </th>
+          <th>
+             Time 
+          </th>
+          <th>
+             Location 
+          </th>
+          <th>
+             Seats 
+          </th>
+          <th
+            className="displayNone"
+          >
+             Waitlist seats
+          </th>
+          <th>
+             Link 
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          style={
+            Object {
+              "display": "none",
+              "paddingBottom": "1px",
+              "paddingTop": 0,
+            }
+          }
+        />
+        <tr>
+          <td>
+             
+            13502
+             
+          </td>
+          <td>
+             
+            Jennifer Anne Shire
+             
+          </td>
+          <td>
+             
+            <div
+              className="inlineBlock daysContainer"
+              data-tip="Meets on Tuesday"
+            >
+              <div
+                className="weekDayBox"
+              />
+              <div
+                className="weekDayBoxChecked weekDayBox"
+              />
+              <div
+                className="weekDayBox"
+              />
+              <div
+                className="weekDayBox"
+              />
+              <div
+                className="weekDayBox"
+              />
+            </div>
+             
+          </td>
+          <td>
+            9:50 - 11:30 am
+          </td>
+          <td>
+             
+            <span>
+              <span>
+                <a
+                  href="https://maps.google.com/?q=Northeastern University Snell Engineering Center "
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Snell Engineering Center 108
+                </a>
+              </span>
+            </span>
+             
+          </td>
+          <td>
+            <div
+              className={undefined}
+              data-tip="Open Seats/Total Seats"
+            >
+              0
+              /
+              19
+            </div>
+          </td>
+          <td
+            className="displayNone"
+          >
+            <div
+              className={undefined}
+              data-tip="Open/Total Waitlist Seats"
+            >
+              0
+              /
+              0
+            </div>
+          </td>
+          <td>
+            <a
+              className="undefined undefined"
+              data-tip="View on neu.edu"
+              href="https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                alt="link"
+                src="file"
+              />
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+             
+            14404
+             
+          </td>
+          <td>
+             
+            Jennifer Anne Shire
+             
+          </td>
+          <td>
+             
+            <div
+              className="inlineBlock daysContainer"
+              data-tip="Meets on Tuesday"
+            >
+              <div
+                className="weekDayBox"
+              />
+              <div
+                className="weekDayBoxChecked weekDayBox"
+              />
+              <div
+                className="weekDayBox"
+              />
+              <div
+                className="weekDayBox"
+              />
+              <div
+                className="weekDayBox"
+              />
+            </div>
+             
+          </td>
+          <td>
+            11:45 - 1:25 pm
+          </td>
+          <td>
+             
+            <span>
+              <span>
+                <a
+                  href="https://maps.google.com/?q=Northeastern University Ryder Hall "
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Ryder Hall 431
+                </a>
+              </span>
+            </span>
+             
+          </td>
+          <td>
+            <div
+              className={undefined}
+              data-tip="Open Seats/Total Seats"
+            >
+              0
+              /
+              19
+            </div>
+          </td>
+          <td
+            className="displayNone"
+          >
+            <div
+              className={undefined}
+              data-tip="Open/Total Waitlist Seats"
+            >
+              0
+              /
+              0
+            </div>
+          </td>
+          <td>
+            <a
+              className="undefined undefined"
+              data-tip="View on neu.edu"
+              href="https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                alt="link"
+                src="file"
+              />
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+             
+            14405
+             
+          </td>
+          <td>
+             
+            Jennifer Anne Shire
+             
+          </td>
+          <td>
+             
+            <div
+              className="inlineBlock daysContainer"
+              data-tip="Meets on Tuesday"
+            >
+              <div
+                className="weekDayBox"
+              />
+              <div
+                className="weekDayBoxChecked weekDayBox"
+              />
+              <div
+                className="weekDayBox"
+              />
+              <div
+                className="weekDayBox"
+              />
+              <div
+                className="weekDayBox"
+              />
+            </div>
+             
+          </td>
+          <td>
+            11:45 - 1:25 pm
+          </td>
+          <td>
+             
+            <span>
+              <span>
+                <a
+                  href="https://maps.google.com/?q=Northeastern University Ryder Hall "
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Ryder Hall 431
+                </a>
+              </span>
+            </span>
+             
+          </td>
+          <td>
+            <div
+              className={undefined}
+              data-tip="Open Seats/Total Seats"
+            >
+              0
+              /
+              19
+            </div>
+          </td>
+          <td
+            className="displayNone"
+          >
+            <div
+              className={undefined}
+              data-tip="Open/Total Waitlist Seats"
+            >
+              0
+              /
+              0
+            </div>
+          </td>
+          <td>
+            <a
+              className="undefined undefined"
+              data-tip="View on neu.edu"
+              href="https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                alt="link"
+                src="file"
+              />
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div
+      className="showMoreButton"
+      onClick={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      Show More...
+    </div>
+  </div>
+</div>
+`;
