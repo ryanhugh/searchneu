@@ -545,7 +545,7 @@ class Home extends React.Component {
             </Form>
           </Modal.Content>
           <Modal.Actions>
-            <Button basic color='red' onClick={this.closeForm}>
+            <Button basic color='red' onClick={ this.closeForm }>
               <Icon name='remove' />
               Cancel
             </Button>
