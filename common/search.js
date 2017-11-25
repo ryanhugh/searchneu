@@ -109,6 +109,7 @@ class Search {
     // Save the refs for each query. This is a map from the query to a object like this: {refs: [...], time: Date.now()}
     // These are purged every so often.
     this.refCache = {};
+    this.itemsInCache = 0;
 
 
     this.onInterval = this.onInterval.bind(this);
@@ -131,11 +132,20 @@ class Search {
   }
 
   onInterval() {
-    const dayAgo = Date.now() - 86400000;
+    // Purge the older half of the items in the cache and purge all items that are over a day old.
+
+    // First figure out how old the average item in the cache is
+
+    let cacheNum = 0;
+    let cacheAgeTotal = 0;
 
     const keys = Object.keys(this.refCache);
+    const now = Date.now();
+    const dayAgo = Date.now() - 86400000;
 
-    // Clear out any cache that has not been used in over a day.
+    // Move (by reference) all the items that we want to keep to a new object.
+    const newCache = {};
+
     for (const key of keys) {
       // the .time check was failing (cannot read .time of undefined) in some really weird cases...
       // not totally sure why but it is an easy fix.
@@ -144,10 +154,32 @@ class Search {
       if (!this.refCache[key]) {
         continue;
       }
-      if (this.refCache[key].time < dayAgo) {
-        this.refCache[key] = undefined;
+
+      cacheNum++;
+      cacheAgeTotal += now - this.refCache[key].time;
+    }
+
+    let numKeeping = 0;
+    const avgAge = cacheAgeTotal / cacheNum;
+
+    // Clear out any cache that has not been used in over a day.
+    for (const key of keys) {
+      if (!this.refCache[key]) {
+        continue;
+      }
+
+      const cacheItemTime = this.refCache[key].time;
+
+      if (cacheItemTime > dayAgo && now - cacheItemTime < avgAge) {
+        newCache[key] = this.refCache[key];
+        numKeeping++;
       }
     }
+
+    macros.log('There were ', cacheNum, 'items in cache and keeping', numKeeping, '.');
+
+    this.refCache = newCache;
+    this.itemsInCache = numKeeping;
   }
 
   checkForSubjectMatch(searchTerm, termId) {
@@ -348,11 +380,23 @@ class Search {
         refs = this.getRefs(searchTerm, termId);
       }
 
+      this.itemsInCache++;
+
       this.refCache[termId + searchTerm] = {
         refs: refs,
         wasSubjectMatch: wasSubjectMatch,
         time: Date.now(),
       };
+    }
+
+    // Check the cache when over 10,000 items are added to the cache
+    if (this.itemsInCache > 10000) {
+      macros.log('Purging the cache because too many items are in the cache.');
+
+      // Wait until the next tick because the first priority is to respond to the search query.
+      setTimeout(() => {
+        this.onInterval();
+      }, 0);
     }
 
     // If there are no results, log an event to Amplitude.
