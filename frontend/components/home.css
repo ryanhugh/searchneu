@@ -352,8 +352,11 @@
 }
 .termDropdown * {
     font-weight: initial !important;
-    /*box-shadow: none !important;*/
     border: none !important;
     color: rgb(174, 69, 67) !important;
 }
 
+.feedbackTextbox {
+  width: 100%;
+  height: 100px;
+}
