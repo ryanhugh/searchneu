@@ -109,34 +109,49 @@ try {
 // }
 
 
-const root = document.getElementById('app');
 function createApp() {
   return (
     <Home />
   );
 }
 
+function main() {
+  const ua = window.navigator.userAgent;
 
-if (process.env.NODE_ENV === 'production') {
-  ReactDOM.render(createApp(), root);
-} else {
-  ReactDOM.render(
-    (
-      <AppContainer>
-        { createApp() }
-      </AppContainer>
-    ), root,
-  );
+  // IE 10 or older will have MSIE in the UA
+  // IE 11 will have Trident in the UA
+  // IE 12 and newer will have Edge in the UA.
+  // Almost all of the site works in Edge.
+  if (ua.indexOf('MSIE ') > -1 || ua.indexOf('Trident/') > -1) {
+    document.body.innerHTML = '<h1>This browser is old and not supported. Try upgrading to <a href="https://www.google.com/chrome/browser/desktop/index.html">Google Chrome!</h1>';
+    return;
+  }
 
-  if (module.hot) {
-    module.hot.accept(() => {
-      ReactDOM.render(
-        (
-          <AppContainer>
-            { createApp() }
-          </AppContainer>
-        ), root,
-      );
-    });
+  const root = document.getElementById('app');
+
+  if (process.env.NODE_ENV === 'production') {
+    ReactDOM.render(createApp(), root);
+  } else {
+    ReactDOM.render(
+      (
+        <AppContainer>
+          { createApp() }
+        </AppContainer>
+      ), root,
+    );
+
+    if (module.hot) {
+      module.hot.accept(() => {
+        ReactDOM.render(
+          (
+            <AppContainer>
+              { createApp() }
+            </AppContainer>
+          ), root,
+        );
+      });
+    }
   }
 }
+
+main();
