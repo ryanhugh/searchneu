@@ -8,8 +8,7 @@ import CSSModules from 'react-css-modules';
 import 'semantic-ui-css/semantic.min.css';
 import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames/bind';
-import { Dropdown } from 'semantic-ui-react';
-import { Button, Icon, Modal, Header, TextArea, Input, Form } from 'semantic-ui-react'
+import { Dropdown, Button, Icon, Modal, Header, TextArea, Input, Form } from 'semantic-ui-react';
 
 import '../css/base.css';
 
@@ -58,9 +57,9 @@ class Home extends React.Component {
 
       // Keep track of which term the user is searching over. The employee data is the same regardless of the term.
       selectedTerm: selectedTerm,
-      
+
       // Keep track of whether the feedback modal is open or not.
-      feedbackModalOpen: false
+      feedbackModalOpen: false,
     };
 
     // Timer used to debounce search queries
@@ -510,27 +509,27 @@ class Home extends React.Component {
             </div>
 
             <div className={ `footer ui basic center aligned segment ${css.contact}` }>
-              <a onClick={() => this.setState({feedbackModalOpen: true})}>
+              <a onClick={ () => { return this.setState({ feedbackModalOpen: true }); } }>
                 Feedback
               </a>
               &nbsp;•&nbsp;
-              <a onClick={() => this.setState({feedbackModalOpen: true})}>
+              <a onClick={ () => { return this.setState({ feedbackModalOpen: true }); } }>
                 Report a bug
               </a>
               &nbsp;•&nbsp;
-              <a onClick={() => this.setState({feedbackModalOpen: true})}>
+              <a onClick={ () => { return this.setState({ feedbackModalOpen: true }); } }>
                 Contact
               </a>
             </div>
           </div>
         </div>
-        
-         <Modal open={this.state.feedbackModalOpen} size='small'>
+
+        <Modal open={ this.state.feedbackModalOpen } size='small'>
           <Header icon='mail' content='Search NEU Feedback' />
           <Modal.Content>
             <p>Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.</p>
             <Form>
-              <TextArea className={css.feedbackTextbox} />
+              <TextArea className={ css.feedbackTextbox } />
             </Form>
             <p>By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.</p>
             <Input />
