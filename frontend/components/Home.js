@@ -90,6 +90,8 @@ class Home extends React.Component {
     this.onSearchDebounced = this.onSearchDebounced.bind(this);
     this.onLogoClick = this.onLogoClick.bind(this);
     this.onTermdropdownChange = this.onTermdropdownChange.bind(this);
+    this.openForm = this.openForm.bind(this);
+    this.closeForm = this.closeForm.bind(this);
 
     // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
@@ -243,6 +245,14 @@ class Home extends React.Component {
         this.search(this.state.searchTerm);
       }
     });
+  }
+
+  openForm() {
+    this.setState({ feedbackModalOpen: true });
+  }
+
+  closeForm() {
+    this.setState({ feedbackModalOpen: false });
   }
 
   getSearchQueryFromUrl() {
@@ -509,22 +519,22 @@ class Home extends React.Component {
             </div>
 
             <div className={ `footer ui basic center aligned segment ${css.contact}` }>
-              <a onClick={ () => { return this.setState({ feedbackModalOpen: true }); } }>
+              <a role='button' tabIndex={ 0 } onClick={this.openForm}>
                 Feedback
               </a>
               &nbsp;•&nbsp;
-              <a onClick={ () => { return this.setState({ feedbackModalOpen: true }); } }>
+              <a role='button' tabIndex={ 0 } onClick={this.openForm}>
                 Report a bug
               </a>
               &nbsp;•&nbsp;
-              <a onClick={ () => { return this.setState({ feedbackModalOpen: true }); } }>
+              <a role='button' tabIndex={ 0 } onClick={this.openForm}>
                 Contact
               </a>
             </div>
           </div>
         </div>
 
-        <Modal open={ this.state.feedbackModalOpen } size='small'>
+        <Modal open={ this.state.feedbackModalOpen } onClose={ this.closeForm } size='small'>
           <Header icon='mail' content='Search NEU Feedback' />
           <Modal.Content>
             <p>Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.</p>
