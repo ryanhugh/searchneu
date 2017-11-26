@@ -7,7 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
-// import identityObjProxy from 'identity-obj-proxy';
 
 import globe from './globe.svg';
 import desktopCss from './DesktopClassPanel.css';
@@ -22,9 +21,6 @@ import DesktopSectionPanel from './DesktopSectionPanel';
 // Lets move to sass instead of css eventually.
 const css = {};
 Object.assign(css, baseCss, desktopCss);
-if (Object.keys(css).length === 0) {
-  // css = identityObjProxy
-}
 
 const cx = classNames.bind(css);
 
