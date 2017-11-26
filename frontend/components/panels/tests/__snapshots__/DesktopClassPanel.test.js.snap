@@ -148,26 +148,43 @@ exports[`should render some stuff 1`] = `
           </td>
           <td>
              
-            <div
-              className="inlineBlock daysContainer"
-              data-tip="Meets on Tuesday"
-            >
-              <div
-                className="weekDayBox"
-              />
-              <div
-                className="weekDayBoxChecked weekDayBox"
-              />
-              <div
-                className="weekDayBox"
-              />
-              <div
-                className="weekDayBox"
-              />
-              <div
-                className="weekDayBox"
-              />
-            </div>
+            <WeekdayBoxes
+              section={
+                Section {
+                  "classId": "1210",
+                  "classUid": "1210_602555960",
+                  "crn": "13502",
+                  "host": "neu.edu",
+                  "lastUpdateTime": 1511131914029,
+                  "meetings": Array [
+                    Meeting {
+                      "endDate": "2017-12-07T00:00:00.000Z",
+                      "profs": Array [
+                        "Jennifer Anne Shire",
+                      ],
+                      "startDate": "2017-09-07T00:00:00.000Z",
+                      "times": Array [
+                        Array [
+                          Object {
+                            "end": "1970-01-06T11:30:00.000Z",
+                            "start": "1970-01-06T09:50:00.000Z",
+                          },
+                        ],
+                      ],
+                      "where": "Snell Engineering Center 108",
+                    },
+                  ],
+                  "online": false,
+                  "seatsCapacity": 19,
+                  "seatsRemaining": 0,
+                  "subject": "CS",
+                  "termId": "201810",
+                  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                  "waitCapacity": 0,
+                  "waitRemaining": 0,
+                }
+              }
+            />
              
           </td>
           <td>
@@ -175,17 +192,43 @@ exports[`should render some stuff 1`] = `
           </td>
           <td>
              
-            <span>
-              <span>
-                <a
-                  href="https://maps.google.com/?q=Northeastern University Snell Engineering Center "
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Snell Engineering Center 108
-                </a>
-              </span>
-            </span>
+            <LocationLinks
+              section={
+                Section {
+                  "classId": "1210",
+                  "classUid": "1210_602555960",
+                  "crn": "13502",
+                  "host": "neu.edu",
+                  "lastUpdateTime": 1511131914029,
+                  "meetings": Array [
+                    Meeting {
+                      "endDate": "2017-12-07T00:00:00.000Z",
+                      "profs": Array [
+                        "Jennifer Anne Shire",
+                      ],
+                      "startDate": "2017-09-07T00:00:00.000Z",
+                      "times": Array [
+                        Array [
+                          Object {
+                            "end": "1970-01-06T11:30:00.000Z",
+                            "start": "1970-01-06T09:50:00.000Z",
+                          },
+                        ],
+                      ],
+                      "where": "Snell Engineering Center 108",
+                    },
+                  ],
+                  "online": false,
+                  "seatsCapacity": 19,
+                  "seatsRemaining": 0,
+                  "subject": "CS",
+                  "termId": "201810",
+                  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                  "waitCapacity": 0,
+                  "waitRemaining": 0,
+                }
+              }
+            />
              
           </td>
           <td>
@@ -238,26 +281,43 @@ exports[`should render some stuff 1`] = `
           </td>
           <td>
              
-            <div
-              className="inlineBlock daysContainer"
-              data-tip="Meets on Tuesday"
-            >
-              <div
-                className="weekDayBox"
-              />
-              <div
-                className="weekDayBoxChecked weekDayBox"
-              />
-              <div
-                className="weekDayBox"
-              />
-              <div
-                className="weekDayBox"
-              />
-              <div
-                className="weekDayBox"
-              />
-            </div>
+            <WeekdayBoxes
+              section={
+                Section {
+                  "classId": "1210",
+                  "classUid": "1210_602555960",
+                  "crn": "14404",
+                  "host": "neu.edu",
+                  "lastUpdateTime": 1511131914065,
+                  "meetings": Array [
+                    Meeting {
+                      "endDate": "2017-12-07T00:00:00.000Z",
+                      "profs": Array [
+                        "Jennifer Anne Shire",
+                      ],
+                      "startDate": "2017-09-07T00:00:00.000Z",
+                      "times": Array [
+                        Array [
+                          Object {
+                            "end": "1970-01-06T13:25:00.000Z",
+                            "start": "1970-01-06T11:45:00.000Z",
+                          },
+                        ],
+                      ],
+                      "where": "Ryder Hall 431",
+                    },
+                  ],
+                  "online": false,
+                  "seatsCapacity": 19,
+                  "seatsRemaining": 0,
+                  "subject": "CS",
+                  "termId": "201810",
+                  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                  "waitCapacity": 0,
+                  "waitRemaining": 0,
+                }
+              }
+            />
              
           </td>
           <td>
@@ -265,17 +325,43 @@ exports[`should render some stuff 1`] = `
           </td>
           <td>
              
-            <span>
-              <span>
-                <a
-                  href="https://maps.google.com/?q=Northeastern University Ryder Hall "
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Ryder Hall 431
-                </a>
-              </span>
-            </span>
+            <LocationLinks
+              section={
+                Section {
+                  "classId": "1210",
+                  "classUid": "1210_602555960",
+                  "crn": "14404",
+                  "host": "neu.edu",
+                  "lastUpdateTime": 1511131914065,
+                  "meetings": Array [
+                    Meeting {
+                      "endDate": "2017-12-07T00:00:00.000Z",
+                      "profs": Array [
+                        "Jennifer Anne Shire",
+                      ],
+                      "startDate": "2017-09-07T00:00:00.000Z",
+                      "times": Array [
+                        Array [
+                          Object {
+                            "end": "1970-01-06T13:25:00.000Z",
+                            "start": "1970-01-06T11:45:00.000Z",
+                          },
+                        ],
+                      ],
+                      "where": "Ryder Hall 431",
+                    },
+                  ],
+                  "online": false,
+                  "seatsCapacity": 19,
+                  "seatsRemaining": 0,
+                  "subject": "CS",
+                  "termId": "201810",
+                  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                  "waitCapacity": 0,
+                  "waitRemaining": 0,
+                }
+              }
+            />
              
           </td>
           <td>
@@ -328,26 +414,43 @@ exports[`should render some stuff 1`] = `
           </td>
           <td>
              
-            <div
-              className="inlineBlock daysContainer"
-              data-tip="Meets on Tuesday"
-            >
-              <div
-                className="weekDayBox"
-              />
-              <div
-                className="weekDayBoxChecked weekDayBox"
-              />
-              <div
-                className="weekDayBox"
-              />
-              <div
-                className="weekDayBox"
-              />
-              <div
-                className="weekDayBox"
-              />
-            </div>
+            <WeekdayBoxes
+              section={
+                Section {
+                  "classId": "1210",
+                  "classUid": "1210_602555960",
+                  "crn": "14405",
+                  "host": "neu.edu",
+                  "lastUpdateTime": 1511131914065,
+                  "meetings": Array [
+                    Meeting {
+                      "endDate": "2017-12-07T00:00:00.000Z",
+                      "profs": Array [
+                        "Jennifer Anne Shire",
+                      ],
+                      "startDate": "2017-09-07T00:00:00.000Z",
+                      "times": Array [
+                        Array [
+                          Object {
+                            "end": "1970-01-06T13:25:00.000Z",
+                            "start": "1970-01-06T11:45:00.000Z",
+                          },
+                        ],
+                      ],
+                      "where": "Ryder Hall 431",
+                    },
+                  ],
+                  "online": false,
+                  "seatsCapacity": 19,
+                  "seatsRemaining": 0,
+                  "subject": "CS",
+                  "termId": "201810",
+                  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                  "waitCapacity": 0,
+                  "waitRemaining": 0,
+                }
+              }
+            />
              
           </td>
           <td>
@@ -355,17 +458,43 @@ exports[`should render some stuff 1`] = `
           </td>
           <td>
              
-            <span>
-              <span>
-                <a
-                  href="https://maps.google.com/?q=Northeastern University Ryder Hall "
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Ryder Hall 431
-                </a>
-              </span>
-            </span>
+            <LocationLinks
+              section={
+                Section {
+                  "classId": "1210",
+                  "classUid": "1210_602555960",
+                  "crn": "14405",
+                  "host": "neu.edu",
+                  "lastUpdateTime": 1511131914065,
+                  "meetings": Array [
+                    Meeting {
+                      "endDate": "2017-12-07T00:00:00.000Z",
+                      "profs": Array [
+                        "Jennifer Anne Shire",
+                      ],
+                      "startDate": "2017-09-07T00:00:00.000Z",
+                      "times": Array [
+                        Array [
+                          Object {
+                            "end": "1970-01-06T13:25:00.000Z",
+                            "start": "1970-01-06T11:45:00.000Z",
+                          },
+                        ],
+                      ],
+                      "where": "Ryder Hall 431",
+                    },
+                  ],
+                  "online": false,
+                  "seatsCapacity": 19,
+                  "seatsRemaining": 0,
+                  "subject": "CS",
+                  "termId": "201810",
+                  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                  "waitCapacity": 0,
+                  "waitRemaining": 0,
+                }
+              }
+            />
              
           </td>
           <td>
