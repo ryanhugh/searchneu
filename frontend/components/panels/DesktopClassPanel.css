@@ -70,3 +70,9 @@
     text-align: center !important;
 }
 
+
+.sectionTableFirstRow {
+    display: none;
+    padding-top: 0;
+    padding-bottom: 1px;
+}
