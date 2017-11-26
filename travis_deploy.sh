@@ -7,6 +7,12 @@ trap 'exit' ERR
 # Echo each command as they are ran
 set -v
 
+# The three following commands can be ran in any order
+# At one point we tried to run them in parrallel with job1 &\n job2 & \n wait $(jobs -p)
+# but it wasen't any faster than just running them in series
+# and in parallel the output from all three commands would be squished together. 
+# Might be worth looking into this again if the jobs are slow in the future. 
+
 npm run test
 
 # Make sure everything passes linting

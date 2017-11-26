@@ -1,0 +1,37 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
+
+.wideOnlineCell {
+    position: relative;
+}
+
+.onlineDivLineContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.onlineDivLine {
+    vertical-align: middle;
+    display: inline-block;
+    height: 2px;
+    background-color: rgba(9, 10, 10, 0.2);
+    width: calc(50% - 102px);
+    margin: 21px;
+}
+
+.onlineLeftLine {
+    margin-left: 36px
+}
+
+.inlineBlock {
+    display: inline-block;
+}
+
+.sectionGlobe {
+    opacity: .7;
+}
