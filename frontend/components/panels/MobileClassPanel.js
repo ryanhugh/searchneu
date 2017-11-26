@@ -7,7 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
-// import identityObjProxy from 'identity-obj-proxy';
 
 import chevronDown from './chevron-down.svg';
 import chevronRight from './chevron-right.svg';
@@ -21,9 +20,6 @@ import macros from '../macros';
 const css = {};
 
 Object.assign(css, mobileCss, baseCss);
-if (Object.keys(css).length === 0) {
-  // css = identityObjProxy
-}
 
 const cx = classNames.bind(css);
 
