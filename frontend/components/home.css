@@ -328,9 +328,11 @@
     font-size: 14px !important;
     padding-bottom: 30px !important;
 }
-.contact>a {
+.contact > a {
     padding-right: 1px;
     padding-left: 1px;
+    outline: 0;
+    cursor: pointer;
 }
 
 
@@ -352,8 +354,28 @@
 }
 .termDropdown * {
     font-weight: initial !important;
-    /*box-shadow: none !important;*/
     border: none !important;
     color: rgb(174, 69, 67) !important;
 }
 
+.feedbackTextbox {
+  width: 100%;
+  height: 100px;
+}
+
+
+
+.formModalInput {
+    min-width: 50%;
+}
+
+@media (max-width: 500px) {
+    .formModalInput {
+        min-width: 100%;
+    }
+}
+
+
+.feedbackParagraph {
+    padding-bottom: 1.5rem;
+}

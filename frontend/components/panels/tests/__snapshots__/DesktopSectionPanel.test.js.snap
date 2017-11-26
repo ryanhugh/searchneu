@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render some stuff 1`] = `
+<tr>
+  <td>
+     
+    13502
+     
+  </td>
+  <td>
+     
+    Jennifer Anne Shire
+     
+  </td>
+  <td>
+     
+    <WeekdayBoxes
+      section={
+        Section {
+          "classId": "1210",
+          "classUid": "1210_602555960",
+          "crn": "13502",
+          "host": "neu.edu",
+          "lastUpdateTime": 1511131914029,
+          "meetings": Array [
+            Meeting {
+              "endDate": "2017-12-07T00:00:00.000Z",
+              "profs": Array [
+                "Jennifer Anne Shire",
+              ],
+              "startDate": "2017-09-07T00:00:00.000Z",
+              "times": Array [
+                Array [
+                  Object {
+                    "end": "1970-01-06T11:30:00.000Z",
+                    "start": "1970-01-06T09:50:00.000Z",
+                  },
+                ],
+              ],
+              "where": "Snell Engineering Center 108",
+            },
+          ],
+          "online": false,
+          "seatsCapacity": 19,
+          "seatsRemaining": 0,
+          "subject": "CS",
+          "termId": "201810",
+          "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+          "waitCapacity": 0,
+          "waitRemaining": 0,
+        }
+      }
+    />
+     
+  </td>
+  <td>
+    9:50 - 11:30 am
+  </td>
+  <td>
+     
+    <LocationLinks
+      section={
+        Section {
+          "classId": "1210",
+          "classUid": "1210_602555960",
+          "crn": "13502",
+          "host": "neu.edu",
+          "lastUpdateTime": 1511131914029,
+          "meetings": Array [
+            Meeting {
+              "endDate": "2017-12-07T00:00:00.000Z",
+              "profs": Array [
+                "Jennifer Anne Shire",
+              ],
+              "startDate": "2017-09-07T00:00:00.000Z",
+              "times": Array [
+                Array [
+                  Object {
+                    "end": "1970-01-06T11:30:00.000Z",
+                    "start": "1970-01-06T09:50:00.000Z",
+                  },
+                ],
+              ],
+              "where": "Snell Engineering Center 108",
+            },
+          ],
+          "online": false,
+          "seatsCapacity": 19,
+          "seatsRemaining": 0,
+          "subject": "CS",
+          "termId": "201810",
+          "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+          "waitCapacity": 0,
+          "waitRemaining": 0,
+        }
+      }
+    />
+     
+  </td>
+  <td>
+    <div
+      className="inlineBlock"
+      data-tip="Open Seats/Total Seats"
+    >
+      0
+      /
+      19
+    </div>
+  </td>
+  <td
+    className="displayNone"
+  >
+    <div
+      className="inlineBlock"
+      data-tip="Open/Total Waitlist Seats"
+    >
+      0
+      /
+      0
+    </div>
+  </td>
+  <td>
+    <a
+      className="inlineBlock sectionGlobe"
+      data-tip="View on neu.edu"
+      href="https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <img
+        alt="link"
+        src="file"
+      />
+    </a>
+  </td>
+</tr>
+`;

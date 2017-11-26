@@ -5,8 +5,8 @@
     "_comment": "These commands are used in dev.",
     "start": "cross-env NODE_ENV=dev babel-node backend/server.js",
     "scrape": "babel-node --max_old_space_size=8192 backend/scrapers/main.js",
-    "lint": "./node_modules/eslint/bin/eslint.js backend/ common/ frontend/",
-    "fix": "./node_modules/eslint/bin/eslint.js backend/ common/ frontend/ --fix",
+    "lint": "node ./node_modules/eslint/bin/eslint.js backend/ common/ frontend/",
+    "fix": "node ./node_modules/eslint/bin/eslint.js backend/ common/ frontend/ --fix",
     "test": "./node_modules/jest-cli/bin/jest.js",
     "_comment2": "These comands are used to build the code",
     "build_frontend": "mkdir -p public; cp frontend/static/* public/; cross-env NODE_ENV=prod babel-node ./node_modules/webpack/bin/webpack.js --config ./backend/webpack.config.babel.js --profile --colors",
@@ -123,7 +123,10 @@
       "./common/rafTestPolyfill.js"
     ],
     "moduleNameMapper": {
-      "\\.(css|less|svg|png)$": "identity-obj-proxy"
+      "__comment": "The css import needs to be an object that returns a string",
+      "__comment2": "but the svg and png imports need to be string themselves.",
+      "\\.(css|less)$": "identity-obj-proxy",
+      "\\.(svg|png)$": "<rootDir>/frontend/components/tests/exportsAString.js"
     }
   }
 }

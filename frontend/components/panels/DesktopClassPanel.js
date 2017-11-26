@@ -12,11 +12,13 @@ import globe from './globe.svg';
 import desktopCss from './DesktopClassPanel.css';
 import baseCss from './BaseClassPanel.css';
 import macros from '../macros';
-import Keys from '../../../common/Keys';
-import LocationLinks from './LocationLinks';
-import WeekdayBoxes from './WeekdayBoxes';
 import BaseClassPanel from './BaseClassPanel';
+import DesktopSectionPanel from './DesktopSectionPanel';
 
+
+// Merge the base css and the css specific to desktop panels
+// The identityObjProxy check is so the class names appear in the snap files in testing
+// Lets move to sass instead of css eventually.
 const css = {};
 Object.assign(css, baseCss, desktopCss);
 
@@ -77,22 +79,6 @@ class DesktopClassPanel extends BaseClassPanel {
     return false;
   }
 
-  // Create the 4:35 - 5:40 pm string.
-  // This was copied from mobile section panel.js
-  // TODO: deduplicate
-  getTimeStingFromMeetings(meetingMoments) {
-    const times = [];
-    meetingMoments.forEach((time) => {
-      const startString = time.start.format('h:mm');
-      const endString = time.end.format('h:mm a');
-      const combinedString = `${startString} - ${endString}`;
-      if (!times.includes(combinedString)) {
-        times.push(combinedString);
-      }
-    });
-    return times.join(', ');
-  }
-
   render() {
     const aClass = this.props.aClass;
     // Render the section table if this class has sections
@@ -142,99 +128,9 @@ class DesktopClassPanel extends BaseClassPanel {
           <tbody>
             {/* The CSS applied to the table stripes every other row, starting with the second one.
               This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
-            <tr style={{ display:'none', paddingTop: 0, paddingBottom: '1px' }} />
+            <tr className={ css.sectionTableFirstRow } />
             {this.state.renderedSections.map((section) => {
-              // Instead of calculating a lot of these individually and putting them together in the return call
-              // Append to this array as we go.
-              // So the logic can be separated into distinct if statements.
-              const tdElements = [];
-
-              // If it is online, just put one super wide cell
-              if (section.online) {
-                // How many cells to span
-                // need to span more cells if final exam columns are being shown.
-                let length = 3;
-                if (aClass.sectionsHaveExam()) {
-                  length = 6;
-                }
-
-                const onlineElement =
-                (
-                  <td key='onlineWideCell' colSpan={ length } className={ css.wideOnlineCell }>
-                    <span className={ css.onlineDivLineContainer }>
-                      <span className={ `${css.onlineDivLine} ${css.onlineLeftLine}` } />
-                      <span className={ css.onlineText }>Online Class</span>
-                      <span className={ css.onlineDivLine } />
-                    </span>
-                  </td>
-                );
-
-                tdElements.push(onlineElement);
-
-              // Have individual cells for the different columns
-              } else {
-                const meetingMoments = section.getAllMeetingMoments();
-                const meetingStrings = this.getTimeStingFromMeetings(meetingMoments);
-
-                const examMeeting = section.getExamMeeting();
-
-                let examTimeString = null;
-                if (examMeeting) {
-                  examTimeString = this.getTimeStingFromMeetings(examMeeting.times[0]);
-                }
-
-
-                tdElements.push(<td key='weekDayBoxes'> <WeekdayBoxes section={ section } /> </td>);
-                tdElements.push(<td key='times'>{meetingStrings}</td>);
-                tdElements.push(<td key='locationLinks'> <LocationLinks section={ section } /> </td>);
-
-                // If there are exams, fill in those cells too
-                // Calculate the exam elements in each row
-                if (aClass.sectionsHaveExam()) {
-                  const sectionExamMeeting = section.getExamMeeting();
-                  if (examMeeting) {
-                    tdElements.push(<td key='exam1'>{examTimeString}</td>);
-                    tdElements.push(<td key='exam3'>{sectionExamMeeting.endDate.format('MMM Do')}</td>);
-                    tdElements.push(<td key='exam4'>{sectionExamMeeting.where}</td>);
-                  } else {
-                    tdElements.push(<td key='exam5' />);
-                    tdElements.push(<td key='exam6' />);
-                    tdElements.push(<td key='exam7' />);
-                  }
-                }
-              }
-
-
-              return (
-                <tr key={ Keys.create(section).getHash() }>
-                  <td> {section.crn} </td>
-                  <td> {section.getProfs().join(', ')} </td>
-
-                  {tdElements}
-
-                  <td>
-                    <div data-tip='Open Seats/Total Seats' className={ css.inlineBlock }>
-                      {section.seatsRemaining}/{section.seatsCapacity}
-                    </div>
-                  </td>
-
-                  <td
-                    className={ cx({
-                      displayNone: !showWaitList,
-                    }) }
-                  >
-                    <div data-tip='Open/Total Waitlist Seats' className={ css.inlineBlock }>
-                      {section.waitRemaining}/{section.waitCapacity}
-                    </div>
-                  </td>
-
-                  <td>
-                    <a target='_blank' rel='noopener noreferrer' className={ `${css.inlineBlock} ${css.sectionGlobe}` } data-tip={ `View on ${section.host}` } href={ section.prettyUrl || section.url }>
-                      <img src={ globe } alt='link' />
-                    </a>
-                  </td>
-                </tr>
-              );
+              return <DesktopSectionPanel key={ section.crn } showWaitList={ showWaitList } shouldShowExamColumns={ aClass.sectionsHaveExam() } section={ section } />;
             })}
           </tbody>
         </table>

@@ -7,6 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
+
 import chevronDown from './chevron-down.svg';
 import chevronRight from './chevron-right.svg';
 import mobileCss from './MobileClassPanel.css';
