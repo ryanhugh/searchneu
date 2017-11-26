@@ -128,7 +128,7 @@ class DesktopClassPanel extends BaseClassPanel {
           <tbody>
             {/* The CSS applied to the table stripes every other row, starting with the second one.
               This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
-            <tr className={css.sectionTableFirstRow} />
+            <tr className={ css.sectionTableFirstRow } />
             {this.state.renderedSections.map((section) => {
               return <DesktopSectionPanel key={ section.crn } showWaitList={ showWaitList } shouldShowExamColumns={ aClass.sectionsHaveExam() } section={ section } />;
             })}
