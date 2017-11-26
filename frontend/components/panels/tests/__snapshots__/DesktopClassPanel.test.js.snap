@@ -127,13 +127,7 @@ exports[`should render some stuff 1`] = `
       </thead>
       <tbody>
         <tr
-          style={
-            Object {
-              "display": "none",
-              "paddingBottom": "1px",
-              "paddingTop": 0,
-            }
-          }
+          className={undefined}
         />
         <DesktopSectionPanel
           section={
