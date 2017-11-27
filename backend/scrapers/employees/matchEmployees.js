@@ -408,6 +408,8 @@ class CombineCCISandEmployees {
 
     await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeesSearchIndex.json'), JSON.stringify(index.toJSON()));
     macros.log('wrote employee json files');
+
+    return mergedEmployees;
   }
 }
 

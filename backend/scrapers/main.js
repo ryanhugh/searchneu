@@ -7,6 +7,7 @@ import fs from 'fs-promise';
 import matchEmployees from './employees/matchEmployees';
 import macros from '../macros';
 import classes from './classes/main';
+import sitemapGenerator from './sitemapGenerator';
 
 
 // Main file for scraping
@@ -43,7 +44,9 @@ class Main {
 
     const promises = [classesPromise, matchEmployees.main()];
 
-    await Promise.all(promises);
+    const [termDump, mergedEmployees] = await Promise.all(promises);
+
+    await sitemapGenerator.go(termDump, mergedEmployees);
 
     macros.log('done scrapers/main.js');
 
