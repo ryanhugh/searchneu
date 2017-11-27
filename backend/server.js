@@ -349,6 +349,12 @@ app.get('/google840b636639b40c3c.html', (req, res) => {
   res.end();
 });
 
+// Bing site authentication.
+app.get('/BingSiteAuth.xml', (req, res) => {
+  res.write('<?xml version="1.0"?>\n<users>\n  <user>8E6E97A65CAB89F73346E3E6DCE84142</user>\n</users>');
+  res.end();
+});
+
 app.get('*', (req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=UTF-8');
   if (macros.PROD) {
