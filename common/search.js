@@ -278,7 +278,7 @@ class Search {
 
       return 10000 - classNum;
     } else if (object.type === 'employee') {
-      return Object.keys(object.employee);
+      return Object.keys(object.employee).length;
     }
 
     macros.error('Yooooooo omg y', object);
