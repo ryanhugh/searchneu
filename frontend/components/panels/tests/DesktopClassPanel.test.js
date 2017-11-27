@@ -4,9 +4,8 @@
  */
 
 import React from 'react';
-import ShallowRenderer from 'react-test-renderer/shallow';
 import MockDate from 'mockdate';
-import Enzyme, { shallow, render, mount } from 'enzyme';
+import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import mockData from './mockData';
@@ -23,26 +22,20 @@ afterAll(() => {
 });
 
 it('should render some stuff', () => {
-  const renderer = new ShallowRenderer();
-  renderer.render(<DesktopClassPanel aClass={ mockData.cs1210 } />);
-  const result = renderer.getRenderOutput();
-
-  expect(result).toMatchSnapshot();
+  const wrapper = shallow(<DesktopClassPanel aClass={ mockData.cs1210 } />);
+  expect(wrapper).toMatchSnapshot();
 });
 
 it('shouldShowWaitlist should work', () => {
+  const wrapper = shallow(<DesktopClassPanel aClass={ mockData.cs1210 } />);
+  const instance = wrapper.instance();
 
-  let componet = <DesktopClassPanel aClass={ mockData.cs1210 } />
+  expect(instance.shouldShowWaitlist()).toBe(false);
+});
 
-  const wrapper = shallow(componet);
+it('shouldShowWaitlist should work', () => {
+  const wrapper = shallow(<DesktopClassPanel aClass={ mockData.cs0210 } />);
+  const instance = wrapper.instance();
 
-  let instance = wrapper.instance();
-
-  console.log(instance.shouldShowWaitlist())
-
-  // console.log(instance.shouldShowWaitlist, 'here')
-
-    expect(wrapper).toMatchSnapshot();
-
-    
-})
+  expect(instance.shouldShowWaitlist()).toBe(true);
+});
