@@ -1,0 +1,1631 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render a desktop employee panel 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <EmployeePanel
+    employee={
+      Object {
+        "bigPictureUrl": "https://www.ccis.northeastern.edu/wp-content/uploads/2016/02/Leena-Razzaq-hero-image.jpg",
+        "emails": Array [
+          "l.razzaq@northeastern.edu",
+          "lrazzaq@ccs.neu.edu",
+        ],
+        "firstName": "Leena",
+        "id": "001130930",
+        "lastName": "Razzaq",
+        "name": "Leena Razzaq",
+        "officeRoom": "132C Nightingale Hall",
+        "officeStreetAddress": "105-107 Forsyth Street",
+        "personalSite": "http://www.ccs.neu.edu/home/lrazzaq/",
+        "phone": "6173735797",
+        "primaryDepartment": "CCIS",
+        "primaryRole": "Assistant Teaching Professor",
+        "url": "https://www.ccis.northeastern.edu/people/leena-razzaq/",
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="header"
+          onClick={null}
+          role="button"
+          tabIndex={0}
+        >
+          <span
+            className="titleText"
+          >
+            Leena Razzaq
+          </span>
+          <span
+            className="link"
+          >
+            <a
+              className="inlineBlock"
+              href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                alt="globe"
+                src="file"
+              />
+            </a>
+          </span>
+        </div>,
+        <div
+          className="body"
+        >
+          <div
+            className="inlineBlock contactBox"
+          >
+            Assistant Teaching Professor
+            <br />
+            CCIS
+            <br />
+            <a
+              href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              NEU Profile
+            </a>
+            <br />
+            <a
+              href="http://www.ccs.neu.edu/home/lrazzaq/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Personal Website
+            </a>
+          </div>
+          <div
+            className="inlineBlock desktopSecondColumn"
+          >
+            132C Nightingale Hall
+            <br />
+            <a
+              href="mailto:l.razzaq@northeastern.edu"
+            >
+              l.razzaq@northeastern.edu
+            </a>
+            <br />
+            <a
+              href="mailto:lrazzaq@ccs.neu.edu"
+            >
+              lrazzaq@ccs.neu.edu
+            </a>
+            <br />
+            <a
+              href="tel:617-373-5797"
+            >
+              617-373-5797
+            </a>
+          </div>
+        </div>,
+      ],
+      "className": "container ui segment",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": ".0",
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <span
+              className="titleText"
+            >
+              Leena Razzaq
+            </span>,
+            <span
+              className="link"
+            >
+              <a
+                className="inlineBlock"
+                href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  alt="globe"
+                  src="file"
+                />
+              </a>
+            </span>,
+          ],
+          "className": "header",
+          "onClick": null,
+          "role": "button",
+          "tabIndex": 0,
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": ".1",
+            "nodeType": "host",
+            "props": Object {
+              "children": "Leena Razzaq",
+              "className": "titleText",
+            },
+            "ref": null,
+            "rendered": "Leena Razzaq",
+            "type": "span",
+          },
+          Object {
+            "instance": null,
+            "key": ".2",
+            "nodeType": "host",
+            "props": Object {
+              "children": <a
+                className="inlineBlock"
+                href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  alt="globe"
+                  src="file"
+                />
+              </a>,
+              "className": "link",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": "jfdalsj",
+              "nodeType": "host",
+              "props": Object {
+                "children": <img
+                  alt="globe"
+                  src="file"
+                />,
+                "className": "inlineBlock",
+                "href": "https://www.ccis.northeastern.edu/people/leena-razzaq/",
+                "rel": "noopener noreferrer",
+                "target": "_blank",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "alt": "globe",
+                  "src": "file",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "img",
+              },
+              "type": "a",
+            },
+            "type": "span",
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": ".1",
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="inlineBlock contactBox"
+            >
+              Assistant Teaching Professor
+              <br />
+              CCIS
+              <br />
+              <a
+                href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                NEU Profile
+              </a>
+              <br />
+              <a
+                href="http://www.ccs.neu.edu/home/lrazzaq/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Personal Website
+              </a>
+            </div>,
+            <div
+              className="inlineBlock desktopSecondColumn"
+            >
+              132C Nightingale Hall
+              <br />
+              <a
+                href="mailto:l.razzaq@northeastern.edu"
+              >
+                l.razzaq@northeastern.edu
+              </a>
+              <br />
+              <a
+                href="mailto:lrazzaq@ccs.neu.edu"
+              >
+                lrazzaq@ccs.neu.edu
+              </a>
+              <br />
+              <a
+                href="tel:617-373-5797"
+              >
+                617-373-5797
+              </a>
+            </div>,
+          ],
+          "className": "body",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": ".0",
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                "Assistant Teaching Professor",
+                <br />,
+                "CCIS",
+                <br />,
+                <a
+                  href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  NEU Profile
+                </a>,
+                <br />,
+                <a
+                  href="http://www.ccs.neu.edu/home/lrazzaq/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Personal Website
+                </a>,
+              ],
+              "className": "inlineBlock contactBox",
+            },
+            "ref": null,
+            "rendered": Array [
+              "Assistant Teaching Professor",
+              Object {
+                "instance": null,
+                "key": ".$0",
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
+              },
+              "CCIS",
+              Object {
+                "instance": null,
+                "key": ".$1",
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
+              },
+              Object {
+                "instance": null,
+                "key": ".$link",
+                "nodeType": "host",
+                "props": Object {
+                  "children": "NEU Profile",
+                  "href": "https://www.ccis.northeastern.edu/people/leena-razzaq/",
+                  "rel": "noopener noreferrer",
+                  "target": "_blank",
+                },
+                "ref": null,
+                "rendered": "NEU Profile",
+                "type": "a",
+              },
+              Object {
+                "instance": null,
+                "key": ".$2",
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
+              },
+              Object {
+                "instance": null,
+                "key": ".$personalSite",
+                "nodeType": "host",
+                "props": Object {
+                  "children": "Personal Website",
+                  "href": "http://www.ccs.neu.edu/home/lrazzaq/",
+                  "rel": "noopener noreferrer",
+                  "target": "_blank",
+                },
+                "ref": null,
+                "rendered": "Personal Website",
+                "type": "a",
+              },
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": ".1",
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                "132C Nightingale Hall",
+                <br />,
+                <a
+                  href="mailto:l.razzaq@northeastern.edu"
+                >
+                  l.razzaq@northeastern.edu
+                </a>,
+                <br />,
+                <a
+                  href="mailto:lrazzaq@ccs.neu.edu"
+                >
+                  lrazzaq@ccs.neu.edu
+                </a>,
+                <br />,
+                <a
+                  href="tel:617-373-5797"
+                >
+                  617-373-5797
+                </a>,
+              ],
+              "className": "inlineBlock desktopSecondColumn",
+            },
+            "ref": null,
+            "rendered": Array [
+              "132C Nightingale Hall",
+              Object {
+                "instance": null,
+                "key": ".$0",
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
+              },
+              Object {
+                "instance": null,
+                "key": ".$l.razzaq@northeastern.edu",
+                "nodeType": "host",
+                "props": Object {
+                  "children": "l.razzaq@northeastern.edu",
+                  "href": "mailto:l.razzaq@northeastern.edu",
+                },
+                "ref": null,
+                "rendered": "l.razzaq@northeastern.edu",
+                "type": "a",
+              },
+              Object {
+                "instance": null,
+                "key": ".$1",
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
+              },
+              Object {
+                "instance": null,
+                "key": ".$lrazzaq@ccs.neu.edu",
+                "nodeType": "host",
+                "props": Object {
+                  "children": "lrazzaq@ccs.neu.edu",
+                  "href": "mailto:lrazzaq@ccs.neu.edu",
+                },
+                "ref": null,
+                "rendered": "lrazzaq@ccs.neu.edu",
+                "type": "a",
+              },
+              Object {
+                "instance": null,
+                "key": ".$2",
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
+              },
+              Object {
+                "instance": null,
+                "key": ".$tel",
+                "nodeType": "host",
+                "props": Object {
+                  "children": "617-373-5797",
+                  "href": "tel:617-373-5797",
+                },
+                "ref": null,
+                "rendered": "617-373-5797",
+                "type": "a",
+              },
+            ],
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="header"
+            onClick={null}
+            role="button"
+            tabIndex={0}
+          >
+            <span
+              className="titleText"
+            >
+              Leena Razzaq
+            </span>
+            <span
+              className="link"
+            >
+              <a
+                className="inlineBlock"
+                href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  alt="globe"
+                  src="file"
+                />
+              </a>
+            </span>
+          </div>,
+          <div
+            className="body"
+          >
+            <div
+              className="inlineBlock contactBox"
+            >
+              Assistant Teaching Professor
+              <br />
+              CCIS
+              <br />
+              <a
+                href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                NEU Profile
+              </a>
+              <br />
+              <a
+                href="http://www.ccs.neu.edu/home/lrazzaq/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Personal Website
+              </a>
+            </div>
+            <div
+              className="inlineBlock desktopSecondColumn"
+            >
+              132C Nightingale Hall
+              <br />
+              <a
+                href="mailto:l.razzaq@northeastern.edu"
+              >
+                l.razzaq@northeastern.edu
+              </a>
+              <br />
+              <a
+                href="mailto:lrazzaq@ccs.neu.edu"
+              >
+                lrazzaq@ccs.neu.edu
+              </a>
+              <br />
+              <a
+                href="tel:617-373-5797"
+              >
+                617-373-5797
+              </a>
+            </div>
+          </div>,
+        ],
+        "className": "container ui segment",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": ".0",
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <span
+                className="titleText"
+              >
+                Leena Razzaq
+              </span>,
+              <span
+                className="link"
+              >
+                <a
+                  className="inlineBlock"
+                  href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <img
+                    alt="globe"
+                    src="file"
+                  />
+                </a>
+              </span>,
+            ],
+            "className": "header",
+            "onClick": null,
+            "role": "button",
+            "tabIndex": 0,
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": ".1",
+              "nodeType": "host",
+              "props": Object {
+                "children": "Leena Razzaq",
+                "className": "titleText",
+              },
+              "ref": null,
+              "rendered": "Leena Razzaq",
+              "type": "span",
+            },
+            Object {
+              "instance": null,
+              "key": ".2",
+              "nodeType": "host",
+              "props": Object {
+                "children": <a
+                  className="inlineBlock"
+                  href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <img
+                    alt="globe"
+                    src="file"
+                  />
+                </a>,
+                "className": "link",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": "jfdalsj",
+                "nodeType": "host",
+                "props": Object {
+                  "children": <img
+                    alt="globe"
+                    src="file"
+                  />,
+                  "className": "inlineBlock",
+                  "href": "https://www.ccis.northeastern.edu/people/leena-razzaq/",
+                  "rel": "noopener noreferrer",
+                  "target": "_blank",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "alt": "globe",
+                    "src": "file",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "img",
+                },
+                "type": "a",
+              },
+              "type": "span",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": ".1",
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <div
+                className="inlineBlock contactBox"
+              >
+                Assistant Teaching Professor
+                <br />
+                CCIS
+                <br />
+                <a
+                  href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  NEU Profile
+                </a>
+                <br />
+                <a
+                  href="http://www.ccs.neu.edu/home/lrazzaq/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Personal Website
+                </a>
+              </div>,
+              <div
+                className="inlineBlock desktopSecondColumn"
+              >
+                132C Nightingale Hall
+                <br />
+                <a
+                  href="mailto:l.razzaq@northeastern.edu"
+                >
+                  l.razzaq@northeastern.edu
+                </a>
+                <br />
+                <a
+                  href="mailto:lrazzaq@ccs.neu.edu"
+                >
+                  lrazzaq@ccs.neu.edu
+                </a>
+                <br />
+                <a
+                  href="tel:617-373-5797"
+                >
+                  617-373-5797
+                </a>
+              </div>,
+            ],
+            "className": "body",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": ".0",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  "Assistant Teaching Professor",
+                  <br />,
+                  "CCIS",
+                  <br />,
+                  <a
+                    href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    NEU Profile
+                  </a>,
+                  <br />,
+                  <a
+                    href="http://www.ccs.neu.edu/home/lrazzaq/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Personal Website
+                  </a>,
+                ],
+                "className": "inlineBlock contactBox",
+              },
+              "ref": null,
+              "rendered": Array [
+                "Assistant Teaching Professor",
+                Object {
+                  "instance": null,
+                  "key": ".$0",
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                "CCIS",
+                Object {
+                  "instance": null,
+                  "key": ".$1",
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".$link",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "NEU Profile",
+                    "href": "https://www.ccis.northeastern.edu/people/leena-razzaq/",
+                    "rel": "noopener noreferrer",
+                    "target": "_blank",
+                  },
+                  "ref": null,
+                  "rendered": "NEU Profile",
+                  "type": "a",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".$2",
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".$personalSite",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Personal Website",
+                    "href": "http://www.ccs.neu.edu/home/lrazzaq/",
+                    "rel": "noopener noreferrer",
+                    "target": "_blank",
+                  },
+                  "ref": null,
+                  "rendered": "Personal Website",
+                  "type": "a",
+                },
+              ],
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": ".1",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  "132C Nightingale Hall",
+                  <br />,
+                  <a
+                    href="mailto:l.razzaq@northeastern.edu"
+                  >
+                    l.razzaq@northeastern.edu
+                  </a>,
+                  <br />,
+                  <a
+                    href="mailto:lrazzaq@ccs.neu.edu"
+                  >
+                    lrazzaq@ccs.neu.edu
+                  </a>,
+                  <br />,
+                  <a
+                    href="tel:617-373-5797"
+                  >
+                    617-373-5797
+                  </a>,
+                ],
+                "className": "inlineBlock desktopSecondColumn",
+              },
+              "ref": null,
+              "rendered": Array [
+                "132C Nightingale Hall",
+                Object {
+                  "instance": null,
+                  "key": ".$0",
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".$l.razzaq@northeastern.edu",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "l.razzaq@northeastern.edu",
+                    "href": "mailto:l.razzaq@northeastern.edu",
+                  },
+                  "ref": null,
+                  "rendered": "l.razzaq@northeastern.edu",
+                  "type": "a",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".$1",
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".$lrazzaq@ccs.neu.edu",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "lrazzaq@ccs.neu.edu",
+                    "href": "mailto:lrazzaq@ccs.neu.edu",
+                  },
+                  "ref": null,
+                  "rendered": "lrazzaq@ccs.neu.edu",
+                  "type": "a",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".$2",
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".$tel",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "617-373-5797",
+                    "href": "tel:617-373-5797",
+                  },
+                  "ref": null,
+                  "rendered": "617-373-5797",
+                  "type": "a",
+                },
+              ],
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
+
+exports[`should render a mobile employee panel 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <EmployeePanel
+    employee={
+      Object {
+        "bigPictureUrl": "https://www.ccis.northeastern.edu/wp-content/uploads/2016/02/Leena-Razzaq-hero-image.jpg",
+        "emails": Array [
+          "l.razzaq@northeastern.edu",
+          "lrazzaq@ccs.neu.edu",
+        ],
+        "firstName": "Leena",
+        "id": "001130930",
+        "lastName": "Razzaq",
+        "name": "Leena Razzaq",
+        "officeRoom": "132C Nightingale Hall",
+        "officeStreetAddress": "105-107 Forsyth Street",
+        "personalSite": "http://www.ccs.neu.edu/home/lrazzaq/",
+        "phone": "6173735797",
+        "primaryDepartment": "CCIS",
+        "primaryRole": "Assistant Teaching Professor",
+        "url": "https://www.ccis.northeastern.edu/people/leena-razzaq/",
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="header"
+          onClick={[Function]}
+          role="button"
+          tabIndex={0}
+        >
+          <img
+            alt=""
+            className="chevron"
+            src="file"
+          />
+          <span
+            className="titleText"
+          >
+            Leena Razzaq
+          </span>
+        </div>,
+        <div
+          className="displayNone body"
+        >
+          <div
+            className="inlineBlock contactBox"
+          >
+            Assistant Teaching Professor
+            <br />
+            CCIS
+            <br />
+            132C Nightingale Hall
+            <br />
+            <a
+              href="mailto:l.razzaq@northeastern.edu"
+            >
+              l.razzaq@northeastern.edu
+            </a>
+            <br />
+            <a
+              href="mailto:lrazzaq@ccs.neu.edu"
+            >
+              lrazzaq@ccs.neu.edu
+            </a>
+            <br />
+            <a
+              href="tel:617-373-5797"
+            >
+              617-373-5797
+            </a>
+          </div>
+          <div
+            className="inlineBlock mobileSecondColumn"
+          >
+            <a
+              href="http://www.ccs.neu.edu/home/lrazzaq/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Personal Website
+            </a>
+          </div>
+        </div>,
+      ],
+      "className": "container ui segment",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": ".0",
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <img
+              alt=""
+              className="chevron"
+              src="file"
+            />,
+            <span
+              className="titleText"
+            >
+              Leena Razzaq
+            </span>,
+          ],
+          "className": "header",
+          "onClick": [Function],
+          "role": "button",
+          "tabIndex": 0,
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": ".0",
+            "nodeType": "host",
+            "props": Object {
+              "alt": "",
+              "className": "chevron",
+              "src": "file",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "img",
+          },
+          Object {
+            "instance": null,
+            "key": ".1",
+            "nodeType": "host",
+            "props": Object {
+              "children": "Leena Razzaq",
+              "className": "titleText",
+            },
+            "ref": null,
+            "rendered": "Leena Razzaq",
+            "type": "span",
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": ".1",
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="inlineBlock contactBox"
+            >
+              Assistant Teaching Professor
+              <br />
+              CCIS
+              <br />
+              132C Nightingale Hall
+              <br />
+              <a
+                href="mailto:l.razzaq@northeastern.edu"
+              >
+                l.razzaq@northeastern.edu
+              </a>
+              <br />
+              <a
+                href="mailto:lrazzaq@ccs.neu.edu"
+              >
+                lrazzaq@ccs.neu.edu
+              </a>
+              <br />
+              <a
+                href="tel:617-373-5797"
+              >
+                617-373-5797
+              </a>
+            </div>,
+            <div
+              className="inlineBlock mobileSecondColumn"
+            >
+              <a
+                href="http://www.ccs.neu.edu/home/lrazzaq/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Personal Website
+              </a>
+            </div>,
+          ],
+          "className": "displayNone body",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": ".0",
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                "Assistant Teaching Professor",
+                <br />,
+                "CCIS",
+                <br />,
+                "132C Nightingale Hall",
+                <br />,
+                <a
+                  href="mailto:l.razzaq@northeastern.edu"
+                >
+                  l.razzaq@northeastern.edu
+                </a>,
+                <br />,
+                <a
+                  href="mailto:lrazzaq@ccs.neu.edu"
+                >
+                  lrazzaq@ccs.neu.edu
+                </a>,
+                <br />,
+                <a
+                  href="tel:617-373-5797"
+                >
+                  617-373-5797
+                </a>,
+              ],
+              "className": "inlineBlock contactBox",
+            },
+            "ref": null,
+            "rendered": Array [
+              "Assistant Teaching Professor",
+              Object {
+                "instance": null,
+                "key": ".$0",
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
+              },
+              "CCIS",
+              Object {
+                "instance": null,
+                "key": ".$1",
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
+              },
+              "132C Nightingale Hall",
+              Object {
+                "instance": null,
+                "key": ".$2",
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
+              },
+              Object {
+                "instance": null,
+                "key": ".$l.razzaq@northeastern.edu",
+                "nodeType": "host",
+                "props": Object {
+                  "children": "l.razzaq@northeastern.edu",
+                  "href": "mailto:l.razzaq@northeastern.edu",
+                },
+                "ref": null,
+                "rendered": "l.razzaq@northeastern.edu",
+                "type": "a",
+              },
+              Object {
+                "instance": null,
+                "key": ".$3",
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
+              },
+              Object {
+                "instance": null,
+                "key": ".$lrazzaq@ccs.neu.edu",
+                "nodeType": "host",
+                "props": Object {
+                  "children": "lrazzaq@ccs.neu.edu",
+                  "href": "mailto:lrazzaq@ccs.neu.edu",
+                },
+                "ref": null,
+                "rendered": "lrazzaq@ccs.neu.edu",
+                "type": "a",
+              },
+              Object {
+                "instance": null,
+                "key": ".$4",
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
+              },
+              Object {
+                "instance": null,
+                "key": ".$tel",
+                "nodeType": "host",
+                "props": Object {
+                  "children": "617-373-5797",
+                  "href": "tel:617-373-5797",
+                },
+                "ref": null,
+                "rendered": "617-373-5797",
+                "type": "a",
+              },
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": ".1",
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <a
+                  href="http://www.ccs.neu.edu/home/lrazzaq/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Personal Website
+                </a>,
+              ],
+              "className": "inlineBlock mobileSecondColumn",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": ".$personalSite",
+                "nodeType": "host",
+                "props": Object {
+                  "children": "Personal Website",
+                  "href": "http://www.ccs.neu.edu/home/lrazzaq/",
+                  "rel": "noopener noreferrer",
+                  "target": "_blank",
+                },
+                "ref": null,
+                "rendered": "Personal Website",
+                "type": "a",
+              },
+            ],
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="header"
+            onClick={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <img
+              alt=""
+              className="chevron"
+              src="file"
+            />
+            <span
+              className="titleText"
+            >
+              Leena Razzaq
+            </span>
+          </div>,
+          <div
+            className="displayNone body"
+          >
+            <div
+              className="inlineBlock contactBox"
+            >
+              Assistant Teaching Professor
+              <br />
+              CCIS
+              <br />
+              132C Nightingale Hall
+              <br />
+              <a
+                href="mailto:l.razzaq@northeastern.edu"
+              >
+                l.razzaq@northeastern.edu
+              </a>
+              <br />
+              <a
+                href="mailto:lrazzaq@ccs.neu.edu"
+              >
+                lrazzaq@ccs.neu.edu
+              </a>
+              <br />
+              <a
+                href="tel:617-373-5797"
+              >
+                617-373-5797
+              </a>
+            </div>
+            <div
+              className="inlineBlock mobileSecondColumn"
+            >
+              <a
+                href="http://www.ccs.neu.edu/home/lrazzaq/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Personal Website
+              </a>
+            </div>
+          </div>,
+        ],
+        "className": "container ui segment",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": ".0",
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <img
+                alt=""
+                className="chevron"
+                src="file"
+              />,
+              <span
+                className="titleText"
+              >
+                Leena Razzaq
+              </span>,
+            ],
+            "className": "header",
+            "onClick": [Function],
+            "role": "button",
+            "tabIndex": 0,
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": ".0",
+              "nodeType": "host",
+              "props": Object {
+                "alt": "",
+                "className": "chevron",
+                "src": "file",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "img",
+            },
+            Object {
+              "instance": null,
+              "key": ".1",
+              "nodeType": "host",
+              "props": Object {
+                "children": "Leena Razzaq",
+                "className": "titleText",
+              },
+              "ref": null,
+              "rendered": "Leena Razzaq",
+              "type": "span",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": ".1",
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <div
+                className="inlineBlock contactBox"
+              >
+                Assistant Teaching Professor
+                <br />
+                CCIS
+                <br />
+                132C Nightingale Hall
+                <br />
+                <a
+                  href="mailto:l.razzaq@northeastern.edu"
+                >
+                  l.razzaq@northeastern.edu
+                </a>
+                <br />
+                <a
+                  href="mailto:lrazzaq@ccs.neu.edu"
+                >
+                  lrazzaq@ccs.neu.edu
+                </a>
+                <br />
+                <a
+                  href="tel:617-373-5797"
+                >
+                  617-373-5797
+                </a>
+              </div>,
+              <div
+                className="inlineBlock mobileSecondColumn"
+              >
+                <a
+                  href="http://www.ccs.neu.edu/home/lrazzaq/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Personal Website
+                </a>
+              </div>,
+            ],
+            "className": "displayNone body",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": ".0",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  "Assistant Teaching Professor",
+                  <br />,
+                  "CCIS",
+                  <br />,
+                  "132C Nightingale Hall",
+                  <br />,
+                  <a
+                    href="mailto:l.razzaq@northeastern.edu"
+                  >
+                    l.razzaq@northeastern.edu
+                  </a>,
+                  <br />,
+                  <a
+                    href="mailto:lrazzaq@ccs.neu.edu"
+                  >
+                    lrazzaq@ccs.neu.edu
+                  </a>,
+                  <br />,
+                  <a
+                    href="tel:617-373-5797"
+                  >
+                    617-373-5797
+                  </a>,
+                ],
+                "className": "inlineBlock contactBox",
+              },
+              "ref": null,
+              "rendered": Array [
+                "Assistant Teaching Professor",
+                Object {
+                  "instance": null,
+                  "key": ".$0",
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                "CCIS",
+                Object {
+                  "instance": null,
+                  "key": ".$1",
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                "132C Nightingale Hall",
+                Object {
+                  "instance": null,
+                  "key": ".$2",
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".$l.razzaq@northeastern.edu",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "l.razzaq@northeastern.edu",
+                    "href": "mailto:l.razzaq@northeastern.edu",
+                  },
+                  "ref": null,
+                  "rendered": "l.razzaq@northeastern.edu",
+                  "type": "a",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".$3",
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".$lrazzaq@ccs.neu.edu",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "lrazzaq@ccs.neu.edu",
+                    "href": "mailto:lrazzaq@ccs.neu.edu",
+                  },
+                  "ref": null,
+                  "rendered": "lrazzaq@ccs.neu.edu",
+                  "type": "a",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".$4",
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".$tel",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "617-373-5797",
+                    "href": "tel:617-373-5797",
+                  },
+                  "ref": null,
+                  "rendered": "617-373-5797",
+                  "type": "a",
+                },
+              ],
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": ".1",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <a
+                    href="http://www.ccs.neu.edu/home/lrazzaq/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Personal Website
+                  </a>,
+                ],
+                "className": "inlineBlock mobileSecondColumn",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": ".$personalSite",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Personal Website",
+                    "href": "http://www.ccs.neu.edu/home/lrazzaq/",
+                    "rel": "noopener noreferrer",
+                    "target": "_blank",
+                  },
+                  "ref": null,
+                  "rendered": "Personal Website",
+                  "type": "a",
+                },
+              ],
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
