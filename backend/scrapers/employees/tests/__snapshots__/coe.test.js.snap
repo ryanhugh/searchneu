@@ -134,7 +134,7 @@ Array [
 ]
 `;
 
-exports[`should parse q 1`] = `
+exports[`should parse a detail page 1`] = `
 Object {
   "googleScholarId": "1o2bvEAAAAAJ",
   "officeRoom": "334 SN360 Huntington Avenue                  ",

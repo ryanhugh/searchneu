@@ -25,7 +25,7 @@ it('should parse q', async (done) => {
   done();
 });
 
-it('should parse q', async (done) => {
+it('should parse a detail page', async (done) => {
   const body = await fs.readFile(path.join(__dirname, 'data', 'coe', 'detail page.html'));
 
   const retVal = coe.scrapeDetailpage(body);
