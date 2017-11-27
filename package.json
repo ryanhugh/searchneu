@@ -50,7 +50,7 @@
     "cross-env": "^5.0.0",
     "deep-diff": "^0.3.8",
     "dnscache": "^1.0.1",
-    "domutils": "1.5.1",
+    "domutils": "^1.6.2",
     "elasticlunr": "^0.9.5",
     "eslint-loader": "^1.9.0",
     "express": "^4.15.2",
@@ -123,7 +123,10 @@
       "./common/rafTestPolyfill.js"
     ],
     "moduleNameMapper": {
-      "\\.(css|less|svg|png)$": "identity-obj-proxy"
+      "__comment": "The css import needs to be an object that returns a string",
+      "__comment2": "but the svg and png imports need to be string themselves.",
+      "\\.(css|less)$": "identity-obj-proxy",
+      "\\.(svg|png)$": "<rootDir>/frontend/components/tests/exportsAString.js"
     }
   }
 }

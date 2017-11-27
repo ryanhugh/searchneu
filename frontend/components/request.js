@@ -3,7 +3,6 @@
  * See the license file in the root folder for details.
  */
 
-import URI from 'urijs';
 import asyncjs from 'async';
 import macros from './macros';
 
@@ -30,38 +29,8 @@ import macros from './macros';
 // and a couple seconds to load the data when the page was opened.
 
 // Prefix to store keys in localstorage
-const LOCALSTORAGE_PREFIX = 'request_cache';
-const MS_PER_DAY = 86400000;
 
 class Request {
-  isKeyUpdated(key) {
-    const storedValue = window.localStorage[LOCALSTORAGE_PREFIX + key];
-
-    if (!storedValue) {
-      return false;
-    }
-
-    const now = Date.now();
-
-    if (now - parseInt(storedValue, 10) > MS_PER_DAY) {
-      return false;
-    }
-    return true;
-  }
-
-  // Returns true if the cache has all of the keys specified, and they are all < 24 Hr old.
-  // If this returns false, the request code will go directly to the internet
-  cacheIsUpdatedForKeys(keys) {
-    for (const key of keys) {
-      if (!this.isKeyUpdated(key)) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-
   async getFromInternet(url, config = {}) {
     return new Promise((resolve, reject) => {
       const startTime = Date.now();
@@ -148,32 +117,11 @@ class Request {
       config = {
         url: config,
       };
-    } else if (Object.keys(config).length > 3) {
-      macros.error('Nothing is supported except JSON GET requests with an option for caching in sw (and progress callback).', config);
+    } else if (Object.keys(config).length > 1 || !config.url) {
+      macros.error('Nothing is supported except JSON GET requests to a url.', config);
     }
 
-
-    if (!config.useCache) {
-      return this.getFromInternetWithRetry(config.url);
-    }
-
-    let url = config.url;
-
-    // Add a key that tells the service worker whether the cache is up to date.
-    let isKeyUpdated;
-    if (config.useCache) {
-      isKeyUpdated = this.isKeyUpdated(config.url);
-      url = new URI(config.url).query({ loadFromCache: isKeyUpdated }).toString();
-    }
-
-    const internetValue = await this.getFromInternetWithRetry(url, config);
-
-    if (config.useCache) {
-      window.localStorage[LOCALSTORAGE_PREFIX + config.url] = Date.now();
-    }
-
-
-    return internetValue;
+    return this.getFromInternetWithRetry(config.url);
   }
 }
 
