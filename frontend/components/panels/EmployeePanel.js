@@ -72,15 +72,7 @@ class EmployeePanel extends React.Component {
     this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.showMoreThanTitle !== this.state.showMoreThanTitle) {
-      return true;
-    }
-    return false;
-  }
-
   toggleShowMoreThanTitle() {
-    macros.log('now it is ', this.state.showMoreThanTitle);
     this.setState({
       showMoreThanTitle: !this.state.showMoreThanTitle,
     });

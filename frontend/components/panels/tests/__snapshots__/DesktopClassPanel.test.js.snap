@@ -1,261 +1,3329 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render some stuff 1`] = `
-<div>
-  <div
-    className="undefined ui segment"
-  >
-    <div
-      className={undefined}
-    >
-      <span
-        className={undefined}
-      >
-        CS
-         
-        1210
-        : 
-        Computer Science/Information Science Overview 2: Co-op Preparation
-      </span>
-      <span
-        className={undefined}
-      >
-        <a
-          className={undefined}
-          data-tip="View on neu.edu"
-          href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <img
-            alt="link"
-            src="file"
-          />
-        </a>
-      </span>
-    </div>
-    <div
-      className={undefined}
-    >
-      Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours
-      <br />
-      <br />
-      <div
-        className={undefined}
-      >
-        Prerequisites: 
-        <span
-          className="dynamicText"
-        >
-          None
-        </span>
-         
-        <br />
-        Corequisites: 
-        <span
-          className="dynamicText"
-        >
-          None
-        </span>
-         
-        <br />
-        Prerequisite for: 
-        <span
-          className="dynamicText"
-        >
-          None
-        </span>
-         
-        <br />
-        Optional Prerequisite for: 
-        <span
-          className="dynamicText"
-        >
-          None
-        </span>
-         
-      </div>
-      <div
-        className={undefined}
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <DesktopClassPanel
+    aClass={
+      Class {
+        "classId": "1210",
+        "classUid": "1210_602555960",
+        "coreqs": Object {
+          "type": "or",
+          "values": Array [],
+        },
+        "crns": Array [
+          "13502",
+          "13503",
+          "14386",
+          "14404",
+          "14405",
+        ],
+        "desc": "Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours",
+        "hasWaitList": false,
+        "honors": false,
+        "host": "neu.edu",
+        "isString": false,
+        "lastUpdateTime": 1511131674191,
+        "maxCredits": 1,
+        "minCredits": 1,
+        "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+        "prereqs": Object {
+          "type": "or",
+          "values": Array [],
+        },
+        "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
+        "sections": Array [
+          Section {
+            "classId": "1210",
+            "classUid": "1210_602555960",
+            "crn": "13502",
+            "host": "neu.edu",
+            "lastUpdateTime": 1511131914029,
+            "meetings": Array [
+              Meeting {
+                "endDate": "2017-12-07T00:00:00.000Z",
+                "profs": Array [
+                  "Jennifer Anne Shire",
+                ],
+                "startDate": "2017-09-07T00:00:00.000Z",
+                "times": Array [
+                  Array [
+                    Object {
+                      "end": "1970-01-06T11:30:00.000Z",
+                      "start": "1970-01-06T09:50:00.000Z",
+                    },
+                  ],
+                ],
+                "where": "Snell Engineering Center 108",
+              },
+            ],
+            "online": false,
+            "seatsCapacity": 19,
+            "seatsRemaining": 0,
+            "subject": "CS",
+            "termId": "201810",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+          },
+          Section {
+            "classId": "1210",
+            "classUid": "1210_602555960",
+            "crn": "14404",
+            "host": "neu.edu",
+            "lastUpdateTime": 1511131914065,
+            "meetings": Array [
+              Meeting {
+                "endDate": "2017-12-07T00:00:00.000Z",
+                "profs": Array [
+                  "Jennifer Anne Shire",
+                ],
+                "startDate": "2017-09-07T00:00:00.000Z",
+                "times": Array [
+                  Array [
+                    Object {
+                      "end": "1970-01-06T13:25:00.000Z",
+                      "start": "1970-01-06T11:45:00.000Z",
+                    },
+                  ],
+                ],
+                "where": "Ryder Hall 431",
+              },
+            ],
+            "online": false,
+            "seatsCapacity": 19,
+            "seatsRemaining": 0,
+            "subject": "CS",
+            "termId": "201810",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+          },
+          Section {
+            "classId": "1210",
+            "classUid": "1210_602555960",
+            "crn": "14405",
+            "host": "neu.edu",
+            "lastUpdateTime": 1511131914065,
+            "meetings": Array [
+              Meeting {
+                "endDate": "2017-12-07T00:00:00.000Z",
+                "profs": Array [
+                  "Jennifer Anne Shire",
+                ],
+                "startDate": "2017-09-07T00:00:00.000Z",
+                "times": Array [
+                  Array [
+                    Object {
+                      "end": "1970-01-06T13:25:00.000Z",
+                      "start": "1970-01-06T11:45:00.000Z",
+                    },
+                  ],
+                ],
+                "where": "Ryder Hall 431",
+              },
+            ],
+            "online": false,
+            "seatsCapacity": 19,
+            "seatsRemaining": 0,
+            "subject": "CS",
+            "termId": "201810",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+          },
+          Section {
+            "classId": "1210",
+            "classUid": "1210_602555960",
+            "crn": "13503",
+            "host": "neu.edu",
+            "lastUpdateTime": 1511131914063,
+            "meetings": Array [
+              Meeting {
+                "endDate": "2017-12-07T00:00:00.000Z",
+                "profs": Array [
+                  "Melissa Anne Irgens Peikin",
+                ],
+                "startDate": "2017-09-07T00:00:00.000Z",
+                "times": Array [
+                  Array [
+                    Object {
+                      "end": "1970-01-06T11:30:00.000Z",
+                      "start": "1970-01-06T09:50:00.000Z",
+                    },
+                  ],
+                ],
+                "where": "Churchill Hall 103",
+              },
+            ],
+            "online": false,
+            "seatsCapacity": 19,
+            "seatsRemaining": 6,
+            "subject": "CS",
+            "termId": "201810",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13503",
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+          },
+          Section {
+            "classId": "1210",
+            "classUid": "1210_602555960",
+            "crn": "14386",
+            "host": "neu.edu",
+            "lastUpdateTime": 1511131914075,
+            "meetings": Array [
+              Meeting {
+                "endDate": "2017-12-07T00:00:00.000Z",
+                "profs": Array [
+                  "Yasmil Montes",
+                ],
+                "startDate": "2017-09-07T00:00:00.000Z",
+                "times": Array [
+                  Array [
+                    Object {
+                      "end": "1970-01-06T13:25:00.000Z",
+                      "start": "1970-01-06T11:45:00.000Z",
+                    },
+                  ],
+                ],
+                "where": "Ryder Hall 293",
+              },
+            ],
+            "online": false,
+            "seatsCapacity": 19,
+            "seatsRemaining": 0,
+            "subject": "CS",
+            "termId": "201810",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14386",
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+          },
+        ],
+        "subject": "CS",
+        "termId": "201810",
+        "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=CS&crse_in=1210&schd_in=%",
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": <div
+        className="undefined ui segment"
       >
         <div
-          data-tip="Check neu.edu for possible updates"
+          className={undefined}
         >
-           Updated 
-          6 days ago
+          <span
+            className={undefined}
+          >
+            CS
+             
+            1210
+            : 
+            Computer Science/Information Science Overview 2: Co-op Preparation
+          </span>
+          <span
+            className={undefined}
+          >
+            <a
+              className={undefined}
+              data-tip="View on neu.edu"
+              href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                alt="link"
+                src="file"
+              />
+            </a>
+          </span>
         </div>
-        1 credits
-      </div>
-    </div>
-    <table
-      className="ui celled striped table undefined"
-    >
-      <thead>
-        <tr>
-          <th>
+        <div
+          className={undefined}
+        >
+          Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours
+          <br />
+          <br />
+          <div
+            className={undefined}
+          >
+            Prerequisites: 
+            <span
+              className="dynamicText"
+            >
+              None
+            </span>
+             
+            <br />
+            Corequisites: 
+            <span
+              className="dynamicText"
+            >
+              None
+            </span>
+             
+            <br />
+            Prerequisite for: 
+            <span
+              className="dynamicText"
+            >
+              None
+            </span>
+             
+            <br />
+            Optional Prerequisite for: 
+            <span
+              className="dynamicText"
+            >
+              None
+            </span>
+             
+          </div>
+          <div
+            className={undefined}
+          >
+            <div
+              data-tip="Check neu.edu for possible updates"
+            >
+               Updated 
+              6 days ago
+            </div>
+            1 credits
+          </div>
+        </div>
+        <table
+          className="ui celled striped table undefined"
+        >
+          <thead>
+            <tr>
+              <th>
+                <div
+                  className={undefined}
+                  data-tip="Course Reference Number"
+                >
+                  CRN
+                </div>
+              </th>
+              <th>
+                 Professors 
+              </th>
+              <th>
+                 Weekdays 
+              </th>
+              <th>
+                 Time 
+              </th>
+              <th>
+                 Location 
+              </th>
+              <th>
+                 Seats 
+              </th>
+              <th
+                className="displayNone"
+              >
+                 Waitlist seats
+              </th>
+              <th>
+                 Link 
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              className={undefined}
+            />
+            <DesktopSectionPanel
+              section={
+                Section {
+                  "classId": "1210",
+                  "classUid": "1210_602555960",
+                  "crn": "13502",
+                  "host": "neu.edu",
+                  "lastUpdateTime": 1511131914029,
+                  "meetings": Array [
+                    Meeting {
+                      "endDate": "2017-12-07T00:00:00.000Z",
+                      "profs": Array [
+                        "Jennifer Anne Shire",
+                      ],
+                      "startDate": "2017-09-07T00:00:00.000Z",
+                      "times": Array [
+                        Array [
+                          Object {
+                            "end": "1970-01-06T11:30:00.000Z",
+                            "start": "1970-01-06T09:50:00.000Z",
+                          },
+                        ],
+                      ],
+                      "where": "Snell Engineering Center 108",
+                    },
+                  ],
+                  "online": false,
+                  "seatsCapacity": 19,
+                  "seatsRemaining": 0,
+                  "subject": "CS",
+                  "termId": "201810",
+                  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                  "waitCapacity": 0,
+                  "waitRemaining": 0,
+                }
+              }
+              shouldShowExamColumns={false}
+              showWaitList={false}
+            />
+            <DesktopSectionPanel
+              section={
+                Section {
+                  "classId": "1210",
+                  "classUid": "1210_602555960",
+                  "crn": "14404",
+                  "host": "neu.edu",
+                  "lastUpdateTime": 1511131914065,
+                  "meetings": Array [
+                    Meeting {
+                      "endDate": "2017-12-07T00:00:00.000Z",
+                      "profs": Array [
+                        "Jennifer Anne Shire",
+                      ],
+                      "startDate": "2017-09-07T00:00:00.000Z",
+                      "times": Array [
+                        Array [
+                          Object {
+                            "end": "1970-01-06T13:25:00.000Z",
+                            "start": "1970-01-06T11:45:00.000Z",
+                          },
+                        ],
+                      ],
+                      "where": "Ryder Hall 431",
+                    },
+                  ],
+                  "online": false,
+                  "seatsCapacity": 19,
+                  "seatsRemaining": 0,
+                  "subject": "CS",
+                  "termId": "201810",
+                  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                  "waitCapacity": 0,
+                  "waitRemaining": 0,
+                }
+              }
+              shouldShowExamColumns={false}
+              showWaitList={false}
+            />
+            <DesktopSectionPanel
+              section={
+                Section {
+                  "classId": "1210",
+                  "classUid": "1210_602555960",
+                  "crn": "14405",
+                  "host": "neu.edu",
+                  "lastUpdateTime": 1511131914065,
+                  "meetings": Array [
+                    Meeting {
+                      "endDate": "2017-12-07T00:00:00.000Z",
+                      "profs": Array [
+                        "Jennifer Anne Shire",
+                      ],
+                      "startDate": "2017-09-07T00:00:00.000Z",
+                      "times": Array [
+                        Array [
+                          Object {
+                            "end": "1970-01-06T13:25:00.000Z",
+                            "start": "1970-01-06T11:45:00.000Z",
+                          },
+                        ],
+                      ],
+                      "where": "Ryder Hall 431",
+                    },
+                  ],
+                  "online": false,
+                  "seatsCapacity": 19,
+                  "seatsRemaining": 0,
+                  "subject": "CS",
+                  "termId": "201810",
+                  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                  "waitCapacity": 0,
+                  "waitRemaining": 0,
+                }
+              }
+              shouldShowExamColumns={false}
+              showWaitList={false}
+            />
+          </tbody>
+        </table>
+        <div
+          className="showMoreButton"
+          onClick={[Function]}
+          role="button"
+          tabIndex={0}
+        >
+          Show More...
+        </div>
+      </div>,
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className={undefined}
+          >
+            <span
+              className={undefined}
+            >
+              CS
+               
+              1210
+              : 
+              Computer Science/Information Science Overview 2: Co-op Preparation
+            </span>
+            <span
+              className={undefined}
+            >
+              <a
+                className={undefined}
+                data-tip="View on neu.edu"
+                href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  alt="link"
+                  src="file"
+                />
+              </a>
+            </span>
+          </div>,
+          <div
+            className={undefined}
+          >
+            Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours
+            <br />
+            <br />
             <div
               className={undefined}
-              data-tip="Course Reference Number"
             >
-              CRN
+              Prerequisites: 
+              <span
+                className="dynamicText"
+              >
+                None
+              </span>
+               
+              <br />
+              Corequisites: 
+              <span
+                className="dynamicText"
+              >
+                None
+              </span>
+               
+              <br />
+              Prerequisite for: 
+              <span
+                className="dynamicText"
+              >
+                None
+              </span>
+               
+              <br />
+              Optional Prerequisite for: 
+              <span
+                className="dynamicText"
+              >
+                None
+              </span>
+               
             </div>
-          </th>
-          <th>
-             Professors 
-          </th>
-          <th>
-             Weekdays 
-          </th>
-          <th>
-             Time 
-          </th>
-          <th>
-             Location 
-          </th>
-          <th>
-             Seats 
-          </th>
-          <th
-            className="displayNone"
+            <div
+              className={undefined}
+            >
+              <div
+                data-tip="Check neu.edu for possible updates"
+              >
+                 Updated 
+                6 days ago
+              </div>
+              1 credits
+            </div>
+          </div>,
+          <table
+            className="ui celled striped table undefined"
           >
-             Waitlist seats
-          </th>
-          <th>
-             Link 
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          className={undefined}
-        />
-        <DesktopSectionPanel
-          section={
-            Section {
-              "classId": "1210",
-              "classUid": "1210_602555960",
-              "crn": "13502",
-              "host": "neu.edu",
-              "lastUpdateTime": 1511131914029,
-              "meetings": Array [
-                Meeting {
-                  "endDate": "2017-12-07T00:00:00.000Z",
-                  "profs": Array [
-                    "Jennifer Anne Shire",
-                  ],
-                  "startDate": "2017-09-07T00:00:00.000Z",
-                  "times": Array [
-                    Array [
-                      Object {
-                        "end": "1970-01-06T11:30:00.000Z",
-                        "start": "1970-01-06T09:50:00.000Z",
+            <thead>
+              <tr>
+                <th>
+                  <div
+                    className={undefined}
+                    data-tip="Course Reference Number"
+                  >
+                    CRN
+                  </div>
+                </th>
+                <th>
+                   Professors 
+                </th>
+                <th>
+                   Weekdays 
+                </th>
+                <th>
+                   Time 
+                </th>
+                <th>
+                   Location 
+                </th>
+                <th>
+                   Seats 
+                </th>
+                <th
+                  className="displayNone"
+                >
+                   Waitlist seats
+                </th>
+                <th>
+                   Link 
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                className={undefined}
+              />
+              <DesktopSectionPanel
+                section={
+                  Section {
+                    "classId": "1210",
+                    "classUid": "1210_602555960",
+                    "crn": "13502",
+                    "host": "neu.edu",
+                    "lastUpdateTime": 1511131914029,
+                    "meetings": Array [
+                      Meeting {
+                        "endDate": "2017-12-07T00:00:00.000Z",
+                        "profs": Array [
+                          "Jennifer Anne Shire",
+                        ],
+                        "startDate": "2017-09-07T00:00:00.000Z",
+                        "times": Array [
+                          Array [
+                            Object {
+                              "end": "1970-01-06T11:30:00.000Z",
+                              "start": "1970-01-06T09:50:00.000Z",
+                            },
+                          ],
+                        ],
+                        "where": "Snell Engineering Center 108",
                       },
                     ],
-                  ],
-                  "where": "Snell Engineering Center 108",
-                },
-              ],
-              "online": false,
-              "seatsCapacity": 19,
-              "seatsRemaining": 0,
-              "subject": "CS",
-              "termId": "201810",
-              "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
-              "waitCapacity": 0,
-              "waitRemaining": 0,
-            }
-          }
-          shouldShowExamColumns={false}
-          showWaitList={false}
-        />
-        <DesktopSectionPanel
-          section={
-            Section {
-              "classId": "1210",
-              "classUid": "1210_602555960",
-              "crn": "14404",
-              "host": "neu.edu",
-              "lastUpdateTime": 1511131914065,
-              "meetings": Array [
-                Meeting {
-                  "endDate": "2017-12-07T00:00:00.000Z",
-                  "profs": Array [
-                    "Jennifer Anne Shire",
-                  ],
-                  "startDate": "2017-09-07T00:00:00.000Z",
-                  "times": Array [
-                    Array [
-                      Object {
-                        "end": "1970-01-06T13:25:00.000Z",
-                        "start": "1970-01-06T11:45:00.000Z",
+                    "online": false,
+                    "seatsCapacity": 19,
+                    "seatsRemaining": 0,
+                    "subject": "CS",
+                    "termId": "201810",
+                    "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                    "waitCapacity": 0,
+                    "waitRemaining": 0,
+                  }
+                }
+                shouldShowExamColumns={false}
+                showWaitList={false}
+              />
+              <DesktopSectionPanel
+                section={
+                  Section {
+                    "classId": "1210",
+                    "classUid": "1210_602555960",
+                    "crn": "14404",
+                    "host": "neu.edu",
+                    "lastUpdateTime": 1511131914065,
+                    "meetings": Array [
+                      Meeting {
+                        "endDate": "2017-12-07T00:00:00.000Z",
+                        "profs": Array [
+                          "Jennifer Anne Shire",
+                        ],
+                        "startDate": "2017-09-07T00:00:00.000Z",
+                        "times": Array [
+                          Array [
+                            Object {
+                              "end": "1970-01-06T13:25:00.000Z",
+                              "start": "1970-01-06T11:45:00.000Z",
+                            },
+                          ],
+                        ],
+                        "where": "Ryder Hall 431",
                       },
                     ],
-                  ],
-                  "where": "Ryder Hall 431",
-                },
-              ],
-              "online": false,
-              "seatsCapacity": 19,
-              "seatsRemaining": 0,
-              "subject": "CS",
-              "termId": "201810",
-              "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
-              "waitCapacity": 0,
-              "waitRemaining": 0,
-            }
-          }
-          shouldShowExamColumns={false}
-          showWaitList={false}
-        />
-        <DesktopSectionPanel
-          section={
-            Section {
-              "classId": "1210",
-              "classUid": "1210_602555960",
-              "crn": "14405",
-              "host": "neu.edu",
-              "lastUpdateTime": 1511131914065,
-              "meetings": Array [
-                Meeting {
-                  "endDate": "2017-12-07T00:00:00.000Z",
-                  "profs": Array [
-                    "Jennifer Anne Shire",
-                  ],
-                  "startDate": "2017-09-07T00:00:00.000Z",
-                  "times": Array [
-                    Array [
-                      Object {
-                        "end": "1970-01-06T13:25:00.000Z",
-                        "start": "1970-01-06T11:45:00.000Z",
+                    "online": false,
+                    "seatsCapacity": 19,
+                    "seatsRemaining": 0,
+                    "subject": "CS",
+                    "termId": "201810",
+                    "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                    "waitCapacity": 0,
+                    "waitRemaining": 0,
+                  }
+                }
+                shouldShowExamColumns={false}
+                showWaitList={false}
+              />
+              <DesktopSectionPanel
+                section={
+                  Section {
+                    "classId": "1210",
+                    "classUid": "1210_602555960",
+                    "crn": "14405",
+                    "host": "neu.edu",
+                    "lastUpdateTime": 1511131914065,
+                    "meetings": Array [
+                      Meeting {
+                        "endDate": "2017-12-07T00:00:00.000Z",
+                        "profs": Array [
+                          "Jennifer Anne Shire",
+                        ],
+                        "startDate": "2017-09-07T00:00:00.000Z",
+                        "times": Array [
+                          Array [
+                            Object {
+                              "end": "1970-01-06T13:25:00.000Z",
+                              "start": "1970-01-06T11:45:00.000Z",
+                            },
+                          ],
+                        ],
+                        "where": "Ryder Hall 431",
                       },
                     ],
+                    "online": false,
+                    "seatsCapacity": 19,
+                    "seatsRemaining": 0,
+                    "subject": "CS",
+                    "termId": "201810",
+                    "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                    "waitCapacity": 0,
+                    "waitRemaining": 0,
+                  }
+                }
+                shouldShowExamColumns={false}
+                showWaitList={false}
+              />
+            </tbody>
+          </table>,
+          <div
+            className="showMoreButton"
+            onClick={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            Show More...
+          </div>,
+        ],
+        "className": "undefined ui segment",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": ".0",
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <span
+                className={undefined}
+              >
+                CS
+                 
+                1210
+                : 
+                Computer Science/Information Science Overview 2: Co-op Preparation
+              </span>,
+              <span
+                className={undefined}
+              >
+                <a
+                  className={undefined}
+                  data-tip="View on neu.edu"
+                  href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <img
+                    alt="link"
+                    src="file"
+                  />
+                </a>
+              </span>,
+            ],
+            "className": undefined,
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": ".0",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  "CS",
+                  " ",
+                  "1210",
+                  ": ",
+                  "Computer Science/Information Science Overview 2: Co-op Preparation",
+                ],
+                "className": undefined,
+              },
+              "ref": null,
+              "rendered": Array [
+                "CS",
+                " ",
+                "1210",
+                ": ",
+                "Computer Science/Information Science Overview 2: Co-op Preparation",
+              ],
+              "type": "span",
+            },
+            Object {
+              "instance": null,
+              "key": ".1",
+              "nodeType": "host",
+              "props": Object {
+                "children": <a
+                  className={undefined}
+                  data-tip="View on neu.edu"
+                  href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <img
+                    alt="link"
+                    src="file"
+                  />
+                </a>,
+                "className": undefined,
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": <img
+                    alt="link"
+                    src="file"
+                  />,
+                  "className": undefined,
+                  "data-tip": "View on neu.edu",
+                  "href": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
+                  "rel": "noopener noreferrer",
+                  "target": "_blank",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "alt": "link",
+                    "src": "file",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "img",
+                },
+                "type": "a",
+              },
+              "type": "span",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": ".1",
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              "Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours",
+              <br />,
+              <br />,
+              <div
+                className={undefined}
+              >
+                Prerequisites: 
+                <span
+                  className="dynamicText"
+                >
+                  None
+                </span>
+                 
+                <br />
+                Corequisites: 
+                <span
+                  className="dynamicText"
+                >
+                  None
+                </span>
+                 
+                <br />
+                Prerequisite for: 
+                <span
+                  className="dynamicText"
+                >
+                  None
+                </span>
+                 
+                <br />
+                Optional Prerequisite for: 
+                <span
+                  className="dynamicText"
+                >
+                  None
+                </span>
+                 
+              </div>,
+              <div
+                className={undefined}
+              >
+                <div
+                  data-tip="Check neu.edu for possible updates"
+                >
+                   Updated 
+                  6 days ago
+                </div>
+                1 credits
+              </div>,
+            ],
+            "className": undefined,
+          },
+          "ref": null,
+          "rendered": Array [
+            "Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours",
+            Object {
+              "instance": null,
+              "key": ".1",
+              "nodeType": "host",
+              "props": Object {},
+              "ref": null,
+              "rendered": null,
+              "type": "br",
+            },
+            Object {
+              "instance": null,
+              "key": ".2",
+              "nodeType": "host",
+              "props": Object {},
+              "ref": null,
+              "rendered": null,
+              "type": "br",
+            },
+            Object {
+              "instance": null,
+              "key": ".3",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  "Prerequisites: ",
+                  <span
+                    className="dynamicText"
+                  >
+                    None
+                  </span>,
+                  " ",
+                  <br />,
+                  "Corequisites: ",
+                  <span
+                    className="dynamicText"
+                  >
+                    None
+                  </span>,
+                  " ",
+                  <br />,
+                  "Prerequisite for: ",
+                  <span
+                    className="dynamicText"
+                  >
+                    None
+                  </span>,
+                  " ",
+                  <br />,
+                  "Optional Prerequisite for: ",
+                  <span
+                    className="dynamicText"
+                  >
+                    None
+                  </span>,
+                  " ",
+                ],
+                "className": undefined,
+              },
+              "ref": null,
+              "rendered": Array [
+                "Prerequisites: ",
+                Object {
+                  "instance": null,
+                  "key": ".1",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "None",
+                    "className": "dynamicText",
+                  },
+                  "ref": null,
+                  "rendered": "None",
+                  "type": "span",
+                },
+                " ",
+                Object {
+                  "instance": null,
+                  "key": ".4",
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                "Corequisites: ",
+                Object {
+                  "instance": null,
+                  "key": ".6",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "None",
+                    "className": "dynamicText",
+                  },
+                  "ref": null,
+                  "rendered": "None",
+                  "type": "span",
+                },
+                " ",
+                Object {
+                  "instance": null,
+                  "key": ".9",
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                "Prerequisite for: ",
+                Object {
+                  "instance": null,
+                  "key": ".b",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "None",
+                    "className": "dynamicText",
+                  },
+                  "ref": null,
+                  "rendered": "None",
+                  "type": "span",
+                },
+                " ",
+                Object {
+                  "instance": null,
+                  "key": ".e",
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                "Optional Prerequisite for: ",
+                Object {
+                  "instance": null,
+                  "key": ".g",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "None",
+                    "className": "dynamicText",
+                  },
+                  "ref": null,
+                  "rendered": "None",
+                  "type": "span",
+                },
+                " ",
+              ],
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": ".4",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <div
+                    data-tip="Check neu.edu for possible updates"
+                  >
+                     Updated 
+                    6 days ago
+                  </div>,
+                  "1 credits",
+                ],
+                "className": undefined,
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": ".0",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      " Updated ",
+                      "6 days ago",
+                    ],
+                    "data-tip": "Check neu.edu for possible updates",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    " Updated ",
+                    "6 days ago",
                   ],
-                  "where": "Ryder Hall 431",
+                  "type": "div",
+                },
+                "1 credits",
+              ],
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": ".2",
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <thead>
+                <tr>
+                  <th>
+                    <div
+                      className={undefined}
+                      data-tip="Course Reference Number"
+                    >
+                      CRN
+                    </div>
+                  </th>
+                  <th>
+                     Professors 
+                  </th>
+                  <th>
+                     Weekdays 
+                  </th>
+                  <th>
+                     Time 
+                  </th>
+                  <th>
+                     Location 
+                  </th>
+                  <th>
+                     Seats 
+                  </th>
+                  <th
+                    className="displayNone"
+                  >
+                     Waitlist seats
+                  </th>
+                  <th>
+                     Link 
+                  </th>
+                </tr>
+              </thead>,
+              <tbody>
+                <tr
+                  className={undefined}
+                />
+                <DesktopSectionPanel
+                  section={
+                    Section {
+                      "classId": "1210",
+                      "classUid": "1210_602555960",
+                      "crn": "13502",
+                      "host": "neu.edu",
+                      "lastUpdateTime": 1511131914029,
+                      "meetings": Array [
+                        Meeting {
+                          "endDate": "2017-12-07T00:00:00.000Z",
+                          "profs": Array [
+                            "Jennifer Anne Shire",
+                          ],
+                          "startDate": "2017-09-07T00:00:00.000Z",
+                          "times": Array [
+                            Array [
+                              Object {
+                                "end": "1970-01-06T11:30:00.000Z",
+                                "start": "1970-01-06T09:50:00.000Z",
+                              },
+                            ],
+                          ],
+                          "where": "Snell Engineering Center 108",
+                        },
+                      ],
+                      "online": false,
+                      "seatsCapacity": 19,
+                      "seatsRemaining": 0,
+                      "subject": "CS",
+                      "termId": "201810",
+                      "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                      "waitCapacity": 0,
+                      "waitRemaining": 0,
+                    }
+                  }
+                  shouldShowExamColumns={false}
+                  showWaitList={false}
+                />
+                <DesktopSectionPanel
+                  section={
+                    Section {
+                      "classId": "1210",
+                      "classUid": "1210_602555960",
+                      "crn": "14404",
+                      "host": "neu.edu",
+                      "lastUpdateTime": 1511131914065,
+                      "meetings": Array [
+                        Meeting {
+                          "endDate": "2017-12-07T00:00:00.000Z",
+                          "profs": Array [
+                            "Jennifer Anne Shire",
+                          ],
+                          "startDate": "2017-09-07T00:00:00.000Z",
+                          "times": Array [
+                            Array [
+                              Object {
+                                "end": "1970-01-06T13:25:00.000Z",
+                                "start": "1970-01-06T11:45:00.000Z",
+                              },
+                            ],
+                          ],
+                          "where": "Ryder Hall 431",
+                        },
+                      ],
+                      "online": false,
+                      "seatsCapacity": 19,
+                      "seatsRemaining": 0,
+                      "subject": "CS",
+                      "termId": "201810",
+                      "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                      "waitCapacity": 0,
+                      "waitRemaining": 0,
+                    }
+                  }
+                  shouldShowExamColumns={false}
+                  showWaitList={false}
+                />
+                <DesktopSectionPanel
+                  section={
+                    Section {
+                      "classId": "1210",
+                      "classUid": "1210_602555960",
+                      "crn": "14405",
+                      "host": "neu.edu",
+                      "lastUpdateTime": 1511131914065,
+                      "meetings": Array [
+                        Meeting {
+                          "endDate": "2017-12-07T00:00:00.000Z",
+                          "profs": Array [
+                            "Jennifer Anne Shire",
+                          ],
+                          "startDate": "2017-09-07T00:00:00.000Z",
+                          "times": Array [
+                            Array [
+                              Object {
+                                "end": "1970-01-06T13:25:00.000Z",
+                                "start": "1970-01-06T11:45:00.000Z",
+                              },
+                            ],
+                          ],
+                          "where": "Ryder Hall 431",
+                        },
+                      ],
+                      "online": false,
+                      "seatsCapacity": 19,
+                      "seatsRemaining": 0,
+                      "subject": "CS",
+                      "termId": "201810",
+                      "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                      "waitCapacity": 0,
+                      "waitRemaining": 0,
+                    }
+                  }
+                  shouldShowExamColumns={false}
+                  showWaitList={false}
+                />
+              </tbody>,
+            ],
+            "className": "ui celled striped table undefined",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": ".0",
+              "nodeType": "host",
+              "props": Object {
+                "children": <tr>
+                  <th>
+                    <div
+                      className={undefined}
+                      data-tip="Course Reference Number"
+                    >
+                      CRN
+                    </div>
+                  </th>
+                  <th>
+                     Professors 
+                  </th>
+                  <th>
+                     Weekdays 
+                  </th>
+                  <th>
+                     Time 
+                  </th>
+                  <th>
+                     Location 
+                  </th>
+                  <th>
+                     Seats 
+                  </th>
+                  <th
+                    className="displayNone"
+                  >
+                     Waitlist seats
+                  </th>
+                  <th>
+                     Link 
+                  </th>
+                </tr>,
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <th>
+                      <div
+                        className={undefined}
+                        data-tip="Course Reference Number"
+                      >
+                        CRN
+                      </div>
+                    </th>,
+                    <th>
+                       Professors 
+                    </th>,
+                    <th>
+                       Weekdays 
+                    </th>,
+                    <th>
+                       Time 
+                    </th>,
+                    <th>
+                       Location 
+                    </th>,
+                    <th>
+                       Seats 
+                    </th>,
+                    <th
+                      className="displayNone"
+                    >
+                       Waitlist seats
+                    </th>,
+                    <th>
+                       Link 
+                    </th>,
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": ".0",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": <div
+                        className={undefined}
+                        data-tip="Course Reference Number"
+                      >
+                        CRN
+                      </div>,
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "CRN",
+                        "className": undefined,
+                        "data-tip": "Course Reference Number",
+                      },
+                      "ref": null,
+                      "rendered": "CRN",
+                      "type": "div",
+                    },
+                    "type": "th",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".1",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": " Professors ",
+                    },
+                    "ref": null,
+                    "rendered": " Professors ",
+                    "type": "th",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".2",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": " Weekdays ",
+                    },
+                    "ref": null,
+                    "rendered": " Weekdays ",
+                    "type": "th",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".3",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": " Time ",
+                    },
+                    "ref": null,
+                    "rendered": " Time ",
+                    "type": "th",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".4",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": " Location ",
+                    },
+                    "ref": null,
+                    "rendered": " Location ",
+                    "type": "th",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".6",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": " Seats ",
+                    },
+                    "ref": null,
+                    "rendered": " Seats ",
+                    "type": "th",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".7",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": " Waitlist seats",
+                      "className": "displayNone",
+                    },
+                    "ref": null,
+                    "rendered": " Waitlist seats",
+                    "type": "th",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".8",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": " Link ",
+                    },
+                    "ref": null,
+                    "rendered": " Link ",
+                    "type": "th",
+                  },
+                ],
+                "type": "tr",
+              },
+              "type": "thead",
+            },
+            Object {
+              "instance": null,
+              "key": ".1",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <tr
+                    className={undefined}
+                  />,
+                  <DesktopSectionPanel
+                    section={
+                      Section {
+                        "classId": "1210",
+                        "classUid": "1210_602555960",
+                        "crn": "13502",
+                        "host": "neu.edu",
+                        "lastUpdateTime": 1511131914029,
+                        "meetings": Array [
+                          Meeting {
+                            "endDate": "2017-12-07T00:00:00.000Z",
+                            "profs": Array [
+                              "Jennifer Anne Shire",
+                            ],
+                            "startDate": "2017-09-07T00:00:00.000Z",
+                            "times": Array [
+                              Array [
+                                Object {
+                                  "end": "1970-01-06T11:30:00.000Z",
+                                  "start": "1970-01-06T09:50:00.000Z",
+                                },
+                              ],
+                            ],
+                            "where": "Snell Engineering Center 108",
+                          },
+                        ],
+                        "online": false,
+                        "seatsCapacity": 19,
+                        "seatsRemaining": 0,
+                        "subject": "CS",
+                        "termId": "201810",
+                        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                        "waitCapacity": 0,
+                        "waitRemaining": 0,
+                      }
+                    }
+                    shouldShowExamColumns={false}
+                    showWaitList={false}
+                  />,
+                  <DesktopSectionPanel
+                    section={
+                      Section {
+                        "classId": "1210",
+                        "classUid": "1210_602555960",
+                        "crn": "14404",
+                        "host": "neu.edu",
+                        "lastUpdateTime": 1511131914065,
+                        "meetings": Array [
+                          Meeting {
+                            "endDate": "2017-12-07T00:00:00.000Z",
+                            "profs": Array [
+                              "Jennifer Anne Shire",
+                            ],
+                            "startDate": "2017-09-07T00:00:00.000Z",
+                            "times": Array [
+                              Array [
+                                Object {
+                                  "end": "1970-01-06T13:25:00.000Z",
+                                  "start": "1970-01-06T11:45:00.000Z",
+                                },
+                              ],
+                            ],
+                            "where": "Ryder Hall 431",
+                          },
+                        ],
+                        "online": false,
+                        "seatsCapacity": 19,
+                        "seatsRemaining": 0,
+                        "subject": "CS",
+                        "termId": "201810",
+                        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                        "waitCapacity": 0,
+                        "waitRemaining": 0,
+                      }
+                    }
+                    shouldShowExamColumns={false}
+                    showWaitList={false}
+                  />,
+                  <DesktopSectionPanel
+                    section={
+                      Section {
+                        "classId": "1210",
+                        "classUid": "1210_602555960",
+                        "crn": "14405",
+                        "host": "neu.edu",
+                        "lastUpdateTime": 1511131914065,
+                        "meetings": Array [
+                          Meeting {
+                            "endDate": "2017-12-07T00:00:00.000Z",
+                            "profs": Array [
+                              "Jennifer Anne Shire",
+                            ],
+                            "startDate": "2017-09-07T00:00:00.000Z",
+                            "times": Array [
+                              Array [
+                                Object {
+                                  "end": "1970-01-06T13:25:00.000Z",
+                                  "start": "1970-01-06T11:45:00.000Z",
+                                },
+                              ],
+                            ],
+                            "where": "Ryder Hall 431",
+                          },
+                        ],
+                        "online": false,
+                        "seatsCapacity": 19,
+                        "seatsRemaining": 0,
+                        "subject": "CS",
+                        "termId": "201810",
+                        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                        "waitCapacity": 0,
+                        "waitRemaining": 0,
+                      }
+                    }
+                    shouldShowExamColumns={false}
+                    showWaitList={false}
+                  />,
+                ],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": ".0",
+                  "nodeType": "host",
+                  "props": Object {
+                    "className": undefined,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "tr",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".1:$13502",
+                  "nodeType": "class",
+                  "props": Object {
+                    "section": Section {
+                      "classId": "1210",
+                      "classUid": "1210_602555960",
+                      "crn": "13502",
+                      "host": "neu.edu",
+                      "lastUpdateTime": 1511131914029,
+                      "meetings": Array [
+                        Meeting {
+                          "endDate": "2017-12-07T00:00:00.000Z",
+                          "profs": Array [
+                            "Jennifer Anne Shire",
+                          ],
+                          "startDate": "2017-09-07T00:00:00.000Z",
+                          "times": Array [
+                            Array [
+                              Object {
+                                "end": "1970-01-06T11:30:00.000Z",
+                                "start": "1970-01-06T09:50:00.000Z",
+                              },
+                            ],
+                          ],
+                          "where": "Snell Engineering Center 108",
+                        },
+                      ],
+                      "online": false,
+                      "seatsCapacity": 19,
+                      "seatsRemaining": 0,
+                      "subject": "CS",
+                      "termId": "201810",
+                      "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                      "waitCapacity": 0,
+                      "waitRemaining": 0,
+                    },
+                    "shouldShowExamColumns": false,
+                    "showWaitList": false,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": ".1:$14404",
+                  "nodeType": "class",
+                  "props": Object {
+                    "section": Section {
+                      "classId": "1210",
+                      "classUid": "1210_602555960",
+                      "crn": "14404",
+                      "host": "neu.edu",
+                      "lastUpdateTime": 1511131914065,
+                      "meetings": Array [
+                        Meeting {
+                          "endDate": "2017-12-07T00:00:00.000Z",
+                          "profs": Array [
+                            "Jennifer Anne Shire",
+                          ],
+                          "startDate": "2017-09-07T00:00:00.000Z",
+                          "times": Array [
+                            Array [
+                              Object {
+                                "end": "1970-01-06T13:25:00.000Z",
+                                "start": "1970-01-06T11:45:00.000Z",
+                              },
+                            ],
+                          ],
+                          "where": "Ryder Hall 431",
+                        },
+                      ],
+                      "online": false,
+                      "seatsCapacity": 19,
+                      "seatsRemaining": 0,
+                      "subject": "CS",
+                      "termId": "201810",
+                      "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                      "waitCapacity": 0,
+                      "waitRemaining": 0,
+                    },
+                    "shouldShowExamColumns": false,
+                    "showWaitList": false,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": ".1:$14405",
+                  "nodeType": "class",
+                  "props": Object {
+                    "section": Section {
+                      "classId": "1210",
+                      "classUid": "1210_602555960",
+                      "crn": "14405",
+                      "host": "neu.edu",
+                      "lastUpdateTime": 1511131914065,
+                      "meetings": Array [
+                        Meeting {
+                          "endDate": "2017-12-07T00:00:00.000Z",
+                          "profs": Array [
+                            "Jennifer Anne Shire",
+                          ],
+                          "startDate": "2017-09-07T00:00:00.000Z",
+                          "times": Array [
+                            Array [
+                              Object {
+                                "end": "1970-01-06T13:25:00.000Z",
+                                "start": "1970-01-06T11:45:00.000Z",
+                              },
+                            ],
+                          ],
+                          "where": "Ryder Hall 431",
+                        },
+                      ],
+                      "online": false,
+                      "seatsCapacity": 19,
+                      "seatsRemaining": 0,
+                      "subject": "CS",
+                      "termId": "201810",
+                      "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                      "waitCapacity": 0,
+                      "waitRemaining": 0,
+                    },
+                    "shouldShowExamColumns": false,
+                    "showWaitList": false,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
                 },
               ],
-              "online": false,
-              "seatsCapacity": 19,
-              "seatsRemaining": 0,
-              "subject": "CS",
-              "termId": "201810",
-              "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
-              "waitCapacity": 0,
-              "waitRemaining": 0,
-            }
-          }
-          shouldShowExamColumns={false}
-          showWaitList={false}
-        />
-      </tbody>
-    </table>
-    <div
-      className="showMoreButton"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
-    >
-      Show More...
-    </div>
-  </div>
-</div>
+              "type": "tbody",
+            },
+          ],
+          "type": "table",
+        },
+        Object {
+          "instance": null,
+          "key": ".3",
+          "nodeType": "host",
+          "props": Object {
+            "children": "Show More...",
+            "className": "showMoreButton",
+            "onClick": [Function],
+            "role": "button",
+            "tabIndex": 0,
+          },
+          "ref": null,
+          "rendered": "Show More...",
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <div
+          className="undefined ui segment"
+        >
+          <div
+            className={undefined}
+          >
+            <span
+              className={undefined}
+            >
+              CS
+               
+              1210
+              : 
+              Computer Science/Information Science Overview 2: Co-op Preparation
+            </span>
+            <span
+              className={undefined}
+            >
+              <a
+                className={undefined}
+                data-tip="View on neu.edu"
+                href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  alt="link"
+                  src="file"
+                />
+              </a>
+            </span>
+          </div>
+          <div
+            className={undefined}
+          >
+            Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours
+            <br />
+            <br />
+            <div
+              className={undefined}
+            >
+              Prerequisites: 
+              <span
+                className="dynamicText"
+              >
+                None
+              </span>
+               
+              <br />
+              Corequisites: 
+              <span
+                className="dynamicText"
+              >
+                None
+              </span>
+               
+              <br />
+              Prerequisite for: 
+              <span
+                className="dynamicText"
+              >
+                None
+              </span>
+               
+              <br />
+              Optional Prerequisite for: 
+              <span
+                className="dynamicText"
+              >
+                None
+              </span>
+               
+            </div>
+            <div
+              className={undefined}
+            >
+              <div
+                data-tip="Check neu.edu for possible updates"
+              >
+                 Updated 
+                6 days ago
+              </div>
+              1 credits
+            </div>
+          </div>
+          <table
+            className="ui celled striped table undefined"
+          >
+            <thead>
+              <tr>
+                <th>
+                  <div
+                    className={undefined}
+                    data-tip="Course Reference Number"
+                  >
+                    CRN
+                  </div>
+                </th>
+                <th>
+                   Professors 
+                </th>
+                <th>
+                   Weekdays 
+                </th>
+                <th>
+                   Time 
+                </th>
+                <th>
+                   Location 
+                </th>
+                <th>
+                   Seats 
+                </th>
+                <th
+                  className="displayNone"
+                >
+                   Waitlist seats
+                </th>
+                <th>
+                   Link 
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                className={undefined}
+              />
+              <DesktopSectionPanel
+                section={
+                  Section {
+                    "classId": "1210",
+                    "classUid": "1210_602555960",
+                    "crn": "13502",
+                    "host": "neu.edu",
+                    "lastUpdateTime": 1511131914029,
+                    "meetings": Array [
+                      Meeting {
+                        "endDate": "2017-12-07T00:00:00.000Z",
+                        "profs": Array [
+                          "Jennifer Anne Shire",
+                        ],
+                        "startDate": "2017-09-07T00:00:00.000Z",
+                        "times": Array [
+                          Array [
+                            Object {
+                              "end": "1970-01-06T11:30:00.000Z",
+                              "start": "1970-01-06T09:50:00.000Z",
+                            },
+                          ],
+                        ],
+                        "where": "Snell Engineering Center 108",
+                      },
+                    ],
+                    "online": false,
+                    "seatsCapacity": 19,
+                    "seatsRemaining": 0,
+                    "subject": "CS",
+                    "termId": "201810",
+                    "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                    "waitCapacity": 0,
+                    "waitRemaining": 0,
+                  }
+                }
+                shouldShowExamColumns={false}
+                showWaitList={false}
+              />
+              <DesktopSectionPanel
+                section={
+                  Section {
+                    "classId": "1210",
+                    "classUid": "1210_602555960",
+                    "crn": "14404",
+                    "host": "neu.edu",
+                    "lastUpdateTime": 1511131914065,
+                    "meetings": Array [
+                      Meeting {
+                        "endDate": "2017-12-07T00:00:00.000Z",
+                        "profs": Array [
+                          "Jennifer Anne Shire",
+                        ],
+                        "startDate": "2017-09-07T00:00:00.000Z",
+                        "times": Array [
+                          Array [
+                            Object {
+                              "end": "1970-01-06T13:25:00.000Z",
+                              "start": "1970-01-06T11:45:00.000Z",
+                            },
+                          ],
+                        ],
+                        "where": "Ryder Hall 431",
+                      },
+                    ],
+                    "online": false,
+                    "seatsCapacity": 19,
+                    "seatsRemaining": 0,
+                    "subject": "CS",
+                    "termId": "201810",
+                    "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                    "waitCapacity": 0,
+                    "waitRemaining": 0,
+                  }
+                }
+                shouldShowExamColumns={false}
+                showWaitList={false}
+              />
+              <DesktopSectionPanel
+                section={
+                  Section {
+                    "classId": "1210",
+                    "classUid": "1210_602555960",
+                    "crn": "14405",
+                    "host": "neu.edu",
+                    "lastUpdateTime": 1511131914065,
+                    "meetings": Array [
+                      Meeting {
+                        "endDate": "2017-12-07T00:00:00.000Z",
+                        "profs": Array [
+                          "Jennifer Anne Shire",
+                        ],
+                        "startDate": "2017-09-07T00:00:00.000Z",
+                        "times": Array [
+                          Array [
+                            Object {
+                              "end": "1970-01-06T13:25:00.000Z",
+                              "start": "1970-01-06T11:45:00.000Z",
+                            },
+                          ],
+                        ],
+                        "where": "Ryder Hall 431",
+                      },
+                    ],
+                    "online": false,
+                    "seatsCapacity": 19,
+                    "seatsRemaining": 0,
+                    "subject": "CS",
+                    "termId": "201810",
+                    "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                    "waitCapacity": 0,
+                    "waitRemaining": 0,
+                  }
+                }
+                shouldShowExamColumns={false}
+                showWaitList={false}
+              />
+            </tbody>
+          </table>
+          <div
+            className="showMoreButton"
+            onClick={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            Show More...
+          </div>
+        </div>,
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className={undefined}
+            >
+              <span
+                className={undefined}
+              >
+                CS
+                 
+                1210
+                : 
+                Computer Science/Information Science Overview 2: Co-op Preparation
+              </span>
+              <span
+                className={undefined}
+              >
+                <a
+                  className={undefined}
+                  data-tip="View on neu.edu"
+                  href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <img
+                    alt="link"
+                    src="file"
+                  />
+                </a>
+              </span>
+            </div>,
+            <div
+              className={undefined}
+            >
+              Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours
+              <br />
+              <br />
+              <div
+                className={undefined}
+              >
+                Prerequisites: 
+                <span
+                  className="dynamicText"
+                >
+                  None
+                </span>
+                 
+                <br />
+                Corequisites: 
+                <span
+                  className="dynamicText"
+                >
+                  None
+                </span>
+                 
+                <br />
+                Prerequisite for: 
+                <span
+                  className="dynamicText"
+                >
+                  None
+                </span>
+                 
+                <br />
+                Optional Prerequisite for: 
+                <span
+                  className="dynamicText"
+                >
+                  None
+                </span>
+                 
+              </div>
+              <div
+                className={undefined}
+              >
+                <div
+                  data-tip="Check neu.edu for possible updates"
+                >
+                   Updated 
+                  6 days ago
+                </div>
+                1 credits
+              </div>
+            </div>,
+            <table
+              className="ui celled striped table undefined"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    <div
+                      className={undefined}
+                      data-tip="Course Reference Number"
+                    >
+                      CRN
+                    </div>
+                  </th>
+                  <th>
+                     Professors 
+                  </th>
+                  <th>
+                     Weekdays 
+                  </th>
+                  <th>
+                     Time 
+                  </th>
+                  <th>
+                     Location 
+                  </th>
+                  <th>
+                     Seats 
+                  </th>
+                  <th
+                    className="displayNone"
+                  >
+                     Waitlist seats
+                  </th>
+                  <th>
+                     Link 
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  className={undefined}
+                />
+                <DesktopSectionPanel
+                  section={
+                    Section {
+                      "classId": "1210",
+                      "classUid": "1210_602555960",
+                      "crn": "13502",
+                      "host": "neu.edu",
+                      "lastUpdateTime": 1511131914029,
+                      "meetings": Array [
+                        Meeting {
+                          "endDate": "2017-12-07T00:00:00.000Z",
+                          "profs": Array [
+                            "Jennifer Anne Shire",
+                          ],
+                          "startDate": "2017-09-07T00:00:00.000Z",
+                          "times": Array [
+                            Array [
+                              Object {
+                                "end": "1970-01-06T11:30:00.000Z",
+                                "start": "1970-01-06T09:50:00.000Z",
+                              },
+                            ],
+                          ],
+                          "where": "Snell Engineering Center 108",
+                        },
+                      ],
+                      "online": false,
+                      "seatsCapacity": 19,
+                      "seatsRemaining": 0,
+                      "subject": "CS",
+                      "termId": "201810",
+                      "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                      "waitCapacity": 0,
+                      "waitRemaining": 0,
+                    }
+                  }
+                  shouldShowExamColumns={false}
+                  showWaitList={false}
+                />
+                <DesktopSectionPanel
+                  section={
+                    Section {
+                      "classId": "1210",
+                      "classUid": "1210_602555960",
+                      "crn": "14404",
+                      "host": "neu.edu",
+                      "lastUpdateTime": 1511131914065,
+                      "meetings": Array [
+                        Meeting {
+                          "endDate": "2017-12-07T00:00:00.000Z",
+                          "profs": Array [
+                            "Jennifer Anne Shire",
+                          ],
+                          "startDate": "2017-09-07T00:00:00.000Z",
+                          "times": Array [
+                            Array [
+                              Object {
+                                "end": "1970-01-06T13:25:00.000Z",
+                                "start": "1970-01-06T11:45:00.000Z",
+                              },
+                            ],
+                          ],
+                          "where": "Ryder Hall 431",
+                        },
+                      ],
+                      "online": false,
+                      "seatsCapacity": 19,
+                      "seatsRemaining": 0,
+                      "subject": "CS",
+                      "termId": "201810",
+                      "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                      "waitCapacity": 0,
+                      "waitRemaining": 0,
+                    }
+                  }
+                  shouldShowExamColumns={false}
+                  showWaitList={false}
+                />
+                <DesktopSectionPanel
+                  section={
+                    Section {
+                      "classId": "1210",
+                      "classUid": "1210_602555960",
+                      "crn": "14405",
+                      "host": "neu.edu",
+                      "lastUpdateTime": 1511131914065,
+                      "meetings": Array [
+                        Meeting {
+                          "endDate": "2017-12-07T00:00:00.000Z",
+                          "profs": Array [
+                            "Jennifer Anne Shire",
+                          ],
+                          "startDate": "2017-09-07T00:00:00.000Z",
+                          "times": Array [
+                            Array [
+                              Object {
+                                "end": "1970-01-06T13:25:00.000Z",
+                                "start": "1970-01-06T11:45:00.000Z",
+                              },
+                            ],
+                          ],
+                          "where": "Ryder Hall 431",
+                        },
+                      ],
+                      "online": false,
+                      "seatsCapacity": 19,
+                      "seatsRemaining": 0,
+                      "subject": "CS",
+                      "termId": "201810",
+                      "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                      "waitCapacity": 0,
+                      "waitRemaining": 0,
+                    }
+                  }
+                  shouldShowExamColumns={false}
+                  showWaitList={false}
+                />
+              </tbody>
+            </table>,
+            <div
+              className="showMoreButton"
+              onClick={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              Show More...
+            </div>,
+          ],
+          "className": "undefined ui segment",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": ".0",
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <span
+                  className={undefined}
+                >
+                  CS
+                   
+                  1210
+                  : 
+                  Computer Science/Information Science Overview 2: Co-op Preparation
+                </span>,
+                <span
+                  className={undefined}
+                >
+                  <a
+                    className={undefined}
+                    data-tip="View on neu.edu"
+                    href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <img
+                      alt="link"
+                      src="file"
+                    />
+                  </a>
+                </span>,
+              ],
+              "className": undefined,
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": ".0",
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    "CS",
+                    " ",
+                    "1210",
+                    ": ",
+                    "Computer Science/Information Science Overview 2: Co-op Preparation",
+                  ],
+                  "className": undefined,
+                },
+                "ref": null,
+                "rendered": Array [
+                  "CS",
+                  " ",
+                  "1210",
+                  ": ",
+                  "Computer Science/Information Science Overview 2: Co-op Preparation",
+                ],
+                "type": "span",
+              },
+              Object {
+                "instance": null,
+                "key": ".1",
+                "nodeType": "host",
+                "props": Object {
+                  "children": <a
+                    className={undefined}
+                    data-tip="View on neu.edu"
+                    href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <img
+                      alt="link"
+                      src="file"
+                    />
+                  </a>,
+                  "className": undefined,
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": <img
+                      alt="link"
+                      src="file"
+                    />,
+                    "className": undefined,
+                    "data-tip": "View on neu.edu",
+                    "href": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
+                    "rel": "noopener noreferrer",
+                    "target": "_blank",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "alt": "link",
+                      "src": "file",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": "img",
+                  },
+                  "type": "a",
+                },
+                "type": "span",
+              },
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": ".1",
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                "Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours",
+                <br />,
+                <br />,
+                <div
+                  className={undefined}
+                >
+                  Prerequisites: 
+                  <span
+                    className="dynamicText"
+                  >
+                    None
+                  </span>
+                   
+                  <br />
+                  Corequisites: 
+                  <span
+                    className="dynamicText"
+                  >
+                    None
+                  </span>
+                   
+                  <br />
+                  Prerequisite for: 
+                  <span
+                    className="dynamicText"
+                  >
+                    None
+                  </span>
+                   
+                  <br />
+                  Optional Prerequisite for: 
+                  <span
+                    className="dynamicText"
+                  >
+                    None
+                  </span>
+                   
+                </div>,
+                <div
+                  className={undefined}
+                >
+                  <div
+                    data-tip="Check neu.edu for possible updates"
+                  >
+                     Updated 
+                    6 days ago
+                  </div>
+                  1 credits
+                </div>,
+              ],
+              "className": undefined,
+            },
+            "ref": null,
+            "rendered": Array [
+              "Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours",
+              Object {
+                "instance": null,
+                "key": ".1",
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
+              },
+              Object {
+                "instance": null,
+                "key": ".2",
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
+              },
+              Object {
+                "instance": null,
+                "key": ".3",
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    "Prerequisites: ",
+                    <span
+                      className="dynamicText"
+                    >
+                      None
+                    </span>,
+                    " ",
+                    <br />,
+                    "Corequisites: ",
+                    <span
+                      className="dynamicText"
+                    >
+                      None
+                    </span>,
+                    " ",
+                    <br />,
+                    "Prerequisite for: ",
+                    <span
+                      className="dynamicText"
+                    >
+                      None
+                    </span>,
+                    " ",
+                    <br />,
+                    "Optional Prerequisite for: ",
+                    <span
+                      className="dynamicText"
+                    >
+                      None
+                    </span>,
+                    " ",
+                  ],
+                  "className": undefined,
+                },
+                "ref": null,
+                "rendered": Array [
+                  "Prerequisites: ",
+                  Object {
+                    "instance": null,
+                    "key": ".1",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "None",
+                      "className": "dynamicText",
+                    },
+                    "ref": null,
+                    "rendered": "None",
+                    "type": "span",
+                  },
+                  " ",
+                  Object {
+                    "instance": null,
+                    "key": ".4",
+                    "nodeType": "host",
+                    "props": Object {},
+                    "ref": null,
+                    "rendered": null,
+                    "type": "br",
+                  },
+                  "Corequisites: ",
+                  Object {
+                    "instance": null,
+                    "key": ".6",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "None",
+                      "className": "dynamicText",
+                    },
+                    "ref": null,
+                    "rendered": "None",
+                    "type": "span",
+                  },
+                  " ",
+                  Object {
+                    "instance": null,
+                    "key": ".9",
+                    "nodeType": "host",
+                    "props": Object {},
+                    "ref": null,
+                    "rendered": null,
+                    "type": "br",
+                  },
+                  "Prerequisite for: ",
+                  Object {
+                    "instance": null,
+                    "key": ".b",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "None",
+                      "className": "dynamicText",
+                    },
+                    "ref": null,
+                    "rendered": "None",
+                    "type": "span",
+                  },
+                  " ",
+                  Object {
+                    "instance": null,
+                    "key": ".e",
+                    "nodeType": "host",
+                    "props": Object {},
+                    "ref": null,
+                    "rendered": null,
+                    "type": "br",
+                  },
+                  "Optional Prerequisite for: ",
+                  Object {
+                    "instance": null,
+                    "key": ".g",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "None",
+                      "className": "dynamicText",
+                    },
+                    "ref": null,
+                    "rendered": "None",
+                    "type": "span",
+                  },
+                  " ",
+                ],
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": ".4",
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <div
+                      data-tip="Check neu.edu for possible updates"
+                    >
+                       Updated 
+                      6 days ago
+                    </div>,
+                    "1 credits",
+                  ],
+                  "className": undefined,
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": ".0",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        " Updated ",
+                        "6 days ago",
+                      ],
+                      "data-tip": "Check neu.edu for possible updates",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      " Updated ",
+                      "6 days ago",
+                    ],
+                    "type": "div",
+                  },
+                  "1 credits",
+                ],
+                "type": "div",
+              },
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": ".2",
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <thead>
+                  <tr>
+                    <th>
+                      <div
+                        className={undefined}
+                        data-tip="Course Reference Number"
+                      >
+                        CRN
+                      </div>
+                    </th>
+                    <th>
+                       Professors 
+                    </th>
+                    <th>
+                       Weekdays 
+                    </th>
+                    <th>
+                       Time 
+                    </th>
+                    <th>
+                       Location 
+                    </th>
+                    <th>
+                       Seats 
+                    </th>
+                    <th
+                      className="displayNone"
+                    >
+                       Waitlist seats
+                    </th>
+                    <th>
+                       Link 
+                    </th>
+                  </tr>
+                </thead>,
+                <tbody>
+                  <tr
+                    className={undefined}
+                  />
+                  <DesktopSectionPanel
+                    section={
+                      Section {
+                        "classId": "1210",
+                        "classUid": "1210_602555960",
+                        "crn": "13502",
+                        "host": "neu.edu",
+                        "lastUpdateTime": 1511131914029,
+                        "meetings": Array [
+                          Meeting {
+                            "endDate": "2017-12-07T00:00:00.000Z",
+                            "profs": Array [
+                              "Jennifer Anne Shire",
+                            ],
+                            "startDate": "2017-09-07T00:00:00.000Z",
+                            "times": Array [
+                              Array [
+                                Object {
+                                  "end": "1970-01-06T11:30:00.000Z",
+                                  "start": "1970-01-06T09:50:00.000Z",
+                                },
+                              ],
+                            ],
+                            "where": "Snell Engineering Center 108",
+                          },
+                        ],
+                        "online": false,
+                        "seatsCapacity": 19,
+                        "seatsRemaining": 0,
+                        "subject": "CS",
+                        "termId": "201810",
+                        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                        "waitCapacity": 0,
+                        "waitRemaining": 0,
+                      }
+                    }
+                    shouldShowExamColumns={false}
+                    showWaitList={false}
+                  />
+                  <DesktopSectionPanel
+                    section={
+                      Section {
+                        "classId": "1210",
+                        "classUid": "1210_602555960",
+                        "crn": "14404",
+                        "host": "neu.edu",
+                        "lastUpdateTime": 1511131914065,
+                        "meetings": Array [
+                          Meeting {
+                            "endDate": "2017-12-07T00:00:00.000Z",
+                            "profs": Array [
+                              "Jennifer Anne Shire",
+                            ],
+                            "startDate": "2017-09-07T00:00:00.000Z",
+                            "times": Array [
+                              Array [
+                                Object {
+                                  "end": "1970-01-06T13:25:00.000Z",
+                                  "start": "1970-01-06T11:45:00.000Z",
+                                },
+                              ],
+                            ],
+                            "where": "Ryder Hall 431",
+                          },
+                        ],
+                        "online": false,
+                        "seatsCapacity": 19,
+                        "seatsRemaining": 0,
+                        "subject": "CS",
+                        "termId": "201810",
+                        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                        "waitCapacity": 0,
+                        "waitRemaining": 0,
+                      }
+                    }
+                    shouldShowExamColumns={false}
+                    showWaitList={false}
+                  />
+                  <DesktopSectionPanel
+                    section={
+                      Section {
+                        "classId": "1210",
+                        "classUid": "1210_602555960",
+                        "crn": "14405",
+                        "host": "neu.edu",
+                        "lastUpdateTime": 1511131914065,
+                        "meetings": Array [
+                          Meeting {
+                            "endDate": "2017-12-07T00:00:00.000Z",
+                            "profs": Array [
+                              "Jennifer Anne Shire",
+                            ],
+                            "startDate": "2017-09-07T00:00:00.000Z",
+                            "times": Array [
+                              Array [
+                                Object {
+                                  "end": "1970-01-06T13:25:00.000Z",
+                                  "start": "1970-01-06T11:45:00.000Z",
+                                },
+                              ],
+                            ],
+                            "where": "Ryder Hall 431",
+                          },
+                        ],
+                        "online": false,
+                        "seatsCapacity": 19,
+                        "seatsRemaining": 0,
+                        "subject": "CS",
+                        "termId": "201810",
+                        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                        "waitCapacity": 0,
+                        "waitRemaining": 0,
+                      }
+                    }
+                    shouldShowExamColumns={false}
+                    showWaitList={false}
+                  />
+                </tbody>,
+              ],
+              "className": "ui celled striped table undefined",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": ".0",
+                "nodeType": "host",
+                "props": Object {
+                  "children": <tr>
+                    <th>
+                      <div
+                        className={undefined}
+                        data-tip="Course Reference Number"
+                      >
+                        CRN
+                      </div>
+                    </th>
+                    <th>
+                       Professors 
+                    </th>
+                    <th>
+                       Weekdays 
+                    </th>
+                    <th>
+                       Time 
+                    </th>
+                    <th>
+                       Location 
+                    </th>
+                    <th>
+                       Seats 
+                    </th>
+                    <th
+                      className="displayNone"
+                    >
+                       Waitlist seats
+                    </th>
+                    <th>
+                       Link 
+                    </th>
+                  </tr>,
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      <th>
+                        <div
+                          className={undefined}
+                          data-tip="Course Reference Number"
+                        >
+                          CRN
+                        </div>
+                      </th>,
+                      <th>
+                         Professors 
+                      </th>,
+                      <th>
+                         Weekdays 
+                      </th>,
+                      <th>
+                         Time 
+                      </th>,
+                      <th>
+                         Location 
+                      </th>,
+                      <th>
+                         Seats 
+                      </th>,
+                      <th
+                        className="displayNone"
+                      >
+                         Waitlist seats
+                      </th>,
+                      <th>
+                         Link 
+                      </th>,
+                    ],
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": ".0",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": <div
+                          className={undefined}
+                          data-tip="Course Reference Number"
+                        >
+                          CRN
+                        </div>,
+                      },
+                      "ref": null,
+                      "rendered": Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": "CRN",
+                          "className": undefined,
+                          "data-tip": "Course Reference Number",
+                        },
+                        "ref": null,
+                        "rendered": "CRN",
+                        "type": "div",
+                      },
+                      "type": "th",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": ".1",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": " Professors ",
+                      },
+                      "ref": null,
+                      "rendered": " Professors ",
+                      "type": "th",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": ".2",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": " Weekdays ",
+                      },
+                      "ref": null,
+                      "rendered": " Weekdays ",
+                      "type": "th",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": ".3",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": " Time ",
+                      },
+                      "ref": null,
+                      "rendered": " Time ",
+                      "type": "th",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": ".4",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": " Location ",
+                      },
+                      "ref": null,
+                      "rendered": " Location ",
+                      "type": "th",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": ".6",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": " Seats ",
+                      },
+                      "ref": null,
+                      "rendered": " Seats ",
+                      "type": "th",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": ".7",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": " Waitlist seats",
+                        "className": "displayNone",
+                      },
+                      "ref": null,
+                      "rendered": " Waitlist seats",
+                      "type": "th",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": ".8",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": " Link ",
+                      },
+                      "ref": null,
+                      "rendered": " Link ",
+                      "type": "th",
+                    },
+                  ],
+                  "type": "tr",
+                },
+                "type": "thead",
+              },
+              Object {
+                "instance": null,
+                "key": ".1",
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <tr
+                      className={undefined}
+                    />,
+                    <DesktopSectionPanel
+                      section={
+                        Section {
+                          "classId": "1210",
+                          "classUid": "1210_602555960",
+                          "crn": "13502",
+                          "host": "neu.edu",
+                          "lastUpdateTime": 1511131914029,
+                          "meetings": Array [
+                            Meeting {
+                              "endDate": "2017-12-07T00:00:00.000Z",
+                              "profs": Array [
+                                "Jennifer Anne Shire",
+                              ],
+                              "startDate": "2017-09-07T00:00:00.000Z",
+                              "times": Array [
+                                Array [
+                                  Object {
+                                    "end": "1970-01-06T11:30:00.000Z",
+                                    "start": "1970-01-06T09:50:00.000Z",
+                                  },
+                                ],
+                              ],
+                              "where": "Snell Engineering Center 108",
+                            },
+                          ],
+                          "online": false,
+                          "seatsCapacity": 19,
+                          "seatsRemaining": 0,
+                          "subject": "CS",
+                          "termId": "201810",
+                          "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                          "waitCapacity": 0,
+                          "waitRemaining": 0,
+                        }
+                      }
+                      shouldShowExamColumns={false}
+                      showWaitList={false}
+                    />,
+                    <DesktopSectionPanel
+                      section={
+                        Section {
+                          "classId": "1210",
+                          "classUid": "1210_602555960",
+                          "crn": "14404",
+                          "host": "neu.edu",
+                          "lastUpdateTime": 1511131914065,
+                          "meetings": Array [
+                            Meeting {
+                              "endDate": "2017-12-07T00:00:00.000Z",
+                              "profs": Array [
+                                "Jennifer Anne Shire",
+                              ],
+                              "startDate": "2017-09-07T00:00:00.000Z",
+                              "times": Array [
+                                Array [
+                                  Object {
+                                    "end": "1970-01-06T13:25:00.000Z",
+                                    "start": "1970-01-06T11:45:00.000Z",
+                                  },
+                                ],
+                              ],
+                              "where": "Ryder Hall 431",
+                            },
+                          ],
+                          "online": false,
+                          "seatsCapacity": 19,
+                          "seatsRemaining": 0,
+                          "subject": "CS",
+                          "termId": "201810",
+                          "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                          "waitCapacity": 0,
+                          "waitRemaining": 0,
+                        }
+                      }
+                      shouldShowExamColumns={false}
+                      showWaitList={false}
+                    />,
+                    <DesktopSectionPanel
+                      section={
+                        Section {
+                          "classId": "1210",
+                          "classUid": "1210_602555960",
+                          "crn": "14405",
+                          "host": "neu.edu",
+                          "lastUpdateTime": 1511131914065,
+                          "meetings": Array [
+                            Meeting {
+                              "endDate": "2017-12-07T00:00:00.000Z",
+                              "profs": Array [
+                                "Jennifer Anne Shire",
+                              ],
+                              "startDate": "2017-09-07T00:00:00.000Z",
+                              "times": Array [
+                                Array [
+                                  Object {
+                                    "end": "1970-01-06T13:25:00.000Z",
+                                    "start": "1970-01-06T11:45:00.000Z",
+                                  },
+                                ],
+                              ],
+                              "where": "Ryder Hall 431",
+                            },
+                          ],
+                          "online": false,
+                          "seatsCapacity": 19,
+                          "seatsRemaining": 0,
+                          "subject": "CS",
+                          "termId": "201810",
+                          "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                          "waitCapacity": 0,
+                          "waitRemaining": 0,
+                        }
+                      }
+                      shouldShowExamColumns={false}
+                      showWaitList={false}
+                    />,
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": ".0",
+                    "nodeType": "host",
+                    "props": Object {
+                      "className": undefined,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": "tr",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".1:$13502",
+                    "nodeType": "class",
+                    "props": Object {
+                      "section": Section {
+                        "classId": "1210",
+                        "classUid": "1210_602555960",
+                        "crn": "13502",
+                        "host": "neu.edu",
+                        "lastUpdateTime": 1511131914029,
+                        "meetings": Array [
+                          Meeting {
+                            "endDate": "2017-12-07T00:00:00.000Z",
+                            "profs": Array [
+                              "Jennifer Anne Shire",
+                            ],
+                            "startDate": "2017-09-07T00:00:00.000Z",
+                            "times": Array [
+                              Array [
+                                Object {
+                                  "end": "1970-01-06T11:30:00.000Z",
+                                  "start": "1970-01-06T09:50:00.000Z",
+                                },
+                              ],
+                            ],
+                            "where": "Snell Engineering Center 108",
+                          },
+                        ],
+                        "online": false,
+                        "seatsCapacity": 19,
+                        "seatsRemaining": 0,
+                        "subject": "CS",
+                        "termId": "201810",
+                        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                        "waitCapacity": 0,
+                        "waitRemaining": 0,
+                      },
+                      "shouldShowExamColumns": false,
+                      "showWaitList": false,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".1:$14404",
+                    "nodeType": "class",
+                    "props": Object {
+                      "section": Section {
+                        "classId": "1210",
+                        "classUid": "1210_602555960",
+                        "crn": "14404",
+                        "host": "neu.edu",
+                        "lastUpdateTime": 1511131914065,
+                        "meetings": Array [
+                          Meeting {
+                            "endDate": "2017-12-07T00:00:00.000Z",
+                            "profs": Array [
+                              "Jennifer Anne Shire",
+                            ],
+                            "startDate": "2017-09-07T00:00:00.000Z",
+                            "times": Array [
+                              Array [
+                                Object {
+                                  "end": "1970-01-06T13:25:00.000Z",
+                                  "start": "1970-01-06T11:45:00.000Z",
+                                },
+                              ],
+                            ],
+                            "where": "Ryder Hall 431",
+                          },
+                        ],
+                        "online": false,
+                        "seatsCapacity": 19,
+                        "seatsRemaining": 0,
+                        "subject": "CS",
+                        "termId": "201810",
+                        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                        "waitCapacity": 0,
+                        "waitRemaining": 0,
+                      },
+                      "shouldShowExamColumns": false,
+                      "showWaitList": false,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".1:$14405",
+                    "nodeType": "class",
+                    "props": Object {
+                      "section": Section {
+                        "classId": "1210",
+                        "classUid": "1210_602555960",
+                        "crn": "14405",
+                        "host": "neu.edu",
+                        "lastUpdateTime": 1511131914065,
+                        "meetings": Array [
+                          Meeting {
+                            "endDate": "2017-12-07T00:00:00.000Z",
+                            "profs": Array [
+                              "Jennifer Anne Shire",
+                            ],
+                            "startDate": "2017-09-07T00:00:00.000Z",
+                            "times": Array [
+                              Array [
+                                Object {
+                                  "end": "1970-01-06T13:25:00.000Z",
+                                  "start": "1970-01-06T11:45:00.000Z",
+                                },
+                              ],
+                            ],
+                            "where": "Ryder Hall 431",
+                          },
+                        ],
+                        "online": false,
+                        "seatsCapacity": 19,
+                        "seatsRemaining": 0,
+                        "subject": "CS",
+                        "termId": "201810",
+                        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                        "waitCapacity": 0,
+                        "waitRemaining": 0,
+                      },
+                      "shouldShowExamColumns": false,
+                      "showWaitList": false,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": "tbody",
+              },
+            ],
+            "type": "table",
+          },
+          Object {
+            "instance": null,
+            "key": ".3",
+            "nodeType": "host",
+            "props": Object {
+              "children": "Show More...",
+              "className": "showMoreButton",
+              "onClick": [Function],
+              "role": "button",
+              "tabIndex": 0,
+            },
+            "ref": null,
+            "rendered": "Show More...",
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
 `;

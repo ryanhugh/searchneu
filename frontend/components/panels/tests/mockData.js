@@ -5,6 +5,7 @@
 
 
 import Class from '../../../../common/classModels/Class';
+import Section from '../../../../common/classModels/Section';
 
 
 // Contains a couple instances of classes
@@ -101,9 +102,9 @@ const cs0210 = Class.create({
 const sectionsForcs0210 = [
   {
     seatsCapacity: 25,
-    seatsRemaining: 25,
-    waitCapacity: 0,
-    waitRemaining: 0,
+    seatsRemaining: 0,
+    waitCapacity: 50,
+    waitRemaining: 2,
     online: false,
     url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=19389',
     crn: '19389',
@@ -400,7 +401,87 @@ const sectionsForcs1210 =
 cs1210.loadSectionsFromServerList(sectionsForcs1210);
 
 
+const WMNS4520section = Section.create({
+  seatsCapacity: 5,
+  seatsRemaining: 0,
+  waitCapacity: 0,
+  waitRemaining: 0,
+  online: false,
+  url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=17445',
+  crn: '17445',
+  meetings: [
+    {
+      startDate: 17415,
+      endDate: 17506,
+      profs: ['Christopher S. Chambers'],
+      where: 'Richards Hall 235',
+      type: 'Class',
+      times:
+        {
+          2: [
+            {
+              start: 48900,
+              end: 54900,
+            },
+          ],
+          5: [
+            {
+              start: 48900,
+              end: 54900,
+            },
+          ],
+        },
+      allProfs: ['Christopher S. Chambers'],
+    },
+    {
+      startDate: 17508,
+      endDate: 17508,
+      profs: ['Christopher S. Chambers'],
+      where: 'Kariotis Hall 102',
+      type: 'Final Exam',
+      times:
+        {
+          5: [
+            {
+              start: 28800,
+              end: 36000,
+            },
+          ],
+        },
+      allProfs: [
+        'Christopher S. Chambers',
+      ],
+    },
+  ],
+  lastUpdateTime: 1510778472444,
+  termId: '201810',
+  host: 'neu.edu',
+  subject: 'WMNS',
+  classId: '4520',
+  classUid: '4520_1145701999',
+});
+
+
+const razzaq = {
+  name: 'Leena Razzaq',
+  firstName: 'Leena',
+  lastName: 'Razzaq',
+  id: '001130930',
+  phone: '6173735797',
+  emails: ['l.razzaq@northeastern.edu', 'lrazzaq@ccs.neu.edu'],
+  primaryRole: 'Assistant Teaching Professor',
+  primaryDepartment: 'CCIS',
+  url: 'https://www.ccis.northeastern.edu/people/leena-razzaq/',
+  officeRoom: '132C Nightingale Hall',
+  officeStreetAddress: '105-107 Forsyth Street',
+  personalSite: 'http://www.ccs.neu.edu/home/lrazzaq/',
+  bigPictureUrl: 'https://www.ccis.northeastern.edu/wp-content/uploads/2016/02/Leena-Razzaq-hero-image.jpg',
+};
+
+
 export default {
   cs0210: cs0210,
   cs1210: cs1210,
+  razzaq: razzaq,
+  WMNS4520section: WMNS4520section,
 };

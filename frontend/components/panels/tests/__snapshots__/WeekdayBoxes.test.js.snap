@@ -1,24 +1,561 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should behave... 1`] = `
-<div
-  className="inlineBlock daysContainer"
-  data-tip="Meets on Tuesday, Friday"
->
-  <div
-    className="weekDayBox"
-  />
-  <div
-    className="weekDayBoxChecked weekDayBox"
-  />
-  <div
-    className="weekDayBox"
-  />
-  <div
-    className="weekDayBox"
-  />
-  <div
-    className="weekDayBoxChecked weekDayBox"
-  />
-</div>
+exports[`should render a section 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <WeekdayBoxes
+    section={
+      Section {
+        "classId": "4520",
+        "classUid": "4520_1145701999",
+        "crn": "17445",
+        "host": "neu.edu",
+        "lastUpdateTime": 1510778472444,
+        "meetings": Array [
+          Meeting {
+            "endDate": "2017-12-07T00:00:00.000Z",
+            "profs": Array [
+              "Christopher S. Chambers",
+            ],
+            "startDate": "2017-09-07T00:00:00.000Z",
+            "times": Array [
+              Array [
+                Object {
+                  "end": "1970-01-06T15:15:00.000Z",
+                  "start": "1970-01-06T13:35:00.000Z",
+                },
+                Object {
+                  "end": "1970-01-09T15:15:00.000Z",
+                  "start": "1970-01-09T13:35:00.000Z",
+                },
+              ],
+            ],
+            "where": "Richards Hall 235",
+          },
+          Meeting {
+            "endDate": "2017-12-09T00:00:00.000Z",
+            "profs": Array [
+              "Christopher S. Chambers",
+            ],
+            "startDate": "2017-12-09T00:00:00.000Z",
+            "times": Array [
+              Array [
+                Object {
+                  "end": "1970-01-09T10:00:00.000Z",
+                  "start": "1970-01-09T08:00:00.000Z",
+                },
+              ],
+            ],
+            "where": "Kariotis Hall 102",
+          },
+        ],
+        "online": false,
+        "seatsCapacity": 5,
+        "seatsRemaining": 0,
+        "subject": "WMNS",
+        "termId": "201810",
+        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=17445",
+        "waitCapacity": 0,
+        "waitRemaining": 0,
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="weekDayBox"
+        />,
+        <div
+          className="weekDayBoxChecked weekDayBox"
+        />,
+        <div
+          className="weekDayBox"
+        />,
+        <div
+          className="weekDayBox"
+        />,
+        <div
+          className="weekDayBoxChecked weekDayBox"
+        />,
+      ],
+      "className": "inlineBlock daysContainer",
+      "data-tip": "Meets on Tuesday, Friday",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": "0",
+        "nodeType": "host",
+        "props": Object {
+          "className": "weekDayBox",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": "1",
+        "nodeType": "host",
+        "props": Object {
+          "className": "weekDayBoxChecked weekDayBox",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": "2",
+        "nodeType": "host",
+        "props": Object {
+          "className": "weekDayBox",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": "3",
+        "nodeType": "host",
+        "props": Object {
+          "className": "weekDayBox",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": "4",
+        "nodeType": "host",
+        "props": Object {
+          "className": "weekDayBoxChecked weekDayBox",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="weekDayBox"
+          />,
+          <div
+            className="weekDayBoxChecked weekDayBox"
+          />,
+          <div
+            className="weekDayBox"
+          />,
+          <div
+            className="weekDayBox"
+          />,
+          <div
+            className="weekDayBoxChecked weekDayBox"
+          />,
+        ],
+        "className": "inlineBlock daysContainer",
+        "data-tip": "Meets on Tuesday, Friday",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": "0",
+          "nodeType": "host",
+          "props": Object {
+            "className": "weekDayBox",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": "1",
+          "nodeType": "host",
+          "props": Object {
+            "className": "weekDayBoxChecked weekDayBox",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": "2",
+          "nodeType": "host",
+          "props": Object {
+            "className": "weekDayBox",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": "3",
+          "nodeType": "host",
+          "props": Object {
+            "className": "weekDayBox",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": "4",
+          "nodeType": "host",
+          "props": Object {
+            "className": "weekDayBoxChecked weekDayBox",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
+
+exports[`should render another section 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <WeekdayBoxes
+    section={
+      Section {
+        "classId": "0210",
+        "classUid": "0210_1437780647",
+        "crn": "19389",
+        "host": "neu.edu",
+        "lastUpdateTime": 1511131913601,
+        "meetings": Array [
+          Meeting {
+            "endDate": "2017-11-05T00:00:00.000Z",
+            "profs": Array [
+              "TBA",
+            ],
+            "startDate": "2017-11-05T00:00:00.000Z",
+            "times": Array [
+              Array [
+                Object {
+                  "end": "1970-01-10T12:00:00.000Z",
+                  "start": "1970-01-10T09:00:00.000Z",
+                },
+              ],
+            ],
+            "where": "TBA",
+          },
+          Meeting {
+            "endDate": "2017-11-08T00:00:00.000Z",
+            "profs": Array [
+              "TBA",
+            ],
+            "startDate": "2017-11-08T00:00:00.000Z",
+            "times": Array [
+              Array [
+                Object {
+                  "end": "1970-01-06T21:00:00.000Z",
+                  "start": "1970-01-06T18:00:00.000Z",
+                },
+              ],
+            ],
+            "where": "TBA",
+          },
+          Meeting {
+            "endDate": "2017-12-01T00:00:00.000Z",
+            "profs": Array [
+              "TBA",
+            ],
+            "startDate": "2017-12-01T00:00:00.000Z",
+            "times": Array [
+              Array [
+                Object {
+                  "end": "1970-01-08T21:00:00.000Z",
+                  "start": "1970-01-08T18:00:00.000Z",
+                },
+              ],
+            ],
+            "where": "TBA",
+          },
+          Meeting {
+            "endDate": "2017-12-03T00:00:00.000Z",
+            "profs": Array [
+              "TBA",
+            ],
+            "startDate": "2017-12-03T00:00:00.000Z",
+            "times": Array [
+              Array [
+                Object {
+                  "end": "1970-01-10T12:00:00.000Z",
+                  "start": "1970-01-10T09:00:00.000Z",
+                },
+              ],
+            ],
+            "where": "TBA",
+          },
+          Meeting {
+            "endDate": "2017-12-08T00:00:00.000Z",
+            "profs": Array [
+              "TBA",
+            ],
+            "startDate": "2017-12-08T00:00:00.000Z",
+            "times": Array [
+              Array [
+                Object {
+                  "end": "1970-01-08T21:00:00.000Z",
+                  "start": "1970-01-08T18:00:00.000Z",
+                },
+              ],
+            ],
+            "where": "TBA",
+          },
+          Meeting {
+            "endDate": "2017-12-10T00:00:00.000Z",
+            "profs": Array [
+              "TBA",
+            ],
+            "startDate": "2017-12-10T00:00:00.000Z",
+            "times": Array [
+              Array [
+                Object {
+                  "end": "1970-01-10T12:00:00.000Z",
+                  "start": "1970-01-10T09:00:00.000Z",
+                },
+              ],
+            ],
+            "where": "TBA",
+          },
+        ],
+        "online": false,
+        "seatsCapacity": 25,
+        "seatsRemaining": 0,
+        "subject": "CS",
+        "termId": "201810",
+        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=19389",
+        "waitCapacity": 50,
+        "waitRemaining": 2,
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="weekDayBox"
+        />,
+        <div
+          className="weekDayBox"
+        />,
+        <div
+          className="weekDayBox"
+        />,
+        <div
+          className="weekDayBox"
+        />,
+        <div
+          className="weekDayBox"
+        />,
+      ],
+      "className": "inlineBlock daysContainer",
+      "data-tip": "No Meetings found",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": "0",
+        "nodeType": "host",
+        "props": Object {
+          "className": "weekDayBox",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": "1",
+        "nodeType": "host",
+        "props": Object {
+          "className": "weekDayBox",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": "2",
+        "nodeType": "host",
+        "props": Object {
+          "className": "weekDayBox",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": "3",
+        "nodeType": "host",
+        "props": Object {
+          "className": "weekDayBox",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": "4",
+        "nodeType": "host",
+        "props": Object {
+          "className": "weekDayBox",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="weekDayBox"
+          />,
+          <div
+            className="weekDayBox"
+          />,
+          <div
+            className="weekDayBox"
+          />,
+          <div
+            className="weekDayBox"
+          />,
+          <div
+            className="weekDayBox"
+          />,
+        ],
+        "className": "inlineBlock daysContainer",
+        "data-tip": "No Meetings found",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": "0",
+          "nodeType": "host",
+          "props": Object {
+            "className": "weekDayBox",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": "1",
+          "nodeType": "host",
+          "props": Object {
+            "className": "weekDayBox",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": "2",
+          "nodeType": "host",
+          "props": Object {
+            "className": "weekDayBox",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": "3",
+          "nodeType": "host",
+          "props": Object {
+            "className": "weekDayBox",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": "4",
+          "nodeType": "host",
+          "props": Object {
+            "className": "weekDayBox",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
 `;

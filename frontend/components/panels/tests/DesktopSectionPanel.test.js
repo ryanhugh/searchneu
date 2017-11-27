@@ -4,16 +4,21 @@
  */
 
 import React from 'react';
-import ShallowRenderer from 'react-test-renderer/shallow';
+
+import Enzyme, { shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 
 import mockData from './mockData';
 import DesktopSectionPanel from '../DesktopSectionPanel';
 
-it('should render some stuff', () => {
-  const renderer = new ShallowRenderer();
-  renderer.render(<DesktopSectionPanel shouldShowExamColumns={ false } showWaitList={ false } section={ mockData.cs1210.sections[0] } />);
-  const result = renderer.getRenderOutput();
+Enzyme.configure({ adapter: new Adapter() });
 
+it('should render a section', () => {
+  const result = shallow(<DesktopSectionPanel shouldShowExamColumns={ false } showWaitList={ false } section={ mockData.cs1210.sections[0] } />);
   expect(result).toMatchSnapshot();
 });
 
+it('should render another section', () => {
+  const result = shallow(<DesktopSectionPanel shouldShowExamColumns={ false } showWaitList={ false } section={ mockData.cs1210.sections[1] } />);
+  expect(result).toMatchSnapshot();
+});
