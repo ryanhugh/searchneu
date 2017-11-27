@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should not render a show more button 1`] = `null`;
+
+exports[`should render a button 1`] = `
+<div
+  className="showMoreButton"
+  onClick={[Function]}
+  role="button"
+  tabIndex={0}
+>
+  Show More...
+</div>
+`;
+
+exports[`should render coreqs string 1`] = `
+Array [
+  <a
+    className="reqClassLink"
+    onClick={[Function]}
+    role="link"
+    tabIndex={0}
+  >
+    CHEM 3506
+  </a>,
+  " and ",
+  <a
+    className="reqClassLink"
+    onClick={[Function]}
+    role="link"
+    tabIndex={0}
+  >
+    CHEM 3507
+  </a>,
+]
+`;
+
+exports[`should render prereqs string 1`] = `
+Array [
+  Array [
+    "(",
+    Array [
+      <a
+        className="reqClassLink"
+        onClick={[Function]}
+        role="link"
+        tabIndex={0}
+      >
+        CHEM 3401
+      </a>,
+      " or ",
+      <a
+        className="reqClassLink"
+        onClick={[Function]}
+        role="link"
+        tabIndex={0}
+      >
+        CHEM 3431
+      </a>,
+    ],
+    ")",
+  ],
+  " and ",
+  Array [
+    "(",
+    Array [
+      <a
+        className="reqClassLink"
+        onClick={[Function]}
+        role="link"
+        tabIndex={0}
+      >
+        CHEM 2321
+      </a>,
+      " or ",
+      <a
+        className="reqClassLink"
+        onClick={[Function]}
+        role="link"
+        tabIndex={0}
+      >
+        CHEM 2331
+      </a>,
+    ],
+    ")",
+  ],
+  " and ",
+  Array [
+    "(",
+    Array [
+      <a
+        className="reqClassLink"
+        onClick={[Function]}
+        role="link"
+        tabIndex={0}
+      >
+        CHEM 2313
+      </a>,
+      " or ",
+      <a
+        className="reqClassLink"
+        onClick={[Function]}
+        role="link"
+        tabIndex={0}
+      >
+        CHEM 2317
+      </a>,
+    ],
+    ")",
+  ],
+]
+`;

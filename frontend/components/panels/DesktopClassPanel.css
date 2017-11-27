@@ -46,9 +46,6 @@
     display: inline-block;
 }
 
-.sectionGlobe {
-    opacity: .7;
-}
 
 .classTitle {
     display: inline-block;
@@ -73,33 +70,9 @@
     text-align: center !important;
 }
 
-.onlineDivLineContainer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-}
 
-.onlineText {
-    /*font-weight: 600;*/
-    /*color: rgba(81, 84, 84, 0.75);*/
+.sectionTableFirstRow {
+    display: none;
+    padding-top: 0;
+    padding-bottom: 1px;
 }
-
-.onlineDivLine {
-    vertical-align: middle;
-    display: inline-block;
-    height: 2px;
-    background-color: rgba(9, 10, 10, 0.2);
-    width: calc(50% - 102px);
-    margin: 21px;
-}
-
-.onlineLeftLine {
-    margin-left: 36px
-}
-
-.wideOnlineCell {
-    position: relative;
-}
-
