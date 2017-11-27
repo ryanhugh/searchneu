@@ -157,7 +157,43 @@ class CombineCCISandEmployees {
         }
 
 
+        // Try to match by perfect name matches. If this fails then fallback to ghetto name matches.
+        if (matchesFound === 0 && peopleListIndex > 0) {
+          for (const matchedPerson of mergedPeopleList) {
+            const firstMatch = person.firstName.toLowerCase() === matchedPerson.firstName.toLowerCase();
+            const lastMatch = person.lastName.toLowerCase() === matchedPerson.lastName.toLowerCase();
+
+            // If both the first names and last names did not match, go to next person
+            if (!firstMatch || !lastMatch) {
+              continue;
+            }
+
+            // Final checks to see if it is ok to declare a match.
+            if (!this.okToMatch(matchedPerson, person, peopleListIndex)) {
+              macros.log('Not ok to perfect name match.', matchedPerson.firstName, matchedPerson.lastName, person.name);
+              continue;
+            }
+
+            // Found a match.
+            matchedPerson.matches.push(person);
+
+            // Update the emails array with the new emails from this person.
+            matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
+            matchedPerson.peopleListIndexMatches[peopleListIndex] = true;
+
+            macros.log('Matching:', person.firstName, person.lastName, ':', matchedPerson.firstName, matchedPerson.lastName);
+
+            // There should only be one match per person. Log a warning if there are more.
+            this.logAnalyticsEvent('matchedByPerfectName');
+            matchesFound++;
+            if (matchesFound > 1) {
+              macros.log('Warning 4: ', matchesFound, 'matches found', matchedPerson, person);
+            }
+          }
+        }
+
         // If a match was not found yet, try to match by name
+        // Skip the first data set (peopleListIndex > 0) because that would just be matching people with that same data set.
         if (matchesFound === 0 && peopleListIndex > 0) {
           // Now try to match by name
           // Every data source must have a person name, so no need to check if it is here or not.
