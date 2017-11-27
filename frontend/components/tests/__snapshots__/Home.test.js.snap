@@ -1,0 +1,3499 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render a section 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Home />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <a
+          className="githubCornerContainer"
+          href="https://github.com/ryanhugh/searchneu"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <svg
+            height="80"
+            viewBox="0 0 250 250"
+            width="80"
+          >
+            <path
+              d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"
+            />
+            <path
+              className="octopusArm"
+              d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor"
+            />
+            <path
+              d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor"
+            />
+             
+          </svg>
+        </a>,
+        <img
+          alt="logo"
+          className="logo"
+          onClick={[Function]}
+          src="file"
+        />,
+        <div
+          className="bostonContainer"
+          style={
+            Object {
+              "opacity": 0,
+            }
+          }
+        >
+          <img
+            alt="logo"
+            className="boston"
+            src="file"
+          />
+        </div>,
+        <div>
+          <div
+            className="ui center spacing aligned icon header topHeader"
+            style={
+              Object {
+                "transform": "translateY(calc(-50% + 230px))",
+              }
+            }
+          >
+            <div
+              className="centerTextContainer"
+            >
+              <h1
+                className="title"
+              >
+                Search For Northeastern
+              </h1>
+              <p
+                className="subtitle"
+              >
+                Search for classes, professors, subjects, etc.
+              </p>
+              <div>
+                <div
+                  className="sub header searchWrapper"
+                >
+                  <label
+                    htmlFor="search_id"
+                  >
+                    <i
+                      className="search icon"
+                    />
+                  </label>
+                  <input
+                    autoComplete="off"
+                    className="searchBox"
+                    defaultValue="lank"
+                    id="seach_id"
+                    onChange={[Function]}
+                    onKeyDown={[Function]}
+                    spellCheck="false"
+                    tabIndex="0"
+                    type="search"
+                  />
+                </div>
+                <Dropdown
+                  additionLabel="Add "
+                  additionPosition="top"
+                  className="termDropdown"
+                  closeOnBlur={true}
+                  deburr={false}
+                  defaultValue="201830"
+                  fluid={true}
+                  icon="dropdown"
+                  minCharacters={1}
+                  noResultsMessage="No results found."
+                  onChange={[Function]}
+                  openOnFocus={true}
+                  options={
+                    Array [
+                      Object {
+                        "text": "Fall 2017",
+                        "value": "201810",
+                      },
+                      Object {
+                        "text": "Spring 2018",
+                        "value": "201830",
+                      },
+                    ]
+                  }
+                  placeholder="Spring 2018"
+                  renderLabel={[Function]}
+                  searchInput="text"
+                  selectOnBlur={true}
+                  selectOnNavigation={true}
+                  selection={true}
+                />
+              </div>
+            </div>
+          </div>
+        </div>,
+        <div
+          className="resultsContainer"
+          style={
+            Object {
+              "transform": "translateY(-463px)",
+            }
+          }
+        >
+          <div>
+            <span
+              className="splashPage"
+            >
+               
+              <SplashPage />
+               
+            </span>
+          </div>
+          <div
+            className="botttomPadding"
+          />
+          <div
+            className="footer"
+          >
+            <div
+              className="footer ui basic center aligned segment"
+            >
+              See an issue or want to add to this website? Fork it or create an issue on
+              <a
+                href="https://github.com/ryanhugh/searchneu"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                 GitHub
+              </a>
+              .
+            </div>
+            <div
+              className="ui divider"
+            />
+            <div
+              className="footer ui basic center aligned segment credits"
+            >
+              Made with coffee 
+              <i
+                className="coffee circular small icon"
+              />
+              by 
+              <a
+                href="http://github.com/ryanhugh"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Ryan Hughes
+              </a>
+               and love 
+              <i
+                className="heart circular small icon"
+              />
+              from some awesome 
+              <a
+                href="https://github.com/ryanhugh/searchneu/graphs/contributors"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Contributors
+              </a>
+              .
+            </div>
+            <div
+              className="footer ui basic center aligned segment contact"
+            >
+              <a
+                onClick={[Function]}
+                role="button"
+                tabIndex={0}
+              >
+                Feedback
+              </a>
+               • 
+              <a
+                onClick={[Function]}
+                role="button"
+                tabIndex={0}
+              >
+                Report a bug
+              </a>
+               • 
+              <a
+                onClick={[Function]}
+                role="button"
+                tabIndex={0}
+              >
+                Contact
+              </a>
+            </div>
+          </div>
+        </div>,
+        <Modal
+          closeOnDimmerClick={true}
+          closeOnDocumentClick={false}
+          dimmer={true}
+          eventPool="Modal"
+          onClose={[Function]}
+          open={false}
+          size="small"
+        >
+          <Header
+            content="Search NEU Feedback"
+            icon="mail"
+          />
+          <ModalContent
+            className="formModalContent"
+          >
+            <Form
+              action="https://formspree.io/ryanhughes624@gmail.com"
+              as="form"
+              id="feedbackForm"
+              method="POST"
+            >
+              <div
+                className="feedbackParagraph"
+              >
+                Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+              </div>
+              <TextArea
+                as="textarea"
+                className="feedbackTextbox"
+                form="feedbackForm"
+                name="response"
+                rows={3}
+              />
+              <p>
+                By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+              </p>
+              <Input
+                className="formModalInput"
+                form="feedbackForm"
+                name="contact"
+                type="text"
+              />
+            </Form>
+          </ModalContent>
+          <ModalActions>
+            <Button
+              as="button"
+              basic={true}
+              color="red"
+              onClick={[Function]}
+            >
+              <Icon
+                as="i"
+                name="remove"
+              />
+              Cancel
+            </Button>
+            <Button
+              as="button"
+              color="green"
+              form="feedbackForm"
+              type="submit"
+              value="Send"
+            >
+              <Icon
+                as="i"
+                name="checkmark"
+              />
+              Submit
+            </Button>
+          </ModalActions>
+        </Modal>,
+        <ReactTooltip
+          className="listIconTooltip"
+          effect="solid"
+          insecure={true}
+          resizeHide={true}
+          wrapper="div"
+        />,
+      ],
+      "className": "",
+      "style": Object {
+        "height": "100%",
+      },
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": ".0",
+        "nodeType": "host",
+        "props": Object {
+          "children": <svg
+            height="80"
+            viewBox="0 0 250 250"
+            width="80"
+          >
+            <path
+              d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"
+            />
+            <path
+              className="octopusArm"
+              d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor"
+            />
+            <path
+              d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor"
+            />
+             
+          </svg>,
+          "className": "githubCornerContainer",
+          "href": "https://github.com/ryanhugh/searchneu",
+          "rel": "noopener noreferrer",
+          "target": "_blank",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <path
+                d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"
+              />,
+              <path
+                className="octopusArm"
+                d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+                fill="currentColor"
+              />,
+              <path
+                d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+                fill="currentColor"
+              />,
+              " ",
+            ],
+            "height": "80",
+            "viewBox": "0 0 250 250",
+            "width": "80",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": ".0",
+              "nodeType": "host",
+              "props": Object {
+                "d": "M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "path",
+            },
+            Object {
+              "instance": null,
+              "key": ".1",
+              "nodeType": "host",
+              "props": Object {
+                "className": "octopusArm",
+                "d": "M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2",
+                "fill": "currentColor",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "path",
+            },
+            Object {
+              "instance": null,
+              "key": ".2",
+              "nodeType": "host",
+              "props": Object {
+                "d": "M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z",
+                "fill": "currentColor",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "path",
+            },
+            " ",
+          ],
+          "type": "svg",
+        },
+        "type": "a",
+      },
+      Object {
+        "instance": null,
+        "key": ".1",
+        "nodeType": "host",
+        "props": Object {
+          "alt": "logo",
+          "className": "logo",
+          "onClick": [Function],
+          "src": "file",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": "img",
+      },
+      Object {
+        "instance": null,
+        "key": ".2",
+        "nodeType": "host",
+        "props": Object {
+          "children": <img
+            alt="logo"
+            className="boston"
+            src="file"
+          />,
+          "className": "bostonContainer",
+          "style": Object {
+            "opacity": 0,
+          },
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "alt": "logo",
+            "className": "boston",
+            "src": "file",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "img",
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": ".3",
+        "nodeType": "host",
+        "props": Object {
+          "children": <div
+            className="ui center spacing aligned icon header topHeader"
+            style={
+              Object {
+                "transform": "translateY(calc(-50% + 230px))",
+              }
+            }
+          >
+            <div
+              className="centerTextContainer"
+            >
+              <h1
+                className="title"
+              >
+                Search For Northeastern
+              </h1>
+              <p
+                className="subtitle"
+              >
+                Search for classes, professors, subjects, etc.
+              </p>
+              <div>
+                <div
+                  className="sub header searchWrapper"
+                >
+                  <label
+                    htmlFor="search_id"
+                  >
+                    <i
+                      className="search icon"
+                    />
+                  </label>
+                  <input
+                    autoComplete="off"
+                    className="searchBox"
+                    defaultValue="lank"
+                    id="seach_id"
+                    onChange={[Function]}
+                    onKeyDown={[Function]}
+                    spellCheck="false"
+                    tabIndex="0"
+                    type="search"
+                  />
+                </div>
+                <Dropdown
+                  additionLabel="Add "
+                  additionPosition="top"
+                  className="termDropdown"
+                  closeOnBlur={true}
+                  deburr={false}
+                  defaultValue="201830"
+                  fluid={true}
+                  icon="dropdown"
+                  minCharacters={1}
+                  noResultsMessage="No results found."
+                  onChange={[Function]}
+                  openOnFocus={true}
+                  options={
+                    Array [
+                      Object {
+                        "text": "Fall 2017",
+                        "value": "201810",
+                      },
+                      Object {
+                        "text": "Spring 2018",
+                        "value": "201830",
+                      },
+                    ]
+                  }
+                  placeholder="Spring 2018"
+                  renderLabel={[Function]}
+                  searchInput="text"
+                  selectOnBlur={true}
+                  selectOnNavigation={true}
+                  selection={true}
+                />
+              </div>
+            </div>
+          </div>,
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <div
+              className="centerTextContainer"
+            >
+              <h1
+                className="title"
+              >
+                Search For Northeastern
+              </h1>
+              <p
+                className="subtitle"
+              >
+                Search for classes, professors, subjects, etc.
+              </p>
+              <div>
+                <div
+                  className="sub header searchWrapper"
+                >
+                  <label
+                    htmlFor="search_id"
+                  >
+                    <i
+                      className="search icon"
+                    />
+                  </label>
+                  <input
+                    autoComplete="off"
+                    className="searchBox"
+                    defaultValue="lank"
+                    id="seach_id"
+                    onChange={[Function]}
+                    onKeyDown={[Function]}
+                    spellCheck="false"
+                    tabIndex="0"
+                    type="search"
+                  />
+                </div>
+                <Dropdown
+                  additionLabel="Add "
+                  additionPosition="top"
+                  className="termDropdown"
+                  closeOnBlur={true}
+                  deburr={false}
+                  defaultValue="201830"
+                  fluid={true}
+                  icon="dropdown"
+                  minCharacters={1}
+                  noResultsMessage="No results found."
+                  onChange={[Function]}
+                  openOnFocus={true}
+                  options={
+                    Array [
+                      Object {
+                        "text": "Fall 2017",
+                        "value": "201810",
+                      },
+                      Object {
+                        "text": "Spring 2018",
+                        "value": "201830",
+                      },
+                    ]
+                  }
+                  placeholder="Spring 2018"
+                  renderLabel={[Function]}
+                  searchInput="text"
+                  selectOnBlur={true}
+                  selectOnNavigation={true}
+                  selection={true}
+                />
+              </div>
+            </div>,
+            "className": "ui center spacing aligned icon header topHeader",
+            "style": Object {
+              "transform": "translateY(calc(-50% + 230px))",
+            },
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <h1
+                  className="title"
+                >
+                  Search For Northeastern
+                </h1>,
+                <p
+                  className="subtitle"
+                >
+                  Search for classes, professors, subjects, etc.
+                </p>,
+                <div>
+                  <div
+                    className="sub header searchWrapper"
+                  >
+                    <label
+                      htmlFor="search_id"
+                    >
+                      <i
+                        className="search icon"
+                      />
+                    </label>
+                    <input
+                      autoComplete="off"
+                      className="searchBox"
+                      defaultValue="lank"
+                      id="seach_id"
+                      onChange={[Function]}
+                      onKeyDown={[Function]}
+                      spellCheck="false"
+                      tabIndex="0"
+                      type="search"
+                    />
+                  </div>
+                  <Dropdown
+                    additionLabel="Add "
+                    additionPosition="top"
+                    className="termDropdown"
+                    closeOnBlur={true}
+                    deburr={false}
+                    defaultValue="201830"
+                    fluid={true}
+                    icon="dropdown"
+                    minCharacters={1}
+                    noResultsMessage="No results found."
+                    onChange={[Function]}
+                    openOnFocus={true}
+                    options={
+                      Array [
+                        Object {
+                          "text": "Fall 2017",
+                          "value": "201810",
+                        },
+                        Object {
+                          "text": "Spring 2018",
+                          "value": "201830",
+                        },
+                      ]
+                    }
+                    placeholder="Spring 2018"
+                    renderLabel={[Function]}
+                    searchInput="text"
+                    selectOnBlur={true}
+                    selectOnNavigation={true}
+                    selection={true}
+                  />
+                </div>,
+              ],
+              "className": "centerTextContainer",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": ".0",
+                "nodeType": "host",
+                "props": Object {
+                  "children": "Search For Northeastern",
+                  "className": "title",
+                },
+                "ref": null,
+                "rendered": "Search For Northeastern",
+                "type": "h1",
+              },
+              Object {
+                "instance": null,
+                "key": ".1",
+                "nodeType": "host",
+                "props": Object {
+                  "children": "Search for classes, professors, subjects, etc.",
+                  "className": "subtitle",
+                },
+                "ref": null,
+                "rendered": "Search for classes, professors, subjects, etc.",
+                "type": "p",
+              },
+              Object {
+                "instance": null,
+                "key": ".2",
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <div
+                      className="sub header searchWrapper"
+                    >
+                      <label
+                        htmlFor="search_id"
+                      >
+                        <i
+                          className="search icon"
+                        />
+                      </label>
+                      <input
+                        autoComplete="off"
+                        className="searchBox"
+                        defaultValue="lank"
+                        id="seach_id"
+                        onChange={[Function]}
+                        onKeyDown={[Function]}
+                        spellCheck="false"
+                        tabIndex="0"
+                        type="search"
+                      />
+                    </div>,
+                    <Dropdown
+                      additionLabel="Add "
+                      additionPosition="top"
+                      className="termDropdown"
+                      closeOnBlur={true}
+                      deburr={false}
+                      defaultValue="201830"
+                      fluid={true}
+                      icon="dropdown"
+                      minCharacters={1}
+                      noResultsMessage="No results found."
+                      onChange={[Function]}
+                      openOnFocus={true}
+                      options={
+                        Array [
+                          Object {
+                            "text": "Fall 2017",
+                            "value": "201810",
+                          },
+                          Object {
+                            "text": "Spring 2018",
+                            "value": "201830",
+                          },
+                        ]
+                      }
+                      placeholder="Spring 2018"
+                      renderLabel={[Function]}
+                      searchInput="text"
+                      selectOnBlur={true}
+                      selectOnNavigation={true}
+                      selection={true}
+                    />,
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": ".0",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        <label
+                          htmlFor="search_id"
+                        >
+                          <i
+                            className="search icon"
+                          />
+                        </label>,
+                        <input
+                          autoComplete="off"
+                          className="searchBox"
+                          defaultValue="lank"
+                          id="seach_id"
+                          onChange={[Function]}
+                          onKeyDown={[Function]}
+                          spellCheck="false"
+                          tabIndex="0"
+                          type="search"
+                        />,
+                      ],
+                      "className": "sub header searchWrapper",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": ".0",
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": <i
+                            className="search icon"
+                          />,
+                          "htmlFor": "search_id",
+                        },
+                        "ref": null,
+                        "rendered": Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "className": "search icon",
+                          },
+                          "ref": null,
+                          "rendered": null,
+                          "type": "i",
+                        },
+                        "type": "label",
+                      },
+                      Object {
+                        "instance": null,
+                        "key": ".1",
+                        "nodeType": "host",
+                        "props": Object {
+                          "autoComplete": "off",
+                          "className": "searchBox",
+                          "defaultValue": "lank",
+                          "id": "seach_id",
+                          "onChange": [Function],
+                          "onKeyDown": [Function],
+                          "spellCheck": "false",
+                          "tabIndex": "0",
+                          "type": "search",
+                        },
+                        "ref": [Function],
+                        "rendered": null,
+                        "type": "input",
+                      },
+                    ],
+                    "type": "div",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".1",
+                    "nodeType": "class",
+                    "props": Object {
+                      "additionLabel": "Add ",
+                      "additionPosition": "top",
+                      "className": "termDropdown",
+                      "closeOnBlur": true,
+                      "deburr": false,
+                      "defaultValue": "201830",
+                      "fluid": true,
+                      "icon": "dropdown",
+                      "minCharacters": 1,
+                      "noResultsMessage": "No results found.",
+                      "onChange": [Function],
+                      "openOnFocus": true,
+                      "options": Array [
+                        Object {
+                          "text": "Fall 2017",
+                          "value": "201810",
+                        },
+                        Object {
+                          "text": "Spring 2018",
+                          "value": "201830",
+                        },
+                      ],
+                      "placeholder": "Spring 2018",
+                      "renderLabel": [Function],
+                      "searchInput": "text",
+                      "selectOnBlur": true,
+                      "selectOnNavigation": true,
+                      "selection": true,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": "div",
+              },
+            ],
+            "type": "div",
+          },
+          "type": "div",
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": ".4",
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div>
+              <span
+                className="splashPage"
+              >
+                 
+                <SplashPage />
+                 
+              </span>
+            </div>,
+            <div
+              className="botttomPadding"
+            />,
+            <div
+              className="footer"
+            >
+              <div
+                className="footer ui basic center aligned segment"
+              >
+                See an issue or want to add to this website? Fork it or create an issue on
+                <a
+                  href="https://github.com/ryanhugh/searchneu"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                   GitHub
+                </a>
+                .
+              </div>
+              <div
+                className="ui divider"
+              />
+              <div
+                className="footer ui basic center aligned segment credits"
+              >
+                Made with coffee 
+                <i
+                  className="coffee circular small icon"
+                />
+                by 
+                <a
+                  href="http://github.com/ryanhugh"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Ryan Hughes
+                </a>
+                 and love 
+                <i
+                  className="heart circular small icon"
+                />
+                from some awesome 
+                <a
+                  href="https://github.com/ryanhugh/searchneu/graphs/contributors"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Contributors
+                </a>
+                .
+              </div>
+              <div
+                className="footer ui basic center aligned segment contact"
+              >
+                <a
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  Feedback
+                </a>
+                 • 
+                <a
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  Report a bug
+                </a>
+                 • 
+                <a
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  Contact
+                </a>
+              </div>
+            </div>,
+          ],
+          "className": "resultsContainer",
+          "style": Object {
+            "transform": "translateY(-463px)",
+          },
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": ".0",
+            "nodeType": "host",
+            "props": Object {
+              "children": <span
+                className="splashPage"
+              >
+                 
+                <SplashPage />
+                 
+              </span>,
+            },
+            "ref": [Function],
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  " ",
+                  <SplashPage />,
+                  " ",
+                ],
+                "className": "splashPage",
+              },
+              "ref": null,
+              "rendered": Array [
+                " ",
+                Object {
+                  "instance": null,
+                  "key": ".1",
+                  "nodeType": "function",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                " ",
+              ],
+              "type": "span",
+            },
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": ".1",
+            "nodeType": "host",
+            "props": Object {
+              "className": "botttomPadding",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": ".2",
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <div
+                  className="footer ui basic center aligned segment"
+                >
+                  See an issue or want to add to this website? Fork it or create an issue on
+                  <a
+                    href="https://github.com/ryanhugh/searchneu"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                     GitHub
+                  </a>
+                  .
+                </div>,
+                <div
+                  className="ui divider"
+                />,
+                <div
+                  className="footer ui basic center aligned segment credits"
+                >
+                  Made with coffee 
+                  <i
+                    className="coffee circular small icon"
+                  />
+                  by 
+                  <a
+                    href="http://github.com/ryanhugh"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Ryan Hughes
+                  </a>
+                   and love 
+                  <i
+                    className="heart circular small icon"
+                  />
+                  from some awesome 
+                  <a
+                    href="https://github.com/ryanhugh/searchneu/graphs/contributors"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Contributors
+                  </a>
+                  .
+                </div>,
+                <div
+                  className="footer ui basic center aligned segment contact"
+                >
+                  <a
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    Feedback
+                  </a>
+                   • 
+                  <a
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    Report a bug
+                  </a>
+                   • 
+                  <a
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    Contact
+                  </a>
+                </div>,
+              ],
+              "className": "footer",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": ".0",
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    "See an issue or want to add to this website? Fork it or create an issue on",
+                    <a
+                      href="https://github.com/ryanhugh/searchneu"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                       GitHub
+                    </a>,
+                    ".",
+                  ],
+                  "className": "footer ui basic center aligned segment",
+                },
+                "ref": null,
+                "rendered": Array [
+                  "See an issue or want to add to this website? Fork it or create an issue on",
+                  Object {
+                    "instance": null,
+                    "key": ".1",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": " GitHub",
+                      "href": "https://github.com/ryanhugh/searchneu",
+                      "rel": "noopener noreferrer",
+                      "target": "_blank",
+                    },
+                    "ref": null,
+                    "rendered": " GitHub",
+                    "type": "a",
+                  },
+                  ".",
+                ],
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": ".1",
+                "nodeType": "host",
+                "props": Object {
+                  "className": "ui divider",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": ".2",
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    "Made with coffee ",
+                    <i
+                      className="coffee circular small icon"
+                    />,
+                    "by ",
+                    <a
+                      href="http://github.com/ryanhugh"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      Ryan Hughes
+                    </a>,
+                    " and love ",
+                    <i
+                      className="heart circular small icon"
+                    />,
+                    "from some awesome ",
+                    <a
+                      href="https://github.com/ryanhugh/searchneu/graphs/contributors"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      Contributors
+                    </a>,
+                    ".",
+                  ],
+                  "className": "footer ui basic center aligned segment credits",
+                },
+                "ref": null,
+                "rendered": Array [
+                  "Made with coffee ",
+                  Object {
+                    "instance": null,
+                    "key": ".1",
+                    "nodeType": "host",
+                    "props": Object {
+                      "className": "coffee circular small icon",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": "i",
+                  },
+                  "by ",
+                  Object {
+                    "instance": null,
+                    "key": ".3",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Ryan Hughes",
+                      "href": "http://github.com/ryanhugh",
+                      "rel": "noopener noreferrer",
+                      "target": "_blank",
+                    },
+                    "ref": null,
+                    "rendered": "Ryan Hughes",
+                    "type": "a",
+                  },
+                  " and love ",
+                  Object {
+                    "instance": null,
+                    "key": ".5",
+                    "nodeType": "host",
+                    "props": Object {
+                      "className": "heart circular small icon",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": "i",
+                  },
+                  "from some awesome ",
+                  Object {
+                    "instance": null,
+                    "key": ".7",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Contributors",
+                      "href": "https://github.com/ryanhugh/searchneu/graphs/contributors",
+                      "rel": "noopener noreferrer",
+                      "target": "_blank",
+                    },
+                    "ref": null,
+                    "rendered": "Contributors",
+                    "type": "a",
+                  },
+                  ".",
+                ],
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": ".3",
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <a
+                      onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      Feedback
+                    </a>,
+                    " • ",
+                    <a
+                      onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      Report a bug
+                    </a>,
+                    " • ",
+                    <a
+                      onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      Contact
+                    </a>,
+                  ],
+                  "className": "footer ui basic center aligned segment contact",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": ".0",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Feedback",
+                      "onClick": [Function],
+                      "role": "button",
+                      "tabIndex": 0,
+                    },
+                    "ref": null,
+                    "rendered": "Feedback",
+                    "type": "a",
+                  },
+                  " • ",
+                  Object {
+                    "instance": null,
+                    "key": ".2",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Report a bug",
+                      "onClick": [Function],
+                      "role": "button",
+                      "tabIndex": 0,
+                    },
+                    "ref": null,
+                    "rendered": "Report a bug",
+                    "type": "a",
+                  },
+                  " • ",
+                  Object {
+                    "instance": null,
+                    "key": ".4",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Contact",
+                      "onClick": [Function],
+                      "role": "button",
+                      "tabIndex": 0,
+                    },
+                    "ref": null,
+                    "rendered": "Contact",
+                    "type": "a",
+                  },
+                ],
+                "type": "div",
+              },
+            ],
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": ".5",
+        "nodeType": "class",
+        "props": Object {
+          "children": Array [
+            <Header
+              content="Search NEU Feedback"
+              icon="mail"
+            />,
+            <ModalContent
+              className="formModalContent"
+            >
+              <Form
+                action="https://formspree.io/ryanhughes624@gmail.com"
+                as="form"
+                id="feedbackForm"
+                method="POST"
+              >
+                <div
+                  className="feedbackParagraph"
+                >
+                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                </div>
+                <TextArea
+                  as="textarea"
+                  className="feedbackTextbox"
+                  form="feedbackForm"
+                  name="response"
+                  rows={3}
+                />
+                <p>
+                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                </p>
+                <Input
+                  className="formModalInput"
+                  form="feedbackForm"
+                  name="contact"
+                  type="text"
+                />
+              </Form>
+            </ModalContent>,
+            <ModalActions>
+              <Button
+                as="button"
+                basic={true}
+                color="red"
+                onClick={[Function]}
+              >
+                <Icon
+                  as="i"
+                  name="remove"
+                />
+                Cancel
+              </Button>
+              <Button
+                as="button"
+                color="green"
+                form="feedbackForm"
+                type="submit"
+                value="Send"
+              >
+                <Icon
+                  as="i"
+                  name="checkmark"
+                />
+                Submit
+              </Button>
+            </ModalActions>,
+          ],
+          "closeOnDimmerClick": true,
+          "closeOnDocumentClick": false,
+          "dimmer": true,
+          "eventPool": "Modal",
+          "onClose": [Function],
+          "open": false,
+          "size": "small",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": ".0",
+            "nodeType": "function",
+            "props": Object {
+              "content": "Search NEU Feedback",
+              "icon": "mail",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": ".1",
+            "nodeType": "function",
+            "props": Object {
+              "children": <Form
+                action="https://formspree.io/ryanhughes624@gmail.com"
+                as="form"
+                id="feedbackForm"
+                method="POST"
+              >
+                <div
+                  className="feedbackParagraph"
+                >
+                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                </div>
+                <TextArea
+                  as="textarea"
+                  className="feedbackTextbox"
+                  form="feedbackForm"
+                  name="response"
+                  rows={3}
+                />
+                <p>
+                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                </p>
+                <Input
+                  className="formModalInput"
+                  form="feedbackForm"
+                  name="contact"
+                  type="text"
+                />
+              </Form>,
+              "className": "formModalContent",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "action": "https://formspree.io/ryanhughes624@gmail.com",
+                "as": "form",
+                "children": Array [
+                  <div
+                    className="feedbackParagraph"
+                  >
+                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  </div>,
+                  <TextArea
+                    as="textarea"
+                    className="feedbackTextbox"
+                    form="feedbackForm"
+                    name="response"
+                    rows={3}
+                  />,
+                  <p>
+                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                  </p>,
+                  <Input
+                    className="formModalInput"
+                    form="feedbackForm"
+                    name="contact"
+                    type="text"
+                  />,
+                ],
+                "id": "feedbackForm",
+                "method": "POST",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": ".0",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                    "className": "feedbackParagraph",
+                  },
+                  "ref": null,
+                  "rendered": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".1",
+                  "nodeType": "class",
+                  "props": Object {
+                    "as": "textarea",
+                    "className": "feedbackTextbox",
+                    "form": "feedbackForm",
+                    "name": "response",
+                    "rows": 3,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": ".2",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
+                  },
+                  "ref": null,
+                  "rendered": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
+                  "type": "p",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".3",
+                  "nodeType": "class",
+                  "props": Object {
+                    "className": "formModalInput",
+                    "form": "feedbackForm",
+                    "name": "contact",
+                    "type": "text",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": ".2",
+            "nodeType": "class",
+            "props": Object {
+              "children": Array [
+                <Button
+                  as="button"
+                  basic={true}
+                  color="red"
+                  onClick={[Function]}
+                >
+                  <Icon
+                    as="i"
+                    name="remove"
+                  />
+                  Cancel
+                </Button>,
+                <Button
+                  as="button"
+                  color="green"
+                  form="feedbackForm"
+                  type="submit"
+                  value="Send"
+                >
+                  <Icon
+                    as="i"
+                    name="checkmark"
+                  />
+                  Submit
+                </Button>,
+              ],
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": ".0",
+                "nodeType": "class",
+                "props": Object {
+                  "as": "button",
+                  "basic": true,
+                  "children": Array [
+                    <Icon
+                      as="i"
+                      name="remove"
+                    />,
+                    "Cancel",
+                  ],
+                  "color": "red",
+                  "onClick": [Function],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": ".0",
+                    "nodeType": "class",
+                    "props": Object {
+                      "as": "i",
+                      "name": "remove",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "Cancel",
+                ],
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": ".1",
+                "nodeType": "class",
+                "props": Object {
+                  "as": "button",
+                  "children": Array [
+                    <Icon
+                      as="i"
+                      name="checkmark"
+                    />,
+                    "Submit",
+                  ],
+                  "color": "green",
+                  "form": "feedbackForm",
+                  "type": "submit",
+                  "value": "Send",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": ".0",
+                    "nodeType": "class",
+                    "props": Object {
+                      "as": "i",
+                      "name": "checkmark",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "Submit",
+                ],
+                "type": [Function],
+              },
+            ],
+            "type": [Function],
+          },
+        ],
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": ".6",
+        "nodeType": "class",
+        "props": Object {
+          "className": "listIconTooltip",
+          "effect": "solid",
+          "insecure": true,
+          "resizeHide": true,
+          "wrapper": "div",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <a
+            className="githubCornerContainer"
+            href="https://github.com/ryanhugh/searchneu"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <svg
+              height="80"
+              viewBox="0 0 250 250"
+              width="80"
+            >
+              <path
+                d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"
+              />
+              <path
+                className="octopusArm"
+                d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+                fill="currentColor"
+              />
+              <path
+                d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+                fill="currentColor"
+              />
+               
+            </svg>
+          </a>,
+          <img
+            alt="logo"
+            className="logo"
+            onClick={[Function]}
+            src="file"
+          />,
+          <div
+            className="bostonContainer"
+            style={
+              Object {
+                "opacity": 0,
+              }
+            }
+          >
+            <img
+              alt="logo"
+              className="boston"
+              src="file"
+            />
+          </div>,
+          <div>
+            <div
+              className="ui center spacing aligned icon header topHeader"
+              style={
+                Object {
+                  "transform": "translateY(calc(-50% + 230px))",
+                }
+              }
+            >
+              <div
+                className="centerTextContainer"
+              >
+                <h1
+                  className="title"
+                >
+                  Search For Northeastern
+                </h1>
+                <p
+                  className="subtitle"
+                >
+                  Search for classes, professors, subjects, etc.
+                </p>
+                <div>
+                  <div
+                    className="sub header searchWrapper"
+                  >
+                    <label
+                      htmlFor="search_id"
+                    >
+                      <i
+                        className="search icon"
+                      />
+                    </label>
+                    <input
+                      autoComplete="off"
+                      className="searchBox"
+                      defaultValue="lank"
+                      id="seach_id"
+                      onChange={[Function]}
+                      onKeyDown={[Function]}
+                      spellCheck="false"
+                      tabIndex="0"
+                      type="search"
+                    />
+                  </div>
+                  <Dropdown
+                    additionLabel="Add "
+                    additionPosition="top"
+                    className="termDropdown"
+                    closeOnBlur={true}
+                    deburr={false}
+                    defaultValue="201830"
+                    fluid={true}
+                    icon="dropdown"
+                    minCharacters={1}
+                    noResultsMessage="No results found."
+                    onChange={[Function]}
+                    openOnFocus={true}
+                    options={
+                      Array [
+                        Object {
+                          "text": "Fall 2017",
+                          "value": "201810",
+                        },
+                        Object {
+                          "text": "Spring 2018",
+                          "value": "201830",
+                        },
+                      ]
+                    }
+                    placeholder="Spring 2018"
+                    renderLabel={[Function]}
+                    searchInput="text"
+                    selectOnBlur={true}
+                    selectOnNavigation={true}
+                    selection={true}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>,
+          <div
+            className="resultsContainer"
+            style={
+              Object {
+                "transform": "translateY(-463px)",
+              }
+            }
+          >
+            <div>
+              <span
+                className="splashPage"
+              >
+                 
+                <SplashPage />
+                 
+              </span>
+            </div>
+            <div
+              className="botttomPadding"
+            />
+            <div
+              className="footer"
+            >
+              <div
+                className="footer ui basic center aligned segment"
+              >
+                See an issue or want to add to this website? Fork it or create an issue on
+                <a
+                  href="https://github.com/ryanhugh/searchneu"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                   GitHub
+                </a>
+                .
+              </div>
+              <div
+                className="ui divider"
+              />
+              <div
+                className="footer ui basic center aligned segment credits"
+              >
+                Made with coffee 
+                <i
+                  className="coffee circular small icon"
+                />
+                by 
+                <a
+                  href="http://github.com/ryanhugh"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Ryan Hughes
+                </a>
+                 and love 
+                <i
+                  className="heart circular small icon"
+                />
+                from some awesome 
+                <a
+                  href="https://github.com/ryanhugh/searchneu/graphs/contributors"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Contributors
+                </a>
+                .
+              </div>
+              <div
+                className="footer ui basic center aligned segment contact"
+              >
+                <a
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  Feedback
+                </a>
+                 • 
+                <a
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  Report a bug
+                </a>
+                 • 
+                <a
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  Contact
+                </a>
+              </div>
+            </div>
+          </div>,
+          <Modal
+            closeOnDimmerClick={true}
+            closeOnDocumentClick={false}
+            dimmer={true}
+            eventPool="Modal"
+            onClose={[Function]}
+            open={false}
+            size="small"
+          >
+            <Header
+              content="Search NEU Feedback"
+              icon="mail"
+            />
+            <ModalContent
+              className="formModalContent"
+            >
+              <Form
+                action="https://formspree.io/ryanhughes624@gmail.com"
+                as="form"
+                id="feedbackForm"
+                method="POST"
+              >
+                <div
+                  className="feedbackParagraph"
+                >
+                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                </div>
+                <TextArea
+                  as="textarea"
+                  className="feedbackTextbox"
+                  form="feedbackForm"
+                  name="response"
+                  rows={3}
+                />
+                <p>
+                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                </p>
+                <Input
+                  className="formModalInput"
+                  form="feedbackForm"
+                  name="contact"
+                  type="text"
+                />
+              </Form>
+            </ModalContent>
+            <ModalActions>
+              <Button
+                as="button"
+                basic={true}
+                color="red"
+                onClick={[Function]}
+              >
+                <Icon
+                  as="i"
+                  name="remove"
+                />
+                Cancel
+              </Button>
+              <Button
+                as="button"
+                color="green"
+                form="feedbackForm"
+                type="submit"
+                value="Send"
+              >
+                <Icon
+                  as="i"
+                  name="checkmark"
+                />
+                Submit
+              </Button>
+            </ModalActions>
+          </Modal>,
+          <ReactTooltip
+            className="listIconTooltip"
+            effect="solid"
+            insecure={true}
+            resizeHide={true}
+            wrapper="div"
+          />,
+        ],
+        "className": "",
+        "style": Object {
+          "height": "100%",
+        },
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": ".0",
+          "nodeType": "host",
+          "props": Object {
+            "children": <svg
+              height="80"
+              viewBox="0 0 250 250"
+              width="80"
+            >
+              <path
+                d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"
+              />
+              <path
+                className="octopusArm"
+                d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+                fill="currentColor"
+              />
+              <path
+                d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+                fill="currentColor"
+              />
+               
+            </svg>,
+            "className": "githubCornerContainer",
+            "href": "https://github.com/ryanhugh/searchneu",
+            "rel": "noopener noreferrer",
+            "target": "_blank",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <path
+                  d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"
+                />,
+                <path
+                  className="octopusArm"
+                  d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+                  fill="currentColor"
+                />,
+                <path
+                  d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+                  fill="currentColor"
+                />,
+                " ",
+              ],
+              "height": "80",
+              "viewBox": "0 0 250 250",
+              "width": "80",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": ".0",
+                "nodeType": "host",
+                "props": Object {
+                  "d": "M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "path",
+              },
+              Object {
+                "instance": null,
+                "key": ".1",
+                "nodeType": "host",
+                "props": Object {
+                  "className": "octopusArm",
+                  "d": "M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2",
+                  "fill": "currentColor",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "path",
+              },
+              Object {
+                "instance": null,
+                "key": ".2",
+                "nodeType": "host",
+                "props": Object {
+                  "d": "M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z",
+                  "fill": "currentColor",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "path",
+              },
+              " ",
+            ],
+            "type": "svg",
+          },
+          "type": "a",
+        },
+        Object {
+          "instance": null,
+          "key": ".1",
+          "nodeType": "host",
+          "props": Object {
+            "alt": "logo",
+            "className": "logo",
+            "onClick": [Function],
+            "src": "file",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "img",
+        },
+        Object {
+          "instance": null,
+          "key": ".2",
+          "nodeType": "host",
+          "props": Object {
+            "children": <img
+              alt="logo"
+              className="boston"
+              src="file"
+            />,
+            "className": "bostonContainer",
+            "style": Object {
+              "opacity": 0,
+            },
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "alt": "logo",
+              "className": "boston",
+              "src": "file",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "img",
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": ".3",
+          "nodeType": "host",
+          "props": Object {
+            "children": <div
+              className="ui center spacing aligned icon header topHeader"
+              style={
+                Object {
+                  "transform": "translateY(calc(-50% + 230px))",
+                }
+              }
+            >
+              <div
+                className="centerTextContainer"
+              >
+                <h1
+                  className="title"
+                >
+                  Search For Northeastern
+                </h1>
+                <p
+                  className="subtitle"
+                >
+                  Search for classes, professors, subjects, etc.
+                </p>
+                <div>
+                  <div
+                    className="sub header searchWrapper"
+                  >
+                    <label
+                      htmlFor="search_id"
+                    >
+                      <i
+                        className="search icon"
+                      />
+                    </label>
+                    <input
+                      autoComplete="off"
+                      className="searchBox"
+                      defaultValue="lank"
+                      id="seach_id"
+                      onChange={[Function]}
+                      onKeyDown={[Function]}
+                      spellCheck="false"
+                      tabIndex="0"
+                      type="search"
+                    />
+                  </div>
+                  <Dropdown
+                    additionLabel="Add "
+                    additionPosition="top"
+                    className="termDropdown"
+                    closeOnBlur={true}
+                    deburr={false}
+                    defaultValue="201830"
+                    fluid={true}
+                    icon="dropdown"
+                    minCharacters={1}
+                    noResultsMessage="No results found."
+                    onChange={[Function]}
+                    openOnFocus={true}
+                    options={
+                      Array [
+                        Object {
+                          "text": "Fall 2017",
+                          "value": "201810",
+                        },
+                        Object {
+                          "text": "Spring 2018",
+                          "value": "201830",
+                        },
+                      ]
+                    }
+                    placeholder="Spring 2018"
+                    renderLabel={[Function]}
+                    searchInput="text"
+                    selectOnBlur={true}
+                    selectOnNavigation={true}
+                    selection={true}
+                  />
+                </div>
+              </div>
+            </div>,
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <div
+                className="centerTextContainer"
+              >
+                <h1
+                  className="title"
+                >
+                  Search For Northeastern
+                </h1>
+                <p
+                  className="subtitle"
+                >
+                  Search for classes, professors, subjects, etc.
+                </p>
+                <div>
+                  <div
+                    className="sub header searchWrapper"
+                  >
+                    <label
+                      htmlFor="search_id"
+                    >
+                      <i
+                        className="search icon"
+                      />
+                    </label>
+                    <input
+                      autoComplete="off"
+                      className="searchBox"
+                      defaultValue="lank"
+                      id="seach_id"
+                      onChange={[Function]}
+                      onKeyDown={[Function]}
+                      spellCheck="false"
+                      tabIndex="0"
+                      type="search"
+                    />
+                  </div>
+                  <Dropdown
+                    additionLabel="Add "
+                    additionPosition="top"
+                    className="termDropdown"
+                    closeOnBlur={true}
+                    deburr={false}
+                    defaultValue="201830"
+                    fluid={true}
+                    icon="dropdown"
+                    minCharacters={1}
+                    noResultsMessage="No results found."
+                    onChange={[Function]}
+                    openOnFocus={true}
+                    options={
+                      Array [
+                        Object {
+                          "text": "Fall 2017",
+                          "value": "201810",
+                        },
+                        Object {
+                          "text": "Spring 2018",
+                          "value": "201830",
+                        },
+                      ]
+                    }
+                    placeholder="Spring 2018"
+                    renderLabel={[Function]}
+                    searchInput="text"
+                    selectOnBlur={true}
+                    selectOnNavigation={true}
+                    selection={true}
+                  />
+                </div>
+              </div>,
+              "className": "ui center spacing aligned icon header topHeader",
+              "style": Object {
+                "transform": "translateY(calc(-50% + 230px))",
+              },
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <h1
+                    className="title"
+                  >
+                    Search For Northeastern
+                  </h1>,
+                  <p
+                    className="subtitle"
+                  >
+                    Search for classes, professors, subjects, etc.
+                  </p>,
+                  <div>
+                    <div
+                      className="sub header searchWrapper"
+                    >
+                      <label
+                        htmlFor="search_id"
+                      >
+                        <i
+                          className="search icon"
+                        />
+                      </label>
+                      <input
+                        autoComplete="off"
+                        className="searchBox"
+                        defaultValue="lank"
+                        id="seach_id"
+                        onChange={[Function]}
+                        onKeyDown={[Function]}
+                        spellCheck="false"
+                        tabIndex="0"
+                        type="search"
+                      />
+                    </div>
+                    <Dropdown
+                      additionLabel="Add "
+                      additionPosition="top"
+                      className="termDropdown"
+                      closeOnBlur={true}
+                      deburr={false}
+                      defaultValue="201830"
+                      fluid={true}
+                      icon="dropdown"
+                      minCharacters={1}
+                      noResultsMessage="No results found."
+                      onChange={[Function]}
+                      openOnFocus={true}
+                      options={
+                        Array [
+                          Object {
+                            "text": "Fall 2017",
+                            "value": "201810",
+                          },
+                          Object {
+                            "text": "Spring 2018",
+                            "value": "201830",
+                          },
+                        ]
+                      }
+                      placeholder="Spring 2018"
+                      renderLabel={[Function]}
+                      searchInput="text"
+                      selectOnBlur={true}
+                      selectOnNavigation={true}
+                      selection={true}
+                    />
+                  </div>,
+                ],
+                "className": "centerTextContainer",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": ".0",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Search For Northeastern",
+                    "className": "title",
+                  },
+                  "ref": null,
+                  "rendered": "Search For Northeastern",
+                  "type": "h1",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".1",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Search for classes, professors, subjects, etc.",
+                    "className": "subtitle",
+                  },
+                  "ref": null,
+                  "rendered": "Search for classes, professors, subjects, etc.",
+                  "type": "p",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".2",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      <div
+                        className="sub header searchWrapper"
+                      >
+                        <label
+                          htmlFor="search_id"
+                        >
+                          <i
+                            className="search icon"
+                          />
+                        </label>
+                        <input
+                          autoComplete="off"
+                          className="searchBox"
+                          defaultValue="lank"
+                          id="seach_id"
+                          onChange={[Function]}
+                          onKeyDown={[Function]}
+                          spellCheck="false"
+                          tabIndex="0"
+                          type="search"
+                        />
+                      </div>,
+                      <Dropdown
+                        additionLabel="Add "
+                        additionPosition="top"
+                        className="termDropdown"
+                        closeOnBlur={true}
+                        deburr={false}
+                        defaultValue="201830"
+                        fluid={true}
+                        icon="dropdown"
+                        minCharacters={1}
+                        noResultsMessage="No results found."
+                        onChange={[Function]}
+                        openOnFocus={true}
+                        options={
+                          Array [
+                            Object {
+                              "text": "Fall 2017",
+                              "value": "201810",
+                            },
+                            Object {
+                              "text": "Spring 2018",
+                              "value": "201830",
+                            },
+                          ]
+                        }
+                        placeholder="Spring 2018"
+                        renderLabel={[Function]}
+                        searchInput="text"
+                        selectOnBlur={true}
+                        selectOnNavigation={true}
+                        selection={true}
+                      />,
+                    ],
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": ".0",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": Array [
+                          <label
+                            htmlFor="search_id"
+                          >
+                            <i
+                              className="search icon"
+                            />
+                          </label>,
+                          <input
+                            autoComplete="off"
+                            className="searchBox"
+                            defaultValue="lank"
+                            id="seach_id"
+                            onChange={[Function]}
+                            onKeyDown={[Function]}
+                            spellCheck="false"
+                            tabIndex="0"
+                            type="search"
+                          />,
+                        ],
+                        "className": "sub header searchWrapper",
+                      },
+                      "ref": null,
+                      "rendered": Array [
+                        Object {
+                          "instance": null,
+                          "key": ".0",
+                          "nodeType": "host",
+                          "props": Object {
+                            "children": <i
+                              className="search icon"
+                            />,
+                            "htmlFor": "search_id",
+                          },
+                          "ref": null,
+                          "rendered": Object {
+                            "instance": null,
+                            "key": undefined,
+                            "nodeType": "host",
+                            "props": Object {
+                              "className": "search icon",
+                            },
+                            "ref": null,
+                            "rendered": null,
+                            "type": "i",
+                          },
+                          "type": "label",
+                        },
+                        Object {
+                          "instance": null,
+                          "key": ".1",
+                          "nodeType": "host",
+                          "props": Object {
+                            "autoComplete": "off",
+                            "className": "searchBox",
+                            "defaultValue": "lank",
+                            "id": "seach_id",
+                            "onChange": [Function],
+                            "onKeyDown": [Function],
+                            "spellCheck": "false",
+                            "tabIndex": "0",
+                            "type": "search",
+                          },
+                          "ref": [Function],
+                          "rendered": null,
+                          "type": "input",
+                        },
+                      ],
+                      "type": "div",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": ".1",
+                      "nodeType": "class",
+                      "props": Object {
+                        "additionLabel": "Add ",
+                        "additionPosition": "top",
+                        "className": "termDropdown",
+                        "closeOnBlur": true,
+                        "deburr": false,
+                        "defaultValue": "201830",
+                        "fluid": true,
+                        "icon": "dropdown",
+                        "minCharacters": 1,
+                        "noResultsMessage": "No results found.",
+                        "onChange": [Function],
+                        "openOnFocus": true,
+                        "options": Array [
+                          Object {
+                            "text": "Fall 2017",
+                            "value": "201810",
+                          },
+                          Object {
+                            "text": "Spring 2018",
+                            "value": "201830",
+                          },
+                        ],
+                        "placeholder": "Spring 2018",
+                        "renderLabel": [Function],
+                        "searchInput": "text",
+                        "selectOnBlur": true,
+                        "selectOnNavigation": true,
+                        "selection": true,
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                  ],
+                  "type": "div",
+                },
+              ],
+              "type": "div",
+            },
+            "type": "div",
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": ".4",
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <div>
+                <span
+                  className="splashPage"
+                >
+                   
+                  <SplashPage />
+                   
+                </span>
+              </div>,
+              <div
+                className="botttomPadding"
+              />,
+              <div
+                className="footer"
+              >
+                <div
+                  className="footer ui basic center aligned segment"
+                >
+                  See an issue or want to add to this website? Fork it or create an issue on
+                  <a
+                    href="https://github.com/ryanhugh/searchneu"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                     GitHub
+                  </a>
+                  .
+                </div>
+                <div
+                  className="ui divider"
+                />
+                <div
+                  className="footer ui basic center aligned segment credits"
+                >
+                  Made with coffee 
+                  <i
+                    className="coffee circular small icon"
+                  />
+                  by 
+                  <a
+                    href="http://github.com/ryanhugh"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Ryan Hughes
+                  </a>
+                   and love 
+                  <i
+                    className="heart circular small icon"
+                  />
+                  from some awesome 
+                  <a
+                    href="https://github.com/ryanhugh/searchneu/graphs/contributors"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Contributors
+                  </a>
+                  .
+                </div>
+                <div
+                  className="footer ui basic center aligned segment contact"
+                >
+                  <a
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    Feedback
+                  </a>
+                   • 
+                  <a
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    Report a bug
+                  </a>
+                   • 
+                  <a
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    Contact
+                  </a>
+                </div>
+              </div>,
+            ],
+            "className": "resultsContainer",
+            "style": Object {
+              "transform": "translateY(-463px)",
+            },
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": ".0",
+              "nodeType": "host",
+              "props": Object {
+                "children": <span
+                  className="splashPage"
+                >
+                   
+                  <SplashPage />
+                   
+                </span>,
+              },
+              "ref": [Function],
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    " ",
+                    <SplashPage />,
+                    " ",
+                  ],
+                  "className": "splashPage",
+                },
+                "ref": null,
+                "rendered": Array [
+                  " ",
+                  Object {
+                    "instance": null,
+                    "key": ".1",
+                    "nodeType": "function",
+                    "props": Object {},
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  " ",
+                ],
+                "type": "span",
+              },
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": ".1",
+              "nodeType": "host",
+              "props": Object {
+                "className": "botttomPadding",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": ".2",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <div
+                    className="footer ui basic center aligned segment"
+                  >
+                    See an issue or want to add to this website? Fork it or create an issue on
+                    <a
+                      href="https://github.com/ryanhugh/searchneu"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                       GitHub
+                    </a>
+                    .
+                  </div>,
+                  <div
+                    className="ui divider"
+                  />,
+                  <div
+                    className="footer ui basic center aligned segment credits"
+                  >
+                    Made with coffee 
+                    <i
+                      className="coffee circular small icon"
+                    />
+                    by 
+                    <a
+                      href="http://github.com/ryanhugh"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      Ryan Hughes
+                    </a>
+                     and love 
+                    <i
+                      className="heart circular small icon"
+                    />
+                    from some awesome 
+                    <a
+                      href="https://github.com/ryanhugh/searchneu/graphs/contributors"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      Contributors
+                    </a>
+                    .
+                  </div>,
+                  <div
+                    className="footer ui basic center aligned segment contact"
+                  >
+                    <a
+                      onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      Feedback
+                    </a>
+                     • 
+                    <a
+                      onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      Report a bug
+                    </a>
+                     • 
+                    <a
+                      onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      Contact
+                    </a>
+                  </div>,
+                ],
+                "className": "footer",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": ".0",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      "See an issue or want to add to this website? Fork it or create an issue on",
+                      <a
+                        href="https://github.com/ryanhugh/searchneu"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                         GitHub
+                      </a>,
+                      ".",
+                    ],
+                    "className": "footer ui basic center aligned segment",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    "See an issue or want to add to this website? Fork it or create an issue on",
+                    Object {
+                      "instance": null,
+                      "key": ".1",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": " GitHub",
+                        "href": "https://github.com/ryanhugh/searchneu",
+                        "rel": "noopener noreferrer",
+                        "target": "_blank",
+                      },
+                      "ref": null,
+                      "rendered": " GitHub",
+                      "type": "a",
+                    },
+                    ".",
+                  ],
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".1",
+                  "nodeType": "host",
+                  "props": Object {
+                    "className": "ui divider",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".2",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      "Made with coffee ",
+                      <i
+                        className="coffee circular small icon"
+                      />,
+                      "by ",
+                      <a
+                        href="http://github.com/ryanhugh"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Ryan Hughes
+                      </a>,
+                      " and love ",
+                      <i
+                        className="heart circular small icon"
+                      />,
+                      "from some awesome ",
+                      <a
+                        href="https://github.com/ryanhugh/searchneu/graphs/contributors"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Contributors
+                      </a>,
+                      ".",
+                    ],
+                    "className": "footer ui basic center aligned segment credits",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    "Made with coffee ",
+                    Object {
+                      "instance": null,
+                      "key": ".1",
+                      "nodeType": "host",
+                      "props": Object {
+                        "className": "coffee circular small icon",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": "i",
+                    },
+                    "by ",
+                    Object {
+                      "instance": null,
+                      "key": ".3",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Ryan Hughes",
+                        "href": "http://github.com/ryanhugh",
+                        "rel": "noopener noreferrer",
+                        "target": "_blank",
+                      },
+                      "ref": null,
+                      "rendered": "Ryan Hughes",
+                      "type": "a",
+                    },
+                    " and love ",
+                    Object {
+                      "instance": null,
+                      "key": ".5",
+                      "nodeType": "host",
+                      "props": Object {
+                        "className": "heart circular small icon",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": "i",
+                    },
+                    "from some awesome ",
+                    Object {
+                      "instance": null,
+                      "key": ".7",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Contributors",
+                        "href": "https://github.com/ryanhugh/searchneu/graphs/contributors",
+                        "rel": "noopener noreferrer",
+                        "target": "_blank",
+                      },
+                      "ref": null,
+                      "rendered": "Contributors",
+                      "type": "a",
+                    },
+                    ".",
+                  ],
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".3",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      <a
+                        onClick={[Function]}
+                        role="button"
+                        tabIndex={0}
+                      >
+                        Feedback
+                      </a>,
+                      " • ",
+                      <a
+                        onClick={[Function]}
+                        role="button"
+                        tabIndex={0}
+                      >
+                        Report a bug
+                      </a>,
+                      " • ",
+                      <a
+                        onClick={[Function]}
+                        role="button"
+                        tabIndex={0}
+                      >
+                        Contact
+                      </a>,
+                    ],
+                    "className": "footer ui basic center aligned segment contact",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": ".0",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Feedback",
+                        "onClick": [Function],
+                        "role": "button",
+                        "tabIndex": 0,
+                      },
+                      "ref": null,
+                      "rendered": "Feedback",
+                      "type": "a",
+                    },
+                    " • ",
+                    Object {
+                      "instance": null,
+                      "key": ".2",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Report a bug",
+                        "onClick": [Function],
+                        "role": "button",
+                        "tabIndex": 0,
+                      },
+                      "ref": null,
+                      "rendered": "Report a bug",
+                      "type": "a",
+                    },
+                    " • ",
+                    Object {
+                      "instance": null,
+                      "key": ".4",
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Contact",
+                        "onClick": [Function],
+                        "role": "button",
+                        "tabIndex": 0,
+                      },
+                      "ref": null,
+                      "rendered": "Contact",
+                      "type": "a",
+                    },
+                  ],
+                  "type": "div",
+                },
+              ],
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": ".5",
+          "nodeType": "class",
+          "props": Object {
+            "children": Array [
+              <Header
+                content="Search NEU Feedback"
+                icon="mail"
+              />,
+              <ModalContent
+                className="formModalContent"
+              >
+                <Form
+                  action="https://formspree.io/ryanhughes624@gmail.com"
+                  as="form"
+                  id="feedbackForm"
+                  method="POST"
+                >
+                  <div
+                    className="feedbackParagraph"
+                  >
+                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  </div>
+                  <TextArea
+                    as="textarea"
+                    className="feedbackTextbox"
+                    form="feedbackForm"
+                    name="response"
+                    rows={3}
+                  />
+                  <p>
+                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                  </p>
+                  <Input
+                    className="formModalInput"
+                    form="feedbackForm"
+                    name="contact"
+                    type="text"
+                  />
+                </Form>
+              </ModalContent>,
+              <ModalActions>
+                <Button
+                  as="button"
+                  basic={true}
+                  color="red"
+                  onClick={[Function]}
+                >
+                  <Icon
+                    as="i"
+                    name="remove"
+                  />
+                  Cancel
+                </Button>
+                <Button
+                  as="button"
+                  color="green"
+                  form="feedbackForm"
+                  type="submit"
+                  value="Send"
+                >
+                  <Icon
+                    as="i"
+                    name="checkmark"
+                  />
+                  Submit
+                </Button>
+              </ModalActions>,
+            ],
+            "closeOnDimmerClick": true,
+            "closeOnDocumentClick": false,
+            "dimmer": true,
+            "eventPool": "Modal",
+            "onClose": [Function],
+            "open": false,
+            "size": "small",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": ".0",
+              "nodeType": "function",
+              "props": Object {
+                "content": "Search NEU Feedback",
+                "icon": "mail",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": ".1",
+              "nodeType": "function",
+              "props": Object {
+                "children": <Form
+                  action="https://formspree.io/ryanhughes624@gmail.com"
+                  as="form"
+                  id="feedbackForm"
+                  method="POST"
+                >
+                  <div
+                    className="feedbackParagraph"
+                  >
+                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  </div>
+                  <TextArea
+                    as="textarea"
+                    className="feedbackTextbox"
+                    form="feedbackForm"
+                    name="response"
+                    rows={3}
+                  />
+                  <p>
+                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                  </p>
+                  <Input
+                    className="formModalInput"
+                    form="feedbackForm"
+                    name="contact"
+                    type="text"
+                  />
+                </Form>,
+                "className": "formModalContent",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "action": "https://formspree.io/ryanhughes624@gmail.com",
+                  "as": "form",
+                  "children": Array [
+                    <div
+                      className="feedbackParagraph"
+                    >
+                      Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                    </div>,
+                    <TextArea
+                      as="textarea"
+                      className="feedbackTextbox"
+                      form="feedbackForm"
+                      name="response"
+                      rows={3}
+                    />,
+                    <p>
+                      By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                    </p>,
+                    <Input
+                      className="formModalInput"
+                      form="feedbackForm"
+                      name="contact"
+                      type="text"
+                    />,
+                  ],
+                  "id": "feedbackForm",
+                  "method": "POST",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": ".0",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                      "className": "feedbackParagraph",
+                    },
+                    "ref": null,
+                    "rendered": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                    "type": "div",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".1",
+                    "nodeType": "class",
+                    "props": Object {
+                      "as": "textarea",
+                      "className": "feedbackTextbox",
+                      "form": "feedbackForm",
+                      "name": "response",
+                      "rows": 3,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".2",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
+                    },
+                    "ref": null,
+                    "rendered": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
+                    "type": "p",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".3",
+                    "nodeType": "class",
+                    "props": Object {
+                      "className": "formModalInput",
+                      "form": "feedbackForm",
+                      "name": "contact",
+                      "type": "text",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": [Function],
+              },
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": ".2",
+              "nodeType": "class",
+              "props": Object {
+                "children": Array [
+                  <Button
+                    as="button"
+                    basic={true}
+                    color="red"
+                    onClick={[Function]}
+                  >
+                    <Icon
+                      as="i"
+                      name="remove"
+                    />
+                    Cancel
+                  </Button>,
+                  <Button
+                    as="button"
+                    color="green"
+                    form="feedbackForm"
+                    type="submit"
+                    value="Send"
+                  >
+                    <Icon
+                      as="i"
+                      name="checkmark"
+                    />
+                    Submit
+                  </Button>,
+                ],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": ".0",
+                  "nodeType": "class",
+                  "props": Object {
+                    "as": "button",
+                    "basic": true,
+                    "children": Array [
+                      <Icon
+                        as="i"
+                        name="remove"
+                      />,
+                      "Cancel",
+                    ],
+                    "color": "red",
+                    "onClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": ".0",
+                      "nodeType": "class",
+                      "props": Object {
+                        "as": "i",
+                        "name": "remove",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    "Cancel",
+                  ],
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": ".1",
+                  "nodeType": "class",
+                  "props": Object {
+                    "as": "button",
+                    "children": Array [
+                      <Icon
+                        as="i"
+                        name="checkmark"
+                      />,
+                      "Submit",
+                    ],
+                    "color": "green",
+                    "form": "feedbackForm",
+                    "type": "submit",
+                    "value": "Send",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": ".0",
+                      "nodeType": "class",
+                      "props": Object {
+                        "as": "i",
+                        "name": "checkmark",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    "Submit",
+                  ],
+                  "type": [Function],
+                },
+              ],
+              "type": [Function],
+            },
+          ],
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": ".6",
+          "nodeType": "class",
+          "props": Object {
+            "className": "listIconTooltip",
+            "effect": "solid",
+            "insecure": true,
+            "resizeHide": true,
+            "wrapper": "div",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
