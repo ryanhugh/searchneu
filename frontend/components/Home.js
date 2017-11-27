@@ -18,8 +18,6 @@ import search from './search';
 import css from './home.css';
 import macros from './macros';
 import ResultsLoader from './ResultsLoader';
-
-// sean stuff
 import logo from './logo.svg';
 import boston from './boston.svg';
 
