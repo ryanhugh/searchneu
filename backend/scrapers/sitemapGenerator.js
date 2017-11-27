@@ -18,8 +18,8 @@ class SitemapGenerator {
     // If we are in between semesters, use the next one to occur.
     // If all the semesters occurred in the past, pick the one closest to the current date.
 
-    let today = moment().diff(0, 'day');
-    macros.log('It has been ', today, 'days since epoch.')
+    const today = moment().diff(0, 'day');
+    macros.log('It has been ', today, 'days since epoch.');
 
     let currentTerm;
 
@@ -38,10 +38,10 @@ class SitemapGenerator {
           continue;
         }
 
-        let daysUntilThisTermStarts = term.startDate - today;
+        const daysUntilThisTermStarts = term.startDate - today;
         if (!minDaysSinceNextTerm || daysUntilThisTermStarts < minDaysSinceNextTerm) {
           minDaysSinceNextTerm = daysUntilThisTermStarts;
-          currentTerm = term.termId
+          currentTerm = term.termId;
         }
       }
     }
@@ -60,7 +60,7 @@ class SitemapGenerator {
 
     macros.log('The current term is:', currentTerm);
 
-    // Lets not spam the console if there are non-neu classes here. 
+    // Lets not spam the console if there are non-neu classes here.
     let foundNonNEUClass = false;
 
     // Add the subjects
@@ -71,7 +71,7 @@ class SitemapGenerator {
 
       if (subject.host !== 'neu.edu') {
         if (!foundNonNEUClass) {
-          macros.warn("Not adding non-NEU class to the index! Update this when we get another domain and redo the routing for the new domain.");
+          macros.warn('Not adding non-NEU class to the index! Update this when we get another domain and redo the routing for the new domain.');
         }
         foundNonNEUClass = true;
         continue;
