@@ -15,7 +15,7 @@ import EmployeePanel from '../EmployeePanel';
 Enzyme.configure({ adapter: new Adapter() });
 
 it('should render a desktop employee panel', () => {
-  let orig = macros.isMobile;
+  const orig = macros.isMobile;
   macros.isMobile = false;
 
   const result = shallow(<EmployeePanel employee={ mockData.razzaq } />);
@@ -26,7 +26,7 @@ it('should render a desktop employee panel', () => {
 
 
 it('should render a mobile employee panel', () => {
-   let orig = macros.isMobile;
+  const orig = macros.isMobile;
   macros.isMobile = true;
 
   const result = shallow(<EmployeePanel employee={ mockData.razzaq } />);

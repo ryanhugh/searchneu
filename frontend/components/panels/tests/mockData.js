@@ -462,7 +462,6 @@ const WMNS4520section = Section.create({
 });
 
 
-
 const razzaq = {
   name: 'Leena Razzaq',
   firstName: 'Leena',
