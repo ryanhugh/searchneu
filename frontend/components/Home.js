@@ -8,7 +8,7 @@ import CSSModules from 'react-css-modules';
 import 'semantic-ui-css/semantic.min.css';
 import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames/bind';
-import { Dropdown } from 'semantic-ui-react';
+import { Dropdown, Button, Icon, Modal, Header, TextArea, Input, Form } from 'semantic-ui-react';
 
 import '../css/base.css';
 
@@ -57,6 +57,9 @@ class Home extends React.Component {
 
       // Keep track of which term the user is searching over. The employee data is the same regardless of the term.
       selectedTerm: selectedTerm,
+
+      // Keep track of whether the feedback modal is open or not.
+      feedbackModalOpen: false,
     };
 
     // Timer used to debounce search queries
@@ -87,6 +90,8 @@ class Home extends React.Component {
     this.onSearchDebounced = this.onSearchDebounced.bind(this);
     this.onLogoClick = this.onLogoClick.bind(this);
     this.onTermdropdownChange = this.onTermdropdownChange.bind(this);
+    this.openForm = this.openForm.bind(this);
+    this.closeForm = this.closeForm.bind(this);
 
     // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
@@ -244,6 +249,14 @@ class Home extends React.Component {
 
   getSearchQueryFromUrl() {
     return decodeURIComponent(macros.replaceAll(window.location.pathname.slice(1), '+', ' '));
+  }
+
+  closeForm() {
+    this.setState({ feedbackModalOpen: false });
+  }
+
+  openForm() {
+    this.setState({ feedbackModalOpen: true });
   }
 
   logSearch(searchTerm) {
@@ -491,33 +504,57 @@ class Home extends React.Component {
             <div className='ui divider' />
 
             <div className={ `footer ui basic center aligned segment ${css.credits}` }>
-              Made with&nbsp;
-              <i className='rocket circular small icon' />
-              &nbsp;by&nbsp;
+              Made with coffee&nbsp;
+              <i className='coffee circular small icon' />
+              by&nbsp;
               <a target='_blank' rel='noopener noreferrer' href='http://github.com/ryanhugh'>
                 Ryan Hughes
               </a>
-              &nbsp;and UI inspired by&nbsp;
-              <a target='_blank' rel='noopener noreferrer' href='https://github.com/2factorauth/twofactorauth'>
-                Two Factor Authenticaton
+              &nbsp;and love&nbsp;
+              <i className='heart circular small icon' />
+              from some awesome&nbsp;
+              <a target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu/graphs/contributors'>
+                Contributors
               </a>.
             </div>
 
             <div className={ `footer ui basic center aligned segment ${css.contact}` }>
-              <a target='_blank' rel='noopener noreferrer' href='https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform'>
+              <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
                 Feedback
               </a>
               &nbsp;•&nbsp;
-              <a target='_blank' rel='noopener noreferrer' href='https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform'>
+              <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
                 Report a bug
               </a>
               &nbsp;•&nbsp;
-              <a target='_blank' rel='noopener noreferrer' href='https://docs.google.com/forms/d/e/1FAIpQLSckWpmBBFPGYycZc54rirDaxINcx14_ApTkisamyfF7Mmo6Gw/viewform'>
+              <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
                 Contact
               </a>
             </div>
           </div>
         </div>
+
+        <Modal open={ this.state.feedbackModalOpen } onClose={ this.closeForm } size='small'>
+          <Header icon='mail' content='Search NEU Feedback' />
+          <Modal.Content className={ css.formModalContent }>
+            <Form id='feedbackForm' action='https://formspree.io/ryanhughes624@gmail.com' method='POST'>
+              <div className={ css.feedbackParagraph }>Find a bug in Search NEU? Find a query that dosen&apos;t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.</div>
+              <TextArea name='response' form='feedbackForm' className={ css.feedbackTextbox } />
+              <p>By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.</p>
+              <Input name='contact' form='feedbackForm' className={ css.formModalInput } />
+            </Form>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button basic color='red' onClick={ this.closeForm }>
+              <Icon name='remove' />
+              Cancel
+            </Button>
+            <Button type='submit' value='Send' color='green' form='feedbackForm'>
+              <Icon name='checkmark' />
+              Submit
+            </Button>
+          </Modal.Actions>
+        </Modal>
 
 
         <ReactTooltip effect='solid' className={ css.listIconTooltip } />

@@ -5,7 +5,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import RequisiteBranch from '../../../common/classModels/RequisiteBranch';
 import css from './BaseClassPanel.css';
@@ -175,9 +174,14 @@ class BaseClassPanel extends React.Component {
           retVal.push(element);
         }
       } else if (parsingPrereqs === macros.prereqTypes.PREREQ) {
-        // If the child branch is a requisite branch
-        //Ghetto fix until this tree is simplified
-        if (_.uniq(childBranch.prereqs.values).length === 1) {
+        // Figure out how many unique classIds there are in the prereqs.
+        const allClassIds = {};
+        for (const node of childBranch.prereqs.values) {
+          allClassIds[node.classId] = true;
+        }
+
+        // If there is only 1 prereq with a unique classId, don't show the parens.
+        if (Object.keys(allClassIds).length === 1) {
           retVal.push(this.getReqsString(macros.prereqTypes.PREREQ, childBranch));
         } else {
           retVal.push(['(', this.getReqsString(macros.prereqTypes.PREREQ, childBranch), ')']);
@@ -196,8 +200,14 @@ class BaseClassPanel extends React.Component {
         retVal.splice(i, 0, ', ');
       }
     } else {
+      let type;
+      if (parsingPrereqs === macros.prereqTypes.PREREQ) {
+        type = aClass.prereqs.type;
+      } else if (parsingPrereqs === macros.prereqTypes.COREQ) {
+        type = aClass.coreqs.type;
+      }
       for (let i = retVal.length - 1; i >= 1; i--) {
-        retVal.splice(i, 0, ` ${aClass.prereqs.type} `);
+        retVal.splice(i, 0, ` ${type} `);
       }
     }
 
