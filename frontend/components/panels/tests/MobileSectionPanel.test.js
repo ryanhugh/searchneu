@@ -8,12 +8,17 @@ import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import Home from '../Home';
+import mockData from './mockData';
+import MobileSectionPanel from '../MobileSectionPanel';
 
 Enzyme.configure({ adapter: new Adapter() });
 
 it('should render a section', () => {
-  const result = shallow(<Home />);
+  const result = shallow(<MobileSectionPanel section={ mockData.cs1210.sections[0] } />);
   expect(result).toMatchSnapshot();
 });
 
+it('should render another section', () => {
+  const result = shallow(<MobileSectionPanel section={ mockData.cs0210.sections[0] } />);
+  expect(result).toMatchSnapshot();
+});
