@@ -18,7 +18,7 @@ it('should render a section', () => {
   expect(result).toMatchSnapshot();
 });
 
-it('should render another section', () => {
-  const result = shallow(<MobileSectionPanel section={ mockData.cs0210.sections[0] } />);
-  expect(result).toMatchSnapshot();
-});
+// it('should render another section', () => {
+//   const result = shallow(<MobileSectionPanel section={ mockData.cs0210.sections[0] } />);
+//   expect(result).toMatchSnapshot();
+// });
