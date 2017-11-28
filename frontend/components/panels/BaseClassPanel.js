@@ -15,23 +15,11 @@ class BaseClassPanel extends React.Component {
   constructor(props) {
     super(props);
 
-    let sectionsShownByDefault = macros.sectionsShownByDefault;
-    const sections = this.props.aClass.sections;
-
-    if (!macros.isMobile &&
-      sections.length === sectionsShownByDefault + 1) {
-      sectionsShownByDefault++;
-    }
-
-    // Show 3 sections by default
-    this.state = {
-      prereqsPage: 0,
-      coreqsPage: 0,
-      prereqsForPage: 0,
-      optPrereqsForPage: 0,
-      renderedSections: sections.slice(0, sectionsShownByDefault),
-      unrenderedSections: sections.slice(sectionsShownByDefault),
-    };
+    this.state = this.getInitialRenderedSectionState();
+    this.state.prereqsPage = 0;
+    this.state.coreqsPage = 0;
+    this.state.prereqsForPage = 0;
+    this.state.optPrereqsForPage = 0;
 
     this.onShowMoreClick = this.onShowMoreClick.bind(this);
   }
@@ -51,6 +39,26 @@ class BaseClassPanel extends React.Component {
       unrenderedSections: this.state.unrenderedSections,
       renderedSections: this.state.renderedSections.concat(newElements),
     });
+  }
+
+  getInitialRenderedSectionState() {
+    let sectionsShownByDefault;
+    if (this.constructor.sectionsShownByDefault) {
+      sectionsShownByDefault = this.constructor.sectionsShownByDefault;
+    } else {
+      sectionsShownByDefault = macros.sectionsShownByDefault;
+    }
+
+    // If this is desktop and there is exactly one section hidden by the button, just show them all.
+    if (!macros.isMobile && this.props.aClass.sections.length === sectionsShownByDefault + 1) {
+      sectionsShownByDefault++;
+    }
+
+    // Show 3 sections by default
+    return {
+      renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
+      unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
+    };
   }
 
   // Render the Show More.. Button
