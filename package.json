@@ -57,6 +57,7 @@
     "eslint-loader": "^1.9.0",
     "express": "^4.15.2",
     "express-async-wrap": "^1.0.0",
+    "express-x-hub": "^1.0.4",
     "file-loader": "^1.1.5",
     "forever": "^0.15.3",
     "form-urlencoded": "^2.0.4",

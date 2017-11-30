@@ -15,6 +15,7 @@ import rollbar from 'rollbar';
 import bodyParser from 'body-parser';
 import mkdirp from 'mkdirp-promise';
 import moment from 'moment';
+import xhub from 'express-x-hub';
 
 import Request from './scrapers/request';
 import search from '../common/search';
@@ -26,6 +27,20 @@ import macros from './macros';
 const request = new Request('server');
 
 const app = express();
+
+let xhubPromise;
+async function loadExpressHub(options) {
+  if (xhubPromise) {
+    return xhubPromise;
+  }
+
+  xhubPromise = macros.getEnvVariable('fbAppSecret').then((token) => {
+    return xhub({ algorithm: 'sha1', secret: token });
+  })
+
+  return xhubPromise;
+}
+loadExpressHub();
 
 
 // Start watching for new labs
@@ -39,6 +54,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Process application/json
 app.use(bodyParser.json());
+
+// Verify that the webhooks are coming from facebook
+app.use(wrap(async (req, res, next) => {
+  const func = await xhubPromise
+  func(req, res, next)
+}));
+
 
 // Prevent being in an iFrame.
 app.use((req, res, next) => {
@@ -270,27 +292,41 @@ app.get('/search', wrap(async (req, res) => {
 
 // for Facebook verification of the endpoint.
 app.get('/webhook/', async (req, res) => {
-  macros.log(getTime(), getIpPath(req), 'Tried to send a webhook');
-  res.send('hi');
+  // macros.log(getTime(), getIpPath(req), 'Tried to send a webhook');
+  // res.send('hi');
   // return;
 
   // macros.log(req.query);
 
-  // const verifyToken = await macros.getEnvVariable('fbVerifyToken');
+  const verifyToken = await macros.getEnvVariable('fbVerifyToken');
 
-  // if (req.query['hub.verify_token'] === verifyToken) {
-  //   macros.log('yup!');
-  //   res.send(req.query['hub.challenge']);
-  // } else {
-  //   res.send('Error, wrong token');
-  // }
+  if (req.query['hub.verify_token'] === verifyToken) {
+    macros.log('yup!');
+    res.send(req.query['hub.challenge']);
+  } else {
+    res.send('Error, wrong token');
+  }
 });
 
 // Respond to the messages
 app.post('/webhook/', (req, res) => {
   // Disable temporarily
   macros.log(getTime(), getIpPath(req), 'Tried to send a webhook');
+
+  macros.log(req.headers)
+
+  if (req.isXHubValid) {
+    macros.log(req.isXHubValid(), 'HERE!')
+  }
+  else {
+    macros.log("NOPE!")
+  }
+
+  macros.log(req.isXHub,'fjdslajflksadjflk')
+
   res.send('hi');
+
+
   // return;
 
   // // TODO: when get this working again:
