@@ -21,7 +21,7 @@ import Request from './scrapers/request';
 import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
-// import notifyer from './notifyer';
+import notifyer from './notifyer';
 // import psylink from './scrapers/psylink/psylink';
 
 const request = new Request('server');
@@ -310,8 +310,7 @@ app.get('/webhook/', async (req, res) => {
 
 // Respond to the messages
 app.post('/webhook/', (req, res) => {
-
-  // Verify that the webhook is actually coming from Facebook. 
+  // Verify that the webhook is actually coming from Facebook.
   // This is important.
   if (!req.isXHub || req.isXHubValid()) {
     macros.log(getTime(), getIpPath(req), 'Tried to send a webhook');
@@ -322,14 +321,14 @@ app.post('/webhook/', (req, res) => {
 
   // Check to see if the body is valid (https://rollbar.com/ryanhugh/searchneu/items/54/)
   if (!req.body || !req.body.entry || req.body.entry.length === 0) {
-    macros.log('Invalid body on webhook?', req.body)
+    macros.log('Invalid body on webhook?', req.body);
     res.send('nope');
     return;
   }
 
-  // Now process the message. 
-  const messaging_events = req.body.entry[0].messaging;
-  for (let i = 0; i < messaging_events.length; i++) {
+  // Now process the message.
+  const messagingEvents = req.body.entry[0].messaging;
+  for (let i = 0; i < messagingEvents.length; i++) {
     const event = req.body.entry[0].messaging[i];
     const sender = event.sender.id;
     if (event.message && event.message.text) {
