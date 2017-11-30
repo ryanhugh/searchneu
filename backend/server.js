@@ -29,14 +29,14 @@ const request = new Request('server');
 const app = express();
 
 let xhubPromise;
-async function loadExpressHub(options) {
+async function loadExpressHub() {
   if (xhubPromise) {
     return xhubPromise;
   }
 
   xhubPromise = macros.getEnvVariable('fbAppSecret').then((token) => {
     return xhub({ algorithm: 'sha1', secret: token });
-  })
+  });
 
   return xhubPromise;
 }
@@ -57,8 +57,8 @@ app.use(bodyParser.json());
 
 // Verify that the webhooks are coming from facebook
 app.use(wrap(async (req, res, next) => {
-  const func = await xhubPromise
-  func(req, res, next)
+  const func = await xhubPromise;
+  func(req, res, next);
 }));
 
 
@@ -313,16 +313,15 @@ app.post('/webhook/', (req, res) => {
   // Disable temporarily
   macros.log(getTime(), getIpPath(req), 'Tried to send a webhook');
 
-  macros.log(req.headers)
+  macros.log(req.headers);
 
   if (req.isXHubValid) {
-    macros.log(req.isXHubValid(), 'HERE!')
-  }
-  else {
-    macros.log("NOPE!")
+    macros.log(req.isXHubValid(), 'HERE!');
+  } else {
+    macros.log('NOPE!');
   }
 
-  macros.log(req.isXHub,'fjdslajflksadjflk')
+  macros.log(req.isXHub, 'fjdslajflksadjflk');
 
   res.send('hi');
 
