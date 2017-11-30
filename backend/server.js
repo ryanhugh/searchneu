@@ -312,7 +312,7 @@ app.get('/webhook/', async (req, res) => {
 app.post('/webhook/', (req, res) => {
   // Verify that the webhook is actually coming from Facebook.
   // This is important.
-  if (!req.isXHub || req.isXHubValid()) {
+  if (!req.isXHub || !req.isXHubValid()) {
     macros.log(getTime(), getIpPath(req), 'Tried to send a webhook');
     macros.log(req.headers);
     res.send('nope');
