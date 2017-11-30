@@ -310,46 +310,39 @@ app.get('/webhook/', async (req, res) => {
 
 // Respond to the messages
 app.post('/webhook/', (req, res) => {
-  // Disable temporarily
-  macros.log(getTime(), getIpPath(req), 'Tried to send a webhook');
 
-  macros.log(req.headers);
-
-  if (req.isXHubValid) {
-    macros.log(req.isXHubValid(), 'HERE!');
-  } else {
-    macros.log('NOPE!');
+  // Verify that the webhook is actually coming from Facebook. 
+  // This is important.
+  if (!req.isXHub || req.isXHubValid()) {
+    macros.log(getTime(), getIpPath(req), 'Tried to send a webhook');
+    macros.log(req.headers);
+    res.send('nope');
+    return;
   }
 
-  macros.log(req.isXHub, 'fjdslajflksadjflk');
+  // Check to see if the body is valid (https://rollbar.com/ryanhugh/searchneu/items/54/)
+  if (!req.body || !req.body.entry || req.body.entry.length === 0) {
+    macros.log('Invalid body on webhook?', req.body)
+    res.send('nope');
+    return;
+  }
 
-  res.send('hi');
+  // Now process the message. 
+  const messaging_events = req.body.entry[0].messaging;
+  for (let i = 0; i < messaging_events.length; i++) {
+    const event = req.body.entry[0].messaging[i];
+    const sender = event.sender.id;
+    if (event.message && event.message.text) {
+      const text = event.message.text;
 
-
-  // return;
-
-  // // TODO: when get this working again:
-  // // 1. make sure that the requests are coming from facebook
-  // // 2. check to see if the body is valid (https://rollbar.com/ryanhugh/searchneu/items/54/)
-  // // Ex:
-  // //   TypeError: Cannot read property '0' of undefined at line var messaging_events = req.body.entry[0].messaging;
-
-
-  // const messaging_events = req.body.entry[0].messaging;
-  // for (let i = 0; i < messaging_events.length; i++) {
-  //   const event = req.body.entry[0].messaging[i];
-  //   const sender = event.sender.id;
-  //   if (event.message && event.message.text) {
-  //     const text = event.message.text;
-
-  //     if (text === 'test') {
-  //       notifyer.sendFBNotification(sender, 'CS 1800 now has 1 seat avalible!! Check it out on https://searchneu.com/cs1800 !');
-  //     } else {
-  //       notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. Someday, I will notify you when seats open up in classes that are full. 😎👌🍩 But that day is not today...");
-  //     }
-  //   }
-  // }
-  // res.sendStatus(200);
+      if (text === 'test') {
+        notifyer.sendFBNotification(sender, 'CS 1800 now has 1 seat avalible!! Check it out on https://searchneu.com/cs1800 !');
+      } else {
+        notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. Someday, I will notify you when seats open up in classes that are full. 😎👌🍩 But that day is not today...");
+      }
+    }
+  }
+  res.sendStatus(200);
 });
 
 
