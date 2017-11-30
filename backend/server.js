@@ -46,6 +46,13 @@ loadExpressHub();
 // Start watching for new labs
 // psylink.startWatch();
 
+// Verify that the webhooks are coming from facebook
+// This needs to be above bodyParser for some reason
+app.use(wrap(async (req, res, next) => {
+  const func = await xhubPromise;
+  func(req, res, next);
+}));
+
 // gzip the output
 app.use(compress());
 
@@ -54,13 +61,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Process application/json
 app.use(bodyParser.json());
-
-// Verify that the webhooks are coming from facebook
-app.use(wrap(async (req, res, next) => {
-  const func = await xhubPromise;
-  func(req, res, next);
-}));
-
 
 // Prevent being in an iFrame.
 app.use((req, res, next) => {
