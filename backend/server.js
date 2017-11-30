@@ -404,7 +404,7 @@ app.use((err, req, res) => {
   return res.send(err);
 });
 
-
+// If this port is ever changed we would also need to update the port in Facebook's whitelisted_domains
 let port;
 if (macros.DEV) {
   port = 5000;
