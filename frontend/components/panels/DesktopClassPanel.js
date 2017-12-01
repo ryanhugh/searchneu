@@ -32,12 +32,21 @@ const cx = classNames.bind(css);
 
 // DesktopClassPanel page component
 class DesktopClassPanel extends BaseClassPanel {
+
+  constructor(props){
+    super(props);
+
+    this.facebookScopeRef = null;
+
+  }
+
   componentDidUpdate() {
     macros.debounceTooltipRebuild();
   }
 
   componentDidMount() {
     macros.debounceTooltipRebuild();
+    window.FB.XFBML.parse(this.facebookScopeRef);
   }
 
   // Method to decide whether to show the waitlist or not
@@ -173,6 +182,15 @@ class DesktopClassPanel extends BaseClassPanel {
             <div className={ css.rightPanel }>
               <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
               {creditsString}
+              <div ref = {(ele) => {this.facebookScopeRef = ele}}>
+                <div className="fb-send-to-messenger" 
+                  messenger_app_id="1979224428978082" 
+                  page_id="807584642748179" 
+                  data-ref={'1'}
+                  color="white" 
+                  size="large">
+                </div>
+              </div>
             </div>
           </div>
           {sectionTable}
