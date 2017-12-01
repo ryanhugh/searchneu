@@ -30,37 +30,18 @@ const cx = classNames.bind(css);
 
 
 class MobileClassPanel extends BaseClassPanel {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    aClass: PropTypes.object.isRequired,
+  };
 
-    this.state.showMoreThanTitle = false;
-    this.state.showAllClassDetails = false;
-
-    this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
-    this.toggleShowAllClassDetails = this.toggleShowAllClassDetails.bind(this);
-  }
-
-  toggleShowMoreThanTitle() {
-    const newTitleValue = !this.state.showMoreThanTitle;
-    let newShowAllClassDetails = this.state.showAllClassDetails;
-
+  toggleShowMoreThanTitle = () => {
     // If closing the class accordian, reset the showAllClassDetails back to the default.
-    let newState = {};
-    if (!newTitleValue) {
-      newShowAllClassDetails = false;
-      newState = this.getInitialRenderedSectionState();
-    }
+    const newState = (this.state.showMoreThanTitle) ?
+      this.getInitialRenderedSectionState() : {};
 
-    newState.showMoreThanTitle = newTitleValue;
-    newState.showAllClassDetails = newShowAllClassDetails;
+    newState.showMoreThanTitle = !this.state.showMoreThanTitle;
 
     this.setState(newState);
-  }
-
-  toggleShowAllClassDetails() {
-    this.setState({
-      showAllClassDetails: !this.state.showAllClassDetails,
-    });
   }
 
   getClassBody() {
@@ -126,7 +107,11 @@ class MobileClassPanel extends BaseClassPanel {
 
         <div>
           <a
-            onClick={ this.toggleShowAllClassDetails }
+            onClick={ () => {
+              this.setState({
+                showAllClassDetails: !this.state.showAllClassDetails,
+              });
+            } }
             style={{ display:'inline-block' }}
             role='button'
             tabIndex={ 0 }
@@ -199,10 +184,5 @@ class MobileClassPanel extends BaseClassPanel {
 
 // Number of sections to show by default.
 MobileClassPanel.sectionsShownByDefault = 1;
-
-MobileClassPanel.propTypes = {
-  aClass: PropTypes.object.isRequired,
-};
-
 
 export default CSSModules(MobileClassPanel, css);
