@@ -269,7 +269,7 @@ class Home extends React.Component {
       this.searchCount++;
       window.ga('send', 'pageview', `/?search=${searchTerm}`);
 
-      macros.logAmplitudeEvent('Search', { query: searchTerm, sessionCount: this.searchCount });
+      macros.logAmplitudeEvent('Search', { query: searchTerm.toLowerCase(), sessionCount: this.searchCount });
     } else {
       macros.logAmplitudeEvent('Homepage visit');
       window.ga('send', 'pageview', '/');
