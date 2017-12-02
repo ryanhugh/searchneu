@@ -80,7 +80,8 @@ class MobileClassPanel extends BaseClassPanel {
       const creditsString = this.getCreditsString();
 
       let button = null;
-      if ((new Date()).getFullYear() === 2017) {
+      if (window.localStorage.fbtest || window.location.hash === '#fbtest') {
+        window.localStorage.fbtest = true;
         button = <Button>Sign up for notifications!</Button>;
       }
 
