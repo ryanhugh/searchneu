@@ -59,7 +59,12 @@ class Search {
 
     const startTime = Date.now();
     const results = await request.get(url);
-    window.amplitude.logEvent('Search Timing', { query: query, time: Date.now() - startTime });
+    window.amplitude.logEvent('Search Timing', {
+      query: query,
+      time: Date.now() - startTime,
+      startIndex: existingTermCount,
+      endIndex: termCount,
+    });
 
     if (results.error) {
       macros.error('Error with networking request', results.error);
