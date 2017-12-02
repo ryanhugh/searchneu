@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
-import { Button } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react';
 
 import chevronDown from './chevron-down.svg';
 import chevronRight from './chevron-right.svg';
@@ -80,8 +80,8 @@ class MobileClassPanel extends BaseClassPanel {
       const creditsString = this.getCreditsString();
 
       let button = null;
-      if ((new Date()).getFullYear() == 2017) {
-        button = <Button>Sign up for notifications!</Button>
+      if ((new Date()).getFullYear() === 2017) {
+        button = <Button>Sign up for notifications!</Button>;
       }
 
       return (
