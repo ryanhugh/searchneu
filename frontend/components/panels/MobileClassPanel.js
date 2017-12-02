@@ -7,7 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
-import { Button } from 'semantic-ui-react';
 
 import chevronDown from './chevron-down.svg';
 import chevronRight from './chevron-right.svg';
@@ -79,12 +78,6 @@ class MobileClassPanel extends BaseClassPanel {
       // Figure out the credits string
       const creditsString = this.getCreditsString();
 
-      let button = null;
-      if (window.localStorage.fbtest || window.location.hash === '#fbtest') {
-        window.localStorage.fbtest = true;
-        button = <Button>Sign up for notifications!</Button>;
-      }
-
       return (
         <span>
           {aClass.desc}
@@ -106,8 +99,6 @@ class MobileClassPanel extends BaseClassPanel {
             Prerequisite for: {this.optionalDisplay(macros.prereqTypes.PREREQ_FOR)} {this.showMore(macros.prereqTypes.PREREQ_FOR)}
             <br />
             Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
-            <br />
-            {button}
           </div>
         </span>
       );
