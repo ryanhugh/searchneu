@@ -354,6 +354,14 @@ class Class {
     return false;
   }
 
+  isAtLeastOneSectionFull() {
+    for (let i = 0; i < this.sections.length; i++) {
+      if (this.sections[i].seatsRemaining <= 0 && this.sections[i].seatsCapacity > 0) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   loadSectionsFromSectionMap(sectionMap) {
     if (this.isString) {

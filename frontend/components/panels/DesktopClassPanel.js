@@ -7,6 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
+import { Checkbox } from 'semantic-ui-react'
 
 import globe from './globe.svg';
 import desktopCss from './DesktopClassPanel.css';
@@ -36,17 +37,24 @@ class DesktopClassPanel extends BaseClassPanel {
   constructor(props){
     super(props);
 
-    this.facebookScopeRef = null;
+    // Don't do `this.state = {...}` here, because the state is already setup in the parent react component
+    // If this is set to true it is assumed that it should be shown. 
+    this.state.showMessengerButton = false;
 
+    this.facebookScopeRef = null;
+    this.onSubscribeToggleChange = this.onSubscribeToggleChange.bind(this);
   }
 
   componentDidUpdate() {
     macros.debounceTooltipRebuild();
+
+    if (this.facebookScopeRef) {
+      window.FB.XFBML.parse(this.facebookScopeRef);
+    }
   }
 
   componentDidMount() {
     macros.debounceTooltipRebuild();
-    window.FB.XFBML.parse(this.facebookScopeRef);
   }
 
   // Method to decide whether to show the waitlist or not
@@ -86,6 +94,15 @@ class DesktopClassPanel extends BaseClassPanel {
 
     // If there are plenty of seats left, don't show the waitlist
     return false;
+  }
+
+  onSubscribeToggleChange(event, data) {
+    console.log(data.checked)
+
+    this.setState({
+      showMessengerButton: true
+    })
+    // debugger
   }
 
   render() {
@@ -146,6 +163,33 @@ class DesktopClassPanel extends BaseClassPanel {
       );
     }
 
+    let updatesSection = null;
+    if (this.state.showMessengerButton) {
+      updatesSection = (
+            <div ref = {(ele) => {this.facebookScopeRef = ele}}>
+              <div className="fb-send-to-messenger" 
+                messenger_app_id="1979224428978082" 
+                page_id="807584642748179" 
+                data-ref={'1'}
+                color="white" 
+                size="large">
+              </div>
+            </div>
+          )
+    }
+    else if (aClass.sections.length === 0) {
+      updatesSection = <div>
+          Want notifications if sections are added?
+            <Checkbox toggle onChange={this.onSubscribeToggleChange}/>
+          </div>
+    }
+    else if (aClass.isAtLeastOneSectionFull()) {
+      updatesSection = <div>
+          Want notifications when seats open up?
+            <Checkbox toggle onChange={this.onSubscribeToggleChange}/>
+          </div>
+    }
+
     // Render the Show More.. Button
     const showMoreSections = this.getShowMoreButton();
 
@@ -182,15 +226,10 @@ class DesktopClassPanel extends BaseClassPanel {
             <div className={ css.rightPanel }>
               <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
               {creditsString}
-              <div ref = {(ele) => {this.facebookScopeRef = ele}}>
-                <div className="fb-send-to-messenger" 
-                  messenger_app_id="1979224428978082" 
-                  page_id="807584642748179" 
-                  data-ref={'1'}
-                  color="white" 
-                  size="large">
-                </div>
+              <div>
+                {updatesSection}
               </div>
+              
             </div>
           </div>
           {sectionTable}
