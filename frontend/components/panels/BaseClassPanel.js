@@ -192,7 +192,7 @@ class BaseClassPanel extends React.Component {
               key={ hash }
               role='link'
               tabIndex={ 0 }
-              onClick={ () => { this.onReqClick(reqType, childBranch); } }
+              onClick={ (event) => { this.onReqClick(reqType, childBranch, event); } }
               className={ css.reqClassLink }
             >
               {`${childBranch.subject} ${childBranch.classId}`}
