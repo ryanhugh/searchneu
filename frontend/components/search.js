@@ -60,7 +60,7 @@ class Search {
     const startTime = Date.now();
     const results = await request.get(url);
     window.amplitude.logEvent('Search Timing', {
-      query: query,
+      query: query.toLowerCase(),
       time: Date.now() - startTime,
       startIndex: existingTermCount,
       endIndex: termCount,
