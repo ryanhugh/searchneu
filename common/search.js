@@ -402,7 +402,7 @@ class Search {
     // If there are no results, log an event to Amplitude.
     if (refs.length === 0) {
       macros.logAmplitudeEvent('Backend No Search Results', {
-        query: searchTerm,
+        query: searchTerm.toLowerCase(),
       });
     }
 

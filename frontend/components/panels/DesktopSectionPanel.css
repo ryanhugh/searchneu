@@ -35,3 +35,6 @@
 .sectionGlobe {
     opacity: .7;
 }
+.displayNone {
+    display: none;
+}
