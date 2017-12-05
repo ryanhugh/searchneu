@@ -12,32 +12,48 @@ import css from './BaseClassPanel.css';
 import macros from '../macros';
 
 class BaseClassPanel extends React.Component {
+  static propTypes = {
+    aClass: PropTypes.object.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
-    this.state = this.getInitialRenderedSectionState();
-    this.state.prereqsPage = 0;
-    this.state.coreqsPage = 0;
-    this.state.prereqsForPage = 0;
-    this.state.optPrereqsForPage = 0;
-
-    this.onShowMoreClick = this.onShowMoreClick.bind(this);
-  }
-
-  onShowMoreClick() {
-    macros.log('Adding more sections to the bottom.');
-
-    let newElements;
-    if (this.state.renderedSections.length > macros.sectionsShowAllThreshold) {
-      newElements = this.state.unrenderedSections.splice(0, this.state.unrenderedSections.length);
+    let sectionsShownByDefault;
+    if (this.constructor.sectionsShownByDefault) {
+      sectionsShownByDefault = this.constructor.sectionsShownByDefault;
     } else {
-      newElements = this.state.unrenderedSections.splice(0, macros.sectionsAddedWhenShowMoreClicked);
+      sectionsShownByDefault = macros.sectionsShownByDefault;
     }
 
+    // If this is desktop and there is exactly one section hidden by the button, just show them all.
+    if (!macros.isMobile && this.props.aClass.sections.length === sectionsShownByDefault + 1) {
+      sectionsShownByDefault++;
+    }
+
+    this.state = {
+      prereqsPage : 0,
+      coreqsPage: 0,
+      prereqsForPage: 0,
+      optPrereqsForPage: 0,
+      renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
+      unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
+    };
+  }
+
+  onShowMoreClick = () => {
+    macros.log('Adding more sections to the bottom.');
+
+    // Get the length of the our sections
+    const rendered = this.state.renderedSections;
+    const unrendered = this.state.unrenderedSections;
+
+    const showAmount = (rendered.length > macros.sectionsShowAllThreshold) ?
+      unrendered.length : macros.sectionsAddedWhenShowMoreClicked;
 
     this.setState({
-      unrenderedSections: this.state.unrenderedSections,
-      renderedSections: this.state.renderedSections.concat(newElements),
+      renderedSections: rendered.concat(unrendered.slice(0, showAmount)),
+      unrenderedSections: unrendered.slice(showAmount, unrendered.length),
     });
   }
 
@@ -61,34 +77,14 @@ class BaseClassPanel extends React.Component {
       reqTypeString = 'Optional Prerequisite For';
     } else {
       macros.error('unknown type.', reqType);
-      return false;
+      return null;
     }
 
     macros.logAmplitudeEvent('Requisite Click', {
       type: reqTypeString, subject: childBranch.subject, classId: childBranch.classId, classCode: classCode,
     });
 
-    return false;
-  }
-
-  getInitialRenderedSectionState() {
-    let sectionsShownByDefault;
-    if (this.constructor.sectionsShownByDefault) {
-      sectionsShownByDefault = this.constructor.sectionsShownByDefault;
-    } else {
-      sectionsShownByDefault = macros.sectionsShownByDefault;
-    }
-
-    // If this is desktop and there is exactly one section hidden by the button, just show them all.
-    if (!macros.isMobile && this.props.aClass.sections.length === sectionsShownByDefault + 1) {
-      sectionsShownByDefault++;
-    }
-
-    // Show 3 sections by default
-    return {
-      renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
-      unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
-    };
+    return null;
   }
 
   // Render the Show More.. Button
@@ -365,10 +361,5 @@ class BaseClassPanel extends React.Component {
     );
   }
 }
-
-
-BaseClassPanel.propTypes = {
-  aClass: PropTypes.object.isRequired,
-};
 
 export default BaseClassPanel;
