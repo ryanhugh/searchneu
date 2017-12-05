@@ -34,6 +34,10 @@ const cx = classNames.bind(css);
 // DesktopClassPanel page component
 class DesktopClassPanel extends BaseClassPanel {
 
+  static propTypes = {
+    aClass: PropTypes.object.isRequired,
+  };
+  
   constructor(props){
     super(props);
 
@@ -242,10 +246,5 @@ class DesktopClassPanel extends BaseClassPanel {
 
 // Number of sections to show by default. This is different on mobile.
 DesktopClassPanel.sectionsShownByDefault = 3;
-
-DesktopClassPanel.propTypes = {
-  aClass: PropTypes.object.isRequired,
-};
-
 
 export default CSSModules(DesktopClassPanel, css);
