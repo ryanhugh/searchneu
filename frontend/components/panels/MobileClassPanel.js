@@ -30,49 +30,15 @@ const cx = classNames.bind(css);
 
 
 class MobileClassPanel extends BaseClassPanel {
-  constructor(props) {
-    super(props);
-
-    this.state.showMoreThanTitle = false;
-    this.state.showAllClassDetails = false;
-
-    this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
-    this.toggleShowAllClassDetails = this.toggleShowAllClassDetails.bind(this);
-  }
-
-  toggleShowMoreThanTitle() {
-    const newTitleValue = !this.state.showMoreThanTitle;
-    let newShowAllClassDetails = this.state.showAllClassDetails;
-
-    // If closing the class accordian, reset the showAllClassDetails back to the default.
-    let newState = {};
-    if (!newTitleValue) {
-      newShowAllClassDetails = false;
-      newState = this.getInitialRenderedSectionState();
-    }
-
-    newState.showMoreThanTitle = newTitleValue;
-    newState.showAllClassDetails = newShowAllClassDetails;
-
-    this.setState(newState);
-  }
-
-  toggleShowAllClassDetails() {
-    this.setState({
-      showAllClassDetails: !this.state.showAllClassDetails,
-    });
-  }
+  static propTypes = {
+    aClass: PropTypes.object.isRequired,
+  };
 
   getClassBody() {
     const aClass = this.props.aClass;
 
-    let showFullClassBody = false;
-
-    if (this.state.showAllClassDetails) {
-      showFullClassBody = true;
-    } else if (!aClass.desc || aClass.desc.length < 50) {
-      showFullClassBody = true;
-    }
+    const showFullClassBody = (this.state.showAllClassDetails ||
+        (!aClass.desc || aClass.desc.length < 50));
 
     if (showFullClassBody) {
       // Figure out the credits string
@@ -126,7 +92,11 @@ class MobileClassPanel extends BaseClassPanel {
 
         <div>
           <a
-            onClick={ this.toggleShowAllClassDetails }
+            onClick={ () => {
+              this.setState({
+                showAllClassDetails: !this.state.showAllClassDetails,
+              });
+            } }
             style={{ display:'inline-block' }}
             role='button'
             tabIndex={ 0 }
@@ -156,19 +126,18 @@ class MobileClassPanel extends BaseClassPanel {
     const showMoreSections = this.getShowMoreButton();
 
     // Decide which chevron to use based on whether the panel is expanded or not.
-    let chevron;
-    if (this.state.showMoreThanTitle) {
-      chevron = chevronDown;
-    } else {
-      chevron = chevronRight;
-    }
+    const chevron = (this.state.showMoreThanTitle) ? chevronDown : chevronRight;
 
     return (
       <div>
         <div className={ `${css.container} ui segment` }>
           <div
             className={ css.header }
-            onClick={ this.toggleShowMoreThanTitle }
+            onClick={ () => {
+              this.setState({
+                showMoreThanTitle: !this.state.showMoreThanTitle,
+              });
+            } }
             role='button'
             tabIndex={ 0 }
           >
@@ -199,10 +168,5 @@ class MobileClassPanel extends BaseClassPanel {
 
 // Number of sections to show by default.
 MobileClassPanel.sectionsShownByDefault = 1;
-
-MobileClassPanel.propTypes = {
-  aClass: PropTypes.object.isRequired,
-};
-
 
 export default CSSModules(MobileClassPanel, css);
