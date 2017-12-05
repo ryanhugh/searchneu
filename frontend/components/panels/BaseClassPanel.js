@@ -12,6 +12,10 @@ import css from './BaseClassPanel.css';
 import macros from '../macros';
 
 class BaseClassPanel extends React.Component {
+  static propTypes = {
+    aClass: PropTypes.object.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
@@ -339,10 +343,5 @@ class BaseClassPanel extends React.Component {
     );
   }
 }
-
-
-BaseClassPanel.propTypes = {
-  aClass: PropTypes.object.isRequired,
-};
 
 export default BaseClassPanel;
