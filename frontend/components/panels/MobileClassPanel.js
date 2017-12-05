@@ -34,16 +34,6 @@ class MobileClassPanel extends BaseClassPanel {
     aClass: PropTypes.object.isRequired,
   };
 
-  toggleShowMoreThanTitle = () => {
-    // If closing the class accordian, reset the showAllClassDetails back to the default.
-    const newState = (this.state.showMoreThanTitle) ?
-      this.getInitialRenderedSectionState() : {};
-
-    newState.showMoreThanTitle = !this.state.showMoreThanTitle;
-
-    this.setState(newState);
-  }
-
   getClassBody() {
     const aClass = this.props.aClass;
 
@@ -153,7 +143,11 @@ class MobileClassPanel extends BaseClassPanel {
         <div className={ `${css.container} ui segment` }>
           <div
             className={ css.header }
-            onClick={ this.toggleShowMoreThanTitle }
+            onClick={ () => {
+              this.setState({
+                showMoreThanTitle: !this.state.showMoreThanTitle,
+              });
+            } }
             role='button'
             tabIndex={ 0 }
           >
