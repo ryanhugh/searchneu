@@ -44,17 +44,16 @@ class BaseClassPanel extends React.Component {
   onShowMoreClick = () => {
     macros.log('Adding more sections to the bottom.');
 
-    let newElements;
-    if (this.state.renderedSections.length > macros.sectionsShowAllThreshold) {
-      newElements = this.state.unrenderedSections.splice(0, this.state.unrenderedSections.length);
-    } else {
-      newElements = this.state.unrenderedSections.splice(0, macros.sectionsAddedWhenShowMoreClicked);
-    }
+    // Get the length of the our sections
+    const rendered = this.state.renderedSections;
+    const unrendered = this.state.unrenderedSections;
 
+    const showAmount = (rendered.length > macros.sectionsShowAllThreshold) ?
+      unrendered.length : macros.sectionsAddedWhenShowMoreClicked;
 
     this.setState({
-      unrenderedSections: this.state.unrenderedSections,
-      renderedSections: this.state.renderedSections.concat(newElements),
+      renderedSections: rendered.concat(unrendered.slice(0, showAmount)),
+      unrenderedSections: unrendered.slice(showAmount, unrendered.length),
     });
   }
 
