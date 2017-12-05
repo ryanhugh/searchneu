@@ -58,8 +58,6 @@ class BaseClassPanel extends React.Component {
     });
   }
 
-<<<<<<< HEAD
-=======
   onReqClick(reqType, childBranch, event) {
     // Create the React element and add it to retVal
     const searchEvent = new CustomEvent(macros.searchEvent, { detail: `${childBranch.subject} ${childBranch.classId}` });
@@ -80,37 +78,16 @@ class BaseClassPanel extends React.Component {
       reqTypeString = 'Optional Prerequisite For';
     } else {
       macros.error('unknown type.', reqType);
-      return false;
+      return null;
     }
 
     macros.logAmplitudeEvent('Requisite Click', {
       type: reqTypeString, subject: childBranch.subject, classId: childBranch.classId, classCode: classCode,
     });
 
-    return false;
+    return null;
   }
 
-  getInitialRenderedSectionState() {
-    let sectionsShownByDefault;
-    if (this.constructor.sectionsShownByDefault) {
-      sectionsShownByDefault = this.constructor.sectionsShownByDefault;
-    } else {
-      sectionsShownByDefault = macros.sectionsShownByDefault;
-    }
-
-    // If this is desktop and there is exactly one section hidden by the button, just show them all.
-    if (!macros.isMobile && this.props.aClass.sections.length === sectionsShownByDefault + 1) {
-      sectionsShownByDefault++;
-    }
-
-    // Show 3 sections by default
-    return {
-      renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
-      unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
-    };
-  }
-
->>>>>>> a7b5bd83e78877d1fc6b2f796dd96119daad4d1b
   // Render the Show More.. Button
   // This is the same on both desktop and mobile.
   getShowMoreButton() {
