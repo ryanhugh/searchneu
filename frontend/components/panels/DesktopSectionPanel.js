@@ -19,6 +19,12 @@ const cx = classNames.bind(css);
 
 
 class DesktopSectionPanel extends React.Component {
+  static propTypes = {
+    shouldShowExamColumns: PropTypes.bool.isRequired,
+    showWaitList: PropTypes.bool.isRequired,
+    section: PropTypes.object.isRequired,
+  };
+
   // Create the 4:35 - 5:40 pm string.
   // This was copied from mobile section panel.js
   // TODO: deduplicate
@@ -46,10 +52,7 @@ class DesktopSectionPanel extends React.Component {
     if (this.props.section.online) {
       // How many cells to span
       // need to span more cells if final exam columns are being shown.
-      let length = 3;
-      if (this.props.shouldShowExamColumns) {
-        length = 6;
-      }
+      const length = (this.props.shouldShowExamColumns) ? 6 : 3;
 
       const onlineElement =
       (
@@ -130,13 +133,5 @@ class DesktopSectionPanel extends React.Component {
     );
   }
 }
-
-
-DesktopSectionPanel.propTypes = {
-  shouldShowExamColumns: PropTypes.bool.isRequired,
-  showWaitList: PropTypes.bool.isRequired,
-  section: PropTypes.object.isRequired,
-};
-
 
 export default CSSModules(DesktopSectionPanel, css);
