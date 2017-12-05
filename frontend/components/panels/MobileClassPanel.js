@@ -37,13 +37,8 @@ class MobileClassPanel extends BaseClassPanel {
   getClassBody() {
     const aClass = this.props.aClass;
 
-    let showFullClassBody = false;
-
-    if (this.state.showAllClassDetails) {
-      showFullClassBody = true;
-    } else if (!aClass.desc || aClass.desc.length < 50) {
-      showFullClassBody = true;
-    }
+    const showFullClassBody = (this.state.showAllClassDetails ||
+        (!aClass.desc || aClass.desc.length < 50));
 
     if (showFullClassBody) {
       // Figure out the credits string
@@ -131,12 +126,7 @@ class MobileClassPanel extends BaseClassPanel {
     const showMoreSections = this.getShowMoreButton();
 
     // Decide which chevron to use based on whether the panel is expanded or not.
-    let chevron;
-    if (this.state.showMoreThanTitle) {
-      chevron = chevronDown;
-    } else {
-      chevron = chevronRight;
-    }
+    const chevron = (this.state.showMoreThanTitle) ? chevronDown : chevronRight;
 
     return (
       <div>
