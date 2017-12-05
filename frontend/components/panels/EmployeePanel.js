@@ -46,6 +46,10 @@ const cx = classNames.bind(css);
 
 // not standardized yet: personalSite, bigPictureLink
 class EmployeePanel extends React.Component {
+  static propTypes = {
+    employee: PropTypes.object.isRequired,
+  };
+
   static injectBRs(arr) {
     const retVal = [];
 
@@ -64,15 +68,12 @@ class EmployeePanel extends React.Component {
   constructor(props) {
     super(props);
 
-
     this.state = {
       showMoreThanTitle: false,
     };
-
-    this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
   }
 
-  toggleShowMoreThanTitle() {
+  toggleShowMoreThanTitle = () => {
     this.setState({
       showMoreThanTitle: !this.state.showMoreThanTitle,
     });
@@ -208,10 +209,5 @@ class EmployeePanel extends React.Component {
     );
   }
 }
-
-EmployeePanel.propTypes = {
-  employee: PropTypes.object.isRequired,
-};
-
 
 export default CSSModules(EmployeePanel, css);
