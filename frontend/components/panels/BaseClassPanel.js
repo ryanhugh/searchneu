@@ -58,6 +58,59 @@ class BaseClassPanel extends React.Component {
     });
   }
 
+<<<<<<< HEAD
+=======
+  onReqClick(reqType, childBranch, event) {
+    // Create the React element and add it to retVal
+    const searchEvent = new CustomEvent(macros.searchEvent, { detail: `${childBranch.subject} ${childBranch.classId}` });
+    window.dispatchEvent(searchEvent);
+    event.preventDefault();
+
+    const classCode = `${childBranch.subject} ${childBranch.classId}`;
+
+    let reqTypeString;
+
+    if (reqType === macros.prereqTypes.PREREQ) {
+      reqTypeString = 'Prerequisite';
+    } else if (reqType === macros.prereqTypes.COREQ) {
+      reqTypeString = 'Corequisite';
+    } else if (reqType === macros.prereqTypes.PREREQ_FOR) {
+      reqTypeString = 'Required Prerequisite For';
+    } else if (reqType === macros.prereqTypes.OPT_PREREQ_FOR) {
+      reqTypeString = 'Optional Prerequisite For';
+    } else {
+      macros.error('unknown type.', reqType);
+      return false;
+    }
+
+    macros.logAmplitudeEvent('Requisite Click', {
+      type: reqTypeString, subject: childBranch.subject, classId: childBranch.classId, classCode: classCode,
+    });
+
+    return false;
+  }
+
+  getInitialRenderedSectionState() {
+    let sectionsShownByDefault;
+    if (this.constructor.sectionsShownByDefault) {
+      sectionsShownByDefault = this.constructor.sectionsShownByDefault;
+    } else {
+      sectionsShownByDefault = macros.sectionsShownByDefault;
+    }
+
+    // If this is desktop and there is exactly one section hidden by the button, just show them all.
+    if (!macros.isMobile && this.props.aClass.sections.length === sectionsShownByDefault + 1) {
+      sectionsShownByDefault++;
+    }
+
+    // Show 3 sections by default
+    return {
+      renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
+      unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
+    };
+  }
+
+>>>>>>> a7b5bd83e78877d1fc6b2f796dd96119daad4d1b
   // Render the Show More.. Button
   // This is the same on both desktop and mobile.
   getShowMoreButton() {
@@ -79,12 +132,11 @@ class BaseClassPanel extends React.Component {
     return `${this.props.aClass.minCredits} to ${this.props.aClass.maxCredits} credits`;
   }
 
-
   // The argument wrapper func is optional
   // If it exists, it is called on when formatting the classes
   // It is called with a class
   // and can return either a string or a react element.
-  getReqsString(parsingPrereqs, aClass = this.props.aClass) {
+  getReqsString(reqType, aClass = this.props.aClass) {
     const retVal = [];
 
     // Keep track of which subject+classId combonations have been used so far.
@@ -95,24 +147,24 @@ class BaseClassPanel extends React.Component {
 
     let childNodes;
 
-    if (parsingPrereqs === macros.prereqTypes.PREREQ) {
+    if (reqType === macros.prereqTypes.PREREQ) {
       childNodes = aClass.prereqs;
-    } else if (parsingPrereqs === macros.prereqTypes.COREQ) {
+    } else if (reqType === macros.prereqTypes.COREQ) {
       childNodes = aClass.coreqs;
-    } else if (parsingPrereqs === macros.prereqTypes.PREREQ_FOR) {
+    } else if (reqType === macros.prereqTypes.PREREQ_FOR) {
       if (!aClass.prereqsFor) {
         childNodes = { values:[] };
       } else {
         childNodes = aClass.prereqsFor;
       }
-    } else if (parsingPrereqs === macros.prereqTypes.OPT_PREREQ_FOR) {
+    } else if (reqType === macros.prereqTypes.OPT_PREREQ_FOR) {
       if (!aClass.optPrereqsFor) {
         childNodes = { values:[] };
       } else {
         childNodes = aClass.optPrereqsFor;
       }
     } else {
-      macros.error('Invalid prereqType', parsingPrereqs);
+      macros.error('Invalid prereqType', reqType);
     }
 
     childNodes.values.forEach((childBranch) => {
@@ -133,9 +185,6 @@ class BaseClassPanel extends React.Component {
             return;
           }
           processedSubjectClassIds[childBranch.subject + childBranch.classId] = true;
-
-          // Create the React element and add it to retVal
-          const event = new CustomEvent(macros.searchEvent, { detail: `${childBranch.subject} ${childBranch.classId}` });
 
           //   href={"/" + encodeURIComponent(childBranch.subject + ' ' + childBranch.classId)}
 
@@ -163,7 +212,7 @@ class BaseClassPanel extends React.Component {
               key={ hash }
               role='link'
               tabIndex={ 0 }
-              onClick={ (e) => { window.dispatchEvent(event); e.preventDefault(); return false; } }
+              onClick={ (event) => { this.onReqClick(reqType, childBranch, event); } }
               className={ css.reqClassLink }
             >
               {`${childBranch.subject} ${childBranch.classId}`}
@@ -171,7 +220,7 @@ class BaseClassPanel extends React.Component {
 
           retVal.push(element);
         }
-      } else if (parsingPrereqs === macros.prereqTypes.PREREQ) {
+      } else if (reqType === macros.prereqTypes.PREREQ) {
         // Figure out how many unique classIds there are in the prereqs.
         const allClassIds = {};
         for (const node of childBranch.prereqs.values) {
@@ -193,15 +242,15 @@ class BaseClassPanel extends React.Component {
     // Now insert the type divider ("and" vs "or") between the elements.
     // If we're parsing prereqsFor, we should use just a comma as a separator.
     // Can't use the join in case the objects are react elements
-    if (parsingPrereqs === macros.prereqTypes.PREREQ_FOR || parsingPrereqs === macros.prereqTypes.OPT_PREREQ_FOR) {
+    if (reqType === macros.prereqTypes.PREREQ_FOR || reqType === macros.prereqTypes.OPT_PREREQ_FOR) {
       for (let i = retVal.length - 1; i >= 1; i--) {
         retVal.splice(i, 0, ', ');
       }
     } else {
       let type;
-      if (parsingPrereqs === macros.prereqTypes.PREREQ) {
+      if (reqType === macros.prereqTypes.PREREQ) {
         type = aClass.prereqs.type;
-      } else if (parsingPrereqs === macros.prereqTypes.COREQ) {
+      } else if (reqType === macros.prereqTypes.COREQ) {
         type = aClass.coreqs.type;
       }
       for (let i = retVal.length - 1; i >= 1; i--) {
