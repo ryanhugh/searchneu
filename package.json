@@ -59,6 +59,7 @@
     "express-async-wrap": "^1.0.0",
     "express-x-hub": "^1.0.4",
     "file-loader": "^1.1.5",
+    "firebase-admin": "^5.5.1",
     "forever": "^0.15.3",
     "form-urlencoded": "^2.0.4",
     "fs-promise": "^2.0.0",

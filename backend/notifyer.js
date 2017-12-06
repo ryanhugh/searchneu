@@ -36,6 +36,21 @@ class Notifyer {
     });
   }
 
+
+  // Get some info about the user
+  // Docs here: https://developers.facebook.com/docs/messenger-platform/identity/user-profile
+  async getUserProfileInfo(senderId) {
+    const token = await macros.getEnvVariable('fbToken');
+
+    // Example: 
+    // {
+    //   "first_name": "Ryan",
+    //   "last_name": "Hughes",
+    //   "id": "..."
+    // }
+    return request.get("https://graph.facebook.com/v2.6/" + sender + "?fields=first_name,last_name&access_token=" + token)
+  }
+
   // TODO
   // sendEmail() {
 

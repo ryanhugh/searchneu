@@ -341,6 +341,78 @@ app.post('/webhook/', (req, res) => {
         notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com!");
       }
     }
+    else if (event.optin) {
+
+      macros.log("Got opt in button click!", event, event.optin.ref)
+
+      // The frontned send a classHash to follow and a list of sectionHashes to follow. 
+      let userObject = {};
+      try {
+        userObject = JSON.parse(event.optin.ref)
+      } catch(e) {
+        macros.error("Unable to parse user data from frontend?", event.optin.ref);
+        res.sendStatus(200);
+        return;
+      }
+
+      if (!userObject.classHash || !userObject.sectionHashes) {
+        macros.error("Unable to parse class hash from ", event.optin.ref);
+        res.sendStatus(200);
+        return;
+      }
+
+
+
+      let firebaseRef = database.getRef('/users/' + sender);
+
+      let existingData = await ref.once('value')
+
+      // User is signing in from a new device
+      if (existingData) {
+
+        // Add this array if it dosen't exist. It should exist
+        if (!existingData.watching) {
+          existingData.watching = []
+        }
+
+
+        // ok lets add what classes the user saw in the frontend that have no seats availible and that he wants to sign up for
+        // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
+        // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
+
+        existingData.watchingClasses.push()
+
+
+      }
+      else {
+
+      }
+
+
+
+
+      let names = await notifyer.getUserProfileInfo(sender)
+
+      macros.log("Got first name and last name", names.first_name, names.last_name)
+
+
+      // Organize the data and save it in the DB
+      // ACTUALLY you need to do a get and then update conditionally
+
+      let dbEntry = {
+        firstName: names.first_name,
+        lastName: names.last_name
+        watching: 
+      }
+
+
+      database.set('/users/' + sender, )
+
+
+    }
+    else {
+      macros.log("Unknown FB event received: ", event)
+    }
   }
   res.sendStatus(200);
 });
