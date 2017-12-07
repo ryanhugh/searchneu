@@ -81,9 +81,14 @@ class Request {
         }, false);
       }
 
-
       xmlhttp.open(config.method, config.url, true);
-      xmlhttp.send(config.body);
+
+      if (config.method === 'POST') {
+        xmlhttp.setRequestHeader('Content-Type', 'application/json');
+        xmlhttp.send(JSON.stringify(config.body));
+      } else {
+        xmlhttp.send();
+      }
     });
   }
 

@@ -379,9 +379,12 @@ app.post('/webhook/', (req, res) => {
 
 // Rate-limit submissions on a per-IP basis
 let rateLimit = {};
-const lastHour = 0;
+let lastHour = 0;
 
 app.post('/submitFeedback', wrap(async (req, res) => {
+  // Don't cache this endpoint.
+  res.setHeader('Cache-Control', 'no-cache, no-store');
+
   if (!req.body.message) {
     macros.log('Empty message?');
     res.send(JSON.stringify({
@@ -398,8 +401,10 @@ app.post('/submitFeedback', wrap(async (req, res) => {
   // Do this instead of a timer because the vast majority of the time people are not going to be submitting
   // submissions, and this works just as well.
   if (lastHour !== currentHour) {
+    lastHour = currentHour;
     rateLimit = {};
   }
+
 
   if (!rateLimit[userIp]) {
     rateLimit[userIp] = 0;
@@ -421,6 +426,7 @@ app.post('/submitFeedback', wrap(async (req, res) => {
   if (req.body.contact) {
     message += ` | ${req.body.contact}`;
   }
+
 
   // Ryan's User ID for the Search NEU in facebook.
   // In order to send Ryan a FB message with this ID you would need the secret key for the Search NEU page

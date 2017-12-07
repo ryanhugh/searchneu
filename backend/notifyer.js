@@ -43,12 +43,12 @@ class Notifyer {
         };
       }
 
-      macros.error('Could not send fb message', response.body);
+      macros.error('Could not send fb message', text, response.body);
       return {
         error: 'true',
       };
     } catch (e) {
-      macros.error('Could not send fb message', e.message || e.error || e);
+      macros.error('Could not send fb message', text, e.message || e.error || e);
       return {
         error: 'true',
       };

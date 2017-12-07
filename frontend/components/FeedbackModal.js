@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import { Button, Icon, Modal, Header, TextArea, Input, Form, Message } from 'semantic-ui-react';
-import classNames from 'classnames/bind';
 import { Transition } from 'react-transition-group';
 
 import macros from './macros';
@@ -40,11 +39,22 @@ class FeedbackModal extends React.Component {
   }
 
 
-  onSubmit() {
-    macros.log(this.state);
+  async onSubmit() {
+    // Send an event to amplitude too, just for redundancy.
+    macros.logAmplitudeEvent('Feedback', { text: this.state.messageValue, contact: this.state.contactValue });
+
+    await request.post({
+      url: '/submitFeedback',
+      body: {
+        message: this.state.messageValue,
+        contact: this.state.contactValue,
+      },
+    });
 
     this.setState({
       messageVisible: true,
+      messageValue: '',
+      contactValue: '',
     });
 
     setTimeout(() => {
