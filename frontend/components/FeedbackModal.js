@@ -18,7 +18,6 @@ class FeedbackModal extends React.Component {
     feedbackModalOpen: PropTypes.bool.isRequired,
   };
 
-
   constructor(props) {
     super(props);
 
@@ -43,7 +42,7 @@ class FeedbackModal extends React.Component {
     // Send an event to amplitude too, just for redundancy.
     macros.logAmplitudeEvent('Feedback', { text: this.state.messageValue, contact: this.state.contactValue });
 
-    let response = await request.post({
+    const response = await request.post({
       url: '/submitFeedback',
       body: {
         message: this.state.messageValue,
@@ -61,6 +60,7 @@ class FeedbackModal extends React.Component {
       contactValue: '',
     });
 
+    // Hide the message after 2 seconds
     setTimeout(() => {
       this.setState({
         messageVisible: false,
@@ -88,8 +88,9 @@ class FeedbackModal extends React.Component {
       entered: { opacity: 1 },
     };
 
-    const message = (
-      <Transition in={ this.state.messageVisible } timeout={ 500 }>
+    return (
+      <div>
+        <Transition in={ this.state.messageVisible } timeout={ 500 }>
         {(state) => {
          return (
            <Message
@@ -103,12 +104,7 @@ class FeedbackModal extends React.Component {
            />
             );
         }}
-      </Transition>
-    );
-
-    return (
-      <div>
-        {message}
+        </Transition>
         <Modal open={ this.props.feedbackModalOpen } onClose={ this.props.closeForm } size='small'>
           <Header icon='mail' content='Search NEU Feedback' />
           <Modal.Content className={ css.formModalContent }>
