@@ -43,13 +43,17 @@ class FeedbackModal extends React.Component {
     // Send an event to amplitude too, just for redundancy.
     macros.logAmplitudeEvent('Feedback', { text: this.state.messageValue, contact: this.state.contactValue });
 
-    await request.post({
+    let response = await request.post({
       url: '/submitFeedback',
       body: {
         message: this.state.messageValue,
         contact: this.state.contactValue,
       },
     });
+
+    if (response.error) {
+      macros.error('Unable to submit feedback', response.error, this.state.messageValue, this.state.contactValue);
+    }
 
     this.setState({
       messageVisible: true,
