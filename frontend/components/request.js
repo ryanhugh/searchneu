@@ -120,13 +120,12 @@ class Request {
     } else if (Object.keys(config).length > 1 || !config.url) {
       macros.error('Nothing is supported except JSON GET requests to a url.', config);
     }
-    
-    config.method = 'GET'
+
+    config.method = 'GET';
 
     return this.getFromInternetWithRetry(config);
   }
-  
-  
+
 
   async post(config) {
     if (typeof config === 'string') {
@@ -136,13 +135,11 @@ class Request {
     } else if (Object.keys(config).length > 2 || !config.url || !config.body) {
       macros.error('Nothing is supported except JSON POST requests to a url.', config);
     }
-    
-    config.method = 'POST'
+
+    config.method = 'POST';
 
     return this.getFromInternetWithRetry(config);
   }
-  
-  
 }
 
 export default new Request();

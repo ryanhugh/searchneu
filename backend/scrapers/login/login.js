@@ -22,7 +22,7 @@ import macros from '../../macros';
 
 
 const request = new Request('login', {
-  cache: false
+  cache: false,
 });
 
 const ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36';

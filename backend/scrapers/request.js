@@ -388,7 +388,7 @@ class Request {
 
     let retryCount = MAX_RETRY_COUNT;
     if (config.retryCount) {
-      retryCount = config.retryCount
+      retryCount = config.retryCount;
     }
 
     return new Promise((resolve, reject) => {
@@ -475,9 +475,9 @@ class RequestInput {
       config.cache = this.cacheDefault;
     }
 
-    let output = {}
+    const output = {};
     config = this.standardizeInputConfig(config);
-    
+
     Object.assign(output, this.config, config);
 
     return instance.request(output);
