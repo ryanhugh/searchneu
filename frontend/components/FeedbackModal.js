@@ -131,26 +131,4 @@ class FeedbackModal extends React.Component {
   }
 }
 
-// backup = window.location.pathname
-// window.history.replaceState(null, null, '/');
-
-
-// xmlhttp2 = new XMLHttpRequest();
-// xmlhttp2.onreadystatechange = function onreadystatechange() {
-//         if (xmlhttp2.readyState !== 4) {
-//           return;
-//         }
-//     console.log(xmlhttp2.response)
-//     window.history.replaceState(null, null, backup);
-// }
-
-
-// xmlhttp2.open('POST', 'https://formspree.io/ryanhughes624@gmail.com', true);
-
-// // xmlhttp2.setRequestHeader('Referrer', 'https://localhost:5000')
-// xmlhttp2.setRequestHeader('Content-Type', 'application/json')
-
-// xmlhttp2.send(JSON.stringify({a:5}))
-
-
 export default CSSModules(FeedbackModal, css);
