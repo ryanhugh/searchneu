@@ -9,7 +9,6 @@
 }
 
 
-
 .formModalInput {
     min-width: 50%;
 }
@@ -24,3 +23,18 @@
 .feedbackParagraph {
     padding-bottom: 1.5rem;
 }
+
+.alertMessage{
+  position: fixed !important;
+  top: 20px;
+  margin: 0 auto !important;
+  left: 50%;
+  z-index: 900;
+  transform: translate(-50%, 0);
+  opacity: 0;
+  transition: opacity .5s ease-in-out;
+  width: 450px;
+  max-width: 90%;
+  text-align: center;
+}
+

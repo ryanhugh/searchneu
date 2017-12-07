@@ -1,14 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
-import { Dropdown, Button, Icon, Modal, Header, TextArea, Input, Form } from 'semantic-ui-react';
+import { Dropdown, Button, Icon, Modal, Header, TextArea, Input, Form, Message } from 'semantic-ui-react';
 import classNames from 'classnames/bind';
+import { Transition } from 'react-transition-group';
 
+
+import macros from './macros';
 import request from './request';
 import css from './FeedbackModal.css';
 
 const cx = classNames.bind(css);
 
-class FeedbackModal {
+class FeedbackModal extends React.Component {
   
   // The bool of whether the feedback form should be open or not
   // needs to be tracked in home.js
@@ -20,41 +24,107 @@ class FeedbackModal {
   };
 
   
-  constructor() {
-    
+  constructor(props) {
+    super(props);
+
+    this.state = {
+
+      // The value of hte message box.
+      messageValue: '',
+
+      // The value of the contact box.
+      contactValue: '',
+
+      messageVisible: false
+    }
+
+    this.onTextAreaChange = this.onTextAreaChange.bind(this);
+    this.onContactChange = this.onContactChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
   
   
-  onSubmit = () => {
-    
+  onSubmit(e) {
+
+
+    macros.log(this.state)
+
+    this.setState({
+      messageVisible: true,
+    })
+
+    setTimeout(() => {
+      this.setState({
+        messageVisible: false
+      })
+    }, 2000)
+
+    this.props.closeForm();
   }
-  
+
+  onTextAreaChange(event) {
+    this.setState({
+      messageValue: event.target.value
+    })
+
+  }
+
+  onContactChange(event) {
+    this.setState({
+      contactValue: event.target.value
+    })
+  }
   
   render() {
-    
+
+  const transitionStyles = {
+    entering: { opacity: 0 },
+    entered: { opacity: 1 },
+  };
+
+    let message = (
+        <Transition in={this.state.messageVisible} timeout={500}>
+        {(state) => (
+          <Message 
+            success
+            className={css.alertMessage} 
+            header='Your submission was successful.'
+            style={{
+              ...transitionStyles[state]
+            }}
+            onDismiss={() => {
+              this.setState({messageVisible: false});
+            }}
+             />
+        )}
+        </Transition>
+        )
     
     return (
-        <Modal open={ this.props.feedbackModalOpen } onClose={ this.props.closeForm } size='small'>
-          <Header icon='mail' content='Search NEU Feedback' />
-          <Modal.Content className={ css.formModalContent }>
-            <Form id='feedbackForm' action='https://formspree.io/ryanhughes624@gmail.com' method='POST'>
-              <div className={ css.feedbackParagraph }>Find a bug in Search NEU? Find a query that dosen&apos;t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.</div>
-              <TextArea name='response' form='feedbackForm' className={ css.feedbackTextbox } />
-              <p>By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.</p>
-              <Input name='contact' form='feedbackForm' className={ css.formModalInput } />
-            </Form>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button basic color='red' onClick={ this.props.closeForm }>
-              <Icon name='remove' />
-              Cancel
-            </Button>
-            <Button type='submit' value='Send' color='green' form='feedbackForm'>
-              <Icon name='checkmark' />
-              Submit
-            </Button>
-          </Modal.Actions>
-        </Modal>
+        <div>
+          {message}
+          <Modal open={ this.props.feedbackModalOpen } onClose={ this.props.closeForm } size='small'>
+            <Header icon='mail' content='Search NEU Feedback' />
+            <Modal.Content className={ css.formModalContent }>
+              <Form>
+                <div className={ css.feedbackParagraph }>Find a bug in Search NEU? Find a query that dosen&apos;t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.</div>
+                <TextArea name='response' form='feedbackForm' className={ css.feedbackTextbox } onChange = {this.onTextAreaChange}/>
+                <p>By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.</p>
+                <Input name='contact' form='feedbackForm' className={ css.formModalInput }  onChange = {this.onContactChange} />
+              </Form>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button basic color='red' onClick={ this.props.closeForm }>
+                <Icon name='remove' />
+                Cancel
+              </Button>
+              <Button type='submit' color='green' form='feedbackForm' onClick={this.onSubmit}>
+                <Icon name='checkmark' />
+                Submit
+              </Button>
+            </Modal.Actions>
+          </Modal>
+        </div>
       )
     
   }
@@ -86,4 +156,4 @@ class FeedbackModal {
 
 
 
-export default new FeedbackModal;
+export default FeedbackModal;
