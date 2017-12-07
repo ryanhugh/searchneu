@@ -29,11 +29,13 @@ class FeedbackModal extends React.Component {
       // The value of the contact box.
       contactValue: '',
 
+      // Whether the message is visible or not. 
       messageVisible: false,
     };
 
     this.onTextAreaChange = this.onTextAreaChange.bind(this);
     this.onContactChange = this.onContactChange.bind(this);
+    this.hideMessage = this.hideMessage.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -82,6 +84,12 @@ class FeedbackModal extends React.Component {
     });
   }
 
+  hideMessage() {
+    this.setState({
+      messageVisible: false,
+    });
+  }
+
   render() {
     const transitionStyles = {
       entering: { opacity: 0 },
@@ -91,16 +99,14 @@ class FeedbackModal extends React.Component {
     return (
       <div>
         <Transition in={ this.state.messageVisible } timeout={ 500 }>
-        {(state) => {
+          {(state) => {
          return (
            <Message
              success
              className={ css.alertMessage }
              header='Your submission was successful.'
              style={{ ...transitionStyles[state] }}
-             onDismiss={ () => {
-                      this.setState({ messageVisible: false });
-                    } }
+             onDismiss={ this.hideMessage }
            />
             );
         }}
