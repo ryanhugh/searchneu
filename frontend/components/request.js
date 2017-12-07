@@ -31,7 +31,7 @@ import macros from './macros';
 // Prefix to store keys in localstorage
 
 class Request {
-  async getFromInternet(url, config = {}) {
+  async getFromInternet(config) {
     return new Promise((resolve, reject) => {
       const startTime = Date.now();
       const xmlhttp = new XMLHttpRequest();
@@ -41,7 +41,7 @@ class Request {
         }
 
         const requestTime = Date.now() - startTime;
-        macros.log('Downloading took ', requestTime, 'for url', url);
+        macros.log('Downloading took ', requestTime, 'for url', config.url);
 
         if (xmlhttp.status !== 200) {
           let err;
@@ -53,9 +53,9 @@ class Request {
             err = `unknown ajax error${String(xmlhttp.status)}`;
           }
 
-          err += `config = ${JSON.stringify(url)}`;
+          err += `config = ${JSON.stringify(config.url)}`;
 
-          macros.warn('error, bad code recievied', xmlhttp.status, err, url);
+          macros.warn('error, bad code recievied', xmlhttp.status, err, config.url);
 
           reject(err);
           return;
@@ -64,10 +64,10 @@ class Request {
         const startParse = Date.now();
         const response = JSON.parse(xmlhttp.response);
         const parsingTime = Date.now() - startParse;
-        macros.log('Parsing took ', parsingTime, 'for url', url);
+        macros.log('Parsing took ', parsingTime, 'for url', config.url);
 
         if (response.error) {
-          macros.warn('ERROR networking error bad reqeust?', url);
+          macros.warn('ERROR networking error bad reqeust?', config.url);
         }
 
         resolve(response);
@@ -82,13 +82,13 @@ class Request {
       }
 
 
-      xmlhttp.open('GET', url, true);
-      xmlhttp.send();
+      xmlhttp.open(config.method, config.url, true);
+      xmlhttp.send(config.body);
     });
   }
 
 
-  async getFromInternetWithRetry(url, config) {
+  async getFromInternetWithRetry(config) {
     return new Promise((resolve, reject) => {
       asyncjs.retry({
         times: 3,
@@ -96,7 +96,7 @@ class Request {
       }, async (callback) => {
         let resp;
         try {
-          resp = await this.getFromInternet(url, config);
+          resp = await this.getFromInternet(config);
           callback(null, resp);
         } catch (e) {
           callback(e);
@@ -120,9 +120,29 @@ class Request {
     } else if (Object.keys(config).length > 1 || !config.url) {
       macros.error('Nothing is supported except JSON GET requests to a url.', config);
     }
+    
+    config.method = 'GET'
 
-    return this.getFromInternetWithRetry(config.url);
+    return this.getFromInternetWithRetry(config);
   }
+  
+  
+
+  async post(config) {
+    if (typeof config === 'string') {
+      config = {
+        url: config,
+      };
+    } else if (Object.keys(config).length > 2 || !config.url || !config.body) {
+      macros.error('Nothing is supported except JSON POST requests to a url.', config);
+    }
+    
+    config.method = 'POST'
+
+    return this.getFromInternetWithRetry(config);
+  }
+  
+  
 }
 
 export default new Request();
