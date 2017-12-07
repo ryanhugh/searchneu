@@ -8,7 +8,7 @@ import CSSModules from 'react-css-modules';
 import 'semantic-ui-css/semantic.min.css';
 import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames/bind';
-import { Dropdown, Button, Icon, Modal, Header, TextArea, Input, Form } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
 
 import '../css/base.css';
 
@@ -533,7 +533,7 @@ class Home extends React.Component {
           </div>
         </div>
 
-        <FeedbackModal closeForm = {this.closeForm} feedbackModalOpen={this.state.feedbackModalOpen} />
+        <FeedbackModal closeForm={ this.closeForm } feedbackModalOpen={ this.state.feedbackModalOpen } />
 
         <ReactTooltip effect='solid' className={ css.listIconTooltip } />
       </div>

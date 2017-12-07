@@ -9,52 +9,49 @@ import macros from './macros';
 
 const request = new Request('notifyer', {
   cache: false,
-  retryCount: 3
+  retryCount: 3,
 });
 
 class Notifyer {
-  
   // Webhook to respond to facebook messages.
   async sendFBNotification(sender, text) {
     const token = await macros.getEnvVariable('fbToken');
 
-    let config = {
+    const config = {
       method: 'POST',
       url: 'https://graph.facebook.com/v2.6/me/messages',
-      qs: { 
-        access_token: token 
+      qs: {
+        access_token: token,
       },
       json: {
-        recipient: { 
-          id: sender 
+        recipient: {
+          id: sender,
         },
         message: {
-          text: text
+          text: text,
         },
       },
-    }
+    };
 
     try {
-      let response = await request.post(config);
+      const response = await request.post(config);
 
       if (response.body.message_id) {
         macros.log('Sent a fb message to ', sender, text, response.body.message_id);
         return {
-          status: 'success'
-        }
+          status: 'success',
+        };
       }
-      else {
-        macros.error('Could not send fb message', response.body);
-        return {
-          error: 'true'
-        }
-      }
-    }
-    catch (e) {
+
+      macros.error('Could not send fb message', response.body);
+      return {
+        error: 'true',
+      };
+    } catch (e) {
       macros.error('Could not send fb message', e.message || e.error || e);
       return {
-        error: 'true'
-      }
+        error: 'true',
+      };
     }
   }
 
