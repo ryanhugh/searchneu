@@ -411,7 +411,7 @@ app.post('/submitFeedback', wrap(async (req, res) => {
   }
 
   // Max ten submissions per hour
-  if (rateLimit[userIp] > 10) {
+  if (rateLimit[userIp] >= 10) {
     res.send({
       error: 'Rate limit reached. Please wait an hour before submitting again.',
     });
