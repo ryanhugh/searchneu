@@ -29,7 +29,7 @@ class FeedbackModal extends React.Component {
       // The value of the contact box.
       contactValue: '',
 
-      // Whether the message is visible or not. 
+      // Whether the message is visible or not.
       messageVisible: false,
     };
 
