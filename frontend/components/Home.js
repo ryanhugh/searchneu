@@ -8,13 +8,14 @@ import CSSModules from 'react-css-modules';
 import 'semantic-ui-css/semantic.min.css';
 import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames/bind';
-import { Dropdown, Button, Icon, Modal, Header, TextArea, Input, Form } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
 
 import '../css/base.css';
 
 import aoun from './aouuuuuuuuun.png';
 import SplashPage from './SplashPage/SplashPage';
 import search from './search';
+import FeedbackModal from './FeedbackModal';
 import css from './home.css';
 import macros from './macros';
 import ResultsLoader from './ResultsLoader';
@@ -532,28 +533,7 @@ class Home extends React.Component {
           </div>
         </div>
 
-        <Modal open={ this.state.feedbackModalOpen } onClose={ this.closeForm } size='small'>
-          <Header icon='mail' content='Search NEU Feedback' />
-          <Modal.Content className={ css.formModalContent }>
-            <Form id='feedbackForm' action='https://formspree.io/ryanhughes624@gmail.com' method='POST'>
-              <div className={ css.feedbackParagraph }>Find a bug in Search NEU? Find a query that dosen&apos;t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.</div>
-              <TextArea name='response' form='feedbackForm' className={ css.feedbackTextbox } />
-              <p>By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.</p>
-              <Input name='contact' form='feedbackForm' className={ css.formModalInput } />
-            </Form>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button basic color='red' onClick={ this.closeForm }>
-              <Icon name='remove' />
-              Cancel
-            </Button>
-            <Button type='submit' value='Send' color='green' form='feedbackForm'>
-              <Icon name='checkmark' />
-              Submit
-            </Button>
-          </Modal.Actions>
-        </Modal>
-
+        <FeedbackModal closeForm={ this.closeForm } feedbackModalOpen={ this.state.feedbackModalOpen } />
 
         <ReactTooltip effect='solid' className={ css.listIconTooltip } />
       </div>
