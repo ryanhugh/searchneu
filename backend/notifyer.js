@@ -3,37 +3,56 @@
  * See the license file in the root folder for details.
  */
 
-import request from 'request';
+import Request from './scrapers/request';
 
 import macros from './macros';
 
-// const request = new Request('notifyer');
-
+const request = new Request('notifyer', {
+  cache: false,
+  retryCount: 3,
+});
 
 class Notifyer {
   // Webhook to respond to facebook messages.
   async sendFBNotification(sender, text) {
-    macros.log('Sending a fb message to ', sender, text);
-    const messageData = { text:text };
-
     const token = await macros.getEnvVariable('fbToken');
 
-    request.post({
-      url: 'https://graph.facebook.com/v2.6/me/messages',
-      // url: 'http://localhost/v2.6/me/messages',
-      qs: { access_token:token },
+    const config = {
       method: 'POST',
-      json: {
-        recipient: { id:sender },
-        message: messageData,
+      url: 'https://graph.facebook.com/v2.6/me/messages',
+      qs: {
+        access_token: token,
       },
-    }, (error, response) => {
-      if (error) {
-        macros.log('Error sending messages: ', error);
-      } else if (response.body.error) {
-        macros.log('Error: ', response.body.error);
+      json: {
+        recipient: {
+          id: sender,
+        },
+        message: {
+          text: text,
+        },
+      },
+    };
+
+    try {
+      const response = await request.post(config);
+
+      if (response.body.message_id) {
+        macros.log('Sent a fb message to ', sender, text, response.body.message_id);
+        return {
+          status: 'success',
+        };
       }
-    });
+
+      macros.error('Could not send fb message', text, response.body);
+      return {
+        error: 'true',
+      };
+    } catch (e) {
+      macros.error('Could not send fb message', text, e.message || e.error || e);
+      return {
+        error: 'true',
+      };
+    }
   }
 
   // TODO
