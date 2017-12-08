@@ -101,10 +101,48 @@ function getIpPath(req) {
     output.push(' ');
   }
 
-  output.push('remoteIp: ');
-  output.push(req.connection.remoteAddress);
+  if (req.connection.remoteAddress !== '127.0.0.1') {
+    output.push('remoteIp: ');
+    output.push(req.connection.remoteAddress);
+  }
 
   return output.join('');
+}
+
+
+// This is more complicated than just req.connection.remoteAddress (which will always be 127.0.0.1)
+// because this Node.js server is running behind both nginx and Cloudflare.
+// This will return the IP of the user connecting to the site
+// Because there are two step between us and the user,
+// we need to check the second the last item in the x-forwarded-for header.
+// We shouldn't check the first item in the header, because someone could send a forged x-forwarded-for header
+// that would be added to the beginning of the x-forwarded-for that is received here.
+function getRemoteIp(req) {
+  const forwardedForHeader = req.headers['x-forwarded-for'];
+
+  if (!forwardedForHeader) {
+    if (macros.PROD) {
+      macros.error('No forwardedForHeader?', req.headers, req.connection.remoteAddress);
+    }
+
+    return req.connection.remoteAddress;
+  }
+
+  const splitHeader = forwardedForHeader.split(',');
+
+  // Cloudflare sometimes sends health check requests
+  // which will only have 1 item in this header
+  if (splitHeader.length === 1) {
+    macros.error('Only have one item in the header?', forwardedForHeader);
+    return splitHeader[0].trim();
+  }
+
+
+  if (splitHeader.length > 2) {
+    macros.log('Is someone sending a forged header?', forwardedForHeader);
+  }
+
+  return splitHeader[splitHeader.length - 2].trim();
 }
 
 function getTime() {
@@ -292,12 +330,6 @@ app.get('/search', wrap(async (req, res) => {
 
 // for Facebook verification of the endpoint.
 app.get('/webhook/', async (req, res) => {
-  // macros.log(getTime(), getIpPath(req), 'Tried to send a webhook');
-  // res.send('hi');
-  // return;
-
-  // macros.log(req.query);
-
   const verifyToken = await macros.getEnvVariable('fbVerifyToken');
 
   if (req.query['hub.verify_token'] === verifyToken) {
@@ -344,6 +376,72 @@ app.post('/webhook/', (req, res) => {
   }
   res.sendStatus(200);
 });
+
+// Rate-limit submissions on a per-IP basis
+let rateLimit = {};
+let lastHour = 0;
+
+app.post('/submitFeedback', wrap(async (req, res) => {
+  // Don't cache this endpoint.
+  res.setHeader('Cache-Control', 'no-cache, no-store');
+
+  if (!req.body.message) {
+    macros.log('Empty message?');
+    res.send(JSON.stringify({
+      error: 'Need message.',
+    }));
+    return;
+  }
+
+  const userIp = getRemoteIp(req);
+
+  const currentHour = String(parseInt(Date.now() / (1000 * 60 * 60), 10));
+
+  // Clear out the rate limit once per hour
+  // Do this instead of a timer because the vast majority of the time people are not going to be submitting
+  // submissions, and this works just as well.
+  if (lastHour !== currentHour) {
+    lastHour = currentHour;
+    rateLimit = {};
+  }
+
+
+  if (!rateLimit[userIp]) {
+    rateLimit[userIp] = 0;
+  }
+
+  // Max ten submissions per hour
+  if (rateLimit[userIp] >= 10) {
+    res.send({
+      error: 'Rate limit reached. Please wait an hour before submitting again.',
+    });
+
+    return;
+  }
+
+  rateLimit[userIp]++;
+
+  let message = `Feedback form submitted: ${req.body.message}`;
+
+  if (req.body.contact) {
+    message += ` | ${req.body.contact}`;
+  }
+
+
+  // Ryan's User ID for the Search NEU in facebook.
+  // In order to send Ryan a FB message with this ID you would need the secret key for the Search NEU page
+  const response = await notifyer.sendFBNotification('1397905100304615', message);
+
+  if (response.error) {
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+  } else {
+    res.send(JSON.stringify({
+      status: 'Success.',
+    }));
+  }
+}));
 
 
 let middleware;

@@ -386,6 +386,10 @@ class Request {
       }
     }
 
+    let retryCount = MAX_RETRY_COUNT;
+    if (config.retryCount) {
+      retryCount = config.retryCount;
+    }
 
     return new Promise((resolve, reject) => {
       let tryCount = 0;
@@ -393,7 +397,7 @@ class Request {
       let requestDuration;
 
       asyncjs.retry({
-        times: MAX_RETRY_COUNT,
+        times: retryCount,
         interval: RETRY_DELAY + Math.round(Math.random() * RETRY_DELAY_DELTA),
       }, async (callback) => {
         let response;
@@ -460,9 +464,9 @@ const instance = new Request();
 
 
 class RequestInput {
-  constructor(cacheName, cacheDefault = true) {
+  constructor(cacheName, config = {}) {
     this.cacheName = cacheName;
-    this.cacheDefault = cacheDefault;
+    this.config = config;
   }
 
   async request(config) {
@@ -471,8 +475,12 @@ class RequestInput {
       config.cache = this.cacheDefault;
     }
 
+    const output = {};
     config = this.standardizeInputConfig(config);
-    return instance.request(config);
+
+    Object.assign(output, this.config, config);
+
+    return instance.request(output);
   }
 
 
