@@ -88,8 +88,6 @@ class DesktopClassPanel extends BaseClassPanel {
 
     // Also show the waitlist if any of the sections have less than 10 seats left.
     // The number 10 is just an arbitrary decision and can be changed in the future.
-    // const foundSectionWithLessThanTenSeats = false;
-
     for (const section of aClass.sections) {
       if (section.seatsRemaining < 10) {
         return true;
@@ -169,12 +167,26 @@ class DesktopClassPanel extends BaseClassPanel {
 
     let updatesSection = null;
     if (this.state.showMessengerButton) {
+
+      // Get a list of all the sections that don't have seats remaining
+      let sectionsHashes = []
+      for (let section of aClass.sections) {
+        if (section.seatsRemaining <= 0) {
+          sectionsHashes.push(Keys.create(section).getHash())
+        }
+      }
+
+      let dataRef = JSON.stringify({
+        aClass: Keys.create(aClass).getHash(),
+        sections: sectionsHashes
+      })
+
       updatesSection = (
             <div ref = {(ele) => {this.facebookScopeRef = ele}}>
               <div className="fb-send-to-messenger" 
                 messenger_app_id="1979224428978082" 
                 page_id="807584642748179" 
-                data-ref={'1'}
+                data-ref={dataRef}
                 color="white" 
                 size="large">
               </div>
