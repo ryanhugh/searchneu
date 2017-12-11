@@ -412,7 +412,8 @@ app.post('/webhook/', (req, res) => {
         // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
         // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
 
-        existingData.watchingClasses.push()
+        existingData.watchingClasses.push(userObject.classHash)
+        existingData.watchingSections = existingData.watchingSections.concat(userObject.sectionHashes)
 
 
       }
