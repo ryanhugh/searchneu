@@ -122,12 +122,37 @@ function createApp() {
 function main() {
   const ua = window.navigator.userAgent;
 
+  // The site dosen't work in old versions of IE
+  // https://github.com/ryanhugh/searchneu/issues/18
   // IE 10 or older will have MSIE in the UA
   // IE 11 will have Trident in the UA
   // IE 12 and newer will have Edge in the UA.
   // Almost all of the site works in Edge.
-  if (ua.indexOf('MSIE ') > -1 || ua.indexOf('Trident/') > -1) {
-    document.body.innerHTML = '<h1>This browser is old and not supported. Try upgrading to <a href="https://www.google.com/chrome/browser/desktop/index.html">Google Chrome!</h1>';
+  const oldIE = ua.indexOf('MSIE ') > -1 || ua.indexOf('Trident/') > -1;
+
+  // Some old or other odd browsers don't support CustomEvent.
+  // Chance are that if the browser doesn't support this,
+  // many of things on the site don't work too.
+  // Haven't tested many of these old or odd browsers so not 100% sure,
+  // but it is a good guess.
+  // If we ever do want to add support for these browsers,
+  // lets see if we can run the browser itself, instead of just looking at reported errors.
+  let customEventWorks = false;
+  let error;
+  try {
+    new CustomEvent('test', { detail: 'CS 2510' }); // eslint-disable-line no-new
+    customEventWorks = true;
+  } catch (e) {
+    error = e;
+  }
+
+  if (!customEventWorks || oldIE) {
+    document.body.innerHTML = '<h1>This browser is old and not supported. Try upgrading to the latest version of <a href="https://www.google.com/chrome/browser/desktop/index.html">Google Chrome!</h1>';
+    macros.logAmplitudeEvent('Unsupported browser', {
+      oldIE: oldIE,
+      customEventWorks: customEventWorks,
+      error: error,
+    });
     return;
   }
 
