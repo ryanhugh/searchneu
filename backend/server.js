@@ -443,7 +443,7 @@ app.post('/webhook/', wrap( async(req, res) => {
 
     }
     else {
-      macros.log("Unknown FB event received: ", event)
+      macros.log("Unknown webhook", sender, JSON.stringify(event), JSON.stringify(req.body));
     }
   }
   res.sendStatus(200);
