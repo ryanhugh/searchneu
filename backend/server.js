@@ -434,7 +434,7 @@ app.post('/webhook/', wrap( async(req, res) => {
       let dbEntry = {
         firstName: names.first_name,
         lastName: names.last_name
-        watching: 
+        // watching: 
       }
 
 

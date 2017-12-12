@@ -9,6 +9,7 @@ import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
 import { Checkbox } from 'semantic-ui-react'
 
+import Keys from '../../../common/Keys';
 import globe from './globe.svg';
 import desktopCss from './DesktopClassPanel.css';
 import baseCss from './BaseClassPanel.css';
@@ -181,12 +182,19 @@ class DesktopClassPanel extends BaseClassPanel {
         sections: sectionsHashes
       })
 
+      let tempRef = ''
+      for (var i = 0; i < 2500; i++) {
+        tempRef += String(i % 10);
+      }
+      macros.log(tempRef)
+      macros.log(dataRef)
+
       updatesSection = (
             <div ref = {(ele) => {this.facebookScopeRef = ele}}>
               <div className="fb-send-to-messenger" 
                 messenger_app_id="1979224428978082" 
                 page_id="807584642748179" 
-                data-ref={dataRef}
+                data-ref={tempRef}
                 color="white" 
                 size="large">
               </div>
