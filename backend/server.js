@@ -403,8 +403,12 @@ app.post('/webhook/', wrap( async(req, res) => {
       if (existingData) {
 
         // Add this array if it dosen't exist. It should exist
-        if (!existingData.watching) {
-          existingData.watching = []
+        if (!existingData.watchingClasses) {
+          existingData.watchingClasses = []
+        }
+
+        if (!existingData.watchingSections) {
+          existingData.watchingSections = []
         }
 
 
@@ -415,31 +419,29 @@ app.post('/webhook/', wrap( async(req, res) => {
         existingData.watchingClasses.push(userObject.classHash)
         existingData.watchingSections = existingData.watchingSections.concat(userObject.sectionHashes)
 
-
+        ref.set(existingData);
       }
       else {
 
+        let names = await notifyer.getUserProfileInfo(sender)
+
+        macros.log("Got first name and last name", names.first_name, names.last_name)
+
+
+        let newUser = {
+          watchingSections: userObject.sectionHashes,
+          watchingClasses: [userObject.classHash],
+          firstName: names.first_name,
+          lastName: names.last_name,
+          facebookMessengerId: sender
+        }
+
+        macros.log('Adding ', newUser, 'to the db');
+
+
+        database.set('/users/' + sender, newUser);
+
       }
-
-
-
-
-      let names = await notifyer.getUserProfileInfo(sender)
-
-      macros.log("Got first name and last name", names.first_name, names.last_name)
-
-
-      // Organize the data and save it in the DB
-      // ACTUALLY you need to do a get and then update conditionally
-
-      let dbEntry = {
-        firstName: names.first_name,
-        lastName: names.last_name
-        // watching: 
-      }
-
-
-      database.set('/users/' + sender, )
 
 
     }
