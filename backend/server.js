@@ -341,7 +341,7 @@ app.get('/webhook/', async (req, res) => {
 });
 
 // Respond to the messages
-app.post('/webhook/', (req, res) => {
+app.post('/webhook/', wrap( async(req, res) => {
   // Verify that the webhook is actually coming from Facebook.
   // This is important.
   if (!req.isXHub || !req.isXHubValid()) {
@@ -447,7 +447,7 @@ app.post('/webhook/', (req, res) => {
     }
   }
   res.sendStatus(200);
-});
+}));
 
 // Rate-limit submissions on a per-IP basis
 let rateLimit = {};
