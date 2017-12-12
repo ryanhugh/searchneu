@@ -70,16 +70,6 @@ class Notifyer {
     return request.get("https://graph.facebook.com/v2.6/" + sender + "?fields=first_name,last_name&access_token=" + token)
   }
 
-  // TODO
-  // sendEmail() {
-
-  // }
-
-
-  // sendNotification() {
-
-  // }
-
 
   main() {
     this.sendFBNotification('1397905100304615', 'test notification');
