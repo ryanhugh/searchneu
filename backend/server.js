@@ -373,6 +373,9 @@ app.post('/webhook/', (req, res) => {
         notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com!");
       }
     }
+    else {
+      macros.log("Unknown webhook", sender, JSON.stringify(event), JSON.stringify(req.body));
+    }
   }
   res.sendStatus(200);
 });
