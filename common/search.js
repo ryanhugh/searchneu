@@ -112,15 +112,15 @@ class Search {
 
   // Use this to create a search intance
   // All of these arguments should already be JSON.parsed(). (Eg, they should be objects, not strings).
-  static create(employeeMap, employeeSearchIndex, termDumps) {
+  static create(employeeMap, employeeSearchIndex, termDumps, searchIndexies) {
     // Some sanitiy checking
     if (!employeeMap || !employeeSearchIndex || !termDumps) {
-      macros.error('Error, missing arguments.', !!employeeMap, !!employeeSearchIndex, !!termDumps);
+      macros.error('Error, missing arguments.', !!employeeMap, !!employeeSearchIndex, !!termDumps, !!searchIndexies);
       return null;
     }
 
 
-    return new this(employeeMap, employeeSearchIndex, termDumps);
+    return new this(employeeMap, employeeSearchIndex, termDumps, searchIndexies);
   }
 
   onInterval() {
@@ -528,6 +528,9 @@ class Search {
     // The array is sorted by score (with the highest matching closest to the beginning)
     // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
     // macros.log(searchTerm)
+    if (!this.searchIndexies) {
+
+    }
     const classResults = this.searchIndexies[termId].search(searchTerm, classSearchConfig);
 
     const employeeResults = this.employeeSearchIndex.search(searchTerm, employeeSearchConfig);
