@@ -6,6 +6,10 @@
 import Class from './Class';
 import macros from '../commonMacros';
 
+
+// Holds the class data that is used by the search backend
+// and the updater.js
+
 class DataLib {
   constructor(termDump) {
     this.termDump = termDump;

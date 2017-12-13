@@ -10,6 +10,11 @@ class Database {
 
   constructor() {
 
+    this.dbPromise = this.loadDatabase()
+  }
+
+  async loadDatabase() {
+
     let firebaseConfig = await macros.getEnvVariable('firebaseConfig')
 
     let app = firebase.initializeApp({
@@ -21,7 +26,7 @@ class Database {
     // Which will keep this Node.js process awake
     // To cancel this connection (and let the app terminate automatically) run app.delete();
 
-    this.db = firebase.database()
+    return firebase.database()
   }
 
   // Key should follow this form:
@@ -29,20 +34,24 @@ class Database {
   // Value can be any JS object.
   // If it has sub-objects you can easily dive into them in the Firebase console.
   async set(key, value) {
-    return this.db.ref(key).set(value);
+    let db = await this.dbPromise;
+    return db.ref(key).set(value);
 
   }
 
   // Get the value at this key.
   // Key follows the same form in the set method
   async get(key) {
-    return this.db.ref(key).once('value');
+    let db = await this.dbPromise;
+    let value = await db.ref(key).once('value');
+    return value.val();
   }
 
   // Returns the raw firebase ref for a key
   // Use this if you need to read a value, check something about it, and then write to it. 
-  getRef(key) {
-    return this.db.ref(key);
+  async getRef(key) {
+    let db = await this.dbPromise;
+    return db.ref(key);
   }
 }
 

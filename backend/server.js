@@ -16,12 +16,15 @@ import bodyParser from 'body-parser';
 import mkdirp from 'mkdirp-promise';
 import moment from 'moment';
 import xhub from 'express-x-hub';
+import elasticlunr from 'elasticlunr';
 
 import Request from './scrapers/request';
 import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 import notifyer from './notifyer';
+import updater from './updater';
+import DataLib from './classModels/DataLib';
 // import psylink from './scrapers/psylink/psylink';
 
 const request = new Request('server');
@@ -248,19 +251,20 @@ async function getSearch() {
       return null;
     }
 
-    return search.create(
-      employeeMap, employeesSearchIndex,
-      [{
-        searchIndex: springSearchIndex,
-        termDump: springData,
-        termId: '201830',
-      },
-      {
-        searchIndex: fallSearchIndex,
-        termDump: fallData,
-        termId: '201810',
-      }],
-    );
+    let termDumps = {
+        '201830': {
+          searchIndex: elasticlunr.Index.load(springSearchIndex),
+          termDump: DataLib.loadData(springData),
+        },
+        '201810': {
+          searchIndex: elasticlunr.Index.load(fallSearchIndex),
+          termDump: DataLib.loadData(fallData),
+        }
+      }
+
+    Updater.create(termDumps)
+
+    return search.create(employeeMap, elasticlunr.Index.load(employeesSearchIndex), termDumps);
   } catch (e) {
     macros.error('Error:', e);
     macros.error('Not starting search backend.');

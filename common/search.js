@@ -3,11 +3,9 @@
  * See the license file in the root folder for details.
  */
 
-import elasticlunr from 'elasticlunr';
 
 import Keys from './Keys';
 import macros from './commonMacros';
-import CourseProData from './classModels/DataLib';
 
 // The plan is to use this in both the frontend and the backend.
 // Right now it is only in use in the backend.
@@ -98,13 +96,13 @@ class Search {
 
     for (const termDump of termDumps) {
       this.termDumps[termDump.termId] = {
-        searchIndex: elasticlunr.Index.load(termDump.searchIndex),
-        termDump: CourseProData.loadData(termDump.termDump),
+        searchIndex: termDump.searchIndex,
+        termDump: termDump.termDump,
       };
     }
 
     this.employeeMap = employeeMap;
-    this.employeeSearchIndex = elasticlunr.Index.load(employeeSearchIndex);
+    this.employeeSearchIndex = employeeSearchIndex;
 
     // Save the refs for each query. This is a map from the query to a object like this: {refs: [...], time: Date.now()}
     // These are purged every so often.
