@@ -23,8 +23,8 @@ import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 import notifyer from './notifyer';
-import updater from './updater';
-import DataLib from './classModels/DataLib';
+import Updater from './updater';
+import DataLib from '../common/classModels/DataLib';
 // import psylink from './scrapers/psylink/psylink';
 
 const request = new Request('server');
@@ -251,20 +251,20 @@ async function getSearch() {
       return null;
     }
 
-    let termDumps = {
-        '201830': {
-          searchIndex: elasticlunr.Index.load(springSearchIndex),
-          termDump: DataLib.loadData(springData),
-        },
-        '201810': {
-          searchIndex: elasticlunr.Index.load(fallSearchIndex),
-          termDump: DataLib.loadData(fallData),
-        }
-      }
 
-    Updater.create(termDumps)
+    let dataLib = DataLib.loadData({
+      '201810': fallData,
+      '201830': springData,
+    })
 
-    return search.create(employeeMap, elasticlunr.Index.load(employeesSearchIndex), termDumps);
+    let searchIndexies = {
+      '201810': elasticlunr.Index.load(fallSearchIndex),
+      '201830': elasticlunr.Index.load(springSearchIndex),
+    }
+
+    Updater.create(dataLib)
+
+    return search.create(employeeMap, elasticlunr.Index.load(employeesSearchIndex), dataLib, searchIndexies);
   } catch (e) {
     macros.error('Error:', e);
     macros.error('Not starting search backend.');

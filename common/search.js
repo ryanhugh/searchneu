@@ -90,16 +90,10 @@ const employeeSearchConfig = {
 
 
 class Search {
-  constructor(employeeMap, employeeSearchIndex, termDumps) {
+  constructor(employeeMap, employeeSearchIndex, dataLib, searchIndexies) {
     // map of termId to search index and dump
-    this.termDumps = {};
-
-    for (const termDump of termDumps) {
-      this.termDumps[termDump.termId] = {
-        searchIndex: termDump.searchIndex,
-        termDump: termDump.termDump,
-      };
-    }
+    this.dataLib = dataLib;
+    this.searchIndexies = searchIndexies;
 
     this.employeeMap = employeeMap;
     this.employeeSearchIndex = employeeSearchIndex;
@@ -184,7 +178,7 @@ class Search {
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
     const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
-    const subjects = this.termDumps[termId].termDump.getSubjects();
+    const subjects = this.dataLib.getSubjects(termId);
 
     for (let i = 0; i < subjects.length; i++) {
       const subject = subjects[i];
@@ -195,7 +189,7 @@ class Search {
       if (lowerCaseSubject === lowerCaseSearchTerm || lowerCaseSearchTerm === lowerCaseText) {
         macros.log('Perfect match for subject!', subject.subject);
 
-        const results = this.termDumps[termId].termDump.getClassesInSubject(subject.subject);
+        const results = this.dataLib.getClassesInSubject(subject.subject, termId);
 
         const output = [];
         results.forEach((result) => {
@@ -328,7 +322,7 @@ class Search {
       return [];
     }
 
-    if (!this.termDumps[termId]) {
+    if (!this.dataLib.hasTerm(termId)) {
       macros.log('Invalid termId', termId);
       return [];
     }
@@ -436,7 +430,7 @@ class Search {
     refs = refs.slice(minIndex, maxIndex + 1);
     for (const ref of refs) {
       if (ref.type === 'class') {
-        const aClass = this.termDumps[termId].termDump.getClassServerDataFromHash(ref.ref);
+        const aClass = this.dataLib.getClassServerDataFromHash(ref.ref);
 
         if (!aClass) {
           macros.error('yoooooo omg', ref);
@@ -458,7 +452,7 @@ class Search {
               macros.error('Error no hash', crn, aClass);
             }
 
-            sections.push(this.termDumps[termId].termDump.getSectionServerDataFromHash(sectionKey));
+            sections.push(this.dataLib.getSectionServerDataFromHash(sectionKey));
           }
         }
 
@@ -499,7 +493,7 @@ class Search {
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
     const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
-    const subjects = this.termDumps[termId].termDump.getSubjects();
+    const subjects = this.dataLib.getSubjects(termId);
 
     for (let i = 0; i < subjects.length; i++) {
       const subject = subjects[i];
@@ -534,7 +528,7 @@ class Search {
     // The array is sorted by score (with the highest matching closest to the beginning)
     // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
     // macros.log(searchTerm)
-    const classResults = this.termDumps[termId].searchIndex.search(searchTerm, classSearchConfig);
+    const classResults = this.searchIndexies[termId].search(searchTerm, classSearchConfig);
 
     const employeeResults = this.employeeSearchIndex.search(searchTerm, employeeSearchConfig);
 
