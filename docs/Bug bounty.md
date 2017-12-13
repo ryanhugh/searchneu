@@ -1,7 +1,7 @@
 
 # Bug Bounty
 
-If you find a security vulnerability on Search NEU I'll buy you a burrito from Qdoba 🌯🎉! Make sure to keep the vulnerability details secret when letting us know about it. A great way to let us know is to email us at hey@searchneu.com or to send Ryan a FB message at [m.me/ryanhughez](https://m.me/ryanhughez). 
+If you find a security vulnerability on Search NEU I'll buy you a burrito from Amelia's 🌯🎉! Make sure to keep the vulnerability details secret when letting us know about it. A great way to let us know is to email us at hey@searchneu.com or to send Ryan a FB message at [m.me/ryanhughez](https://m.me/ryanhughez). 
 
 Security vulnerabilities include: 
 - Changing the code on production
