@@ -2,6 +2,7 @@
 import Request from './scrapers/request';
 
 import macros from './macros';
+import database from './database';
 
 
 
@@ -10,12 +11,45 @@ class Updater {
   constructor() {
 
 
+    this.termDumps = null;
+  }
 
+
+  static create(termDumps) {
+    if (!termDumps) {
+      macros.error("Invalid termDumps", termDumps);
+      return;
+    }
+
+    this.termDumps = termDumps;
   }
 
 
 
-  onInterval() {
+  async onInterval() {
+
+    let users = await database.get('users');
+
+    console.log(users)
+
+    let users = Object.values(users);
+
+    let classHashes = [];
+    let sectionHashes = [];
+
+    for (let user of users) {
+      classHashes = user.watchingClasses.concat(classHashes)
+      sectionHashes = user.watchingSections.concat(sectionHashes)
+    }
+
+    
+    // Get the data for these hashes
+    
+
+
+
+    // Make sure that all the sections are contained by all the classes
+
 
     // get db
     // list hashes
@@ -30,7 +64,12 @@ class Updater {
 
 
 
+
 }
 
+let instance = new Updater();
 
-export default new Updater();
+instance.onInterval();
+
+
+export default instance;
