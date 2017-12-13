@@ -32,7 +32,7 @@ class Updater {
 
     console.log(users)
 
-    let users = Object.values(users);
+    users = Object.values(users);
 
     let classHashes = [];
     let sectionHashes = [];
@@ -44,7 +44,9 @@ class Updater {
 
     
     // Get the data for these hashes
-    
+    let classes = classHashes.map((classHash) => {
+      return this.termDumps
+    })
 
 
 
@@ -69,7 +71,4 @@ class Updater {
 
 let instance = new Updater();
 
-instance.onInterval();
-
-
-export default instance;
+export default Updater;
