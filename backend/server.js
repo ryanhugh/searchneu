@@ -251,18 +251,17 @@ async function getSearch() {
       return null;
     }
 
+    const dataLib = DataLib.loadData({
+      201810: fallData,
+      201830: springData,
+    });
 
-    let dataLib = DataLib.loadData({
-      '201810': fallData,
-      '201830': springData,
-    })
+    const searchIndexies = {
+      201810: elasticlunr.Index.load(fallSearchIndex),
+      201830: elasticlunr.Index.load(springSearchIndex),
+    };
 
-    let searchIndexies = {
-      '201810': elasticlunr.Index.load(fallSearchIndex),
-      '201830': elasticlunr.Index.load(springSearchIndex),
-    }
-
-    Updater.create(dataLib)
+    Updater.create(dataLib);
 
     return search.create(employeeMap, elasticlunr.Index.load(employeesSearchIndex), dataLib, searchIndexies);
   } catch (e) {
@@ -345,7 +344,7 @@ app.get('/webhook/', async (req, res) => {
 });
 
 // Respond to the messages
-app.post('/webhook/', wrap( async(req, res) => {
+app.post('/webhook/', wrap(async (req, res) => {
   // Verify that the webhook is actually coming from Facebook.
   // This is important.
   if (!req.isXHub || !req.isXHubValid()) {
@@ -376,43 +375,39 @@ app.post('/webhook/', wrap( async(req, res) => {
         // notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. Someday, I will notify you when seats open up in classes that are full. 😎👌🍩 But that day is not today...");
         notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com!");
       }
-    }
-    else if (event.optin) {
+    } else if (event.optin) {
+      macros.log('Got opt in button click!', event, event.optin.ref);
 
-      macros.log("Got opt in button click!", event, event.optin.ref)
-
-      // The frontned send a classHash to follow and a list of sectionHashes to follow. 
+      // The frontned send a classHash to follow and a list of sectionHashes to follow.
       let userObject = {};
       try {
-        userObject = JSON.parse(event.optin.ref)
-      } catch(e) {
-        macros.error("Unable to parse user data from frontend?", event.optin.ref);
+        userObject = JSON.parse(event.optin.ref);
+      } catch (e) {
+        macros.error('Unable to parse user data from frontend?', event.optin.ref);
         res.sendStatus(200);
         return;
       }
 
       if (!userObject.classHash || !userObject.sectionHashes) {
-        macros.error("Unable to parse class hash from ", event.optin.ref);
+        macros.error('Unable to parse class hash from ', event.optin.ref);
         res.sendStatus(200);
         return;
       }
 
 
+      const firebaseRef = database.getRef(`/users/${sender}`);
 
-      let firebaseRef = database.getRef('/users/' + sender);
-
-      let existingData = await ref.once('value')
+      const existingData = await ref.once('value');
 
       // User is signing in from a new device
       if (existingData) {
-
         // Add this array if it dosen't exist. It should exist
         if (!existingData.watchingClasses) {
-          existingData.watchingClasses = []
+          existingData.watchingClasses = [];
         }
 
         if (!existingData.watchingSections) {
-          existingData.watchingSections = []
+          existingData.watchingSections = [];
         }
 
 
@@ -420,37 +415,31 @@ app.post('/webhook/', wrap( async(req, res) => {
         // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
         // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
 
-        existingData.watchingClasses.push(userObject.classHash)
-        existingData.watchingSections = existingData.watchingSections.concat(userObject.sectionHashes)
+        existingData.watchingClasses.push(userObject.classHash);
+        existingData.watchingSections = existingData.watchingSections.concat(userObject.sectionHashes);
 
         ref.set(existingData);
-      }
-      else {
+      } else {
+        const names = await notifyer.getUserProfileInfo(sender);
 
-        let names = await notifyer.getUserProfileInfo(sender)
-
-        macros.log("Got first name and last name", names.first_name, names.last_name)
+        macros.log('Got first name and last name', names.first_name, names.last_name);
 
 
-        let newUser = {
+        const newUser = {
           watchingSections: userObject.sectionHashes,
           watchingClasses: [userObject.classHash],
           firstName: names.first_name,
           lastName: names.last_name,
-          facebookMessengerId: sender
-        }
+          facebookMessengerId: sender,
+        };
 
         macros.log('Adding ', newUser, 'to the db');
 
 
-        database.set('/users/' + sender, newUser);
-
+        database.set(`/users/${sender}`, newUser);
       }
-
-
-    }
-    else {
-      macros.log("Unknown webhook", sender, JSON.stringify(event), JSON.stringify(req.body));
+    } else {
+      macros.log('Unknown webhook', sender, JSON.stringify(event), JSON.stringify(req.body));
     }
   }
   res.sendStatus(200);

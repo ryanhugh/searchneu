@@ -17,43 +17,42 @@ if (window.location.hash === '#notrack') {
 }
 
 
-  window.fbAsyncInit = function() {
-    console.log("RUNNING!")
-    FB.init({
-      appId            : '1979224428978082',
-      autoLogAppEvents : false,
-      xfbml            : false,
-      version          : 'v2.11'
-    });
+window.fbAsyncInit = function () {
+  console.log('RUNNING!');
+  FB.init({
+    appId            : '1979224428978082',
+    autoLogAppEvents : false,
+    xfbml            : false,
+    version          : 'v2.11',
+  });
 
-FB.Event.subscribe('send_to_messenger', function(e) {
-      console.log("messenger_checkbox event");
-      console.log(e);
-      
-      if (e.event == 'rendered') {
-        console.log("Plugin was rendered");
-      } else if (e.event == 'checkbox') {
-        var checkboxState = e.state;
-        console.log("Checkbox state: " + checkboxState);
-      } else if (e.event == 'not_you') {
-        console.log("User clicked 'not you'");
-      } else if (e.event == 'hidden') {
-        console.log("Plugin was hidden");
-      }
-      else {
-        console.log(e, 'other message')
-      }
-      
-    });
-  };
+  FB.Event.subscribe('send_to_messenger', (e) => {
+    console.log('messenger_checkbox event');
+    console.log(e);
 
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
+    if (e.event == 'rendered') {
+      console.log('Plugin was rendered');
+    } else if (e.event == 'checkbox') {
+      const checkboxState = e.state;
+      console.log(`Checkbox state: ${checkboxState}`);
+    } else if (e.event == 'not_you') {
+      console.log("User clicked 'not you'");
+    } else if (e.event == 'hidden') {
+      console.log('Plugin was hidden');
+    } else {
+      console.log(e, 'other message');
+    }
+  });
+};
+
+(function (d, s, id) {
+  let js,
+    fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) { return; }
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk.js';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
 
 // Segment tracket. This includes trackers for Rollbar and Fullstory.
 // These are only used on prod and only used if the user has not opted out of tracking.

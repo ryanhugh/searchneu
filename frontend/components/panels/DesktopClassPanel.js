@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
-import { Checkbox } from 'semantic-ui-react'
+import { Checkbox } from 'semantic-ui-react';
 
 import Keys from '../../../common/Keys';
 import globe from './globe.svg';
@@ -34,16 +34,15 @@ const cx = classNames.bind(css);
 
 // DesktopClassPanel page component
 class DesktopClassPanel extends BaseClassPanel {
-
   static propTypes = {
     aClass: PropTypes.object.isRequired,
   };
-  
-  constructor(props){
+
+  constructor(props) {
     super(props);
 
     // Don't do `this.state = {...}` here, because the state is already setup in the parent react component
-    // If this is set to true it is assumed that it should be shown. 
+    // If this is set to true it is assumed that it should be shown.
     this.state.showMessengerButton = false;
 
     this.facebookScopeRef = null;
@@ -100,11 +99,11 @@ class DesktopClassPanel extends BaseClassPanel {
   }
 
   onSubscribeToggleChange(event, data) {
-    console.log(data.checked)
+    console.log(data.checked);
 
     this.setState({
-      showMessengerButton: true
-    })
+      showMessengerButton: true,
+    });
     // debugger
   }
 
@@ -168,50 +167,48 @@ class DesktopClassPanel extends BaseClassPanel {
 
     let updatesSection = null;
     if (this.state.showMessengerButton) {
-
       // Get a list of all the sections that don't have seats remaining
-      let sectionsHashes = []
-      for (let section of aClass.sections) {
+      const sectionsHashes = [];
+      for (const section of aClass.sections) {
         if (section.seatsRemaining <= 0) {
-          sectionsHashes.push(Keys.create(section).getHash())
+          sectionsHashes.push(Keys.create(section).getHash());
         }
       }
 
-      let dataRef = JSON.stringify({
+      const dataRef = JSON.stringify({
         aClass: Keys.create(aClass).getHash(),
-        sections: sectionsHashes
-      })
+        sections: sectionsHashes,
+      });
 
-      let tempRef = ''
-      for (var i = 0; i < 2500; i++) {
+      let tempRef = '';
+      for (let i = 0; i < 2500; i++) {
         tempRef += String(i % 10);
       }
-      macros.log(tempRef)
-      macros.log(dataRef)
+      macros.log(tempRef);
+      macros.log(dataRef);
 
       updatesSection = (
-            <div ref = {(ele) => {this.facebookScopeRef = ele}}>
-              <div className="fb-send-to-messenger" 
-                messenger_app_id="1979224428978082" 
-                page_id="807584642748179" 
-                data-ref={tempRef}
-                color="white" 
-                size="large">
-              </div>
-            </div>
-          )
-    }
-    else if (aClass.sections.length === 0) {
-      updatesSection = <div>
+        <div ref={ (ele) => { this.facebookScopeRef = ele; } }>
+          <div
+            className='fb-send-to-messenger'
+            messenger_app_id='1979224428978082'
+            page_id='807584642748179'
+            data-ref={ tempRef }
+            color='white'
+            size='large'
+          />
+        </div>
+      );
+    } else if (aClass.sections.length === 0) {
+      updatesSection = (<div>
           Want notifications if sections are added?
-            <Checkbox toggle onChange={this.onSubscribeToggleChange}/>
-          </div>
-    }
-    else if (aClass.isAtLeastOneSectionFull()) {
-      updatesSection = <div>
+        <Checkbox toggle onChange={ this.onSubscribeToggleChange } />
+      </div>);
+    } else if (aClass.isAtLeastOneSectionFull()) {
+      updatesSection = (<div>
           Want notifications when seats open up?
-            <Checkbox toggle onChange={this.onSubscribeToggleChange}/>
-          </div>
+        <Checkbox toggle onChange={ this.onSubscribeToggleChange } />
+                        </div>);
     }
 
     // Render the Show More.. Button
@@ -253,7 +250,7 @@ class DesktopClassPanel extends BaseClassPanel {
               <div>
                 {updatesSection}
               </div>
-              
+
             </div>
           </div>
           {sectionTable}

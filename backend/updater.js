@@ -5,52 +5,54 @@ import macros from './macros';
 import database from './database';
 
 
-
 class Updater {
-
   constructor() {
-
-
-    this.termDumps = null;
+    this.dataLib = null;
   }
 
 
-  static create(termDumps) {
-    if (!termDumps) {
-      macros.error("Invalid termDumps", termDumps);
+  static create(dataLib) {
+    if (!dataLib) {
+      macros.error('Invalid dataLib', dataLib);
       return;
     }
 
-    this.termDumps = termDumps;
+    this.dataLib = dataLib;
   }
 
 
-
   async onInterval() {
-
     let users = await database.get('users');
 
-    console.log(users)
+    macros.log(users);
 
     users = Object.values(users);
 
     let classHashes = [];
     let sectionHashes = [];
 
-    for (let user of users) {
-      classHashes = user.watchingClasses.concat(classHashes)
-      sectionHashes = user.watchingSections.concat(sectionHashes)
+    for (const user of users) {
+      classHashes = user.watchingClasses.concat(classHashes);
+      sectionHashes = user.watchingSections.concat(sectionHashes);
     }
 
-    
     // Get the data for these hashes
-    let classes = classHashes.map((classHash) => {
-      return this.termDumps
-    })
+    const classes = classHashes.map((classHash) => {
+      return this.dataLib.getClassServerDataFromHash(classHash);
+    });
 
+    const sections = sectionHashes.map((sectionHash) => {
+      return this.dataLib.getSectionServerDataFromHash(sectionHash);
+    });
+
+    // getClassServerDataFromHash
+// getSectionServerDataFromHash
 
 
     // Make sure that all the sections are contained by all the classes
+    
+
+    
 
 
     // get db
@@ -61,14 +63,9 @@ class Updater {
     // compare
     // maybe notify
     // update local data?
-
   }
-
-
-
-
 }
 
-let instance = new Updater();
+const instance = new Updater();
 
 export default Updater;

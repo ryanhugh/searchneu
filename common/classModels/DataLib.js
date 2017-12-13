@@ -24,9 +24,9 @@ class DataLib {
 
 
     // Fill up the above two hash maps
-    let termDumps = Object.values(termDumpMap);
+    const termDumps = Object.values(termDumpMap);
 
-    for (let termDump of termDumps) {
+    for (const termDump of termDumps) {
       Object.assign(this.allClassesMap, termDump.classMap);
       Object.assign(this.allSectionsMap, termDump.sectionMap);
     }
@@ -34,10 +34,9 @@ class DataLib {
 
 
   static loadData(termDumpMap) {
+    const termDumps = Object.values(termDumpMap);
 
-    let termDumps = Object.values(termDumpMap);
-
-    for (let termDump of termDumps) {
+    for (const termDump of termDumps) {
       if (!termDump.classMap || !termDump.sectionMap) {
         macros.error('invalid termDump', !!termDumpMap, Object.keys(termDump));
         return null;
@@ -64,7 +63,7 @@ class DataLib {
       return null;
     }
 
-    let termDump = this.termDumpMap[termId]
+    const termDump = this.termDumpMap[termId];
 
     const keys = Object.keys(termDump.classMap);
 
@@ -100,7 +99,7 @@ class DataLib {
   }
 
   hasTerm(termId) {
-    return !!this.termDumpMap[termId]
+    return !!this.termDumpMap[termId];
   }
 
   getClassServerDataFromHash(hash) {
