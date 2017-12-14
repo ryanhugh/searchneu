@@ -3,6 +3,7 @@ import fs from 'fs-promise';
 import DataLib from '../common/classModels/DataLib';
 
 import Request from './scrapers/request';
+import classesScrapers from './scrapers/classes/main'
 
 import macros from './macros';
 import database from './database';
@@ -30,16 +31,33 @@ class Updater {
   async onInterval() {
     let users = await database.get('users');
 
-    macros.log(users);
-
     users = Object.values(users);
 
     let classHashes = [];
     let sectionHashes = [];
 
+    let sectionHashToUsers = {}
+    let classHashToUsers = {}
+
     for (const user of users) {
       classHashes = user.watchingClasses.concat(classHashes);
       sectionHashes = user.watchingSections.concat(sectionHashes);
+
+      for (let classHash of user.watchingClasses) {
+        if (!classHashToUsers[classHash]) {
+          classHashToUsers[classHash] = []
+        }
+
+        classHashToUsers[classHash].push(user.facebookMessengerId);
+      }
+
+      for (let sectionHash of user.watchingSections) {
+        if (!sectionHashToUsers[sectionHash]) {
+          sectionHashToUsers[sectionHash] = []
+        }
+
+        sectionHashToUsers[sectionHash].push(user.facebookMessengerId);
+      }
     }
 
 
@@ -71,7 +89,7 @@ class Updater {
           subject: aClass.subject,
           classUid: aClass.classUid,
           crn: crn
-        })
+        }).getHash()
 
         // Remove this one from the hash map
         sectionHashMap[sectionHash] = false;
@@ -87,27 +105,56 @@ class Updater {
       }
 
 
-      macros.error("Section", sectionHash, "is being watched but it's class is not being watched?");
+      macros.error("Section", sectionHash, "is being watched but it's class is not being watched?", sectionHashMap);
     }
 
-
+    let allParsersOutput = []
 
     // Scrape the latest data
     for (let aClass of classes) {
       let latestData = await ellucianCatalogParser.main(aClass.prettyUrl)
-      debugger
 
+      allParsersOutput = allParsersOutput.concat(latestData)
+    }
+
+    let rootNode = {
+      type: 'ignore',
+      deps: allParsersOutput,
+      value: {}
     }
 
 
+    // Because ellucianCatalogParser returns a list of classes, instead of a singular class, we need to rum it on all of them
+    let output = await classesScrapers.runProcessors(rootNode)
 
 
+    for (let aNewClass of output.classes) {
+      let hash = Keys.create(aNewClass).getHash();
+
+      let oldClass = this.dataLib.getClassServerDataFromHash(hash)
+
+      if (aNewClass.crns.length !== oldClass.crns.length) {
+        macros.log("Section was added!")
+      }
+    }
 
 
-    // Make sure that all the sections are contained by all the classes
+    for (let newSection of output.sections) {
+      let hash = Keys.create(newSection).getHash();
 
-    // Make a map of all the section hashes
-    let sectionMap = {}
+      let oldSection = this.dataLib.getClassServerDataFromHash(hash)
+
+      if (aNewClass.seatsRemaining > 0 && oldSection.seatsRemaining <= 0) {
+        macros.log("Seat opened up!", hash)
+      }
+    }
+
+
+    
+
+    debugger
+
+
 
 
 

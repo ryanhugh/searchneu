@@ -94,6 +94,15 @@ class TermStartEndDate extends BaseProcessor.BaseProcessor {
 
 
   go(termDump) {
+
+    // If this term dump is just updating a few classes as part of the updater.js
+    // There will be no terms
+    // In this case just return. 
+    if (!termDump.terms) {
+      return termDump;
+    }
+
+
     for (const term of termDump.terms) {
       this.runOnTerm(termDump, term);
     }
