@@ -86,19 +86,20 @@ class Main {
         macros.error('no type?', curr);
         continue;
       }
-      if (curr.type === 'ignore') {
-        continue;
+
+      // If the type is set to ignore, don't add it to the output, but do process this items deps
+      if (curr.type !== 'ignore') {
+        if (!output[curr.type]) {
+          output[curr.type] = [];
+        }
+
+        const item = {};
+
+        Object.assign(item, curr.value);
+
+        output[curr.type].push(item);
       }
 
-      if (!output[curr.type]) {
-        output[curr.type] = [];
-      }
-
-      const item = {};
-
-      Object.assign(item, curr.value);
-
-      output[curr.type].push(item);
 
 
       if (curr.deps) {
@@ -144,6 +145,25 @@ class Main {
 
     macros.log('Processing ', urlsToProcess);
     return urlsToProcess;
+  }
+
+  // The updater.js calls into this function to run
+  async runProcessors(rootNode) {
+
+    this.waterfallIdentifyers(rootNode);
+
+    const dump = this.pageDataStructureToTermDump(rootNode);
+
+    // Run the processors, sequentially
+    addClassUids.go(dump);
+    prereqClassUids.go(dump);
+    termStartEndDate.go(dump);
+
+    // Add new processors here.
+    simplifyProfList.go(dump);
+    addPreRequisiteFor.go(dump);
+
+    return dump;
   }
 
 
@@ -203,18 +223,7 @@ class Main {
       }],
     };
 
-    this.waterfallIdentifyers(rootNode);
-
-    const dump = this.pageDataStructureToTermDump(rootNode);
-
-    // Run the processors, sequentially
-    addClassUids.go(dump);
-    prereqClassUids.go(dump);
-    termStartEndDate.go(dump);
-
-    // Add new processors here.
-    simplifyProfList.go(dump);
-    addPreRequisiteFor.go(dump);
+    let dump = this.runProcessors(rootNode);
 
     // If running with semesterly, save in the semesterly schema
     // If not, save in the searchneu schema
