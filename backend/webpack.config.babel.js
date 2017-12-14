@@ -147,6 +147,16 @@ export default {
         ],
       },
 
+      // Sass
+      {
+        test: /\.scss$/,
+        loaders: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+        ],
+      },
+
 
       // Load other stuff as static files.
       {

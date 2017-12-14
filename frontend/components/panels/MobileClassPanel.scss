@@ -1,7 +1,9 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
+
+ @import "BaseClassPanel";
 
 .chevron {
   width: 18px;
@@ -10,6 +12,7 @@
   margin-right: 10px;
   margin-top: 2px;
 }
+
 .classTitle {
   display: inline-block;
   max-width: calc(100% - 30px);

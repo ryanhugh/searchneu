@@ -8,7 +8,8 @@ import PropTypes from 'prop-types';
 
 import RequisiteBranch from '../../../common/classModels/RequisiteBranch';
 import Keys from '../../../common/Keys';
-import css from './BaseClassPanel.css';
+import './BaseClassPanel.scss';
+// import './BaseClassPanel.css';
 import macros from '../macros';
 
 class BaseClassPanel extends React.Component {
@@ -92,7 +93,7 @@ class BaseClassPanel extends React.Component {
   getShowMoreButton() {
     if (this.state.unrenderedSections.length > 0) {
       return (
-        <div className={ css.showMoreButton } role='button' tabIndex={ 0 } onClick={ this.onShowMoreClick }>
+        <div className='showMoreButton' role='button' tabIndex={ 0 } onClick={ this.onShowMoreClick }>
           Show More...
         </div>
       );
@@ -189,7 +190,7 @@ class BaseClassPanel extends React.Component {
               role='link'
               tabIndex={ 0 }
               onClick={ (event) => { this.onReqClick(reqType, childBranch, event); } }
-              className={ css.reqClassLink }
+              className='reqClassLink'
             >
               {`${childBranch.subject} ${childBranch.classId}`}
             </a>);
@@ -235,7 +236,7 @@ class BaseClassPanel extends React.Component {
     }
 
     if (retVal.length === 0) {
-      return (<span className={ css.dynamicText }>None</span>);
+      return (<span className='dynamicText'>None</span>);
     }
 
     // retVal = retVal.join(' ' + this.prereqs.type + ' ')
@@ -318,7 +319,7 @@ class BaseClassPanel extends React.Component {
 
     return (
       <div
-        className={ `${css.prereqShowMore} ${css.dynamicText}` }
+        className='prereqShowMore dynamicText'
         tabIndex={ 0 }
         role='button'
         onClick={ () => {
@@ -338,7 +339,7 @@ class BaseClassPanel extends React.Component {
           });
         } }
       >Show More
-        <span className={ css.prereqShowMoreArrow } />
+        <span className='prereqShowMoreArrow' />
       </div>
     );
   }

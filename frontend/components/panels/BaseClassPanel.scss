@@ -7,13 +7,15 @@
     padding: 0px !important;
     font-size: 16px !important;
 }
+
 .body {
     padding: 20px;
 }
-.header {
+
+.page-home .header {
     outline: 0;
     border: none;
-    background: #fafafa;
+    background-color: #fafafa;
     padding: 11px;
     margin-top: 0px;
     border-radius: 5px;
@@ -48,16 +50,15 @@
     display: inline;
     outline: 0;
     border: none;
-}
-
-.prereqShowMoreArrow:after {
-    font-size: 30px thefont, monospace;
-    height: 19px;
-    font-weight: 500;
-    display: inline-block;
-    overflow: hidden;
-    font-family: thefont;
-    vertical-align: -3px;
-    content: '\279C';
-    padding-left: 3px;
+    &:after {
+        font-size: 30px thefont, monospace;
+        height: 19px;
+        font-weight: 500;
+        display: inline-block;
+        overflow: hidden;
+        font-family: thefont;
+        vertical-align: -3px;
+        content: '\279C';
+        padding-left: 3px;
+    }
 }
