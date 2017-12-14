@@ -86,6 +86,9 @@ class Main {
         macros.error('no type?', curr);
         continue;
       }
+      if (curr.type === 'ignore') {
+        continue;
+      }
 
       if (!output[curr.type]) {
         output[curr.type] = [];
@@ -178,25 +181,31 @@ class Main {
     const parsersOutput = await ellucianTermsParser.main(url);
 
     const rootNode = {
-      type: 'colleges',
+      type: 'ignore',
       value: {},
-      deps: parsersOutput,
+      deps: [{
+          type: 'ignore',
+          value: {},  
+          deps: parsersOutput,
+        },
+
+        // Add the data that was calculated here
+        // Don't put this as a parent of the rest of the processors
+        // so the host: data from here is not copied to the children
+        {
+          type: 'colleges',
+          value: {
+            host: host,
+            title: await collegeNamePromise,
+            url: host,
+          },
+          deps: []
+      }],
     };
 
     this.waterfallIdentifyers(rootNode);
 
     const dump = this.pageDataStructureToTermDump(rootNode);
-
-    // Add the data that was calculatd here
-    if (!dump.colleges) {
-      dump.colleges = [];
-    }
-    dump.colleges.push({
-      host: host,
-      title: await collegeNamePromise,
-      url: host,
-    });
-
 
     // Run the processors, sequentially
     addClassUids.go(dump);
