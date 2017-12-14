@@ -1,12 +1,12 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
- .header {
+.page-home .header {
     outline: 0;
     border: none;
-    background: #fafafb;
+    background: #fafafa;
     padding: 11px;
     margin-top: 0px;
     border-radius: 5px;
@@ -17,22 +17,12 @@
     padding: 0px !important;
     font-size: 16px !important;
 }
-.body {
-    padding: 20px;
-}
-.inlineBlock {
-    display: inline-block;
-}
+
 .contactBox {
     vertical-align: top;
     min-width: 300px;
 }
-.desktopSecondColumn {
-    padding-left: 100px;
-}
-.mobileSecondColumn {
-    padding-top: 20px;
-}
+
 .link {
     opacity: .8;
     float: right;
@@ -46,9 +36,7 @@
   margin-right: 10px;
   margin-top: 2px;
 }
-.displayNone {
-    display: none;
-}
+
 .titleText {
   display: inline-block;
   max-width: calc(100% - 30px);

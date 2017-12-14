@@ -3,6 +3,8 @@
  * See the license file in the root folder for details.
  */
 
+ @import "BaseClassPanel";
+
 .resultsTable {
     border: none !important;
     margin-bottom: 0px !important;
@@ -35,7 +37,7 @@
 .showMoreButton {
     cursor: pointer;
     padding: 10px;
-    color: #888888;
+    color: #888;
     font-weight: 600;
     border-top: 1px solid #ddd;
 }
