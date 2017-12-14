@@ -13,6 +13,10 @@ class Database {
 
   async loadDatabase() {
     const firebaseConfig = await macros.getEnvVariable('firebaseConfig');
+    if (!firebaseConfig) {
+      macros.log("Don't have firebase config, probably going to crash.");
+      return null;
+    }
 
     const app = firebase.initializeApp({
       credential: firebase.credential.cert(firebaseConfig),
