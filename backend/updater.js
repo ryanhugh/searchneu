@@ -12,6 +12,8 @@ import ellucianCatalogParser from './scrapers/classes/parsers/ellucianCatalogPar
 
 
 class Updater {
+
+  // Don't call this directly, call .create instead. 
   constructor(dataLib) {
     this.dataLib = dataLib;
   }
@@ -20,14 +22,24 @@ class Updater {
   static create(dataLib) {
     if (!dataLib) {
       macros.error('Invalid dataLib', dataLib);
-      debugger
       return;
     }
 
     return new this(dataLib);
   }
 
-
+  // This runs every couple of minutes and checks to see if any seats opened (or anything else changed) in any of the classes that people are watching
+  // The steps of this process:
+  // Fetch the user data from the database. 
+  // List the classes and sections that people are watching
+  //   - This data is stored as hashes (Keys...getHash()) in the user DB
+  // Access the data stored in RAM in this Node.js process to get the full data about these classes and sections
+  //   - This data is passed in through the dataLib argument
+  //   - This same instance of the data is also passed into the search class so it can access this same data
+  // Access the URLs from these objects and use them to scrape the latest data about these classes
+  // Compare with the existing data
+  // Notify users about any changes
+  // Update the local data about the changes
   async onInterval() {
     let users = await database.get('users');
 
@@ -155,19 +167,6 @@ class Updater {
     debugger
 
 
-
-
-
-
-
-    // get db
-    // list hashes
-    // get urls from data in ram
-    // pull in parsers
-    // get latest data
-    // compare
-    // maybe notify
-    // update local data?
   }
 
 
