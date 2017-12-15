@@ -1,12 +1,14 @@
 
 # Setting up Search NEU 
 
+First, follow the instructions here: https://nodejs.org/en to install Node.js on your computer. This one installation package includes the commands `npm` and `node`, both of which are used later on.  
+
 We recommend that you use yarn to install and manage the npm packages. Yarn is an alternate to the npm client that was developed by Facebook. Follow the instructions here to install yarn: https://yarnpkg.com/lang/en/docs/install/
 
 ```bash
 git clone git@github.com:ryanhugh/searchneu.git
 cd searchneu
-yarn global add eslint jest # If you want to run the linters or unit tests
+yarn global add eslint jest babel-cli  # Eslint is just for linting the code and jest is used for testing the code.
 yarn
 ```
 
@@ -14,7 +16,7 @@ Or if you want to use npm to install the node.js packages:
 ```bash
 git clone git@github.com:ryanhugh/searchneu.git
 cd searchneu
-npm -g install eslint jest
+npm -g install eslint jest babel-cli
 npm install
 ```
 
