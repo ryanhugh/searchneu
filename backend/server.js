@@ -317,10 +317,18 @@ app.get('/search', wrap(async (req, res) => {
   }
 
   const startTime = Date.now();
-  const results = index.search(req.query.query, req.query.termId, minIndex, maxIndex);
+  const searchOutput = index.search(req.query.query, req.query.termId, minIndex, maxIndex);
   const midTime = Date.now();
-  const string = JSON.stringify(results);
-  macros.log(getTime(), getIpPath(req), 'Search for', req.query.query, 'took ', midTime - startTime, 'ms and stringify took', Date.now() - midTime, 'with', results.length, 'results');
+  const string = JSON.stringify(searchOutput.results);
+
+  const analytics = searchOutput.analytics;
+
+  analytics.searchTime = midTime - startTime;
+  analytics.stringifyTime = Date.now() - midTime;
+
+  macros.logAmplitudeEvent('Backend Search', analytics);
+
+  macros.log(getTime(), getIpPath(req), 'Search for', req.query.query, 'from', minIndex, 'to', maxIndex, 'took', midTime - startTime, 'ms and stringify took', Date.now() - midTime, 'with', analytics.resultCount, 'results');
 
   // Set the header for application/json and send the data.
   res.setHeader('Content-Type', 'application/json; charset=UTF-8');
