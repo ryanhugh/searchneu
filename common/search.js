@@ -385,7 +385,7 @@ class Search {
     }
 
     let wasSubjectMatch = false;
-    const cacheEntry = this.refCache[termId + searchTerm]
+    const cacheEntry = this.refCache[termId + searchTerm];
 
     // Cache the refs.
     let refs;
@@ -412,8 +412,8 @@ class Search {
         time: Date.now(),
       };
     }
-    
-    let analytics = {
+
+    const analytics = {
       status: 'Success',
       wasSubjectMatch: wasSubjectMatch,
       isCacheHit: !!cacheEntry,
@@ -421,7 +421,7 @@ class Search {
       minIndex: minIndex,
       maxIndex: maxIndex,
       resultCount: refs.length,
-    }
+    };
 
     // Check the cache when over 10,000 items are added to the cache
     if (this.itemsInCache > 10000) {
@@ -445,7 +445,7 @@ class Search {
       return {
         results: [],
         analytics: analytics,
-      }
+      };
     }
 
     // We might need to load more data than we are going to return
