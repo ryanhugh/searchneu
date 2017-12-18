@@ -61,3 +61,12 @@ it('can override a leaf node with a path', () => {
 
   expect(output).toEqual([1, 2]);
 });
+
+
+it('should split a key', function() {
+  expect(database.standardizeKey('/one/two/three')).toEqual(['one','two','three'])
+  expect(database.standardizeKey('one/two/three')).toEqual(['one','two','three'])
+  expect(database.standardizeKey('one/two/three/')).toEqual(['one','two','three'])
+  expect(database.standardizeKey('/one/two/three/')).toEqual(['one','two','three'])
+
+});

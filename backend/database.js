@@ -47,6 +47,11 @@ class Database {
   // each object can either be a path to more objects or a leaf node
   // only the leaf nodes hold values
   setMemoryStorage(keySplit, value, currObject = this.memoryStorage) {
+    if (keySplit.length === 0) {
+      macros.error("setMemoryStorage called with invalid 0 length key", value);
+      return;
+    }
+
     const currKey = keySplit[0];
     if (keySplit.length === 1) {
       currObject[currKey] = {
@@ -69,7 +74,17 @@ class Database {
     }
   }
 
+  // Helper funciton for getMemoryStorage. When this function is given a node, it will recursivly return a list of all of the
+  // values on leaf nodes that are children of this node.
+  // For instance, if this function is given a node that has two children that are both leaves,
+  // it will return the values on both of these children. 
+  // This is how Firebase works too. 
   getChildren(node) {
+    if (node.type !== 'node') {
+      macros.error("getChildren was node called with a node!", node);
+      return [];
+    }
+
     let output = [];
 
     for (const node of Object.values(node.children)) {
@@ -83,7 +98,17 @@ class Database {
     return output;
   }
 
+  // Gets a value from the in-memory storage.
+  // keySplit is the output of standarizeKey function
+  // The setting and getting works the same way that firebase's getting and setting works.
+  // Will recursively call into itself for each path in the given path
+  // to find the value.
   getMemoryStorage(keySplit, currObject = this.memoryStorage) {
+    if (keySplit.length === 0) {
+      macros.error("getMemoryStorage called with invalid 0 length key", value);
+      return null;
+    }
+
     const currKey = keySplit[0];
 
     if (!currObject[currKey]) {
@@ -112,7 +137,7 @@ class Database {
     }
 
     if (key.endsWith('/')) {
-      key = key.slice(0, key.lenght - 1);
+      key = key.slice(0, key.length - 1);
     }
 
     return key.split('/');
