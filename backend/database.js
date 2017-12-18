@@ -131,6 +131,8 @@ class Database {
     return this.getMemoryStorage(keySplit.slice(1), currObject[currKey].children);
   }
 
+  // Standardizes a key the same way that Firebase standardizes keys
+  // Just for use by getMemoryStorage and setMemoryStorage
   standardizeKey(key) {
     if (key.startsWith('/')) {
       key = key.slice(1);
