@@ -8,14 +8,13 @@ import macros from './macros';
 import MockFirebaseRef from './MockFirebaseRef';
 
 
-// In development and testing, a local, in-memory storage is used. 
+// In development and testing, a local, in-memory storage is used.
 // In production, the data is persisted in firebase.
 // This makes testing easier, avoids using production quota in development,
-// and allows many people to test this class functionality (and other features that depend on it, such as notifyer.js) without the firebase access tokens. 
-// It also keeps the ability to run the development server offline. 
+// and allows many people to test this class functionality (and other features that depend on it, such as notifyer.js) without the firebase access tokens.
+// It also keeps the ability to run the development server offline.
 class Database {
   constructor() {
-
     if (macros.PROD) {
       // Promise for loading the firebase DB
       this.dbPromise = this.loadDatabase();
@@ -23,9 +22,6 @@ class Database {
       // In memory storage
       this.memoryStorage = {};
     }
-
-
-
   }
 
   async loadDatabase() {
@@ -50,8 +46,76 @@ class Database {
   // Firebase uses a recursive object to keep track of keys and values
   // each object can either be a path to more objects or a leaf node
   // only the leaf nodes hold values
-  setMemoryStorage(keySplit, value, currObject) {
+  setMemoryStorage(keySplit, value, currObject = this.memoryStorage) {
+    const currKey = keySplit[0];
+    if (keySplit.length === 1) {
+      currObject[currKey] = {
+        type: 'leaf',
+        value: value,
+      };
+    } else {
+      if (currObject[currKey] && currObject[currKey].type === 'leaf') {
+        macros.warn('Overriding leaf with node', keySplit, value);
+      }
 
+      if (!currObject[currKey] || currObject[currKey].type === 'leaf') {
+        currObject[currKey] = {
+          type: 'node',
+          children: {},
+        };
+      }
+
+      this.setMemoryStorage(keySplit.slice(1), value, currObject[currKey].children);
+    }
+  }
+
+  getChildren(node) {
+    let output = [];
+
+    for (const node of Object.values(node.children)) {
+      if (node.type === 'node') {
+        output = output.concat(this.getChildren(node));
+      } else if (node.type === 'leaf') {
+        output.push(node.value);
+      }
+    }
+
+    return output;
+  }
+
+  getMemoryStorage(keySplit, currObject = this.memoryStorage) {
+    const currKey = keySplit[0];
+
+    if (!currObject[currKey]) {
+      return null;
+    }
+
+    if (keySplit.length === 1) {
+      if (currObject[currKey].type === 'leaf') {
+        return currObject[currKey].value;
+      } else if (currObject[currKey].type === 'node') {
+        // Return all of the leafs that are children of this node
+
+        return this.getChildren(currObject[currKey]);
+      }
+
+      macros.error('Unknown type', currObject[currKey].type, keySplit, currObject);
+      return null;
+    }
+
+    return this.getMemoryStorage(keySplit.slice(1), currObject[currKey].children);
+  }
+
+  standardizeKey(key) {
+    if (key.startsWith('/')) {
+      key = key.slice(1);
+    }
+
+    if (key.endsWith('/')) {
+      key = key.slice(0, key.lenght - 1);
+    }
+
+    return key.split('/');
   }
 
   // Key should follow this form:
@@ -59,37 +123,24 @@ class Database {
   // Value can be any JS object.
   // If it has sub-objects you can easily dive into them in the Firebase console.
   async set(key, value) {
-
     if (macros.PROD) {
       const db = await this.dbPromise;
       return db.ref(key).set(value);
     }
-    else {
 
-      if (key.startsWith('/')) {
-        key = key.slice(1)
-      }
-
-      let keySplit = key.split('/')
-
-      if (keySplit.length === 1) {
-
-      }
-
-      if (!this.memoryStorage[keySplit[0]]) {
-        this.memoryStorage[keySplit[0]] = {}
-      }
-
-      this.memoryStorage[key] = value;
-    }
+    this.setMemoryStorage(this.standardizeKey(key), value);
   }
 
   // Get the value at this key.
   // Key follows the same form in the set method
   async get(key) {
-    const db = await this.dbPromise;
-    const value = await db.ref(key).once('value');
-    return value.val();
+    if (macros.PROD) {
+      const db = await this.dbPromise;
+      const value = await db.ref(key).once('value');
+      return value.val();
+    }
+
+    this.getMemoryStorage(this.standardizeKey(key));
   }
 
   // Returns the raw firebase ref for a key
