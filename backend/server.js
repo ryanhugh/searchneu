@@ -374,18 +374,31 @@ app.post('/webhook/', wrap(async (req, res) => {
       } else if (text === 'What is my facebook messenger sender id?') {
         notifyer.sendFBNotification(sender, sender);
       } else {
-        // notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. Someday, I will notify you when seats open up in classes that are full. 😎👌🍩 But that day is not today...");
-        notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com!");
+        notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com !");
       }
     } else if (event.optin) {
       macros.log('Got opt in button click!', event, event.optin.ref);
 
-      // The frontned send a classHash to follow and a list of sectionHashes to follow.
+      // The frontend send a classHash to follow and a list of sectionHashes to follow.
       let userObject = {};
       try {
         userObject = JSON.parse(event.optin.ref);
       } catch (e) {
         macros.error('Unable to parse user data from frontend?', event.optin.ref);
+
+        // We should allways respond with a 200 status code, even if there is an error on our end.
+        // If we don't we risk being unsubscribed for webhook events.
+        // https://developers.facebook.com/docs/messenger-platform/webhook
+        res.sendStatus(200);
+        return;
+      }
+
+      // When the site is running in development mode,
+      // and the send to messenger button is clicked,
+      // Facebook will still send the webhooks to prod
+      // Keep another field on here to keep track of whether the button was clicked in prod or in dev
+      // and if it was in dev ignore it
+      if (userObject.dev && macros.PROD) {
         res.sendStatus(200);
         return;
       }

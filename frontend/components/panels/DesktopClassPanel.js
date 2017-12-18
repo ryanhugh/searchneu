@@ -175,17 +175,14 @@ class DesktopClassPanel extends BaseClassPanel {
         }
       }
 
-      const dataRef = JSON.stringify({
+      // JSON stringify it and then base64 encode it. 
+      // The messenger button dosen't appear unless the ref is base64 encoded.
+      const dataRef = btoa(JSON.stringify({
         aClass: Keys.create(aClass).getHash(),
         sections: sectionsHashes,
-      });
+        dev: macros.DEV,
+      }));
 
-      let tempRef = '';
-      for (let i = 0; i < 2500; i++) {
-        tempRef += String(i % 10);
-      }
-      macros.log(tempRef);
-      macros.log(dataRef);
 
       updatesSection = (
         <div ref={ (ele) => { this.facebookScopeRef = ele; } }>
@@ -193,7 +190,7 @@ class DesktopClassPanel extends BaseClassPanel {
             className='fb-send-to-messenger'
             messenger_app_id='1979224428978082'
             page_id='807584642748179'
-            data-ref={ tempRef }
+            data-ref={ dataRef }
             color='white'
             size='large'
           />
