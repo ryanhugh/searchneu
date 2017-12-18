@@ -165,7 +165,7 @@ class Updater {
 
       if (message) {
 
-        message += ' Check it out at https://searchneu.com/' + aNewClass.subject + aNewClass.classId + '!';
+        message += ' Check it out at https://searchneu.com/' + aNewClass.subject + aNewClass.classId + ' !';
 
         const user = classHashToUsers[hash];
 
@@ -194,10 +194,10 @@ class Updater {
       let message;
 
       if (newSection.seatsRemaining > 0 && oldSection.seatsRemaining <= 0) {
-        message = 'A seat opened up in ' + newSection.subject + ' ' + newSection.classId + ' (CRN: ' + newSection.crn +'). Check it out at https://searchneu.com/' + newSection.subject + newSection.classId + '!';
+        message = 'A seat opened up in ' + newSection.subject + ' ' + newSection.classId + ' (CRN: ' + newSection.crn +'). Check it out at https://searchneu.com/' + newSection.subject + newSection.classId + ' !';
       }
       else if (newSection.waitRemaining > 0 && oldSection.waitRemaining <= 0) {
-        message = 'A waitlist seat opened up in ' + newSection.subject + ' ' + newSection.classId + ' (CRN: ' + newSection.crn +'). Check it out at https://searchneu.com/' + newSection.subject + newSection.classId + '!';
+        message = 'A waitlist seat opened up in ' + newSection.subject + ' ' + newSection.classId + ' (CRN: ' + newSection.crn +'). Check it out at https://searchneu.com/' + newSection.subject + newSection.classId + ' !';
       }
 
       if (message) {
