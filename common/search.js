@@ -175,7 +175,7 @@ class Search {
   }
 
   checkForSubjectMatch(searchTerm, termId) {
-    // This is O(n), but because there are so few subjects it usually takes < 1ms
+    // This is O(n) where n is the number of subjects in a term, but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
     const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
     const subjects = this.dataLib.getSubjects(termId);
@@ -316,15 +316,39 @@ class Search {
 
   // Main search function. The min and max index are used for pagenation.
   // Eg, if you want results 10 through 20, call search('hi there', 10, 20)
+  // Return both the number of results and the results the user is looking for
+  // The total number of results is returned for analytics.
   search(searchTerm, termId, minIndex = 0, maxIndex = 1000) {
     if (maxIndex <= minIndex) {
       macros.error('Error. Max index < Min index.', minIndex, maxIndex, maxIndex <= minIndex, typeof maxIndex, typeof minIndex);
-      return [];
+      return {
+        results: [],
+        analytics: {
+          status: 'Index range error',
+          wasSubjectMatch: false,
+          isCacheHit: false,
+          query: searchTerm,
+          minIndex: minIndex,
+          maxIndex: maxIndex,
+          resultCount: 0,
+        },
+      };
     }
 
     if (!this.dataLib.hasTerm(termId)) {
       macros.log('Invalid termId', termId);
-      return [];
+      return {
+        results: [],
+        analytics: {
+          status: 'Invalid termId',
+          wasSubjectMatch: false,
+          isCacheHit: false,
+          query: searchTerm,
+          minIndex: minIndex,
+          maxIndex: maxIndex,
+          resultCount: 0,
+        },
+      };
     }
     // Searches are case insensitive.
     searchTerm = searchTerm.trim().toLowerCase();
@@ -353,11 +377,11 @@ class Search {
     }
 
     let wasSubjectMatch = false;
-
+    const cacheEntry = this.refCache[termId + searchTerm];
 
     // Cache the refs.
     let refs;
-    if (this.refCache[termId + searchTerm]) {
+    if (cacheEntry) {
       refs = this.refCache[termId + searchTerm].refs;
       wasSubjectMatch = this.refCache[termId + searchTerm].wasSubjectMatch;
 
@@ -381,6 +405,16 @@ class Search {
       };
     }
 
+    const analytics = {
+      status: 'Success',
+      wasSubjectMatch: wasSubjectMatch,
+      isCacheHit: !!cacheEntry,
+      query: searchTerm,
+      minIndex: minIndex,
+      maxIndex: maxIndex,
+      resultCount: refs.length,
+    };
+
     // Check the cache when over 10,000 items are added to the cache
     if (this.itemsInCache > 10000) {
       macros.log('Purging the cache because too many items are in the cache.');
@@ -400,7 +434,10 @@ class Search {
 
     // If there were no results or asking for a range beyond the results length, stop here.
     if (refs.length === 0 || minIndex >= refs.length) {
-      return [];
+      return {
+        results: [],
+        analytics: analytics,
+      };
     }
 
     // We might need to load more data than we are going to return
@@ -427,8 +464,8 @@ class Search {
 
     // Step 2: Load those items.
     let objects = [];
-    refs = refs.slice(minIndex, maxIndex + 1);
-    for (const ref of refs) {
+    const slicedRefs = refs.slice(minIndex, maxIndex + 1);
+    for (const ref of slicedRefs) {
       if (ref.type === 'class') {
         const aClass = this.dataLib.getClassServerDataFromHash(ref.ref);
 
@@ -475,16 +512,15 @@ class Search {
 
 
     if (!wasSubjectMatch) {
-      // const startTime = Date.now();
-
       // Sort the objects by chunks that have the same score.
       objects = this.constructor.sortObjectsAfterScore(objects);
-
-      // macros.log('Sorting took ', Date.now() - startTime, 'ms', objects.length, startOffset, returnItemCount);
     }
 
 
-    return objects.slice(startOffset, startOffset + returnItemCount);
+    return {
+      results: objects.slice(startOffset, startOffset + returnItemCount),
+      analytics: analytics,
+    };
   }
 
 
