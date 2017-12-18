@@ -166,6 +166,9 @@ class Updater {
       }
 
       if (message) {
+        // If there is no space between the classId and the exclamation mark
+        // Facebook Messenger on mobile will include the exclamation mark in the hyperlink
+        // Oddly enough, Facebook messenger on desktop will not include the exclamation mark in the URL.
         message += ` Check it out at https://searchneu.com/${aNewClass.subject}${aNewClass.classId} !`;
 
         const user = classHashToUsers[hash];
@@ -194,6 +197,7 @@ class Updater {
       let message;
 
       if (newSection.seatsRemaining > 0 && oldSection.seatsRemaining <= 0) {
+        // See above comment about space before the exclamation mark.
         message = `A seat opened up in ${newSection.subject} ${newSection.classId} (CRN: ${newSection.crn}). Check it out at https://searchneu.com/${newSection.subject}${newSection.classId} !`;
       } else if (newSection.waitRemaining > 0 && oldSection.waitRemaining <= 0) {
         message = `A waitlist seat opened up in ${newSection.subject} ${newSection.classId} (CRN: ${newSection.crn}). Check it out at https://searchneu.com/${newSection.subject}${newSection.classId} !`;
