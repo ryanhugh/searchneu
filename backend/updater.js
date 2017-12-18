@@ -137,9 +137,9 @@ class Updater {
     const output = await classesScrapers.runProcessors(rootNode);
 
 
-    // Keep track of which messages to send which users. 
-    // The key is the facebookMessengerId and the value is a list of messages. 
-    let userToMessageMap = {};
+    // Keep track of which messages to send which users.
+    // The key is the facebookMessengerId and the value is a list of messages.
+    const userToMessageMap = {};
 
     for (const aNewClass of output.classes) {
       const hash = Keys.create(aNewClass).getHash();
@@ -155,7 +155,7 @@ class Updater {
       }
 
       let message = '';
-      let classCode = `${aNewClass.subject} ${aNewClass.classId}`
+      const classCode = `${aNewClass.subject} ${aNewClass.classId}`;
 
       if (count === 1) {
         message = `A section was added to ${classCode}!`;
@@ -164,18 +164,16 @@ class Updater {
       }
 
       if (message) {
-
-        message += ' Check it out at https://searchneu.com/' + aNewClass.subject + aNewClass.classId + ' !';
+        message += ` Check it out at https://searchneu.com/${aNewClass.subject}${aNewClass.classId} !`;
 
         const user = classHashToUsers[hash];
 
         if (!userToMessageMap[user]) {
-          userToMessageMap[user] = []
+          userToMessageMap[user] = [];
         }
 
-        userToMessageMap[user].push(message)
+        userToMessageMap[user].push(message);
       }
-
     }
 
 
@@ -194,27 +192,26 @@ class Updater {
       let message;
 
       if (newSection.seatsRemaining > 0 && oldSection.seatsRemaining <= 0) {
-        message = 'A seat opened up in ' + newSection.subject + ' ' + newSection.classId + ' (CRN: ' + newSection.crn +'). Check it out at https://searchneu.com/' + newSection.subject + newSection.classId + ' !';
-      }
-      else if (newSection.waitRemaining > 0 && oldSection.waitRemaining <= 0) {
-        message = 'A waitlist seat opened up in ' + newSection.subject + ' ' + newSection.classId + ' (CRN: ' + newSection.crn +'). Check it out at https://searchneu.com/' + newSection.subject + newSection.classId + ' !';
+        message = `A seat opened up in ${newSection.subject} ${newSection.classId} (CRN: ${newSection.crn}). Check it out at https://searchneu.com/${newSection.subject}${newSection.classId} !`;
+      } else if (newSection.waitRemaining > 0 && oldSection.waitRemaining <= 0) {
+        message = `A waitlist seat opened up in ${newSection.subject} ${newSection.classId} (CRN: ${newSection.crn}). Check it out at https://searchneu.com/${newSection.subject}${newSection.classId} !`;
       }
 
       if (message) {
         const user = sectionHashToUsers[hash];
         if (!userToMessageMap[user]) {
-          userToMessageMap[user] = []
+          userToMessageMap[user] = [];
         }
 
-        userToMessageMap[user].push(message)
+        userToMessageMap[user].push(message);
       }
     }
 
 
     // Loop through the messages and send them.
-    for (let fbUserId of Object.keys(userToMessageMap)) {
-      for (let message of userToMessageMap[fbUserId]) {
-        notifyer.sendFBNotification(fbUserId, message)
+    for (const fbUserId of Object.keys(userToMessageMap)) {
+      for (const message of userToMessageMap[fbUserId]) {
+        notifyer.sendFBNotification(fbUserId, message);
       }
     }
   }
