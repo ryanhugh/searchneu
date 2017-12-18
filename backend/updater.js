@@ -3,17 +3,17 @@ import fs from 'fs-promise';
 import DataLib from '../common/classModels/DataLib';
 
 import Request from './scrapers/request';
-import classesScrapers from './scrapers/classes/main'
+import classesScrapers from './scrapers/classes/main';
 
 import macros from './macros';
 import database from './database';
-import Keys from '../common/Keys'
-import ellucianCatalogParser from './scrapers/classes/parsers/ellucianCatalogParser'
+import Keys from '../common/Keys';
+import ellucianCatalogParser from './scrapers/classes/parsers/ellucianCatalogParser';
+import notifyer from './notifyer';
 
 
 class Updater {
-
-  // Don't call this directly, call .create instead. 
+  // Don't call this directly, call .create instead.
   constructor(dataLib) {
     this.dataLib = dataLib;
   }
@@ -30,7 +30,7 @@ class Updater {
 
   // This runs every couple of minutes and checks to see if any seats opened (or anything else changed) in any of the classes that people are watching
   // The steps of this process:
-  // Fetch the user data from the database. 
+  // Fetch the user data from the database.
   // List the classes and sections that people are watching
   //   - This data is stored as hashes (Keys...getHash()) in the user DB
   // Access the data stored in RAM in this Node.js process to get the full data about these classes and sections
@@ -48,24 +48,24 @@ class Updater {
     let classHashes = [];
     let sectionHashes = [];
 
-    let sectionHashToUsers = {}
-    let classHashToUsers = {}
+    const sectionHashToUsers = {};
+    const classHashToUsers = {};
 
     for (const user of users) {
       classHashes = user.watchingClasses.concat(classHashes);
       sectionHashes = user.watchingSections.concat(sectionHashes);
 
-      for (let classHash of user.watchingClasses) {
+      for (const classHash of user.watchingClasses) {
         if (!classHashToUsers[classHash]) {
-          classHashToUsers[classHash] = []
+          classHashToUsers[classHash] = [];
         }
 
         classHashToUsers[classHash].push(user.facebookMessengerId);
       }
 
-      for (let sectionHash of user.watchingSections) {
+      for (const sectionHash of user.watchingSections) {
         if (!sectionHashToUsers[sectionHash]) {
-          sectionHashToUsers[sectionHash] = []
+          sectionHashToUsers[sectionHash] = [];
         }
 
         sectionHashToUsers[sectionHash].push(user.facebookMessengerId);
@@ -73,35 +73,32 @@ class Updater {
     }
 
 
-    let sectionHashMap = {};
-    let sections = [];
+    const sectionHashMap = {};
+    const sections = [];
 
-    for (let sectionHash of sectionHashes) {
-
-      let aClass = this.dataLib.getSectionServerDataFromHash(sectionHash)
+    for (const sectionHash of sectionHashes) {
+      const aClass = this.dataLib.getSectionServerDataFromHash(sectionHash);
 
       sections.push(aClass);
       sectionHashMap[sectionHash] = aClass;
-    }    
-
+    }
 
 
     // Get the data for these hashes
-    let classes = [];
-    for (let classHash of classHashes) {
-
-      let aClass = this.dataLib.getClassServerDataFromHash(classHash)
+    const classes = [];
+    for (const classHash of classHashes) {
+      const aClass = this.dataLib.getClassServerDataFromHash(classHash);
 
       classes.push(aClass);
 
-      for (let crn of aClass.crns) {
-        let sectionHash = Keys.create({
+      for (const crn of aClass.crns) {
+        const sectionHash = Keys.create({
           host: aClass.host,
           termId: aClass.termId,
           subject: aClass.subject,
           classUid: aClass.classUid,
-          crn: crn
-        }).getHash()
+          crn: crn,
+        }).getHash();
 
         // Remove this one from the hash map
         sectionHashMap[sectionHash] = false;
@@ -110,68 +107,117 @@ class Updater {
 
 
     // Find the sections that are still around
-    for (let sectionHash of Object.keys(sectionHashMap)) {
+    for (const sectionHash of Object.keys(sectionHashMap)) {
       // If it was set to false, ignore it
       if (!sectionHashMap[sectionHash]) {
         continue;
       }
 
 
-      macros.error("Section", sectionHash, "is being watched but it's class is not being watched?", sectionHashMap);
+      macros.error('Section', sectionHash, "is being watched but it's class is not being watched?", sectionHashMap);
     }
 
-    let allParsersOutput = []
+    let allParsersOutput = [];
 
     // Scrape the latest data
-    for (let aClass of classes) {
-      let latestData = await ellucianCatalogParser.main(aClass.prettyUrl)
+    for (const aClass of classes) {
+      const latestData = await ellucianCatalogParser.main(aClass.prettyUrl);
 
-      allParsersOutput = allParsersOutput.concat(latestData)
+      allParsersOutput = allParsersOutput.concat(latestData);
     }
 
-    let rootNode = {
+    const rootNode = {
       type: 'ignore',
       deps: allParsersOutput,
-      value: {}
+      value: {},
+    };
+
+
+    // Because ellucianCatalogParser returns a list of classes, instead of a singular class, we need to run it on all of them
+    const output = await classesScrapers.runProcessors(rootNode);
+
+
+    // Keep track of which messages to send which users. 
+    // The key is the facebookMessengerId and the value is a list of messages. 
+    let userToMessageMap = {};
+
+    for (const aNewClass of output.classes) {
+      const hash = Keys.create(aNewClass).getHash();
+
+      const oldClass = this.dataLib.getClassServerDataFromHash(hash);
+
+      // Count how many sections are present in the new but not in the old.
+      let count = 0;
+      for (const crn of aNewClass.crns) {
+        if (!oldClass.crns.includes(crn)) {
+          count++;
+        }
+      }
+
+      let message = '';
+      let classCode = `${aNewClass.subject} ${aNewClass.classId}`
+
+      if (count === 1) {
+        message = `A section was added to ${classCode}!`;
+      } else if (count > 1) {
+        message = `${count} sections were added to ${classCode}!`;
+      }
+
+      if (message) {
+
+        message += ' Check it out at https://searchneu.com/' + aNewClass.subject + aNewClass.classId + '!';
+
+        const user = classHashToUsers[hash];
+
+        if (!userToMessageMap[user]) {
+          userToMessageMap[user] = []
+        }
+
+        userToMessageMap[user].push(message)
+      }
+
     }
 
 
-    // Because ellucianCatalogParser returns a list of classes, instead of a singular class, we need to rum it on all of them
-    let output = await classesScrapers.runProcessors(rootNode)
+    for (const newSection of output.sections) {
+      const hash = Keys.create(newSection).getHash();
 
+      const oldSection = this.dataLib.getSectionServerDataFromHash(hash);
 
-    for (let aNewClass of output.classes) {
-      let hash = Keys.create(aNewClass).getHash();
+      // This should never run.
+      // The user should not be able to sign up for a section that didn't exist when they were signing up.
+      if (!oldSection) {
+        macros.error('Section was addded?', hash);
+        continue;
+      }
 
-      let oldClass = this.dataLib.getClassServerDataFromHash(hash)
+      let message;
 
-      if (aNewClass.crns.length !== oldClass.crns.length) {
-        macros.log("Section was added!")
+      if (newSection.seatsRemaining > 0 && oldSection.seatsRemaining <= 0) {
+        message = 'A seat opened up in ' + newSection.subject + ' ' + newSection.classId + ' (CRN: ' + newSection.crn +'). Check it out at https://searchneu.com/' + newSection.subject + newSection.classId + '!';
+      }
+      else if (newSection.waitRemaining > 0 && oldSection.waitRemaining <= 0) {
+        message = 'A waitlist seat opened up in ' + newSection.subject + ' ' + newSection.classId + ' (CRN: ' + newSection.crn +'). Check it out at https://searchneu.com/' + newSection.subject + newSection.classId + '!';
+      }
+
+      if (message) {
+        const user = sectionHashToUsers[hash];
+        if (!userToMessageMap[user]) {
+          userToMessageMap[user] = []
+        }
+
+        userToMessageMap[user].push(message)
       }
     }
 
 
-    for (let newSection of output.sections) {
-      let hash = Keys.create(newSection).getHash();
-
-      let oldSection = this.dataLib.getClassServerDataFromHash(hash)
-
-      if (aNewClass.seatsRemaining > 0 && oldSection.seatsRemaining <= 0) {
-        macros.log("Seat opened up!", hash)
+    // Loop through the messages and send them.
+    for (let fbUserId of Object.keys(userToMessageMap)) {
+      for (let message of userToMessageMap[fbUserId]) {
+        notifyer.sendFBNotification(fbUserId, message)
       }
     }
-
-
-    
-
-    debugger
-
-
   }
-
-
-
-
 }
 
 

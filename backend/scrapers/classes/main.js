@@ -101,7 +101,6 @@ class Main {
       }
 
 
-
       if (curr.deps) {
         stack = stack.concat(curr.deps);
       }
@@ -149,7 +148,6 @@ class Main {
 
   // The updater.js calls into this function to run
   async runProcessors(rootNode) {
-
     this.waterfallIdentifyers(rootNode);
 
     const dump = this.pageDataStructureToTermDump(rootNode);
@@ -204,26 +202,26 @@ class Main {
       type: 'ignore',
       value: {},
       deps: [{
-          type: 'ignore',
-          value: {},  
-          deps: parsersOutput,
-        },
+        type: 'ignore',
+        value: {},
+        deps: parsersOutput,
+      },
 
         // Add the data that was calculated here
         // Don't put this as a parent of the rest of the processors
         // so the host: data from here is not copied to the children
-        {
-          type: 'colleges',
-          value: {
-            host: host,
-            title: await collegeNamePromise,
-            url: host,
-          },
-          deps: []
+      {
+        type: 'colleges',
+        value: {
+          host: host,
+          title: await collegeNamePromise,
+          url: host,
+        },
+        deps: [],
       }],
     };
 
-    let dump = this.runProcessors(rootNode);
+    const dump = this.runProcessors(rootNode);
 
     // If running with semesterly, save in the semesterly schema
     // If not, save in the searchneu schema
