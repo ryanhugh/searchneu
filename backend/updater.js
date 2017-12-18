@@ -42,6 +42,9 @@ class Updater {
   // Update the local data about the changes
   async onInterval() {
     let users = await database.get('users');
+    if (!users) {
+      return;
+    }
 
     users = Object.values(users);
 
@@ -112,7 +115,6 @@ class Updater {
       if (!sectionHashMap[sectionHash]) {
         continue;
       }
-
 
       macros.error('Section', sectionHash, "is being watched but it's class is not being watched?", sectionHashMap);
     }
@@ -241,7 +243,9 @@ async function test() {
 
   instance.onInterval();
 }
-test();
 
+if (require.main === module) {
+  test();
+}
 
 export default Updater;
