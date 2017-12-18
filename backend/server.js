@@ -371,6 +371,8 @@ app.post('/webhook/', wrap(async (req, res) => {
 
       if (text === 'test') {
         notifyer.sendFBNotification(sender, 'CS 1800 now has 1 seat available!! Check it out on https://searchneu.com/cs1800 !');
+      } else if (text === 'What is my facebook messenger sender id?') {
+        notifyer.sendFBNotification(sender, sender);
       } else {
         // notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. Someday, I will notify you when seats open up in classes that are full. 😎👌🍩 But that day is not today...");
         notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com!");
