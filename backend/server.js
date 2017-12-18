@@ -397,7 +397,7 @@ app.post('/webhook/', wrap(async (req, res) => {
 
       const firebaseRef = database.getRef(`/users/${sender}`);
 
-      const existingData = await ref.once('value');
+      const existingData = await firebaseRef.once('value');
 
       // User is signing in from a new device
       if (existingData) {
@@ -418,7 +418,7 @@ app.post('/webhook/', wrap(async (req, res) => {
         existingData.watchingClasses.push(userObject.classHash);
         existingData.watchingSections = existingData.watchingSections.concat(userObject.sectionHashes);
 
-        ref.set(existingData);
+        firebaseRef.set(existingData);
       } else {
         const names = await notifyer.getUserProfileInfo(sender);
 
