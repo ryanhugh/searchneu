@@ -99,7 +99,7 @@ class DesktopClassPanel extends BaseClassPanel {
   }
 
   onSubscribeToggleChange(event, data) {
-    console.log(data.checked);
+    macros.log(data.checked);
 
     this.setState({
       showMessengerButton: true,
@@ -175,7 +175,7 @@ class DesktopClassPanel extends BaseClassPanel {
         }
       }
 
-      // JSON stringify it and then base64 encode it. 
+      // JSON stringify it and then base64 encode it.
       // The messenger button dosen't appear unless the ref is base64 encoded.
       const dataRef = btoa(JSON.stringify({
         aClass: Keys.create(aClass).getHash(),

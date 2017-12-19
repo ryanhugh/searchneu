@@ -58,7 +58,7 @@ class Notifyer {
 
   // Get some info about the user
   // Docs here: https://developers.facebook.com/docs/messenger-platform/identity/user-profile
-  async getUserProfileInfo(senderId) {
+  async getUserProfileInfo(sender) {
     const token = await macros.getEnvVariable('fbToken');
 
     // Example:

@@ -31,7 +31,7 @@ class Database {
       return null;
     }
 
-    const app = firebase.initializeApp({
+    firebase.initializeApp({
       credential: firebase.credential.cert(firebaseConfig),
       databaseURL: 'https://search-neu.firebaseio.com/',
     });
@@ -39,6 +39,7 @@ class Database {
     // Firebase keeps an open connection to Google's servers
     // Which will keep this Node.js process awake
     // To cancel this connection (and let the app terminate automatically) run app.delete();
+    // App is the return value of firebase.initializeApp
 
     return firebase.database();
   }
@@ -48,7 +49,7 @@ class Database {
   // only the leaf nodes hold values
   setMemoryStorage(keySplit, value, currObject = this.memoryStorage) {
     if (keySplit.length === 0) {
-      macros.error("setMemoryStorage called with invalid 0 length key", value);
+      macros.error('setMemoryStorage called with invalid 0 length key', value);
       return;
     }
 
@@ -77,21 +78,21 @@ class Database {
   // Helper funciton for getMemoryStorage. When this function is given a node, it will recursivly return a list of all of the
   // values on leaf nodes that are children of this node.
   // For instance, if this function is given a node that has two children that are both leaves,
-  // it will return the values on both of these children. 
-  // This is how Firebase works too. 
+  // it will return the values on both of these children.
+  // This is how Firebase works too.
   getChildren(node) {
     if (node.type !== 'node') {
-      macros.error("getChildren was node called with a node!", node);
+      macros.error('getChildren was node called with a node!', node);
       return [];
     }
 
     let output = [];
 
-    for (const node of Object.values(node.children)) {
-      if (node.type === 'node') {
-        output = output.concat(this.getChildren(node));
-      } else if (node.type === 'leaf') {
-        output.push(node.value);
+    for (const childNode of Object.values(node.children)) {
+      if (childNode.type === 'node') {
+        output = output.concat(this.getChildren(childNode));
+      } else if (childNode.type === 'leaf') {
+        output.push(childNode.value);
       }
     }
 
@@ -105,7 +106,7 @@ class Database {
   // to find the value.
   getMemoryStorage(keySplit, currObject = this.memoryStorage) {
     if (keySplit.length === 0) {
-      macros.error("getMemoryStorage called with invalid 0 length key", value);
+      macros.error('getMemoryStorage called with invalid 0 length key');
       return null;
     }
 
@@ -156,6 +157,7 @@ class Database {
     }
 
     this.setMemoryStorage(this.standardizeKey(key), value);
+    return null;
   }
 
   // Get the value at this key.
@@ -167,14 +169,19 @@ class Database {
       return value.val();
     }
 
-    this.getMemoryStorage(this.standardizeKey(key));
+    return this.getMemoryStorage(this.standardizeKey(key));
   }
 
   // Returns the raw firebase ref for a key
   // Use this if you need to read a value, check something about it, and then write to it.
   async getRef(key) {
-    const db = await this.dbPromise;
-    return db.ref(key);
+    if (macros.PROD) {
+      const db = await this.dbPromise;
+      return db.ref(key);
+    }
+    else {
+      return new MockFirebaseRef(this, key)
+    }
   }
 }
 
