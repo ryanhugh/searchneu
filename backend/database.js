@@ -179,9 +179,8 @@ class Database {
       const db = await this.dbPromise;
       return db.ref(key);
     }
-    else {
-      return new MockFirebaseRef(this, key)
-    }
+
+    return new MockFirebaseRef(this, key);
   }
 }
 

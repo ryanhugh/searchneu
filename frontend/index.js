@@ -29,14 +29,14 @@ window.fbAsyncInit = function () {
     macros.log('messenger_checkbox event');
     macros.log(e);
 
-    if (e.event == 'rendered') {
+    if (e.event === 'rendered') {
       macros.log('Plugin was rendered');
-    } else if (e.event == 'checkbox') {
+    } else if (e.event === 'checkbox') {
       const checkboxState = e.state;
       macros.log(`Checkbox state: ${checkboxState}`);
-    } else if (e.event == 'not_you') {
+    } else if (e.event === 'not_you') {
       macros.log("User clicked 'not you'");
-    } else if (e.event == 'hidden') {
+    } else if (e.event === 'hidden') {
       macros.log('Plugin was hidden');
     } else {
       macros.log(e, 'other message');
@@ -44,14 +44,15 @@ window.fbAsyncInit = function () {
   });
 };
 
+/*eslint-disable */
 (function (d, s, id) {
-  let js,
-    fjs = d.getElementsByTagName(s)[0];
+  let js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) { return; }
   js = d.createElement(s); js.id = id;
   js.src = 'https://connect.facebook.net/en_US/sdk.js';
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
+/*eslint-enable */
 
 // Segment tracket. This includes trackers for Rollbar and Fullstory.
 // These are only used on prod and only used if the user has not opted out of tracking.
