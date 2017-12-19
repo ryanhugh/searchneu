@@ -24,6 +24,7 @@ import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 import notifyer from './notifyer';
 import Updater from './updater';
+import database from './database';
 import DataLib from '../common/classModels/DataLib';
 // import psylink from './scrapers/psylink/psylink';
 
@@ -372,7 +373,7 @@ app.post('/webhook/', wrap(async (req, res) => {
   // Now process the message.
   const messagingEvents = req.body.entry[0].messaging;
   for (let i = 0; i < messagingEvents.length; i++) {
-    const event = req.body.entry[0].messaging[i];
+    const event = messagingEvents[i];
     const sender = event.sender.id;
     if (event.message && event.message.text) {
       const text = event.message.text;

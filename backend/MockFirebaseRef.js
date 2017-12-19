@@ -3,8 +3,8 @@ import macros from './macros';
 // Mock class returned in development mode or in testing when getRef is called.
 // This is to make testing easier and to avoid using production quota in development.
 class MockFirebaseRef {
-  constructor(db, key) {
-    this.db = db;
+  constructor(database, key) {
+    this.database = database;
     this.key = key;
   }
 
@@ -14,14 +14,15 @@ class MockFirebaseRef {
       return null;
     }
 
-    return this.db[this.key];
+    return this.database.getMemoryStorage(this.key)
   }
 
   set(value) {
     if (!value) {
       macros.warn('Null value in MockFirebaseRef set?');
     }
-    this.db[this.key] = value;
+
+    this.database.setMemoryStorage(this.key, value)
   }
 }
 

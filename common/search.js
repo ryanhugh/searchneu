@@ -557,21 +557,12 @@ class Search {
     searchTerm = searchTerm.replace(/@northeastern\.edu/gi, '').replace(/@neu\.edu/gi, '');
 
 
-    // Measure how long it takes to search. Usually this is very small (< 20ms)
-    // const startTime = Date.now();
-
     // Returns an array of objects that has a .ref and a .score
     // The array is sorted by score (with the highest matching closest to the beginning)
     // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
-    // macros.log(searchTerm)
-    if (!this.searchIndexies) {
-
-    }
     const classResults = this.searchIndexies[termId].search(searchTerm, classSearchConfig);
 
     const employeeResults = this.employeeSearchIndex.search(searchTerm, employeeSearchConfig);
-
-    // macros.log('send', 'timing', `search ${searchTerm.length}`, 'search', Date.now() - startTime);
 
     const output = [];
 

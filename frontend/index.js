@@ -18,28 +18,28 @@ if (window.location.hash === '#notrack') {
 
 
 window.fbAsyncInit = function () {
-  FB.init({
+  window.FB.init({
     appId            : '1979224428978082',
     autoLogAppEvents : false,
     xfbml            : false,
     version          : 'v2.11',
   });
 
-  FB.Event.subscribe('send_to_messenger', (e) => {
-    console.log('messenger_checkbox event');
-    console.log(e);
+  window.FB.Event.subscribe('send_to_messenger', (e) => {
+    macros.log('messenger_checkbox event');
+    macros.log(e);
 
     if (e.event == 'rendered') {
-      console.log('Plugin was rendered');
+      macros.log('Plugin was rendered');
     } else if (e.event == 'checkbox') {
       const checkboxState = e.state;
-      console.log(`Checkbox state: ${checkboxState}`);
+      macros.log(`Checkbox state: ${checkboxState}`);
     } else if (e.event == 'not_you') {
-      console.log("User clicked 'not you'");
+      macros.log("User clicked 'not you'");
     } else if (e.event == 'hidden') {
-      console.log('Plugin was hidden');
+      macros.log('Plugin was hidden');
     } else {
-      console.log(e, 'other message');
+      macros.log(e, 'other message');
     }
   });
 };

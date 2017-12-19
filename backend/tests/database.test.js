@@ -1,5 +1,4 @@
 import database from '../database';
-import macros from '../macros';
 
 // Note when testing here: The database is not reset between tests.
 
@@ -63,10 +62,9 @@ it('can override a leaf node with a path', () => {
 });
 
 
-it('should split a key', function() {
-  expect(database.standardizeKey('/one/two/three')).toEqual(['one','two','three'])
-  expect(database.standardizeKey('one/two/three')).toEqual(['one','two','three'])
-  expect(database.standardizeKey('one/two/three/')).toEqual(['one','two','three'])
-  expect(database.standardizeKey('/one/two/three/')).toEqual(['one','two','three'])
-
+it('should split a key', () => {
+  expect(database.standardizeKey('/one/two/three')).toEqual(['one', 'two', 'three']);
+  expect(database.standardizeKey('one/two/three')).toEqual(['one', 'two', 'three']);
+  expect(database.standardizeKey('one/two/three/')).toEqual(['one', 'two', 'three']);
+  expect(database.standardizeKey('/one/two/three/')).toEqual(['one', 'two', 'three']);
 });

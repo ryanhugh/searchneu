@@ -2,7 +2,6 @@ import fs from 'fs-promise';
 
 import DataLib from '../common/classModels/DataLib';
 
-import Request from './scrapers/request';
 import classesScrapers from './scrapers/classes/main';
 
 import macros from './macros';
@@ -22,7 +21,7 @@ class Updater {
   static create(dataLib) {
     if (!dataLib) {
       macros.error('Invalid dataLib', dataLib);
-      return;
+      return null;
     }
 
     return new this(dataLib);
@@ -77,13 +76,11 @@ class Updater {
 
 
     const sectionHashMap = {};
-    const sections = [];
 
     for (const sectionHash of sectionHashes) {
-      const aClass = this.dataLib.getSectionServerDataFromHash(sectionHash);
+      const section = this.dataLib.getSectionServerDataFromHash(sectionHash);
 
-      sections.push(aClass);
-      sectionHashMap[sectionHash] = aClass;
+      sectionHashMap[sectionHash] = section;
     }
 
 
