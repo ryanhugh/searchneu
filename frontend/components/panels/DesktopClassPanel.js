@@ -197,15 +197,19 @@ class DesktopClassPanel extends BaseClassPanel {
         </div>
       );
     } else if (aClass.sections.length === 0) {
-      updatesSection = (<div>
+      updatesSection = (
+        <div>
           Want notifications if sections are added?
-        <Checkbox toggle onChange={ this.onSubscribeToggleChange } />
-      </div>);
+          <Checkbox toggle onChange={ this.onSubscribeToggleChange } />
+        </div>
+      );
     } else if (aClass.isAtLeastOneSectionFull()) {
-      updatesSection = (<div>
+      updatesSection = (
+        <div>
           Want notifications when seats open up?
-        <Checkbox toggle onChange={ this.onSubscribeToggleChange } />
-                        </div>);
+          <Checkbox toggle onChange={ this.onSubscribeToggleChange } />
+        </div>
+      );
     }
 
     // Render the Show More.. Button

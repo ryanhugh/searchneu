@@ -352,11 +352,87 @@ app.get('/webhook/', async (req, res) => {
   }
 });
 
-// Respond to the messages
+async function onSendToMessengerButtonClick(sender, b64ref) {
+  macros.log('Got opt in button click!', b64ref);
+
+  // The frontend send a classHash to follow and a list of sectionHashes to follow.
+  let userObject = {};
+  try {
+    userObject = JSON.parse(atob(b64ref));
+  } catch (e) {
+    macros.error('Unable to parse user data from frontend?', b64ref);
+    return;
+  }
+
+  // When the site is running in development mode,
+  // and the send to messenger button is clicked,
+  // Facebook will still send the webhooks to prod
+  // Keep another field on here to keep track of whether the button was clicked in prod or in dev
+  // and if it was in dev ignore it
+  if (userObject.dev && macros.PROD) {
+    return;
+  }
+
+  if (!userObject.classHash || !userObject.sectionHashes) {
+    macros.error('Unable to parse class hash from ', userObject);
+    return;
+  }
+
+
+  const firebaseRef = database.getRef(`/users/${sender}`);
+
+  const existingData = await firebaseRef.once('value');
+
+  // User is signing in from a new device
+  if (existingData) {
+    // Add this array if it dosen't exist. It should exist
+    if (!existingData.watchingClasses) {
+      existingData.watchingClasses = [];
+    }
+
+    if (!existingData.watchingSections) {
+      existingData.watchingSections = [];
+    }
+
+
+    // ok lets add what classes the user saw in the frontend that have no seats availible and that he wants to sign up for
+    // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
+    // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
+
+    existingData.watchingClasses.push(userObject.classHash);
+    existingData.watchingSections = existingData.watchingSections.concat(userObject.sectionHashes);
+
+    firebaseRef.set(existingData);
+  } else {
+    const names = await notifyer.getUserProfileInfo(sender);
+
+    macros.log('Got first name and last name', names.first_name, names.last_name);
+
+
+    const newUser = {
+      watchingSections: userObject.sectionHashes,
+      watchingClasses: [userObject.classHash],
+      firstName: names.first_name,
+      lastName: names.last_name,
+      facebookMessengerId: sender,
+    };
+
+    macros.log('Adding ', newUser, 'to the db');
+
+
+    database.set(`/users/${sender}`, newUser);
+  }
+}
+
+// In production, this is called from Facebook's servers.
+// When a user sends a Facebook messsage to the Search NEU bot or when someone hits the send to messenger button.
+// If someone sends a message to this bot it will respond with some hard-coded responses
+// In development, this is called directly from the frontend so the backend will do the same actions as it would in prod for the same user actions in the frontend.
+// Facebook will still call the webhook on the production server when the send to messenger button is clicked in dev. This webhook call is ignored in prod.
 app.post('/webhook/', wrap(async (req, res) => {
   // Verify that the webhook is actually coming from Facebook.
   // This is important.
-  if (!req.isXHub || !req.isXHubValid()) {
+  if ((!req.isXHub || !req.isXHubValid()) && macros.PROD) {
     macros.log(getTime(), getIpPath(req), 'Tried to send a webhook');
     macros.log(req.headers);
     res.send('nope');
@@ -386,82 +462,13 @@ app.post('/webhook/', wrap(async (req, res) => {
         notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com !");
       }
     } else if (event.optin) {
-      macros.log('Got opt in button click!', event, event.optin.ref);
+      onSendToMessengerButtonClick(sender, event.optin.ref);
 
-      // The frontend send a classHash to follow and a list of sectionHashes to follow.
-      let userObject = {};
-      try {
-        userObject = JSON.parse(event.optin.ref);
-      } catch (e) {
-        macros.error('Unable to parse user data from frontend?', event.optin.ref);
-
-        // We should allways respond with a 200 status code, even if there is an error on our end.
-        // If we don't we risk being unsubscribed for webhook events.
-        // https://developers.facebook.com/docs/messenger-platform/webhook
-        res.sendStatus(200);
-        return;
-      }
-
-      // When the site is running in development mode,
-      // and the send to messenger button is clicked,
-      // Facebook will still send the webhooks to prod
-      // Keep another field on here to keep track of whether the button was clicked in prod or in dev
-      // and if it was in dev ignore it
-      if (userObject.dev && macros.PROD) {
-        res.sendStatus(200);
-        return;
-      }
-
-      if (!userObject.classHash || !userObject.sectionHashes) {
-        macros.error('Unable to parse class hash from ', event.optin.ref);
-        res.sendStatus(200);
-        return;
-      }
-
-
-      const firebaseRef = database.getRef(`/users/${sender}`);
-
-      const existingData = await firebaseRef.once('value');
-
-      // User is signing in from a new device
-      if (existingData) {
-        // Add this array if it dosen't exist. It should exist
-        if (!existingData.watchingClasses) {
-          existingData.watchingClasses = [];
-        }
-
-        if (!existingData.watchingSections) {
-          existingData.watchingSections = [];
-        }
-
-
-        // ok lets add what classes the user saw in the frontend that have no seats availible and that he wants to sign up for
-        // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
-        // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
-
-        existingData.watchingClasses.push(userObject.classHash);
-        existingData.watchingSections = existingData.watchingSections.concat(userObject.sectionHashes);
-
-        firebaseRef.set(existingData);
-      } else {
-        const names = await notifyer.getUserProfileInfo(sender);
-
-        macros.log('Got first name and last name', names.first_name, names.last_name);
-
-
-        const newUser = {
-          watchingSections: userObject.sectionHashes,
-          watchingClasses: [userObject.classHash],
-          firstName: names.first_name,
-          lastName: names.last_name,
-          facebookMessengerId: sender,
-        };
-
-        macros.log('Adding ', newUser, 'to the db');
-
-
-        database.set(`/users/${sender}`, newUser);
-      }
+      // We should allways respond with a 200 status code, even if there is an error on our end.
+      // If we don't we risk being unsubscribed for webhook events.
+      // https://developers.facebook.com/docs/messenger-platform/webhook
+      res.sendStatus(200);
+      return;
     } else {
       macros.log('Unknown webhook', sender, JSON.stringify(event), JSON.stringify(req.body));
     }

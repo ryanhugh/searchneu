@@ -17,7 +17,7 @@ if (window.location.hash === '#notrack') {
 }
 
 
-window.fbAsyncInit = function () {
+window.fbAsyncInit = () => {
   window.FB.init({
     appId            : '1979224428978082',
     autoLogAppEvents : false,
