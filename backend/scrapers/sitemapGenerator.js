@@ -28,7 +28,6 @@ class SitemapGenerator {
 
     for (const term of termDump.terms) {
       if (term.host !== 'neu.edu') {
-
         if (!term.host.startsWith('neu.edu')) {
           if (!foundNonNEUClass) {
             macros.error('Not adding non-NEU class to the index! Update this when we get another domain and redo the routing for the new domain.');
