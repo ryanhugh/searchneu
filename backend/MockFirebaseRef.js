@@ -14,7 +14,7 @@ class MockFirebaseRef {
       return null;
     }
 
-    return this.database.getMemoryStorage(this.key)
+    return this.database.getMemoryStorage(this.key);
   }
 
   set(value) {
@@ -22,7 +22,7 @@ class MockFirebaseRef {
       macros.warn('Null value in MockFirebaseRef set?');
     }
 
-    this.database.setMemoryStorage(this.key, value)
+    this.database.setMemoryStorage(this.key, value);
   }
 }
 
