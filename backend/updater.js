@@ -290,6 +290,7 @@ class Updater {
     }
 
     // Update dataLib with the updated termDump
+    // If we ever move to a real database, we would want to change this so it only updates the classes that the scrapers found.
     for (let aClass of output.classes) {
       this.dataLib.setClass(aClass);
     }
