@@ -146,11 +146,26 @@ class Main {
     return urlsToProcess;
   }
 
-  // The updater.js calls into this function to run
+  // Converts the data structure used for parsing into the data structure used in the processors. 
   restructureData(rootNode) {
     this.waterfallIdentifyers(rootNode);
+    return this.pageDataStructureToTermDump(rootNode);
+  }
 
-    const dump = this.pageDataStructureToTermDump(rootNode);
+  // The updater.js calls into this function to run
+  runProcessors(dump) {
+    let before = Date.now()
+
+    // Run the processors, sequentially
+    addClassUids.go(dump);
+    prereqClassUids.go(dump);
+    termStartEndDate.go(dump);
+
+    // Add new processors here.
+    simplifyProfList.go(dump);
+    addPreRequisiteFor.go(dump);
+
+    macros.log(Date.now() - before, 'ms to run processors')
 
     return dump;
   }
@@ -212,20 +227,9 @@ class Main {
       }],
     };
 
-    let before = Date.now()
 
-    const dump = this.restructureData(rootNode);
+    const dump = this.runProcessors(this.restructureData(rootNode));
 
-    // Run the processors, sequentially
-    addClassUids.go(dump);
-    prereqClassUids.go(dump);
-    termStartEndDate.go(dump);
-
-    // Add new processors here.
-    simplifyProfList.go(dump);
-    addPreRequisiteFor.go(dump);
-
-    macros.log(Date.now() - before, 'ms to run processors')
 
 
     // If running with semesterly, save in the semesterly schema

@@ -5,6 +5,7 @@
 
 import Class from './Class';
 import macros from '../commonMacros';
+import Keys from '../Keys';
 
 
 // Holds the class data that is used by the search backend
@@ -22,11 +23,10 @@ class DataLib {
 
     this.allSectionsMap = {};
 
+    this.termDumpMap = termDumpMap;
 
     // Fill up the above two hash maps
-    const termDumps = Object.values(termDumpMap);
-
-    for (const termDump of termDumps) {
+    for (const termDump of Object.values(this.termDumpMap)) {
       Object.assign(this.allClassesMap, termDump.classMap);
       Object.assign(this.allSectionsMap, termDump.sectionMap);
     }
@@ -88,6 +88,25 @@ class DataLib {
     return retVal;
   }
 
+  getClassesInTerm(termId) {
+    let output = [];
+
+    if (!this.termDumpMap[termId]) {
+      return [];
+    }
+
+    return Object.values(this.termDumpMap[termId].classMap)
+  }
+
+  getSectionsInTerm(termId) {
+    let output = [];
+
+    if (!this.termDumpMap[termId]) {
+      return [];
+    }
+
+    return Object.values(this.termDumpMap[termId].sectionMap)
+  }
 
   getSubjects(termId) {
     if (!this.termDumpMap[termId]) {
@@ -109,6 +128,32 @@ class DataLib {
   getSectionServerDataFromHash(hash) {
     return this.allSectionsMap[hash];
   }
+
+  setClass(aClass) {
+    let hash = Keys.create(aClass).getHash();
+
+    if (!this.termDumpMap[aClass.termId]) {
+      macros.error('Cannot set class in non-existent term.')
+    }
+
+    this.allClassesMap[hash] = aClass;
+
+    this.termDumpMap[aClass.termId].classMap[hash] = aClass;
+  }
+
+
+  setSection(section) {
+    let hash = Keys.create(section).getHash();
+
+    if (!this.termDumpMap[section.termId]) {
+      macros.error('Cannot set section in non-existent term.')
+    }
+
+    this.allSectionsMap[hash] = section;
+
+    this.termDumpMap[section.termId].sectionMap[hash] = section;
+  }
+
 }
 
 export default DataLib;

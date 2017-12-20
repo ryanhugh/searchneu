@@ -14,6 +14,11 @@ import BaseProcessor from './baseProcessor';
 
 class TermStartEndDate extends BaseProcessor.BaseProcessor {
   runOnTerm(termDump, term) {
+    // Don't run on this term if this term already has a startDate and endDate.
+    if (term.startDate && term.endDated) {
+      return;
+    }
+
     const startDates = {};
     const endDates = {};
     let meetingCount = 0;
