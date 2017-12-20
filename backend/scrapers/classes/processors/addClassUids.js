@@ -52,7 +52,10 @@ class AddClassUids extends BaseProcessor.BaseProcessor {
     // All termDumps (both from the scrapers and from updater.js) should have classes, but just check to be safe. 
     if (termDump.classes) {
       for (const aClass of termDump.classes) {
-        aClass.classUid = this.getClassUid(aClass.classId, aClass.name);
+
+        if (!aClass.classUid) {
+          aClass.classUid = this.getClassUid(aClass.classId, aClass.name);
+        }
 
         if (aClass.crns) {
           for (const crn of aClass.crns) {
@@ -75,7 +78,11 @@ class AddClassUids extends BaseProcessor.BaseProcessor {
       for (const section of termDump.sections) {
         if (!section.classId) {
           macros.fatal("Can't calculate key without classId");
-          return;
+          continue;
+        }
+
+        if (section.classUid) {
+          continue;
         }
 
         // Keys.js dosen't support classIds yet, so just make the key here

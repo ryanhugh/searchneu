@@ -47,6 +47,9 @@ class Updater {
   // Notify users about any changes
   // Update the local data about the changes
   async onInterval() {
+
+    let startTime = Date.now()
+
     let users = await database.get('users');
     if (!users) {
       return;
@@ -93,6 +96,7 @@ class Updater {
 
     // Get the data for these hashes
     const classes = [];
+
     for (const classHash of classHashes) {
       const aClass = this.dataLib.getClassServerDataFromHash(classHash);
 
@@ -144,12 +148,61 @@ class Updater {
     // Because ellucianCatalogParser returns a list of classes, instead of a singular class, we need to run it on all of them
     const output = classesScrapers.restructureData(rootNode);
 
+    if (!output.sections) {
+      output.sections = []
+    }
+
+    if (!output.classes) {
+      output.classes = []
+    }
+
+    // Keep track of which terms have classes that we are updating. 
+    let updatingTerms = {};
+    for (const aClass of classes) {
+      updatingTerms[aClass.termId] = true;
+    }
+
+    for (let termId of Object.keys(updatingTerms)) {
+
+      // Copy over every class we didn't just update from the old data.
+      let oldClasses = this.dataLib.getClassesInTerm(termId)
+
+      for (let aClass of oldClasses) {
+        let hash = Keys.create(aClass).getHash()
+
+        // TODO: Change this from classHashes to a hash of the output classes after the re-factor away classUid
+        if (!classHashes.includes(hash)) {
+          output.classes.push(aClass)
+        }
+        else {
+          macros.log("Not including ", hash, 'because it was already there.');
+        }
+      }
+
+      let oldSections = this.dataLib.getSectionsInTerm(termId)
+
+      for (let section of oldSections) {
+        let hash = Keys.create(section).getHash()
+
+        // TODO: Change this from classHashes to a hash of the output classes after the re-factor away classUid
+        if (!sectionHashes.includes(hash)) {
+          output.sections.push(section)
+        }
+        else {
+          macros.log("Not including ", hash, 'because it was already there.');
+        }
+      }
+    }
+
+    classesScrapers.runProcessors(output);
+
+
     // Also need to this one processor so the data here has classUids on it.
     // Lets avoid running the rest of the processors because many of them will not work correctly if they are not processing the entire term at a time.
     // It would be possible to pull in the old term data, add the couple new classes, and then run that through all the processors. 
     // But that isn't necessary if all we are doing is checking if the seatsRemaining changed. 
     // This line could also be removed when classUid is re-factored away.
-    addClassUids.go(output);
+    // addClassUids.go(output);
 
     // Keep track of which messages to send which users.
     // The key is the facebookMessengerId and the value is a list of messages.
@@ -236,11 +289,16 @@ class Updater {
       }
     }
 
+    // Update dataLib with the updated termDump
+    for (let aClass of output.classes) {
+      this.dataLib.setClass(aClass);
+    }
 
+    for (let section of output.sections) {
+      this.dataLib.setSection(section)
+    }
 
-    // Update the seatsRemaining and the waitRemaining and the crns for 
-
-    macros.log("Done running updater onInterval.");
+    macros.log("Done running updater onInterval. It took", Date.now() - startTime, 'ms.');
   }
 }
 
