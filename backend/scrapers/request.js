@@ -470,14 +470,10 @@ class RequestInput {
   }
 
   async request(config) {
-    // Set the cache to the default if it was not specified here
-    if (config.cache === undefined) {
-      config.cache = this.cacheDefault;
-    }
-
     const output = {};
     config = this.standardizeInputConfig(config);
 
+    // Use the fields from this.config that were not specified in cache. 
     Object.assign(output, this.config, config);
 
     return instance.request(output);
