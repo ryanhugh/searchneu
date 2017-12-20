@@ -103,6 +103,9 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
    * arrays for.
    */
   initializeArray(nodeRef) {
+    if (!nodeRef) {
+      debugger
+    }
     // Checks and creates the optPrereqsFor field in our class, if needed
     if (nodeRef.optPrereqsFor === undefined) {
       nodeRef.optPrereqsFor = {

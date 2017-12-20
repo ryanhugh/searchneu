@@ -8,9 +8,9 @@ class MockFirebaseRef {
     this.key = key;
   }
 
-  value(key) {
-    if (key !== 'once') {
-      macros.error('only once is supported');
+  once(key) {
+    if (key !== 'value') {
+      macros.error('only value is supported');
       return null;
     }
 

@@ -11,6 +11,10 @@ import BaseProcessor from './baseProcessor';
 
 class SimplifyProfList extends BaseProcessor.BaseProcessor {
   go(termDump) {
+    if (!termDump.sections) {
+      return;
+    }
+
     const updatedSections = [];
 
     const sectionGrouped = this.groupSectionsByClass(termDump.sections);

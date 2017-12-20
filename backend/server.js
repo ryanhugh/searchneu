@@ -17,6 +17,7 @@ import mkdirp from 'mkdirp-promise';
 import moment from 'moment';
 import xhub from 'express-x-hub';
 import elasticlunr from 'elasticlunr';
+import atob from 'atob';
 
 import Request from './scrapers/request';
 import search from '../common/search';
@@ -379,7 +380,7 @@ async function onSendToMessengerButtonClick(sender, b64ref) {
   }
 
 
-  const firebaseRef = database.getRef(`/users/${sender}`);
+  const firebaseRef = await database.getRef(`/users/${sender}`);
 
   const existingData = await firebaseRef.once('value');
 
@@ -404,9 +405,14 @@ async function onSendToMessengerButtonClick(sender, b64ref) {
 
     firebaseRef.set(existingData);
   } else {
-    const names = await notifyer.getUserProfileInfo(sender);
+    let names = await notifyer.getUserProfileInfo(sender);
+    if (!names || !names.first_name) {
+      macros.warn("Unable to get name", names)
+      names = {}
+    } else {
+      macros.log('Got first name and last name', names.first_name, names.last_name);
+    }
 
-    macros.log('Got first name and last name', names.first_name, names.last_name);
 
 
     const newUser = {
@@ -467,7 +473,9 @@ app.post('/webhook/', wrap(async (req, res) => {
       // We should allways respond with a 200 status code, even if there is an error on our end.
       // If we don't we risk being unsubscribed for webhook events.
       // https://developers.facebook.com/docs/messenger-platform/webhook
-      res.sendStatus(200);
+      res.send(JSON.stringify({
+        status: 'OK',
+      }));
       return;
     } else {
       macros.log('Unknown webhook', sender, JSON.stringify(event), JSON.stringify(req.body));

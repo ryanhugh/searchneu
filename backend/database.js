@@ -180,7 +180,7 @@ class Database {
       return db.ref(key);
     }
 
-    return new MockFirebaseRef(this, key);
+    return new MockFirebaseRef(this, this.standardizeKey(key));
   }
 }
 
