@@ -56,6 +56,8 @@ class SearchIndex {
     // index.addField('locations');
     index.addField('crns');
 
+    let temp_docs = []
+
     for (const attrName2 of Object.keys(termData.classHash)) {
       const searchResultData = termData.classHash[attrName2];
 
@@ -140,9 +142,23 @@ class SearchIndex {
         toIndex.acronym = '';
       }
 
-
+      temp_docs.push({
+        type: 'add',
+        id: toIndex.key,
+        fields: {
+          crns: toIndex.crns,
+          classid: toIndex.classId,
+          acronym: toIndex.acronym,
+          desc: toIndex.desc,
+          name: toIndex.name,
+          profs: toIndex.profs,
+          subject: toIndex.subject
+        }
+      })
       index.addDoc(toIndex);
     }
+
+    // await fs.writeFile('temp_docs' + Math.random() + '.json', JSON.stringify(temp_docs))
 
     const searchIndexString = JSON.stringify(index.toJSON());
 

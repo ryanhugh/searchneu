@@ -67,6 +67,11 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
       }).getHash();
 
       const nodeRef = this.classMap[find];
+      
+      if (!nodeRef) {
+        macros.error('Unable to find nodeRef in termDump?', find);
+        return;
+      }
 
       this.initializeArray(nodeRef);
 

@@ -8,6 +8,7 @@ import macros from './macros';
 import database from './database';
 import Keys from '../common/Keys';
 import ellucianCatalogParser from './scrapers/classes/parsers/ellucianCatalogParser';
+import addClassUids from './scrapers/classes/processors/addClassUids';
 import notifyer from './notifyer';
 
 
@@ -16,11 +17,11 @@ class Updater {
   constructor(dataLib) {
     this.dataLib = dataLib;
 
-    // 5 min if prod, 1 min if dev.
+    // 5 min if prod, 30 sec if dev.
     // In dev the cache will be used so we are not actually hitting NEU's servers anyway. 
-    let intervalTime = macros.PROD? 300000: 60000
+    let intervalTime = macros.PROD? 300000: 30000
 
-    setInterval(this.onInterval.bind(this))
+    setInterval(this.onInterval.bind(this), intervalTime)
   }
 
 
@@ -141,8 +142,14 @@ class Updater {
 
 
     // Because ellucianCatalogParser returns a list of classes, instead of a singular class, we need to run it on all of them
-    const output = await classesScrapers.runProcessors(rootNode);
+    const output = classesScrapers.restructureData(rootNode);
 
+    // Also need to this one processor so the data here has classUids on it.
+    // Lets avoid running the rest of the processors because many of them will not work correctly if they are not processing the entire term at a time.
+    // It would be possible to pull in the old term data, add the couple new classes, and then run that through all the processors. 
+    // But that isn't necessary if all we are doing is checking if the seatsRemaining changed. 
+    // This line could also be removed when classUid is re-factored away.
+    addClassUids.go(output);
 
     // Keep track of which messages to send which users.
     // The key is the facebookMessengerId and the value is a list of messages.
@@ -228,6 +235,12 @@ class Updater {
         notifyer.sendFBNotification(fbUserId, message);
       }
     }
+
+
+
+    // Update the seatsRemaining and the waitRemaining and the crns for 
+
+    macros.log("Done running updater onInterval.");
   }
 }
 
