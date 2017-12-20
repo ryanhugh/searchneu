@@ -67,7 +67,8 @@ class Notifyer {
     //   "last_name": "Hughes",
     //   "id": "..."
     // }
-    return request.get(`https://graph.facebook.com/v2.6/${sender}?fields=first_name,last_name&access_token=${token}`);
+    let response = await request.get(`https://graph.facebook.com/v2.6/${sender}?fields=first_name,last_name&access_token=${token}`);
+    return JSON.parse(response.body)
   }
 
 

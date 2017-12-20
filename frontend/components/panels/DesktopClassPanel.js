@@ -178,8 +178,8 @@ class DesktopClassPanel extends BaseClassPanel {
       // JSON stringify it and then base64 encode it.
       // The messenger button dosen't appear unless the ref is base64 encoded.
       const dataRef = btoa(JSON.stringify({
-        aClass: Keys.create(aClass).getHash(),
-        sections: sectionsHashes,
+        classHash: Keys.create(aClass).getHash(),
+        sectionHashes: sectionsHashes,
         dev: macros.DEV,
       }));
 

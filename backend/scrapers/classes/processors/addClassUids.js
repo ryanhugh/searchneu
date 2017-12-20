@@ -49,40 +49,45 @@ class AddClassUids extends BaseProcessor.BaseProcessor {
   go(termDump) {
     const localKeyToClassMap = {};
 
-    for (const aClass of termDump.classes) {
-      aClass.classUid = this.getClassUid(aClass.classId, aClass.name);
+    // All termDumps (both from the scrapers and from updater.js) should have classes, but just check to be safe. 
+    if (termDump.classes) {
+      for (const aClass of termDump.classes) {
+        aClass.classUid = this.getClassUid(aClass.classId, aClass.name);
 
-      if (aClass.crns) {
-        for (const crn of aClass.crns) {
-          // Keys.js dosen't support classIds yet, so just make the key here
-          const key = aClass.host + aClass.termId + aClass.subject + aClass.classId + crn;
+        if (aClass.crns) {
+          for (const crn of aClass.crns) {
+            // Keys.js dosen't support classIds yet, so just make the key here
+            const key = aClass.host + aClass.termId + aClass.subject + aClass.classId + crn;
 
-          if (localKeyToClassMap[key]) {
-            macros.fatal('key already exists in key map?', key);
+            if (localKeyToClassMap[key]) {
+              macros.fatal('key already exists in key map?', key);
+            }
+
+
+            localKeyToClassMap[key] = aClass;
           }
-
-
-          localKeyToClassMap[key] = aClass;
         }
       }
     }
 
+    // If this is a termDump from the updater it may not have any sections
+    if (termDump.sections) {
+      for (const section of termDump.sections) {
+        if (!section.classId) {
+          macros.fatal("Can't calculate key without classId");
+          return;
+        }
 
-    for (const section of termDump.sections) {
-      if (!section.classId) {
-        macros.fatal("Can't calculate key without classId");
-        return;
+        // Keys.js dosen't support classIds yet, so just make the key here
+        const key = section.host + section.termId + section.subject + section.classId + section.crn;
+
+        if (!localKeyToClassMap[key]) {
+          macros.fatal('no key found!', key, section);
+          continue;
+        }
+
+        section.classUid = this.getClassUid(section.classId, localKeyToClassMap[key].name);
       }
-
-      // Keys.js dosen't support classIds yet, so just make the key here
-      const key = section.host + section.termId + section.subject + section.classId + section.crn;
-
-      if (!localKeyToClassMap[key]) {
-        macros.fatal('no key found!', key, section);
-        continue;
-      }
-
-      section.classUid = this.getClassUid(section.classId, localKeyToClassMap[key].name);
     }
   }
 }

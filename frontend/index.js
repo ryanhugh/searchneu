@@ -10,6 +10,7 @@ import { AppContainer } from 'react-hot-loader';
 
 import macros from './components/macros';
 import Home from './components/Home';
+import request from './components/request'
 
 if (window.location.hash === '#notrack') {
   macros.log('Turning on no track.');
@@ -38,6 +39,43 @@ window.fbAsyncInit = () => {
       macros.log("User clicked 'not you'");
     } else if (e.event === 'hidden') {
       macros.log('Plugin was hidden');
+    } else if (e.event === 'opt_in') {
+      macros.log("Opt in was clicked!", e)
+
+      if (macros.DEV) {
+
+
+
+        request.post({
+          url: '/webhook', 
+          body: {
+            "object": "page",
+            "entry": [
+            {
+                "id": "111111111111111",
+                "time": Date.now(),
+                "messaging": [
+                {
+                    "recipient":
+                    {
+                        "id": "111111111111111"
+                    },
+                    "timestamp": Date.now(),
+                    "sender":
+                    {
+                        "id": "1397905100304615"
+                    },
+                    "optin":
+                    {
+                        "ref": e.ref
+                    }
+                }]
+            }]
+        }
+      }
+      )
+      }  
+
     } else {
       macros.log(e, 'other message');
     }

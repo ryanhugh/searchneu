@@ -15,6 +15,12 @@ class Updater {
   // Don't call this directly, call .create instead.
   constructor(dataLib) {
     this.dataLib = dataLib;
+
+    // 5 min if prod, 1 min if dev.
+    // In dev the cache will be used so we are not actually hitting NEU's servers anyway. 
+    let intervalTime = macros.PROD? 300000: 60000
+
+    setInterval(this.onInterval.bind(this))
   }
 
 
@@ -91,17 +97,19 @@ class Updater {
 
       classes.push(aClass);
 
-      for (const crn of aClass.crns) {
-        const sectionHash = Keys.create({
-          host: aClass.host,
-          termId: aClass.termId,
-          subject: aClass.subject,
-          classUid: aClass.classUid,
-          crn: crn,
-        }).getHash();
+      if (aClass.crns) {
+        for (const crn of aClass.crns) {
+          const sectionHash = Keys.create({
+            host: aClass.host,
+            termId: aClass.termId,
+            subject: aClass.subject,
+            classUid: aClass.classUid,
+            crn: crn,
+          }).getHash();
 
-        // Remove this one from the hash map
-        sectionHashMap[sectionHash] = false;
+          // Remove this one from the hash map
+          sectionHashMap[sectionHash] = false;
+        }
       }
     }
 
@@ -147,9 +155,11 @@ class Updater {
 
       // Count how many sections are present in the new but not in the old.
       let count = 0;
-      for (const crn of aNewClass.crns) {
-        if (!oldClass.crns.includes(crn)) {
-          count++;
+      if (aNewClass.crns) {
+        for (const crn of aNewClass.crns) {
+          if (!oldClass.crns.includes(crn)) {
+            count++;
+          }
         }
       }
 
@@ -178,35 +188,36 @@ class Updater {
       }
     }
 
+    if (output.sections) {
+      for (const newSection of output.sections) {
+        const hash = Keys.create(newSection).getHash();
 
-    for (const newSection of output.sections) {
-      const hash = Keys.create(newSection).getHash();
+        const oldSection = this.dataLib.getSectionServerDataFromHash(hash);
 
-      const oldSection = this.dataLib.getSectionServerDataFromHash(hash);
-
-      // This should never run.
-      // The user should not be able to sign up for a section that didn't exist when they were signing up.
-      if (!oldSection) {
-        macros.error('Section was addded?', hash);
-        continue;
-      }
-
-      let message;
-
-      if (newSection.seatsRemaining > 0 && oldSection.seatsRemaining <= 0) {
-        // See above comment about space before the exclamation mark.
-        message = `A seat opened up in ${newSection.subject} ${newSection.classId} (CRN: ${newSection.crn}). Check it out at https://searchneu.com/${newSection.subject}${newSection.classId} !`;
-      } else if (newSection.waitRemaining > 0 && oldSection.waitRemaining <= 0) {
-        message = `A waitlist seat opened up in ${newSection.subject} ${newSection.classId} (CRN: ${newSection.crn}). Check it out at https://searchneu.com/${newSection.subject}${newSection.classId} !`;
-      }
-
-      if (message) {
-        const user = sectionHashToUsers[hash];
-        if (!userToMessageMap[user]) {
-          userToMessageMap[user] = [];
+        // This should never run.
+        // The user should not be able to sign up for a section that didn't exist when they were signing up.
+        if (!oldSection) {
+          macros.error('Section was addded?', hash);
+          continue;
         }
 
-        userToMessageMap[user].push(message);
+        let message;
+
+        if (newSection.seatsRemaining > 0 && oldSection.seatsRemaining <= 0) {
+          // See above comment about space before the exclamation mark.
+          message = `A seat opened up in ${newSection.subject} ${newSection.classId} (CRN: ${newSection.crn}). Check it out at https://searchneu.com/${newSection.subject}${newSection.classId} !`;
+        } else if (newSection.waitRemaining > 0 && oldSection.waitRemaining <= 0) {
+          message = `A waitlist seat opened up in ${newSection.subject} ${newSection.classId} (CRN: ${newSection.crn}). Check it out at https://searchneu.com/${newSection.subject}${newSection.classId} !`;
+        }
+
+        if (message) {
+          const user = sectionHashToUsers[hash];
+          if (!userToMessageMap[user]) {
+            userToMessageMap[user] = [];
+          }
+
+          userToMessageMap[user].push(message);
+        }
       }
     }
 
