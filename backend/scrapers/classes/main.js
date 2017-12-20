@@ -147,19 +147,10 @@ class Main {
   }
 
   // The updater.js calls into this function to run
-  async runProcessors(rootNode) {
+  restructureData(rootNode) {
     this.waterfallIdentifyers(rootNode);
 
     const dump = this.pageDataStructureToTermDump(rootNode);
-
-    // Run the processors, sequentially
-    addClassUids.go(dump);
-    prereqClassUids.go(dump);
-    termStartEndDate.go(dump);
-
-    // Add new processors here.
-    simplifyProfList.go(dump);
-    addPreRequisiteFor.go(dump);
 
     return dump;
   }
@@ -221,7 +212,21 @@ class Main {
       }],
     };
 
-    const dump = this.runProcessors(rootNode);
+    let before = Date.now()
+
+    const dump = this.restructureData(rootNode);
+
+    // Run the processors, sequentially
+    addClassUids.go(dump);
+    prereqClassUids.go(dump);
+    termStartEndDate.go(dump);
+
+    // Add new processors here.
+    simplifyProfList.go(dump);
+    addPreRequisiteFor.go(dump);
+
+    macros.log(Date.now() - before, 'ms to run processors')
+
 
     // If running with semesterly, save in the semesterly schema
     // If not, save in the searchneu schema
