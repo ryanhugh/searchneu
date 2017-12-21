@@ -8,7 +8,6 @@ import macros from './macros';
 import database from './database';
 import Keys from '../common/Keys';
 import ellucianCatalogParser from './scrapers/classes/parsers/ellucianCatalogParser';
-import addClassUids from './scrapers/classes/processors/addClassUids';
 import notifyer from './notifyer';
 
 
@@ -108,7 +107,7 @@ class Updater {
             host: aClass.host,
             termId: aClass.termId,
             subject: aClass.subject,
-            classUid: aClass.classUid,
+            classId: aClass.classId,
             crn: crn,
           }).getHash();
 
@@ -125,8 +124,7 @@ class Updater {
       if (!sectionHashMap[sectionHash]) {
         continue;
       }
-
-      macros.error('Section', sectionHash, "is being watched but it's class is not being watched?", sectionHashMap);
+      macros.error('Section', sectionHash, "is being watched but it's class is not being watched?", Object.keys(sectionHashMap));
     }
 
     let allParsersOutput = [];
@@ -174,9 +172,6 @@ class Updater {
         if (!classHashes.includes(hash)) {
           output.classes.push(aClass)
         }
-        else {
-          macros.log("Not including ", hash, 'because it was already there.');
-        }
       }
 
       let oldSections = this.dataLib.getSectionsInTerm(termId)
@@ -188,21 +183,10 @@ class Updater {
         if (!sectionHashes.includes(hash)) {
           output.sections.push(section)
         }
-        else {
-          macros.log("Not including ", hash, 'because it was already there.');
-        }
       }
     }
 
     classesScrapers.runProcessors(output);
-
-
-    // Also need to this one processor so the data here has classUids on it.
-    // Lets avoid running the rest of the processors because many of them will not work correctly if they are not processing the entire term at a time.
-    // It would be possible to pull in the old term data, add the couple new classes, and then run that through all the processors. 
-    // But that isn't necessary if all we are doing is checking if the seatsRemaining changed. 
-    // This line could also be removed when classUid is re-factored away.
-    // addClassUids.go(output);
 
     // Keep track of which messages to send which users.
     // The key is the facebookMessengerId and the value is a list of messages.
