@@ -26,7 +26,7 @@ class MarkMissingPrereqs extends BaseProcessor.BaseProcessor {
           termId: termId,
           subject: prereqEntry.subject,
           classId: prereqEntry.classId
-        })
+        }).getHash()
 
         if (!keyToRows[hash]) {
           prereqs.values[i].missing = true;
