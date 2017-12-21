@@ -2,583 +2,528 @@
 
 exports[`name translation works 1`] = `
 Object {
-  "Fundamentals of Computer Science 1": Object {
-    "deps": Array [],
-    "type": "classes",
-    "value": Object {
-      "crns": Array [
-        "10663",
-        "10664",
-        "11892",
-        "13757",
-        "14492",
-      ],
-      "lastUpdateTime": 1476057600000,
-      "name": "Fundamentals of Computer Science 1",
-      "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201610&subj_in=CS&crse_in=2500&schd_in=LEC",
-    },
-  },
-  "Fundamentals of Computer Science 1 (hon)": Object {
-    "deps": Array [],
-    "type": "classes",
-    "value": Object {
-      "crns": Array [
-        "17348",
-      ],
-      "lastUpdateTime": 1476057600000,
-      "name": "Fundamentals of Computer Science 1 (hon)",
-      "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201610&subj_in=CS&crse_in=2500&schd_in=LEC",
-    },
+  "deps": Array [],
+  "type": "classes",
+  "value": Object {
+    "crns": Array [
+      "10663",
+      "10664",
+      "11892",
+      "13757",
+      "14492",
+      "17348",
+    ],
   },
 }
 `;
 
 exports[`should parse a bunch of crns 1`] = `
 Object {
-  "classWrappersMap": Object {
-    "Managerial Accounting": Object {
-      "deps": Array [],
-      "type": "classes",
-      "value": Object {
-        "crns": Array [
-          "11018",
-          "11019",
-          "11020",
-          "11679",
-          "19962",
-          "20800",
-          "22497",
-          "23294",
-          "23295",
-          "24435",
-          "6073",
-          "6074",
-          "6075",
-          "6077",
-          "6129",
-          "6130",
-          "8145",
-        ],
-        "lastUpdateTime": 1476057600000,
-        "name": "Managerial Accounting",
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckctlg.p_disp_listcrse?term_in=201503&subj_in=ACCT&crse_in=2102&schd_in=BAS",
-      },
+  "classWrapper": Object {
+    "deps": Array [],
+    "type": "classes",
+    "value": Object {
+      "crns": Array [
+        "11018",
+        "11019",
+        "11020",
+        "11679",
+        "19962",
+        "20800",
+        "22497",
+        "23294",
+        "23295",
+        "24435",
+        "6073",
+        "6074",
+        "6075",
+        "6077",
+        "6129",
+        "6130",
+        "8145",
+      ],
     },
   },
   "sectionStartingDatas": Array [
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "11018",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Katharine Wilson",
+      "crn": "11018",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Katharine Wilson",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "1": Array [
+              Object {
+                "end": 42600,
+                "start": 39600,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "1": Array [
-                Object {
-                  "end": 42600,
-                  "start": 39600,
-                },
-              ],
-              "3": Array [
-                Object {
-                  "end": 42600,
-                  "start": 39600,
-                },
-              ],
-              "5": Array [
-                Object {
-                  "end": 42600,
-                  "start": 39600,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Alter Hall 0A231",
+            "3": Array [
+              Object {
+                "end": 42600,
+                "start": 39600,
+              },
+            ],
+            "5": Array [
+              Object {
+                "end": 42600,
+                "start": 39600,
+              },
+            ],
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=11018",
-      },
+          "type": "Class",
+          "where": "Alter Hall 0A231",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=11018",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "11019",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Jang Wook Lee",
+      "crn": "11019",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Jang Wook Lee",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "1": Array [
+              Object {
+                "end": 42600,
+                "start": 39600,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "1": Array [
-                Object {
-                  "end": 42600,
-                  "start": 39600,
-                },
-              ],
-              "3": Array [
-                Object {
-                  "end": 42600,
-                  "start": 39600,
-                },
-              ],
-              "5": Array [
-                Object {
-                  "end": 42600,
-                  "start": 39600,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Anderson Hall 00027",
+            "3": Array [
+              Object {
+                "end": 42600,
+                "start": 39600,
+              },
+            ],
+            "5": Array [
+              Object {
+                "end": 42600,
+                "start": 39600,
+              },
+            ],
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=11019",
-      },
+          "type": "Class",
+          "where": "Anderson Hall 00027",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=11019",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "8145",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Katharine Wilson",
+      "crn": "8145",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Katharine Wilson",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "1": Array [
+              Object {
+                "end": 35400,
+                "start": 32400,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "1": Array [
-                Object {
-                  "end": 35400,
-                  "start": 32400,
-                },
-              ],
-              "3": Array [
-                Object {
-                  "end": 35400,
-                  "start": 32400,
-                },
-              ],
-              "5": Array [
-                Object {
-                  "end": 35400,
-                  "start": 32400,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Alter Hall 0A237",
+            "3": Array [
+              Object {
+                "end": 35400,
+                "start": 32400,
+              },
+            ],
+            "5": Array [
+              Object {
+                "end": 35400,
+                "start": 32400,
+              },
+            ],
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=8145",
-      },
+          "type": "Class",
+          "where": "Alter Hall 0A237",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=8145",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "6073",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Carl D. Shelow",
+      "crn": "6073",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Carl D. Shelow",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "3": Array [
+              Object {
+                "end": 72000,
+                "start": 63000,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "3": Array [
-                Object {
-                  "end": 72000,
-                  "start": 63000,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Tuttleman Learning Center 0005B",
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=6073",
-      },
+          "type": "Class",
+          "where": "Tuttleman Learning Center 0005B",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=6073",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "11020",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Marco Malandra",
+      "crn": "11020",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Marco Malandra",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "2": Array [
+              Object {
+                "end": 72000,
+                "start": 63000,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "2": Array [
-                Object {
-                  "end": 72000,
-                  "start": 63000,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Alter Hall 0A032",
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=11020",
-      },
+          "type": "Class",
+          "where": "Alter Hall 0A032",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=11020",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "6129",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Lucas Threinen",
+      "crn": "6129",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Lucas Threinen",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "4": Array [
+              Object {
+                "end": 72000,
+                "start": 63000,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "4": Array [
-                Object {
-                  "end": 72000,
-                  "start": 63000,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Alter Hall 0A237",
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=6129",
-      },
+          "type": "Class",
+          "where": "Alter Hall 0A237",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=6129",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "20800",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "David Heier",
+      "crn": "20800",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "David Heier",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "4": Array [
+              Object {
+                "end": 72000,
+                "start": 63000,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "4": Array [
-                Object {
-                  "end": 72000,
-                  "start": 63000,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Speakman Hall 00112",
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=20800",
-      },
+          "type": "Class",
+          "where": "Speakman Hall 00112",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=20800",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "6074",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Pamela Lauren Kuperstein",
+      "crn": "6074",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Pamela Lauren Kuperstein",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "3": Array [
+              Object {
+                "end": 72000,
+                "start": 63000,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "3": Array [
-                Object {
-                  "end": 72000,
-                  "start": 63000,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Alter Hall 0A032",
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=6074",
-      },
+          "type": "Class",
+          "where": "Alter Hall 0A032",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=6074",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "23294",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Dmitri Byzalov",
+      "crn": "23294",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Dmitri Byzalov",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "1": Array [
+              Object {
+                "end": 39000,
+                "start": 36000,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "1": Array [
-                Object {
-                  "end": 39000,
-                  "start": 36000,
-                },
-              ],
-              "3": Array [
-                Object {
-                  "end": 39000,
-                  "start": 36000,
-                },
-              ],
-              "5": Array [
-                Object {
-                  "end": 39000,
-                  "start": 36000,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Speakman Hall 00112",
+            "3": Array [
+              Object {
+                "end": 39000,
+                "start": 36000,
+              },
+            ],
+            "5": Array [
+              Object {
+                "end": 39000,
+                "start": 36000,
+              },
+            ],
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=23294",
-      },
+          "type": "Class",
+          "where": "Speakman Hall 00112",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=23294",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "23295",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Chunnan Zhang",
+      "crn": "23295",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Chunnan Zhang",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "1": Array [
+              Object {
+                "end": 35400,
+                "start": 32400,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "1": Array [
-                Object {
-                  "end": 35400,
-                  "start": 32400,
-                },
-              ],
-              "3": Array [
-                Object {
-                  "end": 35400,
-                  "start": 32400,
-                },
-              ],
-              "5": Array [
-                Object {
-                  "end": 35400,
-                  "start": 32400,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Alter Hall 0A231",
+            "3": Array [
+              Object {
+                "end": 35400,
+                "start": 32400,
+              },
+            ],
+            "5": Array [
+              Object {
+                "end": 35400,
+                "start": 32400,
+              },
+            ],
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=23295",
-      },
+          "type": "Class",
+          "where": "Alter Hall 0A231",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=23295",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "6075",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Lucas Threinen",
+      "crn": "6075",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Lucas Threinen",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "1": Array [
+              Object {
+                "end": 72000,
+                "start": 63000,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "1": Array [
-                Object {
-                  "end": 72000,
-                  "start": 63000,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Alter Hall 0A034",
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=6075",
-      },
+          "type": "Class",
+          "where": "Alter Hall 0A034",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=6075",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "6077",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Marco Malandra",
+      "crn": "6077",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Marco Malandra",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "4": Array [
+              Object {
+                "end": 72000,
+                "start": 63000,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "4": Array [
-                Object {
-                  "end": 72000,
-                  "start": 63000,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Alter Hall 0A034",
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=6077",
-      },
+          "type": "Class",
+          "where": "Alter Hall 0A034",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=6077",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "6130",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Tom D Adams",
+      "crn": "6130",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Tom D Adams",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "2": Array [
+              Object {
+                "end": 39000,
+                "start": 34200,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "2": Array [
-                Object {
-                  "end": 39000,
-                  "start": 34200,
-                },
-              ],
-              "4": Array [
-                Object {
-                  "end": 39000,
-                  "start": 34200,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Ambler - Learning Center 00306",
+            "4": Array [
+              Object {
+                "end": 39000,
+                "start": 34200,
+              },
+            ],
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=6130",
-      },
+          "type": "Class",
+          "where": "Ambler - Learning Center 00306",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=6130",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "11679",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Han-Up Park",
+      "crn": "11679",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Han-Up Park",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "1": Array [
+              Object {
+                "end": 72000,
+                "start": 63000,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "1": Array [
-                Object {
-                  "end": 72000,
-                  "start": 63000,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "TUCC 1515 Market Street 00422",
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=11679",
-      },
+          "type": "Class",
+          "where": "TUCC 1515 Market Street 00422",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=11679",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "22497",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Christian E. Wurst",
+      "crn": "22497",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Christian E. Wurst",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "1": Array [
+              Object {
+                "end": 70200,
+                "start": 61200,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "1": Array [
-                Object {
-                  "end": 70200,
-                  "start": 61200,
-                },
-              ],
-            },
-            "type": "OLL with reqd virtual meetings",
-            "where": "Online Room - Place Holder CLSRM",
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=22497",
-      },
+          "type": "OLL with reqd virtual meetings",
+          "where": "Online Room - Place Holder CLSRM",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=22497",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "19962",
-        "meetings": Array [
-          Object {
-            "endDate": 16561,
-            "profs": Array [
-              "Christian E. Wurst",
+      "crn": "19962",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16561,
+          "profs": Array [
+            "Christian E. Wurst",
+          ],
+          "startDate": 16447,
+          "times": Object {
+            "1": Array [
+              Object {
+                "end": 70200,
+                "start": 61200,
+              },
             ],
-            "startDate": 16447,
-            "times": Object {
-              "1": Array [
-                Object {
-                  "end": 70200,
-                  "start": 61200,
-                },
-              ],
-            },
-            "type": "OLL with reqd virtual meetings",
-            "where": "Online Room - Place Holder CLSRM",
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=19962",
-      },
+          "type": "OLL with reqd virtual meetings",
+          "where": "Online Room - Place Holder CLSRM",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=19962",
     },
     Object {
-      "className": "Managerial Accounting",
-      "value": Object {
-        "crn": "24435",
-        "meetings": Array [
-          Object {
-            "endDate": 16547,
-            "profs": Array [
-              "David M Sigaty",
+      "crn": "24435",
+      "info": "Managerial Accounting",
+      "meetings": Array [
+        Object {
+          "endDate": 16547,
+          "profs": Array [
+            "David M Sigaty",
+          ],
+          "startDate": 16448,
+          "times": Object {
+            "2": Array [
+              Object {
+                "end": 54600,
+                "start": 49200,
+              },
             ],
-            "startDate": 16448,
-            "times": Object {
-              "2": Array [
-                Object {
-                  "end": 54600,
-                  "start": 49200,
-                },
-              ],
-              "4": Array [
-                Object {
-                  "end": 54600,
-                  "start": 49200,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Mita Hall - Japan 00503",
+            "4": Array [
+              Object {
+                "end": 54600,
+                "start": 49200,
+              },
+            ],
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=24435",
-      },
+          "type": "Class",
+          "where": "Mita Hall - Japan 00503",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=24435",
     },
   ],
 }
@@ -586,145 +531,121 @@ Object {
 
 exports[`should parse a bunch of deps 1`] = `
 Object {
-  "classWrappersMap": Object {
-    "Thermodyn/Stat Mechanics - Lab": Object {
-      "deps": Array [],
-      "type": "classes",
-      "value": Object {
-        "crns": Array [
-          "24601",
-          "24603",
-          "25363",
-        ],
-        "lastUpdateTime": 1476057600000,
-        "name": "Thermodyn/Stat Mechanics - Lab",
-        "url": "https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_listcrse?term_in=201502&subj_in=PHYS&crse_in=013&schd_in=LE",
-      },
-    },
-    "Thermodynamic/ Mech": Object {
-      "deps": Array [],
-      "type": "classes",
-      "value": Object {
-        "crns": Array [
-          "24600",
-        ],
-        "lastUpdateTime": 1476057600000,
-        "name": "Thermodynamic/ Mech",
-        "url": "https://myswat.swarthmore.edu/pls/bwckctlg.p_disp_listcrse?term_in=201502&subj_in=PHYS&crse_in=013&schd_in=LE",
-      },
+  "classWrapper": Object {
+    "deps": Array [],
+    "type": "classes",
+    "value": Object {
+      "crns": Array [
+        "24600",
+        "24601",
+        "24603",
+        "25363",
+      ],
     },
   },
   "sectionStartingDatas": Array [
     Object {
-      "className": "Thermodynamic/ Mech",
-      "value": Object {
-        "crn": "24600",
-        "meetings": Array [
-          Object {
-            "endDate": 16500,
-            "profs": Array [
-              "Peter J Collings",
+      "crn": "24600",
+      "info": "Thermodynamic/ Mech",
+      "meetings": Array [
+        Object {
+          "endDate": 16500,
+          "profs": Array [
+            "Peter J Collings",
+          ],
+          "startDate": 16454,
+          "times": Object {
+            "2": Array [
+              Object {
+                "end": 40200,
+                "start": 35700,
+              },
             ],
-            "startDate": 16454,
-            "times": Object {
-              "2": Array [
-                Object {
-                  "end": 40200,
-                  "start": 35700,
-                },
-              ],
-              "4": Array [
-                Object {
-                  "end": 40200,
-                  "start": 35700,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Science Center L32",
+            "4": Array [
+              Object {
+                "end": 40200,
+                "start": 35700,
+              },
+            ],
           },
-        ],
-        "url": "https://myswat.swarthmore.edu/pls/bwckschd.p_disp_detail_sched?term_in=201502&crn_in=24600",
-      },
+          "type": "Class",
+          "where": "Science Center L32",
+        },
+      ],
+      "url": "https://myswat.swarthmore.edu/pls/bwckschd.p_disp_detail_sched?term_in=201502&crn_in=24600",
     },
     Object {
-      "className": "Thermodyn/Stat Mechanics - Lab",
-      "value": Object {
-        "crn": "24601",
-        "meetings": Array [
-          Object {
-            "endDate": 16500,
-            "profs": Array [
-              "Peter J Collings",
-              "MaryAnn Hickman Klassen",
+      "crn": "24601",
+      "info": "Thermodyn/Stat Mechanics - Lab",
+      "meetings": Array [
+        Object {
+          "endDate": 16500,
+          "profs": Array [
+            "Peter J Collings",
+            "MaryAnn Hickman Klassen",
+          ],
+          "startDate": 16454,
+          "times": Object {
+            "1": Array [
+              Object {
+                "end": 58500,
+                "start": 47700,
+              },
             ],
-            "startDate": 16454,
-            "times": Object {
-              "1": Array [
-                Object {
-                  "end": 58500,
-                  "start": 47700,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Science Center L44",
           },
-        ],
-        "url": "https://myswat.swarthmore.edu/pls/bwckschd.p_disp_detail_sched?term_in=201502&crn_in=24601",
-      },
+          "type": "Class",
+          "where": "Science Center L44",
+        },
+      ],
+      "url": "https://myswat.swarthmore.edu/pls/bwckschd.p_disp_detail_sched?term_in=201502&crn_in=24601",
     },
     Object {
-      "className": "Thermodyn/Stat Mechanics - Lab",
-      "value": Object {
-        "crn": "24603",
-        "meetings": Array [
-          Object {
-            "endDate": 16500,
-            "profs": Array [
-              "MaryAnn Hickman Klassen",
+      "crn": "24603",
+      "info": "Thermodyn/Stat Mechanics - Lab",
+      "meetings": Array [
+        Object {
+          "endDate": 16500,
+          "profs": Array [
+            "MaryAnn Hickman Klassen",
+          ],
+          "startDate": 16454,
+          "times": Object {
+            "3": Array [
+              Object {
+                "end": 58500,
+                "start": 47700,
+              },
             ],
-            "startDate": 16454,
-            "times": Object {
-              "3": Array [
-                Object {
-                  "end": 58500,
-                  "start": 47700,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Science Center L44",
           },
-        ],
-        "url": "https://myswat.swarthmore.edu/pls/bwckschd.p_disp_detail_sched?term_in=201502&crn_in=24603",
-      },
+          "type": "Class",
+          "where": "Science Center L44",
+        },
+      ],
+      "url": "https://myswat.swarthmore.edu/pls/bwckschd.p_disp_detail_sched?term_in=201502&crn_in=24603",
     },
     Object {
-      "className": "Thermodyn/Stat Mechanics - Lab",
-      "value": Object {
-        "crn": "25363",
-        "meetings": Array [
-          Object {
-            "endDate": 16500,
-            "profs": Array [
-              "Peter J Collings",
+      "crn": "25363",
+      "info": "Thermodyn/Stat Mechanics - Lab",
+      "meetings": Array [
+        Object {
+          "endDate": 16500,
+          "profs": Array [
+            "Peter J Collings",
+          ],
+          "startDate": 16454,
+          "times": Object {
+            "4": Array [
+              Object {
+                "end": 58500,
+                "start": 47700,
+              },
             ],
-            "startDate": 16454,
-            "times": Object {
-              "4": Array [
-                Object {
-                  "end": 58500,
-                  "start": 47700,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "Science Center L44",
           },
-        ],
-        "url": "https://myswat.swarthmore.edu/pls/bwckschd.p_disp_detail_sched?term_in=201502&crn_in=25363",
-      },
+          "type": "Class",
+          "where": "Science Center L44",
+        },
+      ],
+      "url": "https://myswat.swarthmore.edu/pls/bwckschd.p_disp_detail_sched?term_in=201502&crn_in=25363",
     },
   ],
 }
@@ -732,165 +653,158 @@ Object {
 
 exports[`should parse a bunch of meetings 1`] = `
 Object {
-  "classWrappersMap": Object {
-    "The Evolution of U.S. Aerospace Power II": Object {
-      "deps": Array [],
-      "type": "classes",
-      "value": Object {
-        "crns": Array [
-          "12090",
-        ],
-        "lastUpdateTime": 1476057600000,
-        "name": "The Evolution of U.S. Aerospace Power II",
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckctlg.p_disp_listcrse?term_in=201503&subj_in=AIRF&crse_in=2041&schd_in=BAS",
-      },
+  "classWrapper": Object {
+    "deps": Array [],
+    "type": "classes",
+    "value": Object {
+      "crns": Array [
+        "12090",
+      ],
     },
   },
   "sectionStartingDatas": Array [
     Object {
-      "className": "The Evolution of U.S. Aerospace Power II",
-      "value": Object {
-        "crn": "12090",
-        "meetings": Array [
-          Object {
-            "endDate": 16457,
-            "profs": Array [
-              "Nicholas A Vallera",
+      "crn": "12090",
+      "info": "The Evolution of U.S. Aerospace Power II",
+      "meetings": Array [
+        Object {
+          "endDate": 16457,
+          "profs": Array [
+            "Nicholas A Vallera",
+          ],
+          "startDate": 16457,
+          "times": Object {
+            "4": Array [
+              Object {
+                "end": 27600,
+                "start": 21600,
+              },
             ],
-            "startDate": 16457,
-            "times": Object {
-              "4": Array [
-                Object {
-                  "end": 27600,
-                  "start": 21600,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "TBA",
           },
-          Object {
-            "endDate": 16471,
-            "profs": Array [
-              "Nicholas A Vallera",
+          "type": "Class",
+          "where": "TBA",
+        },
+        Object {
+          "endDate": 16471,
+          "profs": Array [
+            "Nicholas A Vallera",
+          ],
+          "startDate": 16471,
+          "times": Object {
+            "4": Array [
+              Object {
+                "end": 27600,
+                "start": 21600,
+              },
             ],
-            "startDate": 16471,
-            "times": Object {
-              "4": Array [
-                Object {
-                  "end": 27600,
-                  "start": 21600,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "TBA",
           },
-          Object {
-            "endDate": 16485,
-            "profs": Array [
-              "Nicholas A Vallera",
+          "type": "Class",
+          "where": "TBA",
+        },
+        Object {
+          "endDate": 16485,
+          "profs": Array [
+            "Nicholas A Vallera",
+          ],
+          "startDate": 16485,
+          "times": Object {
+            "4": Array [
+              Object {
+                "end": 27600,
+                "start": 21600,
+              },
             ],
-            "startDate": 16485,
-            "times": Object {
-              "4": Array [
-                Object {
-                  "end": 27600,
-                  "start": 21600,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "TBA",
           },
-          Object {
-            "endDate": 16499,
-            "profs": Array [
-              "Nicholas A Vallera",
+          "type": "Class",
+          "where": "TBA",
+        },
+        Object {
+          "endDate": 16499,
+          "profs": Array [
+            "Nicholas A Vallera",
+          ],
+          "startDate": 16499,
+          "times": Object {
+            "4": Array [
+              Object {
+                "end": 27600,
+                "start": 21600,
+              },
             ],
-            "startDate": 16499,
-            "times": Object {
-              "4": Array [
-                Object {
-                  "end": 27600,
-                  "start": 21600,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "TBA",
           },
-          Object {
-            "endDate": 16513,
-            "profs": Array [
-              "Nicholas A Vallera",
+          "type": "Class",
+          "where": "TBA",
+        },
+        Object {
+          "endDate": 16513,
+          "profs": Array [
+            "Nicholas A Vallera",
+          ],
+          "startDate": 16513,
+          "times": Object {
+            "4": Array [
+              Object {
+                "end": 27600,
+                "start": 21600,
+              },
             ],
-            "startDate": 16513,
-            "times": Object {
-              "4": Array [
-                Object {
-                  "end": 27600,
-                  "start": 21600,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "TBA",
           },
-          Object {
-            "endDate": 16527,
-            "profs": Array [
-              "Nicholas A Vallera",
+          "type": "Class",
+          "where": "TBA",
+        },
+        Object {
+          "endDate": 16527,
+          "profs": Array [
+            "Nicholas A Vallera",
+          ],
+          "startDate": 16527,
+          "times": Object {
+            "4": Array [
+              Object {
+                "end": 27600,
+                "start": 21600,
+              },
             ],
-            "startDate": 16527,
-            "times": Object {
-              "4": Array [
-                Object {
-                  "end": 27600,
-                  "start": 21600,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "TBA",
           },
-          Object {
-            "endDate": 16541,
-            "profs": Array [
-              "Nicholas A Vallera",
+          "type": "Class",
+          "where": "TBA",
+        },
+        Object {
+          "endDate": 16541,
+          "profs": Array [
+            "Nicholas A Vallera",
+          ],
+          "startDate": 16541,
+          "times": Object {
+            "4": Array [
+              Object {
+                "end": 27600,
+                "start": 21600,
+              },
             ],
-            "startDate": 16541,
-            "times": Object {
-              "4": Array [
-                Object {
-                  "end": 27600,
-                  "start": 21600,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "TBA",
           },
-          Object {
-            "endDate": 16555,
-            "profs": Array [
-              "Nicholas A Vallera",
+          "type": "Class",
+          "where": "TBA",
+        },
+        Object {
+          "endDate": 16555,
+          "profs": Array [
+            "Nicholas A Vallera",
+          ],
+          "startDate": 16555,
+          "times": Object {
+            "4": Array [
+              Object {
+                "end": 27600,
+                "start": 21600,
+              },
             ],
-            "startDate": 16555,
-            "times": Object {
-              "4": Array [
-                Object {
-                  "end": 27600,
-                  "start": 21600,
-                },
-              ],
-            },
-            "type": "Class",
-            "where": "TBA",
           },
-        ],
-        "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=12090",
-      },
+          "type": "Class",
+          "where": "TBA",
+        },
+      ],
+      "url": "https://prd-wlssb.temple.edu/prod8/bwckschd.p_disp_detail_sched?term_in=201503&crn_in=12090",
     },
   ],
 }

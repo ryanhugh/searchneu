@@ -17,7 +17,6 @@ describe('addPreRequisiteFor tests', () => {
       type: 'or',
       values: [{
         subject: 'CS',
-        classUid: '2500_699845913',
         classId: '2500',
       }],
     },
@@ -25,7 +24,6 @@ describe('addPreRequisiteFor tests', () => {
       type: 'or',
       values: [{
         subject: 'CS',
-        classUid: '2511_803118792',
         classId: '2511',
       }],
     },
@@ -40,31 +38,25 @@ describe('addPreRequisiteFor tests', () => {
         values: [
           {
             subject: 'CS',
-            classUid: '2500_699845913',
             classId: '5',
           }, {
             subject: 'MATH',
-            classUid: '2500_699845913',
             classId: '2',
           }, {
             subject: 'EECE',
-            classUid: '2500_699845913',
             classId: '11',
           }, {
             subject: 'EECE',
-            classUid: '2500_699845913',
             classId: '7',
           },
           {
             subject: 'MATH',
-            classUid: '2500_699845913',
             classId: '3',
           },
         ],
       },
     classId: '2510',
     termId: '201830',
-    classUid: '33333333',
     subject: 'CS',
     host: 'neu.edu',
   };
@@ -75,31 +67,25 @@ describe('addPreRequisiteFor tests', () => {
         values: [
           {
             subject: 'CS',
-            classUid: '2500_699845913',
             classId: '5',
           }, {
             subject: 'MATH',
-            classUid: '2500_699845913',
             classId: '2',
           }, {
             subject: 'EECE',
-            classUid: '2500_699845913',
             classId: '11',
           }, {
             subject: 'EECE',
-            classUid: '2500_699845913',
             classId: '7',
           },
           {
             subject: 'MATH',
-            classUid: '2500_699845913',
             classId: '3',
           },
         ],
       },
     classId: '2510',
     termId: '201830',
-    classUid: '33333333',
     subject: 'EECE',
     host: 'neu.edu',
   };

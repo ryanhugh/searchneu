@@ -130,20 +130,20 @@ it('simplifyRequirements shoudl work', () => {
       type: 'or',
       values: [{
         subject: 'PHYS',
-        classUid: '1148_1041629977',
+        classId: '1148',
       }, {
         subject: 'PHYS',
-        classUid: '1148_1041629977',
+        classId: '1148',
       }],
     }],
   })).toEqual({
     type: 'or',
     values: [{
       subject: 'PHYS',
-      classUid: '1148_1041629977',
+      classId: '1148',
     }, {
       subject: 'PHYS',
-      classUid: '1148_1041629977',
+      classId: '1148',
     }],
   });
 });

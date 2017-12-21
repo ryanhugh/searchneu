@@ -15,7 +15,7 @@ class BaseProcessor {
         host:section.host,
         termId: section.termId,
         subject: section.subject,
-        classUid: section.classUid,
+        classId: section.classId,
       };
 
       const hash = Keys.create(obj).getHash();
@@ -30,45 +30,21 @@ class BaseProcessor {
     return Object.values(classHash);
   }
 
-
-  // If config.useClassId, will return {
-  //  'neu.edu201602STAT002':[aClass,aClass]
-  // }
-  // if !config.useClassId, will return {
-  //  'neu.edu201602STAT002_6876877897': aClass
-  // }
-  getClassHash(termDump, config = {}) {
+  getClassHash(termDump) {
     // Make obj to find results here quickly.
     const keyToRows = {};
 
     termDump.classes.forEach((aClass) => {
-      if (!aClass.host || !aClass.termId || !aClass.subject || !aClass.classUid) {
+      if (!aClass.host || !aClass.termId || !aClass.subject || !aClass.classId) {
         macros.error('ERROR class doesn\'t have required fields??', aClass);
         return;
       }
 
       // multiple classes could have same key
-      let key = aClass.host + aClass.termId + aClass.subject;
-      if (config.useClassId) {
-        key += aClass.classId;
+      const hash = Keys.create(aClass).getHash();
 
-        if (!keyToRows[key]) {
-          keyToRows[key] = [];
-        }
-
-        // only need to keep subject and classUid
-        keyToRows[key].push(aClass);
-      } else if (aClass.classUid) {
-        key += aClass.classUid;
-
-        if (keyToRows[key]) {
-          macros.error('duplicate classUid?', keyToRows[key], aClass);
-        }
-
-        keyToRows[key] = aClass;
-      } else {
-        macros.error('Cant use classUid if dont have classUid!', aClass);
-      }
+      // only need to keep subject and classId
+      keyToRows[hash] = aClass;
     });
 
     return keyToRows;

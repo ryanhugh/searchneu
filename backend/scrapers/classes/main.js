@@ -13,8 +13,7 @@ import termDump from './termDump';
 import differentCollegeUrls from './differentCollegeUrls';
 
 // Processors
-import addClassUids from './processors/addClassUids';
-import prereqClassUids from './processors/prereqClassUids';
+import markMissingPrereqs from './processors/markMissingPrereqs';
 import termStartEndDate from './processors/termStartEndDate';
 import simplifyProfList from './processors/simplifyProfList';
 import semesterly from './processors/semesterly';
@@ -229,7 +228,6 @@ class Main {
 
 
     const dump = this.runProcessors(this.restructureData(rootNode));
-
 
 
     // If running with semesterly, save in the semesterly schema
