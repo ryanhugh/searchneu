@@ -30,16 +30,9 @@ it('can parse crns', async (done) => {
 
   expect(ellucianClassParser.supportsPage(url)).toBe(true);
 
-  const theClassKey = Object.keys(output.classWrappersMap);
-
-  expect(theClassKey.length).toBe(1);
-
-  const aClass = output.classWrappersMap[theClassKey].value;
+  const aClass = output.classWrapper.value;
 
   expect(aClass).toEqual({
-    url: url,
-    lastUpdateTime: 1476057600000,
-    name: 'Embedded Design Enabling Robotics',
     crns: ['15633', '15636', '15639', '16102', '17799', '17800'],
   });
 
@@ -57,18 +50,17 @@ it('should parse a bunch of deps', async (done) => {
   const output = ellucianClassParser.parse(body, url);
   expect(output).toMatchSnapshot();
 
-
-  const theClassKey = Object.keys(output.classWrappersMap)[0];
-  const aClass = output.classWrappersMap[theClassKey].value;
+  const aClass = output.classWrapper.value;
 
   expect(ellucianClassParser.supportsPage(url)).toBe(true);
 
-
   expect(aClass).toEqual({
-    url: url,
-    lastUpdateTime: 1476057600000,
-    name: 'Thermodynamic/ Mech',
-    crns: ['24600'],
+    crns: [
+      "24600",
+      "24601",
+      "24603",
+      "25363"
+    ],
   });
 
   done();
@@ -83,15 +75,11 @@ it('should parse a bunch of crns', async (done) => {
   //main parse
   const output = ellucianClassParser.parse(body, url);
 
-  const theClassKey = Object.keys(output.classWrappersMap)[0];
-  const aClass = output.classWrappersMap[theClassKey].value;
+  const aClass = output.classWrapper.value;
 
   expect(ellucianClassParser.supportsPage(url)).toBe(true);
 
   expect(aClass).toEqual({
-    url: url,
-    lastUpdateTime: 1476057600000,
-    name: 'Managerial Accounting',
     crns: ['11018', '11019', '11020', '11679', '19962', '20800', '22497', '23294', '23295', '24435', '6073', '6074', '6075', '6077', '6129', '6130', '8145'],
   });
 
@@ -111,15 +99,11 @@ it('should parse a bunch of meetings', async (done) => {
   //main parse
   const output = ellucianClassParser.parse(body, url);
 
-  const theClassKey = Object.keys(output.classWrappersMap)[0];
-  const aClass = output.classWrappersMap[theClassKey].value;
+  const aClass = output.classWrapper.value;
 
   expect(ellucianClassParser.supportsPage(url)).toBe(true);
 
   expect(aClass).toEqual({
-    url: url,
-    lastUpdateTime: 1476057600000,
-    name: 'The Evolution of U.S. Aerospace Power II',
     crns: ['12090'],
   });
 
@@ -138,13 +122,10 @@ it('can parse CANCELLED', async (done) => {
   //main parse
   const output = ellucianClassParser.parse(body, url);
 
-  const theClassKey = Object.keys(output.classWrappersMap)[0];
-  const aClass = output.classWrappersMap[theClassKey].value;
+  const aClass = output.classWrapper.value;
 
   expect(ellucianClassParser.supportsPage(url)).toBe(true);
 
-  expect(aClass.url).toBe(url);
-  expect(aClass.name).toBe('CANCELLED');
   expect(aClass.crns.length).toBe(1);
   expect(aClass.crns[0]).toBe('12291');
 
@@ -163,7 +144,7 @@ it('name translation works', async (done) => {
   const output = ellucianClassParser.parse(body, url);
 
   // Five sections of fundies, and 1 alt class (hon, which has 1 section).
-  expect(output.classWrappersMap).toMatchSnapshot();
+  expect(output.classWrapper).toMatchSnapshot();
 
   done();
 });
