@@ -50,7 +50,7 @@ class AddClassUids extends BaseProcessor.BaseProcessor {
     const localKeyToClassMap = {};
 
     for (const aClass of termDump.classes) {
-      aClass.classUid = this.getClassUid(aClass.classId, aClass.name);
+      aClass.classUid = aClass.classId
 
       if (aClass.crns) {
         for (const crn of aClass.crns) {
@@ -82,7 +82,7 @@ class AddClassUids extends BaseProcessor.BaseProcessor {
         continue;
       }
 
-      section.classUid = this.getClassUid(section.classId, localKeyToClassMap[key].name);
+      section.classUid = section.classId;
     }
   }
 }
