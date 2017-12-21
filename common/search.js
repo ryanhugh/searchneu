@@ -489,7 +489,7 @@ class Search {
               host: aClass.host,
               termId: aClass.termId,
               subject: aClass.subject,
-              classUid: aClass.classUid,
+              classId: aClass.classId,
               crn: crn,
             }).getHash();
 
