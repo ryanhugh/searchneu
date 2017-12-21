@@ -60,7 +60,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
       return data;
     }
 
-    if (data.subject && (data.classId || data.classUid)) {
+    if (data.subject && data.classId) {
       return data;
     }
 

@@ -8,7 +8,6 @@ ShallowWrapper {
     aClass={
       Class {
         "classId": "1210",
-        "classUid": "1210_602555960",
         "coreqs": Object {
           "type": "or",
           "values": Array [],
@@ -37,7 +36,6 @@ ShallowWrapper {
         "sections": Array [
           Section {
             "classId": "1210",
-            "classUid": "1210_602555960",
             "crn": "13502",
             "host": "neu.edu",
             "lastUpdateTime": 1511131914029,
@@ -70,7 +68,6 @@ ShallowWrapper {
           },
           Section {
             "classId": "1210",
-            "classUid": "1210_602555960",
             "crn": "14404",
             "host": "neu.edu",
             "lastUpdateTime": 1511131914065,
@@ -103,7 +100,6 @@ ShallowWrapper {
           },
           Section {
             "classId": "1210",
-            "classUid": "1210_602555960",
             "crn": "14405",
             "host": "neu.edu",
             "lastUpdateTime": 1511131914065,
@@ -136,7 +132,6 @@ ShallowWrapper {
           },
           Section {
             "classId": "1210",
-            "classUid": "1210_602555960",
             "crn": "13503",
             "host": "neu.edu",
             "lastUpdateTime": 1511131914063,
@@ -169,7 +164,6 @@ ShallowWrapper {
           },
           Section {
             "classId": "1210",
-            "classUid": "1210_602555960",
             "crn": "14386",
             "host": "neu.edu",
             "lastUpdateTime": 1511131914075,
@@ -350,7 +344,6 @@ ShallowWrapper {
               section={
                 Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "13502",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914029,
@@ -389,7 +382,6 @@ ShallowWrapper {
               section={
                 Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "14404",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914065,
@@ -428,7 +420,6 @@ ShallowWrapper {
               section={
                 Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "14405",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914065,
@@ -610,7 +601,6 @@ ShallowWrapper {
                 section={
                   Section {
                     "classId": "1210",
-                    "classUid": "1210_602555960",
                     "crn": "13502",
                     "host": "neu.edu",
                     "lastUpdateTime": 1511131914029,
@@ -649,7 +639,6 @@ ShallowWrapper {
                 section={
                   Section {
                     "classId": "1210",
-                    "classUid": "1210_602555960",
                     "crn": "14404",
                     "host": "neu.edu",
                     "lastUpdateTime": 1511131914065,
@@ -688,7 +677,6 @@ ShallowWrapper {
                 section={
                   Section {
                     "classId": "1210",
-                    "classUid": "1210_602555960",
                     "crn": "14405",
                     "host": "neu.edu",
                     "lastUpdateTime": 1511131914065,
@@ -1152,7 +1140,6 @@ ShallowWrapper {
                   section={
                     Section {
                       "classId": "1210",
-                      "classUid": "1210_602555960",
                       "crn": "13502",
                       "host": "neu.edu",
                       "lastUpdateTime": 1511131914029,
@@ -1191,7 +1178,6 @@ ShallowWrapper {
                   section={
                     Section {
                       "classId": "1210",
-                      "classUid": "1210_602555960",
                       "crn": "14404",
                       "host": "neu.edu",
                       "lastUpdateTime": 1511131914065,
@@ -1230,7 +1216,6 @@ ShallowWrapper {
                   section={
                     Section {
                       "classId": "1210",
-                      "classUid": "1210_602555960",
                       "crn": "14405",
                       "host": "neu.edu",
                       "lastUpdateTime": 1511131914065,
@@ -1476,7 +1461,6 @@ ShallowWrapper {
                     section={
                       Section {
                         "classId": "1210",
-                        "classUid": "1210_602555960",
                         "crn": "13502",
                         "host": "neu.edu",
                         "lastUpdateTime": 1511131914029,
@@ -1515,7 +1499,6 @@ ShallowWrapper {
                     section={
                       Section {
                         "classId": "1210",
-                        "classUid": "1210_602555960",
                         "crn": "14404",
                         "host": "neu.edu",
                         "lastUpdateTime": 1511131914065,
@@ -1554,7 +1537,6 @@ ShallowWrapper {
                     section={
                       Section {
                         "classId": "1210",
-                        "classUid": "1210_602555960",
                         "crn": "14405",
                         "host": "neu.edu",
                         "lastUpdateTime": 1511131914065,
@@ -1611,7 +1593,6 @@ ShallowWrapper {
                   "props": Object {
                     "section": Section {
                       "classId": "1210",
-                      "classUid": "1210_602555960",
                       "crn": "13502",
                       "host": "neu.edu",
                       "lastUpdateTime": 1511131914029,
@@ -1656,7 +1637,6 @@ ShallowWrapper {
                   "props": Object {
                     "section": Section {
                       "classId": "1210",
-                      "classUid": "1210_602555960",
                       "crn": "14404",
                       "host": "neu.edu",
                       "lastUpdateTime": 1511131914065,
@@ -1701,7 +1681,6 @@ ShallowWrapper {
                   "props": Object {
                     "section": Section {
                       "classId": "1210",
-                      "classUid": "1210_602555960",
                       "crn": "14405",
                       "host": "neu.edu",
                       "lastUpdateTime": 1511131914065,
@@ -1902,7 +1881,6 @@ ShallowWrapper {
                 section={
                   Section {
                     "classId": "1210",
-                    "classUid": "1210_602555960",
                     "crn": "13502",
                     "host": "neu.edu",
                     "lastUpdateTime": 1511131914029,
@@ -1941,7 +1919,6 @@ ShallowWrapper {
                 section={
                   Section {
                     "classId": "1210",
-                    "classUid": "1210_602555960",
                     "crn": "14404",
                     "host": "neu.edu",
                     "lastUpdateTime": 1511131914065,
@@ -1980,7 +1957,6 @@ ShallowWrapper {
                 section={
                   Section {
                     "classId": "1210",
-                    "classUid": "1210_602555960",
                     "crn": "14405",
                     "host": "neu.edu",
                     "lastUpdateTime": 1511131914065,
@@ -2162,7 +2138,6 @@ ShallowWrapper {
                   section={
                     Section {
                       "classId": "1210",
-                      "classUid": "1210_602555960",
                       "crn": "13502",
                       "host": "neu.edu",
                       "lastUpdateTime": 1511131914029,
@@ -2201,7 +2176,6 @@ ShallowWrapper {
                   section={
                     Section {
                       "classId": "1210",
-                      "classUid": "1210_602555960",
                       "crn": "14404",
                       "host": "neu.edu",
                       "lastUpdateTime": 1511131914065,
@@ -2240,7 +2214,6 @@ ShallowWrapper {
                   section={
                     Section {
                       "classId": "1210",
-                      "classUid": "1210_602555960",
                       "crn": "14405",
                       "host": "neu.edu",
                       "lastUpdateTime": 1511131914065,
@@ -2704,7 +2677,6 @@ ShallowWrapper {
                     section={
                       Section {
                         "classId": "1210",
-                        "classUid": "1210_602555960",
                         "crn": "13502",
                         "host": "neu.edu",
                         "lastUpdateTime": 1511131914029,
@@ -2743,7 +2715,6 @@ ShallowWrapper {
                     section={
                       Section {
                         "classId": "1210",
-                        "classUid": "1210_602555960",
                         "crn": "14404",
                         "host": "neu.edu",
                         "lastUpdateTime": 1511131914065,
@@ -2782,7 +2753,6 @@ ShallowWrapper {
                     section={
                       Section {
                         "classId": "1210",
-                        "classUid": "1210_602555960",
                         "crn": "14405",
                         "host": "neu.edu",
                         "lastUpdateTime": 1511131914065,
@@ -3028,7 +2998,6 @@ ShallowWrapper {
                       section={
                         Section {
                           "classId": "1210",
-                          "classUid": "1210_602555960",
                           "crn": "13502",
                           "host": "neu.edu",
                           "lastUpdateTime": 1511131914029,
@@ -3067,7 +3036,6 @@ ShallowWrapper {
                       section={
                         Section {
                           "classId": "1210",
-                          "classUid": "1210_602555960",
                           "crn": "14404",
                           "host": "neu.edu",
                           "lastUpdateTime": 1511131914065,
@@ -3106,7 +3074,6 @@ ShallowWrapper {
                       section={
                         Section {
                           "classId": "1210",
-                          "classUid": "1210_602555960",
                           "crn": "14405",
                           "host": "neu.edu",
                           "lastUpdateTime": 1511131914065,
@@ -3163,7 +3130,6 @@ ShallowWrapper {
                     "props": Object {
                       "section": Section {
                         "classId": "1210",
-                        "classUid": "1210_602555960",
                         "crn": "13502",
                         "host": "neu.edu",
                         "lastUpdateTime": 1511131914029,
@@ -3208,7 +3174,6 @@ ShallowWrapper {
                     "props": Object {
                       "section": Section {
                         "classId": "1210",
-                        "classUid": "1210_602555960",
                         "crn": "14404",
                         "host": "neu.edu",
                         "lastUpdateTime": 1511131914065,
@@ -3253,7 +3218,6 @@ ShallowWrapper {
                     "props": Object {
                       "section": Section {
                         "classId": "1210",
-                        "classUid": "1210_602555960",
                         "crn": "14405",
                         "host": "neu.edu",
                         "lastUpdateTime": 1511131914065,

@@ -13,8 +13,7 @@ import termDump from './termDump';
 import differentCollegeUrls from './differentCollegeUrls';
 
 // Processors
-import addClassUids from './processors/addClassUids';
-import prereqClassUids from './processors/prereqClassUids';
+import markMissingPrereqs from './processors/markMissingPrereqs';
 import termStartEndDate from './processors/termStartEndDate';
 import simplifyProfList from './processors/simplifyProfList';
 import semesterly from './processors/semesterly';
@@ -199,8 +198,7 @@ class Main {
 
 
     // Run the processors, sequentially
-    addClassUids.go(dump);
-    prereqClassUids.go(dump);
+    markMissingPrereqs.go(dump);
     termStartEndDate.go(dump);
 
     // Add new processors here.

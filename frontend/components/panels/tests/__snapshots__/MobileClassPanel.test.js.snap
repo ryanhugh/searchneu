@@ -8,7 +8,6 @@ ShallowWrapper {
     aClass={
       Class {
         "classId": "1210",
-        "classUid": "1210_602555960",
         "coreqs": Object {
           "type": "or",
           "values": Array [],
@@ -37,7 +36,6 @@ ShallowWrapper {
         "sections": Array [
           Section {
             "classId": "1210",
-            "classUid": "1210_602555960",
             "crn": "13502",
             "host": "neu.edu",
             "lastUpdateTime": 1511131914029,
@@ -70,7 +68,6 @@ ShallowWrapper {
           },
           Section {
             "classId": "1210",
-            "classUid": "1210_602555960",
             "crn": "14404",
             "host": "neu.edu",
             "lastUpdateTime": 1511131914065,
@@ -103,7 +100,6 @@ ShallowWrapper {
           },
           Section {
             "classId": "1210",
-            "classUid": "1210_602555960",
             "crn": "14405",
             "host": "neu.edu",
             "lastUpdateTime": 1511131914065,
@@ -136,7 +132,6 @@ ShallowWrapper {
           },
           Section {
             "classId": "1210",
-            "classUid": "1210_602555960",
             "crn": "13503",
             "host": "neu.edu",
             "lastUpdateTime": 1511131914063,
@@ -169,7 +164,6 @@ ShallowWrapper {
           },
           Section {
             "classId": "1210",
-            "classUid": "1210_602555960",
             "crn": "14386",
             "host": "neu.edu",
             "lastUpdateTime": 1511131914075,
@@ -274,7 +268,6 @@ ShallowWrapper {
             section={
               Section {
                 "classId": "1210",
-                "classUid": "1210_602555960",
                 "crn": "13502",
                 "host": "neu.edu",
                 "lastUpdateTime": 1511131914029,
@@ -377,7 +370,6 @@ ShallowWrapper {
               section={
                 Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "13502",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914029,
@@ -526,7 +518,6 @@ ShallowWrapper {
                 section={
                   Section {
                     "classId": "1210",
-                    "classUid": "1210_602555960",
                     "crn": "13502",
                     "host": "neu.edu",
                     "lastUpdateTime": 1511131914029,
@@ -690,12 +681,11 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".1:$neu.edu/201810/CS/1210_602555960/13502",
+              "key": ".1:$neu.edu/201810/CS/1210/13502",
               "nodeType": "class",
               "props": Object {
                 "section": Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "13502",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914029,
@@ -815,7 +805,6 @@ ShallowWrapper {
               section={
                 Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "13502",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914029,
@@ -918,7 +907,6 @@ ShallowWrapper {
                 section={
                   Section {
                     "classId": "1210",
-                    "classUid": "1210_602555960",
                     "crn": "13502",
                     "host": "neu.edu",
                     "lastUpdateTime": 1511131914029,
@@ -1067,7 +1055,6 @@ ShallowWrapper {
                   section={
                     Section {
                       "classId": "1210",
-                      "classUid": "1210_602555960",
                       "crn": "13502",
                       "host": "neu.edu",
                       "lastUpdateTime": 1511131914029,
@@ -1231,12 +1218,11 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".1:$neu.edu/201810/CS/1210_602555960/13502",
+                "key": ".1:$neu.edu/201810/CS/1210/13502",
                 "nodeType": "class",
                 "props": Object {
                   "section": Section {
                     "classId": "1210",
-                    "classUid": "1210_602555960",
                     "crn": "13502",
                     "host": "neu.edu",
                     "lastUpdateTime": 1511131914029,

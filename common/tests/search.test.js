@@ -129,17 +129,17 @@ it('sortObjectsAfterScore works on empty array', () => {
 
 it('sortObjectsAfterScore works on empty array', () => {
   const objects = search.sortObjectsAfterScore(searchTestResultObjects);
-  expect(objects[0].class.classUid).toEqual('4100_478392549');
+  expect(objects[0].class.classId).toEqual('4100');
   expect(objects.length).toEqual(4);
 
 
   // The other three order does not matter
-  const otherClassUids = [];
+  const otherClassIds = [];
   for (let i = 1; i < objects.length; i++) {
-    otherClassUids.push(objects[i].class.classUid);
+    otherClassIds.push(objects[i].class.classId);
   }
 
   // Sort them here before comparing
-  expect(otherClassUids.sort()).toEqual(['5360_624039423', '6285_1978044670', '7305_1220243072']);
+  expect(otherClassIds.sort()).toEqual(['5360', '6285', '7305']);
 });
 
