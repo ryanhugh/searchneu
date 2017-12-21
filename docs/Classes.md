@@ -75,7 +75,7 @@ These are all stored hierarchically:  Sections are a part of a class, classes ar
   subject: "CS",
  
   // The id of the class itself. More details on this id below.
-  classUid: "2510_446579316"
+  classId: "2510"
  
 }
 ```
@@ -95,7 +95,7 @@ These are all stored hierarchically:  Sections are a part of a class, classes ar
   subject: "CS",
  
   // Keep track of which class this section is a part of
-  classUid: "2510_446579316",
+  classId: "2510",
  
   // The crn of the section itself
   crn: "30362"
@@ -185,7 +185,6 @@ Schema:
         "type": "or",
         "values": [{
             "subject": "CS",
-            "classUid": "2500_699845913",
             "classId": "2500"
         }]
     },
@@ -193,7 +192,6 @@ Schema:
         "type": "or",
         "values": [{
             "subject": "CS",
-            "classUid": "2511_803118792",
             "classId": "2511"
         }]
     },
@@ -210,16 +208,8 @@ Schema:
     "desc": "Continues CS 2500. Examines object-oriented programming and associated algorithms using more complex data structures as the focus. Discusses nested structures and nonlinear structures including hash tables, trees, and graphs. Emphasizes abstraction, encapsulation, inheritance, polymorphism, recursion, and object-oriented design patterns. Applies these ideas to sample applications that illustrate the breadth of computer science. 4.000 Lecture hours",
 
     // The id of the class. 
+    // This id is unique and no two classes will share the same id. 
     "classId": "2510",
-        
-    // The Unique Class Id of this class. 
-    // This is generated from a combination of the classId and a hash of the name of the class. 
-    // In Banner, some of the sections of classes can have different names than other sections of the same class.
-    // For instance, at this link, each one of the sections has a different name
-    // https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201830&subj_in=JRNL&crse_in=3305&schd_in=LEC
-    // This may be changed in the future to keep these into one class
-    // and keep this information on the section object instead of the class object. 
-    "classUid": "2501_803118761"
 
     // The term that this class is a part of.
     "termId": "201830",
@@ -325,10 +315,7 @@ The next step of the process is to scrape all of the sections.  This information
     "subject": "CS",
 
     // The class Id of the class that this section is a part of
-    "classId": "2501",
-
-    // The classUid of the class that this section is a part of
-    "classUid": "2501_803118761"
+    "classId": "2501"
 }
 
 ```
