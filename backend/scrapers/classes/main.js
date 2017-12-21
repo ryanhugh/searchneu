@@ -156,8 +156,7 @@ class Main {
     let before = Date.now()
 
     // Run the processors, sequentially
-    addClassUids.go(dump);
-    prereqClassUids.go(dump);
+    markMissingPrereqs.go(dump);
     termStartEndDate.go(dump);
 
     // Add new processors here.
