@@ -128,19 +128,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     Object.assign(fullSectiondata, dataFromSectionPage, sectionStartingData);
 
-    // Move some attributes to the class pagedata.
     // Run some checks and merge some data into the class object.
-    // Actually, because how how this parser adds itself as a dep and copies over attributes,
-    // These will log a lot more than they should, just because they are overriding the values that were pre-set on the class
-    // Once that is fixed, would recommend re-enabling these.
-    // This is fixed now right?????????????
-    // if (parsedClassMap[className].value.honors !== undefined && parsedClassMap[className].value.honors !== fullSectiondata.honors) {
-    //   macros.log('Overring class honors with section honors...', parsedClassMap[className].value.honors, fullSectiondata.honors, sectionStartingData.url);
-    // }
-    // parsedClassMap[className].value.honors = fullSectiondata.honors;
-    // fullSectiondata.honors = undefined;
-
-
     if (fullSectiondata.prereqs) {
       // If they both exists and are different I don't really have a great idea of what to do haha
       // Hopefully this _.isEquals dosen't take too long.
