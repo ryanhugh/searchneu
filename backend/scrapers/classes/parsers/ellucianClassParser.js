@@ -191,10 +191,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     const elements = $('body > div.pagebodydiv > table > tr > th.ddtitle > a');
 
-    // Keys are the name of classes. Values are the class objects
-    // const parsedClassMap = {};
-
-    // This object is like this:
+    // Object to keep track of this class and the sections found later on.
     const classWrapper = {
       type: 'classes',
       value: {
