@@ -94,7 +94,7 @@ class SimplifyProfList extends BaseProcessor.BaseProcessor {
 
         if (count > 0) {
           updatedSections.push(section);
-          macros.log('Removing ', count, 'profs from ', section.classUid, section.crn);
+          macros.log('Removing ', count, 'profs from ', section.classId, section.crn);
         }
       });
     });

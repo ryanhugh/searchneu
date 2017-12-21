@@ -207,7 +207,7 @@ class SearchIndex {
         host: section.host,
         termId: section.termId,
         subject: section.subject,
-        classUid: section.classUid,
+        classId: section.classId,
       }).getHash();
 
 

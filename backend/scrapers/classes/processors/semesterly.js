@@ -26,7 +26,7 @@ class Semesterly {
 
     const classMap = {};
     for (const aClass of dump.classes) {
-      classMap[aClass.classUid] = aClass;
+      classMap[aClass.classId] = aClass;
     }
 
     for (const aClass of dump.classes) {
@@ -103,7 +103,7 @@ class Semesterly {
 
             // Small sanity check
             if (dayOfWeek !== parseInt(time.end.format('d'), 10)) {
-              macros.error('Meeting ends on a different day than it starts?', instance.termId, instance.classUid, instance.subject);
+              macros.error('Meeting ends on a different day than it starts?', instance.termId, instance.classId, instance.subject);
             }
 
             const key = start + end;

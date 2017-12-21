@@ -9,8 +9,8 @@
 import macros from './commonMacros';
 
 
-// feature request from server.js: add classId if not given classUid and given host+termId+subject
-// addClassUids. could also benefit from this feature.
+// feature request from server.js: add classId if not given classId and given host+termId+subject
+// addclassIds. could also benefit from this feature.
 
 // Copied from lodash source to avoid depending on it here. It wound't be that bad if is needed though.
 
@@ -152,7 +152,7 @@ class Keys {
     return `${endpoint}/${this.getHash()}`;
   }
 
-  // Used in BaseData to go from a class that has everything to the classUid to what should be requested from the server
+  // Used in BaseData to go from a class that has everything to the classId to what should be requested from the server
   getMinimumKeys() {
     if (this.isString) {
       macros.error();
@@ -291,7 +291,7 @@ class Keys {
 }
 
 
-Keys.allKeys = ['host', 'termId', 'subject', 'classUid', 'crn'];
+Keys.allKeys = ['host', 'termId', 'subject', 'classId', 'crn'];
 Keys.replacementRegex = /[^A-Za-z0-9.]+/g;
 
 

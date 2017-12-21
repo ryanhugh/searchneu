@@ -285,7 +285,7 @@ class Section {
 }
 
 
-Section.requiredPath = ['host', 'termId', 'subject', 'classUid'];
+Section.requiredPath = ['host', 'termId', 'subject', 'classId'];
 Section.optionalPath = ['crn'];
 Section.API_ENDPOINT = '/listSections';
 
