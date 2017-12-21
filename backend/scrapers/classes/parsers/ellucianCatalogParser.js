@@ -212,11 +212,11 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
 
     // Merge the data about the class from the catalog page with the data about the class from the class page.
     // Merge min credits and max credits.
-    if (classWrapper.value.maxCredits && classWrapper.value.maxCredits < catalogData.maxCredits) {
+    if (!classWrapper.value.maxCredits || classWrapper.value.maxCredits < catalogData.maxCredits) {
       classWrapper.value.maxCredits = catalogData.maxCredits;
     }
 
-    if (classWrapper.value.minCredits && classWrapper.value.minCredits > catalogData.minCredits) {
+    if (!classWrapper.value.minCredits || classWrapper.value.minCredits > catalogData.minCredits) {
       classWrapper.value.minCredits = catalogData.minCredits;
     }
 
@@ -240,19 +240,6 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       }
     }
 
-    // NEED TO FIX THIS
-    // If no sections were found, add the data from the catalog page the list of classes being returned.
-    // In other words, if there are sections, it will return the list of classes processes (because the list of sections can become different classes for now)
-    // And if there are no sections, it will just return one class with the info from the catalog page.
-    // if (classListData.length === 0) {
-    //   catalogData.lastUpdateTime = Date.now();
-
-    //   classListData = [{
-    //     type: 'classes',
-    //     value: catalogData,
-    //   }];
-    // }
-
     // Possibly save to dev
     if (macros.DEV && require.main !== module) {
       await cache.set('dev_data', this.constructor.name, url, classWrapper);
@@ -264,9 +251,9 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
   }
 
   async test() {
-    const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=FINA&crse_numb_in=6283');
+    // const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=FINA&crse_numb_in=6283');
     // const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=ENGW&crse_numb_in=3302');
-    // const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201830&subj_code_in=GAME&crse_numb_in=3700');
+    const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201830&subj_code_in=GAME&crse_numb_in=3700');
     macros.log('output:', JSON.stringify(output, null, 4));
   }
 }
