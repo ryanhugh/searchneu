@@ -5,6 +5,7 @@
 
 import BaseProcessor from './baseProcessor';
 import Keys from '../../../../common/Keys';
+import macros from '../../../macros';
 
 /**
  * Adds the prerequsite-for field for classes that are a predecessor for
@@ -63,16 +64,19 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
         host: mainClass.host,
         termId: mainClass.termId,
         subject: node.subject,
-        classUid: node.classUid,
+        classId: node.classId,
       }).getHash();
 
       const nodeRef = this.classMap[find];
+
+      if (!nodeRef) {
+        macros.error("Unable to find ref for", find, node, mainClass)
+      }
 
       this.initializeArray(nodeRef);
 
       const classData = {
         subject: mainClass.subject,
-        classUid: mainClass.classUid,
         classId: mainClass.classId,
       };
 
