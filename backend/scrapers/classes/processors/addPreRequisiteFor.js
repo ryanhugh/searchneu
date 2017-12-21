@@ -70,7 +70,7 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
       const nodeRef = this.classMap[find];
 
       if (!nodeRef) {
-        macros.error("Unable to find ref for", find, node, mainClass)
+        macros.error('Unable to find ref for', find, node, mainClass);
       }
 
       this.initializeArray(nodeRef);
