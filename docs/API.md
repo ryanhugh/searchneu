@@ -81,7 +81,6 @@ minIndex=0&maxIndex=5
             "values": [
             {
                 "subject": "CS",
-                "classUid": "2510_699845912",
                 "classId": "2510"
             }]
         },
@@ -92,8 +91,7 @@ minIndex=0&maxIndex=5
         "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=2511",
         "termId": "201810",
         "host": "neu.edu",
-        "subject": "CS",
-        "classUid": "2511_803118792"
+        "subject": "CS"
     },
     "sections": [
     {
@@ -125,8 +123,7 @@ minIndex=0&maxIndex=5
         "termId": "201810",
         "host": "neu.edu",
         "subject": "CS",
-        "classId": "2511",
-        "classUid": "2511_803118792"
+        "classId": "2511"
     },
     {
         "seatsCapacity": 45,
@@ -157,8 +154,7 @@ minIndex=0&maxIndex=5
         "termId": "201810",
         "host": "neu.edu",
         "subject": "CS",
-        "classId": "2511",
-        "classUid": "2511_803118792"
+        "classId": "2511"
     },
     {
         "seatsCapacity": 50,
@@ -189,8 +185,7 @@ minIndex=0&maxIndex=5
         "termId": "201810",
         "host": "neu.edu",
         "subject": "CS",
-        "classId": "2511",
-        "classUid": "2511_803118792"
+        "classId": "2511"
     },
     {
         "seatsCapacity": 50,
@@ -221,8 +216,7 @@ minIndex=0&maxIndex=5
         "termId": "201810",
         "host": "neu.edu",
         "subject": "CS",
-        "classId": "2511",
-        "classUid": "2511_803118792"
+        "classId": "2511"
     }]
 }]
 ```

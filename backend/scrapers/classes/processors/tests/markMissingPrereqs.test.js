@@ -4,15 +4,15 @@
  */
 
 import testData from './testData';
-import prereqClassUids from '../prereqClassUids';
+import markMissingPrereqs from '../markMissingPrereqs';
 
 
 it('can substitute one line', () => {
   const keyToRows = {
-    'neu.edu201770MATH2500': [{
+    'neu.edu/201770/MATH/2500': {
       subject: 'MATH',
-      classUid: '2500_34343',
-    }],
+      classId: '2500',
+    },
   };
 
   const prereqs = {
@@ -25,13 +25,13 @@ it('can substitute one line', () => {
     ],
   };
 
-  const output = prereqClassUids.updatePrereqs(prereqs, 'neu.edu', '201770', keyToRows);
+  const output = markMissingPrereqs.updatePrereqs(prereqs, 'neu.edu', '201770', keyToRows);
 
   expect(output).toEqual({
     type: 'or',
     values: ['dd', {
       subject: 'MATH',
-      classUid: '2500_34343',
+      classId: '2500',
     }],
   });
 });
@@ -47,7 +47,7 @@ it('can insert a missing if cant find in db', () => {
     }],
   };
 
-  const output = prereqClassUids.updatePrereqs(prereqs, 'neu.edu', '201770', keyToRows);
+  const output = markMissingPrereqs.updatePrereqs(prereqs, 'neu.edu', '201770', keyToRows);
 
   expect(output).toEqual({
     type: 'or',
@@ -60,58 +60,17 @@ it('can insert a missing if cant find in db', () => {
 });
 
 
-it('can replace a class with multiple matches with an "or"', () => {
-  const prereqs = {
-    type: 'or',
-    values: [
-      'dd', {
-        classId: '2500',
-        subject: 'MATH',
-      },
-    ],
-  };
-
-  const keyToRows = {
-    'neu.edu201770MATH2500': [{
-      subject: 'MATH',
-      classUid: '2500_77777',
-    }, {
-      subject: 'MATH',
-      classUid: '2500_1222121',
-    }],
-  };
-
-  const output = prereqClassUids.updatePrereqs(prereqs, 'neu.edu', '201770', keyToRows);
-
-
-  expect(output).toEqual({
-    type: 'or',
-    values: ['dd', {
-      type: 'or',
-      values: [{
-        subject: 'MATH',
-        classUid: '2500_77777',
-      }, {
-        subject: 'MATH',
-        classUid: '2500_1222121',
-      }],
-    }],
-  });
-});
-
-
 it('go should work', async (done) => {
   const termDump = await testData.loadTermDump();
 
-  prereqClassUids.go(termDump);
+  markMissingPrereqs.go(termDump);
 
   // Find the class that we are checking
   let matchCount = 0;
   for (const aClass of termDump.classes) {
-    if (aClass.classUid === '061_1925216900' && aClass.subject === 'STAT') {
+    if (aClass.classId === '061' && aClass.subject === 'STAT') {
       matchCount++;
 
-      expect(aClass.prereqs.values[0].classUid).toBe('023_1049977931');
       expect(aClass.prereqs.values[0].classId).toBe('023');
       expect(aClass.prereqs.values.length).toBe(3);
     }
@@ -146,7 +105,6 @@ it('can swap coreqs', async (done) => {
       lastUpdateTime: 1462130937867,
       deps: {},
       updatedByParent: false,
-      classUid: '017_1314190396',
     },
     {
       desc: '',
@@ -170,14 +128,13 @@ it('can swap coreqs', async (done) => {
       lastUpdateTime: 1462130982330,
       deps: {},
       updatedByParent: false,
-      classUid: '016_1711862930',
     }],
     sections: [],
   };
 
 
-  prereqClassUids.go(termDump);
-  expect(termDump.classes[0].coreqs.values[0].classUid).toBe('016_1711862930');
+  markMissingPrereqs.go(termDump);
+  expect(termDump.classes[0].coreqs.values[0].classId).toBe('016');
 
   done();
 });
@@ -186,18 +143,16 @@ it('can swap coreqs', async (done) => {
 it('can simplify', async (done) => {
   const termDump = await testData.loadTermDump();
 
-  prereqClassUids.go(termDump);
+  markMissingPrereqs.go(termDump);
 
   // Find the class that we are checking
   let matchCount = 0;
   for (const aClass of termDump.classes) {
-    if (aClass.classUid === '031_487876058') {
+    if (aClass.classId === '031' && aClass.subject === 'STAT') {
       matchCount++;
-
 
       aClass.prereqs.values.forEach((prereq) => {
         expect(prereq.subject).not.toBe(undefined);
-
         expect(prereq.values).toBe(undefined);
         expect(prereq.type).toBe(undefined);
       });

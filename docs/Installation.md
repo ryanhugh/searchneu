@@ -68,7 +68,7 @@ If you want to run an individual scraper file, you can directly run any file in 
 ```bash
 babel-node ellucianTermsParser.js
 # or
-babel-node prereqClassUids.js
+babel-node simplifyProfList.js
 ```
 
 

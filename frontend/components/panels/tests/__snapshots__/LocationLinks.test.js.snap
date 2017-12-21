@@ -8,7 +8,6 @@ ShallowWrapper {
     section={
       Section {
         "classId": "1210",
-        "classUid": "1210_602555960",
         "crn": "13502",
         "host": "neu.edu",
         "lastUpdateTime": 1511131914029,
@@ -184,7 +183,6 @@ ShallowWrapper {
     section={
       Section {
         "classId": "0210",
-        "classUid": "0210_1437780647",
         "crn": "19389",
         "host": "neu.edu",
         "lastUpdateTime": 1511131913601,

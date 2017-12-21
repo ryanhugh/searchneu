@@ -15,7 +15,6 @@
                 "values": [
                     {
                         "subject": "PHSC",
-                        "classUid": "4502_1575920123",
                         "classId": "4502"
                     }
                 ]
@@ -24,8 +23,7 @@
             "termId": "201810",
             "subject": "PHSC",
             "lastUpdateTime": 1499061500140,
-            "crns": [],
-            "classUid": "5360_624039423"
+            "crns": []
         },
         "sections": []
     },
@@ -45,7 +43,6 @@
                 "values": [
                     {
                         "subject": "CAEP",
-                        "classUid": "6200_1303967906",
                         "classId": "6200"
                     }
                 ]
@@ -54,8 +51,7 @@
             "termId": "201810",
             "subject": "CAEP",
             "lastUpdateTime": 1499061494470,
-            "crns": [],
-            "classUid": "6285_1978044670"
+            "crns": []
         },
         "sections": []
     },
@@ -75,12 +71,10 @@
                 "values": [
                     {
                         "subject": "CS",
-                        "classUid": "2800_1698051076",
                         "classId": "2800"
                     },
                     {
                         "subject": "CS",
-                        "classUid": "3500_1669732532",
                         "classId": "3500"
                     }
                 ]
@@ -92,8 +86,7 @@
             "crns": [
                 "13189"
             ],
-            "honors": false,
-            "classUid": "4100_478392549"
+            "honors": false
         },
         "sections": [
             {
@@ -135,8 +128,7 @@
                 "seatsCapacity": 49,
                 "seatsRemaining": 9,
                 "waitCapacity": 0,
-                "waitRemaining": 0,
-                "classUid": "4100_478392549"
+                "waitRemaining": 0
             }
         ]
     },
@@ -156,12 +148,10 @@
                 "values": [
                     {
                         "subject": "BIOL",
-                        "classUid": "5583_198066206",
                         "classId": "5583"
                     },
                     {
                         "subject": "BIOL",
-                        "classUid": "5583_198066206",
                         "classId": "5583"
                     }
                 ]
@@ -170,8 +160,7 @@
             "termId": "201810",
             "subject": "BIOL",
             "lastUpdateTime": 1499061492299,
-            "crns": [],
-            "classUid": "7305_1220243072"
+            "crns": []
         },
         "sections": []
     }
