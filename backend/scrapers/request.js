@@ -478,7 +478,7 @@ class RequestInput {
     const output = {};
     config = this.standardizeInputConfig(config);
 
-    // Use the fields from this.config that were not specified in cache. 
+    // Use the fields from this.config that were not specified in cache.
     Object.assign(output, this.config, config);
 
     return instance.request(output);

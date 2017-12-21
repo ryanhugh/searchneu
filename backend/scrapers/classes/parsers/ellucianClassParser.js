@@ -194,16 +194,16 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     // Keys are the name of classes. Values are the class objects
     // const parsedClassMap = {};
 
-    // This object is like this: 
-    let classWrapper = {
+    // This object is like this:
+    const classWrapper = {
       type: 'classes',
       value: {
-        crns: []
+        crns: [],
       },
       deps: [],
     };
 
-    let foundNames = []
+    const foundNames = [];
 
     // Keep track of the starting data for the sections. Keep track of both the name of the class and the data in the sections
     // So they can be matched back up with the classes later.
@@ -281,11 +281,11 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
       className = this.standardizeClassName(className, possibleClassNameMatches);
 
-      foundNames.push(className)
+      foundNames.push(className);
 
       // Setup this new section in the parsedClassMap with the fixed name.
       if (catalogTitle !== className) {
-        sectionStartingData.info = className
+        sectionStartingData.info = className;
       }
       classWrapper.value.crns.push(sectionURLParsed.crn);
 

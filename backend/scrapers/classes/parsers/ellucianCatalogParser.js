@@ -181,7 +181,7 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     }
 
     // This is a list of class wrapper objects that have deps of sections
-    let classWrapper = await ellucianClassParser.main(catalogData.url, catalogData.name);
+    const classWrapper = await ellucianClassParser.main(catalogData.url, catalogData.name);
 
     // from the class parser:
     // { name: 'Advanced Writing in the Technical Professions',

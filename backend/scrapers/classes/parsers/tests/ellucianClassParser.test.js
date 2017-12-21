@@ -56,10 +56,10 @@ it('should parse a bunch of deps', async (done) => {
 
   expect(aClass).toEqual({
     crns: [
-      "24600",
-      "24601",
-      "24603",
-      "25363"
+      '24600',
+      '24601',
+      '24603',
+      '25363',
     ],
   });
 

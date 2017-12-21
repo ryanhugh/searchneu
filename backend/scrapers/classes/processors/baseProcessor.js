@@ -41,7 +41,7 @@ class BaseProcessor {
       }
 
       // multiple classes could have same key
-      let hash = Keys.create(aClass).getHash();
+      const hash = Keys.create(aClass).getHash();
 
       // only need to keep subject and classId
       keyToRows[hash] = aClass;
