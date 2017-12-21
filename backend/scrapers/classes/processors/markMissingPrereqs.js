@@ -8,8 +8,8 @@ import ellucianRequisitesParser from '../parsers/ellucianRequisitesParser';
 import BaseProcessor from './baseProcessor';
 import Keys from '../../../../common/Keys';
 
-// This file converts prereq classIds to ClassUids by looking up the classes in the db and replacing classIds with classUids
-// if there are multiple results, it creates a 'or' prereq tree, much like Class.js does in the frontend.
+// This file process the prereqs on each class and ensures that they point to other, valid classes.
+// If they point to a class that does not exist, they are marked as missing.
 
 class MarkMissingPrereqs extends BaseProcessor.BaseProcessor {
   updatePrereqs(prereqs, host, termId, keyToRows) {
