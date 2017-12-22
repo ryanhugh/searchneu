@@ -474,6 +474,15 @@ class Class {
     return false;
   }
 
+  getHasHonorsSections() {
+    for (let i = this.sections.length - 1; i >= 0; i--) {
+      if (this.sections[i].honors) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   // Downloads the first layer of prereqs
   async loadPrereqs(classMap) {
     this.prereqs.values.forEach((childBranch) => {
