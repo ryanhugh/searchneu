@@ -99,9 +99,9 @@ class DesktopClassPanel extends BaseClassPanel {
       }
 
       // Add the Online sections head if there are any sections that are online
-      // const showOnlineColumn = aClass.getHasOnlineSections();
-
       const showWaitList = this.shouldShowWaitlist();
+
+      const showHonorsColumn = aClass.getHasHonorsSections();
 
       sectionTable = (
         <table className={ `ui celled striped table ${css.resultsTable}` }>
@@ -126,6 +126,12 @@ class DesktopClassPanel extends BaseClassPanel {
                 }) }
               > Waitlist seats
               </th>
+              <th
+                className={ cx({
+                  displayNone: !showHonorsColumn,
+                }) }
+              > Honors
+              </th>
               <th> Link </th>
             </tr>
           </thead>
@@ -134,7 +140,13 @@ class DesktopClassPanel extends BaseClassPanel {
               This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
             <tr className={ css.sectionTableFirstRow } />
             {this.state.renderedSections.map((section) => {
-              return <DesktopSectionPanel key={ section.crn } showWaitList={ showWaitList } shouldShowExamColumns={ aClass.sectionsHaveExam() } section={ section } />;
+              return (<DesktopSectionPanel
+                key={ section.crn }
+                showWaitList={ showWaitList }
+                shouldShowExamColumns={ aClass.sectionsHaveExam() }
+                showHonorsColumn={ showHonorsColumn }
+                section={ section }
+              />);
             })}
           </tbody>
         </table>
