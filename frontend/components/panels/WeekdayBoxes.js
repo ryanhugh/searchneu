@@ -50,7 +50,7 @@ function WeekdayBoxes(props) {
 
 
   return (
-    <div className={ `${css.inlineBlock} ${css.daysContainer}` } data-tip={ meetingString }>
+    <div className='inlineBlock daysContainer' data-tip={ meetingString }>
       {booleanElements}
     </div>
   );
