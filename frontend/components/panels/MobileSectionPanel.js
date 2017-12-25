@@ -18,14 +18,15 @@ import './MobileSectionPanel.scss';
 
 // MobileSectionPanel page component
 export default class MobileSectionPanel extends React.Component {
+  static propTypes = {
+    section: PropTypes.object.isRequired,
+  };
+
   // This is different than the one in ClassPanel.js because this can show and hide the waitlist based on a per-section basis
   // and ClassPanel.js is show it for all sections or none.
   shouldShowWaitlist() {
-    if (this.props.section.getHasWaitList() && this.props.section.seatsRemaining < 10) {
-      return true;
-    }
-
-    return false;
+    return this.props.section.getHasWaitList()
+      && this.props.section.seatsRemaining < 10;
   }
 
   render() {
@@ -55,14 +56,7 @@ export default class MobileSectionPanel extends React.Component {
       }
     });
 
-
-    let fullTimesString;
-    if (times.length > 0) {
-      fullTimesString = times.join(', ');
-    } else {
-      fullTimesString = 'TBA';
-    }
-
+    const fullTimesString = (times.length > 0) ? times.join(', ') : 'TBA';
 
     // Add a row for exam, if the section has an exam.
     let examRow = null;
@@ -98,7 +92,11 @@ export default class MobileSectionPanel extends React.Component {
     return (
       <div className='section-container'>
         <div className='globe'>
-          <a target='_blank' rel='noopener noreferrer' href={ this.props.section.prettyUrl || this.props.section.url }>
+          <a
+            target='_blank'
+            rel='noopener noreferrer'
+            href={ this.props.section.prettyUrl || this.props.section.url }
+          >
             <img src={ globe } alt='link' />
           </a>
         </div>
@@ -107,35 +105,35 @@ export default class MobileSectionPanel extends React.Component {
         <table>
           <tbody>
             <tr className='firstRow'>
-              <td className='firstColumn' >CRN</td>
-              <td className='secondColumn' >{this.props.section.crn}</td>
+              <td className='firstColumn'>CRN</td>
+              <td className='secondColumn'>{this.props.section.crn}</td>
             </tr>
             <tr>
-              <td className='firstColumn' >Profs</td>
-              <td className='secondColumn' >{this.props.section.getProfs().join(', ')}</td>
+              <td className='firstColumn'>Profs</td>
+              <td className='secondColumn'>{this.props.section.getProfs().join(', ')}</td>
             </tr>
             <tr style={{ display: this.props.section.online && 'none' }}>
-              <td className='firstColumn' >Place</td>
-              <td className='secondColumn' >
+              <td className='firstColumn'>Place</td>
+              <td className='secondColumn'>
                 <LocationLinks section={ this.props.section } />
               </td>
             </tr>
             <tr style={{ display: this.props.section.online && 'none' }}>
-              <td className='firstColumn' >Times</td>
-              <td className='secondColumn' >
+              <td className='firstColumn'>Times</td>
+              <td className='secondColumn'>
                 {fullTimesString}
               </td>
             </tr>
             <tr style={{ display: this.props.section.online && 'none' }}>
-              <td className='firstColumn' >Days</td>
-              <td className='secondColumn' >
+              <td className='firstColumn'>Days</td>
+              <td className='secondColumn'>
                 <WeekdayBoxes section={ this.props.section } />
               </td>
             </tr>
             {examRow}
             <tr style={{ display: hasWaitList && 'none' }}>
-              <td className='firstColumn' >Seats</td>
-              <td className='secondColumn' >
+              <td className='firstColumn'>Seats</td>
+              <td className='secondColumn'>
                 {this.props.section.seatsRemaining}/{this.props.section.seatsCapacity} Available
               </td>
             </tr>
@@ -146,8 +144,3 @@ export default class MobileSectionPanel extends React.Component {
     );
   }
 }
-
-
-MobileSectionPanel.propTypes = {
-  section: PropTypes.object.isRequired,
-};
