@@ -35,8 +35,6 @@
 
 .dynamicText {
     color: #969696;
-    font-weight: 500;
-    font-size: 30px thefont, monospace;
 }
 
 .prereqShowMore {
@@ -46,11 +44,7 @@
     outline: 0;
     border: none;
     &:after {
-        font-size: 30px thefont, monospace;
-        height: 19px;
-        font-weight: 500;
         overflow: hidden;
-        vertical-align: -3px;
         content: '\279C';
         padding-left: 3px;
     }

@@ -1,23 +1,24 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
-.weekDayBox {
-    width: 12px;
-    height: 12px;
+ $box-size: 12px;
+
+.weekday-indicator {
     display: inline-block;
-    border: 2px solid #BBBBBB;
-    border-radius: 3px;
-    margin-right: 1px;
-    margin-left: 1px;
-}
-.weekDayBoxChecked {
-    background: #888;
-}
-.inlineBlock {
-    display: inline-block;
-}
-.container {
-    min-width: 70px;
+
+    .weekday-box {
+        width: $box-size;
+        height: $box-size;
+        display: inline-block;
+        border: 2px solid #BBB;
+        border-radius: 3px;
+        margin: 0 1px;
+
+        &-checked {
+            @extend .weekday-box;
+            background: #888;
+        }
+    }
 }
