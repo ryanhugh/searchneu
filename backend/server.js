@@ -227,7 +227,7 @@ async function getFrontendData(file) {
 }
 
 
-async function getSearch() {
+async function loadPromises() {
   const termDumpPromise = getFrontendData('data/getTermDump/neu.edu/201810.json');
 
   const spring2018DataPromise = getFrontendData('data/getTermDump/neu.edu/201830.json');
@@ -265,7 +265,12 @@ async function getSearch() {
 
     Updater.create(dataLib);
 
-    return search.create(employeeMap, elasticlunr.Index.load(employeesSearchIndex), dataLib, searchIndexies);
+    return {
+      search: search.create(employeeMap, elasticlunr.Index.load(employeesSearchIndex), dataLib, searchIndexies),
+      dataLib: dataLib,
+      searchIndexies: searchIndexies
+    }
+
   } catch (e) {
     macros.error('Error:', e);
     macros.error('Not starting search backend.');
@@ -274,7 +279,7 @@ async function getSearch() {
 }
 
 // Load the index as soon as the app starts.
-const searchPromise = getSearch();
+const promises = loadPromises();
 
 app.get('/search', wrap(async (req, res) => {
   if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500) {
@@ -312,7 +317,7 @@ app.get('/search', wrap(async (req, res) => {
   }
 
 
-  const index = await searchPromise;
+  const index = (await promises).search;
 
   if (!index) {
     // Don't cache errors.
@@ -383,6 +388,9 @@ async function onSendToMessengerButtonClick(sender, b64ref) {
   const firebaseRef = await database.getRef(`/users/${sender}`);
 
   const existingData = await firebaseRef.once('value');
+  
+  let dataLib = (await promises).dataLib;
+  let aClass = dataLib.getClassServerDataFromHash(userObject.classHash)
 
   // User is signing in from a new device
   if (existingData) {
@@ -395,6 +403,27 @@ async function onSendToMessengerButtonClick(sender, b64ref) {
       existingData.watchingSections = [];
     }
 
+    let wasWatchingClass = existingData.watchingClasses.includes(userObject.classHash)
+    
+    let sectionWasentWatchingBefore = [];
+
+    for (let section of existingData.watchingSections) {
+      if (!userObject.sectionHashes.includes(section)) {
+        sectionWasentWatchingBefore.push(section)
+      }
+    }
+
+    let classCode = aClass.subject + ' ' + aClass.classId
+    // Check to see how many of these classes they were already signed up for. 
+    if (wasWatchingClass && sectionWasentWatchingBefore.length === 0) {
+      notifyer.sendFBNotification(sender, "You are already signed up to get notifications if any of the sections of " + classCode + " have seats that open up.");
+    }
+    else if (wasWatchingClass && sectionWasentWatchingBefore.length > 0) {
+      notifyer.sendFBNotification(sender, "You are already signed up to get notifications if seats open up in some of the sections in " + classCode + " and are now signed up for " + sectionWasentWatchingBefore.length + " more sections too!");
+    }
+    else {
+      notifyer.sendFBNotification(sender, "Successfully signed up for notifications for " + sectionWasentWatchingBefore.lenght + " sections in " + classCode + "!");
+    }
 
     // ok lets add what classes the user saw in the frontend that have no seats availible and that he wants to sign up for
     // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
@@ -413,8 +442,6 @@ async function onSendToMessengerButtonClick(sender, b64ref) {
       macros.log('Got first name and last name', names.first_name, names.last_name);
     }
 
-
-
     const newUser = {
       watchingSections: userObject.sectionHashes,
       watchingClasses: [userObject.classHash],
@@ -425,6 +452,10 @@ async function onSendToMessengerButtonClick(sender, b64ref) {
 
     macros.log('Adding ', newUser, 'to the db');
 
+
+
+    // Send the user a notification letting them know everything was successful.
+    notifyer.sendFBNotification(sender, "Thanks for signing up for notifications " + names.first_name + "! I'll send you another message if a seat opens up in " + aClass.subject + ' ' + aClass.classId + "!");
 
     database.set(`/users/${sender}`, newUser);
   }
