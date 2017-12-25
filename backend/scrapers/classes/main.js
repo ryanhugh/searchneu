@@ -153,8 +153,6 @@ class Main {
 
   // The updater.js calls into this function to run
   runProcessors(dump) {
-    let before = Date.now()
-
     // Run the processors, sequentially
     markMissingPrereqs.go(dump);
     termStartEndDate.go(dump);
@@ -162,8 +160,6 @@ class Main {
     // Add new processors here.
     simplifyProfList.go(dump);
     addPreRequisiteFor.go(dump);
-
-    macros.log(Date.now() - before, 'ms to run processors')
 
     return dump;
   }

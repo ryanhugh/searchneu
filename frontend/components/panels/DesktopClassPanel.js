@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
-import { Checkbox } from 'semantic-ui-react';
+import { Checkbox, Button } from 'semantic-ui-react';
 
 import Keys from '../../../common/Keys';
 import globe from './globe.svg';
@@ -185,31 +185,45 @@ class DesktopClassPanel extends BaseClassPanel {
 
 
       updatesSection = (
-        <div ref={ (ele) => { this.facebookScopeRef = ele; } }>
-          <div
-            className='fb-send-to-messenger'
-            messenger_app_id='1979224428978082'
-            page_id='807584642748179'
-            data-ref={ dataRef }
-            color='white'
-            size='large'
-          />
+        <div className={css.facebookButtonContainer}>
+          <div className={css.sendToMessengerButtonLabel}>
+            Click this button to continue
+          </div>
+          <div ref={ (ele) => { this.facebookScopeRef = ele; }} className={css.inlineBlock}>
+            <div
+              className={'fb-send-to-messenger ' + css.sendToMessengerButton}
+              messenger_app_id='1979224428978082'
+              page_id='807584642748179'
+              data-ref={ dataRef }
+              color='white'
+              size='large'
+            />
+          </div>
         </div>
       );
     } else if (aClass.sections.length === 0) {
       updatesSection = (
-        <div>
-          Want notifications if sections are added?
-          <Checkbox toggle onChange={ this.onSubscribeToggleChange } />
-        </div>
-      );
+          <Button basic onClick={ this.onSubscribeToggleChange } content='Click here to sign up for notifications when sections are added.' className={css.notificationButton}/>
+        )
+
+      // updatesSection = (
+      //   <div>
+      //     Want notifications if sections are added?
+      //     <Checkbox toggle onChange={ this.onSubscribeToggleChange } />
+      //   </div>
+          //<Button basic content='Click here to sign up for notifications when seats open up.'  className={css.notificationButton}/>
+      // );
     } else if (aClass.isAtLeastOneSectionFull()) {
       updatesSection = (
-        <div>
-          Want notifications when seats open up?
-          <Checkbox toggle onChange={ this.onSubscribeToggleChange } />
-        </div>
-      );
+          <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!'  className={css.notificationButton}/>
+        )
+
+      // updatesSection = (
+     //   {/*<div>*/}
+     //     // Want notifications when seats open up?
+      //    {/*<Checkbox toggle onChange={ this.onSubscribeToggleChange } />*/}
+        // </div>
+      // );
     }
 
     // Render the Show More.. Button
