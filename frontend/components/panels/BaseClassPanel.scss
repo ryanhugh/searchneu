@@ -22,6 +22,7 @@
     font-size: 20px;
     font-weight: 700;
 }
+
 .showMoreButton {
     cursor: pointer;
     padding: 10px;
@@ -30,10 +31,6 @@
     outline: 0;
     border: none;
     border-top: 1px solid #ddd;
-}
-
-.reqClassLink {
-  cursor: pointer;
 }
 
 .dynamicText {
@@ -45,14 +42,13 @@
 .prereqShowMore {
     cursor: pointer;
     padding: 1px;
-    display: inline;
+    display: inline-block;
     outline: 0;
     border: none;
     &:after {
         font-size: 30px thefont, monospace;
         height: 19px;
         font-weight: 500;
-        display: inline-block;
         overflow: hidden;
         font-family: thefont;
         vertical-align: -3px;

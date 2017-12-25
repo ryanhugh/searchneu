@@ -6,12 +6,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import globe from './globe.svg';
-import './MobileSectionPanel.scss';
-
 import macros from '../macros';
 import WeekdayBoxes from './WeekdayBoxes';
 import LocationLinks from './LocationLinks';
+
+import globe from './globe.svg';
+import './MobileSectionPanel.scss';
 
 // TODO:
 // Waitlist UI/wording could be cleaned up/simplified a bit.
@@ -96,7 +96,7 @@ export default class MobileSectionPanel extends React.Component {
 
 
     return (
-      <div className='container'>
+      <div className='section-container'>
         <div className='globe'>
           <a target='_blank' rel='noopener noreferrer' href={ this.props.section.prettyUrl || this.props.section.url }>
             <img src={ globe } alt='link' />
@@ -104,7 +104,7 @@ export default class MobileSectionPanel extends React.Component {
         </div>
 
         <div className='title'>{`${macros.stripMiddleName(this.props.section.getProfs()[0])} ${titleEnding}`}</div>
-        <table className='table'>
+        <table>
           <tbody>
             <tr className='firstRow'>
               <td className='firstColumn' >CRN</td>

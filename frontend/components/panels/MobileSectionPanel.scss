@@ -1,53 +1,62 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
-.container {
+ $matte-white: rgb(236,236,236);
+
+.section-container {
 	border-top: 1px solid rgba(34, 36, 38, .15);
 	line-height: 1.8em;
+	tr {
+		border-bottom: 1px solid $matte-white;
+	}
+
+	&:nth-child(odd) {
+		background: #fafafa;
+	}
+
+	/* TODO: Remove? */
+	&:nth-child(even) {
+		background: #fff;
+	}
 }
-.container:nth-child(odd) {
-	background: #fafafb;
-}
-.container:nth-child(even) {
-	background: #fff;
-}
-.crn {
-	font-weight: bold;
-}
-.table {
+
+table {
 	width: 100%;
 	border-collapse: collapse;
 }
+
 .globe {
 	opacity: .6;
 	float: right;
 	padding: 8px;
 }
+
 .firstColumn {
 	padding: 2px;
 	padding-right: 2px;
 	color: #999;
-	border-right: 1px solid rgb(236, 236, 237);
+	border-right: 1px solid $matte-white;
 	width: 53px;
 }
+
 .secondColumn {
 	padding-left: 7px;
 	padding: 5px;
 }
-.container tr {
-	border-bottom: 1px solid rgb(236, 236, 237);
-}
+
 .firstRow {
-	border-top: 1px solid rgb(236, 236, 237);
+	border-top: 1px solid $matte-white;
 	vertical-align: bottom;
 }
+
 .lastRow {
 	height: 50px;
 	vertical-align: top;
 	border-bottom: none !important;
 }
+
 .title {
 	font-weight: bold;
 	color: #666;
@@ -55,8 +64,4 @@
 	padding-top: 20px;
 	padding-bottom: 3px;
 	padding-left: 4px;
-}
-
-.displayNone {
-	display: none;
 }

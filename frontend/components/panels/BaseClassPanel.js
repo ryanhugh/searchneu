@@ -8,8 +8,9 @@ import PropTypes from 'prop-types';
 
 import RequisiteBranch from '../../../common/classModels/RequisiteBranch';
 import Keys from '../../../common/Keys';
-import './BaseClassPanel.scss';
 import macros from '../macros';
+
+import './BaseClassPanel.scss';
 
 class BaseClassPanel extends React.Component {
   static propTypes = {
@@ -32,7 +33,7 @@ class BaseClassPanel extends React.Component {
     }
 
     this.state = {
-      prereqsPage : 0,
+      prereqsPage: 0,
       coreqsPage: 0,
       prereqsForPage: 0,
       optPrereqsForPage: 0,
@@ -59,6 +60,7 @@ class BaseClassPanel extends React.Component {
 
   onReqClick(reqType, childBranch, event) {
     // Create the React element and add it to retVal
+    // TODO: Do we need this anymore?
     const searchEvent = new CustomEvent(macros.searchEvent, { detail: `${childBranch.subject} ${childBranch.classId}` });
     window.dispatchEvent(searchEvent);
     event.preventDefault();
@@ -194,13 +196,14 @@ class BaseClassPanel extends React.Component {
           const element = (
             <a
               key={ hash }
-              href='#'
+              href={ hash }
               tabIndex={ 0 }
               onClick={ (event) => { this.onReqClick(reqType, childBranch, event); } }
               className='reqClassLink'
             >
               {`${childBranch.subject} ${childBranch.classId}`}
-            </a>);
+            </a>
+          );
 
           retVal.push(element);
         }

@@ -10,7 +10,7 @@ import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames/bind';
 import { Dropdown } from 'semantic-ui-react';
 
-import '../css/base.css';
+import '../css/base.scss';
 
 import aoun from './aouuuuuuuuun.png';
 import SplashPage from './SplashPage/SplashPage';
