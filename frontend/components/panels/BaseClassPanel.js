@@ -58,28 +58,32 @@ class BaseClassPanel extends React.Component {
     });
   }
 
+  // Prevents page reload and fires off new search without reloading.
   onReqClick(reqType, childBranch, event) {
     // Create the React element and add it to retVal
-    // TODO: Do we need this anymore?
     const searchEvent = new CustomEvent(macros.searchEvent, { detail: `${childBranch.subject} ${childBranch.classId}` });
     window.dispatchEvent(searchEvent);
     event.preventDefault();
 
+    // Rest of this function is analytics
     const classCode = `${childBranch.subject} ${childBranch.classId}`;
-
     let reqTypeString;
 
-    if (reqType === macros.prereqTypes.PREREQ) {
-      reqTypeString = 'Prerequisite';
-    } else if (reqType === macros.prereqTypes.COREQ) {
-      reqTypeString = 'Corequisite';
-    } else if (reqType === macros.prereqTypes.PREREQ_FOR) {
-      reqTypeString = 'Required Prerequisite For';
-    } else if (reqType === macros.prereqTypes.OPT_PREREQ_FOR) {
-      reqTypeString = 'Optional Prerequisite For';
-    } else {
-      macros.error('unknown type.', reqType);
-      return null;
+    switch (reqType) {
+      case macros.prereqTypes.PREREQ:
+        reqTypeString = 'Prerequisite';
+        break;
+      case macros.prereqTypes.COREQ:
+        reqTypeString = 'Corequisite';
+        break;
+      case macros.prereqTypes.PREREQ_FOR:
+        reqTypeString = 'Required Prerequisite For';
+        break;
+      case macros.prereqTypes.OPT_PREREQ_FOR:
+        reqTypeString = 'Optional Prerequisite For';
+        break;
+      default:
+        macros.error('unknown type.', reqType);
     }
 
     macros.logAmplitudeEvent('Requisite Click', {
@@ -88,8 +92,6 @@ class BaseClassPanel extends React.Component {
       classId: childBranch.classId,
       classCode: classCode,
     });
-
-    return null;
   }
 
   // Render the Show More.. Button
