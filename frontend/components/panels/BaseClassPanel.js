@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import RequisiteBranch from '../../../common/classModels/RequisiteBranch';
 import Keys from '../../../common/Keys';
 import './BaseClassPanel.scss';
-// import './BaseClassPanel.css';
 import macros from '../macros';
 
 class BaseClassPanel extends React.Component {
@@ -82,7 +81,10 @@ class BaseClassPanel extends React.Component {
     }
 
     macros.logAmplitudeEvent('Requisite Click', {
-      type: reqTypeString, subject: childBranch.subject, classId: childBranch.classId, classCode: classCode,
+      type: reqTypeString,
+      subject: childBranch.subject,
+      classId: childBranch.classId,
+      classCode: classCode,
     });
 
     return null;
@@ -91,14 +93,20 @@ class BaseClassPanel extends React.Component {
   // Render the Show More.. Button
   // This is the same on both desktop and mobile.
   getShowMoreButton() {
-    if (this.state.unrenderedSections.length > 0) {
-      return (
-        <div className='showMoreButton' role='button' tabIndex={ 0 } onClick={ this.onShowMoreClick }>
-          Show More...
-        </div>
-      );
+    if (this.state.unrenderedSections.length <= 0) {
+      return null;
     }
-    return null;
+
+    return (
+      <div
+        className='showMoreButton'
+        role='button'
+        tabIndex={ 0 }
+        onClick={ this.onShowMoreClick }
+      >
+        Show More...
+      </div>
+    );
   }
 
   getCreditsString() {
@@ -154,7 +162,6 @@ class BaseClassPanel extends React.Component {
           }
           processedSubjectClassIds[childBranch.desc] = true;
 
-
           retVal.push(childBranch.desc);
         } else {
           // Skip if already seen
@@ -187,7 +194,7 @@ class BaseClassPanel extends React.Component {
           const element = (
             <a
               key={ hash }
-              role='link'
+              href='#'
               tabIndex={ 0 }
               onClick={ (event) => { this.onReqClick(reqType, childBranch, event); } }
               className='reqClassLink'
@@ -267,14 +274,14 @@ class BaseClassPanel extends React.Component {
   /**
    * Returns how many elements we should return from our array of prerequisites.
    * Note that we mutliply our value by two because every other value is ', '
+   * We could probably make this better...
    *
    * @param {prereqTypes} prereqType type of prerequisite.
    */
   getShowAmount(prereqType) {
     const classesShownByDefault = 5;
     const stateValue = this.getStateValue(prereqType);
-    return 2 * classesShownByDefault *
-    (stateValue + 1);
+    return 2 * classesShownByDefault * (stateValue + 1);
   }
 
   /**
