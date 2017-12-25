@@ -3,18 +3,18 @@
  * See the license file in the root folder for details.
  */
 
- @import "BaseClassPanel";
+.mobile {
+  .chevron {
+    width: 18px;
+    opacity: .6;
+    vertical-align: top;
+    margin-right: 10px;
+    margin-top: 2px;
+  }
 
-.chevron {
-  width: 18px;
-  opacity: .6;
-  vertical-align: top;
-  margin-right: 10px;
-  margin-top: 2px;
-}
-
-.classTitle {
-  display: inline-block;
-  max-width: calc(100% - 30px);
-  font-size: 19px;
+  .classTitle {
+    display: inline-block;
+    max-width: calc(100% - 30px);
+    font-size: 19px;
+  }
 }

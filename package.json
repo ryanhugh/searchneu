@@ -131,7 +131,7 @@
     "moduleNameMapper": {
       "__comment": "The css import needs to be an object that returns a string",
       "__comment2": "but the svg and png imports need to be string themselves.",
-      "\\.(css|less)$": "identity-obj-proxy",
+      "\\.(css|less|scss)$": "identity-obj-proxy",
       "\\.(svg|png)$": "<rootDir>/frontend/components/tests/exportsAString.js"
     }
   }

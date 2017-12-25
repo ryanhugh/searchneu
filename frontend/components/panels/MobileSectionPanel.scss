@@ -12,13 +12,8 @@
 		border-bottom: 1px solid $matte-white;
 	}
 
-	&:nth-child(odd) {
-		background: #fafafa;
-	}
-
-	/* TODO: Remove? */
 	&:nth-child(even) {
-		background: #fff;
+		background: #fafafa;
 	}
 }
 

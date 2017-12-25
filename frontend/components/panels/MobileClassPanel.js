@@ -121,7 +121,7 @@ class MobileClassPanel extends BaseClassPanel {
 
     return (
       <div>
-        <div className='container ui segment'>
+        <div className='container ui segment mobile'>
           <div
             className='header'
             onClick={ () => {

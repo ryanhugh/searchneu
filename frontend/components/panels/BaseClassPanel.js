@@ -249,7 +249,7 @@ class BaseClassPanel extends React.Component {
     }
 
     if (retVal.length === 0) {
-      return (<span className='dynamicText'>None</span>);
+      return <span className='dynamicText'>None</span>;
     }
 
     // retVal = retVal.join(' ' + this.prereqs.type + ' ')
@@ -352,7 +352,6 @@ class BaseClassPanel extends React.Component {
           });
         } }
       >Show More
-        <span className='prereqShowMoreArrow' />
       </div>
     );
   }
