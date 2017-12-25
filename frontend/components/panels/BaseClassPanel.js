@@ -115,10 +115,11 @@ class BaseClassPanel extends React.Component {
 
   getCreditsString() {
     // Figure out the credits string
-    if (this.props.aClass.maxCredits === this.props.aClass.minCredits) {
-      return `${this.props.aClass.minCredits} credits`;
+    let retStr = '';
+    if (this.props.aClass.maxCredits !== this.props.aClass.minCredits) {
+      retStr = `${this.props.aClass.minCredits} to `;
     }
-    return `${this.props.aClass.minCredits} to ${this.props.aClass.maxCredits} credits`;
+    return `${retStr}${this.props.aClass.maxCredits} credits`;
   }
 
   // The argument wrapper func is optional
