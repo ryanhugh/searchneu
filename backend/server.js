@@ -197,7 +197,7 @@ async function getFrontendData(file) {
   // Note this goes through the local request cache
   let resp;
   try {
-    resp = await request.get(`https://searchneu.com/${file}`);
+    resp = await request.get(`https://searchneu.com/data/v${macros.schemaVersion}/${file}`);
   } catch (e) {
     macros.error('Unable to load frontend data from locally or from searchneu.com!', file, e);
     return null;
