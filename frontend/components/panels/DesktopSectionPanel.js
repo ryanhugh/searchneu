@@ -7,6 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
+import { Icon } from 'semantic-ui-react';
 
 import globe from './globe.svg';
 import css from './DesktopSectionPanel.css';
@@ -22,6 +23,7 @@ class DesktopSectionPanel extends React.Component {
   static propTypes = {
     shouldShowExamColumns: PropTypes.bool.isRequired,
     showWaitList: PropTypes.bool.isRequired,
+    showHonorsColumn: PropTypes.bool.isRequired,
     section: PropTypes.object.isRequired,
   };
 
@@ -100,6 +102,8 @@ class DesktopSectionPanel extends React.Component {
       }
     }
 
+    const honorsCheck = this.props.section.honors ? <Icon name='check' /> : <Icon name='x' />;
+
 
     return (
       <tr key={ Keys.create(this.props.section).getHash() }>
@@ -122,6 +126,14 @@ class DesktopSectionPanel extends React.Component {
           <div data-tip='Open/Total Waitlist Seats' className={ css.inlineBlock }>
             {this.props.section.waitRemaining}/{this.props.section.waitCapacity}
           </div>
+        </td>
+
+        <td
+          className={ cx({
+            displayNone: !this.props.showHonorsColumn,
+          }) }
+        >
+          {honorsCheck}
         </td>
 
         <td>

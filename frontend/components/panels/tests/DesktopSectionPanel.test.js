@@ -14,11 +14,11 @@ import DesktopSectionPanel from '../DesktopSectionPanel';
 Enzyme.configure({ adapter: new Adapter() });
 
 it('should render a section', () => {
-  const result = shallow(<DesktopSectionPanel shouldShowExamColumns={ false } showWaitList={ false } section={ mockData.cs1210.sections[0] } />);
+  const result = shallow(<DesktopSectionPanel shouldShowExamColumns={ false } showWaitList={ false } showHonorsColumn={ false } section={ mockData.cs1210.sections[0] } />);
   expect(result).toMatchSnapshot();
 });
 
 it('should render another section', () => {
-  const result = shallow(<DesktopSectionPanel shouldShowExamColumns={ false } showWaitList={ false } section={ mockData.cs1210.sections[1] } />);
+  const result = shallow(<DesktopSectionPanel shouldShowExamColumns={ false } showWaitList={ false } showHonorsColumn={ false } section={ mockData.cs1210.sections[1] } />);
   expect(result).toMatchSnapshot();
 });
