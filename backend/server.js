@@ -182,7 +182,7 @@ app.use((req, res, next) => {
 // Tries to load from a local file and if that fails loads from https://searchneu.com
 // And caches that locally.
 async function getFrontendData(file) {
-  const localPath = path.join('.', 'public', file);
+  const localPath = path.join(macros.PUBLIC_DIR, file);
   const exists = await fs.exists(localPath);
 
   // Exists locally, great
@@ -199,7 +199,7 @@ async function getFrontendData(file) {
   try {
     resp = await request.get(`https://searchneu.com/${file}`);
   } catch (e) {
-    macros.error('Unable to load frontend data from locally or from searchneu.com!', e);
+    macros.error('Unable to load frontend data from locally or from searchneu.com!', file, e);
     return null;
   }
 
@@ -223,17 +223,17 @@ async function getFrontendData(file) {
 
 
 async function getSearch() {
-  const termDumpPromise = getFrontendData('data/getTermDump/neu.edu/201810.json');
+  const termDumpPromise = getFrontendData('getTermDump/neu.edu/201810.json');
 
-  const spring2018DataPromise = getFrontendData('data/getTermDump/neu.edu/201830.json');
+  const spring2018DataPromise = getFrontendData('getTermDump/neu.edu/201830.json');
 
-  const searchIndexPromise = getFrontendData('data/getSearchIndex/neu.edu/201810.json');
+  const searchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201810.json');
 
-  const spring2018SearchIndexPromise = getFrontendData('data/getSearchIndex/neu.edu/201830.json');
+  const spring2018SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201830.json');
 
-  const employeeMapPromise = getFrontendData('data/employeeMap.json');
+  const employeeMapPromise = getFrontendData('employeeMap.json');
 
-  const employeesSearchIndexPromise = getFrontendData('data/employeesSearchIndex.json');
+  const employeesSearchIndexPromise = getFrontendData('employeesSearchIndex.json');
 
   try {
     const fallData = await termDumpPromise;
