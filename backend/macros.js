@@ -294,8 +294,13 @@ class Macros extends commonMacros {
   }
 }
 
+// Version of the schema in the term dumps and search indexes.
+// Change this every time there is a breaking change in the schema.
+// This will cause the data to be saved in a different folder in the public data folder.
+// The first schema change is here: https://github.com/ryanhugh/searchneu/pull/48
+Macros.schemaVersion = 2;
 
-Macros.PUBLIC_DIR = path.join('public', 'data');
+Macros.PUBLIC_DIR = path.join('public', 'data', `v${String(Macros.schemaVersion)}`);
 Macros.DEV_DATA_DIR = path.join('cache', 'dev_data');
 
 // For iterating over every letter in a couple different places in the code.

@@ -7,6 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
+import { Icon } from 'semantic-ui-react';
 
 import globe from './globe.svg';
 import css from './MobileSectionPanel.css';
@@ -98,6 +99,22 @@ class MobileSectionPanel extends React.Component {
       titleEnding = '@ TBA';
     }
 
+    if (this.props.section.honors) {
+      titleEnding += ' (hon)';
+    }
+
+    let honorsSection = null;
+    if (this.props.section.honors) {
+      honorsSection = (
+        <tr>
+          <td className={ css.firstColumn }>Honors</td>
+          <td className={ css.secondColumn }>
+            <Icon name='check' />
+          </td>
+        </tr>
+      );
+    }
+
 
     return (
       <div className={ css.container }>
@@ -114,6 +131,7 @@ class MobileSectionPanel extends React.Component {
               <td className={ css.firstColumn }>CRN</td>
               <td className={ css.secondColumn }>{this.props.section.crn}</td>
             </tr>
+            {honorsSection}
             <tr>
               <td className={ css.firstColumn }>Profs</td>
               <td className={ css.secondColumn }>{this.props.section.getProfs().join(', ')}</td>
