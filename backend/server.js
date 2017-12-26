@@ -379,10 +379,14 @@ async function onSendToMessengerButtonClick(sender, b64ref) {
     return;
   }
 
-  if (!userObject.classHash || !userObject.sectionHashes) {
-    macros.error('Unable to parse class hash from ', userObject);
+  if (!userObject.classHash || !userObject.sectionHashes || !userObject.loginKey) {
+    macros.error('Invalid user object from webhook ', userObject);
     return;
   }
+
+  // NEED TO ADD THIS LOGIN KEY TO THE DB IF DATA EXISTS, 
+  // OR CREATE THE ARRAY OF LOGIN KEYS AND ADD IT TO THE USER OBJECT IF IT DOSEN'T EXIT
+  // EACH DEVICE IS GOING TO HAVE ITS OWN LOGIN KEY (1 user has 3 devices = 3 login keys)
 
 
   const firebaseRef = await database.getRef(`/users/${sender}`);
