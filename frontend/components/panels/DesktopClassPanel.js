@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
 import { Checkbox, Button } from 'semantic-ui-react';
+import randomstring from 'randomstring';
 
 import Keys from '../../../common/Keys';
 import globe from './globe.svg';
@@ -40,6 +41,11 @@ class DesktopClassPanel extends BaseClassPanel {
 
   constructor(props) {
     super(props);
+
+    // Init the loginKey
+    if (!window.localStorage.loginKey) {
+      window.localStorage.loginKey = randomstring.generate(100)
+    }
 
     // Don't do `this.state = {...}` here, because the state is already setup in the parent react component
     // If this is set to true it is assumed that it should be shown.
@@ -104,7 +110,6 @@ class DesktopClassPanel extends BaseClassPanel {
     this.setState({
       showMessengerButton: true,
     });
-    // debugger
   }
 
   render() {
@@ -181,6 +186,7 @@ class DesktopClassPanel extends BaseClassPanel {
         classHash: Keys.create(aClass).getHash(),
         sectionHashes: sectionsHashes,
         dev: macros.DEV,
+        loginKey: loginKey,
       }));
 
 

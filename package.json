@@ -80,6 +80,7 @@
     "object-hash": "^1.1.7",
     "promise-queue": "^2.2.3",
     "prop-types": "^15.5.8",
+    "randomstring": "^1.1.5",
     "react": "^16.1.1",
     "react-css-modules": "^4.1.0",
     "react-dom": "^16.1.1",
