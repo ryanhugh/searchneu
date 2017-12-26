@@ -380,7 +380,7 @@ class Request {
         newKey = objectHash(configToHash);
       }
 
-      const content = await cache.get('requests', config.cacheName, newKey);
+      const content = await cache.get(macros.REQUESTS_CACHE_DIR, config.cacheName, newKey);
       if (content) {
         return content;
       }
@@ -444,7 +444,7 @@ class Request {
 
         // Save the response to a file for development
         if (macros.DEV && config.cache) {
-          cache.set('requests', config.cacheName, newKey, response.toJSON(), true);
+          cache.set(macros.REQUESTS_CACHE_DIR, config.cacheName, newKey, response.toJSON(), true);
         }
 
         // Don't log this on travis because it causes more than 4 MB to be logged and travis will kill the job

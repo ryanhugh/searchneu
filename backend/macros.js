@@ -294,14 +294,18 @@ class Macros extends commonMacros {
   }
 }
 
-// Version of the schema in the term dumps and search indexes.
-// Change this every time there is a breaking change in the schema.
+// Version of the schema for the data. Any changes in this schema will effect the data saved in the dev_data folder
+// and the data saved in the term dumps in the public folder and the search indexes in the public folder.
+// Increment this number every time there is a breaking change in the schema.
 // This will cause the data to be saved in a different folder in the public data folder.
 // The first schema change is here: https://github.com/ryanhugh/searchneu/pull/48
 Macros.schemaVersion = 2;
 
-Macros.PUBLIC_DIR = path.join('public', 'data', `v${String(Macros.schemaVersion)}`);
-Macros.DEV_DATA_DIR = path.join('cache', 'dev_data');
+Macros.PUBLIC_DIR = path.join('public', 'data', `v${Macros.schemaVersion}`);
+Macros.DEV_DATA_DIR = path.join('cache', 'dev_data', `v${Macros.schemaVersion}`);
+
+// Folder of the raw html cache for the requests.
+Macros.REQUESTS_CACHE_DIR = 'requests';
 
 // For iterating over every letter in a couple different places in the code.
 Macros.ALPHABET = 'maqwertyuiopsdfghjklzxcvbn';
