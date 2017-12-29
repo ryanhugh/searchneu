@@ -290,6 +290,12 @@ class BaseParser {
     return string.trim();
   }
 
+  // This function is used as part of standardizeClassName.
+  // This function will remove endings off the end of a given string
+  // and return the remaining string and a list of all the endings
+  // These indings include "- Lab" and (HON).
+  // These endings can sometimes appear on a few sections of classes that tend to have many sections
+  // Eg. 5 normal sections and 1 honors section: The honors section would have an (HON) at the end.
   // 'something something (hon)' -> 'something something' and ['(hon)']
   splitEndings(name) {
     name = name.trim();
@@ -350,13 +356,11 @@ class BaseParser {
   // https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?schd_in=%25&term_in=201710&subj_in=JRNL&crse_in=1150
   // Interpreting the Day’s News vs Interptng the Day's News
   // or this https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=BUSN&crse_in=1103&schd_in=LEC
-  standardizeClassName(originalName, possibleMatches) {
-    // can't do much here, it was called from category. just fix small stuff
-    if (possibleMatches === undefined) {
-      possibleMatches = [];
-    }
 
-    // trim all inputs and replace 2+ spaces for 1
+  // If no possibleMatches are given, just fix small bugs.
+  // EllucianCategoryParser will not pass in possibleMawtches.
+  standardizeClassName(originalName, possibleMatches = []) {
+    // Trim all inputs and replace 2+ spaces for 1
     originalName = originalName.trim().replace(/\s+/gi, ' ');
     originalName = this.simplifySymbols(originalName);
 
