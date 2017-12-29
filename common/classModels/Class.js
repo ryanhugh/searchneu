@@ -346,12 +346,7 @@ class Class {
 
   //returns true if any sections have an exam, else false
   sectionsHaveExam() {
-    for (let i = 0; i < this.sections.length; i++) {
-      if (this.sections[i].getHasExam()) {
-        return true;
-      }
-    }
-    return false;
+    return this.sections.some((section) => { return section.getHasExam(); });
   }
 
 
@@ -363,7 +358,6 @@ class Class {
     }
 
     this.sections = [];
-
 
     this.crns.forEach((crn) => {
       const keys = Keys.create({
