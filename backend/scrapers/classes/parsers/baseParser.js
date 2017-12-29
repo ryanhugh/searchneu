@@ -243,7 +243,7 @@ class BaseParser {
   }
 
 
-  // This function cleans up various things in titles during scraping. 
+  // This function cleans up various things in titles during scraping.
   // This is used for college names, professor names, and class location names
   //   - Clean up & simplify some symbols (see simplifySymbols function).
   //   - Replace large gaps of whitespace with 1 space
@@ -251,7 +251,7 @@ class BaseParser {
   //   - Trim the input string
   // Before, we were using an npm module to automatically fix capitalization issues in titles too,
   // but these libraries ended up incorrectly capitalizing more titles than they were fixing
-  // So we removed the automatic-capitalization and just stuck with some basic functionality. 
+  // So we removed the automatic-capitalization and just stuck with some basic functionality.
   // NPM modules we looked at:
   // https://www.npmjs.com/package/case
   // https://www.npmjs.com/package/change-case
