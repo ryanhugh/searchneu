@@ -384,6 +384,11 @@ async function onSendToMessengerButtonClick(sender, b64ref) {
     return;
   }
 
+  if (typeof userObject.loginKey !== 'string' || userObject.loginKey.length !== 100) {
+    macros.error("Invalid login key", userObject.loginKey);
+    return;
+  }
+
   const firebaseRef = await database.getRef(`/users/${sender}`);
 
   const existingData = await firebaseRef.once('value');
