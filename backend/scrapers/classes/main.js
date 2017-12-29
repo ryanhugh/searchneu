@@ -175,7 +175,7 @@ class Main {
 
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module && !semesterlySchema) {
-      const devData = await cache.get('dev_data', 'classes', cacheKey);
+      const devData = await cache.get(macros.DEV_DATA_DIR, 'classes', cacheKey);
       if (devData) {
         return devData;
       }
@@ -236,7 +236,7 @@ class Main {
     await termDump.main(dump);
 
     if (macros.DEV) {
-      await cache.set('dev_data', 'classes', cacheKey, dump);
+      await cache.set(macros.DEV_DATA_DIR, 'classes', cacheKey, dump);
       macros.log('classes file saved for', collegeAbbrs, '!');
     }
 

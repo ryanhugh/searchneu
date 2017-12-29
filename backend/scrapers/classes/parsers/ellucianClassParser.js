@@ -33,7 +33,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
   async main(url, catalogTitle = null) {
     // Possibly load from DEV
     if (macros.DEV && require.main !== module) {
-      const devData = await cache.get('dev_data', this.constructor.name, url);
+      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, url);
       if (devData) {
         return devData;
       }
@@ -58,7 +58,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     // Possibly save to dev
     if (macros.DEV && require.main !== module) {
-      await cache.set('dev_data', this.constructor.name, url, classWrapper);
+      await cache.set(macros.DEV_DATA_DIR, this.constructor.name, url, classWrapper);
 
       // Don't log anything because there would just be too much logging.
     }
