@@ -54,7 +54,7 @@ const staticHosts = [
 class CollegeNamesParser extends BaseParser.BaseParser {
   async main(hostname) {
     if (macros.DEV && require.main !== module) {
-      const devData = await cache.get('dev_data', this.constructor.name, hostname);
+      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, hostname);
       if (devData) {
         return devData;
       }
@@ -63,7 +63,7 @@ class CollegeNamesParser extends BaseParser.BaseParser {
     const title = await this.getTitle(hostname);
 
     if (macros.DEV) {
-      await cache.set('dev_data', this.constructor.name, hostname, title);
+      await cache.set(macros.DEV_DATA_DIR, this.constructor.name, hostname, title);
       macros.log('CollegeNamesParser file saved!');
     }
 

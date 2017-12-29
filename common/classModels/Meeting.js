@@ -122,33 +122,18 @@ class Meeting {
   }
 
   getIsHidden() {
-    if (this.getHoursPerWeek() === 0) {
-      return true;
-    }
-
-    return false;
+    return this.getHoursPerWeek() === 0;
   }
 
   getIsExam() {
     // this could be improved by scraping more data...
-    if (this.startDate.unix() === this.endDate.unix()) {
-      return true;
-    }
-
-    return false;
+    return this.startDate.unix() === this.endDate.unix();
   }
 
   // 0=sunday, 6 = saterday
   getMeetsOnDay(dayIndex) {
     const flatTimes = _.flatten(this.times);
-
-    for (let i = 0; i < flatTimes.length; i++) {
-      const time = flatTimes[i];
-      if (time.start.day() === dayIndex) {
-        return true;
-      }
-    }
-    return false;
+    return flatTimes.some((time) => { return time.start.day() === dayIndex; });
   }
 
 

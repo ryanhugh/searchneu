@@ -8,7 +8,6 @@ ShallowWrapper {
     section={
       Section {
         "classId": "1210",
-        "classUid": "1210_602555960",
         "crn": "13502",
         "host": "neu.edu",
         "lastUpdateTime": 1511131914029,
@@ -41,6 +40,7 @@ ShallowWrapper {
       }
     }
     shouldShowExamColumns={false}
+    showHonorsColumn={false}
     showWaitList={false}
   />,
   Symbol(enzyme.__renderer__): Object {
@@ -52,7 +52,7 @@ ShallowWrapper {
   },
   Symbol(enzyme.__node__): Object {
     "instance": null,
-    "key": "neu.edu/201810/CS/1210_602555960/13502",
+    "key": "neu.edu/201810/CS/1210/13502",
     "nodeType": "host",
     "props": Object {
       "children": Array [
@@ -72,7 +72,6 @@ ShallowWrapper {
             section={
               Section {
                 "classId": "1210",
-                "classUid": "1210_602555960",
                 "crn": "13502",
                 "host": "neu.edu",
                 "lastUpdateTime": 1511131914029,
@@ -116,7 +115,6 @@ ShallowWrapper {
             section={
               Section {
                 "classId": "1210",
-                "classUid": "1210_602555960",
                 "crn": "13502",
                 "host": "neu.edu",
                 "lastUpdateTime": 1511131914029,
@@ -172,6 +170,14 @@ ShallowWrapper {
             /
             0
           </div>
+        </td>,
+        <td
+          className="displayNone"
+        >
+          <Icon
+            as="i"
+            name="x"
+          />
         </td>,
         <td>
           <a
@@ -240,7 +246,6 @@ ShallowWrapper {
               section={
                 Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "13502",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914029,
@@ -286,7 +291,6 @@ ShallowWrapper {
             "props": Object {
               "section": Section {
                 "classId": "1210",
-                "classUid": "1210_602555960",
                 "crn": "13502",
                 "host": "neu.edu",
                 "lastUpdateTime": 1511131914029,
@@ -348,7 +352,6 @@ ShallowWrapper {
               section={
                 Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "13502",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914029,
@@ -394,7 +397,6 @@ ShallowWrapper {
             "props": Object {
               "section": Section {
                 "classId": "1210",
-                "classUid": "1210_602555960",
                 "crn": "13502",
                 "host": "neu.edu",
                 "lastUpdateTime": 1511131914029,
@@ -516,6 +518,32 @@ ShallowWrapper {
         "key": ".5",
         "nodeType": "host",
         "props": Object {
+          "children": <Icon
+            as="i"
+            name="x"
+          />,
+          "className": "displayNone",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "as": "i",
+            "name": "x",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "td",
+      },
+      Object {
+        "instance": null,
+        "key": ".6",
+        "nodeType": "host",
+        "props": Object {
           "children": <a
             className="inlineBlock sectionGlobe"
             data-tip="View on neu.edu"
@@ -568,7 +596,7 @@ ShallowWrapper {
   Symbol(enzyme.__nodes__): Array [
     Object {
       "instance": null,
-      "key": "neu.edu/201810/CS/1210_602555960/13502",
+      "key": "neu.edu/201810/CS/1210/13502",
       "nodeType": "host",
       "props": Object {
         "children": Array [
@@ -588,7 +616,6 @@ ShallowWrapper {
               section={
                 Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "13502",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914029,
@@ -632,7 +659,6 @@ ShallowWrapper {
               section={
                 Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "13502",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914029,
@@ -688,6 +714,14 @@ ShallowWrapper {
               /
               0
             </div>
+          </td>,
+          <td
+            className="displayNone"
+          >
+            <Icon
+              as="i"
+              name="x"
+            />
           </td>,
           <td>
             <a
@@ -756,7 +790,6 @@ ShallowWrapper {
                 section={
                   Section {
                     "classId": "1210",
-                    "classUid": "1210_602555960",
                     "crn": "13502",
                     "host": "neu.edu",
                     "lastUpdateTime": 1511131914029,
@@ -802,7 +835,6 @@ ShallowWrapper {
               "props": Object {
                 "section": Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "13502",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914029,
@@ -864,7 +896,6 @@ ShallowWrapper {
                 section={
                   Section {
                     "classId": "1210",
-                    "classUid": "1210_602555960",
                     "crn": "13502",
                     "host": "neu.edu",
                     "lastUpdateTime": 1511131914029,
@@ -910,7 +941,6 @@ ShallowWrapper {
               "props": Object {
                 "section": Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "13502",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914029,
@@ -1030,6 +1060,32 @@ ShallowWrapper {
         Object {
           "instance": null,
           "key": ".5",
+          "nodeType": "host",
+          "props": Object {
+            "children": <Icon
+              as="i"
+              name="x"
+            />,
+            "className": "displayNone",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "as": "i",
+              "name": "x",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "td",
+        },
+        Object {
+          "instance": null,
+          "key": ".6",
           "nodeType": "host",
           "props": Object {
             "children": <a
@@ -1100,7 +1156,6 @@ ShallowWrapper {
     section={
       Section {
         "classId": "1210",
-        "classUid": "1210_602555960",
         "crn": "14404",
         "host": "neu.edu",
         "lastUpdateTime": 1511131914065,
@@ -1133,6 +1188,7 @@ ShallowWrapper {
       }
     }
     shouldShowExamColumns={false}
+    showHonorsColumn={false}
     showWaitList={false}
   />,
   Symbol(enzyme.__renderer__): Object {
@@ -1144,7 +1200,7 @@ ShallowWrapper {
   },
   Symbol(enzyme.__node__): Object {
     "instance": null,
-    "key": "neu.edu/201810/CS/1210_602555960/14404",
+    "key": "neu.edu/201810/CS/1210/14404",
     "nodeType": "host",
     "props": Object {
       "children": Array [
@@ -1164,7 +1220,6 @@ ShallowWrapper {
             section={
               Section {
                 "classId": "1210",
-                "classUid": "1210_602555960",
                 "crn": "14404",
                 "host": "neu.edu",
                 "lastUpdateTime": 1511131914065,
@@ -1208,7 +1263,6 @@ ShallowWrapper {
             section={
               Section {
                 "classId": "1210",
-                "classUid": "1210_602555960",
                 "crn": "14404",
                 "host": "neu.edu",
                 "lastUpdateTime": 1511131914065,
@@ -1264,6 +1318,14 @@ ShallowWrapper {
             /
             0
           </div>
+        </td>,
+        <td
+          className="displayNone"
+        >
+          <Icon
+            as="i"
+            name="x"
+          />
         </td>,
         <td>
           <a
@@ -1332,7 +1394,6 @@ ShallowWrapper {
               section={
                 Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "14404",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914065,
@@ -1378,7 +1439,6 @@ ShallowWrapper {
             "props": Object {
               "section": Section {
                 "classId": "1210",
-                "classUid": "1210_602555960",
                 "crn": "14404",
                 "host": "neu.edu",
                 "lastUpdateTime": 1511131914065,
@@ -1440,7 +1500,6 @@ ShallowWrapper {
               section={
                 Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "14404",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914065,
@@ -1486,7 +1545,6 @@ ShallowWrapper {
             "props": Object {
               "section": Section {
                 "classId": "1210",
-                "classUid": "1210_602555960",
                 "crn": "14404",
                 "host": "neu.edu",
                 "lastUpdateTime": 1511131914065,
@@ -1608,6 +1666,32 @@ ShallowWrapper {
         "key": ".5",
         "nodeType": "host",
         "props": Object {
+          "children": <Icon
+            as="i"
+            name="x"
+          />,
+          "className": "displayNone",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "as": "i",
+            "name": "x",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "td",
+      },
+      Object {
+        "instance": null,
+        "key": ".6",
+        "nodeType": "host",
+        "props": Object {
           "children": <a
             className="inlineBlock sectionGlobe"
             data-tip="View on neu.edu"
@@ -1660,7 +1744,7 @@ ShallowWrapper {
   Symbol(enzyme.__nodes__): Array [
     Object {
       "instance": null,
-      "key": "neu.edu/201810/CS/1210_602555960/14404",
+      "key": "neu.edu/201810/CS/1210/14404",
       "nodeType": "host",
       "props": Object {
         "children": Array [
@@ -1680,7 +1764,6 @@ ShallowWrapper {
               section={
                 Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "14404",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914065,
@@ -1724,7 +1807,6 @@ ShallowWrapper {
               section={
                 Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "14404",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914065,
@@ -1780,6 +1862,14 @@ ShallowWrapper {
               /
               0
             </div>
+          </td>,
+          <td
+            className="displayNone"
+          >
+            <Icon
+              as="i"
+              name="x"
+            />
           </td>,
           <td>
             <a
@@ -1848,7 +1938,6 @@ ShallowWrapper {
                 section={
                   Section {
                     "classId": "1210",
-                    "classUid": "1210_602555960",
                     "crn": "14404",
                     "host": "neu.edu",
                     "lastUpdateTime": 1511131914065,
@@ -1894,7 +1983,6 @@ ShallowWrapper {
               "props": Object {
                 "section": Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "14404",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914065,
@@ -1956,7 +2044,6 @@ ShallowWrapper {
                 section={
                   Section {
                     "classId": "1210",
-                    "classUid": "1210_602555960",
                     "crn": "14404",
                     "host": "neu.edu",
                     "lastUpdateTime": 1511131914065,
@@ -2002,7 +2089,6 @@ ShallowWrapper {
               "props": Object {
                 "section": Section {
                   "classId": "1210",
-                  "classUid": "1210_602555960",
                   "crn": "14404",
                   "host": "neu.edu",
                   "lastUpdateTime": 1511131914065,
@@ -2122,6 +2208,32 @@ ShallowWrapper {
         Object {
           "instance": null,
           "key": ".5",
+          "nodeType": "host",
+          "props": Object {
+            "children": <Icon
+              as="i"
+              name="x"
+            />,
+            "className": "displayNone",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "as": "i",
+              "name": "x",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "td",
+        },
+        Object {
+          "instance": null,
+          "key": ".6",
           "nodeType": "host",
           "props": Object {
             "children": <a

@@ -6,11 +6,12 @@
 import macros from '../../../macros';
 import ellucianRequisitesParser from '../parsers/ellucianRequisitesParser';
 import BaseProcessor from './baseProcessor';
+import Keys from '../../../../common/Keys';
 
-// This file converts prereq classIds to ClassUids by looking up the classes in the db and replacing classIds with classUids
-// if there are multiple results, it creates a 'or' prereq tree, much like Class.js does in the frontend.
+// This file process the prereqs on each class and ensures that they point to other, valid classes.
+// If they point to a class that does not exist, they are marked as missing.
 
-class PrereqClassUids extends BaseProcessor.BaseProcessor {
+class MarkMissingPrereqs extends BaseProcessor.BaseProcessor {
   updatePrereqs(prereqs, host, termId, keyToRows) {
     for (let i = prereqs.values.length - 1; i >= 0; i--) {
       const prereqEntry = prereqs.values[i];
@@ -18,48 +19,19 @@ class PrereqClassUids extends BaseProcessor.BaseProcessor {
       // prereqEntry could be Object{subject:classId:} or string i think
       if (typeof prereqEntry === 'string') {
         continue;
-      } else if (prereqEntry.classId && prereqEntry.subject && !prereqEntry.classUid) {
-        // multiple classes could have same key
-        const key = host + termId + prereqEntry.subject + prereqEntry.classId;
+      } else if (prereqEntry.classId && prereqEntry.subject) {
+        const hash = Keys.create({
+          host: host,
+          termId: termId,
+          subject: prereqEntry.subject,
+          classId: prereqEntry.classId,
+        }).getHash();
 
-        const newPrereqs = [];
-
-        if (keyToRows[key]) {
-          for (const row of keyToRows[key]) {
-            // Replace each prereq item with the subject, classUid, and classId
-            newPrereqs.push({
-              subject: row.subject,
-              classUid: row.classUid,
-              classId: row.classId,
-            });
-          }
-        }
-
-
-        // not in db, this is possible and causes those warnings in the frontend
-        // unable to find class even though its a prereq of another class????
-        if (newPrereqs.length === 0) {
+        if (!keyToRows[hash]) {
           prereqs.values[i].missing = true;
-
-        // Only one match, just swap classId for classUid.
-        } else if (newPrereqs.length === 1) {
-          prereqs.values[i] = {
-            subject: newPrereqs[0].subject,
-            classUid: newPrereqs[0].classUid,
-            classId: newPrereqs[0].classId,
-          };
-
-        // the fun part - make the 'or' split for multiple classes
-        } else {
-          prereqs.values[i] = {
-            type: 'or',
-            values: newPrereqs,
-          };
         }
       } else if (prereqEntry.type && prereqEntry.values) {
-        prereqs.values[i] = this.updatePrereqs(prereqEntry, host, termId, keyToRows);
-      } else if (prereqEntry.classUid && prereqEntry.subject) {
-        // don't do anything, this is already fixed
+        this.updatePrereqs(prereqEntry, host, termId, keyToRows);
       } else {
         macros.error('wtf is ', prereqEntry, prereqs);
       }
@@ -73,9 +45,7 @@ class PrereqClassUids extends BaseProcessor.BaseProcessor {
   // at minimum it will be a host
   // or if just one class {host, termId, subject, classId}
   go(termDump) {
-    const keyToRows = this.getClassHash(termDump, {
-      useClassId: true,
-    });
+    const keyToRows = this.getClassHash(termDump);
 
     const updatedClasses = [];
 
@@ -107,8 +77,8 @@ class PrereqClassUids extends BaseProcessor.BaseProcessor {
 }
 
 
-PrereqClassUids.prototype.PrereqClassUids = PrereqClassUids;
-const instance = new PrereqClassUids();
+MarkMissingPrereqs.prototype.MarkMissingPrereqs = MarkMissingPrereqs;
+const instance = new MarkMissingPrereqs();
 
 
 if (require.main === module) {

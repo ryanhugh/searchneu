@@ -30,12 +30,10 @@ const cs0210 = Class.create({
               values: [
                 {
                   subject: 'CHEM',
-                  classUid: '2313_853783103',
                   classId: '2313',
                 },
                 {
                   subject: 'CHEM',
-                  classUid: '2317_1058823308',
                   classId: '2317',
                 }],
             },
@@ -44,12 +42,10 @@ const cs0210 = Class.create({
               values: [
                 {
                   subject: 'CHEM',
-                  classUid: '2321_865155588',
                   classId: '2321',
                 },
                 {
                   subject: 'CHEM',
-                  classUid: '2331_2069949756',
                   classId: '2331',
                 }],
             },
@@ -58,7 +54,6 @@ const cs0210 = Class.create({
               values: [
                 {
                   subject: 'CHEM',
-                  classUid: '3401_1581191390',
                   classId: '3401',
                 },
                 {
@@ -68,7 +63,6 @@ const cs0210 = Class.create({
                 },
                 {
                   subject: 'CHEM',
-                  classUid: '3431_219254629',
                   classId: '3431',
                 }],
             }],
@@ -79,12 +73,10 @@ const cs0210 = Class.create({
           values: [
             {
               subject: 'CHEM',
-              classUid: '3506_238525520',
               classId: '3506',
             },
             {
               subject: 'CHEM',
-              classUid: '3507_516122019',
               classId: '3507',
             }],
         },
@@ -95,7 +87,6 @@ const cs0210 = Class.create({
   termId: '201810',
   host: 'neu.edu',
   subject: 'CS',
-  classUid: '0210_1437780647',
 });
 
 
@@ -210,7 +201,6 @@ const sectionsForcs0210 = [
     host: 'neu.edu',
     subject: 'CS',
     classId: '0210',
-    classUid: '0210_1437780647',
   }];
 
 cs0210.loadSectionsFromServerList(sectionsForcs0210);
@@ -230,7 +220,6 @@ const cs1210 = Class.create({
   termId: '201810',
   host: 'neu.edu',
   subject: 'CS',
-  classUid: '1210_602555960',
 });
 
 const sectionsForcs1210 =
@@ -264,7 +253,6 @@ const sectionsForcs1210 =
   host: 'neu.edu',
   subject: 'CS',
   classId: '1210',
-  classUid: '1210_602555960',
 },
 {
   seatsCapacity: 19,
@@ -296,7 +284,6 @@ const sectionsForcs1210 =
   host: 'neu.edu',
   subject: 'CS',
   classId: '1210',
-  classUid: '1210_602555960',
 },
 {
   seatsCapacity: 19,
@@ -328,7 +315,6 @@ const sectionsForcs1210 =
   host: 'neu.edu',
   subject: 'CS',
   classId: '1210',
-  classUid: '1210_602555960',
 },
 {
   seatsCapacity: 19,
@@ -360,7 +346,6 @@ const sectionsForcs1210 =
   host: 'neu.edu',
   subject: 'CS',
   classId: '1210',
-  classUid: '1210_602555960',
 },
 {
 
@@ -393,7 +378,6 @@ const sectionsForcs1210 =
   host: 'neu.edu',
   subject: 'CS',
   classId: '1210',
-  classUid: '1210_602555960',
 
 }];
 
@@ -458,7 +442,6 @@ const WMNS4520section = Section.create({
   host: 'neu.edu',
   subject: 'WMNS',
   classId: '4520',
-  classUid: '4520_1145701999',
 });
 
 

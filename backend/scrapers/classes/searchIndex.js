@@ -24,7 +24,7 @@ const getSearchIndex = '/getSearchIndex';
 
 class SearchIndex {
   // Class Lists object is specific to this file, and is created below.
-  async createSearchIndexFromClassLists(termData, outputExtention = '', includeDesc = true) {
+  async createSearchIndexFromClassLists(termData) {
     const keys = Keys.create(termData);
 
     // One possibility for this is to create a custom elastic search index.
@@ -41,10 +41,7 @@ class SearchIndex {
 
     index.setRef('key');
 
-    // Description is not included on mobile because it is not *really* required, and removing it makes loading on mobile faster.
-    if (includeDesc) {
-      index.addField('desc');
-    }
+    index.addField('desc');
     index.addField('name');
     index.addField('acronym');
     index.addField('classId');
@@ -149,7 +146,7 @@ class SearchIndex {
 
     const searchIndexString = JSON.stringify(index.toJSON());
 
-    const fileName = path.join(macros.PUBLIC_DIR, `${keys.getHashWithEndpoint(getSearchIndex) + outputExtention}.json`);
+    const fileName = path.join(macros.PUBLIC_DIR, `${keys.getHashWithEndpoint(getSearchIndex)}.json`);
     const folderName = path.dirname(fileName);
 
     await mkdirp(folderName);
@@ -194,7 +191,7 @@ class SearchIndex {
         host: section.host,
         termId: section.termId,
         subject: section.subject,
-        classUid: section.classUid,
+        classId: section.classId,
       }).getHash();
 
 

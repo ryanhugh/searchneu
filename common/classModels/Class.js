@@ -107,7 +107,7 @@ class Class {
 
         };
       }
-      // else data is a normal class that has a .subject and a .classUid
+      // else data is a normal class that has a .subject and a .classId
 
 
       //the leafs of the prereq trees returned from the server dosent have host or termId,
@@ -142,8 +142,8 @@ class Class {
         }
 
         // Check to see if it duplicates any classes already found in this data.values
-        if (subData.subject && subData.classUid) {
-          const key = subData.subject + subData.classUid;
+        if (subData.subject && subData.classId) {
+          const key = subData.subject + subData.classId;
           if (subClassesHash[key]) {
             return;
           }
@@ -304,9 +304,9 @@ class Class {
       return 1;
     } else if (this.name < otherClass.name) {
       return -1;
-    } else if (this.classUid > otherClass.classUid) {
+    } else if (this.classId > otherClass.classId) {
       return 1;
-    } else if (this.classUid < otherClass.classUid) {
+    } else if (this.classId < otherClass.classId) {
       return -1;
     }
     return 0;
@@ -346,12 +346,7 @@ class Class {
 
   //returns true if any sections have an exam, else false
   sectionsHaveExam() {
-    for (let i = 0; i < this.sections.length; i++) {
-      if (this.sections[i].getHasExam()) {
-        return true;
-      }
-    }
-    return false;
+    return this.sections.some((section) => { return section.getHasExam(); });
   }
 
 
@@ -364,13 +359,12 @@ class Class {
 
     this.sections = [];
 
-
     this.crns.forEach((crn) => {
       const keys = Keys.create({
         host: this.host,
         termId: this.termId,
         subject: this.subject,
-        classUid: this.classUid,
+        classId: this.classId,
         crn: crn,
       });
       if (!keys) {
@@ -474,6 +468,15 @@ class Class {
     return false;
   }
 
+  getHasHonorsSections() {
+    for (let i = this.sections.length - 1; i >= 0; i--) {
+      if (this.sections[i].honors) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   // Downloads the first layer of prereqs
   async loadPrereqs(classMap) {
     this.prereqs.values.forEach((childBranch) => {
@@ -500,7 +503,7 @@ class Class {
 
 
 Class.requiredPath = ['host', 'termId', 'subject'];
-Class.optionalPath = ['classUid'];
+Class.optionalPath = ['classId'];
 Class.API_ENDPOINT = '/listClasses';
 
 
