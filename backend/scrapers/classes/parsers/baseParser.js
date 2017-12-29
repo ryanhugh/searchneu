@@ -243,20 +243,20 @@ class BaseParser {
   }
 
 
-  // no great npm module found so far
+  // This function cleans up various things in titles during scraping.
+  // This is used for college names, professor names, and class location names
+  //   - Clean up & simplify some symbols (see simplifySymbols function).
+  //   - Replace large gaps of whitespace with 1 space
+  //   - Capitalize the A&M in Texas a&m University
+  //   - Trim the input string
+  // Before, we were using an npm module to automatically fix capitalization issues in titles too,
+  // but these libraries ended up incorrectly capitalizing more titles than they were fixing
+  // So we removed the automatic-capitalization and just stuck with some basic functionality.
+  // NPM modules we looked at:
   // https://www.npmjs.com/package/case
   // https://www.npmjs.com/package/change-case
   // https://www.npmjs.com/package/slang
-  // https://www.npmjs.com/package/to-title-case -- currently using this one, its ok not great
-  // Example of import changeCase from 'change-case':
-  // let a = changeCase.title
-
-  // macros.log(a('texas a&m university'));
-  // macros.log(a('something something'))
-  // macros.log(a('2Nd year spanish'))
-
-  // Used for college names, professor names and locations
-  // odd cases: "TBA", Texas A&M University
+  // https://www.npmjs.com/package/to-title-case
   toTitleCase(originalString, warningStr) {
     if (originalString === 'TBA') {
       return originalString;
@@ -269,14 +269,11 @@ class BaseParser {
 
     let string = this.simplifySymbols(originalString);
 
-    //get rid of newlines and replace large sections of whitespace with one space
+    // Get rid of newlines and replace large sections of whitespace with one space.
     string = string.replace(/\n/g, ' ').replace(/\r/g, ' ').replace(/\s+/g, ' ');
 
-    // string = toTitleCase(string)
-
-
     const correctParts = [
-      // Texas A&M University
+      // Capitalize the A&M in Texas A&M University ("Texas a&m University" -> "Texas A&M University")
       ' A&M ',
     ];
 

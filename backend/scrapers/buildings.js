@@ -80,7 +80,7 @@ async function main() {
   // const outputFile = path.join(macros.DEV_DATA_DIR, 'buildings.json');
 
   if (macros.DEV) {
-    await cache.set('dev_data', 'buildings', 'main', json.features);
+    await cache.set(macros.DEV_DATA_DIR, 'buildings', 'main', json.features);
     macros.log('buildings file saved!');
   }
 
