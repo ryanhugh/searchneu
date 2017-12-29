@@ -133,7 +133,7 @@ class EllucianSubjectParser extends EllucianBaseParser.EllucianBaseParser {
 
     // Possibly load from DEV
     if (macros.DEV && require.main !== module) {
-      const devData = await cache.get('dev_data', this.constructor.name, cacheKey);
+      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, cacheKey);
       if (devData) {
         return devData;
       }
@@ -156,7 +156,7 @@ class EllucianSubjectParser extends EllucianBaseParser.EllucianBaseParser {
 
     // Possibly save to dev
     if (macros.DEV) {
-      await cache.set('dev_data', this.constructor.name, cacheKey, subjects);
+      await cache.set(macros.DEV_DATA_DIR, this.constructor.name, cacheKey, subjects);
 
       // Don't log anything because there would just be too much logging.
     }

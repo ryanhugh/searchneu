@@ -172,7 +172,7 @@ class NeuCCISFaculty {
   async main() {
     // If this is dev and this data is already scraped, just return the data.
     if (macros.DEV && require.main !== module) {
-      const devData = await cache.get('dev_data', this.constructor.name, 'main');
+      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, 'main');
       if (devData) {
         return devData;
       }
@@ -195,7 +195,7 @@ class NeuCCISFaculty {
     await Promise.all(promises);
 
     if (macros.DEV) {
-      await cache.set('dev_data', this.constructor.name, 'main', output);
+      await cache.set(macros.DEV_DATA_DIR, this.constructor.name, 'main', output);
       macros.log(output.length, 'people in ccis saved to a file!');
     }
 
