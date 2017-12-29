@@ -42,11 +42,6 @@ class DesktopClassPanel extends BaseClassPanel {
   constructor(props) {
     super(props);
 
-    // Init the loginKey
-    if (!window.localStorage.loginKey) {
-      window.localStorage.loginKey = randomstring.generate(100)
-    }
-
     // Don't do `this.state = {...}` here, because the state is already setup in the parent react component
     // If this is set to true it is assumed that it should be shown.
     this.state.showMessengerButton = false;
@@ -192,13 +187,18 @@ class DesktopClassPanel extends BaseClassPanel {
         }
       }
 
+      // Init the loginKey
+      if (!window.localStorage.loginKey) {
+        window.localStorage.loginKey = randomstring.generate(100)
+      }
+
       // JSON stringify it and then base64 encode it.
       // The messenger button dosen't appear unless the ref is base64 encoded.
       const dataRef = btoa(JSON.stringify({
         classHash: Keys.create(aClass).getHash(),
         sectionHashes: sectionsHashes,
         dev: macros.DEV,
-        loginKey: loginKey,
+        loginKey: window.localStorage.loginKey,
       }));
 
 
@@ -223,25 +223,14 @@ class DesktopClassPanel extends BaseClassPanel {
       updatesSection = (
           <Button basic onClick={ this.onSubscribeToggleChange } content='Click here to sign up for notifications when sections are added.' className={css.notificationButton}/>
         )
-
-      // updatesSection = (
-      //   <div>
-      //     Want notifications if sections are added?
-      //     <Checkbox toggle onChange={ this.onSubscribeToggleChange } />
-      //   </div>
-          //<Button basic content='Click here to sign up for notifications when seats open up.'  className={css.notificationButton}/>
-      // );
     } else if (aClass.isAtLeastOneSectionFull()) {
       updatesSection = (
           <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!'  className={css.notificationButton}/>
         )
+    }
 
-      // updatesSection = (
-     //   {/*<div>*/}
-     //     // Want notifications when seats open up?
-      //    {/*<Checkbox toggle onChange={ this.onSubscribeToggleChange } />*/}
-        // </div>
-      // );
+    if (window.location.hash !== '#fbtest') {
+      updatesSection = null;
     }
 
     // Render the Show More.. Button
