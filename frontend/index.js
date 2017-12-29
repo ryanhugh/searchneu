@@ -26,7 +26,7 @@ window.fbAsyncInit = () => {
     version          : 'v2.11',
   });
 
-  window.FB.getLoginStatus(function(response) {
+  window.FB.getLoginStatus(async function(response) {
 
     console.log(response)
 
@@ -43,6 +43,15 @@ window.fbAsyncInit = () => {
 
     let out  = window.FB.getAuthResponse()
     console.log(out)
+
+    FB.api('/me', {fields: 'last_name,is_payment_enabled,ids_for_apps,ids_for_pages'}, function(response) {
+  console.log(response);
+});
+
+
+//     // let response = await request.get(`https://graph.facebook.com/v2.6/${sender}?fields=first_name,last_name&access_token=${token}`);
+//     let resp = await FB.api('/me', 'get')
+//     console.log(resp)
 
 
   } else if (response.status === 'not_authorized') {
