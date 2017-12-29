@@ -27,3 +27,7 @@ it('should render another section', () => {
   const result = shallow(<WeekdayBoxes section={ mockData.cs0210.sections[0] } />);
   expect(result).toMatchSnapshot();
 });
+
+it('should not render a section if it\'s online', () => {
+  expect(shallow(<WeekdayBoxes section={{ online: true }} />)).toBe(null);
+});
