@@ -384,11 +384,6 @@ async function onSendToMessengerButtonClick(sender, b64ref) {
     return;
   }
 
-  // NEED TO ADD THIS LOGIN KEY TO THE DB IF DATA EXISTS, 
-  // OR CREATE THE ARRAY OF LOGIN KEYS AND ADD IT TO THE USER OBJECT IF IT DOSEN'T EXIT
-  // EACH DEVICE IS GOING TO HAVE ITS OWN LOGIN KEY (1 user has 3 devices = 3 login keys)
-
-
   const firebaseRef = await database.getRef(`/users/${sender}`);
 
   const existingData = await firebaseRef.once('value');
@@ -436,6 +431,15 @@ async function onSendToMessengerButtonClick(sender, b64ref) {
     existingData.watchingClasses.push(userObject.classHash);
     existingData.watchingSections = existingData.watchingSections.concat(userObject.sectionHashes);
 
+    // Add the login key to the array of login keys stored on this user
+    if (!existingData.loginKeys) {
+      existingData.loginKeys = []
+    }
+
+    let loginKeys = new Set(existingData.loginKeys)
+    loginKeys.add(userObject.loginKey)
+    existingData.loginKeys = Array.from(loginKeys)
+
     firebaseRef.set(existingData);
   } else {
     let names = await notifyer.getUserProfileInfo(sender);
@@ -452,6 +456,7 @@ async function onSendToMessengerButtonClick(sender, b64ref) {
       firstName: names.first_name,
       lastName: names.last_name,
       facebookMessengerId: sender,
+      loginKeys: [userObject.loginKey]
     };
 
     macros.log('Adding ', newUser, 'to the db');
