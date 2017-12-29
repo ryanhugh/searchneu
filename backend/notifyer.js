@@ -82,41 +82,6 @@ class Notifyer {
     return JSON.parse(response.body)
   }
 
-  async getOtherFacebookIds(sender) {
-        const crypto = require('crypto');
-
-
-    const token = await macros.getEnvVariable('fbToken');
-
-    let accessToken = token
-    let clientSecret = await macros.getEnvVariable('fbAppSecret');
-
-    let appsecret_proof = crypto.createHmac('sha256', clientSecret).update(accessToken).digest('hex')
-
-    console.log(appsecret_proof)
-
-
-
-//     import CryptoJS from 'crypto-js';
-// const accessToken = 'your accesstoken';
-// const clientSecret = 'your secretkey';
-// const appsecretProof = CryptoJS.HmacSHA256(accessToken, clientSecret).toString(CryptoJS.enc.Hex);
-
-// 807584642748179
-// 1397905100304615
-// 1515644711790146
-
-
-
-// this lets us go from sender id to userID
-
-    let resp = await request.get('https://graph.facebook.com/1397905100304615?fields=ids_for_apps,ids_for_pages&access_token=' + token + '&appsecret_proof=' + appsecret_proof)
-    console.log(resp.body)
-
-    
-  }
-
-
   async main() {
     this.sendFBNotification('1397905100304615', 'test notification');
   }
