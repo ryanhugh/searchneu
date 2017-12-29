@@ -51,10 +51,21 @@ If Node.js ever unexpectedly exits and en error appears that says `Killed`, it m
 There is halfway decent code coverage in the codebase. The scrapers in the backend have a lot of tests and the frontend tests are still under development. Jest works great for tests and has an awesome feature called Snapshot testing that is used all throughout Search NEU. This allows us to test a function by specifying that the output of the function should be the same as the output was when the test was written. [More details here](http://facebook.github.io/jest/docs/en/snapshot-testing.html).
 
 ```bash
-jest # Run the tests once and exit
-jest --watch # Run just the files that have changed since the last git commit
-jest --watchAll # Run all the tests
-jest backend # Run only tests where backend is mentioned in their filepath
+# Run the tests once and exit
+jest 
+
+# Run just the files that have changed since the last git commit
+jest --watch 
+
+# Run all the tests
+jest --watchAll 
+
+# Run only tests where backend is mentioned in the test file's filepath.
+jest backend 
+
+# Run all the tests and generate a code coverage report. 
+# An overview is shown in the termal and a more detailed report is saved in the coverage directory.
+jest --coverage --watchAll 
 ```
 
 ### Run the scrapers
