@@ -467,7 +467,6 @@ async function onSendToMessengerButtonClick(sender, b64ref) {
     macros.log('Adding ', newUser, 'to the db');
 
 
-
     // Send the user a notification letting them know everything was successful.
     notifyer.sendFBNotification(sender, "Thanks for signing up for notifications " + names.first_name + "! I'll send you another message if a seat opens up in " + aClass.subject + ' ' + aClass.classId + "!");
 
