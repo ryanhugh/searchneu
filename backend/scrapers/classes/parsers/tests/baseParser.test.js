@@ -12,6 +12,7 @@ import baseParser from '../baseParser';
 it('toTitleCase works', () => {
   expect(baseParser.toTitleCase('TBA')).toBe('TBA');
   expect(baseParser.toTitleCase('Texas A&M University')).toBe('Texas A&M University');
+  expect(baseParser.toTitleCase(' Untrimmed ')).toBe('Untrimmed');
 });
 
 it('standardizeClassName', () => {
