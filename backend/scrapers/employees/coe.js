@@ -189,7 +189,7 @@ class COE {
 
   async main() {
     if (macros.DEV && require.main !== module) {
-      const devData = await cache.get('dev_data', this.constructor.name, 'main');
+      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, 'main');
       if (devData) {
         return devData;
       }
@@ -226,7 +226,7 @@ class COE {
     macros.log(detailPeopleList.length);
 
     if (macros.DEV) {
-      await cache.set('dev_data', this.constructor.name, 'main', people);
+      await cache.set(macros.DEV_DATA_DIR, this.constructor.name, 'main', people);
       macros.log(people.length, 'coe people saved!');
     }
 

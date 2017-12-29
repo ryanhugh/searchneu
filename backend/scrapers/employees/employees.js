@@ -343,7 +343,7 @@ class Employee {
   async main() {
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module) {
-      const devData = await cache.get('dev_data', this.constructor.name, 'main');
+      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, 'main');
       if (devData) {
         return devData;
       }
@@ -366,7 +366,7 @@ class Employee {
 
 
     if (macros.DEV) {
-      await cache.set('dev_data', this.constructor.name, 'main', this.people);
+      await cache.set(macros.DEV_DATA_DIR, this.constructor.name, 'main', this.people);
       macros.log(this.people.length, 'employees saved to a file!');
     }
 

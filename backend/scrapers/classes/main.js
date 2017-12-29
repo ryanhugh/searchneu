@@ -13,8 +13,7 @@ import termDump from './termDump';
 import differentCollegeUrls from './differentCollegeUrls';
 
 // Processors
-import addClassUids from './processors/addClassUids';
-import prereqClassUids from './processors/prereqClassUids';
+import markMissingPrereqs from './processors/markMissingPrereqs';
 import termStartEndDate from './processors/termStartEndDate';
 import simplifyProfList from './processors/simplifyProfList';
 import semesterly from './processors/semesterly';
@@ -154,7 +153,7 @@ class Main {
 
     // if this is dev and this data is already scraped, just return the data
     if (macros.DEV && require.main !== module && !semesterlySchema) {
-      const devData = await cache.get('dev_data', 'classes', cacheKey);
+      const devData = await cache.get(macros.DEV_DATA_DIR, 'classes', cacheKey);
       if (devData) {
         return devData;
       }
@@ -199,8 +198,7 @@ class Main {
 
 
     // Run the processors, sequentially
-    addClassUids.go(dump);
-    prereqClassUids.go(dump);
+    markMissingPrereqs.go(dump);
     termStartEndDate.go(dump);
 
     // Add new processors here.
@@ -218,7 +216,7 @@ class Main {
     await termDump.main(dump);
 
     if (macros.DEV) {
-      await cache.set('dev_data', 'classes', cacheKey, dump);
+      await cache.set(macros.DEV_DATA_DIR, 'classes', cacheKey, dump);
       macros.log('classes file saved for', collegeAbbrs, '!');
     }
 

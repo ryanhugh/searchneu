@@ -23,7 +23,22 @@ class SitemapGenerator {
 
     let currentTerm;
 
+    // Lets not spam the console if there are non-neu classes here.
+    let foundNonNEUClass = false;
+
     for (const term of termDump.terms) {
+      if (term.host !== 'neu.edu') {
+        if (!term.host.startsWith('neu.edu')) {
+          if (!foundNonNEUClass) {
+            macros.error('Not adding non-NEU class to the index! Update this when we get another domain and redo the routing for the new domain.');
+          }
+          foundNonNEUClass = true;
+          continue;
+        }
+
+        continue;
+      }
+
       if (term.startDate < today && term.endDate > today) {
         currentTerm = term.termId;
         break;
@@ -34,6 +49,10 @@ class SitemapGenerator {
     if (!currentTerm) {
       let minDaysSinceNextTerm;
       for (const term of termDump.terms) {
+        if (term.host !== 'neu.edu') {
+          continue;
+        }
+
         if (term.startDate < today) {
           continue;
         }
@@ -51,6 +70,10 @@ class SitemapGenerator {
       let maxEndDate;
 
       for (const term of termDump.terms) {
+        if (term.host !== 'neu.edu') {
+          continue;
+        }
+
         if (!maxEndDate || term.endDate > maxEndDate) {
           maxEndDate = term.endDate;
           currentTerm = term.termId;
@@ -60,20 +83,9 @@ class SitemapGenerator {
 
     macros.log('The current term is:', currentTerm);
 
-    // Lets not spam the console if there are non-neu classes here.
-    let foundNonNEUClass = false;
-
     // Add the subjects
     for (const subject of termDump.subjects) {
       if (subject.termId !== currentTerm) {
-        continue;
-      }
-
-      if (subject.host !== 'neu.edu') {
-        if (!foundNonNEUClass) {
-          macros.warn('Not adding non-NEU class to the index! Update this when we get another domain and redo the routing for the new domain.');
-        }
-        foundNonNEUClass = true;
         continue;
       }
 

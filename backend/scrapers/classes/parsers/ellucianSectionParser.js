@@ -25,7 +25,7 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
   async main(url) {
     // Possibly load from DEV
     if (macros.DEV && require.main !== module) {
-      const devData = await cache.get('dev_data', this.constructor.name, url);
+      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, url);
       if (devData) {
         return devData;
       }
@@ -37,7 +37,7 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
 
     // Possibly save to dev
     if (macros.DEV && require.main !== module) {
-      await cache.set('dev_data', this.constructor.name, url, retVal);
+      await cache.set(macros.DEV_DATA_DIR, this.constructor.name, url, retVal);
 
       // Don't log anything because there would just be too much logging.
     }

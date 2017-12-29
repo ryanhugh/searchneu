@@ -33,7 +33,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
   async main(url, catalogTitle = null) {
     // Possibly load from DEV
     if (macros.DEV && require.main !== module) {
-      const devData = await cache.get('dev_data', this.constructor.name, url);
+      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, url);
       if (devData) {
         return devData;
       }
@@ -42,31 +42,28 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     const resp = await request.get(url);
 
     // Returns a list of class objects wrapped.
-    const { classWrappersMap, sectionStartingDatas } = this.parse(resp.body, url, catalogTitle);
+    const { classWrapper, sectionStartingDatas } = this.parse(resp.body, url, catalogTitle);
 
     // Load all the section datas.
     const promises = [];
 
     for (const sectionStartingData of sectionStartingDatas) {
       // Hit the section page and when it is done, add the section.
-      promises.push(this.addSectionData(classWrappersMap, sectionStartingData.value, sectionStartingData.className));
+      promises.push(this.addSectionData(classWrapper, sectionStartingData));
     }
 
     // Wait for all the sections to finish parsing.
     await Promise.all(promises);
 
-    // Snag just the values of this map to get the class wrapper objects. {value:.. type:... deps:...}
-    const classList = Object.values(classWrappersMap);
-
 
     // Possibly save to dev
     if (macros.DEV && require.main !== module) {
-      await cache.set('dev_data', this.constructor.name, url, classList);
+      await cache.set(macros.DEV_DATA_DIR, this.constructor.name, url, classWrapper);
 
       // Don't log anything because there would just be too much logging.
     }
 
-    return classList;
+    return classWrapper;
   }
 
 
@@ -124,62 +121,45 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     return retVal;
   }
 
-  async addSectionData(parsedClassMap, sectionStartingData, className) {
+  async addSectionData(classWrapper, sectionStartingData) {
     const dataFromSectionPage = await ellucianSectionParser.main(sectionStartingData.url);
 
     const fullSectiondata = {};
 
     Object.assign(fullSectiondata, dataFromSectionPage, sectionStartingData);
 
-    if (!parsedClassMap[className]) {
-      macros.error('ERROR!', parsedClassMap, className);
-      return;
-    }
-
-    // Move some attributes to the class pagedata.
     // Run some checks and merge some data into the class object.
-    // Actually, because how how this parser adds itself as a dep and copies over attributes,
-    // These will log a lot more than they should, just because they are overriding the values that were pre-set on the class
-    // Once that is fixed, would recommend re-enabling these.
-    // This is fixed now right?????????????
-    if (parsedClassMap[className].value.honors !== undefined && parsedClassMap[className].value.honors !== fullSectiondata.honors) {
-      macros.log('Overring class honors with section honors...', parsedClassMap[className].value.honors, fullSectiondata.honors, sectionStartingData.url);
-    }
-    parsedClassMap[className].value.honors = fullSectiondata.honors;
-    fullSectiondata.honors = undefined;
-
-
     if (fullSectiondata.prereqs) {
       // If they both exists and are different I don't really have a great idea of what to do haha
       // Hopefully this _.isEquals dosen't take too long.
-      if (parsedClassMap[className].value.prereqs && !_.isEqual(parsedClassMap[className].value.prereqs, fullSectiondata.prereqs)) {
+      if (classWrapper.value.prereqs && !_.isEqual(classWrapper.value.prereqs, fullSectiondata.prereqs)) {
         macros.log('Overriding class prereqs with section prereqs...', sectionStartingData.url);
       }
 
-      parsedClassMap[className].value.prereqs = fullSectiondata.prereqs;
+      classWrapper.value.prereqs = fullSectiondata.prereqs;
       fullSectiondata.prereqs = undefined;
     }
 
     // Do the same thing for coreqs
     if (fullSectiondata.coreqs) {
-      if (parsedClassMap[className].value.coreqs && !_.isEqual(parsedClassMap[className].value.coreqs, fullSectiondata.coreqs)) {
+      if (classWrapper.value.coreqs && !_.isEqual(classWrapper.value.coreqs, fullSectiondata.coreqs)) {
         macros.log('Overriding class coreqs with section coreqs...', sectionStartingData.url);
       }
 
-      parsedClassMap[className].value.coreqs = fullSectiondata.coreqs;
+      classWrapper.value.coreqs = fullSectiondata.coreqs;
       fullSectiondata.coreqs = undefined;
     }
 
 
     // Update the max credits on the class if max credits exists on the section and is greater than that on the class
     // Or if the max credits on the class dosen't exist
-    if (fullSectiondata.maxCredits !== undefined && (parsedClassMap[className].value.maxCredits === undefined || parsedClassMap[className].value.maxCredits < fullSectiondata.maxCredits)) {
-      parsedClassMap[className].value.maxCredits = fullSectiondata.maxCredits;
+    if (fullSectiondata.maxCredits !== undefined && (classWrapper.value.maxCredits === undefined || classWrapper.value.maxCredits < fullSectiondata.maxCredits)) {
+      classWrapper.value.maxCredits = fullSectiondata.maxCredits;
     }
 
     // Same thing for min credits, but the sign flipped.
-    if (fullSectiondata.minCredits !== undefined && (parsedClassMap[className].value.minCredits === undefined || parsedClassMap[className].value.minCredits > fullSectiondata.minCredits)) {
-      parsedClassMap[className].value.minCredits = fullSectiondata.minCredits;
+    if (fullSectiondata.minCredits !== undefined && (classWrapper.value.minCredits === undefined || classWrapper.value.minCredits > fullSectiondata.minCredits)) {
+      classWrapper.value.minCredits = fullSectiondata.minCredits;
     }
 
 
@@ -198,7 +178,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     fullSectiondata.lastUpdateTime = Date.now();
 
-    parsedClassMap[className].deps.push({
+    classWrapper.deps.push({
       type: 'sections',
       value: fullSectiondata,
     });
@@ -211,8 +191,16 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     const elements = $('body > div.pagebodydiv > table > tr > th.ddtitle > a');
 
-    // Keys are the name of classes. Values are the class objects
-    const parsedClassMap = {};
+    // Object to keep track of this class and the sections found later on.
+    const classWrapper = {
+      type: 'classes',
+      value: {
+        crns: [],
+      },
+      deps: [],
+    };
+
+    const foundNames = [];
 
     // Keep track of the starting data for the sections. Keep track of both the name of the class and the data in the sections
     // So they can be matched back up with the classes later.
@@ -286,29 +274,19 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
       }
 
       // Add the names of all the classes that have already been parsed.
-      possibleClassNameMatches = possibleClassNameMatches.concat(Object.keys(parsedClassMap));
+      possibleClassNameMatches = possibleClassNameMatches.concat(foundNames);
 
       className = this.standardizeClassName(className, possibleClassNameMatches);
 
+      foundNames.push(className);
 
       // Setup this new section in the parsedClassMap with the fixed name.
-      if (!parsedClassMap[className]) {
-        parsedClassMap[className] = {
-          type: 'classes',
-          value: {
-            lastUpdateTime: Date.now(),
-            name: className,
-            url: url,
-            crns: [sectionURLParsed.crn],
-          },
-          deps: [],
-        };
-      } else {
-        parsedClassMap[className].value.crns.push(sectionURLParsed.crn);
+      if (catalogTitle !== className) {
+        sectionStartingData.info = className;
       }
+      classWrapper.value.crns.push(sectionURLParsed.crn);
 
       sectionStartingData.crn = sectionURLParsed.crn;
-
 
       // Find the next row.
       let classDetails = element.next;
@@ -398,22 +376,17 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
         }
       }
 
-      sectionStartingDatas.push({
-        value: sectionStartingData,
-        className: className,
-      });
+      sectionStartingDatas.push(sectionStartingData);
     }
 
 
     // Sort the CRNs in each class.
     // This makes sure that the CRNs will always be in the same order for the given CRNs.
     // (so tests with .equals will work)
-    for (const className of Object.keys(parsedClassMap)) {
-      parsedClassMap[className].value.crns.sort();
-    }
+    classWrapper.value.crns.sort();
 
     return {
-      classWrappersMap: parsedClassMap,
+      classWrapper: classWrapper,
       sectionStartingDatas: sectionStartingDatas,
     };
   }
@@ -421,7 +394,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
   async test() {
     // const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=ENGW&crse_in=3302&schd_in=LEC');
     const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=PSYC&crse_in=1101&schd_in=LEC');
-    macros.log(JSON.stringify(output[0].deps, null, 4));
+    macros.log(JSON.stringify(output, null, 4));
   }
 }
 

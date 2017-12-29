@@ -5,6 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Icon } from 'semantic-ui-react';
 
 import macros from '../macros';
 import WeekdayBoxes from './WeekdayBoxes';
@@ -88,6 +89,22 @@ export default class MobileSectionPanel extends React.Component {
       titleEnding = '@ TBA';
     }
 
+    if (this.props.section.honors) {
+      titleEnding += ' (hon)';
+    }
+
+    let honorsSection = null;
+    if (this.props.section.honors) {
+      honorsSection = (
+        <tr>
+          <td className='firstColumn'>Honors</td>
+          <td className='secondColumn'>
+            <Icon name='check' />
+          </td>
+        </tr>
+      );
+    }
+
 
     return (
       <div className='section-container'>
@@ -108,6 +125,7 @@ export default class MobileSectionPanel extends React.Component {
               <td className='firstColumn'>CRN</td>
               <td className='secondColumn'>{this.props.section.crn}</td>
             </tr>
+            {honorsSection}
             <tr>
               <td className='firstColumn'>Profs</td>
               <td className='secondColumn'>{this.props.section.getProfs().join(', ')}</td>

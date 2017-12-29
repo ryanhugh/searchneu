@@ -31,14 +31,7 @@ class Section {
 
 
   meetsOnWeekends() {
-    for (let i = 0; i < this.meetings.length; i++) {
-      const meeting = this.meetings[i];
-
-      if (meeting.getMeetsOnWeekends()) {
-        return true;
-      }
-    }
-    return false;
+    return this.meetings.some((meeting) => { return meeting.getMeetsOnWeekends(); });
   }
 
   getAllMeetingMoments(ignoreExams = true) {
@@ -77,27 +70,17 @@ class Section {
   }
 
   getWeekDaysAsStringArray() {
-    const retVal = [];
-
+    const weekdaySet = new Set();
     this.getAllMeetingMoments().forEach((time) => {
-      const day = time.start.format('dddd');
-      if (retVal.includes(day)) {
-        return;
-      }
-      retVal.push(day);
+      weekdaySet.add(time.start.format('dddd'));
     });
 
-    return retVal;
+    return Array.from(weekdaySet);
   }
 
   //returns true if has exam, else false
   getHasExam() {
-    for (let i = 0; i < this.meetings.length; i++) {
-      if (this.meetings[i].getIsExam()) {
-        return true;
-      }
-    }
-    return false;
+    return this.meetings.some((meeting) => { return meeting.getIsExam(); });
   }
 
   //returns the {start:end:} moment object of the first exam found
@@ -116,25 +99,17 @@ class Section {
 
   // Unique list of all professors in all meetings, sorted alphabetically
   getProfs() {
-    const retVal = [];
+    const professors = new Set();
     this.meetings.forEach((meeting) => {
       meeting.profs.forEach((prof) => {
-        if (!retVal.includes(prof)) {
-          retVal.push(prof);
-        }
+        professors.add(prof);
       });
     });
 
-    retVal.sort();
-
-    return retVal;
+    return Array.from(professors).sort();
   }
 
-  getLocations(ignoreExams) {
-    if (ignoreExams === undefined) {
-      ignoreExams = true;
-    }
-
+  getLocations(ignoreExams = true) {
     const retVal = [];
     this.meetings.forEach((meeting) => {
       if (ignoreExams && meeting.getIsExam()) {
@@ -156,48 +131,9 @@ class Section {
     return retVal;
   }
 
-  getUniqueStartTimes(ignoreExams) {
-    if (ignoreExams === undefined) {
-      ignoreExams = true;
-    }
-
-    const retVal = [];
-
-    this.getAllMeetingMoments(ignoreExams).forEach((time) => {
-      const string = time.start.format('h:mm a');
-      if (!retVal.includes(string)) {
-        retVal.push(string);
-      }
-    });
-
-    return retVal;
-  }
-
-  getUniqueEndTimes(ignoreExams) {
-    if (ignoreExams === undefined) {
-      ignoreExams = true;
-    }
-
-    const retVal = [];
-
-    this.getAllMeetingMoments(ignoreExams).forEach((time) => {
-      const string = time.end.format('h:mm a');
-      if (!retVal.includes(string)) {
-        retVal.push(string);
-      }
-    });
-
-    return retVal;
-  }
-
   getHasWaitList() {
-    if (this.waitCapacity > 0 || this.waitRemaining > 0) {
-      return true;
-    }
-
-    return false;
+    return this.waitCapacity > 0 || this.waitRemaining > 0;
   }
-
 
   updateWithData(data) {
     for (const attrName in data) {
@@ -285,7 +221,7 @@ class Section {
 }
 
 
-Section.requiredPath = ['host', 'termId', 'subject', 'classUid'];
+Section.requiredPath = ['host', 'termId', 'subject', 'classId'];
 Section.optionalPath = ['crn'];
 Section.API_ENDPOINT = '/listSections';
 

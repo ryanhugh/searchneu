@@ -87,9 +87,9 @@ export default class DesktopClassPanel extends BaseClassPanel {
       }
 
       // Add the Online sections head if there are any sections that are online
-      // const showOnlineColumn = aClass.getHasOnlineSections();
-
       const showWaitList = this.shouldShowWaitlist();
+
+      const showHonorsColumn = aClass.getHasHonorsSections();
 
       sectionTable = (
         <table className='ui celled striped table resultsTable'>
@@ -111,6 +111,9 @@ export default class DesktopClassPanel extends BaseClassPanel {
               <th style={{ display: !showWaitList && 'none' }}>
                 Waitlist seats
               </th>
+              <th style={{ display: !showHonorsColumn && 'none' }}>
+                Honors
+              </th>
               <th> Link </th>
             </tr>
           </thead>
@@ -123,6 +126,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
                 key={ section.crn }
                 showWaitList={ showWaitList }
                 shouldShowExamColumns={ aClass.sectionsHaveExam() }
+                showHonorsColumn={ showHonorsColumn }
                 section={ section }
               />);
             })}
