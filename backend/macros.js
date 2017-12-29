@@ -302,7 +302,7 @@ class Macros extends commonMacros {
 Macros.schemaVersion = 2;
 
 Macros.PUBLIC_DIR = path.join('public', 'data', `v${Macros.schemaVersion}`);
-Macros.DEV_DATA_DIR = path.join('cache', 'dev_data', `v${Macros.schemaVersion}`);
+Macros.DEV_DATA_DIR = path.join('dev_data', `v${Macros.schemaVersion}`);
 
 // Folder of the raw html cache for the requests.
 Macros.REQUESTS_CACHE_DIR = 'requests';
