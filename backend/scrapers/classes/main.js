@@ -151,7 +151,9 @@ class Main {
     return this.pageDataStructureToTermDump(rootNode);
   }
 
-  // The updater.js calls into this function to run
+  // Runs the processors over a termDump.
+  // The input of this function should be the output of restructureData, above.
+  // The updater.js calls into this function to run the processors over the data scraped as part of the processors.
   runProcessors(dump) {
     // Run the processors, sequentially
     markMissingPrereqs.go(dump);

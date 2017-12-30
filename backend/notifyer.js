@@ -9,11 +9,14 @@ import macros from './macros';
 
 const request = new Request('notifyer', {
   cache: false,
+
+  // Try each request up to three times in production,
+  // but fail on the first try in development.
   retryCount: macros.DEV ? 1 : 3,
 });
 
 class Notifyer {
-  // Webhook to respond to facebook messages.
+  // Webhook to respond to Facebook messages.
   async sendFBNotification(sender, text) {
     const token = await macros.getEnvVariable('fbToken');
 
@@ -84,7 +87,7 @@ class Notifyer {
     return JSON.parse(response.body);
   }
 
-  async main() {
+  main() {
     this.sendFBNotification('1397905100304615', 'test notification');
   }
 }
