@@ -214,21 +214,21 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": <div
-        className="undefined ui segment"
+        className="container ui segment mobile"
       >
         <div
-          className={undefined}
+          className="header"
           onClick={[Function]}
           role="button"
           tabIndex={0}
         >
           <img
             alt=""
-            className={undefined}
+            className="chevron"
             src="file"
           />
           <span
-            className={undefined}
+            className="classTitle"
           >
             CS
              
@@ -238,10 +238,14 @@ ShallowWrapper {
           </span>
         </div>
         <span
-          className="displayNone"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
         >
           <div
-            className={undefined}
+            className="body"
           >
             <span>
               <span>
@@ -319,18 +323,18 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <div
-            className={undefined}
+            className="header"
             onClick={[Function]}
             role="button"
             tabIndex={0}
           >
             <img
               alt=""
-              className={undefined}
+              className="chevron"
               src="file"
             />
             <span
-              className={undefined}
+              className="classTitle"
             >
               CS
                
@@ -340,10 +344,14 @@ ShallowWrapper {
             </span>
           </div>,
           <span
-            className="displayNone"
+            style={
+              Object {
+                "display": "none",
+              }
+            }
           >
             <div
-              className={undefined}
+              className="body"
             >
               <span>
                 <span>
@@ -412,23 +420,23 @@ ShallowWrapper {
             </div>
           </span>,
         ],
-        "className": "undefined ui segment",
+        "className": "container ui segment mobile",
       },
       "ref": null,
       "rendered": Array [
         Object {
           "instance": null,
-          "key": ".0",
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": Array [
               <img
                 alt=""
-                className={undefined}
+                className="chevron"
                 src="file"
               />,
               <span
-                className={undefined}
+                className="classTitle"
               >
                 CS
                  
@@ -437,7 +445,7 @@ ShallowWrapper {
                 Computer Science/Information Science Overview 2: Co-op Preparation
               </span>,
             ],
-            "className": undefined,
+            "className": "header",
             "onClick": [Function],
             "role": "button",
             "tabIndex": 0,
@@ -446,11 +454,11 @@ ShallowWrapper {
           "rendered": Array [
             Object {
               "instance": null,
-              "key": ".0",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "alt": "",
-                "className": undefined,
+                "className": "chevron",
                 "src": "file",
               },
               "ref": null,
@@ -459,7 +467,7 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".1",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": Array [
@@ -469,7 +477,7 @@ ShallowWrapper {
                   ": ",
                   "Computer Science/Information Science Overview 2: Co-op Preparation",
                 ],
-                "className": undefined,
+                "className": "classTitle",
               },
               "ref": null,
               "rendered": Array [
@@ -486,12 +494,12 @@ ShallowWrapper {
         },
         Object {
           "instance": null,
-          "key": ".1",
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": Array [
               <div
-                className={undefined}
+                className="body"
               >
                 <span>
                   <span>
@@ -514,42 +522,44 @@ ShallowWrapper {
                   </div>
                 </span>
               </div>,
-              <MobileSectionPanel
-                section={
-                  Section {
-                    "classId": "1210",
-                    "crn": "13502",
-                    "host": "neu.edu",
-                    "lastUpdateTime": 1511131914029,
-                    "meetings": Array [
-                      Meeting {
-                        "endDate": "2017-12-07T00:00:00.000Z",
-                        "profs": Array [
-                          "Jennifer Anne Shire",
-                        ],
-                        "startDate": "2017-09-07T00:00:00.000Z",
-                        "times": Array [
-                          Array [
-                            Object {
-                              "end": "1970-01-06T11:30:00.000Z",
-                              "start": "1970-01-06T09:50:00.000Z",
-                            },
+              Array [
+                <MobileSectionPanel
+                  section={
+                    Section {
+                      "classId": "1210",
+                      "crn": "13502",
+                      "host": "neu.edu",
+                      "lastUpdateTime": 1511131914029,
+                      "meetings": Array [
+                        Meeting {
+                          "endDate": "2017-12-07T00:00:00.000Z",
+                          "profs": Array [
+                            "Jennifer Anne Shire",
                           ],
-                        ],
-                        "where": "Snell Engineering Center 108",
-                      },
-                    ],
-                    "online": false,
-                    "seatsCapacity": 19,
-                    "seatsRemaining": 0,
-                    "subject": "CS",
-                    "termId": "201810",
-                    "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
-                    "waitCapacity": 0,
-                    "waitRemaining": 0,
+                          "startDate": "2017-09-07T00:00:00.000Z",
+                          "times": Array [
+                            Array [
+                              Object {
+                                "end": "1970-01-06T11:30:00.000Z",
+                                "start": "1970-01-06T09:50:00.000Z",
+                              },
+                            ],
+                          ],
+                          "where": "Snell Engineering Center 108",
+                        },
+                      ],
+                      "online": false,
+                      "seatsCapacity": 19,
+                      "seatsRemaining": 0,
+                      "subject": "CS",
+                      "termId": "201810",
+                      "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                      "waitCapacity": 0,
+                      "waitRemaining": 0,
+                    }
                   }
-                }
-              />,
+                />,
+              ],
               <div
                 className="showMoreButton"
                 onClick={[Function]}
@@ -559,13 +569,15 @@ ShallowWrapper {
                 Show More...
               </div>,
             ],
-            "className": "displayNone",
+            "style": Object {
+              "display": "none",
+            },
           },
           "ref": null,
           "rendered": Array [
             Object {
               "instance": null,
-              "key": ".0",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": <span>
@@ -588,7 +600,7 @@ ShallowWrapper {
                     </a>
                   </div>
                 </span>,
-                "className": undefined,
+                "className": "body",
               },
               "ref": null,
               "rendered": Object {
@@ -621,7 +633,7 @@ ShallowWrapper {
                 "rendered": Array [
                   Object {
                     "instance": null,
-                    "key": ".0",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": Array [
@@ -638,7 +650,7 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".1",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": <a
@@ -681,7 +693,7 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".1:$neu.edu/201810/CS/1210/13502",
+              "key": "neu.edu/201810/CS/1210/13502",
               "nodeType": "class",
               "props": Object {
                 "section": Section {
@@ -723,7 +735,7 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".2",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": "Show More...",
@@ -751,21 +763,21 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": <div
-          className="undefined ui segment"
+          className="container ui segment mobile"
         >
           <div
-            className={undefined}
+            className="header"
             onClick={[Function]}
             role="button"
             tabIndex={0}
           >
             <img
               alt=""
-              className={undefined}
+              className="chevron"
               src="file"
             />
             <span
-              className={undefined}
+              className="classTitle"
             >
               CS
                
@@ -775,10 +787,14 @@ ShallowWrapper {
             </span>
           </div>
           <span
-            className="displayNone"
+            style={
+              Object {
+                "display": "none",
+              }
+            }
           >
             <div
-              className={undefined}
+              className="body"
             >
               <span>
                 <span>
@@ -856,18 +872,18 @@ ShallowWrapper {
         "props": Object {
           "children": Array [
             <div
-              className={undefined}
+              className="header"
               onClick={[Function]}
               role="button"
               tabIndex={0}
             >
               <img
                 alt=""
-                className={undefined}
+                className="chevron"
                 src="file"
               />
               <span
-                className={undefined}
+                className="classTitle"
               >
                 CS
                  
@@ -877,10 +893,14 @@ ShallowWrapper {
               </span>
             </div>,
             <span
-              className="displayNone"
+              style={
+                Object {
+                  "display": "none",
+                }
+              }
             >
               <div
-                className={undefined}
+                className="body"
               >
                 <span>
                   <span>
@@ -949,23 +969,23 @@ ShallowWrapper {
               </div>
             </span>,
           ],
-          "className": "undefined ui segment",
+          "className": "container ui segment mobile",
         },
         "ref": null,
         "rendered": Array [
           Object {
             "instance": null,
-            "key": ".0",
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": Array [
                 <img
                   alt=""
-                  className={undefined}
+                  className="chevron"
                   src="file"
                 />,
                 <span
-                  className={undefined}
+                  className="classTitle"
                 >
                   CS
                    
@@ -974,7 +994,7 @@ ShallowWrapper {
                   Computer Science/Information Science Overview 2: Co-op Preparation
                 </span>,
               ],
-              "className": undefined,
+              "className": "header",
               "onClick": [Function],
               "role": "button",
               "tabIndex": 0,
@@ -983,11 +1003,11 @@ ShallowWrapper {
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": ".0",
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "alt": "",
-                  "className": undefined,
+                  "className": "chevron",
                   "src": "file",
                 },
                 "ref": null,
@@ -996,7 +1016,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".1",
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "children": Array [
@@ -1006,7 +1026,7 @@ ShallowWrapper {
                     ": ",
                     "Computer Science/Information Science Overview 2: Co-op Preparation",
                   ],
-                  "className": undefined,
+                  "className": "classTitle",
                 },
                 "ref": null,
                 "rendered": Array [
@@ -1023,12 +1043,12 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": ".1",
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": Array [
                 <div
-                  className={undefined}
+                  className="body"
                 >
                   <span>
                     <span>
@@ -1051,42 +1071,44 @@ ShallowWrapper {
                     </div>
                   </span>
                 </div>,
-                <MobileSectionPanel
-                  section={
-                    Section {
-                      "classId": "1210",
-                      "crn": "13502",
-                      "host": "neu.edu",
-                      "lastUpdateTime": 1511131914029,
-                      "meetings": Array [
-                        Meeting {
-                          "endDate": "2017-12-07T00:00:00.000Z",
-                          "profs": Array [
-                            "Jennifer Anne Shire",
-                          ],
-                          "startDate": "2017-09-07T00:00:00.000Z",
-                          "times": Array [
-                            Array [
-                              Object {
-                                "end": "1970-01-06T11:30:00.000Z",
-                                "start": "1970-01-06T09:50:00.000Z",
-                              },
+                Array [
+                  <MobileSectionPanel
+                    section={
+                      Section {
+                        "classId": "1210",
+                        "crn": "13502",
+                        "host": "neu.edu",
+                        "lastUpdateTime": 1511131914029,
+                        "meetings": Array [
+                          Meeting {
+                            "endDate": "2017-12-07T00:00:00.000Z",
+                            "profs": Array [
+                              "Jennifer Anne Shire",
                             ],
-                          ],
-                          "where": "Snell Engineering Center 108",
-                        },
-                      ],
-                      "online": false,
-                      "seatsCapacity": 19,
-                      "seatsRemaining": 0,
-                      "subject": "CS",
-                      "termId": "201810",
-                      "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
-                      "waitCapacity": 0,
-                      "waitRemaining": 0,
+                            "startDate": "2017-09-07T00:00:00.000Z",
+                            "times": Array [
+                              Array [
+                                Object {
+                                  "end": "1970-01-06T11:30:00.000Z",
+                                  "start": "1970-01-06T09:50:00.000Z",
+                                },
+                              ],
+                            ],
+                            "where": "Snell Engineering Center 108",
+                          },
+                        ],
+                        "online": false,
+                        "seatsCapacity": 19,
+                        "seatsRemaining": 0,
+                        "subject": "CS",
+                        "termId": "201810",
+                        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                        "waitCapacity": 0,
+                        "waitRemaining": 0,
+                      }
                     }
-                  }
-                />,
+                  />,
+                ],
                 <div
                   className="showMoreButton"
                   onClick={[Function]}
@@ -1096,13 +1118,15 @@ ShallowWrapper {
                   Show More...
                 </div>,
               ],
-              "className": "displayNone",
+              "style": Object {
+                "display": "none",
+              },
             },
             "ref": null,
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": ".0",
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "children": <span>
@@ -1125,7 +1149,7 @@ ShallowWrapper {
                       </a>
                     </div>
                   </span>,
-                  "className": undefined,
+                  "className": "body",
                 },
                 "ref": null,
                 "rendered": Object {
@@ -1158,7 +1182,7 @@ ShallowWrapper {
                   "rendered": Array [
                     Object {
                       "instance": null,
-                      "key": ".0",
+                      "key": undefined,
                       "nodeType": "host",
                       "props": Object {
                         "children": Array [
@@ -1175,7 +1199,7 @@ ShallowWrapper {
                     },
                     Object {
                       "instance": null,
-                      "key": ".1",
+                      "key": undefined,
                       "nodeType": "host",
                       "props": Object {
                         "children": <a
@@ -1218,7 +1242,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".1:$neu.edu/201810/CS/1210/13502",
+                "key": "neu.edu/201810/CS/1210/13502",
                 "nodeType": "class",
                 "props": Object {
                   "section": Section {
@@ -1260,7 +1284,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".2",
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "children": "Show More...",
