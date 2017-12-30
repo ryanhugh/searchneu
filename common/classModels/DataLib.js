@@ -89,23 +89,23 @@ class DataLib {
   }
 
   getClassesInTerm(termId) {
-    let output = [];
+    const output = [];
 
     if (!this.termDumpMap[termId]) {
       return [];
     }
 
-    return Object.values(this.termDumpMap[termId].classMap)
+    return Object.values(this.termDumpMap[termId].classMap);
   }
 
   getSectionsInTerm(termId) {
-    let output = [];
+    const output = [];
 
     if (!this.termDumpMap[termId]) {
       return [];
     }
 
-    return Object.values(this.termDumpMap[termId].sectionMap)
+    return Object.values(this.termDumpMap[termId].sectionMap);
   }
 
   getSubjects(termId) {
@@ -130,10 +130,10 @@ class DataLib {
   }
 
   setClass(aClass) {
-    let hash = Keys.create(aClass).getHash();
+    const hash = Keys.create(aClass).getHash();
 
     if (!this.termDumpMap[aClass.termId]) {
-      macros.error('Cannot set class in non-existent term.')
+      macros.error('Cannot set class in non-existent term.');
     }
 
     this.allClassesMap[hash] = aClass;
@@ -143,17 +143,16 @@ class DataLib {
 
 
   setSection(section) {
-    let hash = Keys.create(section).getHash();
+    const hash = Keys.create(section).getHash();
 
     if (!this.termDumpMap[section.termId]) {
-      macros.error('Cannot set section in non-existent term.')
+      macros.error('Cannot set section in non-existent term.');
     }
 
     this.allSectionsMap[hash] = section;
 
     this.termDumpMap[section.termId].sectionMap[hash] = section;
   }
-
 }
 
 export default DataLib;

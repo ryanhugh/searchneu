@@ -17,10 +17,10 @@ class Updater {
     this.dataLib = dataLib;
 
     // 5 min if prod, 30 sec if dev.
-    // In dev the cache will be used so we are not actually hitting NEU's servers anyway. 
-    let intervalTime = macros.PROD? 300000: 30000
+    // In dev the cache will be used so we are not actually hitting NEU's servers anyway.
+    const intervalTime = macros.PROD ? 300000 : 30000;
 
-    setInterval(this.onInterval.bind(this), intervalTime)
+    setInterval(this.onInterval.bind(this), intervalTime);
   }
 
 
@@ -46,8 +46,7 @@ class Updater {
   // Notify users about any changes
   // Update the local data about the changes
   async onInterval() {
-
-    let startTime = Date.now()
+    const startTime = Date.now();
 
     let users = await database.get('users');
     if (!users) {
@@ -147,41 +146,40 @@ class Updater {
     const output = classesScrapers.restructureData(rootNode);
 
     if (!output.sections) {
-      output.sections = []
+      output.sections = [];
     }
 
     if (!output.classes) {
-      output.classes = []
+      output.classes = [];
     }
 
-    // Keep track of which terms have classes that we are updating. 
-    let updatingTerms = {};
+    // Keep track of which terms have classes that we are updating.
+    const updatingTerms = {};
     for (const aClass of classes) {
       updatingTerms[aClass.termId] = true;
     }
 
-    for (let termId of Object.keys(updatingTerms)) {
-
+    for (const termId of Object.keys(updatingTerms)) {
       // Copy over every class we didn't just update from the old data.
-      let oldClasses = this.dataLib.getClassesInTerm(termId)
+      const oldClasses = this.dataLib.getClassesInTerm(termId);
 
-      for (let aClass of oldClasses) {
-        let hash = Keys.create(aClass).getHash()
+      for (const aClass of oldClasses) {
+        const hash = Keys.create(aClass).getHash();
 
         // TODO: Change this from classHashes to a hash of the output classes after the re-factor away classUid
         if (!classHashes.includes(hash)) {
-          output.classes.push(aClass)
+          output.classes.push(aClass);
         }
       }
 
-      let oldSections = this.dataLib.getSectionsInTerm(termId)
+      const oldSections = this.dataLib.getSectionsInTerm(termId);
 
-      for (let section of oldSections) {
-        let hash = Keys.create(section).getHash()
+      for (const section of oldSections) {
+        const hash = Keys.create(section).getHash();
 
         // TODO: Change this from classHashes to a hash of the output classes after the re-factor away classUid
         if (!sectionHashes.includes(hash)) {
-          output.sections.push(section)
+          output.sections.push(section);
         }
       }
     }
@@ -275,15 +273,15 @@ class Updater {
 
     // Update dataLib with the updated termDump
     // If we ever move to a real database, we would want to change this so it only updates the classes that the scrapers found.
-    for (let aClass of output.classes) {
+    for (const aClass of output.classes) {
       this.dataLib.setClass(aClass);
     }
 
-    for (let section of output.sections) {
-      this.dataLib.setSection(section)
+    for (const section of output.sections) {
+      this.dataLib.setSection(section);
     }
 
-    macros.log("Done running updater onInterval. It took", Date.now() - startTime, 'ms.');
+    macros.log('Done running updater onInterval. It took', Date.now() - startTime, 'ms.');
   }
 }
 

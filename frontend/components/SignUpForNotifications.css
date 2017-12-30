@@ -1,0 +1,38 @@
+
+.notificationButton {
+    margin-top: 10px !important;
+}
+
+@media only screen and (min-width: 767px) {
+    .notificationButton {
+        font-size: 15px !important;
+        width: 200px !important;
+    }
+}
+
+.facebookButtonContainer {
+    margin-top: 8px;
+}
+
+.sendToMessengerButtonLabel {
+    display: inline-block;
+    max-width: 137px;
+    margin-right: 10px;
+    vertical-align: top;
+    margin-top: 5px;
+    color: grey;
+    text-align: right;
+}
+
+
+.sendToMessengerButton {
+    max-width: 153px;
+    max-height: 55px !important;
+    overflow: hidden;
+    display: inline-block !important;
+}
+
+
+.inlineBlock {
+    display: inline-block;
+}

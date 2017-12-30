@@ -10,7 +10,7 @@ import { AppContainer } from 'react-hot-loader';
 
 import macros from './components/macros';
 import Home from './components/Home';
-import request from './components/request'
+import request from './components/request';
 
 if (window.location.hash === '#notrack') {
   macros.log('Turning on no track.');
@@ -28,7 +28,6 @@ window.fbAsyncInit = () => {
 
 
   window.FB.Event.subscribe('send_to_messenger', (e) => {
-    
     if (e.event === 'rendered') {
       macros.log('Plugin was rendered');
     } else if (e.event === 'checkbox') {
@@ -39,39 +38,37 @@ window.fbAsyncInit = () => {
     } else if (e.event === 'hidden') {
       macros.log('Plugin was hidden');
     } else if (e.event === 'opt_in') {
-      macros.log("Opt in was clicked!", e)
+      macros.log('Opt in was clicked!', e);
 
       if (macros.DEV) {
         request.post({
-          url: '/webhook', 
+          url: '/webhook',
           body: {
-            "object": "page",
-            "entry": [
-            {
-                "id": "111111111111111",
-                "time": Date.now(),
-                "messaging": [
-                {
-                    "recipient":
+            object: 'page',
+            entry: [
+              {
+                id: '111111111111111',
+                time: Date.now(),
+                messaging: [
+                  {
+                    recipient:
                     {
-                        "id": "111111111111111"
+                      id: '111111111111111',
                     },
-                    "timestamp": Date.now(),
-                    "sender":
+                    timestamp: Date.now(),
+                    sender:
                     {
-                        "id": "1397905100304615"
+                      id: '1397905100304615',
                     },
-                    "optin":
+                    optin:
                     {
-                        "ref": e.ref
-                    }
-                }]
-            }]
-        }
+                      ref: e.ref,
+                    },
+                  }],
+              }],
+          },
+        });
       }
-      )
-      }  
-
     } else {
       macros.log(e, 'other message');
     }

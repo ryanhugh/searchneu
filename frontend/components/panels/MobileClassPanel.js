@@ -16,6 +16,7 @@ import MobileSectionPanel from './MobileSectionPanel';
 import Keys from '../../../common/Keys';
 import BaseClassPanel from './BaseClassPanel';
 import macros from '../macros';
+import SignUpForNotifications from '../SignUpForNotifications';
 
 const css = {};
 
@@ -44,25 +45,6 @@ class MobileClassPanel extends BaseClassPanel {
       // Figure out the credits string
       const creditsString = this.getCreditsString();
 
-      let notificationButton = null;
-
-      if (this.state.showMessengerButton) {
-        
-        const sendToMessengerButton = this.getSendToMessengerButton();
-
-        notificationButton = (
-          <div className={css.facebookButtonContainer}>
-            <div className={css.sendToMessengerButtonLabel}>
-              Click this button to continue
-            </div>
-            {sendToMessengerButton}
-          </div>
-        );
-      }
-      else {
-        notificationButton = this.getNotificationButton();
-      }
-
       return (
         <span>
           {aClass.desc}
@@ -85,7 +67,7 @@ class MobileClassPanel extends BaseClassPanel {
             <br />
             Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
             <br />
-            {notificationButton}
+            <SignUpForNotifications aClass={ aClass } />
           </div>
         </span>
       );

@@ -9,7 +9,7 @@ import macros from './macros';
 
 const request = new Request('notifyer', {
   cache: false,
-  retryCount: macros.DEV? 1: 3,
+  retryCount: macros.DEV ? 1 : 3,
 });
 
 class Notifyer {
@@ -77,9 +77,9 @@ class Notifyer {
     //   "last_name": "Hughes",
     //   "id": "..."
     // }
-    let response = await request.get(`https://graph.facebook.com/v2.6/${sender}?fields=first_name,last_name&access_token=${token}`);
+    const response = await request.get(`https://graph.facebook.com/v2.6/${sender}?fields=first_name,last_name&access_token=${token}`);
 
-    return JSON.parse(response.body)
+    return JSON.parse(response.body);
   }
 
   async main() {

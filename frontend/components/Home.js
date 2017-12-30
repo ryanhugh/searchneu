@@ -180,7 +180,7 @@ class Home extends React.Component {
     } else if (e.event === 'hidden') {
       macros.log('Plugin was hidden');
     } else if (e.event === 'opt_in') {
-      macros.log("Opt in was clicked!")
+      macros.log('Opt in was clicked!');
     } else {
       macros.log(e, 'other message');
     }
@@ -437,7 +437,7 @@ class Home extends React.Component {
       {
         text: 'Spring 2018',
         value: '201830',
-      }
+      },
     ];
 
     // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation.
