@@ -14,6 +14,11 @@ import BaseProcessor from './baseProcessor';
 
 class TermStartEndDate extends BaseProcessor.BaseProcessor {
   runOnTerm(termDump, term) {
+    // Don't run on this term if this term already has a startDate and endDate.
+    if (term.startDate && term.endDated) {
+      return term;
+    }
+
     const startDates = {};
     const endDates = {};
     let meetingCount = 0;
@@ -94,6 +99,14 @@ class TermStartEndDate extends BaseProcessor.BaseProcessor {
 
 
   go(termDump) {
+    // If this term dump is just updating a few classes as part of the updater.js
+    // There will be no terms
+    // In this case just return.
+    if (!termDump.terms) {
+      return termDump;
+    }
+
+
     for (const term of termDump.terms) {
       this.runOnTerm(termDump, term);
     }

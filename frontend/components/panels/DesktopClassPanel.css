@@ -13,14 +13,10 @@
     background: none !important;
 }
 
-.inlineBlock {
-    display: inline-block;
-}
-
 .leftPanel {
     text-align: left;
     display: inline-block;
-    width: calc(100% - 200px);
+    width: calc(100% - 300px);
 }
 
 .rightPanel {
@@ -28,7 +24,7 @@
     display: inline-block;
     float: right;
     white-space: normal;
-    max-width: 200px;
+    max-width: 300px;
     min-width: 53px;
 }
 

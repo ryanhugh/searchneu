@@ -61,3 +61,7 @@
     content: '\279C';
     padding-left: 3px;
 }
+
+.inlineBlock {
+    display: inline-block;
+}

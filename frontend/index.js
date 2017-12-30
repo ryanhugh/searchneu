@@ -16,6 +16,17 @@ if (window.location.hash === '#notrack') {
   window.localStorage.noTrack = true;
 }
 
+
+/*eslint-disable */
+(function (d, s, id) {
+  let js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) { return; }
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk.js';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+/*eslint-enable */
+
 // Segment tracket. This includes trackers for Rollbar and Fullstory.
 // These are only used on prod and only used if the user has not opted out of tracking.
 if (macros.PROD && !window.localStorage.noTrack) {
