@@ -44,6 +44,25 @@ class MobileClassPanel extends BaseClassPanel {
       // Figure out the credits string
       const creditsString = this.getCreditsString();
 
+      let notificationButton = null;
+
+      if (this.state.showMessengerButton) {
+        
+        const sendToMessengerButton = this.getSendToMessengerButton();
+
+        notificationButton = (
+          <div className={css.facebookButtonContainer}>
+            <div className={css.sendToMessengerButtonLabel}>
+              Click this button to continue
+            </div>
+            {sendToMessengerButton}
+          </div>
+        );
+      }
+      else {
+        notificationButton = this.getNotificationButton();
+      }
+
       return (
         <span>
           {aClass.desc}
@@ -65,6 +84,8 @@ class MobileClassPanel extends BaseClassPanel {
             Prerequisite for: {this.optionalDisplay(macros.prereqTypes.PREREQ_FOR)} {this.showMore(macros.prereqTypes.PREREQ_FOR)}
             <br />
             Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
+            <br />
+            {notificationButton}
           </div>
         </span>
       );

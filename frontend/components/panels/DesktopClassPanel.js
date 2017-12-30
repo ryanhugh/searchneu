@@ -7,8 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
-import { Checkbox, Button } from 'semantic-ui-react';
-import randomstring from 'randomstring';
 
 import Keys from '../../../common/Keys';
 import globe from './globe.svg';
@@ -47,15 +45,11 @@ class DesktopClassPanel extends BaseClassPanel {
     this.state.showMessengerButton = false;
 
     this.facebookScopeRef = null;
-    this.onSubscribeToggleChange = this.onSubscribeToggleChange.bind(this);
   }
 
   componentDidUpdate() {
+    super.componentDidUpdate();
     macros.debounceTooltipRebuild();
-
-    if (this.facebookScopeRef) {
-      window.FB.XFBML.parse(this.facebookScopeRef);
-    }
   }
 
   componentDidMount() {
@@ -97,14 +91,6 @@ class DesktopClassPanel extends BaseClassPanel {
 
     // If there are plenty of seats left, don't show the waitlist
     return false;
-  }
-
-  onSubscribeToggleChange(event, data) {
-    macros.log(data.checked);
-
-    this.setState({
-      showMessengerButton: true,
-    });
   }
 
   render() {
@@ -179,56 +165,22 @@ class DesktopClassPanel extends BaseClassPanel {
 
     let updatesSection = null;
     if (this.state.showMessengerButton) {
-      // Get a list of all the sections that don't have seats remaining
-      const sectionsHashes = [];
-      for (const section of aClass.sections) {
-        if (section.seatsRemaining <= 0) {
-          sectionsHashes.push(Keys.create(section).getHash());
-        }
-      }
-
-      // Init the loginKey
-      if (!window.localStorage.loginKey) {
-        window.localStorage.loginKey = randomstring.generate(100)
-      }
-
-      // JSON stringify it and then base64 encode it.
-      // The messenger button dosen't appear unless the ref is base64 encoded.
-      const dataRef = btoa(JSON.stringify({
-        classHash: Keys.create(aClass).getHash(),
-        sectionHashes: sectionsHashes,
-        dev: macros.DEV,
-        loginKey: window.localStorage.loginKey,
-      }));
-
+     
+      const sendToMessengerButton = this.getSendToMessengerButton();
 
       updatesSection = (
         <div className={css.facebookButtonContainer}>
           <div className={css.sendToMessengerButtonLabel}>
             Click this button to continue
           </div>
-          <div ref={ (ele) => { this.facebookScopeRef = ele; }} className={css.inlineBlock}>
-            <div
-              className={'fb-send-to-messenger ' + css.sendToMessengerButton}
-              messenger_app_id='1979224428978082'
-              page_id='807584642748179'
-              data-ref={ dataRef }
-              color='white'
-              size='large'
-            />
-          </div>
+          {sendToMessengerButton}
         </div>
       );
-    } else if (aClass.sections.length === 0) {
-      updatesSection = (
-          <Button basic onClick={ this.onSubscribeToggleChange } content='Click here to sign up for notifications when sections are added.' className={css.notificationButton}/>
-        )
-    } else if (aClass.isAtLeastOneSectionFull()) {
-      updatesSection = (
-          <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!'  className={css.notificationButton}/>
-        )
+    } else {
+      updatesSection = this.getNotificationButton();
     }
 
+    // Disable the button under a flag - just for now
     if (window.location.hash !== '#fbtest') {
       updatesSection = null;
     }

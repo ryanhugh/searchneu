@@ -5,11 +5,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'semantic-ui-react';
 
 import RequisiteBranch from '../../../common/classModels/RequisiteBranch';
 import Keys from '../../../common/Keys';
 import css from './BaseClassPanel.css';
 import macros from '../macros';
+import authentication from '../authentication';
 
 class BaseClassPanel extends React.Component {
   static propTypes = {
@@ -39,9 +41,12 @@ class BaseClassPanel extends React.Component {
       renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
       unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
     };
+
+    this.onSubscribeToggleChange = this.onSubscribeToggleChange.bind(this);
+    this.onShowMoreClick = this.onShowMoreClick.bind(this);
   }
 
-  onShowMoreClick = () => {
+  onShowMoreClick() {
     macros.log('Adding more sections to the bottom.');
 
     // Get the length of the our sections
@@ -85,6 +90,62 @@ class BaseClassPanel extends React.Component {
     });
 
     return null;
+  }
+  
+  componentDidUpdate() {
+    if (this.facebookScopeRef) {
+      window.FB.XFBML.parse(this.facebookScopeRef);
+    }
+  }
+
+  getSendToMessengerButton() {
+    let loginKey = authentication.getLoginKey();
+
+    let aClass = this.props.aClass;
+
+   // Get a list of all the sections that don't have seats remaining
+    const sectionsHashes = [];
+    for (const section of aClass.sections) {
+      if (section.seatsRemaining <= 0) {
+        sectionsHashes.push(Keys.create(section).getHash());
+      }
+    }
+
+    // JSON stringify it and then base64 encode it.
+    // The messenger button dosen't appear unless the ref is base64 encoded.
+    const dataRef = btoa(JSON.stringify({
+      classHash: Keys.create(aClass).getHash(),
+      sectionHashes: sectionsHashes,
+      dev: macros.DEV,
+      loginKey: loginKey,
+    }));
+
+    return ( 
+      <div ref={ (ele) => { this.facebookScopeRef = ele; }} className={css.inlineBlock}>
+        <div
+          className={'fb-send-to-messenger ' + css.sendToMessengerButton}
+          messenger_app_id='1979224428978082'
+          page_id='807584642748179'
+          data-ref={ dataRef }
+          color='white'
+          size='large'
+        />
+      </div>
+      )
+  }
+
+  getNotificationButton() {
+    if (this.props.aClass.sections.length === 0) {
+      return <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when sections are added!' className={css.notificationButton}/>
+    } else if (this.props.aClass.isAtLeastOneSectionFull()) {
+      return <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!' className={css.notificationButton}/>
+    }
+  }
+
+  onSubscribeToggleChange(event, data) {
+    this.setState({
+      showMessengerButton: true,
+    });
   }
 
   // Render the Show More.. Button
