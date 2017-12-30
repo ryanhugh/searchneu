@@ -426,7 +426,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
       notifyer.sendFBNotification(sender, "You are already signed up to get notifications if seats open up in some of the sections in " + classCode + " and are now signed up for " + sectionWasentWatchingBefore.length + " more sections too!");
     }
     else {
-      notifyer.sendFBNotification(sender, "Successfully signed up for notifications for " + sectionWasentWatchingBefore.lenght + " sections in " + classCode + "!");
+      notifyer.sendFBNotification(sender, "Successfully signed up for notifications for " + sectionWasentWatchingBefore.length + " sections in " + classCode + "!");
     }
 
     // ok lets add what classes the user saw in the frontend that have no seats availible and that he wants to sign up for
