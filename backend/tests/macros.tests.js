@@ -3,7 +3,7 @@
  * See the license file in the root folder for details.
  */
 
-import macros from '../../macros';
+import macros from '../macros';
 
 it('standardize email works', () => {
   const input = macros.standardizeEmail('mailto:b@google.com');
@@ -40,4 +40,28 @@ it('parseGoogleScolarLink works', () => {
 
 it('alphabet is 26', () => {
   expect(macros.ALPHABET.length).toBe(26);
+});
+
+
+
+it('should parse a name with spaces', function() {
+
+  expect(macros.parseNameWithSpaces('Bob    Ross')).toEqual({
+    firstName: 'Bob',
+    lastName: 'Ross',
+  })
+
+  expect(macros.parseNameWithSpaces('   John    Ross    ')).toEqual({
+    firstName: 'John',
+    lastName: 'Ross',
+  })
+
+  expect(macros.parseNameWithSpaces('A B C')).toEqual({
+    firstName: 'A',
+    lastName: 'C',
+  })
+
+  expect(macros.parseNameWithSpaces('E')).toEqual(null)
+
+
 });
