@@ -139,7 +139,6 @@ class Updater {
       value: {},
     };
 
-
     // Because ellucianCatalogParser returns a list of classes, instead of a singular class, we need to run it on all of them
     const output = classesScrapers.restructureData(rootNode);
 
