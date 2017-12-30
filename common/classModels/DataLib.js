@@ -89,8 +89,6 @@ class DataLib {
   }
 
   getClassesInTerm(termId) {
-    const output = [];
-
     if (!this.termDumpMap[termId]) {
       return [];
     }
@@ -99,8 +97,6 @@ class DataLib {
   }
 
   getSectionsInTerm(termId) {
-    const output = [];
-
     if (!this.termDumpMap[termId]) {
       return [];
     }

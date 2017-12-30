@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
 
-import Keys from '../../../common/Keys';
 import globe from './globe.svg';
 import desktopCss from './DesktopClassPanel.css';
 import baseCss from './BaseClassPanel.css';

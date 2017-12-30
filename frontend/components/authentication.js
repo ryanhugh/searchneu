@@ -1,5 +1,6 @@
 import randomstring from 'randomstring';
 
+import request from './request';
 import macros from './macros';
 
 // TODO: add check to see if the user is logged in or not:
@@ -39,13 +40,14 @@ class Authentication {
 
     // Init the loginKey if it dosen't exist
     if (!loginKey) {
-      window.localStorage.loginKey = loginKey = randomstring.generate(100);
+      loginKey = randomstring.generate(100);
+      window.localStorage.loginKey = loginKey;
     }
 
     return loginKey;
   }
 
-  onSendToMessengerClick(event) {
+  onSendToMessengerClick(e) {
     if (e.event === 'rendered') {
       macros.log('Plugin was rendered');
     } else if (e.event === 'checkbox') {

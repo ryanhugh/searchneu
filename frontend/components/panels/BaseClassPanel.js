@@ -5,7 +5,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
 
 import RequisiteBranch from '../../../common/classModels/RequisiteBranch';
 import Keys from '../../../common/Keys';

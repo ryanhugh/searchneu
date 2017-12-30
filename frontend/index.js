@@ -10,70 +10,12 @@ import { AppContainer } from 'react-hot-loader';
 
 import macros from './components/macros';
 import Home from './components/Home';
-import request from './components/request';
 
 if (window.location.hash === '#notrack') {
   macros.log('Turning on no track.');
   window.localStorage.noTrack = true;
 }
 
-
-window.fbAsyncInit = () => {
-  window.FB.init({
-    appId            : '1979224428978082',
-    autoLogAppEvents : false,
-    xfbml            : false,
-    version          : 'v2.11',
-  });
-
-
-  window.FB.Event.subscribe('send_to_messenger', (e) => {
-    if (e.event === 'rendered') {
-      macros.log('Plugin was rendered');
-    } else if (e.event === 'checkbox') {
-      const checkboxState = e.state;
-      macros.log(`Checkbox state: ${checkboxState}`);
-    } else if (e.event === 'not_you') {
-      macros.log("User clicked 'not you'");
-    } else if (e.event === 'hidden') {
-      macros.log('Plugin was hidden');
-    } else if (e.event === 'opt_in') {
-      macros.log('Opt in was clicked!', e);
-
-      if (macros.DEV) {
-        request.post({
-          url: '/webhook',
-          body: {
-            object: 'page',
-            entry: [
-              {
-                id: '111111111111111',
-                time: Date.now(),
-                messaging: [
-                  {
-                    recipient:
-                    {
-                      id: '111111111111111',
-                    },
-                    timestamp: Date.now(),
-                    sender:
-                    {
-                      id: '1397905100304615',
-                    },
-                    optin:
-                    {
-                      ref: e.ref,
-                    },
-                  }],
-              }],
-          },
-        });
-      }
-    } else {
-      macros.log(e, 'other message');
-    }
-  });
-};
 
 /*eslint-disable */
 (function (d, s, id) {
