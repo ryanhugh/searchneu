@@ -243,20 +243,20 @@ class BaseParser {
   }
 
 
-  // no great npm module found so far
+  // This function cleans up various things in titles during scraping.
+  // This is used for college names, professor names, and class location names
+  //   - Clean up & simplify some symbols (see simplifySymbols function).
+  //   - Replace large gaps of whitespace with 1 space
+  //   - Capitalize the A&M in Texas a&m University
+  //   - Trim the input string
+  // Before, we were using an npm module to automatically fix capitalization issues in titles too,
+  // but these libraries ended up messing up the capitalization for more titles than they were fixing
+  // So we removed the automatic-capitalization and just stuck with some basic string functionality.
+  // NPM modules we looked at:
   // https://www.npmjs.com/package/case
   // https://www.npmjs.com/package/change-case
   // https://www.npmjs.com/package/slang
-  // https://www.npmjs.com/package/to-title-case -- currently using this one, its ok not great
-  // Example of import changeCase from 'change-case':
-  // let a = changeCase.title
-
-  // macros.log(a('texas a&m university'));
-  // macros.log(a('something something'))
-  // macros.log(a('2Nd year spanish'))
-
-  // Used for college names, professor names and locations
-  // odd cases: "TBA", Texas A&M University
+  // https://www.npmjs.com/package/to-title-case
   toTitleCase(originalString, warningStr) {
     if (originalString === 'TBA') {
       return originalString;
@@ -269,14 +269,11 @@ class BaseParser {
 
     let string = this.simplifySymbols(originalString);
 
-    //get rid of newlines and replace large sections of whitespace with one space
+    // Get rid of newlines and replace large sections of whitespace with one space.
     string = string.replace(/\n/g, ' ').replace(/\r/g, ' ').replace(/\s+/g, ' ');
 
-    // string = toTitleCase(string)
-
-
     const correctParts = [
-      // Texas A&M University
+      // Capitalize the A&M in Texas A&M University ("Texas a&m University" -> "Texas A&M University")
       ' A&M ',
     ];
 
@@ -293,6 +290,12 @@ class BaseParser {
     return string.trim();
   }
 
+  // This function is used as part of standardizeClassName.
+  // This function will remove endings off the end of a given string
+  // and return the remaining string and a list of all the endings
+  // These indings include "- Lab" and (HON).
+  // These endings can sometimes appear on a few sections of classes that tend to have many sections
+  // Eg. 5 normal sections and 1 honors section: The honors section would have an (HON) at the end.
   // 'something something (hon)' -> 'something something' and ['(hon)']
   splitEndings(name) {
     name = name.trim();
@@ -353,13 +356,11 @@ class BaseParser {
   // https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?schd_in=%25&term_in=201710&subj_in=JRNL&crse_in=1150
   // Interpreting the Day’s News vs Interptng the Day's News
   // or this https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=BUSN&crse_in=1103&schd_in=LEC
-  standardizeClassName(originalName, possibleMatches) {
-    // can't do much here, it was called from category. just fix small stuff
-    if (possibleMatches === undefined) {
-      possibleMatches = [];
-    }
 
-    // trim all inputs and replace 2+ spaces for 1
+  // If no possibleMatches are given, just fix small bugs.
+  // EllucianCategoryParser will not pass in possibleMawtches.
+  standardizeClassName(originalName, possibleMatches = []) {
+    // Trim all inputs and replace 2+ spaces for 1
     originalName = originalName.trim().replace(/\s+/gi, ' ');
     originalName = this.simplifySymbols(originalName);
 

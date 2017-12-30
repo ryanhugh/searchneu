@@ -9,13 +9,23 @@ import macros from './macros';
 
 const request = new Request('notifyer', {
   cache: false,
-  retryCount: 3,
+
+  // Try each request up to three times in production,
+  // but fail on the first try in development.
+  retryCount: macros.DEV ? 1 : 3,
 });
 
 class Notifyer {
-  // Webhook to respond to facebook messages.
+  // Webhook to respond to Facebook messages.
   async sendFBNotification(sender, text) {
     const token = await macros.getEnvVariable('fbToken');
+
+    if (!token) {
+      macros.warn("Don't have fbToken, not sending FB notification to", sender, text);
+      return {
+        error: 'true',
+      };
+    }
 
     const config = {
       method: 'POST',
@@ -55,16 +65,27 @@ class Notifyer {
     }
   }
 
-  // TODO
-  // sendEmail() {
 
-  // }
+  // Get some info about the user
+  // Docs here: https://developers.facebook.com/docs/messenger-platform/identity/user-profile
+  async getUserProfileInfo(sender) {
+    const token = await macros.getEnvVariable('fbToken');
 
+    if (!token) {
+      macros.warn("Don't have fbToken, not getting user info for", sender);
+      return {};
+    }
 
-  // sendNotification() {
+    // Example:
+    // {
+    //   "first_name": "Ryan",
+    //   "last_name": "Hughes",
+    //   "id": "..."
+    // }
+    const response = await request.get(`https://graph.facebook.com/v2.6/${sender}?fields=first_name,last_name&access_token=${token}`);
 
-  // }
-
+    return JSON.parse(response.body);
+  }
 
   main() {
     this.sendFBNotification('1397905100304615', 'test notification');

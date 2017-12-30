@@ -11,13 +11,16 @@ import './DesktopClassPanel.scss';
 import macros from '../macros';
 import BaseClassPanel from './BaseClassPanel';
 import DesktopSectionPanel from './DesktopSectionPanel';
+import SignUpForNotifications from '../SignUpForNotifications';
 
 // Class Panel that renders the box with the class title, class description, and class sections
 // If mobile, uses MobileSectionPanel to show the sections.
 // The code for desktop is inside this file.
 
+// Note, if you do override the constructor,
+// Don't do `this.state = {...}`, because the state is already setup in the parent react component
+// instead just do this.state.something = 5;
 
-// DesktopClassPanel page component
 
 export default class DesktopClassPanel extends BaseClassPanel {
   static propTypes = {
@@ -59,8 +62,6 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
     // Also show the waitlist if any of the sections have less than 10 seats left.
     // The number 10 is just an arbitrary decision and can be changed in the future.
-    // const foundSectionWithLessThanTenSeats = false;
-
     for (const section of aClass.sections) {
       if (section.seatsRemaining < 10) {
         return true;
@@ -177,6 +178,10 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <div className='rightPanel'>
               <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
               {creditsString}
+              <div>
+                <SignUpForNotifications aClass={ aClass } />
+              </div>
+
             </div>
           </div>
           {sectionTable}
