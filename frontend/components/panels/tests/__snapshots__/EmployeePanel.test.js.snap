@@ -67,7 +67,12 @@ ShallowWrapper {
           </span>
         </div>,
         <div
-          className="body"
+          style={
+            Object {
+              "display": false,
+              "padding": 20,
+            }
+          }
         >
           <div
             className="inlineBlock contactBox"
@@ -93,7 +98,12 @@ ShallowWrapper {
             </a>
           </div>
           <div
-            className="inlineBlock desktopSecondColumn"
+            style={
+              Object {
+                "display": "inline-block",
+                "padding-left": 100,
+              }
+            }
           >
             132C Nightingale Hall
             <br />
@@ -123,10 +133,11 @@ ShallowWrapper {
     "rendered": Array [
       Object {
         "instance": null,
-        "key": ".0",
+        "key": undefined,
         "nodeType": "host",
         "props": Object {
           "children": Array [
+            null,
             <span
               className="titleText"
             >
@@ -155,9 +166,10 @@ ShallowWrapper {
         },
         "ref": null,
         "rendered": Array [
+          null,
           Object {
             "instance": null,
-            "key": ".1",
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": "Leena Razzaq",
@@ -169,7 +181,7 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": ".2",
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": <a
@@ -222,7 +234,7 @@ ShallowWrapper {
       },
       Object {
         "instance": null,
-        "key": ".1",
+        "key": undefined,
         "nodeType": "host",
         "props": Object {
           "children": Array [
@@ -250,7 +262,12 @@ ShallowWrapper {
               </a>
             </div>,
             <div
-              className="inlineBlock desktopSecondColumn"
+              style={
+                Object {
+                  "display": "inline-block",
+                  "padding-left": 100,
+                }
+              }
             >
               132C Nightingale Hall
               <br />
@@ -273,13 +290,16 @@ ShallowWrapper {
               </a>
             </div>,
           ],
-          "className": "body",
+          "style": Object {
+            "display": false,
+            "padding": 20,
+          },
         },
         "ref": null,
         "rendered": Array [
           Object {
             "instance": null,
-            "key": ".0",
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": Array [
@@ -310,7 +330,7 @@ ShallowWrapper {
               "Assistant Teaching Professor",
               Object {
                 "instance": null,
-                "key": ".$0",
+                "key": "0",
                 "nodeType": "host",
                 "props": Object {},
                 "ref": null,
@@ -320,7 +340,7 @@ ShallowWrapper {
               "CCIS",
               Object {
                 "instance": null,
-                "key": ".$1",
+                "key": "1",
                 "nodeType": "host",
                 "props": Object {},
                 "ref": null,
@@ -329,7 +349,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".$link",
+                "key": "link",
                 "nodeType": "host",
                 "props": Object {
                   "children": "NEU Profile",
@@ -343,7 +363,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".$2",
+                "key": "2",
                 "nodeType": "host",
                 "props": Object {},
                 "ref": null,
@@ -352,7 +372,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".$personalSite",
+                "key": "personalSite",
                 "nodeType": "host",
                 "props": Object {
                   "children": "Personal Website",
@@ -369,7 +389,7 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": ".1",
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": Array [
@@ -393,14 +413,17 @@ ShallowWrapper {
                   617-373-5797
                 </a>,
               ],
-              "className": "inlineBlock desktopSecondColumn",
+              "style": Object {
+                "display": "inline-block",
+                "padding-left": 100,
+              },
             },
             "ref": null,
             "rendered": Array [
               "132C Nightingale Hall",
               Object {
                 "instance": null,
-                "key": ".$0",
+                "key": "0",
                 "nodeType": "host",
                 "props": Object {},
                 "ref": null,
@@ -409,7 +432,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".$l.razzaq@northeastern.edu",
+                "key": "l.razzaq@northeastern.edu",
                 "nodeType": "host",
                 "props": Object {
                   "children": "l.razzaq@northeastern.edu",
@@ -421,7 +444,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".$1",
+                "key": "1",
                 "nodeType": "host",
                 "props": Object {},
                 "ref": null,
@@ -430,7 +453,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".$lrazzaq@ccs.neu.edu",
+                "key": "lrazzaq@ccs.neu.edu",
                 "nodeType": "host",
                 "props": Object {
                   "children": "lrazzaq@ccs.neu.edu",
@@ -442,7 +465,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".$2",
+                "key": "2",
                 "nodeType": "host",
                 "props": Object {},
                 "ref": null,
@@ -451,7 +474,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".$tel",
+                "key": "tel",
                 "nodeType": "host",
                 "props": Object {
                   "children": "617-373-5797",
@@ -505,7 +528,12 @@ ShallowWrapper {
             </span>
           </div>,
           <div
-            className="body"
+            style={
+              Object {
+                "display": false,
+                "padding": 20,
+              }
+            }
           >
             <div
               className="inlineBlock contactBox"
@@ -531,7 +559,12 @@ ShallowWrapper {
               </a>
             </div>
             <div
-              className="inlineBlock desktopSecondColumn"
+              style={
+                Object {
+                  "display": "inline-block",
+                  "padding-left": 100,
+                }
+              }
             >
               132C Nightingale Hall
               <br />
@@ -561,10 +594,11 @@ ShallowWrapper {
       "rendered": Array [
         Object {
           "instance": null,
-          "key": ".0",
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": Array [
+              null,
               <span
                 className="titleText"
               >
@@ -593,9 +627,10 @@ ShallowWrapper {
           },
           "ref": null,
           "rendered": Array [
+            null,
             Object {
               "instance": null,
-              "key": ".1",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": "Leena Razzaq",
@@ -607,7 +642,7 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".2",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": <a
@@ -660,7 +695,7 @@ ShallowWrapper {
         },
         Object {
           "instance": null,
-          "key": ".1",
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": Array [
@@ -688,7 +723,12 @@ ShallowWrapper {
                 </a>
               </div>,
               <div
-                className="inlineBlock desktopSecondColumn"
+                style={
+                  Object {
+                    "display": "inline-block",
+                    "padding-left": 100,
+                  }
+                }
               >
                 132C Nightingale Hall
                 <br />
@@ -711,13 +751,16 @@ ShallowWrapper {
                 </a>
               </div>,
             ],
-            "className": "body",
+            "style": Object {
+              "display": false,
+              "padding": 20,
+            },
           },
           "ref": null,
           "rendered": Array [
             Object {
               "instance": null,
-              "key": ".0",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": Array [
@@ -748,7 +791,7 @@ ShallowWrapper {
                 "Assistant Teaching Professor",
                 Object {
                   "instance": null,
-                  "key": ".$0",
+                  "key": "0",
                   "nodeType": "host",
                   "props": Object {},
                   "ref": null,
@@ -758,7 +801,7 @@ ShallowWrapper {
                 "CCIS",
                 Object {
                   "instance": null,
-                  "key": ".$1",
+                  "key": "1",
                   "nodeType": "host",
                   "props": Object {},
                   "ref": null,
@@ -767,7 +810,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".$link",
+                  "key": "link",
                   "nodeType": "host",
                   "props": Object {
                     "children": "NEU Profile",
@@ -781,7 +824,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".$2",
+                  "key": "2",
                   "nodeType": "host",
                   "props": Object {},
                   "ref": null,
@@ -790,7 +833,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".$personalSite",
+                  "key": "personalSite",
                   "nodeType": "host",
                   "props": Object {
                     "children": "Personal Website",
@@ -807,7 +850,7 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".1",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": Array [
@@ -831,14 +874,17 @@ ShallowWrapper {
                     617-373-5797
                   </a>,
                 ],
-                "className": "inlineBlock desktopSecondColumn",
+                "style": Object {
+                  "display": "inline-block",
+                  "padding-left": 100,
+                },
               },
               "ref": null,
               "rendered": Array [
                 "132C Nightingale Hall",
                 Object {
                   "instance": null,
-                  "key": ".$0",
+                  "key": "0",
                   "nodeType": "host",
                   "props": Object {},
                   "ref": null,
@@ -847,7 +893,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".$l.razzaq@northeastern.edu",
+                  "key": "l.razzaq@northeastern.edu",
                   "nodeType": "host",
                   "props": Object {
                     "children": "l.razzaq@northeastern.edu",
@@ -859,7 +905,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".$1",
+                  "key": "1",
                   "nodeType": "host",
                   "props": Object {},
                   "ref": null,
@@ -868,7 +914,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".$lrazzaq@ccs.neu.edu",
+                  "key": "lrazzaq@ccs.neu.edu",
                   "nodeType": "host",
                   "props": Object {
                     "children": "lrazzaq@ccs.neu.edu",
@@ -880,7 +926,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".$2",
+                  "key": "2",
                   "nodeType": "host",
                   "props": Object {},
                   "ref": null,
@@ -889,7 +935,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".$tel",
+                  "key": "tel",
                   "nodeType": "host",
                   "props": Object {
                     "children": "617-373-5797",
@@ -976,7 +1022,12 @@ ShallowWrapper {
           </span>
         </div>,
         <div
-          className="displayNone body"
+          style={
+            Object {
+              "display": "none",
+              "padding": 20,
+            }
+          }
         >
           <div
             className="inlineBlock contactBox"
@@ -1006,7 +1057,12 @@ ShallowWrapper {
             </a>
           </div>
           <div
-            className="inlineBlock mobileSecondColumn"
+            style={
+              Object {
+                "display": "inline-block",
+                "padding-left": 20,
+              }
+            }
           >
             <a
               href="http://www.ccs.neu.edu/home/lrazzaq/"
@@ -1024,7 +1080,7 @@ ShallowWrapper {
     "rendered": Array [
       Object {
         "instance": null,
-        "key": ".0",
+        "key": undefined,
         "nodeType": "host",
         "props": Object {
           "children": Array [
@@ -1038,6 +1094,7 @@ ShallowWrapper {
             >
               Leena Razzaq
             </span>,
+            null,
           ],
           "className": "header",
           "onClick": [Function],
@@ -1048,7 +1105,7 @@ ShallowWrapper {
         "rendered": Array [
           Object {
             "instance": null,
-            "key": ".0",
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "alt": "",
@@ -1061,7 +1118,7 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": ".1",
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": "Leena Razzaq",
@@ -1071,12 +1128,13 @@ ShallowWrapper {
             "rendered": "Leena Razzaq",
             "type": "span",
           },
+          null,
         ],
         "type": "div",
       },
       Object {
         "instance": null,
-        "key": ".1",
+        "key": undefined,
         "nodeType": "host",
         "props": Object {
           "children": Array [
@@ -1108,7 +1166,12 @@ ShallowWrapper {
               </a>
             </div>,
             <div
-              className="inlineBlock mobileSecondColumn"
+              style={
+                Object {
+                  "display": "inline-block",
+                  "padding-left": 20,
+                }
+              }
             >
               <a
                 href="http://www.ccs.neu.edu/home/lrazzaq/"
@@ -1119,13 +1182,16 @@ ShallowWrapper {
               </a>
             </div>,
           ],
-          "className": "displayNone body",
+          "style": Object {
+            "display": "none",
+            "padding": 20,
+          },
         },
         "ref": null,
         "rendered": Array [
           Object {
             "instance": null,
-            "key": ".0",
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": Array [
@@ -1160,7 +1226,7 @@ ShallowWrapper {
               "Assistant Teaching Professor",
               Object {
                 "instance": null,
-                "key": ".$0",
+                "key": "0",
                 "nodeType": "host",
                 "props": Object {},
                 "ref": null,
@@ -1170,7 +1236,7 @@ ShallowWrapper {
               "CCIS",
               Object {
                 "instance": null,
-                "key": ".$1",
+                "key": "1",
                 "nodeType": "host",
                 "props": Object {},
                 "ref": null,
@@ -1180,7 +1246,7 @@ ShallowWrapper {
               "132C Nightingale Hall",
               Object {
                 "instance": null,
-                "key": ".$2",
+                "key": "2",
                 "nodeType": "host",
                 "props": Object {},
                 "ref": null,
@@ -1189,7 +1255,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".$l.razzaq@northeastern.edu",
+                "key": "l.razzaq@northeastern.edu",
                 "nodeType": "host",
                 "props": Object {
                   "children": "l.razzaq@northeastern.edu",
@@ -1201,7 +1267,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".$3",
+                "key": "3",
                 "nodeType": "host",
                 "props": Object {},
                 "ref": null,
@@ -1210,7 +1276,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".$lrazzaq@ccs.neu.edu",
+                "key": "lrazzaq@ccs.neu.edu",
                 "nodeType": "host",
                 "props": Object {
                   "children": "lrazzaq@ccs.neu.edu",
@@ -1222,7 +1288,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".$4",
+                "key": "4",
                 "nodeType": "host",
                 "props": Object {},
                 "ref": null,
@@ -1231,7 +1297,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".$tel",
+                "key": "tel",
                 "nodeType": "host",
                 "props": Object {
                   "children": "617-373-5797",
@@ -1246,7 +1312,7 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": ".1",
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": Array [
@@ -1258,13 +1324,16 @@ ShallowWrapper {
                   Personal Website
                 </a>,
               ],
-              "className": "inlineBlock mobileSecondColumn",
+              "style": Object {
+                "display": "inline-block",
+                "padding-left": 20,
+              },
             },
             "ref": null,
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": ".$personalSite",
+                "key": "personalSite",
                 "nodeType": "host",
                 "props": Object {
                   "children": "Personal Website",
@@ -1310,7 +1379,12 @@ ShallowWrapper {
             </span>
           </div>,
           <div
-            className="displayNone body"
+            style={
+              Object {
+                "display": "none",
+                "padding": 20,
+              }
+            }
           >
             <div
               className="inlineBlock contactBox"
@@ -1340,7 +1414,12 @@ ShallowWrapper {
               </a>
             </div>
             <div
-              className="inlineBlock mobileSecondColumn"
+              style={
+                Object {
+                  "display": "inline-block",
+                  "padding-left": 20,
+                }
+              }
             >
               <a
                 href="http://www.ccs.neu.edu/home/lrazzaq/"
@@ -1358,7 +1437,7 @@ ShallowWrapper {
       "rendered": Array [
         Object {
           "instance": null,
-          "key": ".0",
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": Array [
@@ -1372,6 +1451,7 @@ ShallowWrapper {
               >
                 Leena Razzaq
               </span>,
+              null,
             ],
             "className": "header",
             "onClick": [Function],
@@ -1382,7 +1462,7 @@ ShallowWrapper {
           "rendered": Array [
             Object {
               "instance": null,
-              "key": ".0",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "alt": "",
@@ -1395,7 +1475,7 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".1",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": "Leena Razzaq",
@@ -1405,12 +1485,13 @@ ShallowWrapper {
               "rendered": "Leena Razzaq",
               "type": "span",
             },
+            null,
           ],
           "type": "div",
         },
         Object {
           "instance": null,
-          "key": ".1",
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": Array [
@@ -1442,7 +1523,12 @@ ShallowWrapper {
                 </a>
               </div>,
               <div
-                className="inlineBlock mobileSecondColumn"
+                style={
+                  Object {
+                    "display": "inline-block",
+                    "padding-left": 20,
+                  }
+                }
               >
                 <a
                   href="http://www.ccs.neu.edu/home/lrazzaq/"
@@ -1453,13 +1539,16 @@ ShallowWrapper {
                 </a>
               </div>,
             ],
-            "className": "displayNone body",
+            "style": Object {
+              "display": "none",
+              "padding": 20,
+            },
           },
           "ref": null,
           "rendered": Array [
             Object {
               "instance": null,
-              "key": ".0",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": Array [
@@ -1494,7 +1583,7 @@ ShallowWrapper {
                 "Assistant Teaching Professor",
                 Object {
                   "instance": null,
-                  "key": ".$0",
+                  "key": "0",
                   "nodeType": "host",
                   "props": Object {},
                   "ref": null,
@@ -1504,7 +1593,7 @@ ShallowWrapper {
                 "CCIS",
                 Object {
                   "instance": null,
-                  "key": ".$1",
+                  "key": "1",
                   "nodeType": "host",
                   "props": Object {},
                   "ref": null,
@@ -1514,7 +1603,7 @@ ShallowWrapper {
                 "132C Nightingale Hall",
                 Object {
                   "instance": null,
-                  "key": ".$2",
+                  "key": "2",
                   "nodeType": "host",
                   "props": Object {},
                   "ref": null,
@@ -1523,7 +1612,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".$l.razzaq@northeastern.edu",
+                  "key": "l.razzaq@northeastern.edu",
                   "nodeType": "host",
                   "props": Object {
                     "children": "l.razzaq@northeastern.edu",
@@ -1535,7 +1624,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".$3",
+                  "key": "3",
                   "nodeType": "host",
                   "props": Object {},
                   "ref": null,
@@ -1544,7 +1633,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".$lrazzaq@ccs.neu.edu",
+                  "key": "lrazzaq@ccs.neu.edu",
                   "nodeType": "host",
                   "props": Object {
                     "children": "lrazzaq@ccs.neu.edu",
@@ -1556,7 +1645,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".$4",
+                  "key": "4",
                   "nodeType": "host",
                   "props": Object {},
                   "ref": null,
@@ -1565,7 +1654,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".$tel",
+                  "key": "tel",
                   "nodeType": "host",
                   "props": Object {
                     "children": "617-373-5797",
@@ -1580,7 +1669,7 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".1",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": Array [
@@ -1592,13 +1681,16 @@ ShallowWrapper {
                     Personal Website
                   </a>,
                 ],
-                "className": "inlineBlock mobileSecondColumn",
+                "style": Object {
+                  "display": "inline-block",
+                  "padding-left": 20,
+                },
               },
               "ref": null,
               "rendered": Array [
                 Object {
                   "instance": null,
-                  "key": ".$personalSite",
+                  "key": "personalSite",
                   "nodeType": "host",
                   "props": Object {
                     "children": "Personal Website",
