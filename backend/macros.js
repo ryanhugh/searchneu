@@ -53,7 +53,7 @@ let envVariablesPromise = null;
 class Macros extends commonMacros {
   static parseNameWithSpaces(name) {
     // Standardize spaces.
-    name = name.replace(/\s+/gi, ' ');
+    name = name.trim().replace(/\s+/gi, ' ');
 
     // Generate first name and last name
     const spaceCount = Macros.occurrences(name, ' ', false);
@@ -61,7 +61,7 @@ class Macros extends commonMacros {
 
 
     if (spaceCount === 0) {
-      Macros.critical('0 spaces found in name', name);
+      Macros.error('0 spaces found in name', name);
       return null;
     }
 
@@ -237,8 +237,14 @@ class Macros extends commonMacros {
   // This is for programming errors. This will cause the program to exit anywhere.
   // This *should* never be called.
   static critical(...args) {
-    Macros.error(...args);
-    process.exit(1);
+    if (macros.TESTS) {
+      console.error("macros.critical called")
+      console.error(...args);
+    }
+    else {
+      Macros.error(...args);
+      process.exit(1);
+    }
   }
 
   // Use this for stuff that should never happen, but does not mean the program cannot continue.
