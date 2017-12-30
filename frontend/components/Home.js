@@ -103,6 +103,7 @@ class Home extends React.Component {
     // Add a listener for location changes.
     window.addEventListener('popstate', this.onPopState);
     window.addEventListener(macros.searchEvent, this.onDOMEventSearch);
+
     if (this.inputElement) {
       this.inputElement.addEventListener('focus', this.onInputFocus);
 
@@ -123,6 +124,7 @@ class Home extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('onpopstate', this.onPopState);
     window.removeEventListener(macros.searchEvent, this.onDOMEventSearch);
+
     if (this.inputElement) {
       this.inputElement.removeEventListener('focus', this.onInputFocus);
     }
@@ -408,7 +410,8 @@ class Home extends React.Component {
       {
         text: 'Spring 2018',
         value: '201830',
-      }];
+      },
+    ];
 
     // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation.
     // Actually it only removes the extra whitespace on chrome. Need to come up with a better solution for other browsers.

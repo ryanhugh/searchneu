@@ -16,12 +16,17 @@ import bodyParser from 'body-parser';
 import mkdirp from 'mkdirp-promise';
 import moment from 'moment';
 import xhub from 'express-x-hub';
+import elasticlunr from 'elasticlunr';
+import atob from 'atob';
 
 import Request from './scrapers/request';
 import search from '../common/search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 import notifyer from './notifyer';
+import Updater from './updater';
+import database from './database';
+import DataLib from '../common/classModels/DataLib';
 // import psylink from './scrapers/psylink/psylink';
 
 const request = new Request('server');
@@ -222,7 +227,7 @@ async function getFrontendData(file) {
 }
 
 
-async function getSearch() {
+async function loadPromises() {
   const termDumpPromise = getFrontendData('getTermDump/neu.edu/201810.json');
 
   const spring2018DataPromise = getFrontendData('getTermDump/neu.edu/201830.json');
@@ -248,19 +253,23 @@ async function getSearch() {
       return null;
     }
 
-    return search.create(
-      employeeMap, employeesSearchIndex,
-      [{
-        searchIndex: springSearchIndex,
-        termDump: springData,
-        termId: '201830',
-      },
-      {
-        searchIndex: fallSearchIndex,
-        termDump: fallData,
-        termId: '201810',
-      }],
-    );
+    const dataLib = DataLib.loadData({
+      201810: fallData,
+      201830: springData,
+    });
+
+    const searchIndexies = {
+      201810: elasticlunr.Index.load(fallSearchIndex),
+      201830: elasticlunr.Index.load(springSearchIndex),
+    };
+
+    Updater.create(dataLib);
+
+    return {
+      search: search.create(employeeMap, elasticlunr.Index.load(employeesSearchIndex), dataLib, searchIndexies),
+      dataLib: dataLib,
+      searchIndexies: searchIndexies,
+    };
   } catch (e) {
     macros.error('Error:', e);
     macros.error('Not starting search backend.');
@@ -269,7 +278,7 @@ async function getSearch() {
 }
 
 // Load the index as soon as the app starts.
-const searchPromise = getSearch();
+const promises = loadPromises();
 
 app.get('/search', wrap(async (req, res) => {
   if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500) {
@@ -307,7 +316,7 @@ app.get('/search', wrap(async (req, res) => {
   }
 
 
-  const index = await searchPromise;
+  const index = (await promises).search;
 
   if (!index) {
     // Don't cache errors.
@@ -348,11 +357,130 @@ app.get('/webhook/', async (req, res) => {
   }
 });
 
-// Respond to the messages
-app.post('/webhook/', (req, res) => {
+async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
+  macros.log('Got opt in button click!', b64ref);
+
+  // The frontend send a classHash to follow and a list of sectionHashes to follow.
+  let userObject = {};
+  try {
+    userObject = JSON.parse(atob(b64ref));
+  } catch (e) {
+    macros.error('Unable to parse user data from frontend?', b64ref);
+    return;
+  }
+
+  // When the site is running in development mode,
+  // and the send to messenger button is clicked,
+  // Facebook will still send the webhooks to prod
+  // Keep another field on here to keep track of whether the button was clicked in prod or in dev
+  // and if it was in dev ignore it
+  if (userObject.dev && macros.PROD) {
+    return;
+  }
+
+  if (!userObject.classHash || !userObject.sectionHashes || !userObject.loginKey) {
+    macros.error('Invalid user object from webhook ', userObject);
+    return;
+  }
+
+  if (typeof userObject.loginKey !== 'string' || userObject.loginKey.length !== 100) {
+    macros.error('Invalid login key', userObject.loginKey);
+    return;
+  }
+
+  const firebaseRef = await database.getRef(`/users/${sender}`);
+
+  const existingData = await firebaseRef.once('value');
+
+  const dataLib = (await promises).dataLib;
+  const aClass = dataLib.getClassServerDataFromHash(userObject.classHash);
+
+  // User is signing in from a new device
+  if (existingData) {
+    // Add this array if it dosen't exist. It should exist
+    if (!existingData.watchingClasses) {
+      existingData.watchingClasses = [];
+    }
+
+    if (!existingData.watchingSections) {
+      existingData.watchingSections = [];
+    }
+
+    const wasWatchingClass = existingData.watchingClasses.includes(userObject.classHash);
+
+    const sectionWasentWatchingBefore = [];
+
+    for (const section of existingData.watchingSections) {
+      if (!userObject.sectionHashes.includes(section)) {
+        sectionWasentWatchingBefore.push(section);
+      }
+    }
+
+    const classCode = `${aClass.subject} ${aClass.classId}`;
+    // Check to see how many of these classes they were already signed up for.
+    if (wasWatchingClass && sectionWasentWatchingBefore.length === 0) {
+      notifyer.sendFBNotification(sender, `You are already signed up to get notifications if any of the sections of ${classCode} have seats that open up.`);
+    } else if (wasWatchingClass && sectionWasentWatchingBefore.length > 0) {
+      notifyer.sendFBNotification(sender, `You are already signed up to get notifications if seats open up in some of the sections in ${classCode} and are now signed up for ${sectionWasentWatchingBefore.length} more sections too!`);
+    } else {
+      notifyer.sendFBNotification(sender, `Successfully signed up for notifications for ${sectionWasentWatchingBefore.length} sections in ${classCode}!`);
+    }
+
+    // ok lets add what classes the user saw in the frontend that have no seats availible and that he wants to sign up for
+    // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
+    // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
+
+    existingData.watchingClasses.push(userObject.classHash);
+    existingData.watchingSections = existingData.watchingSections.concat(userObject.sectionHashes);
+
+    // Add the login key to the array of login keys stored on this user
+    if (!existingData.loginKeys) {
+      existingData.loginKeys = [];
+    }
+
+    const loginKeys = new Set(existingData.loginKeys);
+    loginKeys.add(userObject.loginKey);
+    existingData.loginKeys = Array.from(loginKeys);
+
+    firebaseRef.set(existingData);
+  } else {
+    let names = await notifyer.getUserProfileInfo(sender);
+    if (!names || !names.first_name) {
+      macros.warn('Unable to get name', names);
+      names = {};
+    } else {
+      macros.log('Got first name and last name', names.first_name, names.last_name);
+    }
+
+    const newUser = {
+      watchingSections: userObject.sectionHashes,
+      watchingClasses: [userObject.classHash],
+      firstName: names.first_name,
+      lastName: names.last_name,
+      facebookMessengerId: sender,
+      facebookPageId: userPageId,
+      loginKeys: [userObject.loginKey],
+    };
+
+    macros.log('Adding ', newUser, 'to the db');
+
+
+    // Send the user a notification letting them know everything was successful.
+    notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}! I'll send you another message if a seat opens up in ${aClass.subject} ${aClass.classId}!`);
+
+    database.set(`/users/${sender}`, newUser);
+  }
+}
+
+// In production, this is called from Facebook's servers.
+// When a user sends a Facebook messsage to the Search NEU bot or when someone hits the send to messenger button.
+// If someone sends a message to this bot it will respond with some hard-coded responses
+// In development, this is called directly from the frontend so the backend will do the same actions as it would in prod for the same user actions in the frontend.
+// Facebook will still call the webhook on the production server when the send to messenger button is clicked in dev. This webhook call is ignored in prod.
+app.post('/webhook/', wrap(async (req, res) => {
   // Verify that the webhook is actually coming from Facebook.
   // This is important.
-  if (!req.isXHub || !req.isXHubValid()) {
+  if ((!req.isXHub || !req.isXHubValid()) && macros.PROD) {
     macros.log(getTime(), getIpPath(req), 'Tried to send a webhook');
     macros.log(req.headers);
     res.send('nope');
@@ -369,23 +497,34 @@ app.post('/webhook/', (req, res) => {
   // Now process the message.
   const messagingEvents = req.body.entry[0].messaging;
   for (let i = 0; i < messagingEvents.length; i++) {
-    const event = req.body.entry[0].messaging[i];
+    const event = messagingEvents[i];
     const sender = event.sender.id;
     if (event.message && event.message.text) {
       const text = event.message.text;
 
       if (text === 'test') {
         notifyer.sendFBNotification(sender, 'CS 1800 now has 1 seat available!! Check it out on https://searchneu.com/cs1800 !');
+      } else if (text === 'What is my facebook messenger sender id?') {
+        notifyer.sendFBNotification(sender, sender);
       } else {
-        // notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. Someday, I will notify you when seats open up in classes that are full. 😎👌🍩 But that day is not today...");
-        notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com!");
+        notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com !");
       }
+    } else if (event.optin) {
+      onSendToMessengerButtonClick(sender, req.body.entry[0].id, event.optin.ref);
+
+      // We should allways respond with a 200 status code, even if there is an error on our end.
+      // If we don't we risk being unsubscribed for webhook events.
+      // https://developers.facebook.com/docs/messenger-platform/webhook
+      res.send(JSON.stringify({
+        status: 'OK',
+      }));
+      return;
     } else {
       macros.log('Unknown webhook', sender, JSON.stringify(event), JSON.stringify(req.body));
     }
   }
   res.sendStatus(200);
-});
+}));
 
 // Rate-limit submissions on a per-IP basis
 let rateLimit = {};
