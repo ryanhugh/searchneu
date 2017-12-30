@@ -40,9 +40,11 @@ class BaseClassPanel extends React.Component {
       renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
       unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
     };
+
+    this.onShowMoreClick = this.onShowMoreClick.bind(this);
   }
 
-  onShowMoreClick = () => {
+  onShowMoreClick() {
     macros.log('Adding more sections to the bottom.');
 
     // Get the length of the our sections

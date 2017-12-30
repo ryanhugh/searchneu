@@ -1,0 +1,705 @@
+{
+    "classMap":
+    {
+        "neu.edu/201752/LS/6300":
+        {
+            "crns": ["20007"],
+            "prereqs":
+            {
+                "type": "and",
+                "values": [
+                {
+                    "classId": "6102",
+                    "subject": "LS"
+                }]
+            },
+            "maxCredits": 0,
+            "minCredits": 0,
+            "desc": "This course offers the opportunity to apply what students have learned in the MLS program to a relevant project in the practice setting. Working with an outside sponsor, backed up by law school faculty, a student selects and refines an applied research topic, analyzes that topic, presents useful recommendations to the project sponsor, and creates a plan to implement those recommendations. Alongside this fieldwork, students will participate in an online course that provides a platform to develop, refine and practice key business communication skills, project and client management techniques, and analytic approaches. Each student receives feedback from both the project sponsor and course faculty, reviews “lessons learned,” and employs that feedback to advance his or her career development goals and professional plan. Prereq. LS 6102. 0.000 Lecture hours",
+            "classId": "6300",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6300",
+            "name": "Experiential Network",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6300&schd_in=%",
+            "lastUpdateTime": 1514328389277,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "WS"
+        },
+        "neu.edu/201752/LS/6230":
+        {
+            "crns": [],
+            "desc": "In our modern day “information economy,” the law of intellectual property (IP) has taken on enormous importance to both creators and users of creative works. Such IP Law is the way we provide legal protection to encourage invention and creativity by guaranteeing an opportunity for financial return to the originator of novel work. This course introduces students to the classic principles of copyright, patent, trademark, and trade secret law and explores the ways in which those principles are shifting and adapting in response to new technology. Prereq. LS 6102. 3.000 Lecture hours",
+            "classId": "6230",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6230",
+            "name": "Intellectual Property Survey",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6230&schd_in=%",
+            "lastUpdateTime": 1514328277251,
+            "maxCredits": 3,
+            "minCredits": 3,
+            "prereqs":
+            {
+                "type": "and",
+                "values": [
+                {
+                    "classId": "6102",
+                    "subject": "LS"
+                }]
+            },
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "WS"
+        },
+        "neu.edu/201752/LS/6212":
+        {
+            "crns": ["20002"],
+            "prereqs":
+            {
+                "type": "and",
+                "values": [
+                {
+                    "classId": "6102",
+                    "subject": "LS"
+                }]
+            },
+            "maxCredits": 3,
+            "minCredits": 3,
+            "desc": "This course will cover topics related to wage and hour laws (federal and state), ERISA (pensions), health insurance benefits, the Affordable Care Act, and disability insurance. Prereq. LS 6102. 3.000 Lecture hours",
+            "classId": "6212",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6212",
+            "name": "Wages and Benefits",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6212&schd_in=%",
+            "lastUpdateTime": 1514328389277,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "WS"
+        },
+        "neu.edu/201752/LS/6211":
+        {
+            "crns": [],
+            "desc": "This course will provide an overview of antidiscrimination laws governing the workplace. The focus will be on discrimination based on race and sex, but some attention will also be given to discrimination based on other characteristics, including age, sexual orientation, and disability. In addition to general issues of discrimination, the course will focus on the specific topics of retaliation, harassment, and bullying in the workplace. Prereq. LS 6102. 3.000 Lecture hours",
+            "classId": "6211",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6211",
+            "name": "Antidiscrimination Law",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6211&schd_in=%",
+            "lastUpdateTime": 1514328277251,
+            "maxCredits": 3,
+            "minCredits": 3,
+            "prereqs":
+            {
+                "type": "and",
+                "values": [
+                {
+                    "classId": "6102",
+                    "subject": "LS"
+                }]
+            },
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "WS"
+        },
+        "neu.edu/201752/LS/6210":
+        {
+            "crns": [],
+            "desc": "Examines the legal relationship between employer and employee. Addresses issues and topics such as discrimination, affirmative action, the Americans with Disabilities Act, sexual harassment, health and safety, AIDS in the workplace, compliance issues, and legal issues related to downsizing and terminations. Today’s HR manager works in a highly complex environment with constantly changing laws and legislation that govern employee rights and employer obligations. Course content may vary from term to term. Prereq. LS 6102. 3.000 Lecture hours",
+            "classId": "6210",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6210",
+            "name": "Special Topics in Employee Rights and Employer Obligations",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6210&schd_in=%",
+            "lastUpdateTime": 1514328277251,
+            "maxCredits": 3,
+            "minCredits": 3,
+            "prereqs":
+            {
+                "type": "and",
+                "values": [
+                {
+                    "classId": "6102",
+                    "subject": "LS"
+                }]
+            },
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS"
+        },
+        "neu.edu/201752/LS/6182":
+        {
+            "crns": ["20006"],
+            "prereqs":
+            {
+                "type": "and",
+                "values": [
+                {
+                    "classId": "6102",
+                    "subject": "LS"
+                }]
+            },
+            "maxCredits": 3,
+            "minCredits": 3,
+            "desc": "This course explores the ethical and legal obligations respecting patient records, particularly electronic records. In addition to reviewing HIPAA’s privacy and security rules, the course will cover professional ethics regarding confidentiality, common law and state protections for confidentiality, GINA, and the HiTech Act. Prereq. LS 6102. 3.000 Lecture hours",
+            "classId": "6182",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6182",
+            "name": "Patient Records, Privacy, and Security",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6182&schd_in=%",
+            "lastUpdateTime": 1514328389277,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS"
+        },
+        "neu.edu/201752/LS/6181":
+        {
+            "crns": ["20003"],
+            "prereqs":
+            {
+                "type": "and",
+                "values": [
+                {
+                    "classId": "6102",
+                    "subject": "LS"
+                }]
+            },
+            "maxCredits": 3,
+            "minCredits": 3,
+            "desc": "This course covers major regulatory issues related to the healthcare field, providing an in-depth regulatory overview of health programs. Statutory schemes covered will include HIPAA/HITECH, Stark/fraud and abuse. In addition, students will learn about compliance programs, including compliance operations, and the code of conduct for particular fields. Prereq. LS 6102. 3.000 Lecture hours",
+            "classId": "6181",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6181",
+            "name": "Healthcare Regulation and Compliance",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6181&schd_in=%",
+            "lastUpdateTime": 1514328389277,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS"
+        },
+        "neu.edu/201752/LS/6180":
+        {
+            "crns": [],
+            "desc": "This course examines legal regulations governing the provision of healthcare services. Topics include access to health insurance and healthcare, healthcare financing, the organization and responsibility of healthcare institutions (especially hospitals), healthcare cost containment policies, public and private insurance programs, and the formulation of health policy. The course will also provide an introductory overview of the major statutes, regulations, and case law related to health law, including an introduction to the Patient Protection and Affordable Care Act, otherwise known as Obamacare. Prereq. LS 6102. 3.000 Lecture hours",
+            "classId": "6180",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6180",
+            "name": "Health Law Survey",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6180&schd_in=%",
+            "lastUpdateTime": 1514328277251,
+            "maxCredits": 3,
+            "minCredits": 3,
+            "prereqs":
+            {
+                "type": "and",
+                "values": [
+                {
+                    "classId": "6102",
+                    "subject": "LS"
+                }]
+            },
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS"
+        },
+        "neu.edu/201752/LS/6170":
+        {
+            "crns": ["20005"],
+            "maxCredits": 3,
+            "minCredits": 3,
+            "desc": "In this course students will explore various aspects of corporate financial transactions, including vendor and supplier contracts, early stage financing, commercial loans, initial public offerings, mergers, and the sale of assets. Issues involving valuation of assets will be covered, and students will learn basic securities laws related to the transactions covered. 3.000 Lecture hours",
+            "classId": "6170",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6170",
+            "name": "Financial Transactions",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6170&schd_in=%",
+            "lastUpdateTime": 1514328389277,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS"
+        },
+        "neu.edu/201752/LS/6160":
+        {
+            "crns": [],
+            "desc": "This course provides an introduction to the international legal concepts, principles and institutions that define and shape international business relations. Globalization has increased the number of economic interactions across national borders. The globalization of production and consumption takes place in the background of an international monetary system and an international legal infrastructure facilitating and regulating transnational trade, international finance and global intellectual property and investment protection. The course specifically examines case studies of global governance based on codes of practice, certification and other regulatory initiatives. 3.000 Lecture hours",
+            "classId": "6160",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6160",
+            "name": "Regulation and Global Business Strategies",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6160&schd_in=%",
+            "lastUpdateTime": 1514328277251,
+            "maxCredits": 3,
+            "minCredits": 3,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS"
+        },
+        "neu.edu/201752/LS/6150":
+        {
+            "crns": ["20004"],
+            "prereqs":
+            {
+                "type": "and",
+                "values": [
+                {
+                    "classId": "6102",
+                    "subject": "LS"
+                }]
+            },
+            "maxCredits": 3,
+            "minCredits": 3,
+            "desc": "Students will learn the rules governing organizations, including corporations, partnerships, governmental organizations, and non-profits. The focus will include relationships within the organizations and powers of members of organizations. In addition, the course will cover employment issues relevant to relationships in organizations. Topics will include rights of workers to be free of discrimination in the workplace, the importance of workplace rules, and policies governing the workplace. Prereq. LS 6102. 3.000 Lecture hours",
+            "classId": "6150",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6150",
+            "name": "Law and Organizational Management",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6150&schd_in=%",
+            "lastUpdateTime": 1514328389277,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS"
+        },
+        "neu.edu/201752/LS/6140":
+        {
+            "crns": [],
+            "desc": "Institutions increasingly face a host of regulatory compliance issues. This course (building on LS 6102) will cover the challenges facing organizations in building programs that ensure adherence with legal obligations. Statutes covering a broad range of areas will be explored, including health and safety, environment, financial services, consumer protection, and employment. Prereq. LS 6102. 3.000 Lecture hours",
+            "classId": "6140",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6140",
+            "name": "Regulation and Compliance",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6140&schd_in=%",
+            "lastUpdateTime": 1514328277251,
+            "maxCredits": 3,
+            "minCredits": 3,
+            "prereqs":
+            {
+                "type": "and",
+                "values": [
+                {
+                    "classId": "6102",
+                    "subject": "LS"
+                }]
+            },
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS"
+        },
+        "neu.edu/201752/LS/6130":
+        {
+            "crns": [],
+            "desc": "Students will learn core elements of negotiations that are the precursors to any final agreement or resolutions of informal disputes: negotiation planning from opposing sides and counseling, analysis of the bargaining range and opponent’s needs, principled concession patterns, problem-solving strategies to avoid deadlock, information bargaining and authority clarification, principles of drafting, settlement, and ethics. Prereq. LS 6102. 3.000 Lecture hours",
+            "classId": "6130",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6130",
+            "name": "Negotiation and Advocacy",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6130&schd_in=%",
+            "lastUpdateTime": 1514328277251,
+            "maxCredits": 3,
+            "minCredits": 3,
+            "prereqs":
+            {
+                "type": "and",
+                "values": [
+                {
+                    "classId": "6102",
+                    "subject": "LS"
+                }]
+            },
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS"
+        },
+        "neu.edu/201752/LS/6120":
+        {
+            "crns": [],
+            "desc": "This course will introduce students to the implications and impact of law on strategy, with attention to applying legal knowledge and resources to strategic planning and strategy implementation. The course will use several examples of readily understood strategies to provide opportunities for students to identify the legal environment, consider the legal rights and requirements implicated by relevant law or regulation (e.g., intellectual property, contracts, administrative law) and their potential impact on management, incorporating law as a resource on the resource based view of the firm. The range of examples will include considering law and strategy implementation in multiple contexts. The focus will be on developing an appreciation of the legal environment and making effective use of legal resources and lawyers as advisors in strategic management aimed at attaining sustainable competitive advantage over rivals. Prereq. LS 6102. 3.000 Lecture hours",
+            "classId": "6120",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6120",
+            "name": "Law and Strategy",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6120&schd_in=%",
+            "lastUpdateTime": 1514328277251,
+            "maxCredits": 3,
+            "minCredits": 3,
+            "prereqs":
+            {
+                "type": "and",
+                "values": [
+                {
+                    "classId": "6102",
+                    "subject": "LS"
+                }]
+            },
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS"
+        },
+        "neu.edu/201752/LS/6110":
+        {
+            "crns": ["20001"],
+            "prereqs":
+            {
+                "type": "and",
+                "values": [
+                {
+                    "classId": "6102",
+                    "subject": "LS"
+                }]
+            },
+            "maxCredits": 3,
+            "minCredits": 3,
+            "desc": "This course will present a comprehensive survey of procedural and evidentiary rules in the context of recordkeeping, document production, due diligence, and investigations. It will include an exploration of rights to privacy, issues of confidentiality and conflicts of interest, contractual and legal liability, evidentiary consequences in administrative and court settings resulting from work-place disputes, and other related areas. Prereq. LS 6102. 3.000 Lecture hours",
+            "classId": "6110",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6110",
+            "name": "Law of Information and Records",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6110&schd_in=%",
+            "lastUpdateTime": 1514328389277,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS"
+        },
+        "neu.edu/201752/LS/6102":
+        {
+            "crns": ["20009"],
+            "maxCredits": 3,
+            "minCredits": 3,
+            "desc": "This course builds on LS 6101 with its emphasis on common law by introducing students to statutes and regulations. The setting involves federal administrative agencies governing employment, consumer protection, environment, labor, cyberlaw, intellectual property, and international trade. Exercises and discussions require finding, summarizing, applying and arguing about the applicability of statutes and regulations in concrete situations. The capstone of the course allows students to create a project to illustrate the lessons learned in the course. Prereq. LS 6101. 3.000 Lecture hours",
+            "classId": "6102",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6102",
+            "name": "Introduction to Legal Studies 2",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6102&schd_in=%",
+            "lastUpdateTime": 1514328389277,
+            "prereqs":
+            {
+                "type": "and",
+                "values": [
+                {
+                    "classId": "6101",
+                    "subject": "LS"
+                }]
+            },
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS",
+            "optPrereqsFor":
+            {
+                "values": []
+            },
+            "prereqsFor":
+            {
+                "values": [
+                {
+                    "subject": "LS",
+                    "classId": "6110"
+                },
+                {
+                    "subject": "LS",
+                    "classId": "6120"
+                },
+                {
+                    "subject": "LS",
+                    "classId": "6130"
+                },
+                {
+                    "subject": "LS",
+                    "classId": "6140"
+                },
+                {
+                    "subject": "LS",
+                    "classId": "6150"
+                },
+                {
+                    "subject": "LS",
+                    "classId": "6180"
+                },
+                {
+                    "subject": "LS",
+                    "classId": "6181"
+                },
+                {
+                    "subject": "LS",
+                    "classId": "6182"
+                },
+                {
+                    "subject": "LS",
+                    "classId": "6210"
+                },
+                {
+                    "subject": "LS",
+                    "classId": "6211"
+                },
+                {
+                    "subject": "LS",
+                    "classId": "6212"
+                },
+                {
+                    "subject": "LS",
+                    "classId": "6230"
+                },
+                {
+                    "subject": "LS",
+                    "classId": "6300"
+                }]
+            }
+        },
+        "neu.edu/201752/LS/6101":
+        {
+            "crns": ["20008"],
+            "maxCredits": 3,
+            "minCredits": 3,
+            "desc": "This course will provide students with an introduction to the American legal system and legal reasoning. The course materials will cover rights and obligations created by contracts, fundamental principles of property law, accident law, the regulation of criminal conduct, and the laws associated with business formation and relationships. Students will also complete writing exercises to enable them to synthesize their understanding, and to find and use legal sources in support of their work. 3.000 Lecture hours",
+            "classId": "6101",
+            "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201752&subj_code_in=LS&crse_numb_in=6101",
+            "name": "Introduction to Legal Studies 1: Law and Legal Reasoning",
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201752&subj_in=LS&crse_in=6101&schd_in=%",
+            "lastUpdateTime": 1514328389277,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS",
+            "optPrereqsFor":
+            {
+                "values": []
+            },
+            "prereqsFor":
+            {
+                "values": [
+                {
+                    "subject": "LS",
+                    "classId": "6102"
+                }]
+            }
+        }
+    },
+    "sectionMap":
+    {
+        "neu.edu/201752/LS/6300/20007":
+        {
+            "seatsCapacity": 10,
+            "seatsRemaining": 9,
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+            "online": true,
+            "honors": false,
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201752&crn_in=20007",
+            "crn": "20007",
+            "meetings": [
+            {
+                "startDate": 17294,
+                "endDate": 17345,
+                "profs": ["Robert Henry Russell"],
+                "where": "TBA",
+                "type": "Class",
+                "allProfs": ["Robert Henry Russell"]
+            }],
+            "lastUpdateTime": 1514328388298,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS",
+            "classId": "6300"
+        },
+        "neu.edu/201752/LS/6212/20002":
+        {
+            "seatsCapacity": 50,
+            "seatsRemaining": 38,
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+            "online": true,
+            "honors": false,
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201752&crn_in=20002",
+            "crn": "20002",
+            "meetings": [
+            {
+                "startDate": 17294,
+                "endDate": 17345,
+                "profs": ["Natacha Thomas"],
+                "where": "TBA",
+                "type": "Class",
+                "allProfs": ["Natacha Thomas"]
+            }],
+            "lastUpdateTime": 1514328388298,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS",
+            "classId": "6212"
+        },
+        "neu.edu/201752/LS/6182/20006":
+        {
+            "seatsCapacity": 50,
+            "seatsRemaining": 46,
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+            "online": true,
+            "honors": false,
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201752&crn_in=20006",
+            "crn": "20006",
+            "meetings": [
+            {
+                "startDate": 17346,
+                "endDate": 17401,
+                "profs": ["Joshua L Abrams"],
+                "where": "TBA",
+                "type": "Class",
+                "allProfs": ["Joshua L Abrams"]
+            }],
+            "lastUpdateTime": 1514328388298,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS",
+            "classId": "6182"
+        },
+        "neu.edu/201752/LS/6181/20003":
+        {
+            "seatsCapacity": 50,
+            "seatsRemaining": 45,
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+            "online": true,
+            "honors": false,
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201752&crn_in=20003",
+            "crn": "20003",
+            "meetings": [
+            {
+                "startDate": 17294,
+                "endDate": 17345,
+                "profs": ["Rebecca Sara Feinberg"],
+                "where": "TBA",
+                "type": "Class",
+                "allProfs": ["Rebecca Sara Feinberg"]
+            }],
+            "lastUpdateTime": 1514328388298,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS",
+            "classId": "6181"
+        },
+        "neu.edu/201752/LS/6170/20005":
+        {
+            "seatsCapacity": 50,
+            "seatsRemaining": 43,
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+            "online": true,
+            "honors": false,
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201752&crn_in=20005",
+            "crn": "20005",
+            "meetings": [
+            {
+                "startDate": 17346,
+                "endDate": 17401,
+                "profs": ["Joshua S. Grinspoon"],
+                "where": "TBA",
+                "type": "Class",
+                "allProfs": ["Joshua S. Grinspoon"]
+            }],
+            "lastUpdateTime": 1514328388298,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS",
+            "classId": "6170"
+        },
+        "neu.edu/201752/LS/6150/20004":
+        {
+            "seatsCapacity": 50,
+            "seatsRemaining": 39,
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+            "online": true,
+            "honors": false,
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201752&crn_in=20004",
+            "crn": "20004",
+            "meetings": [
+            {
+                "startDate": 17346,
+                "endDate": 17401,
+                "profs": ["Rebecca Lynne Rausch"],
+                "where": "TBA",
+                "type": "Class",
+                "allProfs": ["Rebecca Lynne Rausch"]
+            }],
+            "lastUpdateTime": 1514328388298,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS",
+            "classId": "6150"
+        },
+        "neu.edu/201752/LS/6110/20001":
+        {
+            "seatsCapacity": 50,
+            "seatsRemaining": 33,
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+            "online": true,
+            "honors": false,
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201752&crn_in=20001",
+            "crn": "20001",
+            "meetings": [
+            {
+                "startDate": 17294,
+                "endDate": 17345,
+                "profs": ["Daniel Urman", "Christina Sheppand Cicchitto"],
+                "where": "TBA",
+                "type": "Class",
+                "allProfs": ["Daniel Urman", "Christina Sheppand Cicchitto"]
+            }],
+            "lastUpdateTime": 1514328388298,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS",
+            "classId": "6110"
+        },
+        "neu.edu/201752/LS/6102/20009":
+        {
+            "seatsCapacity": 50,
+            "seatsRemaining": 44,
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+            "online": true,
+            "honors": false,
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201752&crn_in=20009",
+            "crn": "20009",
+            "meetings": [
+            {
+                "startDate": 17346,
+                "endDate": 17401,
+                "profs": ["Daniel Urman", "Christina Sheppand Cicchitto"],
+                "where": "TBA",
+                "type": "Class",
+                "allProfs": ["Daniel Urman", "Christina Sheppand Cicchitto"]
+            }],
+            "lastUpdateTime": 1514328388298,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS",
+            "classId": "6102"
+        },
+        "neu.edu/201752/LS/6101/20008":
+        {
+            "seatsCapacity": 50,
+            "seatsRemaining": 43,
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+            "online": true,
+            "honors": false,
+            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201752&crn_in=20008",
+            "crn": "20008",
+            "meetings": [
+            {
+                "startDate": 17294,
+                "endDate": 17345,
+                "profs": ["Wendy E Parmet", "Christina Sheppand Cicchitto"],
+                "where": "TBA",
+                "type": "Class",
+                "allProfs": ["Wendy E Parmet", "Christina Sheppand Cicchitto"]
+            }],
+            "lastUpdateTime": 1514328388298,
+            "termId": "201752",
+            "host": "neu.edu",
+            "subject": "LS",
+            "classId": "6101"
+        }
+    },
+    "subjectMap":
+    {
+        "neu.edu/201752/LS":
+        {
+            "subject": "LS",
+            "text": "Legal Studies",
+            "termId": "201752",
+            "host": "neu.edu"
+        },
+        "neu.edu/201752/WS":
+        {
+            "subject": "WS",
+            "text": "Woahhhhhh Stan",
+            "termId": "201752",
+            "host": "neu.edu"
+        }
+    },
+    "termId": "201752",
+    "host": "neu.edu"
+}

@@ -86,15 +86,18 @@ class Main {
         continue;
       }
 
-      if (!output[curr.type]) {
-        output[curr.type] = [];
+      // If the type is set to ignore, don't add it to the output, but do process this items deps
+      if (curr.type !== 'ignore') {
+        if (!output[curr.type]) {
+          output[curr.type] = [];
+        }
+
+        const item = {};
+
+        Object.assign(item, curr.value);
+
+        output[curr.type].push(item);
       }
-
-      const item = {};
-
-      Object.assign(item, curr.value);
-
-      output[curr.type].push(item);
 
 
       if (curr.deps) {
@@ -142,6 +145,27 @@ class Main {
     return urlsToProcess;
   }
 
+  // Converts the data structure used for parsing into the data structure used in the processors.
+  restructureData(rootNode) {
+    this.waterfallIdentifyers(rootNode);
+    return this.pageDataStructureToTermDump(rootNode);
+  }
+
+  // Runs the processors over a termDump.
+  // The input of this function should be the output of restructureData, above.
+  // The updater.js calls into this function to run the processors over the data scraped as part of the processors.
+  runProcessors(dump) {
+    // Run the processors, sequentially
+    markMissingPrereqs.go(dump);
+    termStartEndDate.go(dump);
+
+    // Add new processors here.
+    simplifyProfList.go(dump);
+    addPreRequisiteFor.go(dump);
+
+    return dump;
+  }
+
 
   async main(collegeAbbrs, semesterlySchema = false) {
     if (!collegeAbbrs) {
@@ -177,33 +201,31 @@ class Main {
     const parsersOutput = await ellucianTermsParser.main(url);
 
     const rootNode = {
-      type: 'colleges',
+      type: 'ignore',
       value: {},
-      deps: parsersOutput,
+      deps: [{
+        type: 'ignore',
+        value: {},
+        deps: parsersOutput,
+      },
+
+        // Add the data that was calculated here
+        // Don't put this as a parent of the rest of the processors
+        // so the host: data from here is not copied to the children
+      {
+        type: 'colleges',
+        value: {
+          host: host,
+          title: await collegeNamePromise,
+          url: host,
+        },
+        deps: [],
+      }],
     };
 
-    this.waterfallIdentifyers(rootNode);
 
-    const dump = this.pageDataStructureToTermDump(rootNode);
+    const dump = this.runProcessors(this.restructureData(rootNode));
 
-    // Add the data that was calculatd here
-    if (!dump.colleges) {
-      dump.colleges = [];
-    }
-    dump.colleges.push({
-      host: host,
-      title: await collegeNamePromise,
-      url: host,
-    });
-
-
-    // Run the processors, sequentially
-    markMissingPrereqs.go(dump);
-    termStartEndDate.go(dump);
-
-    // Add new processors here.
-    simplifyProfList.go(dump);
-    addPreRequisiteFor.go(dump);
 
     // If running with semesterly, save in the semesterly schema
     // If not, save in the searchneu schema

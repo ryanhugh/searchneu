@@ -140,7 +140,6 @@ class SearchIndex {
         toIndex.acronym = '';
       }
 
-
       index.addDoc(toIndex);
     }
 

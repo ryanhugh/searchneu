@@ -12,6 +12,7 @@ import MobileSectionPanel from './MobileSectionPanel';
 import Keys from '../../../common/Keys';
 import BaseClassPanel from './BaseClassPanel';
 import macros from '../macros';
+import SignUpForNotifications from '../SignUpForNotifications';
 
 import './MobileClassPanel.scss';
 
@@ -56,6 +57,8 @@ class MobileClassPanel extends BaseClassPanel {
             Prerequisite for: {this.optionalDisplay(macros.prereqTypes.PREREQ_FOR)} {this.showMore(macros.prereqTypes.PREREQ_FOR)}
             <br />
             Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
+            <br />
+            <SignUpForNotifications aClass={ aClass } />
           </div>
         </span>
       );

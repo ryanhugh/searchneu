@@ -21,14 +21,18 @@ class Macros {
   }
 
   static warn(...args) {
+    if (process.env.NODE_ENV === 'test') {
+      return;
+    }
+
     args = ['Warn:'].concat(args);
     console.warn(...args); // eslint-disable-line no-console
   }
 
   static error(...args) {
-    // if (Macros.TESTS) {
-    //   return;
-    // }
+    if (Macros.TESTS) {
+      return;
+    }
 
     args = ['Error:'].concat(args);
 
