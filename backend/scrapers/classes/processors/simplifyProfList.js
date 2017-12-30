@@ -12,7 +12,7 @@ import BaseProcessor from './baseProcessor';
 class SimplifyProfList extends BaseProcessor.BaseProcessor {
   go(termDump) {
     if (!termDump.sections) {
-      return;
+      return termDump;
     }
 
     const updatedSections = [];

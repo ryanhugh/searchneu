@@ -27,10 +27,19 @@ class SignUpForNotifications extends React.Component {
 
 
     this.onSubscribeToggleChange = this.onSubscribeToggleChange.bind(this);
-
-    console.log('RENDER:', this.render);
   }
 
+  componentDidUpdate() {
+    if (this.facebookScopeRef) {
+      window.FB.XFBML.parse(this.facebookScopeRef);
+    }
+  }
+
+  onSubscribeToggleChange() {
+    this.setState({
+      showMessengerButton: true,
+    });
+  }
 
   getSendToMessengerButton() {
     const loginKey = authentication.getLoginKey();
@@ -76,18 +85,6 @@ class SignUpForNotifications extends React.Component {
     }
 
     return null;
-  }
-
-  onSubscribeToggleChange(event, data) {
-    this.setState({
-      showMessengerButton: true,
-    });
-  }
-
-  componentDidUpdate() {
-    if (this.facebookScopeRef) {
-      window.FB.XFBML.parse(this.facebookScopeRef);
-    }
   }
 
   render() {

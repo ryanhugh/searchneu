@@ -126,14 +126,12 @@ class Updater {
       macros.error('Section', sectionHash, "is being watched but it's class is not being watched?", Object.keys(sectionHashMap));
     }
 
-    let allParsersOutput = [];
-
     // Scrape the latest data
-    for (const aClass of classes) {
-      const latestData = await ellucianCatalogParser.main(aClass.prettyUrl);
+    const promises = classes.map((aClass) => {
+      return ellucianCatalogParser.main(aClass.prettyUrl);
+    });
 
-      allParsersOutput = allParsersOutput.concat(latestData);
-    }
+    const allParsersOutput = await Promise.all(promises);
 
     const rootNode = {
       type: 'ignore',

@@ -16,7 +16,7 @@ class TermStartEndDate extends BaseProcessor.BaseProcessor {
   runOnTerm(termDump, term) {
     // Don't run on this term if this term already has a startDate and endDate.
     if (term.startDate && term.endDated) {
-      return;
+      return term;
     }
 
     const startDates = {};

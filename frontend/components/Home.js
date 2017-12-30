@@ -91,7 +91,6 @@ class Home extends React.Component {
     this.onTermdropdownChange = this.onTermdropdownChange.bind(this);
     this.openForm = this.openForm.bind(this);
     this.closeForm = this.closeForm.bind(this);
-    this.onSendToMessengerButtonClicked = this.onSendToMessengerButtonClicked.bind(this);
 
     // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
@@ -104,9 +103,6 @@ class Home extends React.Component {
     // Add a listener for location changes.
     window.addEventListener('popstate', this.onPopState);
     window.addEventListener(macros.searchEvent, this.onDOMEventSearch);
-
-    // Activate the FB event listener
-    // window.FB.Event.subscribe('send_to_messenger', this.onSendToMessengerButtonClicked);
 
     if (this.inputElement) {
       this.inputElement.addEventListener('focus', this.onInputFocus);
@@ -128,9 +124,6 @@ class Home extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('onpopstate', this.onPopState);
     window.removeEventListener(macros.searchEvent, this.onDOMEventSearch);
-
-    // Activate the FB event listener
-    // window.FB.Event.unsubscribe('send_to_messenger', this.onSendToMessengerButtonClicked);
 
     if (this.inputElement) {
       this.inputElement.removeEventListener('focus', this.onInputFocus);
@@ -164,26 +157,6 @@ class Home extends React.Component {
     document.body.scrollTop = 0;
 
     this.search(query);
-  }
-
-  onSendToMessengerButtonClicked(event) {
-    macros.log('messenger_checkbox event');
-    macros.log(e);
-
-    if (e.event === 'rendered') {
-      macros.log('Plugin was rendered');
-    } else if (e.event === 'checkbox') {
-      const checkboxState = e.state;
-      macros.log(`Checkbox state: ${checkboxState}`);
-    } else if (e.event === 'not_you') {
-      macros.log("User clicked 'not you'");
-    } else if (e.event === 'hidden') {
-      macros.log('Plugin was hidden');
-    } else if (e.event === 'opt_in') {
-      macros.log('Opt in was clicked!');
-    } else {
-      macros.log(e, 'other message');
-    }
   }
 
   onInputFocus() {

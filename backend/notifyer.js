@@ -19,7 +19,9 @@ class Notifyer {
 
     if (!token) {
       macros.warn("Don't have fbToken, not sending FB notification to", sender, text);
-      return;
+      return {
+        error: 'true',
+      };
     }
 
     const config = {
