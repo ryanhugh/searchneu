@@ -130,6 +130,7 @@ class DataLib {
 
     if (!this.termDumpMap[aClass.termId]) {
       macros.error('Cannot set class in non-existent term.');
+      return;
     }
 
     this.allClassesMap[hash] = aClass;
@@ -143,6 +144,7 @@ class DataLib {
 
     if (!this.termDumpMap[section.termId]) {
       macros.error('Cannot set section in non-existent term.');
+      return;
     }
 
     this.allSectionsMap[hash] = section;
