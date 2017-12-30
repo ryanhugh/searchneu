@@ -10,8 +10,6 @@ import RequisiteBranch from '../../../common/classModels/RequisiteBranch';
 import Keys from '../../../common/Keys';
 import macros from '../macros';
 
-import './BaseClassPanel.scss';
-
 class BaseClassPanel extends React.Component {
   static propTypes = {
     aClass: PropTypes.object.isRequired,

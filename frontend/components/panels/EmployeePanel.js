@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import macros from '../macros';
-import './EmployeePanel.scss';
+
 import globe from './globe.svg';
 import chevronDown from './chevron-down.svg';
 import chevronRight from './chevron-right.svg';

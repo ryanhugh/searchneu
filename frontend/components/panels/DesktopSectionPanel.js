@@ -6,11 +6,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
-import globe from './globe.svg';
+
 import Keys from '../../../common/Keys';
 import LocationLinks from './LocationLinks';
 import WeekdayBoxes from './WeekdayBoxes';
-import './DesktopSectionPanel.scss';
+
+import globe from './globe.svg';
 
 export default class DesktopSectionPanel extends React.Component {
   static propTypes = {
