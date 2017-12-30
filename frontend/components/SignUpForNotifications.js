@@ -54,8 +54,9 @@ class SignUpForNotifications extends React.Component {
       }
     }
 
-    // JSON stringify it and then base64 encode it.
-    // The messenger button dosen't appear unless the ref is base64 encoded.
+    // JSON stringify it and then base64 encode the data that we want to pass to the backend.
+    // Many characters arn't allowed to be in the ref attribute, including open and closing braces.
+    // So base64 enocode it and then decode it on the server. Without the base64 encoding, the button will not render.
     const dataRef = btoa(JSON.stringify({
       classHash: Keys.create(aClass).getHash(),
       sectionHashes: sectionsHashes,
@@ -77,16 +78,6 @@ class SignUpForNotifications extends React.Component {
     );
   }
 
-  getNotificationButton() {
-    if (this.props.aClass.sections.length === 0) {
-      return <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when sections are added!' className={ css.notificationButton } />;
-    } else if (this.props.aClass.isAtLeastOneSectionFull()) {
-      return <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!' className={ css.notificationButton } />;
-    }
-
-    return null;
-  }
-
   render() {
     let updatesSection = null;
     if (this.state.showMessengerButton) {
@@ -100,8 +91,10 @@ class SignUpForNotifications extends React.Component {
           {sendToMessengerButton}
         </div>
       );
-    } else {
-      updatesSection = this.getNotificationButton();
+    } else if (this.props.aClass.sections.length === 0) {
+      updatesSection = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when sections are added!' className={ css.notificationButton } />;
+    } else if (this.props.aClass.isAtLeastOneSectionFull()) {
+      updatesSection = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!' className={ css.notificationButton } />;
     }
 
     // Disable the button under a flag - just for now
