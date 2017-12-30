@@ -410,8 +410,8 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
     const sectionWasentWatchingBefore = [];
 
-    for (const section of existingData.watchingSections) {
-      if (!userObject.sectionHashes.includes(section)) {
+    for (const section of userObject.sectionHashes) {
+      if (!existingData.watchingSections.includes(section)) {
         sectionWasentWatchingBefore.push(section);
       }
     }
