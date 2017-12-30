@@ -1,0 +1,1081 @@
+{
+    "001843957":
+    {
+        "name": "Jun Ma",
+        "firstName": "Jun",
+        "lastName": "Ma",
+        "id": "001843957",
+        "phone": "6173732882",
+        "emails": ["ju.ma@northeastern.edu"],
+        "primaryRole": "Associate Professor of Economics",
+        "primaryDepartment": "Economics",
+        "url": "https://www.northeastern.edu/cssh/faculty/jun-ma",
+        "image": "https://www.northeastern.edu/cssh/wp-content/uploads/2017/07/ECON-Jun-Ma-web-414x522.jpg"
+    },
+    "001847317":
+    {
+        "name": "Lily Ma",
+        "firstName": "Lily",
+        "lastName": "Ma",
+        "id": "001847317",
+        "emails": ["lil.ma@northeastern.edu"],
+        "primaryRole": "Administrative Coordinator",
+        "primaryDepartment": "Bay Area Regional Campus"
+    },
+    "001906819":
+    {
+        "name": "Linlin Ma",
+        "firstName": "Linlin",
+        "lastName": "Ma",
+        "id": "001906819",
+        "phone": "6173734569",
+        "emails": ["l.ma@northeastern.edu"],
+        "primaryRole": "Assistant Professor",
+        "primaryDepartment": "DMSB Finance Group"
+    },
+    "001279059":
+    {
+        "name": "Wei Ma",
+        "firstName": "Wei",
+        "lastName": "Ma",
+        "id": "001279059",
+        "phone": "6173734457",
+        "emails": ["w.ma@northeastern.edu"],
+        "primaryRole": "Postdoctoral Research Assoc",
+        "primaryDepartment": "Mechanical + Industrial Engineering"
+    },
+    "001613541":
+    {
+        "name": "Zhenliang Ma",
+        "firstName": "Zhenliang",
+        "lastName": "Ma",
+        "id": "001613541",
+        "phone": "6173734114",
+        "emails": ["z.ma@northeastern.edu"],
+        "primaryRole": "Postdoctoral Research Assoc",
+        "primaryDepartment": "Civil and Environmental Engineering"
+    },
+    "000144106":
+    {
+        "name": "Patricia Mabrouk",
+        "firstName": "Patricia",
+        "lastName": "Mabrouk",
+        "id": "000144106",
+        "phone": "6173732845",
+        "emails": ["p.mabrouk@northeastern.edu"],
+        "primaryRole": "Professor",
+        "primaryDepartment": "Chemistry and Chemical Biology"
+    },
+    "000144467":
+    {
+        "name": "James MacAluso",
+        "firstName": "James",
+        "lastName": "MacAluso",
+        "id": "000144467",
+        "phone": "6173735255",
+        "emails": ["j.macaluso@northeastern.edu"],
+        "primaryRole": "Asst Dir - Commissioning Svcs",
+        "primaryDepartment": "Facilities Administration-10"
+    },
+    "001183542":
+    {
+        "name": "Andrew MacDonald",
+        "firstName": "Andrew",
+        "lastName": "MacDonald",
+        "id": "001183542",
+        "phone": "6173733147",
+        "emails": ["a.macdonald@northeastern.edu"],
+        "primaryRole": "Security Technician",
+        "primaryDepartment": "Public Safety"
+    },
+    "001710998":
+    {
+        "name": "Dana MacDonald",
+        "firstName": "Dana",
+        "lastName": "MacDonald",
+        "id": "001710998",
+        "phone": "6173733649",
+        "emails": ["d.macdonald@northeastern.edu"],
+        "primaryRole": "Part-Time Lecturer",
+        "primaryDepartment": "BCHS Office of the Dean"
+    },
+    "000940651":
+    {
+        "name": "Kenneth MacDonald",
+        "firstName": "Kenneth",
+        "lastName": "MacDonald",
+        "id": "000940651",
+        "phone": "6173733702",
+        "emails": ["k.macdonald@northeastern.edu"],
+        "primaryRole": "BEAP Program Officer",
+        "primaryDepartment": "School of Criminology and CJ"
+    },
+    "000027310":
+    {
+        "name": "Michael MacDonald",
+        "firstName": "Michael",
+        "lastName": "MacDonald",
+        "id": "000027310",
+        "phone": "6173732333",
+        "emails": ["m.macdonald@northeastern.edu"],
+        "primaryRole": "Professor of the Practice",
+        "primaryDepartment": "Office Of The Provost"
+    },
+    "000373633":
+    {
+        "name": "Nicole MacEachern",
+        "firstName": "Nicole",
+        "lastName": "MacEachern",
+        "id": "000373633",
+        "phone": "6173732696",
+        "emails": ["n.maceachern@northeastern.edu"],
+        "primaryRole": "Police Operations Coordinator",
+        "primaryDepartment": "Public Safety"
+    },
+    "000403908":
+    {
+        "name": "Diane MacGillivray",
+        "firstName": "Diane",
+        "lastName": "MacGillivray",
+        "id": "000403908",
+        "phone": "6173732109",
+        "emails": ["d.macgillivray@northeastern.edu"],
+        "primaryRole": "Sr VP - University Advancement",
+        "primaryDepartment": "Sr. VP University Advancement"
+    },
+    "001745584":
+    {
+        "name": "Robin MacIlroy",
+        "firstName": "Robin",
+        "lastName": "MacIlroy",
+        "id": "001745584",
+        "phone": "6173738351",
+        "emails": ["r.macilroy@northeastern.edu"],
+        "primaryRole": "Academic Advisor",
+        "primaryDepartment": "COS-Undergraduate Advising"
+    },
+    "000545906":
+    {
+        "name": "Keith MacKay",
+        "firstName": "Keith",
+        "lastName": "MacKay",
+        "id": "000545906",
+        "emails": ["kj.mackay@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "000593314":
+    {
+        "name": "Rebecca MacKenzie",
+        "firstName": "Rebecca",
+        "lastName": "MacKenzie",
+        "id": "000593314",
+        "phone": "6173732462",
+        "emails": ["r.mackenzie@northeastern.edu"],
+        "primaryRole": "Academic IT Coordinator",
+        "primaryDepartment": "CCIS",
+        "url": "https://www.ccis.northeastern.edu/people/rebecca-mackenzie/",
+        "officeRoom": "314 West Village H",
+        "officeStreetAddress": "440 Huntington Avenue",
+        "bigPictureUrl": "https://www.ccis.northeastern.edu/wp-content/uploads/2016/08/MacKenzie_Rebecca_linderpix-54406-hero-image.jpg"
+    },
+    "001908303":
+    {
+        "name": "Esther MacKenzie",
+        "firstName": "Esther",
+        "lastName": "MacKenzie",
+        "id": "001908303",
+        "phone": "6173733841",
+        "emails": ["e.mackenzie@northeastern.edu"],
+        "primaryRole": "Visiting Clinical Instructor",
+        "primaryDepartment": "School Of Nursing"
+    },
+    "001670894":
+    {
+        "name": "Kyle MacKinnon",
+        "firstName": "Kyle",
+        "lastName": "MacKinnon",
+        "id": "001670894",
+        "phone": "6173738201",
+        "emails": ["k.mackinnon@northeastern.edu"],
+        "primaryRole": "Assistant Athletic Trainer",
+        "primaryDepartment": "Athletic Training"
+    },
+    "000559646":
+    {
+        "name": "Catharine MacLaren",
+        "firstName": "Catharine",
+        "lastName": "MacLaren",
+        "id": "000559646",
+        "emails": ["c.maclaren@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "001287764":
+    {
+        "name": "Shaina MacLauchlan",
+        "firstName": "Shaina",
+        "lastName": "MacLauchlan",
+        "id": "001287764",
+        "phone": "6173738761",
+        "emails": ["s.maclauchlan@northeastern.edu"],
+        "primaryRole": "Curriculum Coordinator",
+        "primaryDepartment": "International Study Programs"
+    },
+    "000120296":
+    {
+        "name": "Michael MacNeil",
+        "firstName": "Michael",
+        "lastName": "MacNeil",
+        "id": "000120296",
+        "phone": "6173735931",
+        "emails": ["m.macneil@northeastern.edu"],
+        "primaryRole": "Lab Technician",
+        "primaryDepartment": "Civil and Environmental Engineering"
+    },
+    "001797249":
+    {
+        "name": "Melissa MacPhail",
+        "firstName": "Melissa",
+        "lastName": "MacPhail",
+        "id": "001797249",
+        "phone": "6173733649",
+        "emails": ["m.macphail@northeastern.edu"],
+        "primaryDepartment": "School Of Nursing"
+    },
+    "001988757":
+    {
+        "name": "James Macalino",
+        "firstName": "James",
+        "lastName": "Macalino",
+        "id": "001988757",
+        "phone": "6173737808",
+        "emails": ["j.macalino@northeastern.edu"],
+        "primaryRole": "Sr Systems Administrator",
+        "primaryDepartment": "ITS System Services"
+    },
+    "000042809":
+    {
+        "name": "Ben Macalister",
+        "firstName": "Ben",
+        "lastName": "Macalister",
+        "id": "000042809",
+        "emails": ["b.macalister@northeastern.edu"],
+        "primaryRole": "Machinist",
+        "primaryDepartment": "Mechanical + Industrial Engineering"
+    },
+    "000156146":
+    {
+        "name": "Lauren Machunis",
+        "firstName": "Lauren",
+        "lastName": "Machunis",
+        "id": "000156146",
+        "phone": "6173736279",
+        "emails": ["l.machunis@northeastern.edu"],
+        "primaryRole": "Asst Dean UG Adv & Enrlmt Mgt",
+        "primaryDepartment": "COS-Office of the Dean"
+    },
+    "001906305":
+    {
+        "name": "Erica Machut",
+        "firstName": "Erica",
+        "lastName": "Machut",
+        "id": "001906305",
+        "phone": "6173735407",
+        "emails": ["e.machut@northeastern.edu"],
+        "primaryRole": "Mgr - Admin/Plnng & Spec Proj",
+        "primaryDepartment": "Office of the CFO"
+    },
+    "001204353":
+    {
+        "name": "Doreen Maciak",
+        "firstName": "Doreen",
+        "lastName": "Maciak",
+        "id": "001204353",
+        "emails": ["d.maciak@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "000028016":
+    {
+        "name": "Kathleen Mackenzie",
+        "firstName": "Kathleen",
+        "lastName": "Mackenzie",
+        "id": "000028016",
+        "emails": ["k.mackenzie@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "000693471":
+    {
+        "name": "Andrew Mackie",
+        "firstName": "Andrew",
+        "lastName": "Mackie",
+        "id": "000693471",
+        "phone": "6173736227",
+        "emails": ["w.mackie@northeastern.edu"],
+        "primaryRole": "Assistant Clinical Professor",
+        "primaryDepartment": "Physician Assistant Program"
+    },
+    "000149229":
+    {
+        "name": "Dawn Mackiewicz",
+        "firstName": "Dawn",
+        "lastName": "Mackiewicz",
+        "id": "000149229",
+        "emails": ["d.mackiewicz@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "000069011":
+    {
+        "name": "Barb Maclachlan",
+        "firstName": "Barb",
+        "lastName": "Maclachlan",
+        "id": "000069011",
+        "emails": ["b.maclachlan@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "000472608":
+    {
+        "name": "James Macleod",
+        "firstName": "James",
+        "lastName": "Macleod",
+        "id": "000472608",
+        "emails": ["j.macleod@northeastern.edu"],
+        "primaryRole": "Asst Project Manager",
+        "primaryDepartment": "Plant Funds"
+    },
+    "000154160":
+    {
+        "name": "Marina Macomber",
+        "firstName": "Marina",
+        "lastName": "Macomber",
+        "id": "000154160",
+        "phone": "6173732007",
+        "emails": ["m.macomber@northeastern.edu"],
+        "primaryRole": "Asst VP - Stdt Svcs & Admin",
+        "primaryDepartment": "Residence Services"
+    },
+    "001231673":
+    {
+        "name": "Steven Macpherson",
+        "firstName": "Steven",
+        "lastName": "Macpherson",
+        "id": "001231673",
+        "emails": ["s.macpherson@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "000149349":
+    {
+        "name": "Yvonne Macrae",
+        "firstName": "Yvonne",
+        "lastName": "Macrae",
+        "id": "000149349",
+        "emails": ["y.macrae@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "001795101":
+    {
+        "name": "Emanuele Macri",
+        "firstName": "Emanuele",
+        "lastName": "Macri",
+        "id": "001795101",
+        "phone": "6173733893",
+        "emails": ["e.macri@northeastern.edu"],
+        "primaryRole": "Associate Professor",
+        "primaryDepartment": "Mathematics"
+    },
+    "001674692":
+    {
+        "name": "Mahesh Madala",
+        "firstName": "Mahesh",
+        "lastName": "Madala",
+        "id": "001674692",
+        "emails": ["m.madala@northeastern.edu"],
+        "primaryRole": "Sr Integration Developer",
+        "primaryDepartment": "ITS Enterprise Application Dev"
+    },
+    "001675187":
+    {
+        "name": "Jeanne Madden",
+        "firstName": "Jeanne",
+        "lastName": "Madden",
+        "id": "001675187",
+        "phone": "6173738344",
+        "emails": ["j.madden@northeastern.edu"],
+        "primaryRole": "Associate Professor",
+        "primaryDepartment": "Pharm & Hlth Systems Sciences"
+    },
+    "000966754":
+    {
+        "name": "Michael Madden",
+        "firstName": "Michael",
+        "lastName": "Madden",
+        "id": "000966754",
+        "emails": ["m.madden@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "001906422":
+    {
+        "name": "Thomas Madden",
+        "firstName": "Thomas",
+        "lastName": "Madden",
+        "id": "001906422",
+        "phone": "6173734930",
+        "emails": ["t.madden@northeastern.edu"],
+        "primaryDepartment": "School Of Law-Academic"
+    },
+    "000931236":
+    {
+        "name": "Michelle Madera",
+        "firstName": "Michelle",
+        "lastName": "Madera",
+        "id": "000931236",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "000141392":
+    {
+        "name": "James Madigan",
+        "firstName": "James",
+        "lastName": "Madigan",
+        "id": "000141392",
+        "phone": "6173733376",
+        "emails": ["j.madigan@northeastern.edu"],
+        "primaryRole": "Head Coach-Men's Hockey",
+        "primaryDepartment": "Men's Hockey"
+    },
+    "001164981":
+    {
+        "name": "Kristin Madison",
+        "firstName": "Kristin",
+        "lastName": "Madison",
+        "id": "001164981",
+        "phone": "6173734551",
+        "emails": ["k.madison@northeastern.edu"],
+        "primaryRole": "AssocDean AcademicAffairs",
+        "primaryDepartment": "School Of Law-Academic"
+    },
+    "000720759":
+    {
+        "name": "Jennifer Madonna",
+        "firstName": "Jennifer",
+        "lastName": "Madonna",
+        "id": "000720759",
+        "emails": ["j.madonna@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "000938702":
+    {
+        "name": "Eliot Madow",
+        "firstName": "Eliot",
+        "lastName": "Madow",
+        "id": "000938702",
+        "emails": ["e.madow@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "000597374":
+    {
+        "name": "Colin Mageary",
+        "firstName": "Colin",
+        "lastName": "Mageary",
+        "id": "000597374",
+        "phone": "6173733695",
+        "emails": ["c.mageary@northeastern.edu"],
+        "primaryRole": "Residence Director",
+        "primaryDepartment": "Residence Hall-Programs"
+    },
+    "001615785":
+    {
+        "name": "Diane Magee",
+        "firstName": "Diane",
+        "lastName": "Magee",
+        "id": "001615785",
+        "phone": "6173734932",
+        "emails": ["d.magee@northeastern.edu"],
+        "primaryDepartment": "School Of Law-Academic"
+    },
+    "000131866":
+    {
+        "name": "Liz Magee",
+        "firstName": "Liz",
+        "lastName": "Magee",
+        "id": "000131866",
+        "phone": "6173732059",
+        "emails": ["e.magee@northeastern.edu"],
+        "primaryRole": "Three Seas Program Manager",
+        "primaryDepartment": "Marine Science Center"
+    },
+    "001214223":
+    {
+        "name": "Tracy Magee",
+        "firstName": "Tracy",
+        "lastName": "Magee",
+        "id": "001214223",
+        "phone": "6173733611",
+        "emails": ["t.magee@northeastern.edu"],
+        "primaryRole": "Assoc Clin Prof & Dir PNP Prog",
+        "primaryDepartment": "School Of Nursing"
+    },
+    "000129650":
+    {
+        "name": "Sheila Magee Beare",
+        "firstName": "Sheila",
+        "lastName": "Beare",
+        "id": "000129650",
+        "phone": "6173734368",
+        "emails": ["s.magee@northeastern.edu"],
+        "primaryRole": "AssocDir-GradAdmssns&StdntSvcs",
+        "primaryDepartment": "CSSH-Office of the Dean"
+    },
+    "001725421":
+    {
+        "name": "Sandy Magill",
+        "firstName": "Sandy",
+        "lastName": "Magill",
+        "id": "001725421",
+        "emails": ["s.magill@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "000149027":
+    {
+        "name": "Dominic Magnarelli",
+        "firstName": "Dominic",
+        "lastName": "Magnarelli",
+        "id": "000149027",
+        "emails": ["d.magnarelli@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "001794847":
+    {
+        "name": "Nicole Magni",
+        "firstName": "Nicole",
+        "lastName": "Magni",
+        "id": "001794847",
+        "phone": "6173732461",
+        "emails": ["n.magni@northeastern.edu"],
+        "primaryRole": "Grants Manager - Pre-Awards",
+        "primaryDepartment": "CCIS",
+        "url": "https://www.ccis.northeastern.edu/people/nicole-magni/",
+        "officeRoom": "451 West Village H",
+        "officeStreetAddress": "440 Huntington Avenue",
+        "bigPictureUrl": "https://www.ccis.northeastern.edu/wp-content/uploads/2016/02/Nicole-Magni-hero-image.jpg"
+    },
+    "000124292":
+    {
+        "name": "Anne Magrath",
+        "firstName": "Anne",
+        "lastName": "Magrath",
+        "id": "000124292",
+        "phone": "6173735026",
+        "emails": ["a.magrath@northeastern.edu"],
+        "primaryRole": "Sr Dir-Finance",
+        "primaryDepartment": "CENSSIS"
+    },
+    "001452952":
+    {
+        "name": "Jason Magri",
+        "firstName": "Jason",
+        "lastName": "Magri",
+        "id": "001452952",
+        "emails": ["j.magri@northeastern.edu"],
+        "primaryRole": "Electrician",
+        "primaryDepartment": "Maintenance-Electricians-Dorms"
+    },
+    "000104441":
+    {
+        "name": "James Maguire",
+        "firstName": "James",
+        "lastName": "Maguire",
+        "id": "000104441",
+        "emails": ["j.maguire@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "000055217":
+    {
+        "name": "Jack Mahan",
+        "firstName": "Jack",
+        "lastName": "Mahan",
+        "id": "000055217",
+        "emails": ["j.mahan@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "001745637":
+    {
+        "name": "Priyanka Mahendra Kumar",
+        "firstName": "Priyanka",
+        "lastName": "Kumar",
+        "id": "001745637",
+        "emails": ["p.mahendrakumar@northeastern.edu"],
+        "primaryRole": "Project Manager",
+        "primaryDepartment": "ITS-Project and Service Management"
+    },
+    "000188331":
+    {
+        "name": "Meaghan Maher",
+        "firstName": "Meaghan",
+        "lastName": "Maher",
+        "id": "000188331",
+        "phone": "6173736970",
+        "emails": ["m.maher@northeastern.edu"],
+        "primaryRole": "Asst Director-LLM",
+        "primaryDepartment": "School Of Law-Academic"
+    },
+    "000144535":
+    {
+        "name": "Bala Maheswaran",
+        "firstName": "Bala",
+        "lastName": "Maheswaran",
+        "id": "000144535",
+        "phone": "6173735905",
+        "emails": ["b.maheswaran@northeastern.edu"],
+        "primaryRole": "Teaching Professor",
+        "primaryDepartment": "COE-Undergraduate Student Services"
+    },
+    "000144477":
+    {
+        "name": "Debra Copeland Mahfouz",
+        "firstName": "Debra",
+        "lastName": "Mahfouz",
+        "id": "000144477",
+        "phone": "6173734176",
+        "emails": ["d.copeland@northeastern.edu"],
+        "primaryRole": "Associate Clinical Professor",
+        "primaryDepartment": "Pharmacy OEE"
+    },
+    "001131418":
+    {
+        "name": "Elizabeth Mahler",
+        "firstName": "Elizabeth",
+        "lastName": "Mahler",
+        "id": "001131418",
+        "emails": ["e.mahler@northeastern.edu"],
+        "primaryRole": "Associate Teaching Professor",
+        "primaryDepartment": "CPS-Graduate Programs"
+    },
+    "001989869":
+    {
+        "name": "David Mahoney",
+        "firstName": "David",
+        "lastName": "Mahoney",
+        "id": "001989869",
+        "emails": ["d.mahoney@northeastern.edu"],
+        "primaryRole": "Assistant Teaching Professor",
+        "primaryDepartment": "CPS-Graduate Programs"
+    },
+    "000557862":
+    {
+        "name": "Joseph Mahoney",
+        "firstName": "Joseph",
+        "lastName": "Mahoney",
+        "id": "000557862",
+        "emails": ["jo.mahoney@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "000144823":
+    {
+        "name": "Maura Mahoney",
+        "firstName": "Maura",
+        "lastName": "Mahoney",
+        "id": "000144823",
+        "phone": "6173734311",
+        "emails": ["ma.mahoney@northeastern.edu"],
+        "primaryRole": "Mgr - Admin/Plnng & Spec Proj",
+        "primaryDepartment": "Human Resources Management"
+    },
+    "001847837":
+    {
+        "name": "Monica Mahoney",
+        "firstName": "Monica",
+        "lastName": "Mahoney",
+        "id": "001847837",
+        "emails": ["mo.mahoney@northeastern.edu"],
+        "primaryDepartment": "Pharmaceutical Sciences"
+    },
+    "001799779":
+    {
+        "name": "Rebecca Mahoney",
+        "firstName": "Rebecca",
+        "lastName": "Mahoney",
+        "id": "001799779",
+        "emails": ["r.mahoney@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "000144191":
+    {
+        "name": "Luigia (Gina) Maiellaro",
+        "firstName": "Luigia",
+        "lastName": "Maiellaro",
+        "id": "000144191",
+        "phone": "6173737107",
+        "emails": ["l.maiellaro@northeastern.edu"],
+        "primaryRole": "Teaching Professor of Italian",
+        "primaryDepartment": "World Language Center",
+        "url": "https://www.northeastern.edu/cssh/faculty/luigia-maiellaro",
+        "image": "https://www.northeastern.edu/cssh/wp-content/uploads/2015/06/WLC-Gina-web-414x522.jpg",
+        "officeRoom": "427 Meserve Hall",
+        "officeStreetAddress": "360 Huntington Avenue"
+    },
+    "000158942":
+    {
+        "name": "Rachael Maiocco",
+        "firstName": "Rachael",
+        "lastName": "Maiocco",
+        "id": "000158942",
+        "emails": ["r.maiocco@northeastern.edu"],
+        "primaryDepartment": "Physical Therapy"
+    },
+    "000165095":
+    {
+        "name": "Alina Mak",
+        "firstName": "Alina",
+        "lastName": "Mak",
+        "id": "000165095",
+        "phone": "6173734658",
+        "emails": ["a.mak@northeastern.edu"],
+        "primaryRole": "Program Coordinator",
+        "primaryDepartment": "Physics"
+    },
+    "000998514":
+    {
+        "name": "David Mak",
+        "firstName": "David",
+        "lastName": "Mak",
+        "id": "000998514",
+        "phone": "6173737836",
+        "emails": ["d.mak@northeastern.edu"],
+        "primaryRole": "Identity Services Specialist",
+        "primaryDepartment": "ITS Enterprise Application Dev"
+    },
+    "001648936":
+    {
+        "name": "Roshan Raj Maka",
+        "firstName": "Roshan",
+        "lastName": "Maka",
+        "id": "001648936",
+        "emails": ["r.maka@northeastern.edu"],
+        "primaryRole": "Sr Applications Developer",
+        "primaryDepartment": "ITS Enterprise Application Dev"
+    },
+    "000859683":
+    {
+        "name": "Janos Mako",
+        "firstName": "Janos",
+        "lastName": "Mako",
+        "id": "000859683",
+        "emails": ["j.mako@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "001187009":
+    {
+        "name": "Shamiran Mako",
+        "firstName": "Shamiran",
+        "lastName": "Mako",
+        "id": "001187009",
+        "phone": "6173735472",
+        "emails": ["s.mako@northeastern.edu"],
+        "primaryDepartment": "International Affairs"
+    },
+    "001243807":
+    {
+        "name": "Alex Makos",
+        "firstName": "Alex",
+        "lastName": "Makos",
+        "id": "001243807",
+        "emails": ["a.makos@northeastern.edu"],
+        "primaryRole": "Manager Employer Relations",
+        "primaryDepartment": "CPS-Undergraduate Programs"
+    },
+    "000544933":
+    {
+        "name": "Lee Makowski",
+        "firstName": "Lee",
+        "lastName": "Makowski",
+        "id": "000544933",
+        "phone": "6173733006",
+        "emails": ["l.makowski@northeastern.edu", "makowski@ece.neu.edu"],
+        "primaryRole": "Professor & Chair",
+        "primaryDepartment": "Bioengineering",
+        "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/bioe/makowski-l.jpg?itok=GcFdXL97",
+        "url": "http://www.bioe.neu.edu/people/makowski-lee",
+        "interests": "Image and signal processing as applied to biophysical data designed to answer fundamental questions about the molecular basis of living systems"
+    },
+    "000148509":
+    {
+        "name": "George Makris",
+        "firstName": "George",
+        "lastName": "Makris",
+        "id": "000148509",
+        "phone": "6173734821",
+        "emails": ["g.makris@northeastern.edu"],
+        "primaryRole": "Dir-Athletic Dev Emeritus",
+        "primaryDepartment": "Individual Giving"
+    },
+    "000140891":
+    {
+        "name": "Purnima Ratilal-Makris",
+        "firstName": "Purnima",
+        "lastName": "Ratilal-Makris",
+        "id": "000140891",
+        "phone": "6173738458",
+        "emails": ["p.ratilal@northeastern.edu", "purnima@ece.neu.edu"],
+        "primaryRole": "Associate Professor",
+        "primaryDepartment": "Electrical and Computer Engineering",
+        "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/ece/ratilal-p.jpg?itok=aGbOKHt3",
+        "url": "http://www.ece.neu.edu/people/ratilal-makris-purnima",
+        "interests": "Remote sensing, underwater acoustics, acoustical oceanography, bioacoustics, ultrasound imaging, nonlinear scattering, wave propagation in random media, signal, image and array processing, statistical inference theory."
+    },
+    "000148962":
+    {
+        "name": "Alexandros Makriyannis",
+        "firstName": "Alexandros",
+        "lastName": "Makriyannis",
+        "id": "000148962",
+        "phone": "6173734200",
+        "emails": ["a.makriyannis@northeastern.edu"],
+        "primaryRole": "George D Behrakis Chair",
+        "primaryDepartment": "Center For Drug Discovery"
+    },
+    "001899599":
+    {
+        "name": "Derya Malak",
+        "firstName": "Derya",
+        "lastName": "Malak",
+        "id": "001899599",
+        "phone": "6173735400",
+        "emails": ["d.malak@northeastern.edu"],
+        "primaryRole": "Postdoctoral Research Assoc",
+        "primaryDepartment": "Electrical and Computer Engineering"
+    },
+    "001758555":
+    {
+        "name": "Michael Malamas",
+        "firstName": "Michael",
+        "lastName": "Malamas",
+        "id": "001758555",
+        "phone": "6173733125",
+        "emails": ["m.malamas@northeastern.edu"],
+        "primaryRole": "Research Associate Professor",
+        "primaryDepartment": "Center For Drug Discovery"
+    },
+    "000144125":
+    {
+        "name": "Yvonne Malcolm",
+        "firstName": "Yvonne",
+        "lastName": "Malcolm",
+        "id": "000144125",
+        "phone": "6173733767",
+        "emails": ["y.malcolm@northeastern.edu"],
+        "primaryRole": "Administrative Officer",
+        "primaryDepartment": "Psychology"
+    },
+    "001235251":
+    {
+        "name": "Danielle Maldonado",
+        "firstName": "Danielle",
+        "lastName": "Maldonado",
+        "id": "001235251",
+        "phone": "6173732121",
+        "emails": ["d.maldonado@northeastern.edu"],
+        "primaryRole": "NUPD Operator",
+        "primaryDepartment": "Public Safety"
+    },
+    "000148059":
+    {
+        "name": "Mario Maletta",
+        "firstName": "Mario",
+        "lastName": "Maletta",
+        "id": "000148059",
+        "phone": "6173738397",
+        "emails": ["m.maletta@northeastern.edu"],
+        "primaryRole": "Professor",
+        "primaryDepartment": "Accounting Group"
+    },
+    "001831769":
+    {
+        "name": "Rakesh Malhotra",
+        "firstName": "Rakesh",
+        "lastName": "Malhotra",
+        "id": "001831769",
+        "emails": ["r.malhotra@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "College of Professional Studies"
+    },
+    "001132889":
+    {
+        "name": "Shiti Malhotra",
+        "firstName": "Shiti",
+        "lastName": "Malhotra",
+        "id": "001132889",
+        "phone": "6173734553",
+        "emails": ["s.malhotra@northeastern.edu"],
+        "primaryRole": "Lecturer",
+        "primaryDepartment": "Linguistics"
+    },
+    "001676788":
+    {
+        "name": "Veronika Maliborska",
+        "firstName": "Veronika",
+        "lastName": "Maliborska",
+        "id": "001676788",
+        "emails": ["v.maliborska@northeastern.edu"],
+        "primaryRole": "Assistant Teaching Professor",
+        "primaryDepartment": "CPS-International Programs"
+    },
+    "000305204":
+    {
+        "name": "John Malinowski",
+        "firstName": "John",
+        "lastName": "Malinowski",
+        "id": "000305204",
+        "phone": "6173732245",
+        "emails": ["j.malinowski@northeastern.edu"],
+        "primaryDepartment": "Theater"
+    },
+    "000144720":
+    {
+        "name": "Mikhail Malioutov",
+        "firstName": "Mikhail",
+        "lastName": "Malioutov",
+        "id": "000144720",
+        "phone": "6173735650",
+        "emails": ["m.malioutov@northeastern.edu"],
+        "primaryRole": "Professor",
+        "primaryDepartment": "Mathematics"
+    },
+    "001906880":
+    {
+        "name": "Andrew Mall",
+        "firstName": "Andrew",
+        "lastName": "Mall",
+        "id": "001906880",
+        "phone": "6173738537",
+        "emails": ["a.mall@northeastern.edu"],
+        "primaryRole": "Assistant Professor, Music Industry and Ethnomusicology",
+        "primaryDepartment": "Music",
+        "url": "https://camd.northeastern.edu/music/people/andrew-mall/",
+        "image": "https://camd.northeastern.edu/music/wp-content/uploads/sites/8/2013/08/Andrew-Mall-1-580x386.jpg",
+        "officeRoom": "361 Ryder"
+    },
+    "000596948":
+    {
+        "name": "Ruthvik Malladi",
+        "firstName": "Ruthvik",
+        "lastName": "Malladi",
+        "id": "000596948",
+        "emails": ["r.malladi@northeastern.edu"],
+        "primaryRole": "Postdoc Research Fellow",
+        "primaryDepartment": "Pharm & Hlth Systems Sciences"
+    },
+    "001702505":
+    {
+        "name": "Chris Mallett",
+        "firstName": "Chris",
+        "lastName": "Mallett",
+        "id": "001702505",
+        "phone": "6173736440",
+        "emails": ["c.mallett@northeastern.edu"],
+        "primaryRole": "Chief Operating Officer-PAN",
+        "primaryDepartment": "Professional Advancement Network"
+    },
+    "000148935":
+    {
+        "name": "Michael Mallon",
+        "firstName": "Michael",
+        "lastName": "Mallon",
+        "id": "000148935",
+        "phone": "6173734085",
+        "emails": ["m.mallon@northeastern.edu"],
+        "primaryRole": "Director-Univ Disbursements",
+        "primaryDepartment": "Accounts Payable"
+    },
+    "000148933":
+    {
+        "name": "William Mallon",
+        "firstName": "William",
+        "lastName": "Mallon",
+        "id": "000148933",
+        "phone": "6173735406",
+        "emails": ["w.mallon@northeastern.edu"],
+        "primaryRole": "Dir - Business Services",
+        "primaryDepartment": "Business Services"
+    },
+    "000450970":
+    {
+        "name": "Carol Mallory",
+        "firstName": "Carol",
+        "lastName": "Mallory",
+        "id": "000450970",
+        "phone": "6173733307",
+        "emails": ["c.mallory@northeastern.edu"],
+        "primaryRole": "Associate Teaching Professor",
+        "primaryDepartment": "School Of Law-Academic"
+    },
+    "001799256":
+    {
+        "name": "Haley Malm",
+        "firstName": "Haley",
+        "lastName": "Malm",
+        "id": "001799256",
+        "emails": ["h.malm@northeastern.edu"],
+        "primaryDepartment": "CPS-International Programs"
+    },
+    "000140899":
+    {
+        "name": "John Malone",
+        "firstName": "John",
+        "lastName": "Malone",
+        "id": "000140899",
+        "phone": "6173732700",
+        "emails": ["j.malone@northeastern.edu"],
+        "primaryRole": "Sr Dir Facilities Services",
+        "primaryDepartment": "Facilities Administration-10"
+    },
+    "000456895":
+    {
+        "name": "Kyla Malone",
+        "firstName": "Kyla",
+        "lastName": "Malone",
+        "id": "000456895",
+        "phone": "6173733649",
+        "emails": ["k.malone@northeastern.edu"],
+        "primaryRole": "Part-Time Lecturer",
+        "primaryDepartment": "BCHS Office of the Dean"
+    },
+    "000798332":
+    {
+        "name": "Linda Malone",
+        "firstName": "Linda",
+        "lastName": "Malone",
+        "id": "000798332",
+        "emails": ["l.malone@northeastern.edu"],
+        "primaryDepartment": "School Of Nursing"
+    },
+    "001793906":
+    {
+        "name": "Craig Maloney",
+        "firstName": "Craig",
+        "lastName": "Maloney",
+        "id": "001793906",
+        "phone": "6173736255",
+        "emails": ["c.maloney@northeastern.edu"],
+        "primaryRole": "Associate Professor",
+        "primaryDepartment": "Mechanical + Industrial Engineering",
+        "picThumbnail": "http://www.coe.neu.edu/sites/default/files/styles/user_photo/public/portraits/mie/maloney-c.jpg?itok=G5weGTrP",
+        "url": "http://www.mie.neu.edu/people/maloney-craig",
+        "interests": "Modeling, simulation, and theory of nanoscale mechanics, soft matter, and glasses and amorphous materials."
+    }
+}

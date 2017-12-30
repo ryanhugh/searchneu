@@ -56,12 +56,38 @@ it('should parse a name with spaces', function() {
     lastName: 'Ross',
   })
 
-  expect(macros.parseNameWithSpaces('A B C')).toEqual({
+
+});
+
+it('should parse some error', function() {
+    expect(macros.parseNameWithSpaces('A B C')).toEqual({
     firstName: 'A',
     lastName: 'C',
   })
 
+});
+
+
+it('it should parse a single letter', function() {
+  
   expect(macros.parseNameWithSpaces('E')).toEqual(null)
+});
 
 
+it('getBaseHost should work', function() {
+  expect(macros.getBaseHost('http://a.google.com')).toBe('google.com')
+  expect(macros.getBaseHost('fadjsl.google.com')).toBe(null)
+  expect(macros.getBaseHost('fdasfsdcom')).toBe(null)
+});
+
+it('occurrences should work', function() {
+  expect(macros.occurrences('a a a a b b b b', 'a', false)).toBe(4)
+  expect(macros.occurrences('a a a a b b b b', 'aaa', false)).toBe(0)
+  expect(macros.occurrences('onenenenenenenene bbbb', 'nenen', true)).toBe(6)
+});
+
+it('logAmplitudeEvent should not crash', function() {
+  macros.logAmplitudeEvent('event_from_testing', {
+    a: 3
+  })
 });
