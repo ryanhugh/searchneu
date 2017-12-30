@@ -13,6 +13,13 @@ import css from './SignUpForNotifications.css';
 import authentication from './authentication';
 import Keys from '../../common/Keys';
 
+// This file is responsible for the Sign Up for notifications flow.
+// First, this will render a button that will say something along the lines of "Get notified when...!"
+// Then, if that button is clicked, the Facebook Send To Messenger button will be rendered.
+// (This Sent To Messenger button is not rendered initially because it requires that an iframe is added and 10+ http requests are made for each time it is rendered)
+
+// TODO: Lets make it so clicking on the Send To Messenger button changes this to a third state that just says thanks for signing up!
+
 class SignUpForNotifications extends React.Component {
   static propTypes = {
     aClass: PropTypes.object.isRequired,
@@ -29,18 +36,22 @@ class SignUpForNotifications extends React.Component {
     this.onSubscribeToggleChange = this.onSubscribeToggleChange.bind(this);
   }
 
+  // After the button is added to the DOM, we need to tell FB's SDK that it was added to the code and should be processed.
+  // This will tell FB's SDK to scan all the child elements of this.facebookScopeRef to look for fb-send-to-messenger buttons. 
   componentDidUpdate() {
     if (this.facebookScopeRef) {
       window.FB.XFBML.parse(this.facebookScopeRef);
     }
   }
 
+  // Updates the state to show the button. 
   onSubscribeToggleChange() {
     this.setState({
       showMessengerButton: true,
     });
   }
 
+  // Return the FB button itself. 
   getSendToMessengerButton() {
     const loginKey = authentication.getLoginKey();
 
@@ -79,30 +90,24 @@ class SignUpForNotifications extends React.Component {
   }
 
   render() {
-    let updatesSection = null;
-    if (this.state.showMessengerButton) {
-      const sendToMessengerButton = this.getSendToMessengerButton();
+    if (window.location.hash !== '#fbtest') {
+      return null;
+    }
 
-      updatesSection = (
+    if (this.state.showMessengerButton) {
+      return (
         <div className={ css.facebookButtonContainer }>
           <div className={ css.sendToMessengerButtonLabel }>
             Click this button to continue
           </div>
-          {sendToMessengerButton}
+          {this.getSendToMessengerButton()}
         </div>
       );
     } else if (this.props.aClass.sections.length === 0) {
-      updatesSection = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when sections are added!' className={ css.notificationButton } />;
+      return <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when sections are added!' className={ css.notificationButton } />;
     } else if (this.props.aClass.isAtLeastOneSectionFull()) {
-      updatesSection = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!' className={ css.notificationButton } />;
+      return <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!' className={ css.notificationButton } />;
     }
-
-    // Disable the button under a flag - just for now
-    if (window.location.hash !== '#fbtest') {
-      updatesSection = null;
-    }
-
-    return updatesSection;
   }
 }
 
