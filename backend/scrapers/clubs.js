@@ -5,7 +5,7 @@
 
 import * as acorn from 'acorn';
 import cheerio from 'cheerio';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 import mkdirp from 'mkdirp-promise';
 import path from 'path';
 

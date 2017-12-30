@@ -9,7 +9,7 @@ import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import wrap from 'express-async-wrap';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 import compress from 'compression';
 import rollbar from 'rollbar';
 import bodyParser from 'body-parser';

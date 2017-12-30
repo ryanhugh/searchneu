@@ -5,7 +5,7 @@
 
 import path from 'path';
 import MockDate from 'mockdate';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 
 import ellucianTermsParser from '../ellucianTermsParser';
 

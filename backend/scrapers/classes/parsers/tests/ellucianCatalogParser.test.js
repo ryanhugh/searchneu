@@ -5,7 +5,7 @@
 
 import path from 'path';
 import URI from 'urijs';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 
 import ellucianCatalogParser from '../ellucianCatalogParser';
 

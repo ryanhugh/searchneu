@@ -7,7 +7,7 @@ import mkdirp from 'mkdirp-promise';
 import elasticlunr from 'elasticlunr';
 import _ from 'lodash';
 import objectHash from 'object-hash';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 import path from 'path';
 
 import macros from '../../macros';
