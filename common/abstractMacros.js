@@ -30,9 +30,9 @@ class Macros {
   }
 
   static error(...args) {
-    // if (Macros.TESTS) {
-    //   return;
-    // }
+    if (Macros.TESTS) {
+      return;
+    }
 
     args = ['Error:'].concat(args);
 
