@@ -26,52 +26,9 @@ window.fbAsyncInit = () => {
     version          : 'v2.11',
   });
 
-  window.FB.getLoginStatus(async function(response) {
-
-    console.log(response)
-
-  if (response.status === 'connected') {
-
-    // the user is logged in and has authenticated your
-    // app, and response.authResponse supplies
-    // the user's ID, a valid access token, a signed
-    // request, and the time the access token 
-    // and signed request each expire
-    var uid = response.authResponse.userID;
-    var accessToken = response.authResponse.accessToken;
-    console.log('connected !!!!')
-
-    let out  = window.FB.getAuthResponse()
-    console.log(out)
-
-    FB.api('/me', {fields: 'last_name,is_payment_enabled,ids_for_apps,ids_for_pages'}, function(response) {
-  console.log(response);
-});
-
-
-//     // let response = await request.get(`https://graph.facebook.com/v2.6/${sender}?fields=first_name,last_name&access_token=${token}`);
-//     let resp = await FB.api('/me', 'get')
-//     console.log(resp)
-
-
-  } else if (response.status === 'not_authorized') {
-    console.log('not authed')
-    // the user is logged in to Facebook, 
-    // but has not authenticated your app
-  } else {
-    console.log('else')
-    FB.login()
-
-    // the user isn't logged in to Facebook.
-  }
- });
-
-
 
   window.FB.Event.subscribe('send_to_messenger', (e) => {
-    macros.log('messenger_checkbox event');
-    macros.log(e);
-
+    
     if (e.event === 'rendered') {
       macros.log('Plugin was rendered');
     } else if (e.event === 'checkbox') {
@@ -85,9 +42,6 @@ window.fbAsyncInit = () => {
       macros.log("Opt in was clicked!", e)
 
       if (macros.DEV) {
-
-
-
         request.post({
           url: '/webhook', 
           body: {
