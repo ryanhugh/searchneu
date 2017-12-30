@@ -30,22 +30,14 @@ const cx = classNames.bind(css);
 // If mobile, uses MobileSectionPanel to show the sections.
 // The code for desktop is inside this file.
 
+// Note, if you do override the constructor,
+// Don't do `this.state = {...}`, because the state is already setup in the parent react component
+// instead just do this.state.something = 5;
 
-// DesktopClassPanel page component
 class DesktopClassPanel extends BaseClassPanel {
   static propTypes = {
     aClass: PropTypes.object.isRequired,
   };
-
-  constructor(props) {
-    super(props);
-
-    // Don't do `this.state = {...}` here, because the state is already setup in the parent react component
-    // If this is set to true it is assumed that it should be shown.
-    this.state.showMessengerButton = false;
-
-    this.facebookScopeRef = null;
-  }
 
   componentDidUpdate() {
     macros.debounceTooltipRebuild();
