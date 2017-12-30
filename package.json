@@ -127,6 +127,10 @@
     "style-loader": "^0.19.0"
   },
   "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/"
+    ],
     "setupFiles": [
       "./common/rafTestPolyfill.js"
     ],
