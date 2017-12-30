@@ -6,12 +6,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import globe from './globe.svg';
-import './DesktopClassPanel.scss';
 import macros from '../macros';
 import BaseClassPanel from './BaseClassPanel';
 import DesktopSectionPanel from './DesktopSectionPanel';
 import SignUpForNotifications from '../SignUpForNotifications';
+
+import globe from './globe.svg';
 
 // Class Panel that renders the box with the class title, class description, and class sections
 // If mobile, uses MobileSectionPanel to show the sections.

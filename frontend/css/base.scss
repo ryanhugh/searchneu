@@ -3,6 +3,14 @@
  * See the license file in the root folder for details.
  */
 
+ @import 'panels/BaseClassPanel';
+ @import 'panels/DesktopClassPanel';
+ @import 'panels/DesktopSectionPanel';
+ @import 'panels/EmployeePanel';
+ @import 'panels/MobileClassPanel';
+ @import 'panels/MobileSectionPanel';
+ @import 'panels/WeekdayBoxes';
+
  html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td {
 	margin: 0;
 	padding: 0;
@@ -43,8 +51,6 @@ body {
 p {
 	margin: 1em 0;
 }
-
-
 
 .ui.segment:first-child {
      margin-top: 1rem !important;

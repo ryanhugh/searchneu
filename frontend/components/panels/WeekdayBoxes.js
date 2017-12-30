@@ -6,8 +6,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './WeekdayBoxes.scss';
-
 // This file is responsible for the weekday boxes, eg [][x][][][x] for Tuesday Friday
 // And the string that appears when you hover over it (Meets on Tuesday, Friday)
 

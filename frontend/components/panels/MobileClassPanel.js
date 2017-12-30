@@ -6,15 +6,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import chevronDown from './chevron-down.svg';
-import chevronRight from './chevron-right.svg';
 import MobileSectionPanel from './MobileSectionPanel';
-import Keys from '../../../common/Keys';
 import BaseClassPanel from './BaseClassPanel';
 import macros from '../macros';
 import SignUpForNotifications from '../SignUpForNotifications';
+import Keys from '../../../common/Keys';
 
-import './MobileClassPanel.scss';
+import chevronDown from './chevron-down.svg';
+import chevronRight from './chevron-right.svg';
 
 // Class Panel that renders the box with the class title, class description, and class sections
 // If mobile, uses MobileSectionPanel to show the sections.

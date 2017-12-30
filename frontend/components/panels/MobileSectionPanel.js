@@ -7,12 +7,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
-import macros from '../macros';
 import WeekdayBoxes from './WeekdayBoxes';
 import LocationLinks from './LocationLinks';
+import macros from '../macros';
 
 import globe from './globe.svg';
-import './MobileSectionPanel.scss';
 
 // TODO:
 // Waitlist UI/wording could be cleaned up/simplified a bit.
