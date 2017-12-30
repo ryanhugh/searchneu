@@ -13,10 +13,6 @@
     background: none !important;
 }
 
-.inlineBlock {
-    display: inline-block;
-}
-
 .leftPanel {
     text-align: left;
     display: inline-block;
@@ -75,27 +71,4 @@
     display: none;
     padding-top: 0;
     padding-bottom: 1px;
-}
-
-.notificationButton {
-    font-size: 15px !important;
-    width: 200px !important;
-    margin-top: 10px !important;
-}
-
-.sendToMessengerButton {
-    width: 150px
-}
-
-.facebookButtonContainer {
-    margin-top: 8px;
-}
-
-.sendToMessengerButtonLabel {
-    display: inline-block;
-    max-width: 137px;
-    margin-right: 10px;
-    vertical-align: top;
-    margin-top: 5px;
-    color: grey;
 }

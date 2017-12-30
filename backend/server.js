@@ -358,7 +358,7 @@ app.get('/webhook/', async (req, res) => {
   }
 });
 
-async function onSendToMessengerButtonClick(sender, b64ref) {
+async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   macros.log('Got opt in button click!', b64ref);
 
   // The frontend send a classHash to follow and a list of sectionHashes to follow.
@@ -461,6 +461,7 @@ async function onSendToMessengerButtonClick(sender, b64ref) {
       firstName: names.first_name,
       lastName: names.last_name,
       facebookMessengerId: sender,
+      facebookPageId: userPageId,
       loginKeys: [userObject.loginKey]
     };
 
@@ -512,7 +513,7 @@ app.post('/webhook/', wrap(async (req, res) => {
         notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com !");
       }
     } else if (event.optin) {
-      onSendToMessengerButtonClick(sender, event.optin.ref);
+      onSendToMessengerButtonClick(sender, req.body.entry[0].id, event.optin.ref);
       
       // We should allways respond with a 200 status code, even if there is an error on our end.
       // If we don't we risk being unsubscribed for webhook events.
