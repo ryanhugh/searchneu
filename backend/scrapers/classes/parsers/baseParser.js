@@ -250,8 +250,8 @@ class BaseParser {
   //   - Capitalize the A&M in Texas a&m University
   //   - Trim the input string
   // Before, we were using an npm module to automatically fix capitalization issues in titles too,
-  // but these libraries ended up incorrectly capitalizing more titles than they were fixing
-  // So we removed the automatic-capitalization and just stuck with some basic functionality.
+  // but these libraries ended up messing up the capitalization for more titles than they were fixing
+  // So we removed the automatic-capitalization and just stuck with some basic string functionality.
   // NPM modules we looked at:
   // https://www.npmjs.com/package/case
   // https://www.npmjs.com/package/change-case
