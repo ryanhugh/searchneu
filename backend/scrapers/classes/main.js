@@ -145,7 +145,7 @@ class Main {
     return urlsToProcess;
   }
 
-  // Converts the data structure used for parsing into the data structure used in the processors. 
+  // Converts the data structure used for parsing into the data structure used in the processors.
   restructureData(rootNode) {
     this.waterfallIdentifyers(rootNode);
     return this.pageDataStructureToTermDump(rootNode);

@@ -268,9 +268,8 @@ async function loadPromises() {
     return {
       search: search.create(employeeMap, elasticlunr.Index.load(employeesSearchIndex), dataLib, searchIndexies),
       dataLib: dataLib,
-      searchIndexies: searchIndexies
-    }
-
+      searchIndexies: searchIndexies,
+    };
   } catch (e) {
     macros.error('Error:', e);
     macros.error('Not starting search backend.');
@@ -385,16 +384,16 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   }
 
   if (typeof userObject.loginKey !== 'string' || userObject.loginKey.length !== 100) {
-    macros.error("Invalid login key", userObject.loginKey);
+    macros.error('Invalid login key', userObject.loginKey);
     return;
   }
 
   const firebaseRef = await database.getRef(`/users/${sender}`);
 
   const existingData = await firebaseRef.once('value');
-  
-  let dataLib = (await promises).dataLib;
-  let aClass = dataLib.getClassServerDataFromHash(userObject.classHash)
+
+  const dataLib = (await promises).dataLib;
+  const aClass = dataLib.getClassServerDataFromHash(userObject.classHash);
 
   // User is signing in from a new device
   if (existingData) {
@@ -407,26 +406,24 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
       existingData.watchingSections = [];
     }
 
-    let wasWatchingClass = existingData.watchingClasses.includes(userObject.classHash)
-    
-    let sectionWasentWatchingBefore = [];
+    const wasWatchingClass = existingData.watchingClasses.includes(userObject.classHash);
 
-    for (let section of existingData.watchingSections) {
+    const sectionWasentWatchingBefore = [];
+
+    for (const section of existingData.watchingSections) {
       if (!userObject.sectionHashes.includes(section)) {
-        sectionWasentWatchingBefore.push(section)
+        sectionWasentWatchingBefore.push(section);
       }
     }
 
-    let classCode = aClass.subject + ' ' + aClass.classId
-    // Check to see how many of these classes they were already signed up for. 
+    const classCode = `${aClass.subject} ${aClass.classId}`;
+    // Check to see how many of these classes they were already signed up for.
     if (wasWatchingClass && sectionWasentWatchingBefore.length === 0) {
-      notifyer.sendFBNotification(sender, "You are already signed up to get notifications if any of the sections of " + classCode + " have seats that open up.");
-    }
-    else if (wasWatchingClass && sectionWasentWatchingBefore.length > 0) {
-      notifyer.sendFBNotification(sender, "You are already signed up to get notifications if seats open up in some of the sections in " + classCode + " and are now signed up for " + sectionWasentWatchingBefore.length + " more sections too!");
-    }
-    else {
-      notifyer.sendFBNotification(sender, "Successfully signed up for notifications for " + sectionWasentWatchingBefore.length + " sections in " + classCode + "!");
+      notifyer.sendFBNotification(sender, `You are already signed up to get notifications if any of the sections of ${classCode} have seats that open up.`);
+    } else if (wasWatchingClass && sectionWasentWatchingBefore.length > 0) {
+      notifyer.sendFBNotification(sender, `You are already signed up to get notifications if seats open up in some of the sections in ${classCode} and are now signed up for ${sectionWasentWatchingBefore.length} more sections too!`);
+    } else {
+      notifyer.sendFBNotification(sender, `Successfully signed up for notifications for ${sectionWasentWatchingBefore.length} sections in ${classCode}!`);
     }
 
     // ok lets add what classes the user saw in the frontend that have no seats availible and that he wants to sign up for
@@ -438,19 +435,19 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
     // Add the login key to the array of login keys stored on this user
     if (!existingData.loginKeys) {
-      existingData.loginKeys = []
+      existingData.loginKeys = [];
     }
 
-    let loginKeys = new Set(existingData.loginKeys)
-    loginKeys.add(userObject.loginKey)
-    existingData.loginKeys = Array.from(loginKeys)
+    const loginKeys = new Set(existingData.loginKeys);
+    loginKeys.add(userObject.loginKey);
+    existingData.loginKeys = Array.from(loginKeys);
 
     firebaseRef.set(existingData);
   } else {
     let names = await notifyer.getUserProfileInfo(sender);
     if (!names || !names.first_name) {
-      macros.warn("Unable to get name", names)
-      names = {}
+      macros.warn('Unable to get name', names);
+      names = {};
     } else {
       macros.log('Got first name and last name', names.first_name, names.last_name);
     }
@@ -462,14 +459,14 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
       lastName: names.last_name,
       facebookMessengerId: sender,
       facebookPageId: userPageId,
-      loginKeys: [userObject.loginKey]
+      loginKeys: [userObject.loginKey],
     };
 
     macros.log('Adding ', newUser, 'to the db');
 
 
     // Send the user a notification letting them know everything was successful.
-    notifyer.sendFBNotification(sender, "Thanks for signing up for notifications " + names.first_name + "! I'll send you another message if a seat opens up in " + aClass.subject + ' ' + aClass.classId + "!");
+    notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}! I'll send you another message if a seat opens up in ${aClass.subject} ${aClass.classId}!`);
 
     database.set(`/users/${sender}`, newUser);
   }
@@ -514,7 +511,7 @@ app.post('/webhook/', wrap(async (req, res) => {
       }
     } else if (event.optin) {
       onSendToMessengerButtonClick(sender, req.body.entry[0].id, event.optin.ref);
-      
+
       // We should allways respond with a 200 status code, even if there is an error on our end.
       // If we don't we risk being unsubscribed for webhook events.
       // https://developers.facebook.com/docs/messenger-platform/webhook

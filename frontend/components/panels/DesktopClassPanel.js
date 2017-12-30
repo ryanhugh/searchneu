@@ -15,6 +15,7 @@ import baseCss from './BaseClassPanel.css';
 import macros from '../macros';
 import BaseClassPanel from './BaseClassPanel';
 import DesktopSectionPanel from './DesktopSectionPanel';
+import SignUpForNotifications from '../SignUpForNotifications';
 
 
 // Merge the base css and the css specific to desktop panels
@@ -48,7 +49,6 @@ class DesktopClassPanel extends BaseClassPanel {
   }
 
   componentDidUpdate() {
-    super.componentDidUpdate();
     macros.debounceTooltipRebuild();
   }
 
@@ -163,28 +163,6 @@ class DesktopClassPanel extends BaseClassPanel {
       );
     }
 
-    let updatesSection = null;
-    if (this.state.showMessengerButton) {
-     
-      const sendToMessengerButton = this.getSendToMessengerButton();
-
-      updatesSection = (
-        <div className={css.facebookButtonContainer}>
-          <div className={css.sendToMessengerButtonLabel}>
-            Click this button to continue
-          </div>
-          {sendToMessengerButton}
-        </div>
-      );
-    } else {
-      updatesSection = this.getNotificationButton();
-    }
-
-    // Disable the button under a flag - just for now
-    if (window.location.hash !== '#fbtest') {
-      updatesSection = null;
-    }
-
     // Render the Show More.. Button
     const showMoreSections = this.getShowMoreButton();
 
@@ -222,7 +200,7 @@ class DesktopClassPanel extends BaseClassPanel {
               <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
               {creditsString}
               <div>
-                {updatesSection}
+                <SignUpForNotifications aClass={ aClass } />
               </div>
 
             </div>
