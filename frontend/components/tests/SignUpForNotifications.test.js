@@ -15,22 +15,21 @@ import mockData from '../panels/tests/mockData';
 Enzyme.configure({ adapter: new Adapter() });
 
 beforeEach(() => {
-  window.location.hash = '#fbtest'
+  window.location.hash = '#fbtest';
 });
 
 afterEach(() => {
-  window.location.hash = '#'
+  window.location.hash = '#';
 });
 
 it('should render', () => {
-  const result = shallow(<SignUpForNotifications aClass={mockData.cs1210} />);
+  const result = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } />);
   expect(result).toMatchSnapshot();
 });
 
 
-it('should render the fb button after the button is clicked', function() {
-  
-  const wrapper = shallow(<SignUpForNotifications aClass={mockData.cs1210} />);
+it('should render the fb button after the button is clicked', () => {
+  const wrapper = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } />);
   const instance = wrapper.instance();
 
   instance.onSubscribeToggleChange();

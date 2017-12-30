@@ -37,21 +37,21 @@ class SignUpForNotifications extends React.Component {
   }
 
   // After the button is added to the DOM, we need to tell FB's SDK that it was added to the code and should be processed.
-  // This will tell FB's SDK to scan all the child elements of this.facebookScopeRef to look for fb-send-to-messenger buttons. 
+  // This will tell FB's SDK to scan all the child elements of this.facebookScopeRef to look for fb-send-to-messenger buttons.
   componentDidUpdate() {
     if (this.facebookScopeRef) {
       window.FB.XFBML.parse(this.facebookScopeRef);
     }
   }
 
-  // Updates the state to show the button. 
+  // Updates the state to show the button.
   onSubscribeToggleChange() {
     this.setState({
       showMessengerButton: true,
     });
   }
 
-  // Return the FB button itself. 
+  // Return the FB button itself.
   getSendToMessengerButton() {
     const loginKey = authentication.getLoginKey();
 
@@ -108,6 +108,7 @@ class SignUpForNotifications extends React.Component {
     } else if (this.props.aClass.isAtLeastOneSectionFull()) {
       return <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!' className={ css.notificationButton } />;
     }
+    return null;
   }
 }
 
