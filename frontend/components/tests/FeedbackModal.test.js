@@ -13,23 +13,21 @@ import FeedbackModal from '../FeedbackModal';
 Enzyme.configure({ adapter: new Adapter() });
 
 it('should render the form', () => {
-
   function closeForm() {
-    
+
   }
 
-  const result = shallow(<FeedbackModal closeForm = {closeForm} feedbackModalOpen = {true} />);
+  const result = shallow(<FeedbackModal closeForm={ closeForm } feedbackModalOpen />);
   expect(result).toMatchSnapshot();
 });
 
 
 it('should render form is closed', () => {
-
   function closeForm() {
-    
+
   }
 
-  const result = shallow(<FeedbackModal closeForm = {closeForm} feedbackModalOpen = {false} />);
+  const result = shallow(<FeedbackModal closeForm={ closeForm } feedbackModalOpen={ false } />);
   expect(result).toMatchSnapshot();
 });
 
