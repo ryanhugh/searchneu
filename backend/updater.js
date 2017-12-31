@@ -103,6 +103,11 @@ class Updater {
     for (const classHash of classHashes) {
       const aClass = this.dataLib.getClassServerDataFromHash(classHash);
 
+      if (!aClass) {
+        macros.warn('Unable to fetch class for hash!', classHash);
+        continue;
+      }
+
       classes.push(aClass);
 
       if (aClass.crns) {
