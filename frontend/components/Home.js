@@ -387,7 +387,7 @@ class Home extends React.Component {
     // Don't animate anything on mobile.
     // and set the second state of the animations if there is something in the text box.
     if (!macros.isMobile && this.state.searchTerm.length !== 0) {
-      topHeaderStyle.transform = 'translateY(calc(-50% + 230px))';
+      topHeaderStyle.transform = 'translateY(-50%) translateY(230px)';
       resultsContainerStyle.transform = `translateY(-${window.innerHeight - 305}px)`;
       bostonContainerStyle.opacity = 0;
     }

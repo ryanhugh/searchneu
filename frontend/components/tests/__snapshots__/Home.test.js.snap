@@ -69,7 +69,7 @@ ShallowWrapper {
             className="ui center spacing aligned icon header topHeader"
             style={
               Object {
-                "transform": "translateY(calc(-50% + 230px))",
+                "transform": "translateY(-50%) translateY(230px)",
               }
             }
           >
@@ -413,7 +413,7 @@ ShallowWrapper {
             className="ui center spacing aligned icon header topHeader"
             style={
               Object {
-                "transform": "translateY(calc(-50% + 230px))",
+                "transform": "translateY(-50%) translateY(230px)",
               }
             }
           >
@@ -567,7 +567,7 @@ ShallowWrapper {
             </div>,
             "className": "ui center spacing aligned icon header topHeader",
             "style": Object {
-              "transform": "translateY(calc(-50% + 230px))",
+              "transform": "translateY(-50%) translateY(230px)",
             },
           },
           "ref": null,
@@ -1418,7 +1418,7 @@ ShallowWrapper {
               className="ui center spacing aligned icon header topHeader"
               style={
                 Object {
-                  "transform": "translateY(calc(-50% + 230px))",
+                  "transform": "translateY(-50%) translateY(230px)",
                 }
               }
             >
@@ -1762,7 +1762,7 @@ ShallowWrapper {
               className="ui center spacing aligned icon header topHeader"
               style={
                 Object {
-                  "transform": "translateY(calc(-50% + 230px))",
+                  "transform": "translateY(-50%) translateY(230px)",
                 }
               }
             >
@@ -1916,7 +1916,7 @@ ShallowWrapper {
               </div>,
               "className": "ui center spacing aligned icon header topHeader",
               "style": Object {
-                "transform": "translateY(calc(-50% + 230px))",
+                "transform": "translateY(-50%) translateY(230px)",
               },
             },
             "ref": null,
