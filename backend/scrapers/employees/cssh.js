@@ -43,7 +43,13 @@ class Cssh {
     }
 
     // Parse the first name and the last name from the given name
-    const { firstName, lastName } = macros.parseNameWithSpaces(obj.name);
+    let namesParsed = macros.parseNameWithSpaces(obj.name);
+    if (!namesParsed) {
+      macros.error("Unable to parse names", obj.name)
+      return {};
+    }
+
+    const { firstName, lastName } = namesParsed
 
     if (firstName && lastName) {
       obj.firstName = firstName;
