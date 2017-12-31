@@ -8,7 +8,7 @@ import search from '../search';
 import DataLib from '../classModels/DataLib';
 
 import searchTestResultObjects from './data/searchTestResultObjects.json';
-import mockTermDump from '../classModels/tests/mockTermDump.json'
+import mockTermDump from '../classModels/tests/mockTermDump.json';
 import mockSearchIndex from './data/mockSearchIndex.json';
 
 import employeeMap from './data/employeeMap.json';
@@ -158,10 +158,8 @@ it('sortObjectsAfterScore works on empty array', () => {
 });
 
 
-
-it('search should work', function() {
-
-  let index = elasticlunr.Index.load(employeesSearchIndex)
+it('search should work', () => {
+  const index = elasticlunr.Index.load(employeesSearchIndex);
 
   const dataLib = DataLib.loadData({
     201752: mockTermDump,
@@ -173,12 +171,11 @@ it('search should work', function() {
   };
 
 
-  let instance = search.create(employeeMap, index, dataLib, searchIndexies)
+  const instance = search.create(employeeMap, index, dataLib, searchIndexies);
 
-  expect(instance.search('hi', 201752)).toMatchSnapshot()
-  expect(instance.search('Craig', 201752)).toMatchSnapshot()
-  expect(instance.search('Experiential', 201752)).toMatchSnapshot()
-  expect(instance.search('LS', 201752)).toMatchSnapshot()
-  expect(instance.search('WS', 201752)).toMatchSnapshot()
-
-})
+  expect(instance.search('hi', 201752)).toMatchSnapshot();
+  expect(instance.search('Craig', 201752)).toMatchSnapshot();
+  expect(instance.search('Experiential', 201752)).toMatchSnapshot();
+  expect(instance.search('LS', 201752)).toMatchSnapshot();
+  expect(instance.search('WS', 201752)).toMatchSnapshot();
+});
