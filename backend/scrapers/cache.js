@@ -199,14 +199,4 @@ class Cache {
 }
 
 
-const a = new Cache();
-
-
-// console.log(a.get('requests_new2','camd.northeastern.edu',''))
-
-// a.dataPromiseMap['cache/requests_new2/camd.northeastern.edu.cache'].then(function(a) {
-//  console.log(Object.keys(a))
-// })
-
-
-export default a;
+export default new Cache();
