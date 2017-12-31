@@ -19,7 +19,11 @@ class MockFirebaseRef {
       return null;
     }
 
-    return this.database.getMemoryStorage(this.key);
+    return {
+      val: () => {
+        return this.database.getMemoryStorage(this.key);
+      },
+    };
   }
 
   set(value) {

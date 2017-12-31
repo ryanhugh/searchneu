@@ -138,7 +138,14 @@ class Updater {
 
     // Scrape the latest data
     const promises = classes.map((aClass) => {
-      return ellucianCatalogParser.main(aClass.prettyUrl);
+      return ellucianCatalogParser.main(aClass.prettyUrl).then((newClass) => {
+        // Copy over some fields that are not scraped from this scraper.
+        newClass.value.host = aClass.host;
+        newClass.value.termId = aClass.termId;
+        newClass.value.subject = aClass.subject;
+
+        return newClass;
+      });
     });
 
     const allParsersOutput = await Promise.all(promises);
