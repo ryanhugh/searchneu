@@ -388,6 +388,8 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     return;
   }
 
+  macros.log('User Object is', userObject);
+
   const firebaseRef = await database.getRef(`/users/${sender}`);
 
   const existingData = await firebaseRef.once('value');
@@ -442,7 +444,9 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     loginKeys.add(userObject.loginKey);
     existingData.loginKeys = Array.from(loginKeys);
 
-    firebaseRef.set(existingData);
+    console.log(JSON.stringify(existingData), existingData);
+
+    firebaseRef.set(JSON.parse(JSON.stringify(existingData)));
   } else {
     let names = await notifyer.getUserProfileInfo(sender);
     if (!names || !names.first_name) {
