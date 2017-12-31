@@ -237,11 +237,10 @@ class Macros extends commonMacros {
   // This is for programming errors. This will cause the program to exit anywhere.
   // This *should* never be called.
   static critical(...args) {
-    if (macros.TESTS) {
-      console.error("macros.critical called")
-      console.error(...args);
-    }
-    else {
+    if (Macros.TESTS) {
+      console.error('macros.critical called'); // eslint-disable-line no-console
+      console.error(...args); // eslint-disable-line no-console
+    } else {
       Macros.error(...args);
       process.exit(1);
     }

@@ -520,7 +520,7 @@ class RequestInput {
   // Helpers for get and post
   async get(config) {
     if (!config) {
-      macros.error('Warning, request called with no config');
+      macros.error('Warning, request get called with no config');
       return null;
     }
     if (typeof config === 'string') {
@@ -536,7 +536,7 @@ class RequestInput {
 
   async post(config) {
     if (!config) {
-      macros.log('Warning, request called with no config');
+      macros.error('Warning, request post called with no config');
       return null;
     }
     if (typeof config === 'string') {
@@ -552,7 +552,7 @@ class RequestInput {
 
   async head(config) {
     if (!config) {
-      macros.log('Warning, request called with no config');
+      macros.error('Warning, request head called with no config');
       return null;
     }
     if (typeof config === 'string') {
@@ -579,7 +579,6 @@ class RequestInput {
   // need to turn off high retry count
   async isPageUp() {
     throw new Error('This does not work yet');
-    // this.head(config)
   }
 }
 
