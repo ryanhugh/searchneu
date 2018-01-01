@@ -274,7 +274,8 @@ class Request {
     macros.verbose('Firing request to', output.url);
 
     // If there are not any open requests right now, start the interval
-    if (this.openRequests === 0) {
+    // Only start the logging interval on production on AWS, only start it on Travis
+    if (this.openRequests === 0 && (!macros.PROD || process.env.CI)) {
       clearInterval(this.timer);
       macros.log('Starting request analytics timer.');
       this.analytics[hostname].startTime = Date.now();
@@ -295,7 +296,7 @@ class Request {
     this.openRequests--;
 
 
-    if (this.openRequests === 0) {
+    if (this.openRequests === 0 && (!macros.PROD || process.env.CI)) {
       macros.log('Stopping request analytics timer.');
       clearInterval(this.timer);
     }
