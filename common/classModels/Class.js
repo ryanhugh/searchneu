@@ -33,9 +33,16 @@ class Class {
       values: [],
     };
 
-
     this.coreqs = {
       type: 'or',
+      values: [],
+    };
+
+    this.prereqsFor = {
+      values: [],
+    };
+
+    this.optPrereqsFor = {
       values: [],
     };
 

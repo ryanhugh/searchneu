@@ -3,6 +3,8 @@
  * See the license file in the root folder for details.
  */
 
+ @import 'variables';
+
  @import 'panels/BaseClassPanel';
  @import 'panels/DesktopClassPanel';
  @import 'panels/DesktopSectionPanel';
@@ -53,5 +55,5 @@ p {
 }
 
 .ui.segment:first-child {
-     margin-top: 1rem !important;
+	margin-top: 1rem !important;
 }

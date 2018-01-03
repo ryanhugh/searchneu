@@ -137,7 +137,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
     }
 
     // Render the Show More.. Button
-    const showMoreSections = this.getShowMoreButton();
+    const showMoreSections = this.getMoreSectionsButton();
 
     // Figure out the credits string
     const creditsString = this.getCreditsString();

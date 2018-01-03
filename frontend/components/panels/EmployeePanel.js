@@ -160,7 +160,7 @@ export default class EmployeePanel extends React.Component {
     let linkElement = null;
     if (employee.url && !macros.isMobile) {
       linkElement = (
-        <span className='link'>
+        <span className='classGlobeLink'>
 
           <a
             key='jfdalsj'
@@ -195,7 +195,7 @@ export default class EmployeePanel extends React.Component {
           padding: 20,
         }}
         >
-          <div className='inlineBlock contactBox'>
+          <div className='inlineBlock contact-box'>
             {this.constructor.injectBRs(firstColumn)}
           </div>
           <div style={{

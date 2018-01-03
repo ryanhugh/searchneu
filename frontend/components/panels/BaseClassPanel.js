@@ -96,14 +96,14 @@ class BaseClassPanel extends React.Component {
 
   // Render the Show More.. Button
   // This is the same on both desktop and mobile.
-  getShowMoreButton() {
+  getMoreSectionsButton() {
     if (this.state.unrenderedSections.length <= 0) {
       return null;
     }
 
     return (
       <div
-        className='showMoreButton'
+        className='more-sections-button'
         role='button'
         tabIndex={ 0 }
         onClick={ this.onShowMoreClick }
@@ -142,17 +142,9 @@ class BaseClassPanel extends React.Component {
     } else if (reqType === macros.prereqTypes.COREQ) {
       childNodes = aClass.coreqs;
     } else if (reqType === macros.prereqTypes.PREREQ_FOR) {
-      if (!aClass.prereqsFor) {
-        childNodes = { values:[] };
-      } else {
-        childNodes = aClass.prereqsFor;
-      }
+      childNodes = aClass.prereqsFor;
     } else if (reqType === macros.prereqTypes.OPT_PREREQ_FOR) {
-      if (!aClass.optPrereqsFor) {
-        childNodes = { values:[] };
-      } else {
-        childNodes = aClass.optPrereqsFor;
-      }
+      childNodes = aClass.optPrereqsFor;
     } else {
       macros.error('Invalid prereqType', reqType);
     }
