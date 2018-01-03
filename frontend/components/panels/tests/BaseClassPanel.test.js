@@ -14,7 +14,7 @@ import macros from '../../macros';
 it('should not render a show more button', () => {
   const component = renderer.create(<BaseClassPanel aClass={ mockData.cs0210 } />);
 
-  const button = component.getInstance().getShowMoreButton();
+  const button = component.getInstance().getMoreSectionsButton();
 
   expect(button).toMatchSnapshot();
 });
@@ -23,7 +23,7 @@ it('should not render a show more button', () => {
 it('should render a button', () => {
   const component = renderer.create(<BaseClassPanel aClass={ mockData.cs1210 } />);
 
-  const button = component.getInstance().getShowMoreButton();
+  const button = component.getInstance().getMoreSectionsButton();
 
   expect(button).toMatchSnapshot();
 });

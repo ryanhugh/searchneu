@@ -116,7 +116,7 @@ class MobileClassPanel extends BaseClassPanel {
     }
 
     // Render the Show More.. Button
-    const showMoreSections = this.getShowMoreButton();
+    const showMoreSections = this.getMoreSectionsButton();
 
     // Decide which chevron to use based on whether the panel is expanded or not.
     const chevron = (this.state.showMoreThanTitle) ? chevronDown : chevronRight;
