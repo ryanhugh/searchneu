@@ -53,30 +53,25 @@ class Authentication {
   }
 
   async getIsLoggedIn() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       window.FB.getLoginStatus((response) => {
         if (response.status === 'connected') {
           // the user is logged in and has authenticated your
           // app, and response.authResponse supplies
           // the user's ID, a valid access token, a signed
-          // request, and the time the access token 
+          // request, and the time the access token
           // and signed request each expire
           resolve(true);
-          return;
-        }
-        else if (response.status === 'not_authorized') {
-          // the user is logged in to Facebook, 
+        } else if (response.status === 'not_authorized') {
+          // the user is logged in to Facebook,
           // but has not authenticated your app
           resolve(true);
-          return;
-        }
-        else {
+        } else {
           // the user isn't logged in to Facebook.
           resolve(false);
-          return;
         }
-      })
-    })
+      });
+    });
   }
 
   onSendToMessengerClick(e) {
