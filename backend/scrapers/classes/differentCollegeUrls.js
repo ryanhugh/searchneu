@@ -66,9 +66,9 @@ module.exports = ['https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_dyn_sched'
   'https://ssb.isu.edu/bprod/bwckschd.p_disp_dyn_sched', //  worked 9/2/16 no errors
   'https://ssb.columbiastate.edu/PROD/bwckschd.p_disp_dyn_sched', // worked dec 27th, 2016
   'https://selfservice.brown.edu/ss/bwckschd.p_disp_dyn_sched', // uses 12GB RAM, works. Dec 28th.  Dec mongo inserting errors on 9/2/16, need to try again.
-  'https://ssbprod.wichita.edu/PROD/bwckschd.p_disp_dyn_sched',
-  'https://prodssb.mscc.edu/PROD/bwckschd.p_disp_dyn_sched',
-  'https://ssbprod11g.uncfsu.edu/pls/FSUPROD/bwckschd.p_disp_dyn_sched',
+  'https://ssbprod.wichita.edu/PROD/bwckschd.p_disp_dyn_sched',// works Jan 17th, 2018. Bunch of prereq errors and online classes have location set to ONLINE (parsing needs to be updated to support)
+  'https://prodssb.mscc.edu/PROD/bwckschd.p_disp_dyn_sched', // works. very fast. Jan 17th 2018
+  'https://ssbprod11g.uncfsu.edu/pls/FSUPROD/bwckschd.p_disp_dyn_sched', // down. Jan 17th 2018
   'https://banner4.utm.edu/prod/bwckschd.p_disp_dyn_sched',
   'https://nssb-p.adm.fit.edu/prod/bwckschd.p_disp_dyn_sched',
   'https://prodssb.ws.edu/pls/PROD/bwckschd.p_disp_dyn_sched',
