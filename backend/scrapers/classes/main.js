@@ -249,7 +249,10 @@ class Main {
 const instance = new Main();
 
 if (require.main === module) {
-  instance.main(['neu']);
+  instance.main(['mscc']);
+  // instance.main(['uncfsu']);
+  instance.main(['utm']);
+  instance.main(['fit']);
 }
 
 export default instance;
