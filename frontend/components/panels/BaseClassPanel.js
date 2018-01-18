@@ -224,7 +224,7 @@ class BaseClassPanel extends React.Component {
     }
 
     if (retVal.length === 0) {
-      return <span className='dynamicText'>None</span>;
+      return <span className='hint-text'>None</span>;
     }
 
     // retVal = retVal.join(' ' + this.prereqs.type + ' ')
@@ -307,7 +307,7 @@ class BaseClassPanel extends React.Component {
 
     return (
       <div
-        className='prereqShowMore dynamicText'
+        className='prereq-show-more hint-text'
         tabIndex={ 0 }
         role='button'
         onClick={ () => {
