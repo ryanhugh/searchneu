@@ -123,7 +123,7 @@ class MobileClassPanel extends BaseClassPanel {
 
     return (
       <div>
-        <div className='container ui segment mobile'>
+        <div className='class-panel-container ui segment mobile'>
           <div
             className='header'
             onClick={ () => {
@@ -142,7 +142,7 @@ class MobileClassPanel extends BaseClassPanel {
 
           <span style={{ display: !this.state.showMoreThanTitle && 'none' }} >
 
-            <div className='body'>
+            <div className='panel-body'>
               {this.getClassBody()}
             </div>
 

@@ -144,7 +144,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
     return (
       <div>
-        <div className='container ui segment'>
+        <div className='class-panel-container ui segment'>
           <div className='header'>
             <span className='classTitle'>
               {aClass.subject} {aClass.classId}: {aClass.name}
@@ -162,7 +162,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
             </span>
           </div>
 
-          <div className='body'>
+          <div className='panel-body'>
             {aClass.desc}
             <br />
             <br />
