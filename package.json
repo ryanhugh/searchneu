@@ -4,7 +4,7 @@
   "scripts": {
     "_comment": "These commands are used in dev.",
     "start": "cross-env NODE_ENV=dev babel-node backend/server.js",
-    "scrape": "babel-node --max_old_space_size=8192 backend/scrapers/main.js",
+    "scrape": "babel-node --max_old_space_size=12000 backend/scrapers/main.js",
     "lint": "node ./node_modules/eslint/bin/eslint.js backend/ common/ frontend/",
     "fix": "node ./node_modules/eslint/bin/eslint.js backend/ common/ frontend/ --fix",
     "test": "./node_modules/jest-cli/bin/jest.js",

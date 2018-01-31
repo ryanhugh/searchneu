@@ -258,7 +258,7 @@ async function loadPromises() {
     const summer2Data = await summer2DataPromise;
     const summmer2SearchIndex = await summmer2SearchIndexPromise;
 
-    if (!fallData || !springData || !fallSearchIndex || !springSearchIndex || !employeeMap || !employeesSearchIndex || !!summer1Data || !!summmer1SearchIndex || !!summer2Data || !!summmer2SearchIndex) {
+    if (!fallData || !springData || !fallSearchIndex || !springSearchIndex || !employeeMap || !employeesSearchIndex || !summer1Data || !summmer1SearchIndex || !summer2Data || !summmer2SearchIndex) {
       macros.log("Couldn't download a file.", !!fallData, !!springData, !!fallSearchIndex, !!springSearchIndex, !!employeeMap, !!employeesSearchIndex, !!summer1Data, !!summmer1SearchIndex, !!summer2Data, !!summmer2SearchIndex);
       return null;
     }
