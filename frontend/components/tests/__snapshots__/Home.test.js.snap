@@ -132,6 +132,14 @@ ShallowWrapper {
                         "text": "Spring 2018",
                         "value": "201830",
                       },
+                      Object {
+                        "text": "Summer I 2018",
+                        "value": "201840",
+                      },
+                      Object {
+                        "text": "Summer II 2018",
+                        "value": "201860",
+                      },
                     ]
                   }
                   placeholder="Spring 2018"
@@ -476,6 +484,14 @@ ShallowWrapper {
                         "text": "Spring 2018",
                         "value": "201830",
                       },
+                      Object {
+                        "text": "Summer I 2018",
+                        "value": "201840",
+                      },
+                      Object {
+                        "text": "Summer II 2018",
+                        "value": "201860",
+                      },
                     ]
                   }
                   placeholder="Spring 2018"
@@ -553,6 +569,14 @@ ShallowWrapper {
                       Object {
                         "text": "Spring 2018",
                         "value": "201830",
+                      },
+                      Object {
+                        "text": "Summer I 2018",
+                        "value": "201840",
+                      },
+                      Object {
+                        "text": "Summer II 2018",
+                        "value": "201860",
                       },
                     ]
                   }
@@ -632,6 +656,14 @@ ShallowWrapper {
                         Object {
                           "text": "Spring 2018",
                           "value": "201830",
+                        },
+                        Object {
+                          "text": "Summer I 2018",
+                          "value": "201840",
+                        },
+                        Object {
+                          "text": "Summer II 2018",
+                          "value": "201860",
                         },
                       ]
                     }
@@ -722,6 +754,14 @@ ShallowWrapper {
                           Object {
                             "text": "Spring 2018",
                             "value": "201830",
+                          },
+                          Object {
+                            "text": "Summer I 2018",
+                            "value": "201840",
+                          },
+                          Object {
+                            "text": "Summer II 2018",
+                            "value": "201860",
                           },
                         ]
                       }
@@ -836,6 +876,14 @@ ShallowWrapper {
                         Object {
                           "text": "Spring 2018",
                           "value": "201830",
+                        },
+                        Object {
+                          "text": "Summer I 2018",
+                          "value": "201840",
+                        },
+                        Object {
+                          "text": "Summer II 2018",
+                          "value": "201860",
                         },
                       ],
                       "placeholder": "Spring 2018",
@@ -1481,6 +1529,14 @@ ShallowWrapper {
                           "text": "Spring 2018",
                           "value": "201830",
                         },
+                        Object {
+                          "text": "Summer I 2018",
+                          "value": "201840",
+                        },
+                        Object {
+                          "text": "Summer II 2018",
+                          "value": "201860",
+                        },
                       ]
                     }
                     placeholder="Spring 2018"
@@ -1825,6 +1881,14 @@ ShallowWrapper {
                           "text": "Spring 2018",
                           "value": "201830",
                         },
+                        Object {
+                          "text": "Summer I 2018",
+                          "value": "201840",
+                        },
+                        Object {
+                          "text": "Summer II 2018",
+                          "value": "201860",
+                        },
                       ]
                     }
                     placeholder="Spring 2018"
@@ -1902,6 +1966,14 @@ ShallowWrapper {
                         Object {
                           "text": "Spring 2018",
                           "value": "201830",
+                        },
+                        Object {
+                          "text": "Summer I 2018",
+                          "value": "201840",
+                        },
+                        Object {
+                          "text": "Summer II 2018",
+                          "value": "201860",
                         },
                       ]
                     }
@@ -1981,6 +2053,14 @@ ShallowWrapper {
                           Object {
                             "text": "Spring 2018",
                             "value": "201830",
+                          },
+                          Object {
+                            "text": "Summer I 2018",
+                            "value": "201840",
+                          },
+                          Object {
+                            "text": "Summer II 2018",
+                            "value": "201860",
                           },
                         ]
                       }
@@ -2071,6 +2151,14 @@ ShallowWrapper {
                             Object {
                               "text": "Spring 2018",
                               "value": "201830",
+                            },
+                            Object {
+                              "text": "Summer I 2018",
+                              "value": "201840",
+                            },
+                            Object {
+                              "text": "Summer II 2018",
+                              "value": "201860",
                             },
                           ]
                         }
@@ -2185,6 +2273,14 @@ ShallowWrapper {
                           Object {
                             "text": "Spring 2018",
                             "value": "201830",
+                          },
+                          Object {
+                            "text": "Summer I 2018",
+                            "value": "201840",
+                          },
+                          Object {
+                            "text": "Summer II 2018",
+                            "value": "201860",
                           },
                         ],
                         "placeholder": "Spring 2018",

@@ -234,10 +234,10 @@ async function loadPromises() {
   const spring2018DataPromise = getFrontendData('getTermDump/neu.edu/201830.json');
   const spring2018SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201830.json');
 
-  const summer1DataPromise = getFrontendData('getTermDump/neu.edu/201840.json')
+  const summer1DataPromise = getFrontendData('getTermDump/neu.edu/201840.json');
   const summmer1SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201840.json');
 
-  const summer2DataPromise = getFrontendData('getTermDump/neu.edu/201860.json')
+  const summer2DataPromise = getFrontendData('getTermDump/neu.edu/201860.json');
   const summmer2SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201860.json');
 
 
