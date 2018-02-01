@@ -229,12 +229,17 @@ async function getFrontendData(file) {
 
 async function loadPromises() {
   const termDumpPromise = getFrontendData('getTermDump/neu.edu/201810.json');
-
-  const spring2018DataPromise = getFrontendData('getTermDump/neu.edu/201830.json');
-
   const searchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201810.json');
 
+  const spring2018DataPromise = getFrontendData('getTermDump/neu.edu/201830.json');
   const spring2018SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201830.json');
+
+  const summer1DataPromise = getFrontendData('getTermDump/neu.edu/201840.json')
+  const summmer1SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201840.json');
+
+  const summer2DataPromise = getFrontendData('getTermDump/neu.edu/201860.json')
+  const summmer2SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201860.json');
+
 
   const employeeMapPromise = getFrontendData('employeeMap.json');
 
@@ -248,19 +253,28 @@ async function loadPromises() {
     const employeeMap = await employeeMapPromise;
     const employeesSearchIndex = await employeesSearchIndexPromise;
 
-    if (!fallData || !springData || !fallSearchIndex || !springSearchIndex || !employeeMap || !employeesSearchIndex) {
-      macros.log("Couldn't download a file.", !!fallData, !!springData, !!fallSearchIndex, !!springSearchIndex, !!employeeMap, !!employeesSearchIndex);
+    const summer1Data = await summer1DataPromise;
+    const summmer1SearchIndex = await summmer1SearchIndexPromise;
+    const summer2Data = await summer2DataPromise;
+    const summmer2SearchIndex = await summmer2SearchIndexPromise;
+
+    if (!fallData || !springData || !fallSearchIndex || !springSearchIndex || !employeeMap || !employeesSearchIndex || !summer1Data || !summmer1SearchIndex || !summer2Data || !summmer2SearchIndex) {
+      macros.log("Couldn't download a file.", !!fallData, !!springData, !!fallSearchIndex, !!springSearchIndex, !!employeeMap, !!employeesSearchIndex, !!summer1Data, !!summmer1SearchIndex, !!summer2Data, !!summmer2SearchIndex);
       return null;
     }
 
     const dataLib = DataLib.loadData({
       201810: fallData,
       201830: springData,
+      201840: summer1Data,
+      201860: summer2Data,
     });
 
     const searchIndexies = {
       201810: elasticlunr.Index.load(fallSearchIndex),
       201830: elasticlunr.Index.load(springSearchIndex),
+      201840: elasticlunr.Index.load(summmer1SearchIndex),
+      201860: elasticlunr.Index.load(summmer2SearchIndex),
     };
 
     Updater.create(dataLib);
