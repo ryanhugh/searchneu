@@ -235,14 +235,15 @@ async function loadPromises() {
   const spring2018SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201830.json');
 
   const summer1DataPromise = getFrontendData('getTermDump/neu.edu/201840.json');
-  const summmer1SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201840.json');
+  const summer1SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201840.json');
 
   const summer2DataPromise = getFrontendData('getTermDump/neu.edu/201860.json');
-  const summmer2SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201860.json');
+  const summer2SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201860.json');
 
+  const summerFullDataPromise = getFrontendData('getTermDump/neu.edu/201850.json');
+  const summerFullSearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201850.json');
 
   const employeeMapPromise = getFrontendData('employeeMap.json');
-
   const employeesSearchIndexPromise = getFrontendData('employeesSearchIndex.json');
 
   try {
@@ -254,12 +255,16 @@ async function loadPromises() {
     const employeesSearchIndex = await employeesSearchIndexPromise;
 
     const summer1Data = await summer1DataPromise;
-    const summmer1SearchIndex = await summmer1SearchIndexPromise;
+    const summer1SearchIndex = await summer1SearchIndexPromise;
     const summer2Data = await summer2DataPromise;
-    const summmer2SearchIndex = await summmer2SearchIndexPromise;
+    const summer2SearchIndex = await summer2SearchIndexPromise;
 
-    if (!fallData || !springData || !fallSearchIndex || !springSearchIndex || !employeeMap || !employeesSearchIndex || !summer1Data || !summmer1SearchIndex || !summer2Data || !summmer2SearchIndex) {
-      macros.log("Couldn't download a file.", !!fallData, !!springData, !!fallSearchIndex, !!springSearchIndex, !!employeeMap, !!employeesSearchIndex, !!summer1Data, !!summmer1SearchIndex, !!summer2Data, !!summmer2SearchIndex);
+    const summerFullData = await summerFullDataPromise;
+    const summerFullSearchIndex = await summerFullSearchIndexPromise;
+
+
+    if (!fallData || !springData || !fallSearchIndex || !springSearchIndex || !employeeMap || !employeesSearchIndex || !summer1Data || !summer1SearchIndex || !summer2Data || !summer2SearchIndex) {
+      macros.log("Couldn't download a file.", !!fallData, !!springData, !!fallSearchIndex, !!springSearchIndex, !!employeeMap, !!employeesSearchIndex, !!summer1Data, !!summer1SearchIndex, !!summer2Data, !!summer2SearchIndex);
       return null;
     }
 
@@ -268,13 +273,15 @@ async function loadPromises() {
       201830: springData,
       201840: summer1Data,
       201860: summer2Data,
+      201850: summerFullData,
     });
 
     const searchIndexies = {
       201810: elasticlunr.Index.load(fallSearchIndex),
       201830: elasticlunr.Index.load(springSearchIndex),
-      201840: elasticlunr.Index.load(summmer1SearchIndex),
-      201860: elasticlunr.Index.load(summmer2SearchIndex),
+      201840: elasticlunr.Index.load(summer1SearchIndex),
+      201860: elasticlunr.Index.load(summer2SearchIndex),
+      201850: elasticlunr.Index.load(summerFullSearchIndex),
     };
 
     Updater.create(dataLib);
