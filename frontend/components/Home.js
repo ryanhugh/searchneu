@@ -419,6 +419,10 @@ class Home extends React.Component {
         text: 'Summer II 2018',
         value: '201860',
       },
+      {
+        text: 'Summer Full 2018',
+        value: '201850',
+      },
     ];
 
     // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation.

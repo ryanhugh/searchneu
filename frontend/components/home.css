@@ -345,7 +345,7 @@
 .termDropdown {
     border: none !important;
     display: inline-block;
-    max-width: 184px;
+    max-width: 200px;
     color: rgb(174, 69, 67) !important;
     margin: 0 auto;
     box-shadow: none !important;
