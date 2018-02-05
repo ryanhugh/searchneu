@@ -322,8 +322,8 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
             // Without this, it will parse this date (Apr 30, 2015) in local time (Apr 30, 2015 00:00 +0800) and the 0s below will be in local time too (1970 08:00 +0800)
             // So, if you are running this code in Asia, it will say that there is one day of a difference less than there would be if you are running it in North America
             // The Z's and moment(0, 'x')'s below ensure that everything is parsed at UTC+0
-            const startDate = moment(splitTimeString[0].trim() + ' +0000', 'MMM D,YYYY Z');
-            const endDate = moment(splitTimeString[1].trim() + ' +0000', 'MMM D,YYYY Z');
+            const startDate = moment(`${splitTimeString[0].trim()} +0000`, 'MMM D,YYYY Z');
+            const endDate = moment(`${splitTimeString[1].trim()} +0000`, 'MMM D,YYYY Z');
 
             if (!startDate.isValid() || !endDate.isValid()) {
               macros.log('ERROR: one of parsed dates is not valid', splitTimeString, url);
