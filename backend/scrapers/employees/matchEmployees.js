@@ -303,7 +303,7 @@ class CombineCCISandEmployees {
 
       const output = {};
       for (const profile of person.matches) {
-        for (const attrName in profile) {
+        for (const attrName of Object.keys(profile)) {
           // Merge emails
           if (attrName === 'emails') {
             if (output.emails) {
