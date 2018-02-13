@@ -234,8 +234,9 @@ class Request {
       defaultConfig.pool = separateReqDefaultPool;
     }
 
-    // Five min. This timeout does not include the time the request is waiting for a socket.
-    defaultConfig.timeout = 5 * 60 * 1000;
+    // Fifteen min. This timeout does not include the time the request is waiting for a socket.
+    // Just increased from 5 min to help with socket hang up errors. 
+    defaultConfig.timeout = 15 * 60 * 1000;
 
     defaultConfig.resolveWithFullResponse = true;
 
