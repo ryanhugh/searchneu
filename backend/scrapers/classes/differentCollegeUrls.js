@@ -46,7 +46,7 @@ module.exports = ['https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_dyn_sched'
   'https://eagles.tamut.edu/texp/bwckschd.p_disp_dyn_sched', // collegeName capilization bug (fixed) and one subject dosent have any results, but works
   'https://ssb.sju.edu/pls/PRODSSB/bwckschd.p_disp_dyn_sched', //works
   'https://sail.oakland.edu/PROD/bwckschd.p_disp_dyn_sched', //works, takes 3 hours
-  'https://genisys.regent.edu/pls/prod/bwckschd.p_disp_dyn_sched',
+  'https://genisys.regent.edu/pls/prod/bwckschd.p_disp_dyn_sched', //Error: Two urls found in one string? Feb 13, 2018
   'https://bappas2.gram.edu:9000/pls/gram/bwckschd.p_disp_dyn_sched', //dosent work in nodejs!!!!??? works in python, browser, etc
   'https://sail.oakland.edu/PROD/bwckschd.p_disp_dyn_sched', // works 8/31/16, some minor errors in trello spider but nothing major
   'https://banweb.wm.edu/pls/PROD/bwckschd.p_disp_dyn_sched', // thier site worked on 8/31/16, but need to update spider code before can use (fatal errors)
@@ -69,16 +69,16 @@ module.exports = ['https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_dyn_sched'
   'https://ssbprod.wichita.edu/PROD/bwckschd.p_disp_dyn_sched', // works Jan 17th, 2018. Bunch of prereq errors and online classes have location set to ONLINE (parsing needs to be updated to support)
   'https://prodssb.mscc.edu/PROD/bwckschd.p_disp_dyn_sched', // works. very fast. Jan 17th 2018
   'https://ssbprod11g.uncfsu.edu/pls/FSUPROD/bwckschd.p_disp_dyn_sched', // down. Jan 17th 2018
-  'https://banner4.utm.edu/prod/bwckschd.p_disp_dyn_sched',
-  'https://nssb-p.adm.fit.edu/prod/bwckschd.p_disp_dyn_sched',
-  'https://prodssb.ws.edu/pls/PROD/bwckschd.p_disp_dyn_sched',
-  'https://oasis.farmingdale.edu/banner/bwckschd.p_disp_dyn_sched',
-  'https://oxford.blinn.edu:9010/PROD/bwckschd.p_disp_dyn_sched',
-  'https://ssb.ship.edu/prod/bwckschd.p_disp_dyn_sched',
-  'https://telaris.wlu.ca/ssb_prod/bwckschd.p_disp_dyn_sched',
-  'https://www2.augustatech.edu/pls/ban8/bwckschd.p_disp_dyn_sched',
-  'https://banner.drexel.edu/pls/duprod/bwckschd.p_disp_dyn_sched',
-  'https://infobear.bridgew.edu/BANP/bwckschd.p_disp_dyn_sched',
+  'https://banner4.utm.edu/prod/bwckschd.p_disp_dyn_sched', // 479.29s. Feb 7th 2018. Some prereq discrepancies. 
+  'https://nssb-p.adm.fit.edu/prod/bwckschd.p_disp_dyn_sched', // ~400s Feb 7th 2018.
+  'https://prodssb.ws.edu/pls/PROD/bwckschd.p_disp_dyn_sched',// ~1600s Feb 7th 2018.
+  'https://oasis.farmingdale.edu/banner/bwckschd.p_disp_dyn_sched', // some mismatched types. 483s. Feb 7th 2018
+  'https://oxford.blinn.edu:9010/PROD/bwckschd.p_disp_dyn_sched', // worked 394.84s. Feb 7th 2018 tons of warnings like this: Warning: changing from  Band Hall                      160 to Band Hall 160 at https://oxford.blinn.edu:9010/PROD/bwckctlg.p_disp_listcrse?term_in=201820&subj_in=MUEN&crse_in=2136&schd_in=%
+  'https://ssb.ship.edu/prod/bwckschd.p_disp_dyn_sched', //Error: Table did not include seating string 0 8990
+  'https://telaris.wlu.ca/ssb_prod/bwckschd.p_disp_dyn_sched', // DNS lookup fails for telaris.wlu.ca. Down
+  'https://www2.augustatech.edu/pls/ban8/bwckschd.p_disp_dyn_sched', // DNS lookup fails Feb 7th 2018
+  'https://banner.drexel.edu/pls/duprod/bwckschd.p_disp_dyn_sched', // a bug with parsing sections. 
+  'https://infobear.bridgew.edu/BANP/bwckschd.p_disp_dyn_sched', // a bug with parsing sections. 
   'https://new-sis-app.sph.harvard.edu:9010/prod/bwckschd.p_disp_dyn_sched', // This is Harvard's School of public health, not the Undergraduate College.
   'https://novasis.villanova.edu/pls/bannerprd/bwckschd.p_disp_dyn_sched',
   'https://www.bannerssb.bucknell.edu/ERPPRD/bwckschd.p_disp_dyn_sched', // take 8 min. Sept 21st. 2017

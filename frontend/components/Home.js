@@ -531,7 +531,9 @@ class Home extends React.Component {
                 Contributors
               </a>.
             </div>
-
+            <div className={ `footer ui basic center aligned segment ${css.affiliation}` }>
+              Search NEU is built for students by students & is not affiliated with NEU.
+            </div>
             <div className={ `footer ui basic center aligned segment ${css.contact}` }>
               <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
                 Feedback
@@ -545,6 +547,7 @@ class Home extends React.Component {
                 Contact
               </a>
             </div>
+            
           </div>
         </div>
 

@@ -23,8 +23,8 @@ class TermStartEndDate extends BaseProcessor.BaseProcessor {
     const endDates = {};
     let meetingCount = 0;
 
-    if (termDump.sections.length === 0) {
-      macros.error('No sections in db???', termDump.sections);
+    if (!termDump.sections || termDump.sections.length === 0) {
+      macros.error('No sections in db???', termDump.sections, Object.keys(termDump));
     }
 
     termDump.sections.forEach((section) => {
