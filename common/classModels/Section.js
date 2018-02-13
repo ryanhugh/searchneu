@@ -136,7 +136,7 @@ class Section {
   }
 
   updateWithData(data) {
-    for (const attrName in data) {
+    for (const attrName of Object.keys(data)) {
       if ((typeof data[attrName]) === 'function') {
         macros.error('given fn??', data, this, this.constructor.name);
         continue;
