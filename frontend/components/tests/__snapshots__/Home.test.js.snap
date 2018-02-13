@@ -226,6 +226,11 @@ ShallowWrapper {
               .
             </div>
             <div
+              className="footer ui basic center aligned segment affiliation"
+            >
+              Search NEU is built for students by students & is not affiliated with NEU.
+            </div>
+            <div
               className="footer ui basic center aligned segment contact"
             >
               <a
@@ -998,6 +1003,11 @@ ShallowWrapper {
                 .
               </div>
               <div
+                className="footer ui basic center aligned segment affiliation"
+              >
+                Search NEU is built for students by students & is not affiliated with NEU.
+              </div>
+              <div
                 className="footer ui basic center aligned segment contact"
               >
                 <a
@@ -1138,6 +1148,11 @@ ShallowWrapper {
                     Contributors
                   </a>
                   .
+                </div>,
+                <div
+                  className="footer ui basic center aligned segment affiliation"
+                >
+                  Search NEU is built for students by students & is not affiliated with NEU.
                 </div>,
                 <div
                   className="footer ui basic center aligned segment contact"
@@ -1318,6 +1333,18 @@ ShallowWrapper {
               Object {
                 "instance": null,
                 "key": ".3",
+                "nodeType": "host",
+                "props": Object {
+                  "children": "Search NEU is built for students by students & is not affiliated with NEU.",
+                  "className": "footer ui basic center aligned segment affiliation",
+                },
+                "ref": null,
+                "rendered": "Search NEU is built for students by students & is not affiliated with NEU.",
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": ".4",
                 "nodeType": "host",
                 "props": Object {
                   "children": Array [
@@ -1645,6 +1672,11 @@ ShallowWrapper {
                   Contributors
                 </a>
                 .
+              </div>
+              <div
+                className="footer ui basic center aligned segment affiliation"
+              >
+                Search NEU is built for students by students & is not affiliated with NEU.
               </div>
               <div
                 className="footer ui basic center aligned segment contact"
@@ -2419,6 +2451,11 @@ ShallowWrapper {
                   .
                 </div>
                 <div
+                  className="footer ui basic center aligned segment affiliation"
+                >
+                  Search NEU is built for students by students & is not affiliated with NEU.
+                </div>
+                <div
                   className="footer ui basic center aligned segment contact"
                 >
                   <a
@@ -2559,6 +2596,11 @@ ShallowWrapper {
                       Contributors
                     </a>
                     .
+                  </div>,
+                  <div
+                    className="footer ui basic center aligned segment affiliation"
+                  >
+                    Search NEU is built for students by students & is not affiliated with NEU.
                   </div>,
                   <div
                     className="footer ui basic center aligned segment contact"
@@ -2739,6 +2781,18 @@ ShallowWrapper {
                 Object {
                   "instance": null,
                   "key": ".3",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Search NEU is built for students by students & is not affiliated with NEU.",
+                    "className": "footer ui basic center aligned segment affiliation",
+                  },
+                  "ref": null,
+                  "rendered": "Search NEU is built for students by students & is not affiliated with NEU.",
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".4",
                   "nodeType": "host",
                   "props": Object {
                     "children": Array [

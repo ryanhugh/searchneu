@@ -547,7 +547,7 @@ class Home extends React.Component {
                 Contact
               </a>
             </div>
-            
+
           </div>
         </div>
 
