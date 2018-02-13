@@ -69,7 +69,7 @@ ShallowWrapper {
             className="ui center spacing aligned icon header topHeader"
             style={
               Object {
-                "transform": "translateY(calc(-50% + 230px))",
+                "transform": "translateY(-50%) translateY(230px)",
               }
             }
           >
@@ -131,6 +131,18 @@ ShallowWrapper {
                       Object {
                         "text": "Spring 2018",
                         "value": "201830",
+                      },
+                      Object {
+                        "text": "Summer I 2018",
+                        "value": "201840",
+                      },
+                      Object {
+                        "text": "Summer II 2018",
+                        "value": "201860",
+                      },
+                      Object {
+                        "text": "Summer Full 2018",
+                        "value": "201850",
                       },
                     ]
                   }
@@ -212,6 +224,11 @@ ShallowWrapper {
                 Contributors
               </a>
               .
+            </div>
+            <div
+              className="footer ui basic center aligned segment affiliation"
+            >
+              Search NEU is built for students by students & is not affiliated with NEU.
             </div>
             <div
               className="footer ui basic center aligned segment contact"
@@ -413,7 +430,7 @@ ShallowWrapper {
             className="ui center spacing aligned icon header topHeader"
             style={
               Object {
-                "transform": "translateY(calc(-50% + 230px))",
+                "transform": "translateY(-50%) translateY(230px)",
               }
             }
           >
@@ -475,6 +492,18 @@ ShallowWrapper {
                       Object {
                         "text": "Spring 2018",
                         "value": "201830",
+                      },
+                      Object {
+                        "text": "Summer I 2018",
+                        "value": "201840",
+                      },
+                      Object {
+                        "text": "Summer II 2018",
+                        "value": "201860",
+                      },
+                      Object {
+                        "text": "Summer Full 2018",
+                        "value": "201850",
                       },
                     ]
                   }
@@ -554,6 +583,18 @@ ShallowWrapper {
                         "text": "Spring 2018",
                         "value": "201830",
                       },
+                      Object {
+                        "text": "Summer I 2018",
+                        "value": "201840",
+                      },
+                      Object {
+                        "text": "Summer II 2018",
+                        "value": "201860",
+                      },
+                      Object {
+                        "text": "Summer Full 2018",
+                        "value": "201850",
+                      },
                     ]
                   }
                   placeholder="Spring 2018"
@@ -567,7 +608,7 @@ ShallowWrapper {
             </div>,
             "className": "ui center spacing aligned icon header topHeader",
             "style": Object {
-              "transform": "translateY(calc(-50% + 230px))",
+              "transform": "translateY(-50%) translateY(230px)",
             },
           },
           "ref": null,
@@ -632,6 +673,18 @@ ShallowWrapper {
                         Object {
                           "text": "Spring 2018",
                           "value": "201830",
+                        },
+                        Object {
+                          "text": "Summer I 2018",
+                          "value": "201840",
+                        },
+                        Object {
+                          "text": "Summer II 2018",
+                          "value": "201860",
+                        },
+                        Object {
+                          "text": "Summer Full 2018",
+                          "value": "201850",
                         },
                       ]
                     }
@@ -722,6 +775,18 @@ ShallowWrapper {
                           Object {
                             "text": "Spring 2018",
                             "value": "201830",
+                          },
+                          Object {
+                            "text": "Summer I 2018",
+                            "value": "201840",
+                          },
+                          Object {
+                            "text": "Summer II 2018",
+                            "value": "201860",
+                          },
+                          Object {
+                            "text": "Summer Full 2018",
+                            "value": "201850",
                           },
                         ]
                       }
@@ -837,6 +902,18 @@ ShallowWrapper {
                           "text": "Spring 2018",
                           "value": "201830",
                         },
+                        Object {
+                          "text": "Summer I 2018",
+                          "value": "201840",
+                        },
+                        Object {
+                          "text": "Summer II 2018",
+                          "value": "201860",
+                        },
+                        Object {
+                          "text": "Summer Full 2018",
+                          "value": "201850",
+                        },
                       ],
                       "placeholder": "Spring 2018",
                       "renderLabel": [Function],
@@ -924,6 +1001,11 @@ ShallowWrapper {
                   Contributors
                 </a>
                 .
+              </div>
+              <div
+                className="footer ui basic center aligned segment affiliation"
+              >
+                Search NEU is built for students by students & is not affiliated with NEU.
               </div>
               <div
                 className="footer ui basic center aligned segment contact"
@@ -1066,6 +1148,11 @@ ShallowWrapper {
                     Contributors
                   </a>
                   .
+                </div>,
+                <div
+                  className="footer ui basic center aligned segment affiliation"
+                >
+                  Search NEU is built for students by students & is not affiliated with NEU.
                 </div>,
                 <div
                   className="footer ui basic center aligned segment contact"
@@ -1248,6 +1335,18 @@ ShallowWrapper {
                 "key": ".3",
                 "nodeType": "host",
                 "props": Object {
+                  "children": "Search NEU is built for students by students & is not affiliated with NEU.",
+                  "className": "footer ui basic center aligned segment affiliation",
+                },
+                "ref": null,
+                "rendered": "Search NEU is built for students by students & is not affiliated with NEU.",
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": ".4",
+                "nodeType": "host",
+                "props": Object {
                   "children": Array [
                     <a
                       onClick={[Function]}
@@ -1418,7 +1517,7 @@ ShallowWrapper {
               className="ui center spacing aligned icon header topHeader"
               style={
                 Object {
-                  "transform": "translateY(calc(-50% + 230px))",
+                  "transform": "translateY(-50%) translateY(230px)",
                 }
               }
             >
@@ -1480,6 +1579,18 @@ ShallowWrapper {
                         Object {
                           "text": "Spring 2018",
                           "value": "201830",
+                        },
+                        Object {
+                          "text": "Summer I 2018",
+                          "value": "201840",
+                        },
+                        Object {
+                          "text": "Summer II 2018",
+                          "value": "201860",
+                        },
+                        Object {
+                          "text": "Summer Full 2018",
+                          "value": "201850",
                         },
                       ]
                     }
@@ -1561,6 +1672,11 @@ ShallowWrapper {
                   Contributors
                 </a>
                 .
+              </div>
+              <div
+                className="footer ui basic center aligned segment affiliation"
+              >
+                Search NEU is built for students by students & is not affiliated with NEU.
               </div>
               <div
                 className="footer ui basic center aligned segment contact"
@@ -1762,7 +1878,7 @@ ShallowWrapper {
               className="ui center spacing aligned icon header topHeader"
               style={
                 Object {
-                  "transform": "translateY(calc(-50% + 230px))",
+                  "transform": "translateY(-50%) translateY(230px)",
                 }
               }
             >
@@ -1824,6 +1940,18 @@ ShallowWrapper {
                         Object {
                           "text": "Spring 2018",
                           "value": "201830",
+                        },
+                        Object {
+                          "text": "Summer I 2018",
+                          "value": "201840",
+                        },
+                        Object {
+                          "text": "Summer II 2018",
+                          "value": "201860",
+                        },
+                        Object {
+                          "text": "Summer Full 2018",
+                          "value": "201850",
                         },
                       ]
                     }
@@ -1903,6 +2031,18 @@ ShallowWrapper {
                           "text": "Spring 2018",
                           "value": "201830",
                         },
+                        Object {
+                          "text": "Summer I 2018",
+                          "value": "201840",
+                        },
+                        Object {
+                          "text": "Summer II 2018",
+                          "value": "201860",
+                        },
+                        Object {
+                          "text": "Summer Full 2018",
+                          "value": "201850",
+                        },
                       ]
                     }
                     placeholder="Spring 2018"
@@ -1916,7 +2056,7 @@ ShallowWrapper {
               </div>,
               "className": "ui center spacing aligned icon header topHeader",
               "style": Object {
-                "transform": "translateY(calc(-50% + 230px))",
+                "transform": "translateY(-50%) translateY(230px)",
               },
             },
             "ref": null,
@@ -1981,6 +2121,18 @@ ShallowWrapper {
                           Object {
                             "text": "Spring 2018",
                             "value": "201830",
+                          },
+                          Object {
+                            "text": "Summer I 2018",
+                            "value": "201840",
+                          },
+                          Object {
+                            "text": "Summer II 2018",
+                            "value": "201860",
+                          },
+                          Object {
+                            "text": "Summer Full 2018",
+                            "value": "201850",
                           },
                         ]
                       }
@@ -2071,6 +2223,18 @@ ShallowWrapper {
                             Object {
                               "text": "Spring 2018",
                               "value": "201830",
+                            },
+                            Object {
+                              "text": "Summer I 2018",
+                              "value": "201840",
+                            },
+                            Object {
+                              "text": "Summer II 2018",
+                              "value": "201860",
+                            },
+                            Object {
+                              "text": "Summer Full 2018",
+                              "value": "201850",
                             },
                           ]
                         }
@@ -2186,6 +2350,18 @@ ShallowWrapper {
                             "text": "Spring 2018",
                             "value": "201830",
                           },
+                          Object {
+                            "text": "Summer I 2018",
+                            "value": "201840",
+                          },
+                          Object {
+                            "text": "Summer II 2018",
+                            "value": "201860",
+                          },
+                          Object {
+                            "text": "Summer Full 2018",
+                            "value": "201850",
+                          },
                         ],
                         "placeholder": "Spring 2018",
                         "renderLabel": [Function],
@@ -2273,6 +2449,11 @@ ShallowWrapper {
                     Contributors
                   </a>
                   .
+                </div>
+                <div
+                  className="footer ui basic center aligned segment affiliation"
+                >
+                  Search NEU is built for students by students & is not affiliated with NEU.
                 </div>
                 <div
                   className="footer ui basic center aligned segment contact"
@@ -2415,6 +2596,11 @@ ShallowWrapper {
                       Contributors
                     </a>
                     .
+                  </div>,
+                  <div
+                    className="footer ui basic center aligned segment affiliation"
+                  >
+                    Search NEU is built for students by students & is not affiliated with NEU.
                   </div>,
                   <div
                     className="footer ui basic center aligned segment contact"
@@ -2595,6 +2781,18 @@ ShallowWrapper {
                 Object {
                   "instance": null,
                   "key": ".3",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Search NEU is built for students by students & is not affiliated with NEU.",
+                    "className": "footer ui basic center aligned segment affiliation",
+                  },
+                  "ref": null,
+                  "rendered": "Search NEU is built for students by students & is not affiliated with NEU.",
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".4",
                   "nodeType": "host",
                   "props": Object {
                     "children": Array [

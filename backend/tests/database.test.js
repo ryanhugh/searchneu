@@ -94,3 +94,14 @@ it('creating an array and fetching it works', async (done) => {
 
   done();
 });
+
+
+it('should test MockFirebaseRef', async (done) => {
+  const ref = await database.getRef('setMockRef/1');
+
+  expect(ref.once()).toBe(null);
+  expect(ref.once('value').val()).toBe(null);
+  ref.set('setMockRefValue');
+  expect(ref.once('value').val()).toBe('setMockRefValue');
+  done();
+});

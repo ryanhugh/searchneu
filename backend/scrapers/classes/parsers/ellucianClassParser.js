@@ -318,8 +318,12 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
           // If is a single day class (exams, and some classes that happen like 2x a month specify specific dates).
           const splitTimeString = tableData.daterange[i].split('-');
           if (splitTimeString.length > 1) {
-            const startDate = moment(splitTimeString[0].trim(), 'MMM D,YYYY');
-            const endDate = moment(splitTimeString[1].trim(), 'MMM D,YYYY');
+            // The Z's and the +0000 ensure that this date is parsed in +0000 time zone.
+            // Without this, it will parse this date (Apr 30, 2015) in local time (Apr 30, 2015 00:00 +0800) and the 0s below will be in local time too (1970 08:00 +0800)
+            // So, if you are running this code in Asia, it will say that there is one day of a difference less than there would be if you are running it in North America
+            // The Z's and moment(0, 'x')'s below ensure that everything is parsed at UTC+0
+            const startDate = moment(`${splitTimeString[0].trim()} +0000`, 'MMM D,YYYY Z');
+            const endDate = moment(`${splitTimeString[1].trim()} +0000`, 'MMM D,YYYY Z');
 
             if (!startDate.isValid() || !endDate.isValid()) {
               macros.log('ERROR: one of parsed dates is not valid', splitTimeString, url);
@@ -328,11 +332,11 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
             // Add the dates if they are valid.
             // Store as days since epoch 1970.
             if (startDate.isValid()) {
-              sectionStartingData.meetings[index].startDate = startDate.diff(0, 'day');
+              sectionStartingData.meetings[index].startDate = startDate.diff(moment(0, 'x'), 'day');
             }
 
             if (endDate.isValid()) {
-              sectionStartingData.meetings[index].endDate = endDate.diff(0, 'day');
+              sectionStartingData.meetings[index].endDate = endDate.diff(moment(0, 'x'), 'day');
             }
           } else {
             macros.log('ERROR, invalid split time string or blank or something', splitTimeString, tableData.daterange[i]);

@@ -114,7 +114,7 @@ class Search {
   // All of these arguments should already be JSON.parsed(). (Eg, they should be objects, not strings).
   static create(employeeMap, employeeSearchIndex, termDumps, searchIndexies) {
     // Some sanitiy checking
-    if (!employeeMap || !employeeSearchIndex || !termDumps) {
+    if (!employeeMap || !employeeSearchIndex || !termDumps || !searchIndexies) {
       macros.error('Error, missing arguments.', !!employeeMap, !!employeeSearchIndex, !!termDumps, !!searchIndexies);
       return null;
     }

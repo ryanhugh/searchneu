@@ -5,7 +5,7 @@
 
 import path from 'path';
 import mkdirp from 'mkdirp-promise';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 
 import macros from '../../macros';
 import Keys from '../../../common/Keys';

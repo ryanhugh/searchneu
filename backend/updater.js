@@ -3,7 +3,7 @@
  * See the license file in the root folder for details.
  */
 
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 
 import DataLib from '../common/classModels/DataLib';
 
@@ -103,6 +103,11 @@ class Updater {
     for (const classHash of classHashes) {
       const aClass = this.dataLib.getClassServerDataFromHash(classHash);
 
+      if (!aClass) {
+        macros.warn('Unable to fetch class for hash!', classHash);
+        continue;
+      }
+
       classes.push(aClass);
 
       if (aClass.crns) {
@@ -133,7 +138,14 @@ class Updater {
 
     // Scrape the latest data
     const promises = classes.map((aClass) => {
-      return ellucianCatalogParser.main(aClass.prettyUrl);
+      return ellucianCatalogParser.main(aClass.prettyUrl).then((newClass) => {
+        // Copy over some fields that are not scraped from this scraper.
+        newClass.value.host = aClass.host;
+        newClass.value.termId = aClass.termId;
+        newClass.value.subject = aClass.subject;
+
+        return newClass;
+      });
     });
 
     const allParsersOutput = await Promise.all(promises);

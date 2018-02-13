@@ -21,3 +21,12 @@ it('stripMiddleName should work', () => {
   expect(macros.stripMiddleName('Edwin A. Marengo Fuentes', true)).toEqual('Edwin Marengo Fuentes');
 });
 
+it('replaceAll should work', () => {
+  expect(macros.replaceAll('hi there', 'hi', 'hello')).toBe('hello there');
+});
+
+it('isNumeric should work', () => {
+  expect(macros.isNumeric('fjdaslkfjlas')).toBe(false);
+  expect(macros.isNumeric('3')).toBe(true);
+  expect(macros.isNumeric(NaN)).toBe(false);
+});

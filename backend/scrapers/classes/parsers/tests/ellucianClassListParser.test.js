@@ -4,7 +4,7 @@
  */
 
 import path from 'path';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 
 import ellucianClassListParser from '../ellucianClassListParser';
 

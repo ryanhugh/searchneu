@@ -387,7 +387,7 @@ class Home extends React.Component {
     // Don't animate anything on mobile.
     // and set the second state of the animations if there is something in the text box.
     if (!macros.isMobile && this.state.searchTerm.length !== 0) {
-      topHeaderStyle.transform = 'translateY(calc(-50% + 230px))';
+      topHeaderStyle.transform = 'translateY(-50%) translateY(230px)';
       resultsContainerStyle.transform = `translateY(-${window.innerHeight - 305}px)`;
       bostonContainerStyle.opacity = 0;
     }
@@ -410,6 +410,18 @@ class Home extends React.Component {
       {
         text: 'Spring 2018',
         value: '201830',
+      },
+      {
+        text: 'Summer I 2018',
+        value: '201840',
+      },
+      {
+        text: 'Summer II 2018',
+        value: '201860',
+      },
+      {
+        text: 'Summer Full 2018',
+        value: '201850',
       },
     ];
 
@@ -519,7 +531,9 @@ class Home extends React.Component {
                 Contributors
               </a>.
             </div>
-
+            <div className={ `footer ui basic center aligned segment ${css.affiliation}` }>
+              Search NEU is built for students by students & is not affiliated with NEU.
+            </div>
             <div className={ `footer ui basic center aligned segment ${css.contact}` }>
               <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
                 Feedback
@@ -533,6 +547,7 @@ class Home extends React.Component {
                 Contact
               </a>
             </div>
+
           </div>
         </div>
 
