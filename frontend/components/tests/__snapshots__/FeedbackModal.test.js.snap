@@ -1,0 +1,1883 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render form is closed 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <FeedbackModal
+    closeForm={[Function]}
+    feedbackModalOpen={false}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <Transition
+          appear={false}
+          enter={true}
+          exit={true}
+          in={false}
+          mountOnEnter={false}
+          onEnter={[Function]}
+          onEntered={[Function]}
+          onEntering={[Function]}
+          onExit={[Function]}
+          onExited={[Function]}
+          onExiting={[Function]}
+          timeout={500}
+          unmountOnExit={false}
+        >
+          [Function]
+        </Transition>,
+        <Modal
+          closeOnDimmerClick={true}
+          closeOnDocumentClick={false}
+          dimmer={true}
+          eventPool="Modal"
+          onClose={[Function]}
+          open={false}
+          size="small"
+        >
+          <Header
+            content="Search NEU Feedback"
+            icon="mail"
+          />
+          <ModalContent
+            className="formModalContent"
+          >
+            <Form
+              as="form"
+            >
+              <div
+                className="feedbackParagraph"
+              >
+                Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+              </div>
+              <TextArea
+                as="textarea"
+                className="feedbackTextbox"
+                form="feedbackForm"
+                name="response"
+                onChange={[Function]}
+                rows={3}
+              />
+              <p>
+                By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+              </p>
+              <Input
+                className="formModalInput"
+                form="feedbackForm"
+                name="contact"
+                onChange={[Function]}
+                type="text"
+              />
+            </Form>
+          </ModalContent>
+          <ModalActions>
+            <Button
+              as="button"
+              basic={true}
+              color="red"
+              onClick={[Function]}
+            >
+              <Icon
+                as="i"
+                name="remove"
+              />
+              Cancel
+            </Button>
+            <Button
+              as="button"
+              color="green"
+              form="feedbackForm"
+              onClick={[Function]}
+              type="submit"
+            >
+              <Icon
+                as="i"
+                name="checkmark"
+              />
+              Submit
+            </Button>
+          </ModalActions>
+        </Modal>,
+      ],
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": ".0",
+        "nodeType": "class",
+        "props": Object {
+          "appear": false,
+          "children": [Function],
+          "enter": true,
+          "exit": true,
+          "in": false,
+          "mountOnEnter": false,
+          "onEnter": [Function],
+          "onEntered": [Function],
+          "onEntering": [Function],
+          "onExit": [Function],
+          "onExited": [Function],
+          "onExiting": [Function],
+          "timeout": 500,
+          "unmountOnExit": false,
+        },
+        "ref": null,
+        "rendered": [Function],
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": ".1",
+        "nodeType": "class",
+        "props": Object {
+          "children": Array [
+            <Header
+              content="Search NEU Feedback"
+              icon="mail"
+            />,
+            <ModalContent
+              className="formModalContent"
+            >
+              <Form
+                as="form"
+              >
+                <div
+                  className="feedbackParagraph"
+                >
+                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                </div>
+                <TextArea
+                  as="textarea"
+                  className="feedbackTextbox"
+                  form="feedbackForm"
+                  name="response"
+                  onChange={[Function]}
+                  rows={3}
+                />
+                <p>
+                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                </p>
+                <Input
+                  className="formModalInput"
+                  form="feedbackForm"
+                  name="contact"
+                  onChange={[Function]}
+                  type="text"
+                />
+              </Form>
+            </ModalContent>,
+            <ModalActions>
+              <Button
+                as="button"
+                basic={true}
+                color="red"
+                onClick={[Function]}
+              >
+                <Icon
+                  as="i"
+                  name="remove"
+                />
+                Cancel
+              </Button>
+              <Button
+                as="button"
+                color="green"
+                form="feedbackForm"
+                onClick={[Function]}
+                type="submit"
+              >
+                <Icon
+                  as="i"
+                  name="checkmark"
+                />
+                Submit
+              </Button>
+            </ModalActions>,
+          ],
+          "closeOnDimmerClick": true,
+          "closeOnDocumentClick": false,
+          "dimmer": true,
+          "eventPool": "Modal",
+          "onClose": [Function],
+          "open": false,
+          "size": "small",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": ".0",
+            "nodeType": "function",
+            "props": Object {
+              "content": "Search NEU Feedback",
+              "icon": "mail",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": ".1",
+            "nodeType": "function",
+            "props": Object {
+              "children": <Form
+                as="form"
+              >
+                <div
+                  className="feedbackParagraph"
+                >
+                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                </div>
+                <TextArea
+                  as="textarea"
+                  className="feedbackTextbox"
+                  form="feedbackForm"
+                  name="response"
+                  onChange={[Function]}
+                  rows={3}
+                />
+                <p>
+                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                </p>
+                <Input
+                  className="formModalInput"
+                  form="feedbackForm"
+                  name="contact"
+                  onChange={[Function]}
+                  type="text"
+                />
+              </Form>,
+              "className": "formModalContent",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "as": "form",
+                "children": Array [
+                  <div
+                    className="feedbackParagraph"
+                  >
+                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  </div>,
+                  <TextArea
+                    as="textarea"
+                    className="feedbackTextbox"
+                    form="feedbackForm"
+                    name="response"
+                    onChange={[Function]}
+                    rows={3}
+                  />,
+                  <p>
+                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                  </p>,
+                  <Input
+                    className="formModalInput"
+                    form="feedbackForm"
+                    name="contact"
+                    onChange={[Function]}
+                    type="text"
+                  />,
+                ],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": ".0",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                    "className": "feedbackParagraph",
+                  },
+                  "ref": null,
+                  "rendered": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".1",
+                  "nodeType": "class",
+                  "props": Object {
+                    "as": "textarea",
+                    "className": "feedbackTextbox",
+                    "form": "feedbackForm",
+                    "name": "response",
+                    "onChange": [Function],
+                    "rows": 3,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": ".2",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
+                  },
+                  "ref": null,
+                  "rendered": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
+                  "type": "p",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".3",
+                  "nodeType": "class",
+                  "props": Object {
+                    "className": "formModalInput",
+                    "form": "feedbackForm",
+                    "name": "contact",
+                    "onChange": [Function],
+                    "type": "text",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": ".2",
+            "nodeType": "class",
+            "props": Object {
+              "children": Array [
+                <Button
+                  as="button"
+                  basic={true}
+                  color="red"
+                  onClick={[Function]}
+                >
+                  <Icon
+                    as="i"
+                    name="remove"
+                  />
+                  Cancel
+                </Button>,
+                <Button
+                  as="button"
+                  color="green"
+                  form="feedbackForm"
+                  onClick={[Function]}
+                  type="submit"
+                >
+                  <Icon
+                    as="i"
+                    name="checkmark"
+                  />
+                  Submit
+                </Button>,
+              ],
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": ".0",
+                "nodeType": "class",
+                "props": Object {
+                  "as": "button",
+                  "basic": true,
+                  "children": Array [
+                    <Icon
+                      as="i"
+                      name="remove"
+                    />,
+                    "Cancel",
+                  ],
+                  "color": "red",
+                  "onClick": [Function],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": ".0",
+                    "nodeType": "class",
+                    "props": Object {
+                      "as": "i",
+                      "name": "remove",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "Cancel",
+                ],
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": ".1",
+                "nodeType": "class",
+                "props": Object {
+                  "as": "button",
+                  "children": Array [
+                    <Icon
+                      as="i"
+                      name="checkmark"
+                    />,
+                    "Submit",
+                  ],
+                  "color": "green",
+                  "form": "feedbackForm",
+                  "onClick": [Function],
+                  "type": "submit",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": ".0",
+                    "nodeType": "class",
+                    "props": Object {
+                      "as": "i",
+                      "name": "checkmark",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "Submit",
+                ],
+                "type": [Function],
+              },
+            ],
+            "type": [Function],
+          },
+        ],
+        "type": [Function],
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <Transition
+            appear={false}
+            enter={true}
+            exit={true}
+            in={false}
+            mountOnEnter={false}
+            onEnter={[Function]}
+            onEntered={[Function]}
+            onEntering={[Function]}
+            onExit={[Function]}
+            onExited={[Function]}
+            onExiting={[Function]}
+            timeout={500}
+            unmountOnExit={false}
+          >
+            [Function]
+          </Transition>,
+          <Modal
+            closeOnDimmerClick={true}
+            closeOnDocumentClick={false}
+            dimmer={true}
+            eventPool="Modal"
+            onClose={[Function]}
+            open={false}
+            size="small"
+          >
+            <Header
+              content="Search NEU Feedback"
+              icon="mail"
+            />
+            <ModalContent
+              className="formModalContent"
+            >
+              <Form
+                as="form"
+              >
+                <div
+                  className="feedbackParagraph"
+                >
+                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                </div>
+                <TextArea
+                  as="textarea"
+                  className="feedbackTextbox"
+                  form="feedbackForm"
+                  name="response"
+                  onChange={[Function]}
+                  rows={3}
+                />
+                <p>
+                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                </p>
+                <Input
+                  className="formModalInput"
+                  form="feedbackForm"
+                  name="contact"
+                  onChange={[Function]}
+                  type="text"
+                />
+              </Form>
+            </ModalContent>
+            <ModalActions>
+              <Button
+                as="button"
+                basic={true}
+                color="red"
+                onClick={[Function]}
+              >
+                <Icon
+                  as="i"
+                  name="remove"
+                />
+                Cancel
+              </Button>
+              <Button
+                as="button"
+                color="green"
+                form="feedbackForm"
+                onClick={[Function]}
+                type="submit"
+              >
+                <Icon
+                  as="i"
+                  name="checkmark"
+                />
+                Submit
+              </Button>
+            </ModalActions>
+          </Modal>,
+        ],
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": ".0",
+          "nodeType": "class",
+          "props": Object {
+            "appear": false,
+            "children": [Function],
+            "enter": true,
+            "exit": true,
+            "in": false,
+            "mountOnEnter": false,
+            "onEnter": [Function],
+            "onEntered": [Function],
+            "onEntering": [Function],
+            "onExit": [Function],
+            "onExited": [Function],
+            "onExiting": [Function],
+            "timeout": 500,
+            "unmountOnExit": false,
+          },
+          "ref": null,
+          "rendered": [Function],
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": ".1",
+          "nodeType": "class",
+          "props": Object {
+            "children": Array [
+              <Header
+                content="Search NEU Feedback"
+                icon="mail"
+              />,
+              <ModalContent
+                className="formModalContent"
+              >
+                <Form
+                  as="form"
+                >
+                  <div
+                    className="feedbackParagraph"
+                  >
+                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  </div>
+                  <TextArea
+                    as="textarea"
+                    className="feedbackTextbox"
+                    form="feedbackForm"
+                    name="response"
+                    onChange={[Function]}
+                    rows={3}
+                  />
+                  <p>
+                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                  </p>
+                  <Input
+                    className="formModalInput"
+                    form="feedbackForm"
+                    name="contact"
+                    onChange={[Function]}
+                    type="text"
+                  />
+                </Form>
+              </ModalContent>,
+              <ModalActions>
+                <Button
+                  as="button"
+                  basic={true}
+                  color="red"
+                  onClick={[Function]}
+                >
+                  <Icon
+                    as="i"
+                    name="remove"
+                  />
+                  Cancel
+                </Button>
+                <Button
+                  as="button"
+                  color="green"
+                  form="feedbackForm"
+                  onClick={[Function]}
+                  type="submit"
+                >
+                  <Icon
+                    as="i"
+                    name="checkmark"
+                  />
+                  Submit
+                </Button>
+              </ModalActions>,
+            ],
+            "closeOnDimmerClick": true,
+            "closeOnDocumentClick": false,
+            "dimmer": true,
+            "eventPool": "Modal",
+            "onClose": [Function],
+            "open": false,
+            "size": "small",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": ".0",
+              "nodeType": "function",
+              "props": Object {
+                "content": "Search NEU Feedback",
+                "icon": "mail",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": ".1",
+              "nodeType": "function",
+              "props": Object {
+                "children": <Form
+                  as="form"
+                >
+                  <div
+                    className="feedbackParagraph"
+                  >
+                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  </div>
+                  <TextArea
+                    as="textarea"
+                    className="feedbackTextbox"
+                    form="feedbackForm"
+                    name="response"
+                    onChange={[Function]}
+                    rows={3}
+                  />
+                  <p>
+                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                  </p>
+                  <Input
+                    className="formModalInput"
+                    form="feedbackForm"
+                    name="contact"
+                    onChange={[Function]}
+                    type="text"
+                  />
+                </Form>,
+                "className": "formModalContent",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "as": "form",
+                  "children": Array [
+                    <div
+                      className="feedbackParagraph"
+                    >
+                      Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                    </div>,
+                    <TextArea
+                      as="textarea"
+                      className="feedbackTextbox"
+                      form="feedbackForm"
+                      name="response"
+                      onChange={[Function]}
+                      rows={3}
+                    />,
+                    <p>
+                      By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                    </p>,
+                    <Input
+                      className="formModalInput"
+                      form="feedbackForm"
+                      name="contact"
+                      onChange={[Function]}
+                      type="text"
+                    />,
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": ".0",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                      "className": "feedbackParagraph",
+                    },
+                    "ref": null,
+                    "rendered": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                    "type": "div",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".1",
+                    "nodeType": "class",
+                    "props": Object {
+                      "as": "textarea",
+                      "className": "feedbackTextbox",
+                      "form": "feedbackForm",
+                      "name": "response",
+                      "onChange": [Function],
+                      "rows": 3,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".2",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
+                    },
+                    "ref": null,
+                    "rendered": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
+                    "type": "p",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".3",
+                    "nodeType": "class",
+                    "props": Object {
+                      "className": "formModalInput",
+                      "form": "feedbackForm",
+                      "name": "contact",
+                      "onChange": [Function],
+                      "type": "text",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": [Function],
+              },
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": ".2",
+              "nodeType": "class",
+              "props": Object {
+                "children": Array [
+                  <Button
+                    as="button"
+                    basic={true}
+                    color="red"
+                    onClick={[Function]}
+                  >
+                    <Icon
+                      as="i"
+                      name="remove"
+                    />
+                    Cancel
+                  </Button>,
+                  <Button
+                    as="button"
+                    color="green"
+                    form="feedbackForm"
+                    onClick={[Function]}
+                    type="submit"
+                  >
+                    <Icon
+                      as="i"
+                      name="checkmark"
+                    />
+                    Submit
+                  </Button>,
+                ],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": ".0",
+                  "nodeType": "class",
+                  "props": Object {
+                    "as": "button",
+                    "basic": true,
+                    "children": Array [
+                      <Icon
+                        as="i"
+                        name="remove"
+                      />,
+                      "Cancel",
+                    ],
+                    "color": "red",
+                    "onClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": ".0",
+                      "nodeType": "class",
+                      "props": Object {
+                        "as": "i",
+                        "name": "remove",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    "Cancel",
+                  ],
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": ".1",
+                  "nodeType": "class",
+                  "props": Object {
+                    "as": "button",
+                    "children": Array [
+                      <Icon
+                        as="i"
+                        name="checkmark"
+                      />,
+                      "Submit",
+                    ],
+                    "color": "green",
+                    "form": "feedbackForm",
+                    "onClick": [Function],
+                    "type": "submit",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": ".0",
+                      "nodeType": "class",
+                      "props": Object {
+                        "as": "i",
+                        "name": "checkmark",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    "Submit",
+                  ],
+                  "type": [Function],
+                },
+              ],
+              "type": [Function],
+            },
+          ],
+          "type": [Function],
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
+
+exports[`should render the form 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <FeedbackModal
+    closeForm={[Function]}
+    feedbackModalOpen={true}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <Transition
+          appear={false}
+          enter={true}
+          exit={true}
+          in={false}
+          mountOnEnter={false}
+          onEnter={[Function]}
+          onEntered={[Function]}
+          onEntering={[Function]}
+          onExit={[Function]}
+          onExited={[Function]}
+          onExiting={[Function]}
+          timeout={500}
+          unmountOnExit={false}
+        >
+          [Function]
+        </Transition>,
+        <Modal
+          closeOnDimmerClick={true}
+          closeOnDocumentClick={false}
+          dimmer={true}
+          eventPool="Modal"
+          onClose={[Function]}
+          open={true}
+          size="small"
+        >
+          <Header
+            content="Search NEU Feedback"
+            icon="mail"
+          />
+          <ModalContent
+            className="formModalContent"
+          >
+            <Form
+              as="form"
+            >
+              <div
+                className="feedbackParagraph"
+              >
+                Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+              </div>
+              <TextArea
+                as="textarea"
+                className="feedbackTextbox"
+                form="feedbackForm"
+                name="response"
+                onChange={[Function]}
+                rows={3}
+              />
+              <p>
+                By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+              </p>
+              <Input
+                className="formModalInput"
+                form="feedbackForm"
+                name="contact"
+                onChange={[Function]}
+                type="text"
+              />
+            </Form>
+          </ModalContent>
+          <ModalActions>
+            <Button
+              as="button"
+              basic={true}
+              color="red"
+              onClick={[Function]}
+            >
+              <Icon
+                as="i"
+                name="remove"
+              />
+              Cancel
+            </Button>
+            <Button
+              as="button"
+              color="green"
+              form="feedbackForm"
+              onClick={[Function]}
+              type="submit"
+            >
+              <Icon
+                as="i"
+                name="checkmark"
+              />
+              Submit
+            </Button>
+          </ModalActions>
+        </Modal>,
+      ],
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": ".0",
+        "nodeType": "class",
+        "props": Object {
+          "appear": false,
+          "children": [Function],
+          "enter": true,
+          "exit": true,
+          "in": false,
+          "mountOnEnter": false,
+          "onEnter": [Function],
+          "onEntered": [Function],
+          "onEntering": [Function],
+          "onExit": [Function],
+          "onExited": [Function],
+          "onExiting": [Function],
+          "timeout": 500,
+          "unmountOnExit": false,
+        },
+        "ref": null,
+        "rendered": [Function],
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": ".1",
+        "nodeType": "class",
+        "props": Object {
+          "children": Array [
+            <Header
+              content="Search NEU Feedback"
+              icon="mail"
+            />,
+            <ModalContent
+              className="formModalContent"
+            >
+              <Form
+                as="form"
+              >
+                <div
+                  className="feedbackParagraph"
+                >
+                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                </div>
+                <TextArea
+                  as="textarea"
+                  className="feedbackTextbox"
+                  form="feedbackForm"
+                  name="response"
+                  onChange={[Function]}
+                  rows={3}
+                />
+                <p>
+                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                </p>
+                <Input
+                  className="formModalInput"
+                  form="feedbackForm"
+                  name="contact"
+                  onChange={[Function]}
+                  type="text"
+                />
+              </Form>
+            </ModalContent>,
+            <ModalActions>
+              <Button
+                as="button"
+                basic={true}
+                color="red"
+                onClick={[Function]}
+              >
+                <Icon
+                  as="i"
+                  name="remove"
+                />
+                Cancel
+              </Button>
+              <Button
+                as="button"
+                color="green"
+                form="feedbackForm"
+                onClick={[Function]}
+                type="submit"
+              >
+                <Icon
+                  as="i"
+                  name="checkmark"
+                />
+                Submit
+              </Button>
+            </ModalActions>,
+          ],
+          "closeOnDimmerClick": true,
+          "closeOnDocumentClick": false,
+          "dimmer": true,
+          "eventPool": "Modal",
+          "onClose": [Function],
+          "open": true,
+          "size": "small",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": ".0",
+            "nodeType": "function",
+            "props": Object {
+              "content": "Search NEU Feedback",
+              "icon": "mail",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": ".1",
+            "nodeType": "function",
+            "props": Object {
+              "children": <Form
+                as="form"
+              >
+                <div
+                  className="feedbackParagraph"
+                >
+                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                </div>
+                <TextArea
+                  as="textarea"
+                  className="feedbackTextbox"
+                  form="feedbackForm"
+                  name="response"
+                  onChange={[Function]}
+                  rows={3}
+                />
+                <p>
+                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                </p>
+                <Input
+                  className="formModalInput"
+                  form="feedbackForm"
+                  name="contact"
+                  onChange={[Function]}
+                  type="text"
+                />
+              </Form>,
+              "className": "formModalContent",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "as": "form",
+                "children": Array [
+                  <div
+                    className="feedbackParagraph"
+                  >
+                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  </div>,
+                  <TextArea
+                    as="textarea"
+                    className="feedbackTextbox"
+                    form="feedbackForm"
+                    name="response"
+                    onChange={[Function]}
+                    rows={3}
+                  />,
+                  <p>
+                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                  </p>,
+                  <Input
+                    className="formModalInput"
+                    form="feedbackForm"
+                    name="contact"
+                    onChange={[Function]}
+                    type="text"
+                  />,
+                ],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": ".0",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                    "className": "feedbackParagraph",
+                  },
+                  "ref": null,
+                  "rendered": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".1",
+                  "nodeType": "class",
+                  "props": Object {
+                    "as": "textarea",
+                    "className": "feedbackTextbox",
+                    "form": "feedbackForm",
+                    "name": "response",
+                    "onChange": [Function],
+                    "rows": 3,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": ".2",
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
+                  },
+                  "ref": null,
+                  "rendered": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
+                  "type": "p",
+                },
+                Object {
+                  "instance": null,
+                  "key": ".3",
+                  "nodeType": "class",
+                  "props": Object {
+                    "className": "formModalInput",
+                    "form": "feedbackForm",
+                    "name": "contact",
+                    "onChange": [Function],
+                    "type": "text",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": ".2",
+            "nodeType": "class",
+            "props": Object {
+              "children": Array [
+                <Button
+                  as="button"
+                  basic={true}
+                  color="red"
+                  onClick={[Function]}
+                >
+                  <Icon
+                    as="i"
+                    name="remove"
+                  />
+                  Cancel
+                </Button>,
+                <Button
+                  as="button"
+                  color="green"
+                  form="feedbackForm"
+                  onClick={[Function]}
+                  type="submit"
+                >
+                  <Icon
+                    as="i"
+                    name="checkmark"
+                  />
+                  Submit
+                </Button>,
+              ],
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": ".0",
+                "nodeType": "class",
+                "props": Object {
+                  "as": "button",
+                  "basic": true,
+                  "children": Array [
+                    <Icon
+                      as="i"
+                      name="remove"
+                    />,
+                    "Cancel",
+                  ],
+                  "color": "red",
+                  "onClick": [Function],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": ".0",
+                    "nodeType": "class",
+                    "props": Object {
+                      "as": "i",
+                      "name": "remove",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "Cancel",
+                ],
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": ".1",
+                "nodeType": "class",
+                "props": Object {
+                  "as": "button",
+                  "children": Array [
+                    <Icon
+                      as="i"
+                      name="checkmark"
+                    />,
+                    "Submit",
+                  ],
+                  "color": "green",
+                  "form": "feedbackForm",
+                  "onClick": [Function],
+                  "type": "submit",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": ".0",
+                    "nodeType": "class",
+                    "props": Object {
+                      "as": "i",
+                      "name": "checkmark",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "Submit",
+                ],
+                "type": [Function],
+              },
+            ],
+            "type": [Function],
+          },
+        ],
+        "type": [Function],
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <Transition
+            appear={false}
+            enter={true}
+            exit={true}
+            in={false}
+            mountOnEnter={false}
+            onEnter={[Function]}
+            onEntered={[Function]}
+            onEntering={[Function]}
+            onExit={[Function]}
+            onExited={[Function]}
+            onExiting={[Function]}
+            timeout={500}
+            unmountOnExit={false}
+          >
+            [Function]
+          </Transition>,
+          <Modal
+            closeOnDimmerClick={true}
+            closeOnDocumentClick={false}
+            dimmer={true}
+            eventPool="Modal"
+            onClose={[Function]}
+            open={true}
+            size="small"
+          >
+            <Header
+              content="Search NEU Feedback"
+              icon="mail"
+            />
+            <ModalContent
+              className="formModalContent"
+            >
+              <Form
+                as="form"
+              >
+                <div
+                  className="feedbackParagraph"
+                >
+                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                </div>
+                <TextArea
+                  as="textarea"
+                  className="feedbackTextbox"
+                  form="feedbackForm"
+                  name="response"
+                  onChange={[Function]}
+                  rows={3}
+                />
+                <p>
+                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                </p>
+                <Input
+                  className="formModalInput"
+                  form="feedbackForm"
+                  name="contact"
+                  onChange={[Function]}
+                  type="text"
+                />
+              </Form>
+            </ModalContent>
+            <ModalActions>
+              <Button
+                as="button"
+                basic={true}
+                color="red"
+                onClick={[Function]}
+              >
+                <Icon
+                  as="i"
+                  name="remove"
+                />
+                Cancel
+              </Button>
+              <Button
+                as="button"
+                color="green"
+                form="feedbackForm"
+                onClick={[Function]}
+                type="submit"
+              >
+                <Icon
+                  as="i"
+                  name="checkmark"
+                />
+                Submit
+              </Button>
+            </ModalActions>
+          </Modal>,
+        ],
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": ".0",
+          "nodeType": "class",
+          "props": Object {
+            "appear": false,
+            "children": [Function],
+            "enter": true,
+            "exit": true,
+            "in": false,
+            "mountOnEnter": false,
+            "onEnter": [Function],
+            "onEntered": [Function],
+            "onEntering": [Function],
+            "onExit": [Function],
+            "onExited": [Function],
+            "onExiting": [Function],
+            "timeout": 500,
+            "unmountOnExit": false,
+          },
+          "ref": null,
+          "rendered": [Function],
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": ".1",
+          "nodeType": "class",
+          "props": Object {
+            "children": Array [
+              <Header
+                content="Search NEU Feedback"
+                icon="mail"
+              />,
+              <ModalContent
+                className="formModalContent"
+              >
+                <Form
+                  as="form"
+                >
+                  <div
+                    className="feedbackParagraph"
+                  >
+                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  </div>
+                  <TextArea
+                    as="textarea"
+                    className="feedbackTextbox"
+                    form="feedbackForm"
+                    name="response"
+                    onChange={[Function]}
+                    rows={3}
+                  />
+                  <p>
+                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                  </p>
+                  <Input
+                    className="formModalInput"
+                    form="feedbackForm"
+                    name="contact"
+                    onChange={[Function]}
+                    type="text"
+                  />
+                </Form>
+              </ModalContent>,
+              <ModalActions>
+                <Button
+                  as="button"
+                  basic={true}
+                  color="red"
+                  onClick={[Function]}
+                >
+                  <Icon
+                    as="i"
+                    name="remove"
+                  />
+                  Cancel
+                </Button>
+                <Button
+                  as="button"
+                  color="green"
+                  form="feedbackForm"
+                  onClick={[Function]}
+                  type="submit"
+                >
+                  <Icon
+                    as="i"
+                    name="checkmark"
+                  />
+                  Submit
+                </Button>
+              </ModalActions>,
+            ],
+            "closeOnDimmerClick": true,
+            "closeOnDocumentClick": false,
+            "dimmer": true,
+            "eventPool": "Modal",
+            "onClose": [Function],
+            "open": true,
+            "size": "small",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": ".0",
+              "nodeType": "function",
+              "props": Object {
+                "content": "Search NEU Feedback",
+                "icon": "mail",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": ".1",
+              "nodeType": "function",
+              "props": Object {
+                "children": <Form
+                  as="form"
+                >
+                  <div
+                    className="feedbackParagraph"
+                  >
+                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  </div>
+                  <TextArea
+                    as="textarea"
+                    className="feedbackTextbox"
+                    form="feedbackForm"
+                    name="response"
+                    onChange={[Function]}
+                    rows={3}
+                  />
+                  <p>
+                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                  </p>
+                  <Input
+                    className="formModalInput"
+                    form="feedbackForm"
+                    name="contact"
+                    onChange={[Function]}
+                    type="text"
+                  />
+                </Form>,
+                "className": "formModalContent",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "as": "form",
+                  "children": Array [
+                    <div
+                      className="feedbackParagraph"
+                    >
+                      Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                    </div>,
+                    <TextArea
+                      as="textarea"
+                      className="feedbackTextbox"
+                      form="feedbackForm"
+                      name="response"
+                      onChange={[Function]}
+                      rows={3}
+                    />,
+                    <p>
+                      By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+                    </p>,
+                    <Input
+                      className="formModalInput"
+                      form="feedbackForm"
+                      name="contact"
+                      onChange={[Function]}
+                      type="text"
+                    />,
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": ".0",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                      "className": "feedbackParagraph",
+                    },
+                    "ref": null,
+                    "rendered": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                    "type": "div",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".1",
+                    "nodeType": "class",
+                    "props": Object {
+                      "as": "textarea",
+                      "className": "feedbackTextbox",
+                      "form": "feedbackForm",
+                      "name": "response",
+                      "onChange": [Function],
+                      "rows": 3,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".2",
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
+                    },
+                    "ref": null,
+                    "rendered": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
+                    "type": "p",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": ".3",
+                    "nodeType": "class",
+                    "props": Object {
+                      "className": "formModalInput",
+                      "form": "feedbackForm",
+                      "name": "contact",
+                      "onChange": [Function],
+                      "type": "text",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": [Function],
+              },
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": ".2",
+              "nodeType": "class",
+              "props": Object {
+                "children": Array [
+                  <Button
+                    as="button"
+                    basic={true}
+                    color="red"
+                    onClick={[Function]}
+                  >
+                    <Icon
+                      as="i"
+                      name="remove"
+                    />
+                    Cancel
+                  </Button>,
+                  <Button
+                    as="button"
+                    color="green"
+                    form="feedbackForm"
+                    onClick={[Function]}
+                    type="submit"
+                  >
+                    <Icon
+                      as="i"
+                      name="checkmark"
+                    />
+                    Submit
+                  </Button>,
+                ],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": ".0",
+                  "nodeType": "class",
+                  "props": Object {
+                    "as": "button",
+                    "basic": true,
+                    "children": Array [
+                      <Icon
+                        as="i"
+                        name="remove"
+                      />,
+                      "Cancel",
+                    ],
+                    "color": "red",
+                    "onClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": ".0",
+                      "nodeType": "class",
+                      "props": Object {
+                        "as": "i",
+                        "name": "remove",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    "Cancel",
+                  ],
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": ".1",
+                  "nodeType": "class",
+                  "props": Object {
+                    "as": "button",
+                    "children": Array [
+                      <Icon
+                        as="i"
+                        name="checkmark"
+                      />,
+                      "Submit",
+                    ],
+                    "color": "green",
+                    "form": "feedbackForm",
+                    "onClick": [Function],
+                    "type": "submit",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": ".0",
+                      "nodeType": "class",
+                      "props": Object {
+                        "as": "i",
+                        "name": "checkmark",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    "Submit",
+                  ],
+                  "type": [Function],
+                },
+              ],
+              "type": [Function],
+            },
+          ],
+          "type": [Function],
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

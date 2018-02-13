@@ -319,8 +319,15 @@
 /* Footer. */
 
 .credits {
-    margin-bottom: 5px !important;
+    margin-bottom: 0px !important;
     padding-bottom: 0 !important;
+}
+.affiliation {
+    margin: 0 !important;
+    padding-bottom: 0 !important;
+    font-size: 14px !important;
+    padding-top: 0 !important;
+    color: gray;
 }
 .contact {
     margin: 0 !important;
@@ -345,7 +352,7 @@
 .termDropdown {
     border: none !important;
     display: inline-block;
-    max-width: 158px;
+    max-width: 200px;
     color: rgb(174, 69, 67) !important;
     margin: 0 auto;
     box-shadow: none !important;

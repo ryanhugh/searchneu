@@ -9,7 +9,7 @@ import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import wrap from 'express-async-wrap';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 import compress from 'compression';
 import rollbar from 'rollbar';
 import bodyParser from 'body-parser';
@@ -229,15 +229,21 @@ async function getFrontendData(file) {
 
 async function loadPromises() {
   const termDumpPromise = getFrontendData('getTermDump/neu.edu/201810.json');
-
-  const spring2018DataPromise = getFrontendData('getTermDump/neu.edu/201830.json');
-
   const searchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201810.json');
 
+  const spring2018DataPromise = getFrontendData('getTermDump/neu.edu/201830.json');
   const spring2018SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201830.json');
 
-  const employeeMapPromise = getFrontendData('employeeMap.json');
+  const summer1DataPromise = getFrontendData('getTermDump/neu.edu/201840.json');
+  const summer1SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201840.json');
 
+  const summer2DataPromise = getFrontendData('getTermDump/neu.edu/201860.json');
+  const summer2SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201860.json');
+
+  const summerFullDataPromise = getFrontendData('getTermDump/neu.edu/201850.json');
+  const summerFullSearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201850.json');
+
+  const employeeMapPromise = getFrontendData('employeeMap.json');
   const employeesSearchIndexPromise = getFrontendData('employeesSearchIndex.json');
 
   try {
@@ -248,19 +254,34 @@ async function loadPromises() {
     const employeeMap = await employeeMapPromise;
     const employeesSearchIndex = await employeesSearchIndexPromise;
 
-    if (!fallData || !springData || !fallSearchIndex || !springSearchIndex || !employeeMap || !employeesSearchIndex) {
-      macros.log("Couldn't download a file.", !!fallData, !!springData, !!fallSearchIndex, !!springSearchIndex, !!employeeMap, !!employeesSearchIndex);
+    const summer1Data = await summer1DataPromise;
+    const summer1SearchIndex = await summer1SearchIndexPromise;
+    const summer2Data = await summer2DataPromise;
+    const summer2SearchIndex = await summer2SearchIndexPromise;
+
+    const summerFullData = await summerFullDataPromise;
+    const summerFullSearchIndex = await summerFullSearchIndexPromise;
+
+
+    if (!fallData || !springData || !fallSearchIndex || !springSearchIndex || !employeeMap || !employeesSearchIndex || !summer1Data || !summer1SearchIndex || !summer2Data || !summer2SearchIndex) {
+      macros.log("Couldn't download a file.", !!fallData, !!springData, !!fallSearchIndex, !!springSearchIndex, !!employeeMap, !!employeesSearchIndex, !!summer1Data, !!summer1SearchIndex, !!summer2Data, !!summer2SearchIndex);
       return null;
     }
 
     const dataLib = DataLib.loadData({
       201810: fallData,
       201830: springData,
+      201840: summer1Data,
+      201860: summer2Data,
+      201850: summerFullData,
     });
 
     const searchIndexies = {
       201810: elasticlunr.Index.load(fallSearchIndex),
       201830: elasticlunr.Index.load(springSearchIndex),
+      201840: elasticlunr.Index.load(summer1SearchIndex),
+      201860: elasticlunr.Index.load(summer2SearchIndex),
+      201850: elasticlunr.Index.load(summerFullSearchIndex),
     };
 
     Updater.create(dataLib);
@@ -388,9 +409,12 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     return;
   }
 
+  macros.log('User Object is', userObject);
+
   const firebaseRef = await database.getRef(`/users/${sender}`);
 
-  const existingData = await firebaseRef.once('value');
+  let existingData = await firebaseRef.once('value');
+  existingData = existingData.val();
 
   const dataLib = (await promises).dataLib;
   const aClass = dataLib.getClassServerDataFromHash(userObject.classHash);

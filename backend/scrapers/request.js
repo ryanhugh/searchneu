@@ -234,8 +234,9 @@ class Request {
       defaultConfig.pool = separateReqDefaultPool;
     }
 
-    // Five min. This timeout does not include the time the request is waiting for a socket.
-    defaultConfig.timeout = 5 * 60 * 1000;
+    // Fifteen min. This timeout does not include the time the request is waiting for a socket.
+    // Just increased from 5 min to help with socket hang up errors.
+    defaultConfig.timeout = 15 * 60 * 1000;
 
     defaultConfig.resolveWithFullResponse = true;
 
@@ -274,7 +275,8 @@ class Request {
     macros.verbose('Firing request to', output.url);
 
     // If there are not any open requests right now, start the interval
-    if (this.openRequests === 0) {
+    // Only start the logging interval on production on AWS, only start it on Travis
+    if (this.openRequests === 0 && (!macros.PROD || process.env.CI)) {
       clearInterval(this.timer);
       macros.log('Starting request analytics timer.');
       this.analytics[hostname].startTime = Date.now();
@@ -295,7 +297,7 @@ class Request {
     this.openRequests--;
 
 
-    if (this.openRequests === 0) {
+    if (this.openRequests === 0 && (!macros.PROD || process.env.CI)) {
       macros.log('Stopping request analytics timer.');
       clearInterval(this.timer);
     }
@@ -520,7 +522,7 @@ class RequestInput {
   // Helpers for get and post
   async get(config) {
     if (!config) {
-      macros.error('Warning, request called with no config');
+      macros.error('Warning, request get called with no config');
       return null;
     }
     if (typeof config === 'string') {
@@ -536,7 +538,7 @@ class RequestInput {
 
   async post(config) {
     if (!config) {
-      macros.log('Warning, request called with no config');
+      macros.error('Warning, request post called with no config');
       return null;
     }
     if (typeof config === 'string') {
@@ -552,7 +554,7 @@ class RequestInput {
 
   async head(config) {
     if (!config) {
-      macros.log('Warning, request called with no config');
+      macros.error('Warning, request head called with no config');
       return null;
     }
     if (typeof config === 'string') {
@@ -579,7 +581,6 @@ class RequestInput {
   // need to turn off high retry count
   async isPageUp() {
     throw new Error('This does not work yet');
-    // this.head(config)
   }
 }
 

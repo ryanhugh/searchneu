@@ -20,21 +20,12 @@
 
 
 import asyncjs from 'async';
-import realWhois from 'whois';
+import whois from 'whois';
 
 import macros from '../../../macros';
 import cache from '../../cache';
 import BaseParser from './baseParser';
-import mockWhois from './tests/mockWhois';
 
-
-let whois;
-
-if (macros.TESTS) {
-  whois = mockWhois;
-} else {
-  whois = realWhois;
-}
 
 const staticHosts = [
   {

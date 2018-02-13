@@ -2,7 +2,7 @@ language: node_js
 node_js:
 - 8
 script:
-- bash travis_deploy.sh
+- travis_wait bash travis_deploy.sh
 cache: yarn
 deploy:
   provider: npm
@@ -14,3 +14,7 @@ deploy:
     tags: false
     repo: ryanhugh/searchneu
     branch: prod
+notifications:
+  email:
+    on_success: change
+    on_failure: always

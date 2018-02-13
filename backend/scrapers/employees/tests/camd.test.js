@@ -3,7 +3,7 @@
  * See the license file in the root folder for details.
  */
 
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 import path from 'path';
 
 import camd from '../camd';
