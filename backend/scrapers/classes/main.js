@@ -251,7 +251,7 @@ const instance = new Main();
 if (require.main === module) {
   // instance.main(['mscc']);
   // instance.main(['uncfsu']);
-  instance.main(['regent']);
+  instance.main(['neu']);
   // instance.main(['fit']);
 }
 

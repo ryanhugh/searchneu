@@ -56,7 +56,7 @@ class EllucianTermsParser extends EllucianBaseParser.EllucianBaseParser {
 
 
   minYear() {
-    return moment().subtract(4, 'months').year();
+    return moment().year();
   }
 
   isValidTerm(termId, text) {
