@@ -107,16 +107,15 @@ class SignUpForNotifications extends React.Component {
       content = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when sections are added!' className='notificationButton' />;
     } else if (this.props.aClass.isAtLeastOneSectionFull()) {
       content = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!' className='notificationButton' />;
-    }
-    else {
+    } else {
       return null;
     }
 
     return (
-      <div className = 'sign-up-for-notifications-container'> 
+      <div className='sign-up-for-notifications-container'>
         {content}
       </div>
-    )
+    );
   }
 }
 
