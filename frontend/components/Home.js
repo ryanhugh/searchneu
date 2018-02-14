@@ -389,13 +389,13 @@ class Home extends React.Component {
     }
 
     // On mobile only show the logo and the github corner if there are no results and the search box is not focused (the virtual keyboard is not on the screen).
-    let mobileClassType;
-    if (!macros.isMobile) {
-      mobileClassType = '';
-    } else if (document.activeElement === this.inputElement || this.state.results.length > 0) {
-      mobileClassType = 'mobileCompact';
-    } else {
-      mobileClassType = 'mobileFull';
+    let containerClassnames = 'home-container';
+    if (macros.isMobile) {
+      if (document.activeElement === this.inputElement || this.state.results.length > 0) {
+        containerClassnames += ' mobileCompact';
+      } else {
+        containerClassnames += ' mobileFull';
+      }
     }
 
     const termDropDownOptions = [
@@ -424,7 +424,7 @@ class Home extends React.Component {
     // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation.
     // Actually it only removes the extra whitespace on chrome. Need to come up with a better solution for other browsers.
     return (
-      <div className={ 'home-container ' + mobileClassType } style={{ height:'100%' }}>
+      <div className={ containerClassnames } style={{ height:'100%' }}>
 
         <a target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu' className='githubCornerContainer'>
           {/* eslint-disable max-len */}

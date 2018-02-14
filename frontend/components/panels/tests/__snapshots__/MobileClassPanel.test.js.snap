@@ -28,8 +28,14 @@ ShallowWrapper {
         "maxCredits": 1,
         "minCredits": 1,
         "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+        "optPrereqsFor": Object {
+          "values": Array [],
+        },
         "prereqs": Object {
           "type": "or",
+          "values": Array [],
+        },
+        "prereqsFor": Object {
           "values": Array [],
         },
         "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -214,7 +220,7 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": <div
-        className="container ui segment mobile"
+        className="class-panel-container ui segment mobile"
       >
         <div
           className="header"
@@ -245,7 +251,7 @@ ShallowWrapper {
           }
         >
           <div
-            className="body"
+            className="panel-body"
           >
             <span>
               <span>
@@ -305,7 +311,7 @@ ShallowWrapper {
             }
           />
           <div
-            className="showMoreButton"
+            className="more-sections-button"
             onClick={[Function]}
             role="button"
             tabIndex={0}
@@ -351,7 +357,7 @@ ShallowWrapper {
             }
           >
             <div
-              className="body"
+              className="panel-body"
             >
               <span>
                 <span>
@@ -411,7 +417,7 @@ ShallowWrapper {
               }
             />
             <div
-              className="showMoreButton"
+              className="more-sections-button"
               onClick={[Function]}
               role="button"
               tabIndex={0}
@@ -420,7 +426,7 @@ ShallowWrapper {
             </div>
           </span>,
         ],
-        "className": "container ui segment mobile",
+        "className": "class-panel-container ui segment mobile",
       },
       "ref": null,
       "rendered": Array [
@@ -499,7 +505,7 @@ ShallowWrapper {
           "props": Object {
             "children": Array [
               <div
-                className="body"
+                className="panel-body"
               >
                 <span>
                   <span>
@@ -561,7 +567,7 @@ ShallowWrapper {
                 />,
               ],
               <div
-                className="showMoreButton"
+                className="more-sections-button"
                 onClick={[Function]}
                 role="button"
                 tabIndex={0}
@@ -600,7 +606,7 @@ ShallowWrapper {
                     </a>
                   </div>
                 </span>,
-                "className": "body",
+                "className": "panel-body",
               },
               "ref": null,
               "rendered": Object {
@@ -739,7 +745,7 @@ ShallowWrapper {
               "nodeType": "host",
               "props": Object {
                 "children": "Show More...",
-                "className": "showMoreButton",
+                "className": "more-sections-button",
                 "onClick": [Function],
                 "role": "button",
                 "tabIndex": 0,
@@ -763,7 +769,7 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": <div
-          className="container ui segment mobile"
+          className="class-panel-container ui segment mobile"
         >
           <div
             className="header"
@@ -794,7 +800,7 @@ ShallowWrapper {
             }
           >
             <div
-              className="body"
+              className="panel-body"
             >
               <span>
                 <span>
@@ -854,7 +860,7 @@ ShallowWrapper {
               }
             />
             <div
-              className="showMoreButton"
+              className="more-sections-button"
               onClick={[Function]}
               role="button"
               tabIndex={0}
@@ -900,7 +906,7 @@ ShallowWrapper {
               }
             >
               <div
-                className="body"
+                className="panel-body"
               >
                 <span>
                   <span>
@@ -960,7 +966,7 @@ ShallowWrapper {
                 }
               />
               <div
-                className="showMoreButton"
+                className="more-sections-button"
                 onClick={[Function]}
                 role="button"
                 tabIndex={0}
@@ -969,7 +975,7 @@ ShallowWrapper {
               </div>
             </span>,
           ],
-          "className": "container ui segment mobile",
+          "className": "class-panel-container ui segment mobile",
         },
         "ref": null,
         "rendered": Array [
@@ -1048,7 +1054,7 @@ ShallowWrapper {
             "props": Object {
               "children": Array [
                 <div
-                  className="body"
+                  className="panel-body"
                 >
                   <span>
                     <span>
@@ -1110,7 +1116,7 @@ ShallowWrapper {
                   />,
                 ],
                 <div
-                  className="showMoreButton"
+                  className="more-sections-button"
                   onClick={[Function]}
                   role="button"
                   tabIndex={0}
@@ -1149,7 +1155,7 @@ ShallowWrapper {
                       </a>
                     </div>
                   </span>,
-                  "className": "body",
+                  "className": "panel-body",
                 },
                 "ref": null,
                 "rendered": Object {
@@ -1288,7 +1294,7 @@ ShallowWrapper {
                 "nodeType": "host",
                 "props": Object {
                   "children": "Show More...",
-                  "className": "showMoreButton",
+                  "className": "more-sections-button",
                   "onClick": [Function],
                   "role": "button",
                   "tabIndex": 0,
