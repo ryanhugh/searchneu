@@ -100,7 +100,7 @@ class FeedbackModal extends React.Component {
     };
 
     return (
-      <div className="feedback-container">
+      <div className='feedback-container'>
         <Transition in={ this.state.messageVisible } timeout={ 500 }>
           {(state) => {
          return (
