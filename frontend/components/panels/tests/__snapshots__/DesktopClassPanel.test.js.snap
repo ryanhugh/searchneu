@@ -28,8 +28,14 @@ ShallowWrapper {
         "maxCredits": 1,
         "minCredits": 1,
         "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+        "optPrereqsFor": Object {
+          "values": Array [],
+        },
         "prereqs": Object {
           "type": "or",
+          "values": Array [],
+        },
+        "prereqsFor": Object {
           "values": Array [],
         },
         "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -214,7 +220,7 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": <div
-        className="container ui segment"
+        className="class-panel-container ui segment"
       >
         <div
           className="header"
@@ -246,7 +252,7 @@ ShallowWrapper {
           </span>
         </div>
         <div
-          className="body"
+          className="panel-body"
         >
           Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours
           <br />
@@ -256,7 +262,7 @@ ShallowWrapper {
           >
             Prerequisites: 
             <span
-              className="dynamicText"
+              className="hint-text"
             >
               None
             </span>
@@ -264,7 +270,7 @@ ShallowWrapper {
             <br />
             Corequisites: 
             <span
-              className="dynamicText"
+              className="hint-text"
             >
               None
             </span>
@@ -272,7 +278,7 @@ ShallowWrapper {
             <br />
             Prerequisite for: 
             <span
-              className="dynamicText"
+              className="hint-text"
             >
               None
             </span>
@@ -280,7 +286,7 @@ ShallowWrapper {
             <br />
             Optional Prerequisite for: 
             <span
-              className="dynamicText"
+              className="hint-text"
             >
               None
             </span>
@@ -321,8 +327,14 @@ ShallowWrapper {
                     "maxCredits": 1,
                     "minCredits": 1,
                     "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                    "optPrereqsFor": Object {
+                      "values": Array [],
+                    },
                     "prereqs": Object {
                       "type": "or",
+                      "values": Array [],
+                    },
+                    "prereqsFor": Object {
                       "values": Array [],
                     },
                     "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -672,7 +684,7 @@ ShallowWrapper {
           </tbody>
         </table>
         <div
-          className="showMoreButton"
+          className="more-sections-button"
           onClick={[Function]}
           role="button"
           tabIndex={0}
@@ -718,7 +730,7 @@ ShallowWrapper {
             </span>
           </div>,
           <div
-            className="body"
+            className="panel-body"
           >
             Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours
             <br />
@@ -728,7 +740,7 @@ ShallowWrapper {
             >
               Prerequisites: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
@@ -736,7 +748,7 @@ ShallowWrapper {
               <br />
               Corequisites: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
@@ -744,7 +756,7 @@ ShallowWrapper {
               <br />
               Prerequisite for: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
@@ -752,7 +764,7 @@ ShallowWrapper {
               <br />
               Optional Prerequisite for: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
@@ -793,8 +805,14 @@ ShallowWrapper {
                       "maxCredits": 1,
                       "minCredits": 1,
                       "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                      "optPrereqsFor": Object {
+                        "values": Array [],
+                      },
                       "prereqs": Object {
                         "type": "or",
+                        "values": Array [],
+                      },
+                      "prereqsFor": Object {
                         "values": Array [],
                       },
                       "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -1144,7 +1162,7 @@ ShallowWrapper {
             </tbody>
           </table>,
           <div
-            className="showMoreButton"
+            className="more-sections-button"
             onClick={[Function]}
             role="button"
             tabIndex={0}
@@ -1152,7 +1170,7 @@ ShallowWrapper {
             Show More...
           </div>,
         ],
-        "className": "container ui segment",
+        "className": "class-panel-container ui segment",
       },
       "ref": null,
       "rendered": Array [
@@ -1285,7 +1303,7 @@ ShallowWrapper {
               >
                 Prerequisites: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
@@ -1293,7 +1311,7 @@ ShallowWrapper {
                 <br />
                 Corequisites: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
@@ -1301,7 +1319,7 @@ ShallowWrapper {
                 <br />
                 Prerequisite for: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
@@ -1309,7 +1327,7 @@ ShallowWrapper {
                 <br />
                 Optional Prerequisite for: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
@@ -1350,8 +1368,14 @@ ShallowWrapper {
                         "maxCredits": 1,
                         "minCredits": 1,
                         "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                        "optPrereqsFor": Object {
+                          "values": Array [],
+                        },
                         "prereqs": Object {
                           "type": "or",
+                          "values": Array [],
+                        },
+                        "prereqsFor": Object {
                           "values": Array [],
                         },
                         "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -1526,7 +1550,7 @@ ShallowWrapper {
                 </div>
               </div>,
             ],
-            "className": "body",
+            "className": "panel-body",
           },
           "ref": null,
           "rendered": Array [
@@ -1557,7 +1581,7 @@ ShallowWrapper {
                 "children": Array [
                   "Prerequisites: ",
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>,
@@ -1566,7 +1590,7 @@ ShallowWrapper {
                   <br />,
                   "Corequisites: ",
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>,
@@ -1575,7 +1599,7 @@ ShallowWrapper {
                   <br />,
                   "Prerequisite for: ",
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>,
@@ -1584,7 +1608,7 @@ ShallowWrapper {
                   <br />,
                   "Optional Prerequisite for: ",
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>,
@@ -1602,7 +1626,7 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": "None",
-                    "className": "dynamicText",
+                    "className": "hint-text",
                   },
                   "ref": null,
                   "rendered": "None",
@@ -1626,7 +1650,7 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": "None",
-                    "className": "dynamicText",
+                    "className": "hint-text",
                   },
                   "ref": null,
                   "rendered": "None",
@@ -1650,7 +1674,7 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": "None",
-                    "className": "dynamicText",
+                    "className": "hint-text",
                   },
                   "ref": null,
                   "rendered": "None",
@@ -1674,7 +1698,7 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": "None",
-                    "className": "dynamicText",
+                    "className": "hint-text",
                   },
                   "ref": null,
                   "rendered": "None",
@@ -1723,8 +1747,14 @@ ShallowWrapper {
                           "maxCredits": 1,
                           "minCredits": 1,
                           "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                          "optPrereqsFor": Object {
+                            "values": Array [],
+                          },
                           "prereqs": Object {
                             "type": "or",
+                            "values": Array [],
+                          },
+                          "prereqsFor": Object {
                             "values": Array [],
                           },
                           "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -1950,8 +1980,14 @@ ShallowWrapper {
                           "maxCredits": 1,
                           "minCredits": 1,
                           "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                          "optPrereqsFor": Object {
+                            "values": Array [],
+                          },
                           "prereqs": Object {
                             "type": "or",
+                            "values": Array [],
+                          },
+                          "prereqsFor": Object {
                             "values": Array [],
                           },
                           "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -2152,8 +2188,14 @@ ShallowWrapper {
                         "maxCredits": 1,
                         "minCredits": 1,
                         "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                        "optPrereqsFor": Object {
+                          "values": Array [],
+                        },
                         "prereqs": Object {
                           "type": "or",
+                          "values": Array [],
+                        },
+                        "prereqsFor": Object {
                           "values": Array [],
                         },
                         "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -3043,7 +3085,7 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": "Show More...",
-            "className": "showMoreButton",
+            "className": "more-sections-button",
             "onClick": [Function],
             "role": "button",
             "tabIndex": 0,
@@ -3064,7 +3106,7 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": <div
-          className="container ui segment"
+          className="class-panel-container ui segment"
         >
           <div
             className="header"
@@ -3096,7 +3138,7 @@ ShallowWrapper {
             </span>
           </div>
           <div
-            className="body"
+            className="panel-body"
           >
             Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours
             <br />
@@ -3106,7 +3148,7 @@ ShallowWrapper {
             >
               Prerequisites: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
@@ -3114,7 +3156,7 @@ ShallowWrapper {
               <br />
               Corequisites: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
@@ -3122,7 +3164,7 @@ ShallowWrapper {
               <br />
               Prerequisite for: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
@@ -3130,7 +3172,7 @@ ShallowWrapper {
               <br />
               Optional Prerequisite for: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
@@ -3171,8 +3213,14 @@ ShallowWrapper {
                       "maxCredits": 1,
                       "minCredits": 1,
                       "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                      "optPrereqsFor": Object {
+                        "values": Array [],
+                      },
                       "prereqs": Object {
                         "type": "or",
+                        "values": Array [],
+                      },
+                      "prereqsFor": Object {
                         "values": Array [],
                       },
                       "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -3522,7 +3570,7 @@ ShallowWrapper {
             </tbody>
           </table>
           <div
-            className="showMoreButton"
+            className="more-sections-button"
             onClick={[Function]}
             role="button"
             tabIndex={0}
@@ -3568,7 +3616,7 @@ ShallowWrapper {
               </span>
             </div>,
             <div
-              className="body"
+              className="panel-body"
             >
               Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours
               <br />
@@ -3578,7 +3626,7 @@ ShallowWrapper {
               >
                 Prerequisites: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
@@ -3586,7 +3634,7 @@ ShallowWrapper {
                 <br />
                 Corequisites: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
@@ -3594,7 +3642,7 @@ ShallowWrapper {
                 <br />
                 Prerequisite for: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
@@ -3602,7 +3650,7 @@ ShallowWrapper {
                 <br />
                 Optional Prerequisite for: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
@@ -3643,8 +3691,14 @@ ShallowWrapper {
                         "maxCredits": 1,
                         "minCredits": 1,
                         "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                        "optPrereqsFor": Object {
+                          "values": Array [],
+                        },
                         "prereqs": Object {
                           "type": "or",
+                          "values": Array [],
+                        },
+                        "prereqsFor": Object {
                           "values": Array [],
                         },
                         "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -3994,7 +4048,7 @@ ShallowWrapper {
               </tbody>
             </table>,
             <div
-              className="showMoreButton"
+              className="more-sections-button"
               onClick={[Function]}
               role="button"
               tabIndex={0}
@@ -4002,7 +4056,7 @@ ShallowWrapper {
               Show More...
             </div>,
           ],
-          "className": "container ui segment",
+          "className": "class-panel-container ui segment",
         },
         "ref": null,
         "rendered": Array [
@@ -4135,7 +4189,7 @@ ShallowWrapper {
                 >
                   Prerequisites: 
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>
@@ -4143,7 +4197,7 @@ ShallowWrapper {
                   <br />
                   Corequisites: 
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>
@@ -4151,7 +4205,7 @@ ShallowWrapper {
                   <br />
                   Prerequisite for: 
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>
@@ -4159,7 +4213,7 @@ ShallowWrapper {
                   <br />
                   Optional Prerequisite for: 
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>
@@ -4200,8 +4254,14 @@ ShallowWrapper {
                           "maxCredits": 1,
                           "minCredits": 1,
                           "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                          "optPrereqsFor": Object {
+                            "values": Array [],
+                          },
                           "prereqs": Object {
                             "type": "or",
+                            "values": Array [],
+                          },
+                          "prereqsFor": Object {
                             "values": Array [],
                           },
                           "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -4376,7 +4436,7 @@ ShallowWrapper {
                   </div>
                 </div>,
               ],
-              "className": "body",
+              "className": "panel-body",
             },
             "ref": null,
             "rendered": Array [
@@ -4407,7 +4467,7 @@ ShallowWrapper {
                   "children": Array [
                     "Prerequisites: ",
                     <span
-                      className="dynamicText"
+                      className="hint-text"
                     >
                       None
                     </span>,
@@ -4416,7 +4476,7 @@ ShallowWrapper {
                     <br />,
                     "Corequisites: ",
                     <span
-                      className="dynamicText"
+                      className="hint-text"
                     >
                       None
                     </span>,
@@ -4425,7 +4485,7 @@ ShallowWrapper {
                     <br />,
                     "Prerequisite for: ",
                     <span
-                      className="dynamicText"
+                      className="hint-text"
                     >
                       None
                     </span>,
@@ -4434,7 +4494,7 @@ ShallowWrapper {
                     <br />,
                     "Optional Prerequisite for: ",
                     <span
-                      className="dynamicText"
+                      className="hint-text"
                     >
                       None
                     </span>,
@@ -4452,7 +4512,7 @@ ShallowWrapper {
                     "nodeType": "host",
                     "props": Object {
                       "children": "None",
-                      "className": "dynamicText",
+                      "className": "hint-text",
                     },
                     "ref": null,
                     "rendered": "None",
@@ -4476,7 +4536,7 @@ ShallowWrapper {
                     "nodeType": "host",
                     "props": Object {
                       "children": "None",
-                      "className": "dynamicText",
+                      "className": "hint-text",
                     },
                     "ref": null,
                     "rendered": "None",
@@ -4500,7 +4560,7 @@ ShallowWrapper {
                     "nodeType": "host",
                     "props": Object {
                       "children": "None",
-                      "className": "dynamicText",
+                      "className": "hint-text",
                     },
                     "ref": null,
                     "rendered": "None",
@@ -4524,7 +4584,7 @@ ShallowWrapper {
                     "nodeType": "host",
                     "props": Object {
                       "children": "None",
-                      "className": "dynamicText",
+                      "className": "hint-text",
                     },
                     "ref": null,
                     "rendered": "None",
@@ -4573,8 +4633,14 @@ ShallowWrapper {
                             "maxCredits": 1,
                             "minCredits": 1,
                             "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                            "optPrereqsFor": Object {
+                              "values": Array [],
+                            },
                             "prereqs": Object {
                               "type": "or",
+                              "values": Array [],
+                            },
+                            "prereqsFor": Object {
                               "values": Array [],
                             },
                             "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -4800,8 +4866,14 @@ ShallowWrapper {
                             "maxCredits": 1,
                             "minCredits": 1,
                             "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                            "optPrereqsFor": Object {
+                              "values": Array [],
+                            },
                             "prereqs": Object {
                               "type": "or",
+                              "values": Array [],
+                            },
+                            "prereqsFor": Object {
                               "values": Array [],
                             },
                             "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -5002,8 +5074,14 @@ ShallowWrapper {
                           "maxCredits": 1,
                           "minCredits": 1,
                           "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                          "optPrereqsFor": Object {
+                            "values": Array [],
+                          },
                           "prereqs": Object {
                             "type": "or",
+                            "values": Array [],
+                          },
+                          "prereqsFor": Object {
                             "values": Array [],
                           },
                           "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -5893,7 +5971,7 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": "Show More...",
-              "className": "showMoreButton",
+              "className": "more-sections-button",
               "onClick": [Function],
               "role": "button",
               "tabIndex": 0,
