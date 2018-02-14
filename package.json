@@ -84,7 +84,6 @@
     "prop-types": "^15.5.8",
     "randomstring": "^1.1.5",
     "react": "^16.1.1",
-    "react-css-modules": "^4.1.0",
     "react-dom": "^16.1.1",
     "react-hot-loader": "^3.0.0-beta.2",
     "react-test-renderer": "^16.1.1",
