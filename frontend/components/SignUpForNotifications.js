@@ -5,7 +5,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import CSSModules from 'react-css-modules';
 import { Button } from 'semantic-ui-react';
 
 import macros from './macros';

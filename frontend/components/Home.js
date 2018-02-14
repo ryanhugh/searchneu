@@ -4,12 +4,11 @@
  */
 
 import React from 'react';
-import CSSModules from 'react-css-modules';
-import 'semantic-ui-css/semantic.min.css';
 import ReactTooltip from 'react-tooltip';
 import cx from 'classnames/bind';
 import { Dropdown } from 'semantic-ui-react';
 
+import 'semantic-ui-css/semantic.min.css';
 import '../css/base.scss';
 
 import aoun from './aouuuuuuuuun.png';
