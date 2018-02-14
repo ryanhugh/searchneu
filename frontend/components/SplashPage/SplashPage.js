@@ -16,7 +16,6 @@ import lernerMobile from './lerner mobile.png';
 import oodMobile1 from './ood mobile 1.png';
 import oodMobile2 from './ood mobile 2.png';
 
-import './SplashPage.scss';
 
 function SplashPage() {
   // Events that fire when the buttons are clicked.
