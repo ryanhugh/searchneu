@@ -1,3 +1,8 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Modal, Header, TextArea, Input, Form, Message } from 'semantic-ui-react';
