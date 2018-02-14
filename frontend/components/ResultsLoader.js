@@ -114,7 +114,7 @@ class ResultsLoader extends React.Component {
     }
 
     return (
-      <div className='ui container resultsContainer'>
+      <div className='ui container results-loader-container'>
         <div className='five column row' >
           <div className='page-home' ref={ (c) => { this.elementsContainer = c; } }>
             {this.state.visibleObjects.map((obj) => {
