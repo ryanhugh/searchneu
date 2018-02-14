@@ -7,7 +7,7 @@ import React from 'react';
 import CSSModules from 'react-css-modules';
 import 'semantic-ui-css/semantic.min.css';
 import ReactTooltip from 'react-tooltip';
-import classNames from 'classnames/bind';
+import cx from 'classnames/bind';
 import { Dropdown } from 'semantic-ui-react';
 
 import '../css/base.scss';
@@ -16,13 +16,10 @@ import aoun from './aouuuuuuuuun.png';
 import SplashPage from './SplashPage/SplashPage';
 import search from './search';
 import FeedbackModal from './FeedbackModal';
-import css from './home.css';
 import macros from './macros';
 import ResultsLoader from './ResultsLoader';
 import logo from './logo.svg';
 import boston from './boston.svg';
-
-const cx = classNames.bind(css);
 
 // Home page component
 class Home extends React.Component {
@@ -331,7 +328,7 @@ class Home extends React.Component {
     let resultsElement = null;
 
     if (!this.state.showSearchResults) {
-      resultsElement = <span className={ css.splashPage }> <SplashPage /> </span>;
+      resultsElement = <span className='splashPage'> <SplashPage /> </span>;
     } else if (this.state.results) {
       const memeMatches = {
         meme: true,
@@ -340,19 +337,19 @@ class Home extends React.Component {
 
       if (memeMatches[this.state.searchTerm.toLowerCase().trim()]) {
         resultsElement = (
-          <div className={ css.aounContainer }>
+          <div className='aounContainer'>
             <img alt='Promised Aoun memes coming soon.' src={ aoun } />
           </div>
         );
       } else if (this.state.results.length === 0 && this.state.searchTerm.length > 0 && !this.state.waitingOnEnter) {
         resultsElement = (
-          <div className={ css.noResultsContainer }>
+          <div className='noResultsContainer'>
             <h3>No Results</h3>
-            <div className={ css.noResultsBottomLine }>
+            <div className='noResultsBottomLine'>
               Want to&nbsp;
               <a target='_blank' rel='noopener noreferrer' href={ `https://google.com/search?q=${macros.collegeName} ${this.state.searchTerm}` }>
                 search for&nbsp;
-                <div className={ `ui compact segment ${css.noResultsInputText}` }>
+                <div className='ui compact segment noResultsInputText'>
                   <p> {this.state.searchTerm} </p>
                 </div>
                   &nbsp;on Google
@@ -372,7 +369,7 @@ class Home extends React.Component {
     let hitEnterToSearch = null;
     if (document.activeElement === this.inputElement) {
       hitEnterToSearch = (
-        <div className={ css.hitEnterToSearch }>
+        <div className='hitEnterToSearch'>
           Hit Enter to Search ...
         </div>
       );
@@ -397,9 +394,9 @@ class Home extends React.Component {
     if (!macros.isMobile) {
       mobileClassType = '';
     } else if (document.activeElement === this.inputElement || this.state.results.length > 0) {
-      mobileClassType = css.mobileCompact;
+      mobileClassType = 'mobileCompact';
     } else {
-      mobileClassType = css.mobileFull;
+      mobileClassType = 'mobileFull';
     }
 
     const termDropDownOptions = [
@@ -428,22 +425,22 @@ class Home extends React.Component {
     // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation.
     // Actually it only removes the extra whitespace on chrome. Need to come up with a better solution for other browsers.
     return (
-      <div className={ mobileClassType } style={{ height:'100%' }}>
+      <div className={ 'home-container ' + mobileClassType } style={{ height:'100%' }}>
 
-        <a target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu' className={ css.githubCornerContainer }>
+        <a target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu' className='githubCornerContainer'>
           {/* eslint-disable max-len */}
           <svg width='80' height='80' viewBox='0 0 250 250'>
             <path d='M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z' />
-            <path d='M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2' fill='currentColor' className={ css.octopusArm } />
+            <path d='M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2' fill='currentColor' className='octopusArm' />
             <path d='M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z' fill='currentColor' /> {/* eslint-disable max-len*/}
           </svg>
           {/* eslint-enable max-len */}
         </a>
 
-        <img src={ logo } className={ css.logo } alt='logo' onClick={ this.onLogoClick } />
+        <img src={ logo } className='logo' alt='logo' onClick={ this.onLogoClick } />
 
-        <div className={ css.bostonContainer } style={ bostonContainerStyle } >
-          <img src={ boston } className={ css.boston } alt='logo' />
+        <div className='bostonContainer' style={ bostonContainerStyle } >
+          <img src={ boston } className='boston' alt='logo' />
         </div>
 
         <div>
@@ -459,15 +456,15 @@ class Home extends React.Component {
             }) }
             style={ topHeaderStyle }
           >
-            <div className={ css.centerTextContainer }>
-              <h1 className={ css.title }>
+            <div className='centerTextContainer'>
+              <h1 className='title'>
                 Search For Northeastern
               </h1>
-              <p className={ css.subtitle }>
+              <p className='subtitle'>
                 Search for classes, professors, subjects, etc.
               </p>
               <div>
-                <div className={ `sub header ${css.searchWrapper}` }>
+                <div className='sub header searchWrapper'>
                   <label htmlFor='search_id'>
                     <i className='search icon' />
                   </label>
@@ -477,7 +474,7 @@ class Home extends React.Component {
                     autoComplete='off'
                     spellCheck='false'
                     tabIndex='0'
-                    className={ css.searchBox }
+                    className='searchBox'
                     onChange={ this.onClick }
                     onKeyDown={ this.onKeyDown }
                     defaultValue={ this.state.searchTerm }
@@ -489,7 +486,7 @@ class Home extends React.Component {
                   selection
                   defaultValue={ this.state.selectedTerm }
                   placeholder='Spring 2018'
-                  className={ css.termDropdown }
+                  className='termDropdown'
                   options={ termDropDownOptions }
                   onChange={ this.onTermdropdownChange }
                 />
@@ -499,14 +496,14 @@ class Home extends React.Component {
           </div>
         </div>
 
-        <div style={ resultsContainerStyle } className={ css.resultsContainer } >
+        <div style={ resultsContainerStyle } className='resultsContainer' >
           <div ref={ (element) => { this.resultsContainerElement = element; } }>
             {resultsElement}
           </div>
 
-          <div className={ css.botttomPadding } />
+          <div className='botttomPadding' />
 
-          <div className={ css.footer }>
+          <div className='footer'>
 
             <div className='footer ui basic center aligned segment'>
               See an issue or want to add to this website? Fork it or create an issue on
@@ -517,7 +514,7 @@ class Home extends React.Component {
 
             <div className='ui divider' />
 
-            <div className={ `footer ui basic center aligned segment ${css.credits}` }>
+            <div className='footer ui basic center aligned segment credits'>
               Made with coffee&nbsp;
               <i className='coffee circular small icon' />
               by&nbsp;
@@ -531,10 +528,10 @@ class Home extends React.Component {
                 Contributors
               </a>.
             </div>
-            <div className={ `footer ui basic center aligned segment ${css.affiliation}` }>
+            <div className='footer ui basic center aligned segment affiliation'>
               Search NEU is built for students by students & is not affiliated with NEU.
             </div>
-            <div className={ `footer ui basic center aligned segment ${css.contact}` }>
+            <div className='footer ui basic center aligned segment contact'>
               <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
                 Feedback
               </a>
@@ -553,11 +550,11 @@ class Home extends React.Component {
 
         <FeedbackModal closeForm={ this.closeForm } feedbackModalOpen={ this.state.feedbackModalOpen } />
 
-        <ReactTooltip effect='solid' className={ css.listIconTooltip } />
+        <ReactTooltip effect='solid' className='listIconTooltip' />
       </div>
     );
   }
 }
 
 
-export default CSSModules(Home, css);
+export default Home;
