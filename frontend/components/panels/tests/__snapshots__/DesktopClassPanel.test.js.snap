@@ -28,8 +28,14 @@ ShallowWrapper {
         "maxCredits": 1,
         "minCredits": 1,
         "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+        "optPrereqsFor": Object {
+          "values": Array [],
+        },
         "prereqs": Object {
           "type": "or",
+          "values": Array [],
+        },
+        "prereqsFor": Object {
           "values": Array [],
         },
         "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -214,13 +220,13 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": <div
-        className="undefined ui segment"
+        className="class-panel-container ui segment"
       >
         <div
-          className={undefined}
+          className="header"
         >
           <span
-            className={undefined}
+            className="classTitle"
           >
             CS
              
@@ -229,10 +235,10 @@ ShallowWrapper {
             Computer Science/Information Science Overview 2: Co-op Preparation
           </span>
           <span
-            className={undefined}
+            className="classGlobeLinkContainer"
           >
             <a
-              className={undefined}
+              className="classGlobeLink"
               data-tip="View on neu.edu"
               href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
               rel="noopener noreferrer"
@@ -246,17 +252,17 @@ ShallowWrapper {
           </span>
         </div>
         <div
-          className={undefined}
+          className="panel-body"
         >
           Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours
           <br />
           <br />
           <div
-            className={undefined}
+            className="leftPanel"
           >
             Prerequisites: 
             <span
-              className="dynamicText"
+              className="hint-text"
             >
               None
             </span>
@@ -264,7 +270,7 @@ ShallowWrapper {
             <br />
             Corequisites: 
             <span
-              className="dynamicText"
+              className="hint-text"
             >
               None
             </span>
@@ -272,7 +278,7 @@ ShallowWrapper {
             <br />
             Prerequisite for: 
             <span
-              className="dynamicText"
+              className="hint-text"
             >
               None
             </span>
@@ -280,14 +286,14 @@ ShallowWrapper {
             <br />
             Optional Prerequisite for: 
             <span
-              className="dynamicText"
+              className="hint-text"
             >
               None
             </span>
              
           </div>
           <div
-            className={undefined}
+            className="rightPanel"
           >
             <div
               data-tip="Check neu.edu for possible updates"
@@ -321,8 +327,14 @@ ShallowWrapper {
                     "maxCredits": 1,
                     "minCredits": 1,
                     "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                    "optPrereqsFor": Object {
+                      "values": Array [],
+                    },
                     "prereqs": Object {
                       "type": "or",
+                      "values": Array [],
+                    },
+                    "prereqsFor": Object {
                       "values": Array [],
                     },
                     "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -498,13 +510,13 @@ ShallowWrapper {
           </div>
         </div>
         <table
-          className="ui celled striped table undefined"
+          className="ui celled striped table resultsTable"
         >
           <thead>
             <tr>
               <th>
                 <div
-                  className={undefined}
+                  className="inlineBlock"
                   data-tip="Course Reference Number"
                 >
                   CRN
@@ -526,14 +538,22 @@ ShallowWrapper {
                  Seats 
               </th>
               <th
-                className="displayNone"
+                style={
+                  Object {
+                    "display": "none",
+                  }
+                }
               >
-                 Waitlist seats
+                Waitlist seats
               </th>
               <th
-                className="displayNone"
+                style={
+                  Object {
+                    "display": "none",
+                  }
+                }
               >
-                 Honors
+                Honors
               </th>
               <th>
                  Link 
@@ -542,7 +562,7 @@ ShallowWrapper {
           </thead>
           <tbody>
             <tr
-              className={undefined}
+              className="sectionTableFirstRow"
             />
             <DesktopSectionPanel
               section={
@@ -664,7 +684,7 @@ ShallowWrapper {
           </tbody>
         </table>
         <div
-          className="showMoreButton"
+          className="more-sections-button"
           onClick={[Function]}
           role="button"
           tabIndex={0}
@@ -681,10 +701,10 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <div
-            className={undefined}
+            className="header"
           >
             <span
-              className={undefined}
+              className="classTitle"
             >
               CS
                
@@ -693,10 +713,10 @@ ShallowWrapper {
               Computer Science/Information Science Overview 2: Co-op Preparation
             </span>
             <span
-              className={undefined}
+              className="classGlobeLinkContainer"
             >
               <a
-                className={undefined}
+                className="classGlobeLink"
                 data-tip="View on neu.edu"
                 href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
                 rel="noopener noreferrer"
@@ -710,17 +730,17 @@ ShallowWrapper {
             </span>
           </div>,
           <div
-            className={undefined}
+            className="panel-body"
           >
             Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours
             <br />
             <br />
             <div
-              className={undefined}
+              className="leftPanel"
             >
               Prerequisites: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
@@ -728,7 +748,7 @@ ShallowWrapper {
               <br />
               Corequisites: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
@@ -736,7 +756,7 @@ ShallowWrapper {
               <br />
               Prerequisite for: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
@@ -744,14 +764,14 @@ ShallowWrapper {
               <br />
               Optional Prerequisite for: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
                
             </div>
             <div
-              className={undefined}
+              className="rightPanel"
             >
               <div
                 data-tip="Check neu.edu for possible updates"
@@ -785,8 +805,14 @@ ShallowWrapper {
                       "maxCredits": 1,
                       "minCredits": 1,
                       "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                      "optPrereqsFor": Object {
+                        "values": Array [],
+                      },
                       "prereqs": Object {
                         "type": "or",
+                        "values": Array [],
+                      },
+                      "prereqsFor": Object {
                         "values": Array [],
                       },
                       "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -962,13 +988,13 @@ ShallowWrapper {
             </div>
           </div>,
           <table
-            className="ui celled striped table undefined"
+            className="ui celled striped table resultsTable"
           >
             <thead>
               <tr>
                 <th>
                   <div
-                    className={undefined}
+                    className="inlineBlock"
                     data-tip="Course Reference Number"
                   >
                     CRN
@@ -990,14 +1016,22 @@ ShallowWrapper {
                    Seats 
                 </th>
                 <th
-                  className="displayNone"
+                  style={
+                    Object {
+                      "display": "none",
+                    }
+                  }
                 >
-                   Waitlist seats
+                  Waitlist seats
                 </th>
                 <th
-                  className="displayNone"
+                  style={
+                    Object {
+                      "display": "none",
+                    }
+                  }
                 >
-                   Honors
+                  Honors
                 </th>
                 <th>
                    Link 
@@ -1006,7 +1040,7 @@ ShallowWrapper {
             </thead>
             <tbody>
               <tr
-                className={undefined}
+                className="sectionTableFirstRow"
               />
               <DesktopSectionPanel
                 section={
@@ -1128,7 +1162,7 @@ ShallowWrapper {
             </tbody>
           </table>,
           <div
-            className="showMoreButton"
+            className="more-sections-button"
             onClick={[Function]}
             role="button"
             tabIndex={0}
@@ -1136,18 +1170,18 @@ ShallowWrapper {
             Show More...
           </div>,
         ],
-        "className": "undefined ui segment",
+        "className": "class-panel-container ui segment",
       },
       "ref": null,
       "rendered": Array [
         Object {
           "instance": null,
-          "key": ".0",
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": Array [
               <span
-                className={undefined}
+                className="classTitle"
               >
                 CS
                  
@@ -1156,10 +1190,10 @@ ShallowWrapper {
                 Computer Science/Information Science Overview 2: Co-op Preparation
               </span>,
               <span
-                className={undefined}
+                className="classGlobeLinkContainer"
               >
                 <a
-                  className={undefined}
+                  className="classGlobeLink"
                   data-tip="View on neu.edu"
                   href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
                   rel="noopener noreferrer"
@@ -1172,13 +1206,13 @@ ShallowWrapper {
                 </a>
               </span>,
             ],
-            "className": undefined,
+            "className": "header",
           },
           "ref": null,
           "rendered": Array [
             Object {
               "instance": null,
-              "key": ".0",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": Array [
@@ -1188,7 +1222,7 @@ ShallowWrapper {
                   ": ",
                   "Computer Science/Information Science Overview 2: Co-op Preparation",
                 ],
-                "className": undefined,
+                "className": "classTitle",
               },
               "ref": null,
               "rendered": Array [
@@ -1202,11 +1236,11 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".1",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": <a
-                  className={undefined}
+                  className="classGlobeLink"
                   data-tip="View on neu.edu"
                   href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
                   rel="noopener noreferrer"
@@ -1217,7 +1251,7 @@ ShallowWrapper {
                     src="file"
                   />
                 </a>,
-                "className": undefined,
+                "className": "classGlobeLinkContainer",
               },
               "ref": null,
               "rendered": Object {
@@ -1229,7 +1263,7 @@ ShallowWrapper {
                     alt="link"
                     src="file"
                   />,
-                  "className": undefined,
+                  "className": "classGlobeLink",
                   "data-tip": "View on neu.edu",
                   "href": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
                   "rel": "noopener noreferrer",
@@ -1257,7 +1291,7 @@ ShallowWrapper {
         },
         Object {
           "instance": null,
-          "key": ".1",
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": Array [
@@ -1265,11 +1299,11 @@ ShallowWrapper {
               <br />,
               <br />,
               <div
-                className={undefined}
+                className="leftPanel"
               >
                 Prerequisites: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
@@ -1277,7 +1311,7 @@ ShallowWrapper {
                 <br />
                 Corequisites: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
@@ -1285,7 +1319,7 @@ ShallowWrapper {
                 <br />
                 Prerequisite for: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
@@ -1293,14 +1327,14 @@ ShallowWrapper {
                 <br />
                 Optional Prerequisite for: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
                  
               </div>,
               <div
-                className={undefined}
+                className="rightPanel"
               >
                 <div
                   data-tip="Check neu.edu for possible updates"
@@ -1334,8 +1368,14 @@ ShallowWrapper {
                         "maxCredits": 1,
                         "minCredits": 1,
                         "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                        "optPrereqsFor": Object {
+                          "values": Array [],
+                        },
                         "prereqs": Object {
                           "type": "or",
+                          "values": Array [],
+                        },
+                        "prereqsFor": Object {
                           "values": Array [],
                         },
                         "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -1510,14 +1550,14 @@ ShallowWrapper {
                 </div>
               </div>,
             ],
-            "className": undefined,
+            "className": "panel-body",
           },
           "ref": null,
           "rendered": Array [
             "Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours",
             Object {
               "instance": null,
-              "key": ".1",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {},
               "ref": null,
@@ -1526,7 +1566,7 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".2",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {},
               "ref": null,
@@ -1535,63 +1575,68 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".3",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": Array [
                   "Prerequisites: ",
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>,
                   " ",
+                  null,
                   <br />,
                   "Corequisites: ",
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>,
                   " ",
+                  null,
                   <br />,
                   "Prerequisite for: ",
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>,
                   " ",
+                  null,
                   <br />,
                   "Optional Prerequisite for: ",
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>,
                   " ",
+                  null,
                 ],
-                "className": undefined,
+                "className": "leftPanel",
               },
               "ref": null,
               "rendered": Array [
                 "Prerequisites: ",
                 Object {
                   "instance": null,
-                  "key": ".1",
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "children": "None",
-                    "className": "dynamicText",
+                    "className": "hint-text",
                   },
                   "ref": null,
                   "rendered": "None",
                   "type": "span",
                 },
                 " ",
+                null,
                 Object {
                   "instance": null,
-                  "key": ".4",
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {},
                   "ref": null,
@@ -1601,20 +1646,21 @@ ShallowWrapper {
                 "Corequisites: ",
                 Object {
                   "instance": null,
-                  "key": ".6",
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "children": "None",
-                    "className": "dynamicText",
+                    "className": "hint-text",
                   },
                   "ref": null,
                   "rendered": "None",
                   "type": "span",
                 },
                 " ",
+                null,
                 Object {
                   "instance": null,
-                  "key": ".9",
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {},
                   "ref": null,
@@ -1624,20 +1670,21 @@ ShallowWrapper {
                 "Prerequisite for: ",
                 Object {
                   "instance": null,
-                  "key": ".b",
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "children": "None",
-                    "className": "dynamicText",
+                    "className": "hint-text",
                   },
                   "ref": null,
                   "rendered": "None",
                   "type": "span",
                 },
                 " ",
+                null,
                 Object {
                   "instance": null,
-                  "key": ".e",
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {},
                   "ref": null,
@@ -1647,23 +1694,24 @@ ShallowWrapper {
                 "Optional Prerequisite for: ",
                 Object {
                   "instance": null,
-                  "key": ".g",
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "children": "None",
-                    "className": "dynamicText",
+                    "className": "hint-text",
                   },
                   "ref": null,
                   "rendered": "None",
                   "type": "span",
                 },
                 " ",
+                null,
               ],
               "type": "div",
             },
             Object {
               "instance": null,
-              "key": ".4",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": Array [
@@ -1699,8 +1747,14 @@ ShallowWrapper {
                           "maxCredits": 1,
                           "minCredits": 1,
                           "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                          "optPrereqsFor": Object {
+                            "values": Array [],
+                          },
                           "prereqs": Object {
                             "type": "or",
+                            "values": Array [],
+                          },
+                          "prereqsFor": Object {
                             "values": Array [],
                           },
                           "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -1874,13 +1928,13 @@ ShallowWrapper {
                     />
                   </div>,
                 ],
-                "className": undefined,
+                "className": "rightPanel",
               },
               "ref": null,
               "rendered": Array [
                 Object {
                   "instance": null,
-                  "key": ".0",
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "children": Array [
@@ -1899,7 +1953,7 @@ ShallowWrapper {
                 "1 credits",
                 Object {
                   "instance": null,
-                  "key": ".2",
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "children": <SignUpForNotifications
@@ -1926,8 +1980,14 @@ ShallowWrapper {
                           "maxCredits": 1,
                           "minCredits": 1,
                           "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                          "optPrereqsFor": Object {
+                            "values": Array [],
+                          },
                           "prereqs": Object {
                             "type": "or",
+                            "values": Array [],
+                          },
+                          "prereqsFor": Object {
                             "values": Array [],
                           },
                           "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -2128,8 +2188,14 @@ ShallowWrapper {
                         "maxCredits": 1,
                         "minCredits": 1,
                         "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                        "optPrereqsFor": Object {
+                          "values": Array [],
+                        },
                         "prereqs": Object {
                           "type": "or",
+                          "values": Array [],
+                        },
+                        "prereqsFor": Object {
                           "values": Array [],
                         },
                         "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -2314,7 +2380,7 @@ ShallowWrapper {
         },
         Object {
           "instance": null,
-          "key": ".2",
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": Array [
@@ -2322,7 +2388,7 @@ ShallowWrapper {
                 <tr>
                   <th>
                     <div
-                      className={undefined}
+                      className="inlineBlock"
                       data-tip="Course Reference Number"
                     >
                       CRN
@@ -2344,14 +2410,22 @@ ShallowWrapper {
                      Seats 
                   </th>
                   <th
-                    className="displayNone"
+                    style={
+                      Object {
+                        "display": "none",
+                      }
+                    }
                   >
-                     Waitlist seats
+                    Waitlist seats
                   </th>
                   <th
-                    className="displayNone"
+                    style={
+                      Object {
+                        "display": "none",
+                      }
+                    }
                   >
-                     Honors
+                    Honors
                   </th>
                   <th>
                      Link 
@@ -2360,7 +2434,7 @@ ShallowWrapper {
               </thead>,
               <tbody>
                 <tr
-                  className={undefined}
+                  className="sectionTableFirstRow"
                 />
                 <DesktopSectionPanel
                   section={
@@ -2481,19 +2555,19 @@ ShallowWrapper {
                 />
               </tbody>,
             ],
-            "className": "ui celled striped table undefined",
+            "className": "ui celled striped table resultsTable",
           },
           "ref": null,
           "rendered": Array [
             Object {
               "instance": null,
-              "key": ".0",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": <tr>
                   <th>
                     <div
-                      className={undefined}
+                      className="inlineBlock"
                       data-tip="Course Reference Number"
                     >
                       CRN
@@ -2515,14 +2589,22 @@ ShallowWrapper {
                      Seats 
                   </th>
                   <th
-                    className="displayNone"
+                    style={
+                      Object {
+                        "display": "none",
+                      }
+                    }
                   >
-                     Waitlist seats
+                    Waitlist seats
                   </th>
                   <th
-                    className="displayNone"
+                    style={
+                      Object {
+                        "display": "none",
+                      }
+                    }
                   >
-                     Honors
+                    Honors
                   </th>
                   <th>
                      Link 
@@ -2538,7 +2620,7 @@ ShallowWrapper {
                   "children": Array [
                     <th>
                       <div
-                        className={undefined}
+                        className="inlineBlock"
                         data-tip="Course Reference Number"
                       >
                         CRN
@@ -2556,18 +2638,27 @@ ShallowWrapper {
                     <th>
                        Location 
                     </th>,
+                    null,
                     <th>
                        Seats 
                     </th>,
                     <th
-                      className="displayNone"
+                      style={
+                        Object {
+                          "display": "none",
+                        }
+                      }
                     >
-                       Waitlist seats
+                      Waitlist seats
                     </th>,
                     <th
-                      className="displayNone"
+                      style={
+                        Object {
+                          "display": "none",
+                        }
+                      }
                     >
-                       Honors
+                      Honors
                     </th>,
                     <th>
                        Link 
@@ -2578,11 +2669,11 @@ ShallowWrapper {
                 "rendered": Array [
                   Object {
                     "instance": null,
-                    "key": ".0",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": <div
-                        className={undefined}
+                        className="inlineBlock"
                         data-tip="Course Reference Number"
                       >
                         CRN
@@ -2595,7 +2686,7 @@ ShallowWrapper {
                       "nodeType": "host",
                       "props": Object {
                         "children": "CRN",
-                        "className": undefined,
+                        "className": "inlineBlock",
                         "data-tip": "Course Reference Number",
                       },
                       "ref": null,
@@ -2606,7 +2697,7 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".1",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": " Professors ",
@@ -2617,7 +2708,7 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".2",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": " Weekdays ",
@@ -2628,7 +2719,7 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".3",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": " Time ",
@@ -2639,7 +2730,7 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".4",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": " Location ",
@@ -2648,9 +2739,10 @@ ShallowWrapper {
                     "rendered": " Location ",
                     "type": "th",
                   },
+                  null,
                   Object {
                     "instance": null,
-                    "key": ".6",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": " Seats ",
@@ -2661,31 +2753,35 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".7",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
-                      "children": " Waitlist seats",
-                      "className": "displayNone",
+                      "children": "Waitlist seats",
+                      "style": Object {
+                        "display": "none",
+                      },
                     },
                     "ref": null,
-                    "rendered": " Waitlist seats",
+                    "rendered": "Waitlist seats",
                     "type": "th",
                   },
                   Object {
                     "instance": null,
-                    "key": ".8",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
-                      "children": " Honors",
-                      "className": "displayNone",
+                      "children": "Honors",
+                      "style": Object {
+                        "display": "none",
+                      },
                     },
                     "ref": null,
-                    "rendered": " Honors",
+                    "rendered": "Honors",
                     "type": "th",
                   },
                   Object {
                     "instance": null,
-                    "key": ".9",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": " Link ",
@@ -2701,140 +2797,142 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".1",
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": Array [
                   <tr
-                    className={undefined}
+                    className="sectionTableFirstRow"
                   />,
-                  <DesktopSectionPanel
-                    section={
-                      Section {
-                        "classId": "1210",
-                        "crn": "13502",
-                        "host": "neu.edu",
-                        "lastUpdateTime": 1511131914029,
-                        "meetings": Array [
-                          Meeting {
-                            "endDate": "2017-12-07T00:00:00.000Z",
-                            "profs": Array [
-                              "Jennifer Anne Shire",
-                            ],
-                            "startDate": "2017-09-07T00:00:00.000Z",
-                            "times": Array [
-                              Array [
-                                Object {
-                                  "end": "1970-01-06T11:30:00.000Z",
-                                  "start": "1970-01-06T09:50:00.000Z",
-                                },
+                  Array [
+                    <DesktopSectionPanel
+                      section={
+                        Section {
+                          "classId": "1210",
+                          "crn": "13502",
+                          "host": "neu.edu",
+                          "lastUpdateTime": 1511131914029,
+                          "meetings": Array [
+                            Meeting {
+                              "endDate": "2017-12-07T00:00:00.000Z",
+                              "profs": Array [
+                                "Jennifer Anne Shire",
                               ],
-                            ],
-                            "where": "Snell Engineering Center 108",
-                          },
-                        ],
-                        "online": false,
-                        "seatsCapacity": 19,
-                        "seatsRemaining": 0,
-                        "subject": "CS",
-                        "termId": "201810",
-                        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
-                        "waitCapacity": 0,
-                        "waitRemaining": 0,
-                      }
-                    }
-                    shouldShowExamColumns={false}
-                    showHonorsColumn={false}
-                    showWaitList={false}
-                  />,
-                  <DesktopSectionPanel
-                    section={
-                      Section {
-                        "classId": "1210",
-                        "crn": "14404",
-                        "host": "neu.edu",
-                        "lastUpdateTime": 1511131914065,
-                        "meetings": Array [
-                          Meeting {
-                            "endDate": "2017-12-07T00:00:00.000Z",
-                            "profs": Array [
-                              "Jennifer Anne Shire",
-                            ],
-                            "startDate": "2017-09-07T00:00:00.000Z",
-                            "times": Array [
-                              Array [
-                                Object {
-                                  "end": "1970-01-06T13:25:00.000Z",
-                                  "start": "1970-01-06T11:45:00.000Z",
-                                },
+                              "startDate": "2017-09-07T00:00:00.000Z",
+                              "times": Array [
+                                Array [
+                                  Object {
+                                    "end": "1970-01-06T11:30:00.000Z",
+                                    "start": "1970-01-06T09:50:00.000Z",
+                                  },
+                                ],
                               ],
-                            ],
-                            "where": "Ryder Hall 431",
-                          },
-                        ],
-                        "online": false,
-                        "seatsCapacity": 19,
-                        "seatsRemaining": 0,
-                        "subject": "CS",
-                        "termId": "201810",
-                        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
-                        "waitCapacity": 0,
-                        "waitRemaining": 0,
+                              "where": "Snell Engineering Center 108",
+                            },
+                          ],
+                          "online": false,
+                          "seatsCapacity": 19,
+                          "seatsRemaining": 0,
+                          "subject": "CS",
+                          "termId": "201810",
+                          "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                          "waitCapacity": 0,
+                          "waitRemaining": 0,
+                        }
                       }
-                    }
-                    shouldShowExamColumns={false}
-                    showHonorsColumn={false}
-                    showWaitList={false}
-                  />,
-                  <DesktopSectionPanel
-                    section={
-                      Section {
-                        "classId": "1210",
-                        "crn": "14405",
-                        "host": "neu.edu",
-                        "lastUpdateTime": 1511131914065,
-                        "meetings": Array [
-                          Meeting {
-                            "endDate": "2017-12-07T00:00:00.000Z",
-                            "profs": Array [
-                              "Jennifer Anne Shire",
-                            ],
-                            "startDate": "2017-09-07T00:00:00.000Z",
-                            "times": Array [
-                              Array [
-                                Object {
-                                  "end": "1970-01-06T13:25:00.000Z",
-                                  "start": "1970-01-06T11:45:00.000Z",
-                                },
+                      shouldShowExamColumns={false}
+                      showHonorsColumn={false}
+                      showWaitList={false}
+                    />,
+                    <DesktopSectionPanel
+                      section={
+                        Section {
+                          "classId": "1210",
+                          "crn": "14404",
+                          "host": "neu.edu",
+                          "lastUpdateTime": 1511131914065,
+                          "meetings": Array [
+                            Meeting {
+                              "endDate": "2017-12-07T00:00:00.000Z",
+                              "profs": Array [
+                                "Jennifer Anne Shire",
                               ],
-                            ],
-                            "where": "Ryder Hall 431",
-                          },
-                        ],
-                        "online": false,
-                        "seatsCapacity": 19,
-                        "seatsRemaining": 0,
-                        "subject": "CS",
-                        "termId": "201810",
-                        "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
-                        "waitCapacity": 0,
-                        "waitRemaining": 0,
+                              "startDate": "2017-09-07T00:00:00.000Z",
+                              "times": Array [
+                                Array [
+                                  Object {
+                                    "end": "1970-01-06T13:25:00.000Z",
+                                    "start": "1970-01-06T11:45:00.000Z",
+                                  },
+                                ],
+                              ],
+                              "where": "Ryder Hall 431",
+                            },
+                          ],
+                          "online": false,
+                          "seatsCapacity": 19,
+                          "seatsRemaining": 0,
+                          "subject": "CS",
+                          "termId": "201810",
+                          "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                          "waitCapacity": 0,
+                          "waitRemaining": 0,
+                        }
                       }
-                    }
-                    shouldShowExamColumns={false}
-                    showHonorsColumn={false}
-                    showWaitList={false}
-                  />,
+                      shouldShowExamColumns={false}
+                      showHonorsColumn={false}
+                      showWaitList={false}
+                    />,
+                    <DesktopSectionPanel
+                      section={
+                        Section {
+                          "classId": "1210",
+                          "crn": "14405",
+                          "host": "neu.edu",
+                          "lastUpdateTime": 1511131914065,
+                          "meetings": Array [
+                            Meeting {
+                              "endDate": "2017-12-07T00:00:00.000Z",
+                              "profs": Array [
+                                "Jennifer Anne Shire",
+                              ],
+                              "startDate": "2017-09-07T00:00:00.000Z",
+                              "times": Array [
+                                Array [
+                                  Object {
+                                    "end": "1970-01-06T13:25:00.000Z",
+                                    "start": "1970-01-06T11:45:00.000Z",
+                                  },
+                                ],
+                              ],
+                              "where": "Ryder Hall 431",
+                            },
+                          ],
+                          "online": false,
+                          "seatsCapacity": 19,
+                          "seatsRemaining": 0,
+                          "subject": "CS",
+                          "termId": "201810",
+                          "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                          "waitCapacity": 0,
+                          "waitRemaining": 0,
+                        }
+                      }
+                      shouldShowExamColumns={false}
+                      showHonorsColumn={false}
+                      showWaitList={false}
+                    />,
+                  ],
                 ],
               },
               "ref": null,
               "rendered": Array [
                 Object {
                   "instance": null,
-                  "key": ".0",
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
-                    "className": undefined,
+                    "className": "sectionTableFirstRow",
                   },
                   "ref": null,
                   "rendered": null,
@@ -2842,7 +2940,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".1:$13502",
+                  "key": "13502",
                   "nodeType": "class",
                   "props": Object {
                     "section": Section {
@@ -2887,7 +2985,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".1:$14404",
+                  "key": "14404",
                   "nodeType": "class",
                   "props": Object {
                     "section": Section {
@@ -2932,7 +3030,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".1:$14405",
+                  "key": "14405",
                   "nodeType": "class",
                   "props": Object {
                     "section": Section {
@@ -2983,11 +3081,11 @@ ShallowWrapper {
         },
         Object {
           "instance": null,
-          "key": ".3",
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": "Show More...",
-            "className": "showMoreButton",
+            "className": "more-sections-button",
             "onClick": [Function],
             "role": "button",
             "tabIndex": 0,
@@ -3008,13 +3106,13 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": <div
-          className="undefined ui segment"
+          className="class-panel-container ui segment"
         >
           <div
-            className={undefined}
+            className="header"
           >
             <span
-              className={undefined}
+              className="classTitle"
             >
               CS
                
@@ -3023,10 +3121,10 @@ ShallowWrapper {
               Computer Science/Information Science Overview 2: Co-op Preparation
             </span>
             <span
-              className={undefined}
+              className="classGlobeLinkContainer"
             >
               <a
-                className={undefined}
+                className="classGlobeLink"
                 data-tip="View on neu.edu"
                 href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
                 rel="noopener noreferrer"
@@ -3040,17 +3138,17 @@ ShallowWrapper {
             </span>
           </div>
           <div
-            className={undefined}
+            className="panel-body"
           >
             Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours
             <br />
             <br />
             <div
-              className={undefined}
+              className="leftPanel"
             >
               Prerequisites: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
@@ -3058,7 +3156,7 @@ ShallowWrapper {
               <br />
               Corequisites: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
@@ -3066,7 +3164,7 @@ ShallowWrapper {
               <br />
               Prerequisite for: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
@@ -3074,14 +3172,14 @@ ShallowWrapper {
               <br />
               Optional Prerequisite for: 
               <span
-                className="dynamicText"
+                className="hint-text"
               >
                 None
               </span>
                
             </div>
             <div
-              className={undefined}
+              className="rightPanel"
             >
               <div
                 data-tip="Check neu.edu for possible updates"
@@ -3115,8 +3213,14 @@ ShallowWrapper {
                       "maxCredits": 1,
                       "minCredits": 1,
                       "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                      "optPrereqsFor": Object {
+                        "values": Array [],
+                      },
                       "prereqs": Object {
                         "type": "or",
+                        "values": Array [],
+                      },
+                      "prereqsFor": Object {
                         "values": Array [],
                       },
                       "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -3292,13 +3396,13 @@ ShallowWrapper {
             </div>
           </div>
           <table
-            className="ui celled striped table undefined"
+            className="ui celled striped table resultsTable"
           >
             <thead>
               <tr>
                 <th>
                   <div
-                    className={undefined}
+                    className="inlineBlock"
                     data-tip="Course Reference Number"
                   >
                     CRN
@@ -3320,14 +3424,22 @@ ShallowWrapper {
                    Seats 
                 </th>
                 <th
-                  className="displayNone"
+                  style={
+                    Object {
+                      "display": "none",
+                    }
+                  }
                 >
-                   Waitlist seats
+                  Waitlist seats
                 </th>
                 <th
-                  className="displayNone"
+                  style={
+                    Object {
+                      "display": "none",
+                    }
+                  }
                 >
-                   Honors
+                  Honors
                 </th>
                 <th>
                    Link 
@@ -3336,7 +3448,7 @@ ShallowWrapper {
             </thead>
             <tbody>
               <tr
-                className={undefined}
+                className="sectionTableFirstRow"
               />
               <DesktopSectionPanel
                 section={
@@ -3458,7 +3570,7 @@ ShallowWrapper {
             </tbody>
           </table>
           <div
-            className="showMoreButton"
+            className="more-sections-button"
             onClick={[Function]}
             role="button"
             tabIndex={0}
@@ -3475,10 +3587,10 @@ ShallowWrapper {
         "props": Object {
           "children": Array [
             <div
-              className={undefined}
+              className="header"
             >
               <span
-                className={undefined}
+                className="classTitle"
               >
                 CS
                  
@@ -3487,10 +3599,10 @@ ShallowWrapper {
                 Computer Science/Information Science Overview 2: Co-op Preparation
               </span>
               <span
-                className={undefined}
+                className="classGlobeLinkContainer"
               >
                 <a
-                  className={undefined}
+                  className="classGlobeLink"
                   data-tip="View on neu.edu"
                   href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
                   rel="noopener noreferrer"
@@ -3504,17 +3616,17 @@ ShallowWrapper {
               </span>
             </div>,
             <div
-              className={undefined}
+              className="panel-body"
             >
               Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours
               <br />
               <br />
               <div
-                className={undefined}
+                className="leftPanel"
               >
                 Prerequisites: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
@@ -3522,7 +3634,7 @@ ShallowWrapper {
                 <br />
                 Corequisites: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
@@ -3530,7 +3642,7 @@ ShallowWrapper {
                 <br />
                 Prerequisite for: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
@@ -3538,14 +3650,14 @@ ShallowWrapper {
                 <br />
                 Optional Prerequisite for: 
                 <span
-                  className="dynamicText"
+                  className="hint-text"
                 >
                   None
                 </span>
                  
               </div>
               <div
-                className={undefined}
+                className="rightPanel"
               >
                 <div
                   data-tip="Check neu.edu for possible updates"
@@ -3579,8 +3691,14 @@ ShallowWrapper {
                         "maxCredits": 1,
                         "minCredits": 1,
                         "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                        "optPrereqsFor": Object {
+                          "values": Array [],
+                        },
                         "prereqs": Object {
                           "type": "or",
+                          "values": Array [],
+                        },
+                        "prereqsFor": Object {
                           "values": Array [],
                         },
                         "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -3756,13 +3874,13 @@ ShallowWrapper {
               </div>
             </div>,
             <table
-              className="ui celled striped table undefined"
+              className="ui celled striped table resultsTable"
             >
               <thead>
                 <tr>
                   <th>
                     <div
-                      className={undefined}
+                      className="inlineBlock"
                       data-tip="Course Reference Number"
                     >
                       CRN
@@ -3784,14 +3902,22 @@ ShallowWrapper {
                      Seats 
                   </th>
                   <th
-                    className="displayNone"
+                    style={
+                      Object {
+                        "display": "none",
+                      }
+                    }
                   >
-                     Waitlist seats
+                    Waitlist seats
                   </th>
                   <th
-                    className="displayNone"
+                    style={
+                      Object {
+                        "display": "none",
+                      }
+                    }
                   >
-                     Honors
+                    Honors
                   </th>
                   <th>
                      Link 
@@ -3800,7 +3926,7 @@ ShallowWrapper {
               </thead>
               <tbody>
                 <tr
-                  className={undefined}
+                  className="sectionTableFirstRow"
                 />
                 <DesktopSectionPanel
                   section={
@@ -3922,7 +4048,7 @@ ShallowWrapper {
               </tbody>
             </table>,
             <div
-              className="showMoreButton"
+              className="more-sections-button"
               onClick={[Function]}
               role="button"
               tabIndex={0}
@@ -3930,18 +4056,18 @@ ShallowWrapper {
               Show More...
             </div>,
           ],
-          "className": "undefined ui segment",
+          "className": "class-panel-container ui segment",
         },
         "ref": null,
         "rendered": Array [
           Object {
             "instance": null,
-            "key": ".0",
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": Array [
                 <span
-                  className={undefined}
+                  className="classTitle"
                 >
                   CS
                    
@@ -3950,10 +4076,10 @@ ShallowWrapper {
                   Computer Science/Information Science Overview 2: Co-op Preparation
                 </span>,
                 <span
-                  className={undefined}
+                  className="classGlobeLinkContainer"
                 >
                   <a
-                    className={undefined}
+                    className="classGlobeLink"
                     data-tip="View on neu.edu"
                     href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
                     rel="noopener noreferrer"
@@ -3966,13 +4092,13 @@ ShallowWrapper {
                   </a>
                 </span>,
               ],
-              "className": undefined,
+              "className": "header",
             },
             "ref": null,
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": ".0",
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "children": Array [
@@ -3982,7 +4108,7 @@ ShallowWrapper {
                     ": ",
                     "Computer Science/Information Science Overview 2: Co-op Preparation",
                   ],
-                  "className": undefined,
+                  "className": "classTitle",
                 },
                 "ref": null,
                 "rendered": Array [
@@ -3996,11 +4122,11 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".1",
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "children": <a
-                    className={undefined}
+                    className="classGlobeLink"
                     data-tip="View on neu.edu"
                     href="https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210"
                     rel="noopener noreferrer"
@@ -4011,7 +4137,7 @@ ShallowWrapper {
                       src="file"
                     />
                   </a>,
-                  "className": undefined,
+                  "className": "classGlobeLinkContainer",
                 },
                 "ref": null,
                 "rendered": Object {
@@ -4023,7 +4149,7 @@ ShallowWrapper {
                       alt="link"
                       src="file"
                     />,
-                    "className": undefined,
+                    "className": "classGlobeLink",
                     "data-tip": "View on neu.edu",
                     "href": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
                     "rel": "noopener noreferrer",
@@ -4051,7 +4177,7 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": ".1",
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": Array [
@@ -4059,11 +4185,11 @@ ShallowWrapper {
                 <br />,
                 <br />,
                 <div
-                  className={undefined}
+                  className="leftPanel"
                 >
                   Prerequisites: 
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>
@@ -4071,7 +4197,7 @@ ShallowWrapper {
                   <br />
                   Corequisites: 
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>
@@ -4079,7 +4205,7 @@ ShallowWrapper {
                   <br />
                   Prerequisite for: 
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>
@@ -4087,14 +4213,14 @@ ShallowWrapper {
                   <br />
                   Optional Prerequisite for: 
                   <span
-                    className="dynamicText"
+                    className="hint-text"
                   >
                     None
                   </span>
                    
                 </div>,
                 <div
-                  className={undefined}
+                  className="rightPanel"
                 >
                   <div
                     data-tip="Check neu.edu for possible updates"
@@ -4128,8 +4254,14 @@ ShallowWrapper {
                           "maxCredits": 1,
                           "minCredits": 1,
                           "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                          "optPrereqsFor": Object {
+                            "values": Array [],
+                          },
                           "prereqs": Object {
                             "type": "or",
+                            "values": Array [],
+                          },
+                          "prereqsFor": Object {
                             "values": Array [],
                           },
                           "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -4304,14 +4436,14 @@ ShallowWrapper {
                   </div>
                 </div>,
               ],
-              "className": undefined,
+              "className": "panel-body",
             },
             "ref": null,
             "rendered": Array [
               "Continues the preparation of students for careers in the computing and information fields by discussing co-op and co-op processes. Offers students an opportunity to prepare a professional résumé; practice proper interviewing techniques; explore current job opportunities; learn how to engage in the job and referral process; and to understand co-op policies, procedures, and expectations. Discusses professional behavior and ethical issues in the workplace. 1.000 Lecture hours",
               Object {
                 "instance": null,
-                "key": ".1",
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {},
                 "ref": null,
@@ -4320,7 +4452,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".2",
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {},
                 "ref": null,
@@ -4329,63 +4461,68 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".3",
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "children": Array [
                     "Prerequisites: ",
                     <span
-                      className="dynamicText"
+                      className="hint-text"
                     >
                       None
                     </span>,
                     " ",
+                    null,
                     <br />,
                     "Corequisites: ",
                     <span
-                      className="dynamicText"
+                      className="hint-text"
                     >
                       None
                     </span>,
                     " ",
+                    null,
                     <br />,
                     "Prerequisite for: ",
                     <span
-                      className="dynamicText"
+                      className="hint-text"
                     >
                       None
                     </span>,
                     " ",
+                    null,
                     <br />,
                     "Optional Prerequisite for: ",
                     <span
-                      className="dynamicText"
+                      className="hint-text"
                     >
                       None
                     </span>,
                     " ",
+                    null,
                   ],
-                  "className": undefined,
+                  "className": "leftPanel",
                 },
                 "ref": null,
                 "rendered": Array [
                   "Prerequisites: ",
                   Object {
                     "instance": null,
-                    "key": ".1",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": "None",
-                      "className": "dynamicText",
+                      "className": "hint-text",
                     },
                     "ref": null,
                     "rendered": "None",
                     "type": "span",
                   },
                   " ",
+                  null,
                   Object {
                     "instance": null,
-                    "key": ".4",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {},
                     "ref": null,
@@ -4395,20 +4532,21 @@ ShallowWrapper {
                   "Corequisites: ",
                   Object {
                     "instance": null,
-                    "key": ".6",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": "None",
-                      "className": "dynamicText",
+                      "className": "hint-text",
                     },
                     "ref": null,
                     "rendered": "None",
                     "type": "span",
                   },
                   " ",
+                  null,
                   Object {
                     "instance": null,
-                    "key": ".9",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {},
                     "ref": null,
@@ -4418,20 +4556,21 @@ ShallowWrapper {
                   "Prerequisite for: ",
                   Object {
                     "instance": null,
-                    "key": ".b",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": "None",
-                      "className": "dynamicText",
+                      "className": "hint-text",
                     },
                     "ref": null,
                     "rendered": "None",
                     "type": "span",
                   },
                   " ",
+                  null,
                   Object {
                     "instance": null,
-                    "key": ".e",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {},
                     "ref": null,
@@ -4441,23 +4580,24 @@ ShallowWrapper {
                   "Optional Prerequisite for: ",
                   Object {
                     "instance": null,
-                    "key": ".g",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": "None",
-                      "className": "dynamicText",
+                      "className": "hint-text",
                     },
                     "ref": null,
                     "rendered": "None",
                     "type": "span",
                   },
                   " ",
+                  null,
                 ],
                 "type": "div",
               },
               Object {
                 "instance": null,
-                "key": ".4",
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "children": Array [
@@ -4493,8 +4633,14 @@ ShallowWrapper {
                             "maxCredits": 1,
                             "minCredits": 1,
                             "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                            "optPrereqsFor": Object {
+                              "values": Array [],
+                            },
                             "prereqs": Object {
                               "type": "or",
+                              "values": Array [],
+                            },
+                            "prereqsFor": Object {
                               "values": Array [],
                             },
                             "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -4668,13 +4814,13 @@ ShallowWrapper {
                       />
                     </div>,
                   ],
-                  "className": undefined,
+                  "className": "rightPanel",
                 },
                 "ref": null,
                 "rendered": Array [
                   Object {
                     "instance": null,
-                    "key": ".0",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": Array [
@@ -4693,7 +4839,7 @@ ShallowWrapper {
                   "1 credits",
                   Object {
                     "instance": null,
-                    "key": ".2",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": <SignUpForNotifications
@@ -4720,8 +4866,14 @@ ShallowWrapper {
                             "maxCredits": 1,
                             "minCredits": 1,
                             "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                            "optPrereqsFor": Object {
+                              "values": Array [],
+                            },
                             "prereqs": Object {
                               "type": "or",
+                              "values": Array [],
+                            },
+                            "prereqsFor": Object {
                               "values": Array [],
                             },
                             "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -4922,8 +5074,14 @@ ShallowWrapper {
                           "maxCredits": 1,
                           "minCredits": 1,
                           "name": "Computer Science/Information Science Overview 2: Co-op Preparation",
+                          "optPrereqsFor": Object {
+                            "values": Array [],
+                          },
                           "prereqs": Object {
                             "type": "or",
+                            "values": Array [],
+                          },
+                          "prereqsFor": Object {
                             "values": Array [],
                           },
                           "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210",
@@ -5108,7 +5266,7 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": ".2",
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": Array [
@@ -5116,7 +5274,7 @@ ShallowWrapper {
                   <tr>
                     <th>
                       <div
-                        className={undefined}
+                        className="inlineBlock"
                         data-tip="Course Reference Number"
                       >
                         CRN
@@ -5138,14 +5296,22 @@ ShallowWrapper {
                        Seats 
                     </th>
                     <th
-                      className="displayNone"
+                      style={
+                        Object {
+                          "display": "none",
+                        }
+                      }
                     >
-                       Waitlist seats
+                      Waitlist seats
                     </th>
                     <th
-                      className="displayNone"
+                      style={
+                        Object {
+                          "display": "none",
+                        }
+                      }
                     >
-                       Honors
+                      Honors
                     </th>
                     <th>
                        Link 
@@ -5154,7 +5320,7 @@ ShallowWrapper {
                 </thead>,
                 <tbody>
                   <tr
-                    className={undefined}
+                    className="sectionTableFirstRow"
                   />
                   <DesktopSectionPanel
                     section={
@@ -5275,19 +5441,19 @@ ShallowWrapper {
                   />
                 </tbody>,
               ],
-              "className": "ui celled striped table undefined",
+              "className": "ui celled striped table resultsTable",
             },
             "ref": null,
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": ".0",
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "children": <tr>
                     <th>
                       <div
-                        className={undefined}
+                        className="inlineBlock"
                         data-tip="Course Reference Number"
                       >
                         CRN
@@ -5309,14 +5475,22 @@ ShallowWrapper {
                        Seats 
                     </th>
                     <th
-                      className="displayNone"
+                      style={
+                        Object {
+                          "display": "none",
+                        }
+                      }
                     >
-                       Waitlist seats
+                      Waitlist seats
                     </th>
                     <th
-                      className="displayNone"
+                      style={
+                        Object {
+                          "display": "none",
+                        }
+                      }
                     >
-                       Honors
+                      Honors
                     </th>
                     <th>
                        Link 
@@ -5332,7 +5506,7 @@ ShallowWrapper {
                     "children": Array [
                       <th>
                         <div
-                          className={undefined}
+                          className="inlineBlock"
                           data-tip="Course Reference Number"
                         >
                           CRN
@@ -5350,18 +5524,27 @@ ShallowWrapper {
                       <th>
                          Location 
                       </th>,
+                      null,
                       <th>
                          Seats 
                       </th>,
                       <th
-                        className="displayNone"
+                        style={
+                          Object {
+                            "display": "none",
+                          }
+                        }
                       >
-                         Waitlist seats
+                        Waitlist seats
                       </th>,
                       <th
-                        className="displayNone"
+                        style={
+                          Object {
+                            "display": "none",
+                          }
+                        }
                       >
-                         Honors
+                        Honors
                       </th>,
                       <th>
                          Link 
@@ -5372,11 +5555,11 @@ ShallowWrapper {
                   "rendered": Array [
                     Object {
                       "instance": null,
-                      "key": ".0",
+                      "key": undefined,
                       "nodeType": "host",
                       "props": Object {
                         "children": <div
-                          className={undefined}
+                          className="inlineBlock"
                           data-tip="Course Reference Number"
                         >
                           CRN
@@ -5389,7 +5572,7 @@ ShallowWrapper {
                         "nodeType": "host",
                         "props": Object {
                           "children": "CRN",
-                          "className": undefined,
+                          "className": "inlineBlock",
                           "data-tip": "Course Reference Number",
                         },
                         "ref": null,
@@ -5400,7 +5583,7 @@ ShallowWrapper {
                     },
                     Object {
                       "instance": null,
-                      "key": ".1",
+                      "key": undefined,
                       "nodeType": "host",
                       "props": Object {
                         "children": " Professors ",
@@ -5411,7 +5594,7 @@ ShallowWrapper {
                     },
                     Object {
                       "instance": null,
-                      "key": ".2",
+                      "key": undefined,
                       "nodeType": "host",
                       "props": Object {
                         "children": " Weekdays ",
@@ -5422,7 +5605,7 @@ ShallowWrapper {
                     },
                     Object {
                       "instance": null,
-                      "key": ".3",
+                      "key": undefined,
                       "nodeType": "host",
                       "props": Object {
                         "children": " Time ",
@@ -5433,7 +5616,7 @@ ShallowWrapper {
                     },
                     Object {
                       "instance": null,
-                      "key": ".4",
+                      "key": undefined,
                       "nodeType": "host",
                       "props": Object {
                         "children": " Location ",
@@ -5442,9 +5625,10 @@ ShallowWrapper {
                       "rendered": " Location ",
                       "type": "th",
                     },
+                    null,
                     Object {
                       "instance": null,
-                      "key": ".6",
+                      "key": undefined,
                       "nodeType": "host",
                       "props": Object {
                         "children": " Seats ",
@@ -5455,31 +5639,35 @@ ShallowWrapper {
                     },
                     Object {
                       "instance": null,
-                      "key": ".7",
+                      "key": undefined,
                       "nodeType": "host",
                       "props": Object {
-                        "children": " Waitlist seats",
-                        "className": "displayNone",
+                        "children": "Waitlist seats",
+                        "style": Object {
+                          "display": "none",
+                        },
                       },
                       "ref": null,
-                      "rendered": " Waitlist seats",
+                      "rendered": "Waitlist seats",
                       "type": "th",
                     },
                     Object {
                       "instance": null,
-                      "key": ".8",
+                      "key": undefined,
                       "nodeType": "host",
                       "props": Object {
-                        "children": " Honors",
-                        "className": "displayNone",
+                        "children": "Honors",
+                        "style": Object {
+                          "display": "none",
+                        },
                       },
                       "ref": null,
-                      "rendered": " Honors",
+                      "rendered": "Honors",
                       "type": "th",
                     },
                     Object {
                       "instance": null,
-                      "key": ".9",
+                      "key": undefined,
                       "nodeType": "host",
                       "props": Object {
                         "children": " Link ",
@@ -5495,140 +5683,142 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".1",
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "children": Array [
                     <tr
-                      className={undefined}
+                      className="sectionTableFirstRow"
                     />,
-                    <DesktopSectionPanel
-                      section={
-                        Section {
-                          "classId": "1210",
-                          "crn": "13502",
-                          "host": "neu.edu",
-                          "lastUpdateTime": 1511131914029,
-                          "meetings": Array [
-                            Meeting {
-                              "endDate": "2017-12-07T00:00:00.000Z",
-                              "profs": Array [
-                                "Jennifer Anne Shire",
-                              ],
-                              "startDate": "2017-09-07T00:00:00.000Z",
-                              "times": Array [
-                                Array [
-                                  Object {
-                                    "end": "1970-01-06T11:30:00.000Z",
-                                    "start": "1970-01-06T09:50:00.000Z",
-                                  },
+                    Array [
+                      <DesktopSectionPanel
+                        section={
+                          Section {
+                            "classId": "1210",
+                            "crn": "13502",
+                            "host": "neu.edu",
+                            "lastUpdateTime": 1511131914029,
+                            "meetings": Array [
+                              Meeting {
+                                "endDate": "2017-12-07T00:00:00.000Z",
+                                "profs": Array [
+                                  "Jennifer Anne Shire",
                                 ],
-                              ],
-                              "where": "Snell Engineering Center 108",
-                            },
-                          ],
-                          "online": false,
-                          "seatsCapacity": 19,
-                          "seatsRemaining": 0,
-                          "subject": "CS",
-                          "termId": "201810",
-                          "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
-                          "waitCapacity": 0,
-                          "waitRemaining": 0,
-                        }
-                      }
-                      shouldShowExamColumns={false}
-                      showHonorsColumn={false}
-                      showWaitList={false}
-                    />,
-                    <DesktopSectionPanel
-                      section={
-                        Section {
-                          "classId": "1210",
-                          "crn": "14404",
-                          "host": "neu.edu",
-                          "lastUpdateTime": 1511131914065,
-                          "meetings": Array [
-                            Meeting {
-                              "endDate": "2017-12-07T00:00:00.000Z",
-                              "profs": Array [
-                                "Jennifer Anne Shire",
-                              ],
-                              "startDate": "2017-09-07T00:00:00.000Z",
-                              "times": Array [
-                                Array [
-                                  Object {
-                                    "end": "1970-01-06T13:25:00.000Z",
-                                    "start": "1970-01-06T11:45:00.000Z",
-                                  },
+                                "startDate": "2017-09-07T00:00:00.000Z",
+                                "times": Array [
+                                  Array [
+                                    Object {
+                                      "end": "1970-01-06T11:30:00.000Z",
+                                      "start": "1970-01-06T09:50:00.000Z",
+                                    },
+                                  ],
                                 ],
-                              ],
-                              "where": "Ryder Hall 431",
-                            },
-                          ],
-                          "online": false,
-                          "seatsCapacity": 19,
-                          "seatsRemaining": 0,
-                          "subject": "CS",
-                          "termId": "201810",
-                          "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
-                          "waitCapacity": 0,
-                          "waitRemaining": 0,
+                                "where": "Snell Engineering Center 108",
+                              },
+                            ],
+                            "online": false,
+                            "seatsCapacity": 19,
+                            "seatsRemaining": 0,
+                            "subject": "CS",
+                            "termId": "201810",
+                            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                            "waitCapacity": 0,
+                            "waitRemaining": 0,
+                          }
                         }
-                      }
-                      shouldShowExamColumns={false}
-                      showHonorsColumn={false}
-                      showWaitList={false}
-                    />,
-                    <DesktopSectionPanel
-                      section={
-                        Section {
-                          "classId": "1210",
-                          "crn": "14405",
-                          "host": "neu.edu",
-                          "lastUpdateTime": 1511131914065,
-                          "meetings": Array [
-                            Meeting {
-                              "endDate": "2017-12-07T00:00:00.000Z",
-                              "profs": Array [
-                                "Jennifer Anne Shire",
-                              ],
-                              "startDate": "2017-09-07T00:00:00.000Z",
-                              "times": Array [
-                                Array [
-                                  Object {
-                                    "end": "1970-01-06T13:25:00.000Z",
-                                    "start": "1970-01-06T11:45:00.000Z",
-                                  },
+                        shouldShowExamColumns={false}
+                        showHonorsColumn={false}
+                        showWaitList={false}
+                      />,
+                      <DesktopSectionPanel
+                        section={
+                          Section {
+                            "classId": "1210",
+                            "crn": "14404",
+                            "host": "neu.edu",
+                            "lastUpdateTime": 1511131914065,
+                            "meetings": Array [
+                              Meeting {
+                                "endDate": "2017-12-07T00:00:00.000Z",
+                                "profs": Array [
+                                  "Jennifer Anne Shire",
                                 ],
-                              ],
-                              "where": "Ryder Hall 431",
-                            },
-                          ],
-                          "online": false,
-                          "seatsCapacity": 19,
-                          "seatsRemaining": 0,
-                          "subject": "CS",
-                          "termId": "201810",
-                          "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
-                          "waitCapacity": 0,
-                          "waitRemaining": 0,
+                                "startDate": "2017-09-07T00:00:00.000Z",
+                                "times": Array [
+                                  Array [
+                                    Object {
+                                      "end": "1970-01-06T13:25:00.000Z",
+                                      "start": "1970-01-06T11:45:00.000Z",
+                                    },
+                                  ],
+                                ],
+                                "where": "Ryder Hall 431",
+                              },
+                            ],
+                            "online": false,
+                            "seatsCapacity": 19,
+                            "seatsRemaining": 0,
+                            "subject": "CS",
+                            "termId": "201810",
+                            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                            "waitCapacity": 0,
+                            "waitRemaining": 0,
+                          }
                         }
-                      }
-                      shouldShowExamColumns={false}
-                      showHonorsColumn={false}
-                      showWaitList={false}
-                    />,
+                        shouldShowExamColumns={false}
+                        showHonorsColumn={false}
+                        showWaitList={false}
+                      />,
+                      <DesktopSectionPanel
+                        section={
+                          Section {
+                            "classId": "1210",
+                            "crn": "14405",
+                            "host": "neu.edu",
+                            "lastUpdateTime": 1511131914065,
+                            "meetings": Array [
+                              Meeting {
+                                "endDate": "2017-12-07T00:00:00.000Z",
+                                "profs": Array [
+                                  "Jennifer Anne Shire",
+                                ],
+                                "startDate": "2017-09-07T00:00:00.000Z",
+                                "times": Array [
+                                  Array [
+                                    Object {
+                                      "end": "1970-01-06T13:25:00.000Z",
+                                      "start": "1970-01-06T11:45:00.000Z",
+                                    },
+                                  ],
+                                ],
+                                "where": "Ryder Hall 431",
+                              },
+                            ],
+                            "online": false,
+                            "seatsCapacity": 19,
+                            "seatsRemaining": 0,
+                            "subject": "CS",
+                            "termId": "201810",
+                            "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                            "waitCapacity": 0,
+                            "waitRemaining": 0,
+                          }
+                        }
+                        shouldShowExamColumns={false}
+                        showHonorsColumn={false}
+                        showWaitList={false}
+                      />,
+                    ],
                   ],
                 },
                 "ref": null,
                 "rendered": Array [
                   Object {
                     "instance": null,
-                    "key": ".0",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
-                      "className": undefined,
+                      "className": "sectionTableFirstRow",
                     },
                     "ref": null,
                     "rendered": null,
@@ -5636,7 +5826,7 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".1:$13502",
+                    "key": "13502",
                     "nodeType": "class",
                     "props": Object {
                       "section": Section {
@@ -5681,7 +5871,7 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".1:$14404",
+                    "key": "14404",
                     "nodeType": "class",
                     "props": Object {
                       "section": Section {
@@ -5726,7 +5916,7 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".1:$14405",
+                    "key": "14405",
                     "nodeType": "class",
                     "props": Object {
                       "section": Section {
@@ -5777,11 +5967,11 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": ".3",
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": "Show More...",
-              "className": "showMoreButton",
+              "className": "more-sections-button",
               "onClick": [Function],
               "role": "button",
               "tabIndex": 0,

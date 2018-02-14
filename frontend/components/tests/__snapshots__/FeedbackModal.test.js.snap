@@ -111,12 +111,13 @@ ShallowWrapper {
           </ModalActions>
         </Modal>,
       ],
+      "className": "feedback-container",
     },
     "ref": null,
     "rendered": Array [
       Object {
         "instance": null,
-        "key": ".0",
+        "key": undefined,
         "nodeType": "class",
         "props": Object {
           "appear": false,
@@ -140,7 +141,7 @@ ShallowWrapper {
       },
       Object {
         "instance": null,
-        "key": ".1",
+        "key": undefined,
         "nodeType": "class",
         "props": Object {
           "children": Array [
@@ -219,7 +220,7 @@ ShallowWrapper {
         "rendered": Array [
           Object {
             "instance": null,
-            "key": ".0",
+            "key": undefined,
             "nodeType": "function",
             "props": Object {
               "content": "Search NEU Feedback",
@@ -231,7 +232,7 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": ".1",
+            "key": undefined,
             "nodeType": "function",
             "props": Object {
               "children": <Form
@@ -300,7 +301,7 @@ ShallowWrapper {
               "rendered": Array [
                 Object {
                   "instance": null,
-                  "key": ".0",
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "children": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
@@ -312,7 +313,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".1",
+                  "key": undefined,
                   "nodeType": "class",
                   "props": Object {
                     "as": "textarea",
@@ -328,7 +329,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".2",
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "children": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
@@ -339,7 +340,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".3",
+                  "key": undefined,
                   "nodeType": "class",
                   "props": Object {
                     "className": "formModalInput",
@@ -359,7 +360,7 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": ".2",
+            "key": undefined,
             "nodeType": "class",
             "props": Object {
               "children": Array [
@@ -394,7 +395,7 @@ ShallowWrapper {
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": ".0",
+                "key": undefined,
                 "nodeType": "class",
                 "props": Object {
                   "as": "button",
@@ -413,7 +414,7 @@ ShallowWrapper {
                 "rendered": Array [
                   Object {
                     "instance": null,
-                    "key": ".0",
+                    "key": undefined,
                     "nodeType": "class",
                     "props": Object {
                       "as": "i",
@@ -429,7 +430,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".1",
+                "key": undefined,
                 "nodeType": "class",
                 "props": Object {
                   "as": "button",
@@ -449,7 +450,7 @@ ShallowWrapper {
                 "rendered": Array [
                   Object {
                     "instance": null,
-                    "key": ".0",
+                    "key": undefined,
                     "nodeType": "class",
                     "props": Object {
                       "as": "i",
@@ -569,12 +570,13 @@ ShallowWrapper {
             </ModalActions>
           </Modal>,
         ],
+        "className": "feedback-container",
       },
       "ref": null,
       "rendered": Array [
         Object {
           "instance": null,
-          "key": ".0",
+          "key": undefined,
           "nodeType": "class",
           "props": Object {
             "appear": false,
@@ -598,7 +600,7 @@ ShallowWrapper {
         },
         Object {
           "instance": null,
-          "key": ".1",
+          "key": undefined,
           "nodeType": "class",
           "props": Object {
             "children": Array [
@@ -677,7 +679,7 @@ ShallowWrapper {
           "rendered": Array [
             Object {
               "instance": null,
-              "key": ".0",
+              "key": undefined,
               "nodeType": "function",
               "props": Object {
                 "content": "Search NEU Feedback",
@@ -689,7 +691,7 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".1",
+              "key": undefined,
               "nodeType": "function",
               "props": Object {
                 "children": <Form
@@ -758,7 +760,7 @@ ShallowWrapper {
                 "rendered": Array [
                   Object {
                     "instance": null,
-                    "key": ".0",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
@@ -770,7 +772,7 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".1",
+                    "key": undefined,
                     "nodeType": "class",
                     "props": Object {
                       "as": "textarea",
@@ -786,7 +788,7 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".2",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
@@ -797,7 +799,7 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".3",
+                    "key": undefined,
                     "nodeType": "class",
                     "props": Object {
                       "className": "formModalInput",
@@ -817,7 +819,7 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".2",
+              "key": undefined,
               "nodeType": "class",
               "props": Object {
                 "children": Array [
@@ -852,7 +854,7 @@ ShallowWrapper {
               "rendered": Array [
                 Object {
                   "instance": null,
-                  "key": ".0",
+                  "key": undefined,
                   "nodeType": "class",
                   "props": Object {
                     "as": "button",
@@ -871,7 +873,7 @@ ShallowWrapper {
                   "rendered": Array [
                     Object {
                       "instance": null,
-                      "key": ".0",
+                      "key": undefined,
                       "nodeType": "class",
                       "props": Object {
                         "as": "i",
@@ -887,7 +889,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".1",
+                  "key": undefined,
                   "nodeType": "class",
                   "props": Object {
                     "as": "button",
@@ -907,7 +909,7 @@ ShallowWrapper {
                   "rendered": Array [
                     Object {
                       "instance": null,
-                      "key": ".0",
+                      "key": undefined,
                       "nodeType": "class",
                       "props": Object {
                         "as": "i",
@@ -1052,12 +1054,13 @@ ShallowWrapper {
           </ModalActions>
         </Modal>,
       ],
+      "className": "feedback-container",
     },
     "ref": null,
     "rendered": Array [
       Object {
         "instance": null,
-        "key": ".0",
+        "key": undefined,
         "nodeType": "class",
         "props": Object {
           "appear": false,
@@ -1081,7 +1084,7 @@ ShallowWrapper {
       },
       Object {
         "instance": null,
-        "key": ".1",
+        "key": undefined,
         "nodeType": "class",
         "props": Object {
           "children": Array [
@@ -1160,7 +1163,7 @@ ShallowWrapper {
         "rendered": Array [
           Object {
             "instance": null,
-            "key": ".0",
+            "key": undefined,
             "nodeType": "function",
             "props": Object {
               "content": "Search NEU Feedback",
@@ -1172,7 +1175,7 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": ".1",
+            "key": undefined,
             "nodeType": "function",
             "props": Object {
               "children": <Form
@@ -1241,7 +1244,7 @@ ShallowWrapper {
               "rendered": Array [
                 Object {
                   "instance": null,
-                  "key": ".0",
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "children": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
@@ -1253,7 +1256,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".1",
+                  "key": undefined,
                   "nodeType": "class",
                   "props": Object {
                     "as": "textarea",
@@ -1269,7 +1272,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".2",
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "children": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
@@ -1280,7 +1283,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".3",
+                  "key": undefined,
                   "nodeType": "class",
                   "props": Object {
                     "className": "formModalInput",
@@ -1300,7 +1303,7 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": ".2",
+            "key": undefined,
             "nodeType": "class",
             "props": Object {
               "children": Array [
@@ -1335,7 +1338,7 @@ ShallowWrapper {
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": ".0",
+                "key": undefined,
                 "nodeType": "class",
                 "props": Object {
                   "as": "button",
@@ -1354,7 +1357,7 @@ ShallowWrapper {
                 "rendered": Array [
                   Object {
                     "instance": null,
-                    "key": ".0",
+                    "key": undefined,
                     "nodeType": "class",
                     "props": Object {
                       "as": "i",
@@ -1370,7 +1373,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": ".1",
+                "key": undefined,
                 "nodeType": "class",
                 "props": Object {
                   "as": "button",
@@ -1390,7 +1393,7 @@ ShallowWrapper {
                 "rendered": Array [
                   Object {
                     "instance": null,
-                    "key": ".0",
+                    "key": undefined,
                     "nodeType": "class",
                     "props": Object {
                       "as": "i",
@@ -1510,12 +1513,13 @@ ShallowWrapper {
             </ModalActions>
           </Modal>,
         ],
+        "className": "feedback-container",
       },
       "ref": null,
       "rendered": Array [
         Object {
           "instance": null,
-          "key": ".0",
+          "key": undefined,
           "nodeType": "class",
           "props": Object {
             "appear": false,
@@ -1539,7 +1543,7 @@ ShallowWrapper {
         },
         Object {
           "instance": null,
-          "key": ".1",
+          "key": undefined,
           "nodeType": "class",
           "props": Object {
             "children": Array [
@@ -1618,7 +1622,7 @@ ShallowWrapper {
           "rendered": Array [
             Object {
               "instance": null,
-              "key": ".0",
+              "key": undefined,
               "nodeType": "function",
               "props": Object {
                 "content": "Search NEU Feedback",
@@ -1630,7 +1634,7 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".1",
+              "key": undefined,
               "nodeType": "function",
               "props": Object {
                 "children": <Form
@@ -1699,7 +1703,7 @@ ShallowWrapper {
                 "rendered": Array [
                   Object {
                     "instance": null,
-                    "key": ".0",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
@@ -1711,7 +1715,7 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".1",
+                    "key": undefined,
                     "nodeType": "class",
                     "props": Object {
                       "as": "textarea",
@@ -1727,7 +1731,7 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".2",
+                    "key": undefined,
                     "nodeType": "host",
                     "props": Object {
                       "children": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
@@ -1738,7 +1742,7 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": ".3",
+                    "key": undefined,
                     "nodeType": "class",
                     "props": Object {
                       "className": "formModalInput",
@@ -1758,7 +1762,7 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": ".2",
+              "key": undefined,
               "nodeType": "class",
               "props": Object {
                 "children": Array [
@@ -1793,7 +1797,7 @@ ShallowWrapper {
               "rendered": Array [
                 Object {
                   "instance": null,
-                  "key": ".0",
+                  "key": undefined,
                   "nodeType": "class",
                   "props": Object {
                     "as": "button",
@@ -1812,7 +1816,7 @@ ShallowWrapper {
                   "rendered": Array [
                     Object {
                       "instance": null,
-                      "key": ".0",
+                      "key": undefined,
                       "nodeType": "class",
                       "props": Object {
                         "as": "i",
@@ -1828,7 +1832,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": ".1",
+                  "key": undefined,
                   "nodeType": "class",
                   "props": Object {
                     "as": "button",
@@ -1848,7 +1852,7 @@ ShallowWrapper {
                   "rendered": Array [
                     Object {
                       "instance": null,
-                      "key": ".0",
+                      "key": undefined,
                       "nodeType": "class",
                       "props": Object {
                         "as": "i",

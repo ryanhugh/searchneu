@@ -5,26 +5,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import CSSModules from 'react-css-modules';
-import classNames from 'classnames/bind';
 
-import globe from './globe.svg';
-import desktopCss from './DesktopClassPanel.css';
-import baseCss from './BaseClassPanel.css';
 import macros from '../macros';
 import BaseClassPanel from './BaseClassPanel';
 import DesktopSectionPanel from './DesktopSectionPanel';
 import SignUpForNotifications from '../SignUpForNotifications';
 
-
-// Merge the base css and the css specific to desktop panels
-// The identityObjProxy check is so the class names appear in the snap files in testing
-// Lets move to sass instead of css eventually.
-const css = {};
-Object.assign(css, baseCss, desktopCss);
-
-const cx = classNames.bind(css);
-
+import globe from './globe.svg';
 
 // Class Panel that renders the box with the class title, class description, and class sections
 // If mobile, uses MobileSectionPanel to show the sections.
@@ -34,7 +21,8 @@ const cx = classNames.bind(css);
 // Don't do `this.state = {...}`, because the state is already setup in the parent react component
 // instead just do this.state.something = 5;
 
-class DesktopClassPanel extends BaseClassPanel {
+
+export default class DesktopClassPanel extends BaseClassPanel {
   static propTypes = {
     aClass: PropTypes.object.isRequired,
   };
@@ -105,11 +93,11 @@ class DesktopClassPanel extends BaseClassPanel {
       const showHonorsColumn = aClass.getHasHonorsSections();
 
       sectionTable = (
-        <table className={ `ui celled striped table ${css.resultsTable}` }>
+        <table className='ui celled striped table resultsTable'>
           <thead>
             <tr>
               <th>
-                <div className={ css.inlineBlock } data-tip='Course Reference Number'>
+                <div className='inlineBlock' data-tip='Course Reference Number'>
                     CRN
                 </div>
               </th>
@@ -121,17 +109,11 @@ class DesktopClassPanel extends BaseClassPanel {
               {examColumnHeaders}
               <th> Seats </th>
 
-              <th
-                className={ cx({
-                  displayNone: !showWaitList,
-                }) }
-              > Waitlist seats
+              <th style={{ display: !showWaitList && 'none' }}>
+                Waitlist seats
               </th>
-              <th
-                className={ cx({
-                  displayNone: !showHonorsColumn,
-                }) }
-              > Honors
+              <th style={{ display: !showHonorsColumn && 'none' }}>
+                Honors
               </th>
               <th> Link </th>
             </tr>
@@ -139,7 +121,7 @@ class DesktopClassPanel extends BaseClassPanel {
           <tbody>
             {/* The CSS applied to the table stripes every other row, starting with the second one.
               This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
-            <tr className={ css.sectionTableFirstRow } />
+            <tr className='sectionTableFirstRow' />
             {this.state.renderedSections.map((section) => {
               return (<DesktopSectionPanel
                 key={ section.crn }
@@ -155,30 +137,36 @@ class DesktopClassPanel extends BaseClassPanel {
     }
 
     // Render the Show More.. Button
-    const showMoreSections = this.getShowMoreButton();
+    const showMoreSections = this.getMoreSectionsButton();
 
     // Figure out the credits string
     const creditsString = this.getCreditsString();
 
     return (
       <div>
-        <div className={ `${css.container} ui segment` }>
-          <div className={ css.header }>
-            <span className={ css.classTitle }>
+        <div className='class-panel-container ui segment'>
+          <div className='header'>
+            <span className='classTitle'>
               {aClass.subject} {aClass.classId}: {aClass.name}
             </span>
-            <span className={ css.classGlobeLinkContainer }>
-              <a target='_blank' rel='noopener noreferrer' className={ css.classGlobeLink } data-tip={ `View on ${aClass.host}` } href={ aClass.prettyUrl || aClass.url }>
+            <span className='classGlobeLinkContainer'>
+              <a
+                target='_blank'
+                rel='noopener noreferrer'
+                className='classGlobeLink'
+                data-tip={ `View on ${aClass.host}` }
+                href={ aClass.prettyUrl || aClass.url }
+              >
                 <img src={ globe } alt='link' />
               </a>
             </span>
           </div>
 
-          <div className={ css.body }>
+          <div className='panel-body'>
             {aClass.desc}
             <br />
             <br />
-            <div className={ css.leftPanel }>
+            <div className='leftPanel'>
               Prerequisites: {this.optionalDisplay(macros.prereqTypes.PREREQ)} {this.showMore(macros.prereqTypes.PREREQ)}
               <br />
               Corequisites: {this.optionalDisplay(macros.prereqTypes.COREQ)} {this.showMore(macros.prereqTypes.COREQ)}
@@ -187,7 +175,7 @@ class DesktopClassPanel extends BaseClassPanel {
               <br />
               Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
             </div>
-            <div className={ css.rightPanel }>
+            <div className='rightPanel'>
               <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
               {creditsString}
               <div>
@@ -207,4 +195,3 @@ class DesktopClassPanel extends BaseClassPanel {
 // Number of sections to show by default. This is different on mobile.
 DesktopClassPanel.sectionsShownByDefault = 3;
 
-export default CSSModules(DesktopClassPanel, css);

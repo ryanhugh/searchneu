@@ -5,11 +5,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames/bind';
-
-import css from './WeekdayBoxes.css';
-
-const cx = classNames.bind(css);
 
 // This file is responsible for the weekday boxes, eg [][x][][][x] for Tuesday Friday
 // And the string that appears when you hover over it (Meets on Tuesday, Friday)
@@ -40,17 +35,14 @@ function WeekdayBoxes(props) {
     return (
       <div
         key={ index } // eslint-disable-line react/no-array-index-key
-        className={ cx({
-          weekDayBoxChecked: meets,
-          weekDayBox: true,
-        }) }
+        className={ `weekday-box${meets ? '-checked ' : ''}` }
       />
     );
   });
 
 
   return (
-    <div className={ `${css.inlineBlock} ${css.daysContainer}` } data-tip={ meetingString }>
+    <div className='weekday-indicator' data-tip={ meetingString }>
       {booleanElements}
     </div>
   );
