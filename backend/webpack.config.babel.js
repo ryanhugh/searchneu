@@ -109,32 +109,6 @@ export default {
         include: path.join(rootDir, 'common'),
       },
 
-      // This loader is just for one css file that is global to the project.
-      // Don't want to load this css file with css modules.
-      {
-        test: /\.css$/,
-        include: [
-          path.join(rootDir, 'frontend', 'css'),
-        ],
-        loaders: [
-          'style-loader',
-          'css-loader?localIdentName=[path]___[name]__[local]___[hash:base64:5]',
-        ],
-      },
-
-      // This is the main css loader. Every css file loaded with this loader is processed with
-      // css modules.
-      {
-        test: /\.css$/,
-        include: [
-          path.join(rootDir, 'frontend', 'components'),
-        ],
-        loaders: [
-          'style-loader',
-          'css-loader?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
-        ],
-      },
-
       // This css loader is for 3rd party css files. Load them globally.
       {
         test: /\.css$/,
@@ -144,6 +118,16 @@ export default {
         loaders: [
           'style-loader',
           'css-loader?localIdentName=[path]___[name]__[local]___[hash:base64:5]',
+        ],
+      },
+
+      // Sass
+      {
+        test: /\.scss$/,
+        loaders: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
         ],
       },
 
