@@ -169,7 +169,7 @@ class BaseClassPanel extends React.Component {
 
           // When adding support for right click-> open in new tab, we might also be able to fix the jsx-a11y/anchor-is-valid errors.
           // They are disabled for now.
-          const hash = `/${aClass.termId}/${childBranch.subject} ${childBranch.classId}`;
+          const hash = `/${this.props.aClass.termId}/${childBranch.subject} ${childBranch.classId}`;
 
           const element = (
             <a
