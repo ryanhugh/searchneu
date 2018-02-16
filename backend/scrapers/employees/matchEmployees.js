@@ -341,7 +341,7 @@ class CombineCCISandEmployees {
 
 
     // Remove people who have request their information be removed from the DB.
-    // Ask Ryan about this for more details. 
+    // Ask Ryan about this for more details.
     const beforeRemoveCount = mergedEmployees.length;
     mergedEmployees = mergedEmployees.filter((person) => {
       if (person.emails && person.emails.includes('i.escobedo@northeastern.edu')) {
