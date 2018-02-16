@@ -424,7 +424,7 @@ class Home extends React.Component {
     // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation.
     // Actually it only removes the extra whitespace on chrome. Need to come up with a better solution for other browsers.
     return (
-      <div className={ containerClassnames } style={{ height:'100%' }}>
+      <div className={ containerClassnames }>
 
         <a target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu' className='githubCornerContainer'>
           {/* eslint-disable max-len */}
