@@ -1,12 +1,15 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
-import CSSModules from 'react-css-modules';
 import { Button, Icon, Modal, Header, TextArea, Input, Form, Message } from 'semantic-ui-react';
 import { Transition } from 'react-transition-group';
 
 import macros from './macros';
 import request from './request';
-import css from './FeedbackModal.css';
 
 class FeedbackModal extends React.Component {
   // The bool of whether the feedback form should be open or not
@@ -97,13 +100,13 @@ class FeedbackModal extends React.Component {
     };
 
     return (
-      <div>
+      <div className='feedback-container'>
         <Transition in={ this.state.messageVisible } timeout={ 500 }>
           {(state) => {
          return (
            <Message
              success
-             className={ css.alertMessage }
+             className='alertMessage'
              header='Your submission was successful.'
              style={{ ...transitionStyles[state] }}
              onDismiss={ this.hideMessage }
@@ -113,12 +116,12 @@ class FeedbackModal extends React.Component {
         </Transition>
         <Modal open={ this.props.feedbackModalOpen } onClose={ this.props.closeForm } size='small'>
           <Header icon='mail' content='Search NEU Feedback' />
-          <Modal.Content className={ css.formModalContent }>
+          <Modal.Content className='formModalContent'>
             <Form>
-              <div className={ css.feedbackParagraph }>Find a bug in Search NEU? Find a query that dosen&apos;t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.</div>
-              <TextArea name='response' form='feedbackForm' className={ css.feedbackTextbox } onChange={ this.onTextAreaChange } />
+              <div className='feedbackParagraph'>Find a bug in Search NEU? Find a query that dosen&apos;t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.</div>
+              <TextArea name='response' form='feedbackForm' className='feedbackTextbox' onChange={ this.onTextAreaChange } />
               <p>By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.</p>
-              <Input name='contact' form='feedbackForm' className={ css.formModalInput } onChange={ this.onContactChange } />
+              <Input name='contact' form='feedbackForm' className='formModalInput' onChange={ this.onContactChange } />
             </Form>
           </Modal.Content>
           <Modal.Actions>
@@ -137,4 +140,4 @@ class FeedbackModal extends React.Component {
   }
 }
 
-export default CSSModules(FeedbackModal, css);
+export default FeedbackModal;

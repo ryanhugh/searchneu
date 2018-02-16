@@ -5,11 +5,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import CSSModules from 'react-css-modules';
 import { Button } from 'semantic-ui-react';
 
 import macros from './macros';
-import css from './SignUpForNotifications.css';
 import authentication from './authentication';
 import Keys from '../../common/Keys';
 
@@ -76,9 +74,9 @@ class SignUpForNotifications extends React.Component {
     }));
 
     return (
-      <div ref={ (ele) => { this.facebookScopeRef = ele; } } className={ css.inlineBlock }>
+      <div ref={ (ele) => { this.facebookScopeRef = ele; } } className='inlineBlock'>
         <div
-          className={ `fb-send-to-messenger ${css.sendToMessengerButton}` }
+          className='fb-send-to-messenger sendToMessengerButton'
           messenger_app_id='1979224428978082'
           page_id='807584642748179'
           data-ref={ dataRef }
@@ -94,22 +92,31 @@ class SignUpForNotifications extends React.Component {
       return null;
     }
 
+    let content = null;
+
     if (this.state.showMessengerButton) {
-      return (
-        <div className={ css.facebookButtonContainer }>
-          <div className={ css.sendToMessengerButtonLabel }>
+      content = (
+        <div className='facebookButtonContainer'>
+          <div className='sendToMessengerButtonLabel'>
             Click this button to continue
           </div>
           {this.getSendToMessengerButton()}
         </div>
       );
     } else if (this.props.aClass.sections.length === 0) {
-      return <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when sections are added!' className={ css.notificationButton } />;
+      content = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when sections are added!' className='notificationButton' />;
     } else if (this.props.aClass.isAtLeastOneSectionFull()) {
-      return <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!' className={ css.notificationButton } />;
+      content = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!' className='notificationButton' />;
+    } else {
+      return null;
     }
-    return null;
+
+    return (
+      <div className='sign-up-for-notifications-container'>
+        {content}
+      </div>
+    );
   }
 }
 
-export default CSSModules(SignUpForNotifications, css);
+export default SignUpForNotifications;

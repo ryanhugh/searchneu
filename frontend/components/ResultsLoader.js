@@ -5,7 +5,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import CSSModules from 'react-css-modules';
 
 import Keys from '../../common/Keys';
 import macros from './macros';
@@ -13,7 +12,6 @@ import DataLib from '../../common/classModels/DataLib';
 import EmployeePanel from './panels/EmployeePanel';
 import DesktopClassPanel from './panels/DesktopClassPanel';
 import MobileClassPanel from './panels/MobileClassPanel';
-import css from './ResultsLoader.css';
 
 // The Home.js component now keeps track of how many to render.
 // This component watches for scroll events and tells Home.js if more items need to be requested.
@@ -116,7 +114,7 @@ class ResultsLoader extends React.Component {
     }
 
     return (
-      <div className={ `ui container ${css.resultsContainer}` }>
+      <div className='ui container results-loader-container'>
         <div className='five column row' >
           <div className='page-home' ref={ (c) => { this.elementsContainer = c; } }>
             {this.state.visibleObjects.map((obj) => {
@@ -150,4 +148,4 @@ ResultsLoader.propTypes = {
 };
 
 
-export default CSSModules(ResultsLoader, css);
+export default ResultsLoader;
