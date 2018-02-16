@@ -25,6 +25,8 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
 
+    let parsedUrl = this.parseUrl();
+
     let selectedTerm;
     // Check the following sources, in order, for the current selected term. If any are found, use that one and don't continue. 
     // 1. The url. 
@@ -33,7 +35,10 @@ class Home extends React.Component {
 
     // After the term is found, keep it in localstorage in case the url is changed or the 
     // Keeping this in localStorage makes it sticky across page loads.
-    if (window.localStorage.selectedTerm) {
+    if (parsedUrl.selectedTerm) {
+      selectedTerm = parsedUrl.selectedTerm
+    }
+    else if (window.localStorage.selectedTerm) {
       selectedTerm = window.localStorage.selectedTerm;
     } else {
       // Defalt to Spring 2018 (need to make this dynamic in the future...)
@@ -116,8 +121,8 @@ class Home extends React.Component {
     }
 
     if (this.state.searchTerm) {
-      macros.log('Going to serach for', this.state.searchTerm);
-      this.search(this.state.searchTerm);
+      macros.log('Going to serach for', this.state.searchTerm, this.state.selectedTerm);
+      this.search(this.state.searchTerm, this.state.selectedTerm);
     }
   }
 
@@ -137,7 +142,7 @@ class Home extends React.Component {
     const query = this.getSearchQueryFromUrl();
 
     // Only search if the query is longer than 0
-    this.search(query);
+    this.search(query, this.selectedTerm);
 
     if (this.inputElement) {
       this.inputElement.value = query;
@@ -176,6 +181,32 @@ class Home extends React.Component {
     }
 
     this.search('');
+  }
+
+  // Parse termId and query from the url. The url might just be a search and it might be a search term and a termId
+  parseUrl() {
+    let pathname = decodeURIComponent(macros.replaceAll(window.location.pathname.slice(1), '+', ' '));
+    let retVal = {}
+
+
+    if (pathname.includes("/")) {
+
+      // Must be something from the future or something, just treat the entire thing as a search
+      if (macros.occurrences(pathname, '/') > 1) {
+        retVal.searchTerm = pathname
+      }
+      else {
+        let splitPathname = pathname.split('/')
+
+        retVal.selectedTerm = splitPathname[0]
+        retVal.searchTerm = splitPathname[1]
+      }
+    }
+    else {
+      retVal.searchTerm = pathname
+    }
+
+    return retVal;
   }
 
   updateUrl(term, searchTerm) {
@@ -257,10 +288,6 @@ class Home extends React.Component {
     });
   }
 
-  getSearchQueryFromUrl() {
-    return decodeURIComponent(macros.replaceAll(window.location.pathname.slice(1), '+', ' '));
-  }
-
   closeForm() {
     this.setState({ feedbackModalOpen: false });
   }
@@ -333,7 +360,7 @@ class Home extends React.Component {
   }
 
   searchFromUserAction(event) {
-    this.search(event.target.value);
+    this.search(event.target.value, this.state.selectedTerm);
   }
 
   render() {
