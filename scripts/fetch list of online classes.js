@@ -110,17 +110,20 @@ function findOnlineClasses(termDump) {
 async function main() {
 
   // summer i
+  console.log("Summer I 2018")
   let one = await getFrontendData('getTermDump/neu.edu/201840.json');
+  findOnlineClasses(one)
 
   // summer ii
+  console.log("Summer II 2018")
   let two = await getFrontendData('getTermDump/neu.edu/201860.json');
+  findOnlineClasses(two)
 
   // summer full
+  console.log("Summer Full 2018")
   let full = await getFrontendData('getTermDump/neu.edu/201850.json');
+  findOnlineClasses(full)
 
-
-
-  findOnlineClasses(one)
   
 }
 
