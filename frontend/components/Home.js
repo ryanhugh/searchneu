@@ -26,7 +26,13 @@ class Home extends React.Component {
     super(props);
 
     let selectedTerm;
-    // Check localStorage for the most recently selected term. Keeping this in localStorage makes it sticky across page loads/
+    // Check the following sources, in order, for the current selected term. If any are found, use that one and don't continue. 
+    // 1. The url. 
+    // 2. Localstorage
+    // 3. Default to Spring 2018. url for a term. If it doslocalStorage for the most recently selected term.
+
+    // After the term is found, keep it in localstorage in case the url is changed or the 
+    // Keeping this in localStorage makes it sticky across page loads.
     if (window.localStorage.selectedTerm) {
       selectedTerm = window.localStorage.selectedTerm;
     } else {
@@ -172,6 +178,21 @@ class Home extends React.Component {
     this.search('');
   }
 
+  updateUrl(term, searchTerm) {
+
+    // There was one error received by rollbar that said:
+    // Uncaught SecurityError: Failed to execute 'pushState' on 'History': A history state object with URL 'https:' cannot be created in a document with origin 'https://searchneu.com' and URL 'https://searchneu.com/...'.
+    // Which doesn't really make sense because 'https:' is not a valid URL,
+    // but just in case there is a try-catch around this call (no real reason not to have one).
+    // https://rollbar.com/ryanhugh/searchneu/items/10/
+    try {
+      window.history.pushState(null, null, `/${encodedQuery}`);
+    } catch (e) {
+      macros.error('Could not change URL?', e);
+    }
+
+  }
+
   // On mobile, this is called whenever the user clicks enter.
   // On desktop, this is called 500ms after they user stops typing.
   onSearchDebounced(searchTerm) {
@@ -186,16 +207,8 @@ class Home extends React.Component {
       }
     }
 
-    // There was one error received by rollbar that said:
-    // Uncaught SecurityError: Failed to execute 'pushState' on 'History': A history state object with URL 'https:' cannot be created in a document with origin 'https://searchneu.com' and URL 'https://searchneu.com/...'.
-    // Which doesn't really make sense because 'https:' is not a valid URL,
-    // but just in case there is a try-catch around this call (no real reason not to have one).
-    // https://rollbar.com/ryanhugh/searchneu/items/10/
-    try {
-      window.history.pushState(null, null, `/${encodedQuery}`);
-    } catch (e) {
-      macros.error('Could not change URL?', e);
-    }
+    this.updateUrl(this.state.selectedTerm)
+
     this.logSearch(searchTerm);
   }
 
