@@ -175,7 +175,7 @@ export default class EmployeePanel extends React.Component {
     }
 
     return (
-      <div className='container ui segment'>
+      <div className='employee-panel-container ui segment'>
         <div
           className='header'
           onClick={ titleClickListener }
@@ -189,7 +189,7 @@ export default class EmployeePanel extends React.Component {
           {linkElement}
         </div>
 
-        <div style={{
+        <div className="body" style={{
           display: (!this.state.showMoreThanTitle && macros.isMobile) && 'none',
           padding: 20,
         }}
