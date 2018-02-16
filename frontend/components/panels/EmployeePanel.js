@@ -161,7 +161,6 @@ export default class EmployeePanel extends React.Component {
     if (employee.url && !macros.isMobile) {
       linkElement = (
         <span className='classGlobeLink'>
-
           <a
             key='jfdalsj'
             target='_blank'
@@ -198,11 +197,7 @@ export default class EmployeePanel extends React.Component {
           <div className='inlineBlock contact-box'>
             {this.constructor.injectBRs(firstColumn)}
           </div>
-          <div style={{
-            display: 'inline-block',
-            'padding-left': macros.isMobile ? 20 : 100,
-          }}
-          >
+          <div className='employee-panel-second-column'>
             {this.constructor.injectBRs(secondColumn)}
           </div>
         </div>
