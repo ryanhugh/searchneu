@@ -189,7 +189,9 @@ export default class EmployeePanel extends React.Component {
           {linkElement}
         </div>
 
-        <div className="body" style={{
+        <div
+          className='body'
+          style={{
           display: (!this.state.showMoreThanTitle && macros.isMobile) && 'none',
           padding: 20,
         }}
