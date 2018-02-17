@@ -17,7 +17,7 @@ exports[`should render coreqs string 1`] = `
 Array [
   <a
     className="reqClassLink"
-    href="CHEM 3506"
+    href="/201810/CHEM 3506"
     onClick={[Function]}
     tabIndex={0}
   >
@@ -26,7 +26,7 @@ Array [
   " and ",
   <a
     className="reqClassLink"
-    href="CHEM 3507"
+    href="/201810/CHEM 3507"
     onClick={[Function]}
     tabIndex={0}
   >
@@ -42,7 +42,7 @@ Array [
     Array [
       <a
         className="reqClassLink"
-        href="CHEM 3401"
+        href="/201810/CHEM 3401"
         onClick={[Function]}
         tabIndex={0}
       >
@@ -51,7 +51,7 @@ Array [
       " or ",
       <a
         className="reqClassLink"
-        href="CHEM 3431"
+        href="/201810/CHEM 3431"
         onClick={[Function]}
         tabIndex={0}
       >
@@ -66,7 +66,7 @@ Array [
     Array [
       <a
         className="reqClassLink"
-        href="CHEM 2321"
+        href="/201810/CHEM 2321"
         onClick={[Function]}
         tabIndex={0}
       >
@@ -75,7 +75,7 @@ Array [
       " or ",
       <a
         className="reqClassLink"
-        href="CHEM 2331"
+        href="/201810/CHEM 2331"
         onClick={[Function]}
         tabIndex={0}
       >
@@ -90,7 +90,7 @@ Array [
     Array [
       <a
         className="reqClassLink"
-        href="CHEM 2313"
+        href="/201810/CHEM 2313"
         onClick={[Function]}
         tabIndex={0}
       >
@@ -99,7 +99,7 @@ Array [
       " or ",
       <a
         className="reqClassLink"
-        href="CHEM 2317"
+        href="/201810/CHEM 2317"
         onClick={[Function]}
         tabIndex={0}
       >

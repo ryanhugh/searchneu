@@ -33,7 +33,7 @@ function SplashPage() {
           <div className='text-inner'>
             <h1>Instantly search through all of NEU&apos;s classes.</h1>
             <div className='all-text-desc'>
-              Search through classes, professors, sections, and subjects at Northeastern. Going to add more stuff (like TRACE surveys) soon!
+              Search through classes, professors, sections, and subjects at Northeastern. Going to add more features soon!
             </div>
             <Button
               onClick={ () => { window.dispatchEvent(searchForCS2510Event); } }

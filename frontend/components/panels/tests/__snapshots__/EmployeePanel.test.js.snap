@@ -67,6 +67,7 @@ ShallowWrapper {
           </span>
         </div>,
         <div
+          className="body"
           style={
             Object {
               "display": false,
@@ -98,12 +99,7 @@ ShallowWrapper {
             </a>
           </div>
           <div
-            style={
-              Object {
-                "display": "inline-block",
-                "padding-left": 100,
-              }
-            }
+            className="employee-panel-second-column"
           >
             132C Nightingale Hall
             <br />
@@ -127,7 +123,7 @@ ShallowWrapper {
           </div>
         </div>,
       ],
-      "className": "container ui segment",
+      "className": "employee-panel-container ui segment",
     },
     "ref": null,
     "rendered": Array [
@@ -262,12 +258,7 @@ ShallowWrapper {
               </a>
             </div>,
             <div
-              style={
-                Object {
-                  "display": "inline-block",
-                  "padding-left": 100,
-                }
-              }
+              className="employee-panel-second-column"
             >
               132C Nightingale Hall
               <br />
@@ -290,6 +281,7 @@ ShallowWrapper {
               </a>
             </div>,
           ],
+          "className": "body",
           "style": Object {
             "display": false,
             "padding": 20,
@@ -413,10 +405,7 @@ ShallowWrapper {
                   617-373-5797
                 </a>,
               ],
-              "style": Object {
-                "display": "inline-block",
-                "padding-left": 100,
-              },
+              "className": "employee-panel-second-column",
             },
             "ref": null,
             "rendered": Array [
@@ -528,6 +517,7 @@ ShallowWrapper {
             </span>
           </div>,
           <div
+            className="body"
             style={
               Object {
                 "display": false,
@@ -559,12 +549,7 @@ ShallowWrapper {
               </a>
             </div>
             <div
-              style={
-                Object {
-                  "display": "inline-block",
-                  "padding-left": 100,
-                }
-              }
+              className="employee-panel-second-column"
             >
               132C Nightingale Hall
               <br />
@@ -588,7 +573,7 @@ ShallowWrapper {
             </div>
           </div>,
         ],
-        "className": "container ui segment",
+        "className": "employee-panel-container ui segment",
       },
       "ref": null,
       "rendered": Array [
@@ -723,12 +708,7 @@ ShallowWrapper {
                 </a>
               </div>,
               <div
-                style={
-                  Object {
-                    "display": "inline-block",
-                    "padding-left": 100,
-                  }
-                }
+                className="employee-panel-second-column"
               >
                 132C Nightingale Hall
                 <br />
@@ -751,6 +731,7 @@ ShallowWrapper {
                 </a>
               </div>,
             ],
+            "className": "body",
             "style": Object {
               "display": false,
               "padding": 20,
@@ -874,10 +855,7 @@ ShallowWrapper {
                     617-373-5797
                   </a>,
                 ],
-                "style": Object {
-                  "display": "inline-block",
-                  "padding-left": 100,
-                },
+                "className": "employee-panel-second-column",
               },
               "ref": null,
               "rendered": Array [
@@ -1022,6 +1000,7 @@ ShallowWrapper {
           </span>
         </div>,
         <div
+          className="body"
           style={
             Object {
               "display": "none",
@@ -1057,12 +1036,7 @@ ShallowWrapper {
             </a>
           </div>
           <div
-            style={
-              Object {
-                "display": "inline-block",
-                "padding-left": 20,
-              }
-            }
+            className="employee-panel-second-column"
           >
             <a
               href="http://www.ccs.neu.edu/home/lrazzaq/"
@@ -1074,7 +1048,7 @@ ShallowWrapper {
           </div>
         </div>,
       ],
-      "className": "container ui segment",
+      "className": "employee-panel-container ui segment",
     },
     "ref": null,
     "rendered": Array [
@@ -1166,12 +1140,7 @@ ShallowWrapper {
               </a>
             </div>,
             <div
-              style={
-                Object {
-                  "display": "inline-block",
-                  "padding-left": 20,
-                }
-              }
+              className="employee-panel-second-column"
             >
               <a
                 href="http://www.ccs.neu.edu/home/lrazzaq/"
@@ -1182,6 +1151,7 @@ ShallowWrapper {
               </a>
             </div>,
           ],
+          "className": "body",
           "style": Object {
             "display": "none",
             "padding": 20,
@@ -1324,10 +1294,7 @@ ShallowWrapper {
                   Personal Website
                 </a>,
               ],
-              "style": Object {
-                "display": "inline-block",
-                "padding-left": 20,
-              },
+              "className": "employee-panel-second-column",
             },
             "ref": null,
             "rendered": Array [
@@ -1379,6 +1346,7 @@ ShallowWrapper {
             </span>
           </div>,
           <div
+            className="body"
             style={
               Object {
                 "display": "none",
@@ -1414,12 +1382,7 @@ ShallowWrapper {
               </a>
             </div>
             <div
-              style={
-                Object {
-                  "display": "inline-block",
-                  "padding-left": 20,
-                }
-              }
+              className="employee-panel-second-column"
             >
               <a
                 href="http://www.ccs.neu.edu/home/lrazzaq/"
@@ -1431,7 +1394,7 @@ ShallowWrapper {
             </div>
           </div>,
         ],
-        "className": "container ui segment",
+        "className": "employee-panel-container ui segment",
       },
       "ref": null,
       "rendered": Array [
@@ -1523,12 +1486,7 @@ ShallowWrapper {
                 </a>
               </div>,
               <div
-                style={
-                  Object {
-                    "display": "inline-block",
-                    "padding-left": 20,
-                  }
-                }
+                className="employee-panel-second-column"
               >
                 <a
                   href="http://www.ccs.neu.edu/home/lrazzaq/"
@@ -1539,6 +1497,7 @@ ShallowWrapper {
                 </a>
               </div>,
             ],
+            "className": "body",
             "style": Object {
               "display": "none",
               "padding": 20,
@@ -1681,10 +1640,7 @@ ShallowWrapper {
                     Personal Website
                   </a>,
                 ],
-                "style": Object {
-                  "display": "inline-block",
-                  "padding-left": 20,
-                },
+                "className": "employee-panel-second-column",
               },
               "ref": null,
               "rendered": Array [
