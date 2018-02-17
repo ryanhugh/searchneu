@@ -31,7 +31,7 @@ class Home extends React.Component {
     // Check the following sources, in order, for the current selected term. If any are found, use that one and don't continue.
     // 1. The url.
     // 2. Localstorage
-    // 3. Default to Spring 2018. url for a term. If it doslocalStorage for the most recently selected term.
+    // 3. Default to Spring 2018.
 
     // After the term is found, keep it in localstorage in case the url is changed or the
     // Keeping this in localStorage makes it sticky across page loads.
@@ -438,7 +438,10 @@ class Home extends React.Component {
     // On mobile only show the logo and the github corner if there are no results and the search box is not focused (the virtual keyboard is not on the screen).
     let containerClassnames = 'home-container';
     if (macros.isMobile) {
-      if (document.activeElement === this.inputElement || this.state.results.length > 0) {
+
+      // Show the compact view unless there is nothing entered into the text box and the text box is not focused. 
+      // (Aka show the compact view when the input is focused, when there are results, or when there are no results). 
+      if (this.state.searchQuery.length > 0 || document.activeElement === this.inputElement) {
         containerClassnames += ' mobileCompact';
       } else {
         containerClassnames += ' mobileFull';
