@@ -438,9 +438,8 @@ class Home extends React.Component {
     // On mobile only show the logo and the github corner if there are no results and the search box is not focused (the virtual keyboard is not on the screen).
     let containerClassnames = 'home-container';
     if (macros.isMobile) {
-
-      // Show the compact view unless there is nothing entered into the text box and the text box is not focused. 
-      // (Aka show the compact view when the input is focused, when there are results, or when there are no results). 
+      // Show the compact view unless there is nothing entered into the text box and the text box is not focused.
+      // (Aka show the compact view when the input is focused, when there are results, or when there are no results).
       if (this.state.searchQuery.length > 0 || document.activeElement === this.inputElement) {
         containerClassnames += ' mobileCompact';
       } else {
