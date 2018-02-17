@@ -25,13 +25,23 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    let selectedTerm;
-    // Check localStorage for the most recently selected term. Keeping this in localStorage makes it sticky across page loads/
-    if (window.localStorage.selectedTerm) {
-      selectedTerm = window.localStorage.selectedTerm;
+    const parsedUrl = this.parseUrl();
+
+    let selectedTermId;
+    // Check the following sources, in order, for the current selected term. If any are found, use that one and don't continue.
+    // 1. The url.
+    // 2. Localstorage
+    // 3. Default to Spring 2018.
+
+    // After the term is found, keep it in localstorage in case the url is changed or the
+    // Keeping this in localStorage makes it sticky across page loads.
+    if (parsedUrl.selectedTermId) {
+      selectedTermId = parsedUrl.selectedTermId;
+    } else if (window.localStorage.selectedTermId) {
+      selectedTermId = window.localStorage.selectedTermId;
     } else {
       // Defalt to Spring 2018 (need to make this dynamic in the future...)
-      selectedTerm = '201830';
+      selectedTermId = '201830';
     }
 
     this.state = {
@@ -39,19 +49,19 @@ class Home extends React.Component {
 
       // Value to set the search box to after the search box is rendered.
       // If the user navigates to a page, search for the query.
-      searchTerm: this.getSearchQueryFromUrl(),
+      searchQuery: parsedUrl.searchQuery,
 
       // If we a waiting on a user on a slow computer to click enter to search.
       // On desktop, the data is searched every time, but it is only searched after you click enter on mobile.
       waitingOnEnter: false,
 
       // Keeps track of whether to show the results or the splash screen.
-      // Is the same as this.state.searchTerm.length === 0 most of the time, but when the search results are deleted,
+      // Is the same as this.state.searchQuery.length === 0 most of the time, but when the search results are deleted,
       // they animate away instead of switching instantly.
       showSearchResults: false,
 
       // Keep track of which term the user is searching over. The employee data is the same regardless of the term.
-      selectedTerm: selectedTerm,
+      selectedTermId: selectedTermId,
 
       // Keep track of whether the feedback modal is open or not.
       feedbackModalOpen: false,
@@ -63,8 +73,9 @@ class Home extends React.Component {
     // Used in analytics to ensure you don't log the same query twice
     this.lastSearch = null;
 
-    // Used in search to make sure you discard a result if the search requests did not come back in order
-    this.currentQuery = null;
+    // Used in search to make sure you discard a result if the search requests did not come back in order.
+    // Ensures that only the most recently selected values for term and search query are displayed.
+    this.currentQueryAndTerm = null;
 
     // Reference to the raw DOM element of the input box.
     // Updated with react refs when the render function runs.
@@ -92,7 +103,7 @@ class Home extends React.Component {
     this.searchCount = 0;
 
     // Log the initial search or pageview.
-    this.logSearch(this.state.searchTerm);
+    this.logSearch(this.state.searchQuery);
   }
 
   componentDidMount() {
@@ -109,9 +120,9 @@ class Home extends React.Component {
       }
     }
 
-    if (this.state.searchTerm) {
-      macros.log('Going to serach for', this.state.searchTerm);
-      this.search(this.state.searchTerm);
+    if (this.state.searchQuery) {
+      macros.log('Going to serach for', this.state.searchQuery, this.state.selectedTermId);
+      this.search(this.state.searchQuery, this.state.selectedTermId);
     }
   }
 
@@ -128,13 +139,18 @@ class Home extends React.Component {
 
   // Runs when the user clicks back or forward in their browser.
   onPopState() {
-    const query = this.getSearchQueryFromUrl();
+    const parsedUrl = this.parseUrl();
+
+    let newSelectedTermId = this.state.selectedTermId;
+    if (parsedUrl.selectedTermId) {
+      newSelectedTermId = parsedUrl.selectedTermId;
+    }
 
     // Only search if the query is longer than 0
-    this.search(query);
+    this.search(parsedUrl.searchQuery, newSelectedTermId);
 
     if (this.inputElement) {
-      this.inputElement.value = query;
+      this.inputElement.value = parsedUrl.searchQuery;
     }
   }
 
@@ -152,7 +168,7 @@ class Home extends React.Component {
     // Scroll to the top
     document.body.scrollTop = 0;
 
-    this.search(query);
+    this.search(query, this.state.selectedTermId);
   }
 
   onInputFocus() {
@@ -169,41 +185,24 @@ class Home extends React.Component {
       this.inputElement.value = '';
     }
 
-    this.search('');
+    this.search('', this.state.selectedTermId);
   }
 
   // On mobile, this is called whenever the user clicks enter.
   // On desktop, this is called 500ms after they user stops typing.
-  onSearchDebounced(searchTerm) {
-    searchTerm = searchTerm.trim();
+  onSearchDebounced(searchQuery) {
+    searchQuery = searchQuery.trim();
 
-    let encodedQuery = '';
-    for (const letter of searchTerm) {
-      if (letter === ' ') {
-        encodedQuery += '+';
-      } else {
-        encodedQuery += encodeURIComponent(letter);
-      }
-    }
+    this.updateUrl(this.state.selectedTermId, searchQuery);
 
-    // There was one error received by rollbar that said:
-    // Uncaught SecurityError: Failed to execute 'pushState' on 'History': A history state object with URL 'https:' cannot be created in a document with origin 'https://searchneu.com' and URL 'https://searchneu.com/...'.
-    // Which doesn't really make sense because 'https:' is not a valid URL,
-    // but just in case there is a try-catch around this call (no real reason not to have one).
-    // https://rollbar.com/ryanhugh/searchneu/items/10/
-    try {
-      window.history.pushState(null, null, `/${encodedQuery}`);
-    } catch (e) {
-      macros.error('Could not change URL?', e);
-    }
-    this.logSearch(searchTerm);
+    this.logSearch(searchQuery);
   }
 
   onClick(event) {
     if (macros.isMobile) {
       this.setState({
         results: [],
-        searchTerm: event.target.value,
+        searchQuery: event.target.value,
         waitingOnEnter: true,
       });
       return;
@@ -234,18 +233,44 @@ class Home extends React.Component {
   }
 
   onTermdropdownChange(event, data) {
-    localStorage.selectedTerm = data.value;
+    localStorage.selectedTermId = data.value;
+
+    this.updateUrl(data.value, this.state.searchQuery);
+
     this.setState({
-      selectedTerm: data.value,
+      selectedTermId: data.value,
     }, () => {
-      if (this.state.searchTerm) {
-        this.search(this.state.searchTerm);
+      if (this.state.searchQuery) {
+        this.search(this.state.searchQuery, data.value);
       }
     });
   }
 
-  getSearchQueryFromUrl() {
-    return decodeURIComponent(macros.replaceAll(window.location.pathname.slice(1), '+', ' '));
+  // Parse termId and query from the url. The url might just be a search and it might be a search term and a termId
+  parseUrl() {
+    const pathname = decodeURIComponent(macros.replaceAll(window.location.pathname.slice(1), '+', ' '));
+    const retVal = {};
+
+
+    if (pathname.includes('/')) {
+      // Must be something from the future or something, just treat the entire thing as a search
+      if (macros.occurrences(pathname, '/') > 1) {
+        retVal.searchQuery = pathname;
+      } else {
+        const splitPathname = pathname.split('/');
+
+        if (splitPathname[0].length === 6) {
+          retVal.selectedTermId = splitPathname[0];
+          retVal.searchQuery = splitPathname[1];
+        } else {
+          retVal.searchQuery = pathname;
+        }
+      }
+    } else {
+      retVal.searchQuery = pathname;
+    }
+
+    return retVal;
   }
 
   closeForm() {
@@ -256,19 +281,19 @@ class Home extends React.Component {
     this.setState({ feedbackModalOpen: true });
   }
 
-  logSearch(searchTerm) {
-    searchTerm = searchTerm.trim();
-    if (searchTerm === this.lastSearch) {
-      macros.log('Not logging because same as last search', searchTerm);
+  logSearch(searchQuery) {
+    searchQuery = searchQuery.trim();
+    if (searchQuery === this.lastSearch) {
+      macros.log('Not logging because same as last search', searchQuery);
       return;
     }
-    this.lastSearch = searchTerm;
+    this.lastSearch = searchQuery;
 
-    if (searchTerm) {
+    if (searchQuery) {
       this.searchCount++;
-      window.ga('send', 'pageview', `/?search=${searchTerm}`);
+      window.ga('send', 'pageview', `/?search=${searchQuery}`);
 
-      macros.logAmplitudeEvent('Search', { query: searchTerm.toLowerCase(), sessionCount: this.searchCount });
+      macros.logAmplitudeEvent('Search', { query: searchQuery.toLowerCase(), sessionCount: this.searchCount });
     } else {
       macros.logAmplitudeEvent('Homepage visit');
       window.ga('send', 'pageview', '/');
@@ -277,17 +302,16 @@ class Home extends React.Component {
 
   // Called from ResultsLoader to load more
   loadMore() {
-    this.search(this.state.searchTerm, this.state.results.length + 10);
+    this.search(this.state.searchQuery, this.state.selectedTermId, this.state.results.length + 10);
   }
 
-  async search(searchTerm, termCount = 5) {
-    this.currentQuery = searchTerm;
+  async search(searchQuery, selectedTermId, termCount = 5) {
+    this.currentQueryAndTerm = searchQuery + selectedTermId;
 
-    // Should the selected term be a part of the URL? and should it be a part of this user history? (when the user clicks forward and backward)
-    const results = await search.search(searchTerm, this.state.selectedTerm, termCount);
+    const results = await search.search(searchQuery, selectedTermId, termCount);
 
-    if (searchTerm !== this.currentQuery) {
-      macros.log('Did not come back in order, discarding ', searchTerm);
+    if ((searchQuery + selectedTermId) !== this.currentQueryAndTerm) {
+      macros.log('Did not come back in order, discarding ', this.currentQueryAndTerm, '!==', searchQuery, selectedTermId);
       return;
     }
 
@@ -296,11 +320,12 @@ class Home extends React.Component {
 
     const newState = {
       showSearchResults: true,
-      searchTerm: searchTerm,
+      searchQuery: searchQuery,
+      selectedTermId: selectedTermId,
       waitingOnEnter: false,
     };
 
-    if (searchTerm.length !== 0) {
+    if (searchQuery.length !== 0) {
       newState.results = results;
     }
 
@@ -309,7 +334,7 @@ class Home extends React.Component {
 
 
     // Hide the results after some delay
-    if (searchTerm.length === 0) {
+    if (searchQuery.length === 0) {
       this.hideSearchResultsTimeout = setTimeout(() => {
         this.setState({
           results: [],
@@ -320,7 +345,29 @@ class Home extends React.Component {
   }
 
   searchFromUserAction(event) {
-    this.search(event.target.value);
+    this.search(event.target.value, this.state.selectedTermId);
+  }
+
+  updateUrl(selectedTermId, searchQuery) {
+    let encodedQuery = '';
+    for (const letter of searchQuery) {
+      if (letter === ' ') {
+        encodedQuery += '+';
+      } else {
+        encodedQuery += encodeURIComponent(letter);
+      }
+    }
+
+    // There was one error received by rollbar that said:
+    // Uncaught SecurityError: Failed to execute 'pushState' on 'History': A history state object with URL 'https:' cannot be created in a document with origin 'https://searchneu.com' and URL 'https://searchneu.com/...'.
+    // Which doesn't really make sense because 'https:' is not a valid URL,
+    // but just in case there is a try-catch around this call (no real reason not to have one).
+    // https://rollbar.com/ryanhugh/searchneu/items/10/
+    try {
+      window.history.pushState(null, null, `/${selectedTermId}/${encodedQuery}`);
+    } catch (e) {
+      macros.error('Could not change URL?', e);
+    }
   }
 
   render() {
@@ -334,22 +381,22 @@ class Home extends React.Component {
         memes: true,
       };
 
-      if (memeMatches[this.state.searchTerm.toLowerCase().trim()]) {
+      if (memeMatches[this.state.searchQuery.toLowerCase().trim()]) {
         resultsElement = (
           <div className='aounContainer'>
             <img alt='Promised Aoun memes coming soon.' src={ aoun } />
           </div>
         );
-      } else if (this.state.results.length === 0 && this.state.searchTerm.length > 0 && !this.state.waitingOnEnter) {
+      } else if (this.state.results.length === 0 && this.state.searchQuery.length > 0 && !this.state.waitingOnEnter) {
         resultsElement = (
           <div className='noResultsContainer'>
             <h3>No Results</h3>
             <div className='noResultsBottomLine'>
               Want to&nbsp;
-              <a target='_blank' rel='noopener noreferrer' href={ `https://google.com/search?q=${macros.collegeName} ${this.state.searchTerm}` }>
+              <a target='_blank' rel='noopener noreferrer' href={ `https://google.com/search?q=${macros.collegeName} ${this.state.searchQuery}` }>
                 search for&nbsp;
                 <div className='ui compact segment noResultsInputText'>
-                  <p> {this.state.searchTerm} </p>
+                  <p> {this.state.searchQuery} </p>
                 </div>
                   &nbsp;on Google
               </a>
@@ -382,7 +429,7 @@ class Home extends React.Component {
 
     // Don't animate anything on mobile.
     // and set the second state of the animations if there is something in the text box.
-    if (!macros.isMobile && this.state.searchTerm.length !== 0) {
+    if (!macros.isMobile && this.state.searchQuery.length !== 0) {
       topHeaderStyle.transform = 'translateY(-50%) translateY(230px)';
       resultsContainerStyle.transform = `translateY(-${window.innerHeight - 305}px)`;
       bostonContainerStyle.opacity = 0;
@@ -391,7 +438,9 @@ class Home extends React.Component {
     // On mobile only show the logo and the github corner if there are no results and the search box is not focused (the virtual keyboard is not on the screen).
     let containerClassnames = 'home-container';
     if (macros.isMobile) {
-      if (document.activeElement === this.inputElement || this.state.results.length > 0) {
+      // Show the compact view unless there is nothing entered into the text box and the text box is not focused.
+      // (Aka show the compact view when the input is focused, when there are results, or when there are no results).
+      if (this.state.searchQuery.length > 0 || document.activeElement === this.inputElement) {
         containerClassnames += ' mobileCompact';
       } else {
         containerClassnames += ' mobileFull';
@@ -476,14 +525,14 @@ class Home extends React.Component {
                     className='searchBox'
                     onChange={ this.onClick }
                     onKeyDown={ this.onKeyDown }
-                    defaultValue={ this.state.searchTerm }
+                    defaultValue={ this.state.searchQuery }
                     ref={ (element) => { this.inputElement = element; } }
                   />
                 </div>
                 <Dropdown
                   fluid
                   selection
-                  defaultValue={ this.state.selectedTerm }
+                  defaultValue={ this.state.selectedTermId }
                   placeholder='Spring 2018'
                   className='termDropdown'
                   options={ termDropDownOptions }

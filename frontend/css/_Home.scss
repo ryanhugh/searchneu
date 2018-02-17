@@ -6,7 +6,7 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
 
 .home-container {
-    height: '100%';
+    height: 100%;
 
     .displayNone {
         display: none;
@@ -27,14 +27,6 @@
         padding-bottom: 8%; 
     }
 
-    .mobileCompact .topHeader {
-        padding: 0 !important;
-        display: inherit !important;
-        align-items: inherit;
-        justify-content: inherit;
-        margin-bottom: 0px !important;
-        height: initial;
-    }
 
     .title {
         color: rgb(174, 69, 67);
@@ -43,10 +35,6 @@
         pointer-events: initial;
     }
 
-    .mobileCompact .title {
-        line-height: 1.1;
-        padding-top: 15px;
-    }
 
     .subtitle {
         color: #a3a3a3 !important;
@@ -63,9 +51,6 @@
         cursor: pointer;
     }
 
-    .mobileCompact .logo {
-        display: none;
-    }
     .bostonContainer {
         width: 100%;
         position: absolute;
@@ -123,12 +108,8 @@
         outline: none;
     }
 
-    /* Don't show the boston container or the logo if the width of the screen is mobile or less and the height is also very (keyboard is open).  */
-    .mobileCompact .bostonContainer {
-        display: none;
-    }
 
-
+    
 
     /* Desktop. */
     @media only screen and (min-width: 767px) {
@@ -143,7 +124,7 @@
         }
     }
 
-    /* MObile. */
+    /* Mobile. */
     @media only screen and (max-width: 767px) {
         .searchWrapper {
             width: 95% !important;
@@ -242,10 +223,6 @@
         }
     }
 
-    .mobileCompact .githubCornerIcon {
-        display: none;
-    }
-
 
 
 
@@ -306,16 +283,7 @@
     }
 
 
-    .mobileCompact .hitEnterToSearch {
-        display: block;
-        padding-top: 14px;
-    }
-
-    .mobileCompact .splashPage {
-        display: none;
-    }
-
-
+    
 
 
     /* Footer. */
@@ -347,10 +315,6 @@
 
     /* Move the footer down in compact mode so you can't see the top of it when typing. */
 
-    .mobileCompact .footer {
-        padding-top: 30px;
-    }
-
     .termDropdown {
         border: none !important;
         display: inline-block;
@@ -368,3 +332,51 @@
     }
 
 }
+
+
+.home-container.mobileCompact .footer {
+    padding-top: 30px;
+}
+
+
+.home-container.mobileCompact .topHeader {
+    padding: 0 !important;
+    display: inherit !important;
+    align-items: inherit;
+    justify-content: inherit;
+    margin-bottom: 0px !important;
+    height: initial;
+}
+
+.home-container.mobileCompact .title {
+    line-height: 1.1;
+    padding-top: 15px;
+}
+
+
+.home-container.mobileCompact .logo {
+    display: none;
+}
+
+/* Don't show the boston container or the logo if the width of the screen is mobile or less and the height is also very (keyboard is open).  */
+.home-container.mobileCompact .bostonContainer {
+    display: none;
+}
+
+
+
+.home-container.mobileCompact .githubCornerIcon {
+    display: none;
+}
+
+
+
+.home-container.mobileCompact .hitEnterToSearch {
+    display: block;
+    padding-top: 14px;
+}
+
+.home-container.mobileCompact .splashPage {
+    display: none;
+}
+
