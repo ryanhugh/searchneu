@@ -94,7 +94,7 @@
     "resolve-url-loader": "^2.0.2",
     "rollbar": "^2.1.3",
     "semantic-ui-css": "^2.2.4",
-    "semantic-ui-react": "^0.77.1",
+    "semantic-ui-react": "^0.78.3",
     "semver": "^5.4.1",
     "urijs": "^1.18.8",
     "webpack": "^3.8.1",
