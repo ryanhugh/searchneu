@@ -117,7 +117,7 @@ export default class MobileSectionPanel extends React.Component {
           </a>
         </div>
 
-        <div className='title'>{`${macros.stripMiddleName(this.props.section.getProfs()[0])} ${titleEnding}`}</div>
+        <div className='mobile-section-title'>{`${macros.stripMiddleName(this.props.section.getProfs()[0])} ${titleEnding}`}</div>
         <table>
           <tbody>
             <tr className='firstRow'>

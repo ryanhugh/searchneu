@@ -13,7 +13,7 @@ const rootDir = path.join(__dirname, '..');
 
 export default {
   devtool: macros.PROD ? 'source-map' : 'cheap-modules-eval-source-map',
-
+  mode: macros.PROD ? 'production' : 'development',
   entry: [
     'babel-polyfill',
     ...macros.DEV ? [
@@ -83,7 +83,7 @@ export default {
   },
 
   module: {
-    loaders: [
+    rules: [
 
     // Ensure that everything passes eslint.
       // {
