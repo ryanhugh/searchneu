@@ -39,6 +39,7 @@ ShallowWrapper {
           [Function]
         </Transition>,
         <Modal
+          className="feedback-modal-container"
           closeOnDimmerClick={true}
           closeOnDocumentClick={false}
           dimmer={true}
@@ -208,6 +209,7 @@ ShallowWrapper {
               </Button>
             </ModalActions>,
           ],
+          "className": "feedback-modal-container",
           "closeOnDimmerClick": true,
           "closeOnDocumentClick": false,
           "dimmer": true,
@@ -498,6 +500,7 @@ ShallowWrapper {
             [Function]
           </Transition>,
           <Modal
+            className="feedback-modal-container"
             closeOnDimmerClick={true}
             closeOnDocumentClick={false}
             dimmer={true}
@@ -667,6 +670,7 @@ ShallowWrapper {
                 </Button>
               </ModalActions>,
             ],
+            "className": "feedback-modal-container",
             "closeOnDimmerClick": true,
             "closeOnDocumentClick": false,
             "dimmer": true,
@@ -982,6 +986,7 @@ ShallowWrapper {
           [Function]
         </Transition>,
         <Modal
+          className="feedback-modal-container"
           closeOnDimmerClick={true}
           closeOnDocumentClick={false}
           dimmer={true}
@@ -1151,6 +1156,7 @@ ShallowWrapper {
               </Button>
             </ModalActions>,
           ],
+          "className": "feedback-modal-container",
           "closeOnDimmerClick": true,
           "closeOnDocumentClick": false,
           "dimmer": true,
@@ -1441,6 +1447,7 @@ ShallowWrapper {
             [Function]
           </Transition>,
           <Modal
+            className="feedback-modal-container"
             closeOnDimmerClick={true}
             closeOnDocumentClick={false}
             dimmer={true}
@@ -1610,6 +1617,7 @@ ShallowWrapper {
                 </Button>
               </ModalActions>,
             ],
+            "className": "feedback-modal-container",
             "closeOnDimmerClick": true,
             "closeOnDocumentClick": false,
             "dimmer": true,

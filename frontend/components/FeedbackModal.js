@@ -97,6 +97,7 @@ class FeedbackModal extends React.Component {
     const transitionStyles = {
       entering: { opacity: 0 },
       entered: { opacity: 1 },
+      exited: { display: 'none', opacity: 0 },
     };
 
     return (
@@ -114,7 +115,7 @@ class FeedbackModal extends React.Component {
             );
         }}
         </Transition>
-        <Modal open={ this.props.feedbackModalOpen } onClose={ this.props.closeForm } size='small'>
+        <Modal open={ this.props.feedbackModalOpen } onClose={ this.props.closeForm } size='small' className='feedback-modal-container'>
           <Header icon='mail' content='Search NEU Feedback' />
           <Modal.Content className='formModalContent'>
             <Form>
