@@ -97,6 +97,7 @@ class FeedbackModal extends React.Component {
     const transitionStyles = {
       entering: { opacity: 0 },
       entered: { opacity: 1 },
+      exited: { display: 'none', opacity: 0 },
     };
 
     return (
