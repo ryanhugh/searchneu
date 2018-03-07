@@ -68,7 +68,7 @@ ShallowWrapper {
           </a>
         </div>,
         <div
-          className="title"
+          className="mobile-section-title"
         >
           Jennifer Shire @ 9:50 am
         </div>,
@@ -306,7 +306,7 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": "Jennifer Shire @ 9:50 am",
-          "className": "title",
+          "className": "mobile-section-title",
         },
         "ref": null,
         "rendered": "Jennifer Shire @ 9:50 am",
@@ -1239,7 +1239,7 @@ ShallowWrapper {
             </a>
           </div>,
           <div
-            className="title"
+            className="mobile-section-title"
           >
             Jennifer Shire @ 9:50 am
           </div>,
@@ -1477,7 +1477,7 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": "Jennifer Shire @ 9:50 am",
-            "className": "title",
+            "className": "mobile-section-title",
           },
           "ref": null,
           "rendered": "Jennifer Shire @ 9:50 am",
