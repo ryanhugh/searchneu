@@ -3,7 +3,33 @@
  * See the license file in the root folder for details. 
  */
 
+// Note: this 
 .feedback-container {
+
+  .alertMessage{
+    position: fixed !important;
+    top: 20px;
+    margin: 0 auto !important;
+    left: 50%;
+    z-index: 900;
+    transform: translate(-50%, 0);
+    opacity: 0;
+    transition: opacity .5s ease-in-out;
+    width: 450px;
+    max-width: 90%;
+    text-align: center;
+  }
+
+}
+
+// Note: all the HTML elements inside this modal are inject directly into the body and are not inside the feedback-container above.
+// Put any css for the elements inside the model in here, and any css for elements outside the feedback-modal-container above.
+.feedback-modal-container {
+  top: 50%;
+  position: fixed;
+  left: 4%;
+  width: 92% !important;
+
 
   .feedbackTextbox {
     width: 100%;
@@ -24,20 +50,6 @@
 
   .feedbackParagraph {
       padding-bottom: 1.5rem;
-  }
-
-  .alertMessage{
-    position: fixed !important;
-    top: 20px;
-    margin: 0 auto !important;
-    left: 50%;
-    z-index: 900;
-    transform: translate(-50%, 0);
-    opacity: 0;
-    transition: opacity .5s ease-in-out;
-    width: 450px;
-    max-width: 90%;
-    text-align: center;
   }
 
 }
