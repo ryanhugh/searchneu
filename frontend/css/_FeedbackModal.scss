@@ -25,10 +25,13 @@
 // Note: all the HTML elements inside this modal are inject directly into the body and are not inside the feedback-container above.
 // Put any css for the elements inside the model in here, and any css for elements outside the feedback-modal-container above.
 .feedback-modal-container {
+
+  // This css fixes the position of the feedback modal. It broke when we updated the version of a package. 
+  // It might be fixed (and make this code obsolete) in a future package. 
   top: 50%;
   position: fixed;
-  left: 4%;
-  width: 92% !important;
+  left: 50%;
+  transform: translate(-50%, 0px);
 
 
   .feedbackTextbox {
@@ -51,7 +54,6 @@
   .feedbackParagraph {
       padding-bottom: 1.5rem;
   }
-
 }
 
 
