@@ -68,7 +68,7 @@
     "form-urlencoded": "^2.0.4",
     "fs-extra": "^5.0.0",
     "he": "^1.1.1",
-    "html-webpack-plugin": "^3.0.5",
+    "html-webpack-plugin": "^3.0.6",
     "htmlparser2": "^3.9.2",
     "identity-obj-proxy": "^3.0.0",
     "is-mobile": "^0.2.2",
