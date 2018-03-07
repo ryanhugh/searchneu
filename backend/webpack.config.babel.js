@@ -60,20 +60,6 @@ export default {
         debug: false,
         minimize: true,
       }),
-      new webpack.optimize.UglifyJsPlugin({
-        beautify: false,
-        mangle: {
-
-          keep_fnames: true,
-          screw_ie8: true,
-        },
-        compress: {
-          screw_ie8: true,
-          warnings: false,
-        },
-        sourceMap: true,
-        comments: false,
-      }),
     ],
   ],
 
