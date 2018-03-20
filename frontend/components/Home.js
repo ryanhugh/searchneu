@@ -449,10 +449,6 @@ class Home extends React.Component {
 
     const termDropDownOptions = [
       {
-        text: 'Fall 2017',
-        value: '201810',
-      },
-      {
         text: 'Spring 2018',
         value: '201830',
       },
@@ -467,6 +463,10 @@ class Home extends React.Component {
       {
         text: 'Summer Full 2018',
         value: '201850',
+      },
+      {
+        text: 'Fall 2018',
+        value: '201910',
       },
     ];
 

@@ -164,15 +164,15 @@ app.use((req, res, next) => {
   if (req.protocol === 'https') {
     next();
 
-  // If we are behind a cloudflare proxy and cloudflare served a https response, done.
+    // If we are behind a cloudflare proxy and cloudflare served a https response, done.
   } else if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === 'https') {
     next();
 
-  // This is development mode
+    // This is development mode
   } else if (macros.DEV) {
     next();
 
-  // This is prod and still on http, redirect to https.
+    // This is prod and still on http, redirect to https.
   } else {
     // Cache the http to https redirect for 2 months.
     res.setHeader('Cache-Control', 'public, max-age=5256000');
@@ -228,8 +228,8 @@ async function getFrontendData(file) {
 
 
 async function loadPromises() {
-  const termDumpPromise = getFrontendData('getTermDump/neu.edu/201810.json');
-  const searchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201810.json');
+  const termDumpPromise = getFrontendData('getTermDump/neu.edu/201910.json');
+  const searchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201910.json');
 
   const spring2018DataPromise = getFrontendData('getTermDump/neu.edu/201830.json');
   const spring2018SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201830.json');
@@ -248,9 +248,11 @@ async function loadPromises() {
 
   try {
     const fallData = await termDumpPromise;
-    const springData = await spring2018DataPromise;
     const fallSearchIndex = await searchIndexPromise;
+
+    const springData = await spring2018DataPromise;
     const springSearchIndex = await spring2018SearchIndexPromise;
+
     const employeeMap = await employeeMapPromise;
     const employeesSearchIndex = await employeesSearchIndexPromise;
 
@@ -269,7 +271,7 @@ async function loadPromises() {
     }
 
     const dataLib = DataLib.loadData({
-      201810: fallData,
+      201910: fallData,
       201830: springData,
       201840: summer1Data,
       201860: summer2Data,
@@ -277,7 +279,7 @@ async function loadPromises() {
     });
 
     const searchIndexies = {
-      201810: elasticlunr.Index.load(fallSearchIndex),
+      201910: elasticlunr.Index.load(fallSearchIndex),
       201830: elasticlunr.Index.load(springSearchIndex),
       201840: elasticlunr.Index.load(summer1SearchIndex),
       201860: elasticlunr.Index.load(summer2SearchIndex),
