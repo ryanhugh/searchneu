@@ -125,10 +125,6 @@ ShallowWrapper {
                   options={
                     Array [
                       Object {
-                        "text": "Fall 2017",
-                        "value": "201810",
-                      },
-                      Object {
                         "text": "Spring 2018",
                         "value": "201830",
                       },
@@ -143,6 +139,10 @@ ShallowWrapper {
                       Object {
                         "text": "Summer Full 2018",
                         "value": "201850",
+                      },
+                      Object {
+                        "text": "Fall 2018",
+                        "value": "201910",
                       },
                     ]
                   }
@@ -484,10 +484,6 @@ ShallowWrapper {
                   options={
                     Array [
                       Object {
-                        "text": "Fall 2017",
-                        "value": "201810",
-                      },
-                      Object {
                         "text": "Spring 2018",
                         "value": "201830",
                       },
@@ -502,6 +498,10 @@ ShallowWrapper {
                       Object {
                         "text": "Summer Full 2018",
                         "value": "201850",
+                      },
+                      Object {
+                        "text": "Fall 2018",
+                        "value": "201910",
                       },
                     ]
                   }
@@ -575,10 +575,6 @@ ShallowWrapper {
                   options={
                     Array [
                       Object {
-                        "text": "Fall 2017",
-                        "value": "201810",
-                      },
-                      Object {
                         "text": "Spring 2018",
                         "value": "201830",
                       },
@@ -593,6 +589,10 @@ ShallowWrapper {
                       Object {
                         "text": "Summer Full 2018",
                         "value": "201850",
+                      },
+                      Object {
+                        "text": "Fall 2018",
+                        "value": "201910",
                       },
                     ]
                   }
@@ -667,10 +667,6 @@ ShallowWrapper {
                     options={
                       Array [
                         Object {
-                          "text": "Fall 2017",
-                          "value": "201810",
-                        },
-                        Object {
                           "text": "Spring 2018",
                           "value": "201830",
                         },
@@ -685,6 +681,10 @@ ShallowWrapper {
                         Object {
                           "text": "Summer Full 2018",
                           "value": "201850",
+                        },
+                        Object {
+                          "text": "Fall 2018",
+                          "value": "201910",
                         },
                       ]
                     }
@@ -771,10 +771,6 @@ ShallowWrapper {
                       options={
                         Array [
                           Object {
-                            "text": "Fall 2017",
-                            "value": "201810",
-                          },
-                          Object {
                             "text": "Spring 2018",
                             "value": "201830",
                           },
@@ -789,6 +785,10 @@ ShallowWrapper {
                           Object {
                             "text": "Summer Full 2018",
                             "value": "201850",
+                          },
+                          Object {
+                            "text": "Fall 2018",
+                            "value": "201910",
                           },
                         ]
                       }
@@ -898,10 +898,6 @@ ShallowWrapper {
                       "openOnFocus": true,
                       "options": Array [
                         Object {
-                          "text": "Fall 2017",
-                          "value": "201810",
-                        },
-                        Object {
                           "text": "Spring 2018",
                           "value": "201830",
                         },
@@ -916,6 +912,10 @@ ShallowWrapper {
                         Object {
                           "text": "Summer Full 2018",
                           "value": "201850",
+                        },
+                        Object {
+                          "text": "Fall 2018",
+                          "value": "201910",
                         },
                       ],
                       "placeholder": "Spring 2018",
@@ -1578,10 +1578,6 @@ ShallowWrapper {
                     options={
                       Array [
                         Object {
-                          "text": "Fall 2017",
-                          "value": "201810",
-                        },
-                        Object {
                           "text": "Spring 2018",
                           "value": "201830",
                         },
@@ -1596,6 +1592,10 @@ ShallowWrapper {
                         Object {
                           "text": "Summer Full 2018",
                           "value": "201850",
+                        },
+                        Object {
+                          "text": "Fall 2018",
+                          "value": "201910",
                         },
                       ]
                     }
@@ -1937,10 +1937,6 @@ ShallowWrapper {
                     options={
                       Array [
                         Object {
-                          "text": "Fall 2017",
-                          "value": "201810",
-                        },
-                        Object {
                           "text": "Spring 2018",
                           "value": "201830",
                         },
@@ -1955,6 +1951,10 @@ ShallowWrapper {
                         Object {
                           "text": "Summer Full 2018",
                           "value": "201850",
+                        },
+                        Object {
+                          "text": "Fall 2018",
+                          "value": "201910",
                         },
                       ]
                     }
@@ -2028,10 +2028,6 @@ ShallowWrapper {
                     options={
                       Array [
                         Object {
-                          "text": "Fall 2017",
-                          "value": "201810",
-                        },
-                        Object {
                           "text": "Spring 2018",
                           "value": "201830",
                         },
@@ -2046,6 +2042,10 @@ ShallowWrapper {
                         Object {
                           "text": "Summer Full 2018",
                           "value": "201850",
+                        },
+                        Object {
+                          "text": "Fall 2018",
+                          "value": "201910",
                         },
                       ]
                     }
@@ -2120,10 +2120,6 @@ ShallowWrapper {
                       options={
                         Array [
                           Object {
-                            "text": "Fall 2017",
-                            "value": "201810",
-                          },
-                          Object {
                             "text": "Spring 2018",
                             "value": "201830",
                           },
@@ -2138,6 +2134,10 @@ ShallowWrapper {
                           Object {
                             "text": "Summer Full 2018",
                             "value": "201850",
+                          },
+                          Object {
+                            "text": "Fall 2018",
+                            "value": "201910",
                           },
                         ]
                       }
@@ -2224,10 +2224,6 @@ ShallowWrapper {
                         options={
                           Array [
                             Object {
-                              "text": "Fall 2017",
-                              "value": "201810",
-                            },
-                            Object {
                               "text": "Spring 2018",
                               "value": "201830",
                             },
@@ -2242,6 +2238,10 @@ ShallowWrapper {
                             Object {
                               "text": "Summer Full 2018",
                               "value": "201850",
+                            },
+                            Object {
+                              "text": "Fall 2018",
+                              "value": "201910",
                             },
                           ]
                         }
@@ -2351,10 +2351,6 @@ ShallowWrapper {
                         "openOnFocus": true,
                         "options": Array [
                           Object {
-                            "text": "Fall 2017",
-                            "value": "201810",
-                          },
-                          Object {
                             "text": "Spring 2018",
                             "value": "201830",
                           },
@@ -2369,6 +2365,10 @@ ShallowWrapper {
                           Object {
                             "text": "Summer Full 2018",
                             "value": "201850",
+                          },
+                          Object {
+                            "text": "Fall 2018",
+                            "value": "201910",
                           },
                         ],
                         "placeholder": "Spring 2018",
