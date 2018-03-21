@@ -45,7 +45,7 @@ class Home extends React.Component {
     }
 
     if (selectedTermId === '201810') {
-      selectedTermId = '201910'
+      selectedTermId = '201910';
     }
 
 
