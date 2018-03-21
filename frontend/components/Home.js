@@ -44,6 +44,11 @@ class Home extends React.Component {
       selectedTermId = '201830';
     }
 
+    if (selectedTermId === '201810') {
+      selectedTermId = '201910'
+    }
+
+
     this.state = {
       results: [],
 
