@@ -75,6 +75,7 @@ class Authentication {
   }
 
   onSendToMessengerClick(e) {
+    console.log("HIIII", e, ""+e)
     if (e.event === 'rendered') {
       macros.log('Plugin was rendered');
     } else if (e.event === 'checkbox') {
