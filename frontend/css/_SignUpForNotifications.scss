@@ -5,7 +5,9 @@
 
 .sign-up-for-notifications-container {
   .notificationButton {
-    margin-top: 10px !important;
+    margin-top: 3px !important;
+    margin-left: 5px !important;
+    margin-right: 0px;
   }
 
   @media only screen and (min-width: 767px) {
@@ -16,7 +18,7 @@
   }
 
   .facebookButtonContainer {
-    margin-top: 8px;
+    margin-top: 4px;
   }
 
   .sendToMessengerButtonLabel {
