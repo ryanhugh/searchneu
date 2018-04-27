@@ -34,7 +34,7 @@ class Cssh {
     const $ = cheerio.load(resp.body);
 
     // Scrape the name from a h1
-    const name = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > h1').text();
+    const name = $('div.inside-page-title > div.title-container > span.faculty_name').text();
     if (name) {
       obj.name = name.trim();
     } else {
@@ -66,7 +66,7 @@ class Cssh {
 
     // Job Title
     // "Assistant Professor Sociology and Health Science"
-    let primaryRole = $('#lightbox-container > div.col-lg-3.col-md-3.col-sm-6.fac-single > div.fac-single-title').text();
+    let primaryRole = $('body > div > div > div.title-container > span.faculty_title').text();
     if (primaryRole) {
       primaryRole = primaryRole.trim().split(';')[0];
       obj.primaryRole = primaryRole.replace(/\s+/gi, ' ');
@@ -155,7 +155,7 @@ class Cssh {
         // Ignore all other types of elements.
         // <br>s should definitely be ignored, and there has been no reason to process other tags yet.
         continue;
-      } else if (element.type !== 'script') {
+      } else if (element.type !== 'script' && element.type !== 'comment') {
         macros.error('Unknown type of element.', element.type);
       }
     }
