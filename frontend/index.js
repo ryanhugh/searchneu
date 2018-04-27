@@ -98,16 +98,19 @@ if (macros.PROD && !window.localStorage.noTrack) {
   };
 }
 
-try {
-  navigator.serviceWorker.getRegistrations().then((registrations) => {
-    registrations.forEach((registration) => {
-      macros.log('removing registration', registration);
-      registration.unregister();
+if (location.protocol === "https:" || location.hostname == 'localhost') {
+  try {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      registrations.forEach((registration) => {
+        macros.log('removing registration', registration);
+        registration.unregister();
+      });
     });
-  });
-} catch (e) {
-  macros.log('failed to unregister all service workers', e);
+  } catch (e) {
+    macros.log('failed to unregister all service workers', e);
+  }
 }
+
 
 // // Register the Service Worker
 // if ('serviceWorker' in navigator) {
