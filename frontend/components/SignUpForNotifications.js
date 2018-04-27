@@ -18,6 +18,8 @@ import Keys from '../../common/Keys';
 
 // TODO: Lets make it so clicking on the Send To Messenger button changes this to a third state that just says thanks for signing up!
 
+let hasAdblock = false;
+
 class SignUpForNotifications extends React.Component {
   static propTypes = {
     aClass: PropTypes.object.isRequired,
@@ -30,7 +32,7 @@ class SignUpForNotifications extends React.Component {
       showMessengerButton: false,
     };
 
-
+    this.facebookScopeRef = null;
     this.onSubscribeToggleChange = this.onSubscribeToggleChange.bind(this);
   }
 
@@ -38,7 +40,46 @@ class SignUpForNotifications extends React.Component {
   // This will tell FB's SDK to scan all the child elements of this.facebookScopeRef to look for fb-send-to-messenger buttons.
   componentDidUpdate() {
     if (this.facebookScopeRef) {
-      window.FB.XFBML.parse(this.facebookScopeRef);
+
+      let start = Date.now();
+
+      window.FB.XFBML.parse(this.facebookScopeRef, () => {
+
+       
+      });
+
+      this.facebookScopeRef.querySelector('iframe').onerror = (e) => {console.log("ONERROR callback called!")}
+      this.facebookScopeRef.querySelector('iframe').error = (e) => {console.log("ERROR callback called!")}
+
+      this.facebookScopeRef.querySelector('iframe').onload = (e) => {
+        console.log("ONLOAD callback called!", e)
+
+         // Check to see if the plugin was successfully rendered
+        let ele = this.facebookScopeRef.querySelector('.sendToMessengerButton')
+
+        console.log(ele.innerHTML)
+
+        if (ele.offsetHeight !== 0 && ele.offsetWidth !== 0) {
+          console.log("rendered!")
+        }
+        else {
+          if (!hasAdblock) {
+            alert('Youve got adblock!')
+          }
+          hasAdblock = true;
+        }
+
+        // check for w/h here
+
+      }
+      this.facebookScopeRef.querySelector('iframe').load = (e) => {console.log("LOAD callback called!")}
+
+
+
+
+      // console.log(document.body.querySelectorAll('iframe').length, document.body.querySelectorAll('iframe'))
+
+
     }
   }
 
