@@ -17,6 +17,19 @@
     }
   }
 
+  .diableAdblockButton {
+    margin-top: 3px !important;
+    margin-left: 5px !important;
+    margin-right: 0px;
+  }
+
+  @media only screen and (min-width: 767px) {
+    .diableAdblockButton {
+      font-size: 15px !important;
+      width: 100px !important;
+    }
+  }
+
   .facebookButtonContainer {
     margin-top: 4px;
   }
@@ -43,4 +56,17 @@
   .inlineBlock {
     display: inline-block;
   }
+}
+
+
+// Note: all the HTML elements inside this modal are inject directly into the body and are not inside the feedback-container above.
+// Put any css for the elements inside the model in here, and any css for elements outside the feedback-modal-container above.
+.adblock-notification-modal-container {
+
+  // This css fixes the position of the feedback modal. It broke when we updated the version of a package. 
+  // It might be fixed (and make this code obsolete) in a future package. 
+  top: 50%;
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0px);
 }
