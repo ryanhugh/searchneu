@@ -5,7 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
+import { Button, Modal } from 'semantic-ui-react';
 
 import macros from './macros';
 import authentication from './authentication';
@@ -30,10 +30,12 @@ class SignUpForNotifications extends React.Component {
 
     this.state = {
       showMessengerButton: false,
+      showAdblockMessage: false
     };
 
     this.facebookScopeRef = null;
     this.onSubscribeToggleChange = this.onSubscribeToggleChange.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   // After the button is added to the DOM, we need to tell FB's SDK that it was added to the code and should be processed.
@@ -64,7 +66,9 @@ class SignUpForNotifications extends React.Component {
         }
         else {
           if (!hasAdblock) {
-            alert('Youve got adblock!')
+            this.setState({
+              showAdblockMessage: true
+            })
           }
           hasAdblock = true;
         }
@@ -81,6 +85,12 @@ class SignUpForNotifications extends React.Component {
 
 
     }
+  }
+
+  closeModal() {
+    this.setState({
+      showAdblockMessage: false
+    })
   }
 
   // Updates the state to show the button.
@@ -136,12 +146,22 @@ class SignUpForNotifications extends React.Component {
     let content = null;
 
     if (this.state.showMessengerButton) {
+
+      let facebookContainer = null;
+
+      if (hasAdblock) {
+        facebookContainer = <Button basic content='Please disable adblock' className='diableAdblockButton' />;
+      }
+      else {
+        facebookContainer = this.getSendToMessengerButton();
+      }
+
       content = (
         <div className='facebookButtonContainer'>
           <div className='sendToMessengerButtonLabel'>
             Click this button to continue
           </div>
-          {this.getSendToMessengerButton()}
+          {facebookContainer}
         </div>
       );
     } else if (this.props.aClass.sections.length === 0) {
@@ -155,6 +175,15 @@ class SignUpForNotifications extends React.Component {
     return (
       <div className='sign-up-for-notifications-container'>
         {content}
+        <Modal
+          className='adblock-notification-modal-container'
+          header='Please disable adblock.'
+          open={this.state.showAdblockMessage}
+          content='This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook.'
+          actions={[
+            { key: 'done', content: 'Ok', positive: true, onClick: this.closeModal },
+          ]}
+        />
       </div>
     );
   }
