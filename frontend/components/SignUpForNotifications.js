@@ -121,10 +121,6 @@ class SignUpForNotifications extends React.Component {
   }
 
   render() {
-    if (window.location.hash !== '#fbtest') {
-      return null;
-    }
-
     let content = null;
 
     if (this.state.showMessengerButton) {
