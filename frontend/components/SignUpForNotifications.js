@@ -45,6 +45,8 @@ class SignUpForNotifications extends React.Component {
       return;
     }
 
+    window.FB.XFBML.parse(this.facebookScopeRef);
+
     let iframe = this.facebookScopeRef.querySelector('iframe');
 
     if (!iframe) {
