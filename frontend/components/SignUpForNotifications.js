@@ -30,7 +30,7 @@ class SignUpForNotifications extends React.Component {
 
     this.state = {
       showMessengerButton: false,
-      showAdblockMessage: false
+      showAdblockMessage: false,
     };
 
     this.facebookScopeRef = null;
@@ -47,32 +47,25 @@ class SignUpForNotifications extends React.Component {
 
     window.FB.XFBML.parse(this.facebookScopeRef);
 
-    let iframe = this.facebookScopeRef.querySelector('iframe');
+    const iframe = this.facebookScopeRef.querySelector('iframe');
 
     if (!iframe) {
-      console.error("No iframe?")
+      macros.error('No iframe?');
       return;
     }
 
-    iframe.onload = (e) => {
+    iframe.onload = () => {
+      // Check to see if the plugin was successfully rendered
+      const ele = this.facebookScopeRef.querySelector('.sendToMessengerButton > span');
 
-       // Check to see if the plugin was successfully rendered
-      let ele = this.facebookScopeRef.querySelector('.sendToMessengerButton > span')
-
-      // If has adblock and haven't shown the warning yet, show the warning. 
+      // If has adblock and haven't shown the warning yet, show the warning.
       if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !this.constructor.hasAdblock) {
         this.setState({
-          showAdblockMessage: true
-        })
+          showAdblockMessage: true,
+        });
         this.constructor.hasAdblock = true;
       }
-    }
-  }
-
-  closeModal() {
-    this.setState({
-      showAdblockMessage: false
-    })
+    };
   }
 
   // Updates the state to show the button.
@@ -120,17 +113,19 @@ class SignUpForNotifications extends React.Component {
     );
   }
 
+  closeModal() {
+    this.setState({
+      showAdblockMessage: false,
+    });
+  }
+
   render() {
     let content = null;
 
     if (this.state.showMessengerButton) {
-
-      let facebookContainer = null;
-
       if (this.constructor.hasAdblock) {
         content = <Button basic content='Disable adblock to continue' className='diableAdblockButton' />;
-      }
-      else {
+      } else {
         content = (
           <div className='facebookButtonContainer'>
             <div className='sendToMessengerButtonLabel'>
@@ -140,15 +135,13 @@ class SignUpForNotifications extends React.Component {
           </div>
         );
       }
-
-      
     } else if (this.props.aClass.sections.length === 0) {
       content = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when sections are added!' className='notificationButton' />;
     } else if (this.props.aClass.isAtLeastOneSectionFull()) {
       content = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!' className='notificationButton' />;
     } else {
-      // Show a button that says there are currently seats available. 
-      content = <div className="disabledButton notificationButton">There are seats available in all sections.</div>;
+      // Show a button that says there are currently seats available.
+      content = <div className='disabledButton notificationButton'>There are seats available in all sections.</div>;
     }
 
     return (
@@ -157,11 +150,13 @@ class SignUpForNotifications extends React.Component {
         <Modal
           className='adblock-notification-modal-container'
           header='Please disable adblock.'
-          open={this.state.showAdblockMessage}
+          open={ this.state.showAdblockMessage }
           content='This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook.'
-          actions={[
-            { key: 'done', content: 'Ok', positive: true, onClick: this.closeModal },
-          ]}
+          actions={ [
+            {
+ key: 'done', content: 'Ok', positive: true, onClick: this.closeModal,
+},
+          ] }
         />
       </div>
     );

@@ -98,7 +98,7 @@ if (macros.PROD && !window.localStorage.noTrack) {
   };
 }
 
-if (location.protocol === "https:" || location.hostname == 'localhost') {
+if (window.location.protocol === 'https:' || window.location.hostname === 'localhost') {
   try {
     navigator.serviceWorker.getRegistrations().then((registrations) => {
       registrations.forEach((registration) => {
