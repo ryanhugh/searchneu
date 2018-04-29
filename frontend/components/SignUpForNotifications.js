@@ -18,12 +18,12 @@ import Keys from '../../common/Keys';
 
 // TODO: Lets make it so clicking on the Send To Messenger button changes this to a third state that just says thanks for signing up!
 
-let hasAdblock = false;
-
 class SignUpForNotifications extends React.Component {
   static propTypes = {
     aClass: PropTypes.object.isRequired,
   };
+
+  static hasAdblock = false;
 
   constructor(props) {
     super(props);
@@ -41,49 +41,22 @@ class SignUpForNotifications extends React.Component {
   // After the button is added to the DOM, we need to tell FB's SDK that it was added to the code and should be processed.
   // This will tell FB's SDK to scan all the child elements of this.facebookScopeRef to look for fb-send-to-messenger buttons.
   componentDidUpdate() {
-    if (this.facebookScopeRef) {
+    if (!this.facebookScopeRef) {
+      return;
+    }
 
-      let start = Date.now();
+    this.facebookScopeRef.querySelector('iframe').onload = (e) => {
 
-      window.FB.XFBML.parse(this.facebookScopeRef, () => {
+       // Check to see if the plugin was successfully rendered
+      let ele = this.facebookScopeRef.querySelector('.sendToMessengerButton > span')
 
-       
-      });
-
-      this.facebookScopeRef.querySelector('iframe').onerror = (e) => {console.log("ONERROR callback called!")}
-      this.facebookScopeRef.querySelector('iframe').error = (e) => {console.log("ERROR callback called!")}
-
-      this.facebookScopeRef.querySelector('iframe').onload = (e) => {
-        console.log("ONLOAD callback called!", e)
-
-         // Check to see if the plugin was successfully rendered
-        let ele = this.facebookScopeRef.querySelector('.sendToMessengerButton')
-
-        console.log(ele.innerHTML)
-
-        if (ele.offsetHeight !== 0 && ele.offsetWidth !== 0) {
-          console.log("rendered!")
-        }
-        else {
-          if (!hasAdblock) {
-            this.setState({
-              showAdblockMessage: true
-            })
-          }
-          hasAdblock = true;
-        }
-
-        // check for w/h here
-
+      // If has adblock and haven't shown the warning yet, show the warning. 
+      if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !this.constructor.hasAdblock) {
+        this.setState({
+          showAdblockMessage: true
+        })
+        this.constructor.hasAdblock = true;
       }
-      this.facebookScopeRef.querySelector('iframe').load = (e) => {console.log("LOAD callback called!")}
-
-
-
-
-      // console.log(document.body.querySelectorAll('iframe').length, document.body.querySelectorAll('iframe'))
-
-
     }
   }
 
@@ -149,21 +122,21 @@ class SignUpForNotifications extends React.Component {
 
       let facebookContainer = null;
 
-      if (hasAdblock) {
-        facebookContainer = <Button basic content='Please disable adblock' className='diableAdblockButton' />;
+      if (this.constructor.hasAdblock) {
+        content = <Button basic content='Disable adblock to continue' className='diableAdblockButton' />;
       }
       else {
-        facebookContainer = this.getSendToMessengerButton();
+        content = (
+          <div className='facebookButtonContainer'>
+            <div className='sendToMessengerButtonLabel'>
+              Click this button to continue
+            </div>
+            {this.getSendToMessengerButton()}
+          </div>
+        );
       }
 
-      content = (
-        <div className='facebookButtonContainer'>
-          <div className='sendToMessengerButtonLabel'>
-            Click this button to continue
-          </div>
-          {facebookContainer}
-        </div>
-      );
+      
     } else if (this.props.aClass.sections.length === 0) {
       content = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when sections are added!' className='notificationButton' />;
     } else if (this.props.aClass.isAtLeastOneSectionFull()) {
