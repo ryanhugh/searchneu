@@ -4,12 +4,12 @@
  */
 
 import fs from 'fs-extra';
+import _ from 'lodash';
 
 import DataLib from '../common/classModels/DataLib';
 
 import classesScrapers from './scrapers/classes/main';
 
-import _ from 'lodash';
 import macros from './macros';
 import database from './database';
 import Keys from '../common/Keys';
@@ -281,9 +281,9 @@ class Updater {
       for (const message of userToMessageMap[fbUserId]) {
         notifyer.sendFBNotification(fbUserId, message);
       }
-      setTimeout((fbUserId) => {
-        notifyer.sendFBNotification(fbUserId, 'Reply with "stop" to unsubscribe from notifications.');
-      }.bind(fbUserId), 100);
+      setTimeout(((facebookUserId) => {
+        notifyer.sendFBNotification(facebookUserId, 'Reply with "stop" to unsubscribe from notifications.');
+      }).bind(this, fbUserId), 100);
     }
 
     // Update dataLib with the updated termDump

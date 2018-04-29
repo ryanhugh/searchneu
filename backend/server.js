@@ -18,6 +18,7 @@ import moment from 'moment';
 import xhub from 'express-x-hub';
 import elasticlunr from 'elasticlunr';
 import atob from 'atob';
+import _ from 'lodash';
 
 import Request from './scrapers/request';
 import search from '../common/search';
@@ -456,8 +457,12 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
     // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
 
-    existingData.watchingClasses.push(userObject.classHash);
-    existingData.watchingSections = existingData.watchingSections.concat(userObject.sectionHashes);
+    // Only add if it dosen't already exist in the user data.
+    if (!existingData.watchingClasses.includes(userObject.classHash)) {
+      existingData.watchingClasses.push(userObject.classHash);
+    }
+
+    existingData.watchingSections = _.uniq(existingData.watchingSections.concat(userObject.sectionHashes));
 
     // Add the login key to the array of login keys stored on this user
     if (!existingData.loginKeys) {
