@@ -281,7 +281,9 @@ class Updater {
       for (const message of userToMessageMap[fbUserId]) {
         notifyer.sendFBNotification(fbUserId, message);
       }
-      notifyer.sendFBNotification(fbUserId, 'Reply with "stop" to unsubscribe from notifications.');
+      setTimeout((fbUserId) => {
+        notifyer.sendFBNotification(fbUserId, 'Reply with "stop" to unsubscribe from notifications.');
+      }.bind(fbUserId), 100);
     }
 
     // Update dataLib with the updated termDump
