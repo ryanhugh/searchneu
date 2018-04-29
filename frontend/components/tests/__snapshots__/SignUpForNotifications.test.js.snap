@@ -219,50 +219,40 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
-      "children": <Button
-        as="button"
-        basic={true}
-        className="notificationButton"
-        content="Get notified when seats open up!"
-        onClick={[Function]}
-      />,
-      "className": "sign-up-for-notifications-container",
-    },
-    "ref": null,
-    "rendered": Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "class",
-      "props": Object {
-        "as": "button",
-        "basic": true,
-        "className": "notificationButton",
-        "content": "Get notified when seats open up!",
-        "onClick": [Function],
-      },
-      "ref": null,
-      "rendered": null,
-      "type": [Function],
-    },
-    "type": "div",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": <Button
+      "children": Array [
+        <Button
           as="button"
           basic={true}
           className="notificationButton"
           content="Get notified when seats open up!"
           onClick={[Function]}
         />,
-        "className": "sign-up-for-notifications-container",
-      },
-      "ref": null,
-      "rendered": Object {
+        <Modal
+          actions={
+            Array [
+              Object {
+                "content": "Ok",
+                "key": "done",
+                "onClick": [Function],
+                "positive": true,
+              },
+            ]
+          }
+          className="adblock-notification-modal-container"
+          closeOnDimmerClick={true}
+          closeOnDocumentClick={false}
+          content="This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook."
+          dimmer={true}
+          eventPool="Modal"
+          header="Please disable adblock."
+          open={false}
+        />,
+      ],
+      "className": "sign-up-for-notifications-container",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
         "instance": null,
         "key": undefined,
         "nodeType": "class",
@@ -277,6 +267,116 @@ ShallowWrapper {
         "rendered": null,
         "type": [Function],
       },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "actions": Array [
+            Object {
+              "content": "Ok",
+              "key": "done",
+              "onClick": [Function],
+              "positive": true,
+            },
+          ],
+          "className": "adblock-notification-modal-container",
+          "closeOnDimmerClick": true,
+          "closeOnDocumentClick": false,
+          "content": "This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook.",
+          "dimmer": true,
+          "eventPool": "Modal",
+          "header": "Please disable adblock.",
+          "open": false,
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <Button
+            as="button"
+            basic={true}
+            className="notificationButton"
+            content="Get notified when seats open up!"
+            onClick={[Function]}
+          />,
+          <Modal
+            actions={
+              Array [
+                Object {
+                  "content": "Ok",
+                  "key": "done",
+                  "onClick": [Function],
+                  "positive": true,
+                },
+              ]
+            }
+            className="adblock-notification-modal-container"
+            closeOnDimmerClick={true}
+            closeOnDocumentClick={false}
+            content="This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook."
+            dimmer={true}
+            eventPool="Modal"
+            header="Please disable adblock."
+            open={false}
+          />,
+        ],
+        "className": "sign-up-for-notifications-container",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "as": "button",
+            "basic": true,
+            "className": "notificationButton",
+            "content": "Get notified when seats open up!",
+            "onClick": [Function],
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "actions": Array [
+              Object {
+                "content": "Ok",
+                "key": "done",
+                "onClick": [Function],
+                "positive": true,
+              },
+            ],
+            "className": "adblock-notification-modal-container",
+            "closeOnDimmerClick": true,
+            "closeOnDocumentClick": false,
+            "content": "This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook.",
+            "dimmer": true,
+            "eventPool": "Modal",
+            "header": "Please disable adblock.",
+            "open": false,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+      ],
       "type": "div",
     },
   ],
@@ -509,116 +609,8 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
-      "children": <div
-        className="facebookButtonContainer"
-      >
+      "children": Array [
         <div
-          className="sendToMessengerButtonLabel"
-        >
-          Click this button to continue
-        </div>
-        <div
-          className="inlineBlock"
-        >
-          <div
-            className="fb-send-to-messenger sendToMessengerButton"
-            color="white"
-            data-ref="eyJjbGFzc0hhc2giOiJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwIiwic2VjdGlvbkhhc2hlcyI6WyJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzEzNTAyIiwibmV1LmVkdS8yMDE4MTAvQ1MvMTIxMC8xNDQwNCIsIm5ldS5lZHUvMjAxODEwL0NTLzEyMTAvMTQ0MDUiLCJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzE0Mzg2Il0sImRldiI6ZmFsc2UsImxvZ2luS2V5IjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9"
-            messenger_app_id="1979224428978082"
-            page_id="807584642748179"
-            size="large"
-          />
-        </div>
-      </div>,
-      "className": "sign-up-for-notifications-container",
-    },
-    "ref": null,
-    "rendered": Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": Array [
-          <div
-            className="sendToMessengerButtonLabel"
-          >
-            Click this button to continue
-          </div>,
-          <div
-            className="inlineBlock"
-          >
-            <div
-              className="fb-send-to-messenger sendToMessengerButton"
-              color="white"
-              data-ref="eyJjbGFzc0hhc2giOiJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwIiwic2VjdGlvbkhhc2hlcyI6WyJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzEzNTAyIiwibmV1LmVkdS8yMDE4MTAvQ1MvMTIxMC8xNDQwNCIsIm5ldS5lZHUvMjAxODEwL0NTLzEyMTAvMTQ0MDUiLCJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzE0Mzg2Il0sImRldiI6ZmFsc2UsImxvZ2luS2V5IjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9"
-              messenger_app_id="1979224428978082"
-              page_id="807584642748179"
-              size="large"
-            />
-          </div>,
-        ],
-        "className": "facebookButtonContainer",
-      },
-      "ref": null,
-      "rendered": Array [
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": "Click this button to continue",
-            "className": "sendToMessengerButtonLabel",
-          },
-          "ref": null,
-          "rendered": "Click this button to continue",
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": <div
-              className="fb-send-to-messenger sendToMessengerButton"
-              color="white"
-              data-ref="eyJjbGFzc0hhc2giOiJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwIiwic2VjdGlvbkhhc2hlcyI6WyJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzEzNTAyIiwibmV1LmVkdS8yMDE4MTAvQ1MvMTIxMC8xNDQwNCIsIm5ldS5lZHUvMjAxODEwL0NTLzEyMTAvMTQ0MDUiLCJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzE0Mzg2Il0sImRldiI6ZmFsc2UsImxvZ2luS2V5IjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9"
-              messenger_app_id="1979224428978082"
-              page_id="807584642748179"
-              size="large"
-            />,
-            "className": "inlineBlock",
-          },
-          "ref": [Function],
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "className": "fb-send-to-messenger sendToMessengerButton",
-              "color": "white",
-              "data-ref": "eyJjbGFzc0hhc2giOiJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwIiwic2VjdGlvbkhhc2hlcyI6WyJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzEzNTAyIiwibmV1LmVkdS8yMDE4MTAvQ1MvMTIxMC8xNDQwNCIsIm5ldS5lZHUvMjAxODEwL0NTLzEyMTAvMTQ0MDUiLCJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzE0Mzg2Il0sImRldiI6ZmFsc2UsImxvZ2luS2V5IjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9",
-              "messenger_app_id": "1979224428978082",
-              "page_id": "807584642748179",
-              "size": "large",
-            },
-            "ref": null,
-            "rendered": null,
-            "type": "div",
-          },
-          "type": "div",
-        },
-      ],
-      "type": "div",
-    },
-    "type": "div",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": <div
           className="facebookButtonContainer"
         >
           <div
@@ -639,10 +631,32 @@ ShallowWrapper {
             />
           </div>
         </div>,
-        "className": "sign-up-for-notifications-container",
-      },
-      "ref": null,
-      "rendered": Object {
+        <Modal
+          actions={
+            Array [
+              Object {
+                "content": "Ok",
+                "key": "done",
+                "onClick": [Function],
+                "positive": true,
+              },
+            ]
+          }
+          className="adblock-notification-modal-container"
+          closeOnDimmerClick={true}
+          closeOnDocumentClick={false}
+          content="This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook."
+          dimmer={true}
+          eventPool="Modal"
+          header="Please disable adblock."
+          open={false}
+        />,
+      ],
+      "className": "sign-up-for-notifications-container",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
         "instance": null,
         "key": undefined,
         "nodeType": "host",
@@ -719,6 +733,192 @@ ShallowWrapper {
         ],
         "type": "div",
       },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "actions": Array [
+            Object {
+              "content": "Ok",
+              "key": "done",
+              "onClick": [Function],
+              "positive": true,
+            },
+          ],
+          "className": "adblock-notification-modal-container",
+          "closeOnDimmerClick": true,
+          "closeOnDocumentClick": false,
+          "content": "This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook.",
+          "dimmer": true,
+          "eventPool": "Modal",
+          "header": "Please disable adblock.",
+          "open": false,
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="facebookButtonContainer"
+          >
+            <div
+              className="sendToMessengerButtonLabel"
+            >
+              Click this button to continue
+            </div>
+            <div
+              className="inlineBlock"
+            >
+              <div
+                className="fb-send-to-messenger sendToMessengerButton"
+                color="white"
+                data-ref="eyJjbGFzc0hhc2giOiJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwIiwic2VjdGlvbkhhc2hlcyI6WyJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzEzNTAyIiwibmV1LmVkdS8yMDE4MTAvQ1MvMTIxMC8xNDQwNCIsIm5ldS5lZHUvMjAxODEwL0NTLzEyMTAvMTQ0MDUiLCJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzE0Mzg2Il0sImRldiI6ZmFsc2UsImxvZ2luS2V5IjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9"
+                messenger_app_id="1979224428978082"
+                page_id="807584642748179"
+                size="large"
+              />
+            </div>
+          </div>,
+          <Modal
+            actions={
+              Array [
+                Object {
+                  "content": "Ok",
+                  "key": "done",
+                  "onClick": [Function],
+                  "positive": true,
+                },
+              ]
+            }
+            className="adblock-notification-modal-container"
+            closeOnDimmerClick={true}
+            closeOnDocumentClick={false}
+            content="This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook."
+            dimmer={true}
+            eventPool="Modal"
+            header="Please disable adblock."
+            open={false}
+          />,
+        ],
+        "className": "sign-up-for-notifications-container",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <div
+                className="sendToMessengerButtonLabel"
+              >
+                Click this button to continue
+              </div>,
+              <div
+                className="inlineBlock"
+              >
+                <div
+                  className="fb-send-to-messenger sendToMessengerButton"
+                  color="white"
+                  data-ref="eyJjbGFzc0hhc2giOiJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwIiwic2VjdGlvbkhhc2hlcyI6WyJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzEzNTAyIiwibmV1LmVkdS8yMDE4MTAvQ1MvMTIxMC8xNDQwNCIsIm5ldS5lZHUvMjAxODEwL0NTLzEyMTAvMTQ0MDUiLCJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzE0Mzg2Il0sImRldiI6ZmFsc2UsImxvZ2luS2V5IjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9"
+                  messenger_app_id="1979224428978082"
+                  page_id="807584642748179"
+                  size="large"
+                />
+              </div>,
+            ],
+            "className": "facebookButtonContainer",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Click this button to continue",
+                "className": "sendToMessengerButtonLabel",
+              },
+              "ref": null,
+              "rendered": "Click this button to continue",
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <div
+                  className="fb-send-to-messenger sendToMessengerButton"
+                  color="white"
+                  data-ref="eyJjbGFzc0hhc2giOiJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwIiwic2VjdGlvbkhhc2hlcyI6WyJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzEzNTAyIiwibmV1LmVkdS8yMDE4MTAvQ1MvMTIxMC8xNDQwNCIsIm5ldS5lZHUvMjAxODEwL0NTLzEyMTAvMTQ0MDUiLCJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzE0Mzg2Il0sImRldiI6ZmFsc2UsImxvZ2luS2V5IjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9"
+                  messenger_app_id="1979224428978082"
+                  page_id="807584642748179"
+                  size="large"
+                />,
+                "className": "inlineBlock",
+              },
+              "ref": [Function],
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "className": "fb-send-to-messenger sendToMessengerButton",
+                  "color": "white",
+                  "data-ref": "eyJjbGFzc0hhc2giOiJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwIiwic2VjdGlvbkhhc2hlcyI6WyJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzEzNTAyIiwibmV1LmVkdS8yMDE4MTAvQ1MvMTIxMC8xNDQwNCIsIm5ldS5lZHUvMjAxODEwL0NTLzEyMTAvMTQ0MDUiLCJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzE0Mzg2Il0sImRldiI6ZmFsc2UsImxvZ2luS2V5IjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9",
+                  "messenger_app_id": "1979224428978082",
+                  "page_id": "807584642748179",
+                  "size": "large",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "div",
+              },
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "actions": Array [
+              Object {
+                "content": "Ok",
+                "key": "done",
+                "onClick": [Function],
+                "positive": true,
+              },
+            ],
+            "className": "adblock-notification-modal-container",
+            "closeOnDimmerClick": true,
+            "closeOnDocumentClick": false,
+            "content": "This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook.",
+            "dimmer": true,
+            "eventPool": "Modal",
+            "header": "Please disable adblock.",
+            "open": false,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+      ],
       "type": "div",
     },
   ],
