@@ -241,10 +241,10 @@ ShallowWrapper {
           className="adblock-notification-modal-container"
           closeOnDimmerClick={true}
           closeOnDocumentClick={false}
-          content="This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook."
+          content="Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled."
           dimmer={true}
           eventPool="Modal"
-          header="Please disable adblock."
+          header="Please disable adblock and sign into Facebook."
           open={false}
         />,
       ],
@@ -283,10 +283,10 @@ ShallowWrapper {
           "className": "adblock-notification-modal-container",
           "closeOnDimmerClick": true,
           "closeOnDocumentClick": false,
-          "content": "This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook.",
+          "content": "Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled.",
           "dimmer": true,
           "eventPool": "Modal",
-          "header": "Please disable adblock.",
+          "header": "Please disable adblock and sign into Facebook.",
           "open": false,
         },
         "ref": null,
@@ -324,10 +324,10 @@ ShallowWrapper {
             className="adblock-notification-modal-container"
             closeOnDimmerClick={true}
             closeOnDocumentClick={false}
-            content="This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook."
+            content="Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled."
             dimmer={true}
             eventPool="Modal"
-            header="Please disable adblock."
+            header="Please disable adblock and sign into Facebook."
             open={false}
           />,
         ],
@@ -366,10 +366,10 @@ ShallowWrapper {
             "className": "adblock-notification-modal-container",
             "closeOnDimmerClick": true,
             "closeOnDocumentClick": false,
-            "content": "This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook.",
+            "content": "Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled.",
             "dimmer": true,
             "eventPool": "Modal",
-            "header": "Please disable adblock.",
+            "header": "Please disable adblock and sign into Facebook.",
             "open": false,
           },
           "ref": null,
@@ -645,10 +645,10 @@ ShallowWrapper {
           className="adblock-notification-modal-container"
           closeOnDimmerClick={true}
           closeOnDocumentClick={false}
-          content="This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook."
+          content="Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled."
           dimmer={true}
           eventPool="Modal"
-          header="Please disable adblock."
+          header="Please disable adblock and sign into Facebook."
           open={false}
         />,
       ],
@@ -749,10 +749,10 @@ ShallowWrapper {
           "className": "adblock-notification-modal-container",
           "closeOnDimmerClick": true,
           "closeOnDocumentClick": false,
-          "content": "This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook.",
+          "content": "Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled.",
           "dimmer": true,
           "eventPool": "Modal",
-          "header": "Please disable adblock.",
+          "header": "Please disable adblock and sign into Facebook.",
           "open": false,
         },
         "ref": null,
@@ -804,10 +804,10 @@ ShallowWrapper {
             className="adblock-notification-modal-container"
             closeOnDimmerClick={true}
             closeOnDocumentClick={false}
-            content="This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook."
+            content="Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled."
             dimmer={true}
             eventPool="Modal"
-            header="Please disable adblock."
+            header="Please disable adblock and sign into Facebook."
             open={false}
           />,
         ],
@@ -908,10 +908,10 @@ ShallowWrapper {
             "className": "adblock-notification-modal-container",
             "closeOnDimmerClick": true,
             "closeOnDocumentClick": false,
-            "content": "This feature does not work when adblock is enabled. Please disable adblock so we can load scripts from Facebook.",
+            "content": "Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled.",
             "dimmer": true,
             "eventPool": "Modal",
-            "header": "Please disable adblock.",
+            "header": "Please disable adblock and sign into Facebook.",
             "open": false,
           },
           "ref": null,
