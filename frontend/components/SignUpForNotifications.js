@@ -45,7 +45,14 @@ class SignUpForNotifications extends React.Component {
       return;
     }
 
-    this.facebookScopeRef.querySelector('iframe').onload = (e) => {
+    let iframe = this.facebookScopeRef.querySelector('iframe');
+
+    if (!iframe) {
+      console.error("No iframe?")
+      return;
+    }
+
+    iframe.onload = (e) => {
 
        // Check to see if the plugin was successfully rendered
       let ele = this.facebookScopeRef.querySelector('.sendToMessengerButton > span')
@@ -142,7 +149,8 @@ class SignUpForNotifications extends React.Component {
     } else if (this.props.aClass.isAtLeastOneSectionFull()) {
       content = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!' className='notificationButton' />;
     } else {
-      return null;
+      // Show a button that says there are currently seats available. 
+      content = <div className="disabledButton notificationButton">There are seats available in all sections.</div>;
     }
 
     return (

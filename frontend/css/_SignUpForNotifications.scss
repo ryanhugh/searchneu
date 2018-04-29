@@ -4,8 +4,25 @@
  */
 
 .sign-up-for-notifications-container {
+
+
+  .disabledButton {
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    margin: 0 .25em 0 0;
+    padding: .78571429em 1.5em .78571429em;
+    line-height: 1em;
+    text-align: center;
+    color: rgba(0,0,0,.6);
+    font-weight: 400;
+    border-radius: .28571429rem;
+    -webkit-box-shadow: 0 0 0 1px rgba(34,36,38,.15) inset;
+    box-shadow: 0 0 0 1px rgba(34,36,38,.15) inset;
+    opacity: .55;
+  }
+
   .notificationButton {
     margin-top: 3px !important;
+
     margin-left: 5px !important;
     margin-right: 0px;
   }
