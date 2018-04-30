@@ -58,7 +58,6 @@ class Authentication {
   // so this will only work on searchneu.com (and subdomains) and will return true for all other domains (eg http://localhost)
   // You can use localhost.searchneu.com:5000 to bypass this.
   async getIsLoggedIn() {
-
     if (!window.location.hostname.endsWith('searchneu.com')) {
       return true;
     }
