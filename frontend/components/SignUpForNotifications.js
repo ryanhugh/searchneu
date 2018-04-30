@@ -50,6 +50,10 @@ class SignUpForNotifications extends React.Component {
     const iframe = this.facebookScopeRef.querySelector('iframe');
 
     if (!iframe) {
+      macros.logAmplitudeEvent('FB Send to Messenger', {
+        message: 'Unable to load iframe for send to messenger plugin.',
+        hash: Keys.create(this.props.aClass).getHash(),
+      });
       macros.error('No iframe?');
       return;
     }
@@ -60,16 +64,31 @@ class SignUpForNotifications extends React.Component {
 
       // If has adblock and haven't shown the warning yet, show the warning.
       if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !this.constructor.hasAdblock) {
+        macros.logAmplitudeEvent('FB Send to Messenger', {
+          message: "User has adblock or isn't logged in. Showing adblock/login popup.",
+          hash: Keys.create(this.props.aClass).getHash(),
+        });
+
         this.setState({
           showAdblockMessage: true,
         });
         this.constructor.hasAdblock = true;
+      } else {
+        macros.logAmplitudeEvent('FB Send to Messenger', {
+          message: 'Successfully rendered',
+          hash: Keys.create(this.props.aClass).getHash(),
+        });
       }
     };
   }
 
   // Updates the state to show the button.
   onSubscribeToggleChange() {
+    macros.logAmplitudeEvent('FB Send to Messenger', {
+      message: 'First button click',
+      hash: Keys.create(this.props.aClass).getHash(),
+    });
+
     this.setState({
       showMessengerButton: true,
     });
