@@ -296,7 +296,13 @@ class Updater {
       this.dataLib.setSection(section);
     }
 
-    macros.log('Done running updater onInterval. It took', Date.now() - startTime, 'ms.');
+    const totalTime = Date.now() - startTime;
+
+    macros.log('Done running updater onInterval. It took', totalTime, 'ms.');
+
+    macros.logAmplitudeEvent('Updater', {
+      totalTime: totalTime,
+    });
   }
 }
 
