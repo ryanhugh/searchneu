@@ -52,7 +52,17 @@ class Authentication {
     return loginKey;
   }
 
+  // This function assumes that 'searchneu.com' is whitelisted in the Facebook Developer console settings
+  // https://developers.facebook.com/apps/1979224428978082/settings/basic/
+  // Facebook only allows applications to run on one domain at a time
+  // so this will only work on searchneu.com (and subdomains) and will return true for all other domains (eg http://localhost)
+  // You can use localhost.searchneu.com:5000 to bypass this.
   async getIsLoggedIn() {
+
+    if (!window.location.hostname.endsWith('searchneu.com')) {
+      return true;
+    }
+
     return new Promise((resolve) => {
       window.FB.getLoginStatus((response) => {
         if (response.status === 'connected') {

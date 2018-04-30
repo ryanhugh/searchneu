@@ -40,6 +40,8 @@ class SignUpForNotifications extends React.Component {
 
   // After the button is added to the DOM, we need to tell FB's SDK that it was added to the code and should be processed.
   // This will tell FB's SDK to scan all the child elements of this.facebookScopeRef to look for fb-send-to-messenger buttons.
+  // If the user goes to this page and is not logged into Facebook, a send to messenger button will still appear and they
+  // will be asked to sign in after clicking it. 
   componentDidUpdate() {
     if (!this.facebookScopeRef) {
       return;
