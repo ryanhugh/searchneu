@@ -233,7 +233,7 @@ class Updater {
         // If there is no space between the classId and the exclamation mark
         // Facebook Messenger on mobile will include the exclamation mark in the hyperlink
         // Oddly enough, Facebook messenger on desktop will not include the exclamation mark in the URL.
-        message += ` Check it out at https://searchneu.com/${aNewClass.subject}${aNewClass.classId} !`;
+        message += ` Check it out at https://searchneu.com/${aNewClass.termId}/${aNewClass.subject}${aNewClass.classId} !`;
 
         const user = classHashToUsers[hash];
 
@@ -253,7 +253,7 @@ class Updater {
       // This should never run.
       // The user should not be able to sign up for a section that didn't exist when they were signing up.
       if (!oldSection) {
-        macros.error('Section was added?', hash);
+        macros.error('Section was added?', hash, newSection);
         continue;
       }
 
@@ -261,9 +261,9 @@ class Updater {
 
       if (newSection.seatsRemaining > 0 && oldSection.seatsRemaining <= 0) {
         // See above comment about space before the exclamation mark.
-        message = `A seat opened up in ${newSection.subject} ${newSection.classId} (CRN: ${newSection.crn}). Check it out at https://searchneu.com/${newSection.subject}${newSection.classId} !`;
+        message = `A seat opened up in ${newSection.subject} ${newSection.classId} (CRN: ${newSection.crn}). Check it out at https://searchneu.com/${newSection.termId}/${newSection.subject}${newSection.classId} !`;
       } else if (newSection.waitRemaining > 0 && oldSection.waitRemaining <= 0) {
-        message = `A waitlist seat opened up in ${newSection.subject} ${newSection.classId} (CRN: ${newSection.crn}). Check it out at https://searchneu.com/${newSection.subject}${newSection.classId} !`;
+        message = `A waitlist seat opened up in ${newSection.subject} ${newSection.classId} (CRN: ${newSection.crn}). Check it out at https://searchneu.com/${newSection.termId}/${newSection.subject}${newSection.classId} !`;
       }
 
       if (message) {
