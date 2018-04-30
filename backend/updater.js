@@ -68,6 +68,14 @@ class Updater {
     const classHashToUsers = {};
 
     for (const user of users) {
+      if (!user.watchingClasses) {
+        user.watchingClasses = [];
+      }
+
+      if (!user.watchingSections) {
+        user.watchingSections = [];
+      }
+
       classHashes = _.uniq(user.watchingClasses).concat(classHashes);
       sectionHashes = _.uniq(user.watchingSections).concat(sectionHashes);
 
