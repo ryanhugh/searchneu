@@ -87,6 +87,13 @@ class Authentication {
     } else if (e.event === 'opt_in') {
       macros.log('Opt in was clicked!', e);
 
+
+      macros.logAmplitudeEvent('FB Send to Messenger', {
+        message: 'Sign up clicked',
+        hash: JSON.parse(atob(e.ref)).classHash,
+      });
+
+
       // When the Send To Messenger button is clicked in development, the webhook is still sent to prod by Facebook
       // In this case, send the data to the development server directly.
       if (macros.DEV) {
