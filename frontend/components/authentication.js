@@ -29,6 +29,15 @@ class Authentication {
     this.successfullyRendered = false;
 
     this.onSendToMessengerClick = this.onSendToMessengerClick.bind(this);
+
+    this.downloadUserData();
+  }
+
+  // Downloads the user data from the server.
+  // Send the loginKey and the facebookMessengerId (if we have it).
+  // Save the facebookMessengerId when the server responds (the server can respond to this request a lot faster when given the facebookMessengerId).
+  downloadUserData() {
+
   }
 
 
