@@ -64,21 +64,32 @@ class SignUpForNotifications extends React.Component {
       // Check to see if the plugin was successfully rendered
       const ele = this.facebookScopeRef.querySelector('.sendToMessengerButton > span');
 
-      // If has adblock and haven't shown the warning yet, show the warning.
-      if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !this.constructor.hasAdblock) {
-        macros.logAmplitudeEvent('FB Send to Messenger', {
-          message: "User has adblock or isn't logged in. Showing adblock/login popup.",
-          hash: Keys.create(this.props.aClass).getHash(),
-        });
+      const classHash = Keys.create(this.props.aClass).getHash();
 
-        this.setState({
-          showAdblockMessage: true,
-        });
-        this.constructor.hasAdblock = true;
+      // If has adblock and haven't shown the warning yet, show the warning.
+      if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !this.constructor.hasAdblock && !authentication.successfullyRendered) {
+        if (macros.isMobile) {
+          macros.error('Unable to render on mobile?', classHash);
+
+          macros.logAmplitudeEvent('FB Send to Messenger', {
+            message: "Unable to render on mobile?.",
+            hash: classHash,
+          });
+        } else {
+          macros.logAmplitudeEvent('FB Send to Messenger', {
+            message: "User has adblock or isn't logged in. Showing adblock/login popup.",
+            hash: classHash,
+          });
+
+          this.setState({
+            showAdblockMessage: true,
+          });
+          this.constructor.hasAdblock = true;
+        }
       } else {
         macros.logAmplitudeEvent('FB Send to Messenger', {
           message: 'Successfully rendered',
-          hash: Keys.create(this.props.aClass).getHash(),
+          hash: classHash,
         });
       }
     };

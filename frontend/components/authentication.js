@@ -24,6 +24,10 @@ class Authentication {
       window.fbAsyncInit = this.initFB.bind(this);
     }
 
+    // Keeps track of whether the plugin has rendered succesfully at least once.
+    // If it has rendered at least once, the user must not have adblock
+    this.successfullyRendered = false;
+
     this.onSendToMessengerClick = this.onSendToMessengerClick.bind(this);
   }
 
@@ -86,6 +90,7 @@ class Authentication {
   onSendToMessengerClick(e) {
     if (e.event === 'rendered') {
       macros.log('Plugin was rendered');
+      this.successfullyRendered = true;
     } else if (e.event === 'checkbox') {
       const checkboxState = e.state;
       macros.log(`Checkbox state: ${checkboxState}`);
