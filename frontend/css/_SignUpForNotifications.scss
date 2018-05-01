@@ -61,6 +61,12 @@
     text-align: right;
   }
 
+  @media only screen and (max-width: 767px) {
+    .sendToMessengerButtonLabel {
+      margin-right: 25px;
+    }
+  }
+
 
   .sendToMessengerButton {
     width: 153px;
@@ -68,6 +74,14 @@
     overflow: hidden;
     display: inline-block !important;
   }
+
+
+  @media only screen and (max-width: 767px) {
+    .sendToMessengerButton {
+      max-width: 155px;
+    }
+  }
+
 
 
   .inlineBlock {
