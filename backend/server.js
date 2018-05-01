@@ -449,6 +449,8 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
       notifyer.sendFBNotification(sender, `You are already signed up to get notifications if any of the sections of ${classCode} have seats that open up.`);
     } else if (wasWatchingClass && sectionWasentWatchingBefore.length > 0) {
       notifyer.sendFBNotification(sender, `You are already signed up to get notifications if seats open up in some of the sections in ${classCode} and are now signed up for ${sectionWasentWatchingBefore.length} more sections too!`);
+    } else if (sectionWasentWatchingBefore.length === 0) {
+      notifyer.sendFBNotification(sender, `Successfully signed up for notifications if sections are added to ${classCode}!`);
     } else {
       notifyer.sendFBNotification(sender, `Successfully signed up for notifications for ${sectionWasentWatchingBefore.length} sections in ${classCode}!`);
     }

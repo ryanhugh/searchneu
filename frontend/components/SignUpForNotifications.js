@@ -72,7 +72,7 @@ class SignUpForNotifications extends React.Component {
           macros.error('Unable to render on mobile?', classHash);
 
           macros.logAmplitudeEvent('FB Send to Messenger', {
-            message: "Unable to render on mobile?.",
+            message: 'Unable to render on mobile?.',
             hash: classHash,
           });
         } else {
