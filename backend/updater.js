@@ -243,13 +243,20 @@ class Updater {
         // Oddly enough, Facebook messenger on desktop will not include the exclamation mark in the URL.
         message += ` Check it out at https://searchneu.com/${aNewClass.termId}/${aNewClass.subject}${aNewClass.classId} !`;
 
-        const user = classHashToUsers[hash];
-
-        if (!userToMessageMap[user]) {
-          userToMessageMap[user] = [];
+        // Get the list of users who were watching this class
+        const usersToMessage = classHashToUsers[hash];
+        if (!usersToMessage) {
+          continue;
         }
 
-        userToMessageMap[user].push(message);
+        // Send them all a notification.
+        for (const user of usersToMessage) {
+          if (!userToMessageMap[user]) {
+            userToMessageMap[user] = [];
+          }
+
+          userToMessageMap[user].push(message);
+        }
       }
     }
 
@@ -275,12 +282,18 @@ class Updater {
       }
 
       if (message) {
-        const user = sectionHashToUsers[hash];
-        if (!userToMessageMap[user]) {
-          userToMessageMap[user] = [];
+        const usersToMessage = sectionHashToUsers[hash];
+        if (!usersToMessage) {
+          continue;
         }
 
-        userToMessageMap[user].push(message);
+        for (const user of usersToMessage) {
+          if (!userToMessageMap[user]) {
+            userToMessageMap[user] = [];
+          }
+
+          userToMessageMap[user].push(message);
+        }
       }
     }
 
@@ -321,18 +334,48 @@ async function getFrontendData(path) {
 }
 
 async function test() {
-  const termDumpPromise = getFrontendData('./public/data/getTermDump/neu.edu/201810.json');
+  const termDumpPromise = getFrontendData('./public/data/v2/getTermDump/neu.edu/201910.json');
 
-  const spring2018DataPromise = getFrontendData('./public/data/getTermDump/neu.edu/201830.json');
+  const spring2018DataPromise = getFrontendData('./public/data/v2/getTermDump/neu.edu/201830.json');
 
   const fallData = await termDumpPromise;
 
   const springData = await spring2018DataPromise;
 
   const dataLib = DataLib.loadData({
-    201810: fallData,
+    201910: fallData,
     201830: springData,
   });
+
+  const newUser = {
+    watchingSections: [
+      'neu.edu/201910/CS/1100/11293',
+      'neu.edu/201910/CS/1100/14657',
+      'neu.edu/201910/CS/1100/14656',
+      'neu.edu/201910/CS/1100/11294',
+      'neu.edu/201910/CS/1100/14652',
+      'neu.edu/201910/CS/1100/14653',
+      'neu.edu/201910/CS/1100/14658',
+      'neu.edu/201910/CS/1100/14659',
+      'neu.edu/201910/CS/1100/11291',
+      'neu.edu/201910/CS/1100/11292',
+      'neu.edu/201910/CS/1100/13186',
+      'neu.edu/201910/CS/1100/11295',
+      'neu.edu/201910/CS/1100/14654',
+      'neu.edu/201910/CS/1100/14660',
+      'neu.edu/201910/CS/1100/11296',
+      'neu.edu/201910/CS/1100/14655',
+      'neu.edu/201910/CS/1100/14661',
+    ],
+    watchingClasses: ['neu.edu/201910/CS/1100'],
+    firstName: 'Test Fistname',
+    lastName: 'Test Lastname',
+    facebookMessengerId: '1111111111111111',
+    facebookPageId: '12345678',
+    loginKeys: ['123'],
+  };
+
+  database.set('users/1111111111111111', newUser);
 
   const instance = Updater.create(dataLib);
 
