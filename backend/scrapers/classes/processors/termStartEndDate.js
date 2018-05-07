@@ -14,12 +14,17 @@ import BaseProcessor from './baseProcessor';
 
 class TermStartEndDate extends BaseProcessor.BaseProcessor {
   runOnTerm(termDump, term) {
+    // Don't run on this term if this term already has a startDate and endDate.
+    if (term.startDate && term.endDated) {
+      return term;
+    }
+
     const startDates = {};
     const endDates = {};
     let meetingCount = 0;
 
-    if (termDump.sections.length === 0) {
-      macros.error('No sections in db???', termDump.sections);
+    if (!termDump.sections || termDump.sections.length === 0) {
+      macros.error('No sections in db???', termDump.sections, Object.keys(termDump));
     }
 
     termDump.sections.forEach((section) => {
@@ -94,6 +99,14 @@ class TermStartEndDate extends BaseProcessor.BaseProcessor {
 
 
   go(termDump) {
+    // If this term dump is just updating a few classes as part of the updater.js
+    // There will be no terms
+    // In this case just return.
+    if (!termDump.terms) {
+      return termDump;
+    }
+
+
     for (const term of termDump.terms) {
       this.runOnTerm(termDump, term);
     }

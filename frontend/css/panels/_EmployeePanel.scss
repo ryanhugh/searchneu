@@ -1,0 +1,74 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
+
+.employee-panel-container {
+    padding: 0px !important;
+    font-size: 16px !important;
+
+
+   .header {
+      outline: 0;
+      border: none;
+      background: #fafafb;
+      padding: 11px;
+      margin-top: 0px;
+      border-radius: 5px;
+      font-size: 20px;
+      font-weight: 700;
+  }
+  .body {
+      padding: 20px;
+  }
+  .inlineBlock {
+      display: inline-block;
+  }
+  .link {
+    opacity: .8;
+    float: right;
+  }
+
+  /* These were copied from class panel. */
+  .chevron {
+    width: 18px;
+    opacity: .6;
+    vertical-align: top;
+    margin-right: 10px;
+    margin-top: 2px;
+  }
+  .displayNone {
+      display: none;
+  }
+  .titleText {
+    display: inline-block;
+    max-width: calc(100% - 30px);
+    font-size: 19px;
+  }
+
+
+
+  .contact-box {
+      vertical-align: top;
+      min-width: 300px;
+  }
+
+  .employee-panel-second-column {
+    display: inline-block;
+  }
+
+  // Mobile
+  @media only screen and (max-width: 767px) {
+    .employee-panel-second-column {
+      padding-top: 20px;
+    }
+  }
+
+  // Desktop
+  @media only screen and (min-width: 767px) {
+    .employee-panel-second-column {
+      padding-left: 100px;
+    }
+  }
+
+}

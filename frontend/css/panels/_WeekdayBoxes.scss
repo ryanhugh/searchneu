@@ -1,0 +1,24 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
+
+$box-size: 12px;
+
+.weekday-indicator {
+    display: inline-block;
+
+    .weekday-box {
+        width: $box-size;
+        height: $box-size;
+        display: inline-block;
+        border: 2px solid #BBB;
+        border-radius: 3px;
+        margin: 0 1px;
+
+        &-checked {
+            @extend .weekday-box;
+            background: #888;
+        }
+    }
+}

@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should be able to parse a detail apge 1`] = `
+Object {
+  "emails": Array [
+    "m.abrahms@northeastern.edu",
+  ],
+  "firstName": "Max",
+  "image": "https://www.northeastern.edu/cssh/wp-content/uploads/2013/08/POLS-Max-Abrahms-2017-web-414x521.jpg",
+  "lastName": "Abrahms",
+  "name": "Max Abrahms",
+  "officeRoom": "215F RP",
+  "officeStreetAddress": "360 Huntington Avenue,",
+  "primaryRole": "Assistant Professor of Political Science",
+  "url": "https://www.northeastern.edu/cssh/faculty/max-abrahms",
+}
+`;

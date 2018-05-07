@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 
 import RequisiteBranch from '../../../common/classModels/RequisiteBranch';
 import Keys from '../../../common/Keys';
-import css from './BaseClassPanel.css';
 import macros from '../macros';
 
 class BaseClassPanel extends React.Component {
@@ -32,16 +31,18 @@ class BaseClassPanel extends React.Component {
     }
 
     this.state = {
-      prereqsPage : 0,
+      prereqsPage: 0,
       coreqsPage: 0,
       prereqsForPage: 0,
       optPrereqsForPage: 0,
       renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
       unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
     };
+
+    this.onShowMoreClick = this.onShowMoreClick.bind(this);
   }
 
-  onShowMoreClick = () => {
+  onShowMoreClick() {
     macros.log('Adding more sections to the bottom.');
 
     // Get the length of the our sections
@@ -57,55 +58,68 @@ class BaseClassPanel extends React.Component {
     });
   }
 
+  // Prevents page reload and fires off new search without reloading.
   onReqClick(reqType, childBranch, event) {
     // Create the React element and add it to retVal
     const searchEvent = new CustomEvent(macros.searchEvent, { detail: `${childBranch.subject} ${childBranch.classId}` });
     window.dispatchEvent(searchEvent);
     event.preventDefault();
 
+    // Rest of this function is analytics
     const classCode = `${childBranch.subject} ${childBranch.classId}`;
-
     let reqTypeString;
 
-    if (reqType === macros.prereqTypes.PREREQ) {
-      reqTypeString = 'Prerequisite';
-    } else if (reqType === macros.prereqTypes.COREQ) {
-      reqTypeString = 'Corequisite';
-    } else if (reqType === macros.prereqTypes.PREREQ_FOR) {
-      reqTypeString = 'Required Prerequisite For';
-    } else if (reqType === macros.prereqTypes.OPT_PREREQ_FOR) {
-      reqTypeString = 'Optional Prerequisite For';
-    } else {
-      macros.error('unknown type.', reqType);
-      return null;
+    switch (reqType) {
+      case macros.prereqTypes.PREREQ:
+        reqTypeString = 'Prerequisite';
+        break;
+      case macros.prereqTypes.COREQ:
+        reqTypeString = 'Corequisite';
+        break;
+      case macros.prereqTypes.PREREQ_FOR:
+        reqTypeString = 'Required Prerequisite For';
+        break;
+      case macros.prereqTypes.OPT_PREREQ_FOR:
+        reqTypeString = 'Optional Prerequisite For';
+        break;
+      default:
+        macros.error('unknown type.', reqType);
     }
 
     macros.logAmplitudeEvent('Requisite Click', {
-      type: reqTypeString, subject: childBranch.subject, classId: childBranch.classId, classCode: classCode,
+      type: reqTypeString,
+      subject: childBranch.subject,
+      classId: childBranch.classId,
+      classCode: classCode,
     });
-
-    return null;
   }
 
   // Render the Show More.. Button
   // This is the same on both desktop and mobile.
-  getShowMoreButton() {
-    if (this.state.unrenderedSections.length > 0) {
-      return (
-        <div className={ css.showMoreButton } role='button' tabIndex={ 0 } onClick={ this.onShowMoreClick }>
-          Show More...
-        </div>
-      );
+  getMoreSectionsButton() {
+    if (this.state.unrenderedSections.length <= 0) {
+      return null;
     }
-    return null;
+
+    return (
+      <div
+        className='more-sections-button'
+        role='button'
+        tabIndex={ 0 }
+        onClick={ this.onShowMoreClick }
+      >
+        Show More...
+      </div>
+    );
   }
 
   getCreditsString() {
     // Figure out the credits string
-    if (this.props.aClass.maxCredits === this.props.aClass.minCredits) {
-      return `${this.props.aClass.minCredits} credits`;
+    let retStr = '';
+    if (this.props.aClass.maxCredits !== this.props.aClass.minCredits) {
+      retStr = `${this.props.aClass.minCredits} to `;
     }
-    return `${this.props.aClass.minCredits} to ${this.props.aClass.maxCredits} credits`;
+    return `${retStr}${this.props.aClass.maxCredits} credits`;
   }
 
   // The argument wrapper func is optional
@@ -128,17 +142,9 @@ class BaseClassPanel extends React.Component {
     } else if (reqType === macros.prereqTypes.COREQ) {
       childNodes = aClass.coreqs;
     } else if (reqType === macros.prereqTypes.PREREQ_FOR) {
-      if (!aClass.prereqsFor) {
-        childNodes = { values:[] };
-      } else {
-        childNodes = aClass.prereqsFor;
-      }
+      childNodes = aClass.prereqsFor;
     } else if (reqType === macros.prereqTypes.OPT_PREREQ_FOR) {
-      if (!aClass.optPrereqsFor) {
-        childNodes = { values:[] };
-      } else {
-        childNodes = aClass.optPrereqsFor;
-      }
+      childNodes = aClass.optPrereqsFor;
     } else {
       macros.error('Invalid prereqType', reqType);
     }
@@ -153,7 +159,6 @@ class BaseClassPanel extends React.Component {
           }
           processedSubjectClassIds[childBranch.desc] = true;
 
-
           retVal.push(childBranch.desc);
         } else {
           // Skip if already seen
@@ -164,18 +169,19 @@ class BaseClassPanel extends React.Component {
 
           // When adding support for right click-> open in new tab, we might also be able to fix the jsx-a11y/anchor-is-valid errors.
           // They are disabled for now.
-          const hash = `${childBranch.subject} ${childBranch.classId}`;
+          const hash = `/${this.props.aClass.termId}/${childBranch.subject} ${childBranch.classId}`;
 
           const element = (
             <a
               key={ hash }
-              role='link'
+              href={ hash }
               tabIndex={ 0 }
               onClick={ (event) => { this.onReqClick(reqType, childBranch, event); } }
-              className={ css.reqClassLink }
+              className='reqClassLink'
             >
               {`${childBranch.subject} ${childBranch.classId}`}
-            </a>);
+            </a>
+          );
 
           retVal.push(element);
         }
@@ -218,7 +224,7 @@ class BaseClassPanel extends React.Component {
     }
 
     if (retVal.length === 0) {
-      return (<span className={ css.dynamicText }>None</span>);
+      return <span className='hint-text'>None</span>;
     }
 
     // retVal = retVal.join(' ' + this.prereqs.type + ' ')
@@ -249,14 +255,14 @@ class BaseClassPanel extends React.Component {
   /**
    * Returns how many elements we should return from our array of prerequisites.
    * Note that we mutliply our value by two because every other value is ', '
+   * We could probably make this better...
    *
    * @param {prereqTypes} prereqType type of prerequisite.
    */
   getShowAmount(prereqType) {
     const classesShownByDefault = 5;
     const stateValue = this.getStateValue(prereqType);
-    return 2 * classesShownByDefault *
-    (stateValue + 1);
+    return 2 * classesShownByDefault * (stateValue + 1);
   }
 
   /**
@@ -301,7 +307,7 @@ class BaseClassPanel extends React.Component {
 
     return (
       <div
-        className={ `${css.prereqShowMore} ${css.dynamicText}` }
+        className='prereq-show-more hint-text'
         tabIndex={ 0 }
         role='button'
         onClick={ () => {
@@ -321,7 +327,6 @@ class BaseClassPanel extends React.Component {
           });
         } }
       >Show More
-        <span className={ css.prereqShowMoreArrow } />
       </div>
     );
   }

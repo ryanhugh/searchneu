@@ -5,17 +5,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import CSSModules from 'react-css-modules';
-import classNames from 'classnames/bind';
 
 import macros from '../macros';
-import css from './EmployeePanel.css';
+
 import globe from './globe.svg';
 import chevronDown from './chevron-down.svg';
 import chevronRight from './chevron-right.svg';
-
-
-const cx = classNames.bind(css);
 
 // On Mobile, display everything in two sections, one below the other, eg:
 // Assistant Teaching Professor
@@ -45,7 +40,7 @@ const cx = classNames.bind(css);
 // The other fields may be present for one (eg, COE), but are not common enough to be used.
 
 // not standardized yet: personalSite, bigPictureLink
-class EmployeePanel extends React.Component {
+export default class EmployeePanel extends React.Component {
   static propTypes = {
     employee: PropTypes.object.isRequired,
   };
@@ -152,7 +147,7 @@ class EmployeePanel extends React.Component {
         chevronSource = chevronRight;
       }
 
-      chevron = <img className={ css.chevron } src={ chevronSource } alt='' />;
+      chevron = <img className='chevron' src={ chevronSource } alt='' />;
     }
 
     // Set up the onclick listener, if this is mobile.
@@ -165,8 +160,14 @@ class EmployeePanel extends React.Component {
     let linkElement = null;
     if (employee.url && !macros.isMobile) {
       linkElement = (
-        <span className={ css.link }>
-          <a key='jfdalsj' target='_blank' rel='noopener noreferrer' className={ css.inlineBlock } href={ employee.url }>
+        <span className='classGlobeLink'>
+          <a
+            key='jfdalsj'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='inlineBlock'
+            href={ employee.url }
+          >
             <img src={ globe } alt='globe' />
           </a>
         </span>
@@ -174,34 +175,31 @@ class EmployeePanel extends React.Component {
     }
 
     return (
-      <div className={ `${css.container} ui segment` }>
+      <div className='employee-panel-container ui segment'>
         <div
-          className={ css.header }
+          className='header'
           onClick={ titleClickListener }
           role='button'
           tabIndex={ 0 }
         >
           {chevron}
-          <span className={ css.titleText }>
+          <span className='titleText'>
             {employee.name}
           </span>
           {linkElement}
         </div>
 
-        <div className={ cx({
-          displayNone: !this.state.showMoreThanTitle && macros.isMobile,
-          body: true,
-        }) }
+        <div
+          className='body'
+          style={{
+          display: (!this.state.showMoreThanTitle && macros.isMobile) && 'none',
+          padding: 20,
+        }}
         >
-          <div className={ `${css.inlineBlock} ${css.contactBox}` }>
+          <div className='inlineBlock contact-box'>
             {this.constructor.injectBRs(firstColumn)}
           </div>
-          <div className={ cx({
-            inlineBlock: true,
-            mobileSecondColumn: macros.isMobile,
-            desktopSecondColumn: !macros.isMobile,
-          }) }
-          >
+          <div className='employee-panel-second-column'>
             {this.constructor.injectBRs(secondColumn)}
           </div>
         </div>
@@ -209,5 +207,3 @@ class EmployeePanel extends React.Component {
     );
   }
 }
-
-export default CSSModules(EmployeePanel, css);

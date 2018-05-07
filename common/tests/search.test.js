@@ -1,5 +1,19 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
+
+import elasticlunr from 'elasticlunr';
 import search from '../search';
-import searchTestResultObjects from './searchTestResultObjects.json';
+import DataLib from '../classModels/DataLib';
+
+import searchTestResultObjects from './data/searchTestResultObjects.json';
+import mockTermDump from '../classModels/tests/mockTermDump.json';
+import mockSearchIndex from './data/mockSearchIndex.json';
+
+import employeeMap from './data/employeeMap.json';
+import employeesSearchIndex from './data/employeesSearchIndex.json';
+
 
 it('expandRefsSliceForMatchingScores 1', () => {
   const refs = [
@@ -143,3 +157,25 @@ it('sortObjectsAfterScore works on empty array', () => {
   expect(otherClassIds.sort()).toEqual(['5360', '6285', '7305']);
 });
 
+
+it('search should work', () => {
+  const index = elasticlunr.Index.load(employeesSearchIndex);
+
+  const dataLib = DataLib.loadData({
+    201752: mockTermDump,
+  });
+
+
+  const searchIndexies = {
+    201752: elasticlunr.Index.load(mockSearchIndex),
+  };
+
+
+  const instance = search.create(employeeMap, index, dataLib, searchIndexies);
+
+  expect(instance.search('hi', 201752)).toMatchSnapshot();
+  expect(instance.search('Craig', 201752)).toMatchSnapshot();
+  expect(instance.search('Experiential', 201752)).toMatchSnapshot();
+  expect(instance.search('LS', 201752)).toMatchSnapshot();
+  expect(instance.search('WS', 201752)).toMatchSnapshot();
+});

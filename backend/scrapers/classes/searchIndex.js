@@ -6,7 +6,7 @@
 import elasticlunr from 'elasticlunr';
 import path from 'path';
 import mkdirp from 'mkdirp-promise';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 import _ from 'lodash';
 
 import macros from '../../macros';
@@ -139,7 +139,6 @@ class SearchIndex {
       } else {
         toIndex.acronym = '';
       }
-
 
       index.addDoc(toIndex);
     }

@@ -5,32 +5,28 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import CSSModules from 'react-css-modules';
-import classNames from 'classnames/bind';
 import { Icon } from 'semantic-ui-react';
 
-import globe from './globe.svg';
-import css from './MobileSectionPanel.css';
-
-import macros from '../macros';
 import WeekdayBoxes from './WeekdayBoxes';
 import LocationLinks from './LocationLinks';
+import macros from '../macros';
 
-const cx = classNames.bind(css);
+import globe from './globe.svg';
 
 // TODO:
 // Waitlist UI/wording could be cleaned up/simplified a bit.
 
 // MobileSectionPanel page component
-class MobileSectionPanel extends React.Component {
+export default class MobileSectionPanel extends React.Component {
+  static propTypes = {
+    section: PropTypes.object.isRequired,
+  };
+
   // This is different than the one in ClassPanel.js because this can show and hide the waitlist based on a per-section basis
   // and ClassPanel.js is show it for all sections or none.
   shouldShowWaitlist() {
-    if (this.props.section.getHasWaitList() && this.props.section.seatsRemaining < 10) {
-      return true;
-    }
-
-    return false;
+    return this.props.section.getHasWaitList()
+      && this.props.section.seatsRemaining < 10;
   }
 
   render() {
@@ -39,9 +35,9 @@ class MobileSectionPanel extends React.Component {
     const hasWaitList = this.shouldShowWaitlist();
     if (hasWaitList) {
       waitlistRow = (
-        <tr className={ css.lastRow }>
-          <td className={ css.firstColumn }>Wait</td>
-          <td className={ css.secondColumn }>
+        <tr className='lastRow'>
+          <td className='firstColumn'>Wait</td>
+          <td className='secondColumn'>
             {this.props.section.waitRemaining}/{this.props.section.waitCapacity} Waitlist Seats Available
           </td>
         </tr>
@@ -60,14 +56,7 @@ class MobileSectionPanel extends React.Component {
       }
     });
 
-
-    let fullTimesString;
-    if (times.length > 0) {
-      fullTimesString = times.join(', ');
-    } else {
-      fullTimesString = 'TBA';
-    }
-
+    const fullTimesString = (times.length > 0) ? times.join(', ') : 'TBA';
 
     // Add a row for exam, if the section has an exam.
     let examRow = null;
@@ -80,8 +69,8 @@ class MobileSectionPanel extends React.Component {
 
         examRow = (
           <tr>
-            <td className={ css.firstColumn }>Exam</td>
-            <td className={ css.secondColumn }>
+            <td className='firstColumn'>Exam</td>
+            <td className='secondColumn'>
               {examDayMoment.format('MMMM Do @ ') + examTimeMoment.format('h:mm a')}
             </td>
           </tr>
@@ -107,8 +96,8 @@ class MobileSectionPanel extends React.Component {
     if (this.props.section.honors) {
       honorsSection = (
         <tr>
-          <td className={ css.firstColumn }>Honors</td>
-          <td className={ css.secondColumn }>
+          <td className='firstColumn'>Honors</td>
+          <td className='secondColumn'>
             <Icon name='check' />
           </td>
         </tr>
@@ -117,59 +106,51 @@ class MobileSectionPanel extends React.Component {
 
 
     return (
-      <div className={ css.container }>
-        <div className={ css.globe }>
-          <a target='_blank' rel='noopener noreferrer' href={ this.props.section.prettyUrl || this.props.section.url }>
+      <div className='section-container'>
+        <div className='globe'>
+          <a
+            target='_blank'
+            rel='noopener noreferrer'
+            href={ this.props.section.prettyUrl || this.props.section.url }
+          >
             <img src={ globe } alt='link' />
           </a>
         </div>
 
-        <div className={ css.title }>{`${macros.stripMiddleName(this.props.section.getProfs()[0])} ${titleEnding}`}</div>
-        <table className={ css.table }>
+        <div className='mobile-section-title'>{`${macros.stripMiddleName(this.props.section.getProfs()[0])} ${titleEnding}`}</div>
+        <table>
           <tbody>
-            <tr className={ css.firstRow }>
-              <td className={ css.firstColumn }>CRN</td>
-              <td className={ css.secondColumn }>{this.props.section.crn}</td>
+            <tr className='firstRow'>
+              <td className='firstColumn'>CRN</td>
+              <td className='secondColumn'>{this.props.section.crn}</td>
             </tr>
             {honorsSection}
             <tr>
-              <td className={ css.firstColumn }>Profs</td>
-              <td className={ css.secondColumn }>{this.props.section.getProfs().join(', ')}</td>
+              <td className='firstColumn'>Profs</td>
+              <td className='secondColumn'>{this.props.section.getProfs().join(', ')}</td>
             </tr>
-            <tr className={ cx({
-              displayNone: this.props.section.online,
-            }) }
-            >
-              <td className={ css.firstColumn }>Place</td>
-              <td className={ css.secondColumn }>
+            <tr style={{ display: this.props.section.online && 'none' }}>
+              <td className='firstColumn'>Place</td>
+              <td className='secondColumn'>
                 <LocationLinks section={ this.props.section } />
               </td>
             </tr>
-            <tr className={ cx({
-              displayNone: this.props.section.online,
-            }) }
-            >
-              <td className={ css.firstColumn }>Times</td>
-              <td className={ css.secondColumn }>
+            <tr style={{ display: this.props.section.online && 'none' }}>
+              <td className='firstColumn'>Times</td>
+              <td className='secondColumn'>
                 {fullTimesString}
               </td>
             </tr>
-            <tr className={ cx({
-              displayNone: this.props.section.online,
-            }) }
-            >
-              <td className={ css.firstColumn }>Days</td>
-              <td className={ css.secondColumn }>
+            <tr style={{ display: this.props.section.online && 'none' }}>
+              <td className='firstColumn'>Days</td>
+              <td className='secondColumn'>
                 <WeekdayBoxes section={ this.props.section } />
               </td>
             </tr>
             {examRow}
-            <tr className={ cx({
-              lastRow: !hasWaitList,
-            }) }
-            >
-              <td className={ css.firstColumn }>Seats</td>
-              <td className={ css.secondColumn }>
+            <tr style={{ display: hasWaitList && 'none' }}>
+              <td className='firstColumn'>Seats</td>
+              <td className='secondColumn'>
                 {this.props.section.seatsRemaining}/{this.props.section.seatsCapacity} Available
               </td>
             </tr>
@@ -180,11 +161,3 @@ class MobileSectionPanel extends React.Component {
     );
   }
 }
-
-
-MobileSectionPanel.propTypes = {
-  section: PropTypes.object.isRequired,
-};
-
-
-export default CSSModules(MobileSectionPanel, css);

@@ -1,0 +1,67 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ *
+ * This file contains normalizing styles, and is the primary file
+ * that imports all partials.
+ */
+
+ @import 'variables';
+
+ @import 'panels/BaseClassPanel';
+ @import 'panels/DesktopClassPanel';
+ @import 'panels/DesktopSectionPanel';
+ @import 'panels/EmployeePanel';
+ @import 'panels/MobileClassPanel';
+ @import 'panels/MobileSectionPanel';
+ @import 'panels/SplashPage';
+ @import 'panels/WeekdayBoxes';
+ @import 'FeedbackModal';
+ @import 'SignUpForNotifications';
+ @import 'ResultsLoader';
+ @import 'Home';
+
+ html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+html {
+  font-size: 18px;
+}
+
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+img {
+  border: none;
+}
+
+a {
+  color: #009FDA;
+  text-decoration: none;
+}
+body {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #505050;
+  line-height: 22px;
+  background: none;
+}
+
+p {
+  margin: 1em 0;
+}
+
+.ui.segment:first-child {
+  margin-top: 1rem !important;
+}
