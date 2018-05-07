@@ -11,7 +11,7 @@ import ellucianClassParser from '../ellucianClassParser';
 
 
 beforeAll(() => {
-  MockDate.set('Mon Oct 10 2016 00:00:00 -0000');
+  MockDate.set('Mon Oct 10 2016 00:00:00 -0000', -3000);
 });
 
 afterAll(() => {
