@@ -33,9 +33,16 @@ class Class {
       values: [],
     };
 
-
     this.coreqs = {
       type: 'or',
+      values: [],
+    };
+
+    this.prereqsFor = {
+      values: [],
+    };
+
+    this.optPrereqsFor = {
       values: [],
     };
 
@@ -349,6 +356,14 @@ class Class {
     return this.sections.some((section) => { return section.getHasExam(); });
   }
 
+  isAtLeastOneSectionFull() {
+    for (let i = 0; i < this.sections.length; i++) {
+      if (this.sections[i].seatsRemaining <= 0 && this.sections[i].seatsCapacity > 0) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   loadSectionsFromSectionMap(sectionMap) {
     if (this.isString) {

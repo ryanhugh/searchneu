@@ -4,9 +4,10 @@
  */
 
 import path from 'path';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 import mkdirp from 'mkdirp-promise';
 import msgpackImport from 'msgpack5';
+import _ from 'lodash';
 
 import macros from '../macros';
 
@@ -47,12 +48,14 @@ class Cache {
 
     // Save the data every so often. If the process is killed while scraping, it will resume from the last save.
     // This number is in milliseconds.
-    this.SAVE_INTERVAL_LONG = 12000;
+    this.SAVE_INTERVAL_LONG = 120000;
 
     // Used when optimize for speed is set to false.
-    this.SAVE_INTERVAL_SHORT = 10000;
+    this.SAVE_INTERVAL_SHORT = 60000;
 
     this.totalTimeSpendEncoding = 0;
+
+    this.totalTimeSpendCloning = 0;
   }
 
   getFilePath(folderName, className) {
@@ -157,7 +160,7 @@ class Cache {
     // This prevents the cache file from getting into an invalid state if the process is killed while the program is saving.
     // If the file does not exist, ignore the error
     await fs.rename(`${destinationFile}.new`, destinationFile);
-    macros.log('It took ', Date.now() - startTime, 'ms to save', destinationFile);
+    macros.log('It took ', Date.now() - startTime, 'ms to save', destinationFile, `(${this.totalTimeSpendCloning}ms spent cloning so far).`);
   }
 
 
@@ -179,6 +182,14 @@ class Cache {
 
     const dataMap = await this.dataPromiseMap[filePath];
 
+    // Clone the object so that the object that is going to be saved now is modified before the file is saved,
+    // the value that was given to this function is saved and
+    if (!optimizeForSpeed) {
+      const startTime = Date.now();
+      value = _.cloneDeep(value);
+      this.totalTimeSpendCloning += Date.now() - startTime;
+    }
+
     dataMap[key] = value;
 
     let intervalTime;
@@ -199,14 +210,4 @@ class Cache {
 }
 
 
-const a = new Cache();
-
-
-// console.log(a.get('requests_new2','camd.northeastern.edu',''))
-
-// a.dataPromiseMap['cache/requests_new2/camd.northeastern.edu.cache'].then(function(a) {
-//  console.log(Object.keys(a))
-// })
-
-
-export default a;
+export default new Cache();

@@ -16,6 +16,17 @@ if (window.location.hash === '#notrack') {
   window.localStorage.noTrack = true;
 }
 
+
+/*eslint-disable */
+(function (d, s, id) {
+  let js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) { return; }
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk.js';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+/*eslint-enable */
+
 // Segment tracket. This includes trackers for Rollbar and Fullstory.
 // These are only used on prod and only used if the user has not opted out of tracking.
 if (macros.PROD && !window.localStorage.noTrack) {
@@ -33,7 +44,7 @@ if (macros.PROD && !window.localStorage.noTrack) {
   // Disable the tracker for FullStory for now. 
   // We can enable it again when adding a new feature to the frontend or making significant changes
   // If we leave it running all the time we will quickly go over the free tier. 
-  if (false) {
+  if (true) {
     // Tracker for Fullstory.
     window['_fs_debug'] = false;
     window['_fs_host'] = 'fullstory.com';
@@ -87,16 +98,19 @@ if (macros.PROD && !window.localStorage.noTrack) {
   };
 }
 
-try {
-  navigator.serviceWorker.getRegistrations().then((registrations) => {
-    registrations.forEach((registration) => {
-      macros.log('removing registration', registration);
-      registration.unregister();
+if (window.location.protocol === 'https:' || window.location.hostname === 'localhost') {
+  try {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      registrations.forEach((registration) => {
+        macros.log('removing registration', registration);
+        registration.unregister();
+      });
     });
-  });
-} catch (e) {
-  macros.log('failed to unregister all service workers', e);
+  } catch (e) {
+    macros.log('failed to unregister all service workers', e);
+  }
 }
+
 
 // // Register the Service Worker
 // if ('serviceWorker' in navigator) {

@@ -4,7 +4,7 @@ exports[`should not render a show more button 1`] = `null`;
 
 exports[`should render a button 1`] = `
 <div
-  className="showMoreButton"
+  className="more-sections-button"
   onClick={[Function]}
   role="button"
   tabIndex={0}
@@ -17,8 +17,8 @@ exports[`should render coreqs string 1`] = `
 Array [
   <a
     className="reqClassLink"
+    href="/201810/CHEM 3506"
     onClick={[Function]}
-    role="link"
     tabIndex={0}
   >
     CHEM 3506
@@ -26,8 +26,8 @@ Array [
   " and ",
   <a
     className="reqClassLink"
+    href="/201810/CHEM 3507"
     onClick={[Function]}
-    role="link"
     tabIndex={0}
   >
     CHEM 3507
@@ -42,8 +42,8 @@ Array [
     Array [
       <a
         className="reqClassLink"
+        href="/201810/CHEM 3401"
         onClick={[Function]}
-        role="link"
         tabIndex={0}
       >
         CHEM 3401
@@ -51,8 +51,8 @@ Array [
       " or ",
       <a
         className="reqClassLink"
+        href="/201810/CHEM 3431"
         onClick={[Function]}
-        role="link"
         tabIndex={0}
       >
         CHEM 3431
@@ -66,8 +66,8 @@ Array [
     Array [
       <a
         className="reqClassLink"
+        href="/201810/CHEM 2321"
         onClick={[Function]}
-        role="link"
         tabIndex={0}
       >
         CHEM 2321
@@ -75,8 +75,8 @@ Array [
       " or ",
       <a
         className="reqClassLink"
+        href="/201810/CHEM 2331"
         onClick={[Function]}
-        role="link"
         tabIndex={0}
       >
         CHEM 2331
@@ -90,8 +90,8 @@ Array [
     Array [
       <a
         className="reqClassLink"
+        href="/201810/CHEM 2313"
         onClick={[Function]}
-        role="link"
         tabIndex={0}
       >
         CHEM 2313
@@ -99,8 +99,8 @@ Array [
       " or ",
       <a
         className="reqClassLink"
+        href="/201810/CHEM 2317"
         onClick={[Function]}
-        role="link"
         tabIndex={0}
       >
         CHEM 2317

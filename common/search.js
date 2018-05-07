@@ -3,11 +3,9 @@
  * See the license file in the root folder for details.
  */
 
-import elasticlunr from 'elasticlunr';
 
 import Keys from './Keys';
 import macros from './commonMacros';
-import CourseProData from './classModels/DataLib';
 
 // The plan is to use this in both the frontend and the backend.
 // Right now it is only in use in the backend.
@@ -92,19 +90,13 @@ const employeeSearchConfig = {
 
 
 class Search {
-  constructor(employeeMap, employeeSearchIndex, termDumps) {
+  constructor(employeeMap, employeeSearchIndex, dataLib, searchIndexies) {
     // map of termId to search index and dump
-    this.termDumps = {};
-
-    for (const termDump of termDumps) {
-      this.termDumps[termDump.termId] = {
-        searchIndex: elasticlunr.Index.load(termDump.searchIndex),
-        termDump: CourseProData.loadData(termDump.termDump),
-      };
-    }
+    this.dataLib = dataLib;
+    this.searchIndexies = searchIndexies;
 
     this.employeeMap = employeeMap;
-    this.employeeSearchIndex = elasticlunr.Index.load(employeeSearchIndex);
+    this.employeeSearchIndex = employeeSearchIndex;
 
     // Save the refs for each query. This is a map from the query to a object like this: {refs: [...], time: Date.now()}
     // These are purged every so often.
@@ -120,15 +112,15 @@ class Search {
 
   // Use this to create a search intance
   // All of these arguments should already be JSON.parsed(). (Eg, they should be objects, not strings).
-  static create(employeeMap, employeeSearchIndex, termDumps) {
+  static create(employeeMap, employeeSearchIndex, termDumps, searchIndexies) {
     // Some sanitiy checking
-    if (!employeeMap || !employeeSearchIndex || !termDumps) {
-      macros.error('Error, missing arguments.', !!employeeMap, !!employeeSearchIndex, !!termDumps);
+    if (!employeeMap || !employeeSearchIndex || !termDumps || !searchIndexies) {
+      macros.error('Error, missing arguments.', !!employeeMap, !!employeeSearchIndex, !!termDumps, !!searchIndexies);
       return null;
     }
 
 
-    return new this(employeeMap, employeeSearchIndex, termDumps);
+    return new this(employeeMap, employeeSearchIndex, termDumps, searchIndexies);
   }
 
   onInterval() {
@@ -186,7 +178,7 @@ class Search {
     // This is O(n) where n is the number of subjects in a term, but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
     const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
-    const subjects = this.termDumps[termId].termDump.getSubjects();
+    const subjects = this.dataLib.getSubjects(termId);
 
     for (let i = 0; i < subjects.length; i++) {
       const subject = subjects[i];
@@ -197,7 +189,7 @@ class Search {
       if (lowerCaseSubject === lowerCaseSearchTerm || lowerCaseSearchTerm === lowerCaseText) {
         macros.log('Perfect match for subject!', subject.subject);
 
-        const results = this.termDumps[termId].termDump.getClassesInSubject(subject.subject);
+        const results = this.dataLib.getClassesInSubject(subject.subject, termId);
 
         const output = [];
         results.forEach((result) => {
@@ -343,7 +335,7 @@ class Search {
       };
     }
 
-    if (!this.termDumps[termId]) {
+    if (!this.dataLib.hasTerm(termId)) {
       macros.log('Invalid termId', termId);
       return {
         results: [],
@@ -475,7 +467,7 @@ class Search {
     const slicedRefs = refs.slice(minIndex, maxIndex + 1);
     for (const ref of slicedRefs) {
       if (ref.type === 'class') {
-        const aClass = this.termDumps[termId].termDump.getClassServerDataFromHash(ref.ref);
+        const aClass = this.dataLib.getClassServerDataFromHash(ref.ref);
 
         if (!aClass) {
           macros.error('yoooooo omg', ref);
@@ -497,7 +489,7 @@ class Search {
               macros.error('Error no hash', crn, aClass);
             }
 
-            sections.push(this.termDumps[termId].termDump.getSectionServerDataFromHash(sectionKey));
+            sections.push(this.dataLib.getSectionServerDataFromHash(sectionKey));
           }
         }
 
@@ -537,7 +529,7 @@ class Search {
     // This is O(n), but because there are so few subjects it usually takes < 1ms
     // If the search term starts with a subject (eg cs2500), put a space after the subject
     const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
-    const subjects = this.termDumps[termId].termDump.getSubjects();
+    const subjects = this.dataLib.getSubjects(termId);
 
     for (let i = 0; i < subjects.length; i++) {
       const subject = subjects[i];
@@ -565,18 +557,12 @@ class Search {
     searchTerm = searchTerm.replace(/@northeastern\.edu/gi, '').replace(/@neu\.edu/gi, '');
 
 
-    // Measure how long it takes to search. Usually this is very small (< 20ms)
-    // const startTime = Date.now();
-
     // Returns an array of objects that has a .ref and a .score
     // The array is sorted by score (with the highest matching closest to the beginning)
     // eg {ref:"neu.edu/201710/ARTF/1123_1835962771", score: 3.1094880801464573}
-    // macros.log(searchTerm)
-    const classResults = this.termDumps[termId].searchIndex.search(searchTerm, classSearchConfig);
+    const classResults = this.searchIndexies[termId].search(searchTerm, classSearchConfig);
 
     const employeeResults = this.employeeSearchIndex.search(searchTerm, employeeSearchConfig);
-
-    // macros.log('send', 'timing', `search ${searchTerm.length}`, 'search', Date.now() - startTime);
 
     const output = [];
 

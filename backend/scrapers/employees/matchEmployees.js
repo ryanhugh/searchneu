@@ -7,7 +7,7 @@ import mkdirp from 'mkdirp-promise';
 import elasticlunr from 'elasticlunr';
 import _ from 'lodash';
 import objectHash from 'object-hash';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 import path from 'path';
 
 import macros from '../../macros';
@@ -74,6 +74,10 @@ class CombineCCISandEmployees {
       const emailDomainMap = {};
 
       matchObj.emails.forEach((email) => {
+        if (!email) {
+          macros.warn('Invalid email, not adding to emailDomainMap?', email, matchObj, person, peopleListIndex);
+          return;
+        }
         const domain = email.split('@')[1];
         emailDomainMap[domain] = email;
       });
@@ -137,7 +141,10 @@ class CombineCCISandEmployees {
             matchedPerson.matches.push(person);
 
             // Update the emails array with the new emails from this person.
-            matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
+            if (person.emails) {
+              matchedPerson.emails = matchedPerson.emails.concat(person.emails);
+            }
+            matchedPerson.emails = _.uniq(matchedPerson.emails);
             matchedPerson.peopleListIndexMatches[peopleListIndex] = true;
 
             // There should only be one match per person. Log a warning if there are more.
@@ -178,7 +185,10 @@ class CombineCCISandEmployees {
             matchedPerson.matches.push(person);
 
             // Update the emails array with the new emails from this person.
-            matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
+            if (person.emails) {
+              matchedPerson.emails = matchedPerson.emails.concat(person.emails);
+            }
+            matchedPerson.emails = _.uniq(matchedPerson.emails);
             matchedPerson.peopleListIndexMatches[peopleListIndex] = true;
 
             macros.log('Matching:', person.firstName, person.lastName, ':', matchedPerson.firstName, matchedPerson.lastName);
@@ -222,7 +232,10 @@ class CombineCCISandEmployees {
             matchedPerson.matches.push(person);
 
             // Update the emails array with the new emails from this person.
-            matchedPerson.emails = _.uniq(matchedPerson.emails.concat(person.emails));
+            if (person.emails) {
+              matchedPerson.emails = matchedPerson.emails.concat(person.emails);
+            }
+            matchedPerson.emails = _.uniq(matchedPerson.emails);
             matchedPerson.peopleListIndexMatches[peopleListIndex] = true;
 
             macros.log('Matching:', person.firstName, person.lastName, ':', matchedPerson.firstName, matchedPerson.lastName);
@@ -291,7 +304,7 @@ class CombineCCISandEmployees {
     }
 
 
-    const mergedEmployees = [];
+    let mergedEmployees = [];
 
 
     mergedPeopleList.forEach((person) => {
@@ -303,7 +316,7 @@ class CombineCCISandEmployees {
 
       const output = {};
       for (const profile of person.matches) {
-        for (const attrName in profile) {
+        for (const attrName of Object.keys(profile)) {
           // Merge emails
           if (attrName === 'emails') {
             if (output.emails) {
@@ -326,6 +339,13 @@ class CombineCCISandEmployees {
       mergedEmployees.push(output);
     });
 
+    // Add an empty array for emails if the object dosen't have an emails field
+    for (let i = 0; i < mergedEmployees.length; i++) {
+      if (!mergedEmployees[i].emails) {
+        mergedEmployees[i].emails = [];
+      }
+    }
+
 
     // Add IDs to people that don't have them (IDs are only scraped from employee directory)
     const startTime = Date.now();
@@ -338,6 +358,28 @@ class CombineCCISandEmployees {
     });
 
     macros.log('Spent', Date.now() - startTime, 'ms generating object hashes for employees without IDs.');
+
+
+    // Remove people who have request their information be removed from the DB.
+    // Ask Ryan about this for more details.
+    const beforeModifyCount = mergedEmployees.length;
+    mergedEmployees = mergedEmployees.filter((person) => {
+      if (person.emails && person.emails.includes('i.escobedo@northeastern.edu')) {
+        return false;
+      }
+
+      return true;
+    });
+
+    // Remove data from individual entries
+    for (let i = 0; i < mergedEmployees.length; i++) {
+      // This is also a specific exception, ask Ryan about it.
+      if (mergedEmployees[i].emails.includes('s.gary@northeastern.edu')) {
+        mergedEmployees[i].phone = undefined;
+      }
+    }
+
+    macros.log(`Changed/Removed ${beforeModifyCount - mergedEmployees.length} person(s) from the employee list.`);
 
 
     // Save the file

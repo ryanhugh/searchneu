@@ -74,22 +74,22 @@ ShallowWrapper {
     "props": Object {
       "children": Array [
         <div
-          className="weekDayBox"
+          className="weekday-box"
         />,
         <div
-          className="weekDayBoxChecked weekDayBox"
+          className="weekday-box-checked "
         />,
         <div
-          className="weekDayBox"
+          className="weekday-box"
         />,
         <div
-          className="weekDayBox"
+          className="weekday-box"
         />,
         <div
-          className="weekDayBoxChecked weekDayBox"
+          className="weekday-box-checked "
         />,
       ],
-      "className": "inlineBlock daysContainer",
+      "className": "weekday-indicator",
       "data-tip": "Meets on Tuesday, Friday",
     },
     "ref": null,
@@ -99,7 +99,7 @@ ShallowWrapper {
         "key": "0",
         "nodeType": "host",
         "props": Object {
-          "className": "weekDayBox",
+          "className": "weekday-box",
         },
         "ref": null,
         "rendered": null,
@@ -110,7 +110,7 @@ ShallowWrapper {
         "key": "1",
         "nodeType": "host",
         "props": Object {
-          "className": "weekDayBoxChecked weekDayBox",
+          "className": "weekday-box-checked ",
         },
         "ref": null,
         "rendered": null,
@@ -121,7 +121,7 @@ ShallowWrapper {
         "key": "2",
         "nodeType": "host",
         "props": Object {
-          "className": "weekDayBox",
+          "className": "weekday-box",
         },
         "ref": null,
         "rendered": null,
@@ -132,7 +132,7 @@ ShallowWrapper {
         "key": "3",
         "nodeType": "host",
         "props": Object {
-          "className": "weekDayBox",
+          "className": "weekday-box",
         },
         "ref": null,
         "rendered": null,
@@ -143,7 +143,7 @@ ShallowWrapper {
         "key": "4",
         "nodeType": "host",
         "props": Object {
-          "className": "weekDayBoxChecked weekDayBox",
+          "className": "weekday-box-checked ",
         },
         "ref": null,
         "rendered": null,
@@ -160,22 +160,22 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <div
-            className="weekDayBox"
+            className="weekday-box"
           />,
           <div
-            className="weekDayBoxChecked weekDayBox"
+            className="weekday-box-checked "
           />,
           <div
-            className="weekDayBox"
+            className="weekday-box"
           />,
           <div
-            className="weekDayBox"
+            className="weekday-box"
           />,
           <div
-            className="weekDayBoxChecked weekDayBox"
+            className="weekday-box-checked "
           />,
         ],
-        "className": "inlineBlock daysContainer",
+        "className": "weekday-indicator",
         "data-tip": "Meets on Tuesday, Friday",
       },
       "ref": null,
@@ -185,7 +185,7 @@ ShallowWrapper {
           "key": "0",
           "nodeType": "host",
           "props": Object {
-            "className": "weekDayBox",
+            "className": "weekday-box",
           },
           "ref": null,
           "rendered": null,
@@ -196,7 +196,7 @@ ShallowWrapper {
           "key": "1",
           "nodeType": "host",
           "props": Object {
-            "className": "weekDayBoxChecked weekDayBox",
+            "className": "weekday-box-checked ",
           },
           "ref": null,
           "rendered": null,
@@ -207,7 +207,7 @@ ShallowWrapper {
           "key": "2",
           "nodeType": "host",
           "props": Object {
-            "className": "weekDayBox",
+            "className": "weekday-box",
           },
           "ref": null,
           "rendered": null,
@@ -218,7 +218,7 @@ ShallowWrapper {
           "key": "3",
           "nodeType": "host",
           "props": Object {
-            "className": "weekDayBox",
+            "className": "weekday-box",
           },
           "ref": null,
           "rendered": null,
@@ -229,7 +229,7 @@ ShallowWrapper {
           "key": "4",
           "nodeType": "host",
           "props": Object {
-            "className": "weekDayBoxChecked weekDayBox",
+            "className": "weekday-box-checked ",
           },
           "ref": null,
           "rendered": null,
@@ -383,22 +383,22 @@ ShallowWrapper {
     "props": Object {
       "children": Array [
         <div
-          className="weekDayBox"
+          className="weekday-box"
         />,
         <div
-          className="weekDayBox"
+          className="weekday-box"
         />,
         <div
-          className="weekDayBox"
+          className="weekday-box"
         />,
         <div
-          className="weekDayBox"
+          className="weekday-box"
         />,
         <div
-          className="weekDayBox"
+          className="weekday-box"
         />,
       ],
-      "className": "inlineBlock daysContainer",
+      "className": "weekday-indicator",
       "data-tip": "No Meetings found",
     },
     "ref": null,
@@ -408,7 +408,7 @@ ShallowWrapper {
         "key": "0",
         "nodeType": "host",
         "props": Object {
-          "className": "weekDayBox",
+          "className": "weekday-box",
         },
         "ref": null,
         "rendered": null,
@@ -419,7 +419,7 @@ ShallowWrapper {
         "key": "1",
         "nodeType": "host",
         "props": Object {
-          "className": "weekDayBox",
+          "className": "weekday-box",
         },
         "ref": null,
         "rendered": null,
@@ -430,7 +430,7 @@ ShallowWrapper {
         "key": "2",
         "nodeType": "host",
         "props": Object {
-          "className": "weekDayBox",
+          "className": "weekday-box",
         },
         "ref": null,
         "rendered": null,
@@ -441,7 +441,7 @@ ShallowWrapper {
         "key": "3",
         "nodeType": "host",
         "props": Object {
-          "className": "weekDayBox",
+          "className": "weekday-box",
         },
         "ref": null,
         "rendered": null,
@@ -452,7 +452,7 @@ ShallowWrapper {
         "key": "4",
         "nodeType": "host",
         "props": Object {
-          "className": "weekDayBox",
+          "className": "weekday-box",
         },
         "ref": null,
         "rendered": null,
@@ -469,22 +469,22 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <div
-            className="weekDayBox"
+            className="weekday-box"
           />,
           <div
-            className="weekDayBox"
+            className="weekday-box"
           />,
           <div
-            className="weekDayBox"
+            className="weekday-box"
           />,
           <div
-            className="weekDayBox"
+            className="weekday-box"
           />,
           <div
-            className="weekDayBox"
+            className="weekday-box"
           />,
         ],
-        "className": "inlineBlock daysContainer",
+        "className": "weekday-indicator",
         "data-tip": "No Meetings found",
       },
       "ref": null,
@@ -494,7 +494,7 @@ ShallowWrapper {
           "key": "0",
           "nodeType": "host",
           "props": Object {
-            "className": "weekDayBox",
+            "className": "weekday-box",
           },
           "ref": null,
           "rendered": null,
@@ -505,7 +505,7 @@ ShallowWrapper {
           "key": "1",
           "nodeType": "host",
           "props": Object {
-            "className": "weekDayBox",
+            "className": "weekday-box",
           },
           "ref": null,
           "rendered": null,
@@ -516,7 +516,7 @@ ShallowWrapper {
           "key": "2",
           "nodeType": "host",
           "props": Object {
-            "className": "weekDayBox",
+            "className": "weekday-box",
           },
           "ref": null,
           "rendered": null,
@@ -527,7 +527,7 @@ ShallowWrapper {
           "key": "3",
           "nodeType": "host",
           "props": Object {
-            "className": "weekDayBox",
+            "className": "weekday-box",
           },
           "ref": null,
           "rendered": null,
@@ -538,7 +538,7 @@ ShallowWrapper {
           "key": "4",
           "nodeType": "host",
           "props": Object {
-            "className": "weekDayBox",
+            "className": "weekday-box",
           },
           "ref": null,
           "rendered": null,

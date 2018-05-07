@@ -5,21 +5,15 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import CSSModules from 'react-css-modules';
-import classNames from 'classnames/bind';
 import { Icon } from 'semantic-ui-react';
 
-import globe from './globe.svg';
-import css from './DesktopSectionPanel.css';
 import Keys from '../../../common/Keys';
-
 import LocationLinks from './LocationLinks';
 import WeekdayBoxes from './WeekdayBoxes';
 
-const cx = classNames.bind(css);
+import globe from './globe.svg';
 
-
-class DesktopSectionPanel extends React.Component {
+export default class DesktopSectionPanel extends React.Component {
   static propTypes = {
     shouldShowExamColumns: PropTypes.bool.isRequired,
     showWaitList: PropTypes.bool.isRequired,
@@ -58,11 +52,11 @@ class DesktopSectionPanel extends React.Component {
 
       const onlineElement =
       (
-        <td key='onlineWideCell' colSpan={ length } className={ css.wideOnlineCell }>
-          <span className={ css.onlineDivLineContainer }>
-            <span className={ `${css.onlineDivLine} ${css.onlineLeftLine}` } />
+        <td key='onlineWideCell' colSpan={ length } className='wideOnlineCell'>
+          <span className='onlineDivLineContainer'>
+            <span className='onlineDivLine onlineLeftLine' />
             <span>Online Class</span>
-            <span className={ css.onlineDivLine } />
+            <span className='onlineDivLine' />
           </span>
         </td>
       );
@@ -113,31 +107,29 @@ class DesktopSectionPanel extends React.Component {
         {tdElements}
 
         <td>
-          <div data-tip='Open Seats/Total Seats' className={ css.inlineBlock }>
+          <div data-tip='Open Seats/Total Seats' className='inlineBlock'>
             {this.props.section.seatsRemaining}/{this.props.section.seatsCapacity}
           </div>
         </td>
 
-        <td
-          className={ cx({
-            displayNone: !this.props.showWaitList,
-          }) }
-        >
-          <div data-tip='Open/Total Waitlist Seats' className={ css.inlineBlock }>
+        <td style={{ display: !this.props.showWaitList && 'none' }}>
+          <div data-tip='Open/Total Waitlist Seats' className='inlineBlock'>
             {this.props.section.waitRemaining}/{this.props.section.waitCapacity}
           </div>
         </td>
 
-        <td
-          className={ cx({
-            displayNone: !this.props.showHonorsColumn,
-          }) }
-        >
+        <td style={{ display: !this.props.showHonorsColumn && 'none' }}>
           {honorsCheck}
         </td>
 
         <td>
-          <a target='_blank' rel='noopener noreferrer' className={ `${css.inlineBlock} ${css.sectionGlobe}` } data-tip={ `View on ${this.props.section.host}` } href={ this.props.section.prettyUrl || this.props.section.url }>
+          <a
+            target='_blank'
+            rel='noopener noreferrer'
+            className='inlineBlock sectionGlobe'
+            data-tip={ `View on ${this.props.section.host}` }
+            href={ this.props.section.prettyUrl || this.props.section.url }
+          >
             <img src={ globe } alt='link' />
           </a>
         </td>
@@ -145,5 +137,3 @@ class DesktopSectionPanel extends React.Component {
     );
   }
 }
-
-export default CSSModules(DesktopSectionPanel, css);
