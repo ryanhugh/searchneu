@@ -29,5 +29,7 @@ it('should render another section', () => {
 });
 
 it('should not render a section if it\'s online', () => {
-  expect(shallow(<WeekdayBoxes section={{ online: true }} />)).toBe(null);
+  const result = shallow(<WeekdayBoxes section={{ online: true }} />);
+
+  expect(result.html()).toBe(null);
 });
