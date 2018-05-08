@@ -493,6 +493,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
       facebookMessengerId: sender,
       facebookPageId: userPageId,
       loginKeys: [userObject.loginKey],
+      referrals: 0,
     };
 
     macros.log('Adding ', newUser, 'to the db');
