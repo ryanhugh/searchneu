@@ -717,6 +717,9 @@ async function startServer() {
     if (err) {
       macros.log(err);
     }
+
+    macros.logAmplitudeEvent('Backend Server startup', {});
+
     macros.log(`Listening on port ${port}.`);
   });
 }
