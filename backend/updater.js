@@ -26,7 +26,13 @@ class Updater {
     // In dev the cache will be used so we are not actually hitting NEU's servers anyway.
     const intervalTime = macros.PROD ? 300000 : 30000;
 
-    setInterval(this.onInterval.bind(this), intervalTime);
+    setInterval(() => {
+      try {
+        this.onInterval();
+      } catch (e) {
+        macros.warn('Updater failed with :', e);
+      }
+    }, intervalTime);
   }
 
 
@@ -148,6 +154,12 @@ class Updater {
     // Scrape the latest data
     const promises = classes.map((aClass) => {
       return ellucianCatalogParser.main(aClass.prettyUrl).then((newClass) => {
+        if (!newClass) {
+          macros.warn('New class data is null?', aClass.prettyUrl, aClass);
+          return null;
+        }
+
+
         // Copy over some fields that are not scraped from this scraper.
         newClass.value.host = aClass.host;
         newClass.value.termId = aClass.termId;
@@ -156,6 +168,9 @@ class Updater {
         return newClass;
       });
     });
+
+    // Remove the instances where newClass was null
+    _.pull(promises, null);
 
     const allParsersOutput = await Promise.all(promises);
 
