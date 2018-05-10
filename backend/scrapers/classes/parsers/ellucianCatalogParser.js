@@ -186,7 +186,7 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
 
     // There was an error parsing the catalog data.
     if (!catalogData) {
-      macros.log();
+      macros.warn('unable to update catalog data:', url);
       return null;
     }
 
