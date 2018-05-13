@@ -35,8 +35,17 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
 
     depData.prettyUrl = url;
 
-    //get the class name
-    const value = domutils.getText(element);
+
+    let value;
+
+    try {
+      //get the class name
+      value = domutils.getText(element);
+    } catch (e) {
+      macros.warn('ERROR Dom utils crashed?', url, e);
+      return null;
+    }
+
 
     const match = value.match(/.+?\s-\s*(.+)/i);
     if (!match || match.length < 2 || match[1].length < 2) {
@@ -177,6 +186,7 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
 
     // There was an error parsing the catalog data.
     if (!catalogData) {
+      macros.warn('unable to update catalog data:', url);
       return null;
     }
 
