@@ -43,7 +43,11 @@ class Macros extends commonMacros {
       Macros.error("Can't log to amplitude without amplitude script!");
       return;
     }
-    window.amplitude.logEvent(type, event);
+    window.amplitude.logEvent(type, event, (statusCode) => {
+      if (statusCode !== 200) {
+        Macros.log('Amplitude logging failed', statusCode);
+      }
+    });
   }
 }
 
