@@ -230,7 +230,9 @@ class Macros extends commonMacros {
       event_properties: event,
     };
 
-    return amplitude.track(data);
+    return amplitude.track(data).catch((error) => {
+      Macros.warn('error Logging amplitude event failed:', error);
+    });
   }
 
 
