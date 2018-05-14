@@ -74,6 +74,13 @@ class Updater {
     const classHashToUsers = {};
 
     for (const user of users) {
+      // Firebase, for some reason, strips leading 0s from the Facebook messenger id.
+      // Add them back here.
+      while (user.facebookMessengerId.length < 16) {
+        user.facebookMessengerId = `0${user.facebookMessengerId}`;
+      }
+
+
       if (!user.watchingClasses) {
         user.watchingClasses = [];
       }
