@@ -540,7 +540,8 @@ app.post('/webhook/', wrap(async (req, res) => {
       } else if (text === 'What is my facebook messenger sender id?') {
         notifyer.sendFBNotification(sender, sender);
       } else {
-        notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com !");
+        // Don't send anything if the user sends a message.
+        // notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com !");
       }
     } else if (event.optin) {
       onSendToMessengerButtonClick(sender, req.body.entry[0].id, event.optin.ref);
