@@ -109,6 +109,20 @@ class Updater {
       }
     }
 
+    if (classHashes.includes(undefined) || sectionHashes.includes(undefined)) {
+      macros.log('class hashes or section hashes includes undefined!', classHashes, sectionHashes);
+    }
+
+    if (classHashes.includes(null) || sectionHashes.includes(null)) {
+      macros.log('class hashes or section hashes includes null!', classHashes, sectionHashes);
+    }
+
+    _.pull(classHashes, null);
+    _.pull(classHashes, undefined);
+
+    _.pull(sectionHashes, null);
+    _.pull(sectionHashes, undefined);
+
 
     const sectionHashMap = {};
 
