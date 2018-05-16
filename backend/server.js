@@ -466,6 +466,24 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
     existingData.watchingSections = _.uniq(existingData.watchingSections.concat(userObject.sectionHashes));
 
+    // Remove any null or undefined values from the watchingClasses and watchingSections
+    // This can happen if data is manually deleted from the DB, and the data is no longer contineous.
+    // (eg index 0 is deleted and Google keeps the others at index 1 and index 2, so index 0 just contains undefined)
+    if (existingData.watchingClasses.includes(undefined) || existingData.watchingSections.includes(undefined)) {
+      macros.log('existing data class hashes or section hashes includes undefined!', existingData.watchingClasses, existingData.watchingSections);
+    }
+
+    if (existingData.watchingClasses.includes(null) || existingData.watchingSections.includes(null)) {
+      macros.log('existing data class hashes or section hashes includes null!', existingData.watchingClasses, existingData.watchingSections);
+    }
+
+    _.pull(existingData.watchingClasses, null);
+    _.pull(existingData.watchingClasses, undefined);
+
+    _.pull(existingData.watchingSections, null);
+    _.pull(existingData.watchingSections, undefined);
+
+
     // Add the login key to the array of login keys stored on this user
     if (!existingData.loginKeys) {
       existingData.loginKeys = [];
