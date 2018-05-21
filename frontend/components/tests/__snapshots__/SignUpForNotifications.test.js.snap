@@ -226,6 +226,7 @@ ShallowWrapper {
           className="notificationButton"
           content="Get notified when seats open up!"
           onClick={[Function]}
+          role="button"
         />,
         <Modal
           actions={
@@ -262,6 +263,7 @@ ShallowWrapper {
           "className": "notificationButton",
           "content": "Get notified when seats open up!",
           "onClick": [Function],
+          "role": "button",
         },
         "ref": null,
         "rendered": null,
@@ -309,6 +311,7 @@ ShallowWrapper {
             className="notificationButton"
             content="Get notified when seats open up!"
             onClick={[Function]}
+            role="button"
           />,
           <Modal
             actions={
@@ -345,6 +348,7 @@ ShallowWrapper {
             "className": "notificationButton",
             "content": "Get notified when seats open up!",
             "onClick": [Function],
+            "role": "button",
           },
           "ref": null,
           "rendered": null,
