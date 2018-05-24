@@ -304,7 +304,7 @@ class Updater {
       // This should never run.
       // The user should not be able to sign up for a section that didn't exist when they were signing up.
       if (!oldSection) {
-        macros.error('Section was added?', hash, newSection);
+        macros.warn('Section was added?', hash, newSection, sectionHashToUsers, classHashToUsers);
         continue;
       }
 
