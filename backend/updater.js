@@ -169,7 +169,7 @@ class Updater {
       if (!sectionHashMap[sectionHash]) {
         continue;
       }
-      macros.error('Section', sectionHash, "is being watched but it's class is not being watched?", Object.keys(sectionHashMap));
+      macros.warn('Section', sectionHash, "is being watched but it's class is not being watched?", Object.keys(sectionHashMap));
     }
 
     // Scrape the latest data
