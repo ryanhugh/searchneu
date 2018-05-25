@@ -109,14 +109,18 @@ class Updater {
       }
     }
 
-    if (classHashes.includes(undefined) || sectionHashes.includes(undefined)) {
-      macros.log('class hashes or section hashes includes undefined!', classHashes, sectionHashes);
-    }
+    // if (classHashes.includes(undefined) || sectionHashes.includes(undefined)) {
+    //   macros.log('class hashes or section hashes includes undefined!', classHashes, sectionHashes);
+    // }
 
-    if (classHashes.includes(null) || sectionHashes.includes(null)) {
-      macros.log('class hashes or section hashes includes null!', classHashes, sectionHashes);
-    }
+    // if (classHashes.includes(null) || sectionHashes.includes(null)) {
+    //   macros.log('class hashes or section hashes includes null!', classHashes, sectionHashes);
+    // }
 
+    // When an item is deleted from an array in firebase, firebase dosen't shift the rest of the items down one index.
+    // Instead, it adds an undefined item to the array.
+    // This removes any possible undefined items from the array.
+    // The warnings can be added back when unsubscribing is done with code.
     _.pull(classHashes, null);
     _.pull(classHashes, undefined);
 
