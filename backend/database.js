@@ -27,7 +27,9 @@ class Database {
   async loadDatabase() {
     const firebaseConfig = await macros.getEnvVariable('firebaseConfig');
     if (!firebaseConfig) {
+      macros.log("====================================================");
       macros.log("Don't have firebase config, probably going to crash.");
+      macros.log("====================================================");
       return null;
     }
 
