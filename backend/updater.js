@@ -305,8 +305,11 @@ class Updater {
 
       const oldSection = this.dataLib.getSectionServerDataFromHash(hash);
 
-      // This should never run.
-      // The user should not be able to sign up for a section that didn't exist when they were signing up.
+      // This may run in the odd chance that that the following 3 things happen:
+      // 1. a user signes up for a section.
+      // 2. the section dissapears (eg. it is removed from Banner).
+      // 3. the section re appears again.
+      // If this happens just ignore it for now, but the best would probably to be notifiy if there are seats open now
       if (!oldSection) {
         macros.warn('Section was added?', hash, newSection, sectionHashToUsers, classHashToUsers);
         continue;
@@ -332,6 +335,12 @@ class Updater {
             userToMessageMap[user] = [];
           }
 
+          // Debugging why multiple messages
+          if (userToMessageMap.includes(message)) {
+            macros.log('ignoring dup message??', user, message, oldSection, newSection);
+            continue;
+          }
+
           userToMessageMap[user].push(message);
         }
       }
@@ -345,6 +354,12 @@ class Updater {
       setTimeout(((facebookUserId) => {
         notifyer.sendFBNotification(facebookUserId, 'Reply with "stop" to unsubscribe from notifications.');
       }).bind(this, fbUserId), 100);
+
+      macros.logAmplitudeEvent('Facebook message sent out', {
+        toUser: fbUserId,
+        messages: userToMessageMap[fbUserId],
+        messageCount: userToMessageMap[fbUserId].length,
+      });
     }
 
     // Update dataLib with the updated termDump
