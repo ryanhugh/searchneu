@@ -42,7 +42,8 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       //get the class name
       value = domutils.getText(element);
     } catch (e) {
-      macros.warn('ERROR Dom utils crashed?', url, e);
+      macros.warn(element);
+      macros.warn('ERROR Dom utils crashed?', url, e, element);
       return null;
     }
 
@@ -162,6 +163,11 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       if (currElement.parent.parent.attribs.summary.includes('term')) {
         matchingElement = currElement;
       }
+    }
+    
+    if (!matchingElement) {
+      macros.warn("Could not find catalog page details on this page - no matching element!", url);
+      return null;
     }
 
 

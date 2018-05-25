@@ -67,6 +67,11 @@ class Main {
 
     // Recusion.
     if (rootNode.deps) {
+      
+      if (rootNode.deps.includes(null)) {
+        console.log(JSON.stringify(rootNode))
+      }
+      
       for (const dep of rootNode.deps) {
         this.waterfallIdentifyers(dep, newChildAttr);
       }

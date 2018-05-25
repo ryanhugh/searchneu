@@ -5,6 +5,7 @@
 
 import fs from 'fs-extra';
 import _ from 'lodash';
+import path from 'path';
 
 import DataLib from '../common/classModels/DataLib';
 
@@ -76,6 +77,12 @@ class Updater {
     for (const user of users) {
       // Firebase, for some reason, strips leading 0s from the Facebook messenger id.
       // Add them back here.
+      
+      if (!user.facebookMessengerId) {
+        macros.warn("User has no FB id?", JSON.stringify(user))
+        continue;
+      }
+      
       while (user.facebookMessengerId.length < 16) {
         user.facebookMessengerId = `0${user.facebookMessengerId}`;
       }
@@ -198,6 +205,11 @@ class Updater {
     _.pull(promises, null);
 
     const allParsersOutput = await Promise.all(promises);
+    
+    // Remove any instances where the output was null.
+    // This can happen if the class at one of the urls that someone was watching dissapeared or was taken down
+    // In this case the output of the ellucianCatalogParser will be null.
+    _.pull(allParsersOutput, null);
 
     const rootNode = {
       type: 'ignore',
@@ -392,6 +404,8 @@ async function test() {
   const termDumpPromise = getFrontendData('./public/data/v2/getTermDump/neu.edu/201910.json');
 
   const spring2018DataPromise = getFrontendData('./public/data/v2/getTermDump/neu.edu/201830.json');
+  
+  const userData = await fs.readFile(path.join(__dirname, 'tests', 'data', 'updater.data.json',), 'utf8');
 
   const fallData = await termDumpPromise;
 
@@ -404,6 +418,18 @@ async function test() {
 
   const newUser = {
     watchingSections: [
+      'neu.edu/201910/ENGW/3302/12812',
+      'neu.edu/201910/ENGW/3302/12813',
+      'neu.edu/201910/ENGW/3302/12815',
+      'neu.edu/201910/ENGW/3302/17377',
+      'neu.edu/201910/ENGW/3302/12814',
+      'neu.edu/201910/ENGW/3302/13006',
+      'neu.edu/201910/ENGW/3302/12811',
+      'neu.edu/201910/ENGW/3302/12816',
+      'neu.edu/201910/ENGW/3302/12810',
+      'neu.edu/201910/ENGW/3302/17376',
+      'neu.edu/201910/ENGW/3302/15027',
+      'neu.edu/201910/ENGW/3302/13005',
       'neu.edu/201910/CS/1100/11293',
       'neu.edu/201910/CS/1100/14657',
       'neu.edu/201910/CS/1100/14656',
@@ -422,7 +448,7 @@ async function test() {
       'neu.edu/201910/CS/1100/14655',
       'neu.edu/201910/CS/1100/14661',
     ],
-    watchingClasses: ['neu.edu/201910/CS/1100'],
+    watchingClasses: ['neu.edu/201910/CS/1100','neu.edu/201910/ENGW/3302'],
     firstName: 'Test Fistname',
     lastName: 'Test Lastname',
     facebookMessengerId: '1111111111111111',
@@ -430,7 +456,7 @@ async function test() {
     loginKeys: ['123'],
   };
 
-  database.set('users/1111111111111111', newUser);
+  database.set('users', JSON.parse(userData));
 
   const instance = Updater.create(dataLib);
 
