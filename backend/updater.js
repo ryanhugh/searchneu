@@ -336,7 +336,7 @@ class Updater {
           }
 
           // Debugging why multiple messages
-          if (userToMessageMap.includes(message)) {
+          if (userToMessageMap[user].includes(message)) {
             macros.log('ignoring dup message??', user, message, oldSection, newSection);
             continue;
           }
