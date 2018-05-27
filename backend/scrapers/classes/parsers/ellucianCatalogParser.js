@@ -164,9 +164,9 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
         matchingElement = currElement;
       }
     }
-    
+
     if (!matchingElement) {
-      macros.warn("Could not find catalog page details on this page - no matching element!", url);
+      macros.warn('Could not find catalog page details on this page - no matching element!', url);
       return null;
     }
 

@@ -264,13 +264,13 @@ class Macros extends commonMacros {
       // If running on AWS, tell rollbar about the error so rollbar sends off an email.
       } else {
         const rollbarKey = await Macros.getEnvVariable('rollbarPostServerItemToken');
-        
+
         if (!rollbarKey) {
           console.log("Don't have rollbar so not logging error in prod?"); // eslint-disable-line no-console
           console.log(...args); // eslint-disable-line no-console
           return;
         }
-        
+
         rollbar.init(rollbarKey);
 
         const stack = (new Error()).stack;
