@@ -187,6 +187,7 @@ class Updater {
     const promises = classes.map((aClass) => {
       return ellucianCatalogParser.main(aClass.prettyUrl).then((newClass) => {
         if (!newClass) {
+          // TODO: This should be changed into a notification that the class probably no longer exists. Shoudn't unsubscribe people.
           macros.warn('New class data is null?', aClass.prettyUrl, aClass);
           return null;
         }
@@ -256,6 +257,9 @@ class Updater {
 
       const oldSections = this.dataLib.getSectionsInTerm(termId);
 
+
+      // THIS WILL COPY OVER EVERY section from the old to the new data, even ones that no longer exist in the new data.
+      // need a way to figure out how to exclude sections that no longer exist in the new data. TODOOOO
       for (const section of oldSections) {
         const hash = Keys.create(section).getHash();
 
