@@ -209,7 +209,7 @@ class Updater {
     try {
       allParsersOutput = await Promise.all(promises);
     } catch (e) {
-      macros.warn('cellucianCatalogParser call failed in updater with error:', e);
+      macros.warn('ellucianCatalogParser call failed in updater with error:', e);
       return;
     }
 
