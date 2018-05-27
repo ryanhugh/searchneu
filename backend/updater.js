@@ -77,12 +77,12 @@ class Updater {
     for (const user of users) {
       // Firebase, for some reason, strips leading 0s from the Facebook messenger id.
       // Add them back here.
-      
+
       if (!user.facebookMessengerId) {
-        macros.warn("User has no FB id?", JSON.stringify(user))
+        macros.warn('User has no FB id?', JSON.stringify(user));
         continue;
       }
-      
+
       while (user.facebookMessengerId.length < 16) {
         user.facebookMessengerId = `0${user.facebookMessengerId}`;
       }
@@ -204,8 +204,15 @@ class Updater {
     // Remove the instances where newClass was null
     _.pull(promises, null);
 
-    const allParsersOutput = await Promise.all(promises);
-    
+    let allParsersOutput;
+
+    try {
+      allParsersOutput = await Promise.all(promises);
+    } catch (e) {
+      macros.warn('cellucianCatalogParser call failed in updater with error:', e);
+      return;
+    }
+
     // Remove any instances where the output was null.
     // This can happen if the class at one of the urls that someone was watching dissapeared or was taken down
     // In this case the output of the ellucianCatalogParser will be null.
@@ -395,8 +402,8 @@ class Updater {
 }
 
 
-async function getFrontendData(path) {
-  const body = await fs.readFile(path);
+async function getFrontendData(dataPath) {
+  const body = await fs.readFile(dataPath);
   return JSON.parse(body);
 }
 
@@ -404,8 +411,8 @@ async function test() {
   const termDumpPromise = getFrontendData('./public/data/v2/getTermDump/neu.edu/201910.json');
 
   const spring2018DataPromise = getFrontendData('./public/data/v2/getTermDump/neu.edu/201830.json');
-  
-  const userData = await fs.readFile(path.join(__dirname, 'tests', 'data', 'updater.data.json',), 'utf8');
+
+  const userData = await fs.readFile(path.join(__dirname, 'tests', 'data', 'updater.data.json'), 'utf8');
 
   const fallData = await termDumpPromise;
 
@@ -416,45 +423,45 @@ async function test() {
     201830: springData,
   });
 
-  const newUser = {
-    watchingSections: [
-      'neu.edu/201910/ENGW/3302/12812',
-      'neu.edu/201910/ENGW/3302/12813',
-      'neu.edu/201910/ENGW/3302/12815',
-      'neu.edu/201910/ENGW/3302/17377',
-      'neu.edu/201910/ENGW/3302/12814',
-      'neu.edu/201910/ENGW/3302/13006',
-      'neu.edu/201910/ENGW/3302/12811',
-      'neu.edu/201910/ENGW/3302/12816',
-      'neu.edu/201910/ENGW/3302/12810',
-      'neu.edu/201910/ENGW/3302/17376',
-      'neu.edu/201910/ENGW/3302/15027',
-      'neu.edu/201910/ENGW/3302/13005',
-      'neu.edu/201910/CS/1100/11293',
-      'neu.edu/201910/CS/1100/14657',
-      'neu.edu/201910/CS/1100/14656',
-      'neu.edu/201910/CS/1100/11294',
-      'neu.edu/201910/CS/1100/14652',
-      'neu.edu/201910/CS/1100/14653',
-      'neu.edu/201910/CS/1100/14658',
-      'neu.edu/201910/CS/1100/14659',
-      'neu.edu/201910/CS/1100/11291',
-      'neu.edu/201910/CS/1100/11292',
-      'neu.edu/201910/CS/1100/13186',
-      'neu.edu/201910/CS/1100/11295',
-      'neu.edu/201910/CS/1100/14654',
-      'neu.edu/201910/CS/1100/14660',
-      'neu.edu/201910/CS/1100/11296',
-      'neu.edu/201910/CS/1100/14655',
-      'neu.edu/201910/CS/1100/14661',
-    ],
-    watchingClasses: ['neu.edu/201910/CS/1100','neu.edu/201910/ENGW/3302'],
-    firstName: 'Test Fistname',
-    lastName: 'Test Lastname',
-    facebookMessengerId: '1111111111111111',
-    facebookPageId: '12345678',
-    loginKeys: ['123'],
-  };
+  // const newUser = {
+  //   watchingSections: [
+  //     'neu.edu/201910/ENGW/3302/12812',
+  //     'neu.edu/201910/ENGW/3302/12813',
+  //     'neu.edu/201910/ENGW/3302/12815',
+  //     'neu.edu/201910/ENGW/3302/17377',
+  //     'neu.edu/201910/ENGW/3302/12814',
+  //     'neu.edu/201910/ENGW/3302/13006',
+  //     'neu.edu/201910/ENGW/3302/12811',
+  //     'neu.edu/201910/ENGW/3302/12816',
+  //     'neu.edu/201910/ENGW/3302/12810',
+  //     'neu.edu/201910/ENGW/3302/17376',
+  //     'neu.edu/201910/ENGW/3302/15027',
+  //     'neu.edu/201910/ENGW/3302/13005',
+  //     'neu.edu/201910/CS/1100/11293',
+  //     'neu.edu/201910/CS/1100/14657',
+  //     'neu.edu/201910/CS/1100/14656',
+  //     'neu.edu/201910/CS/1100/11294',
+  //     'neu.edu/201910/CS/1100/14652',
+  //     'neu.edu/201910/CS/1100/14653',
+  //     'neu.edu/201910/CS/1100/14658',
+  //     'neu.edu/201910/CS/1100/14659',
+  //     'neu.edu/201910/CS/1100/11291',
+  //     'neu.edu/201910/CS/1100/11292',
+  //     'neu.edu/201910/CS/1100/13186',
+  //     'neu.edu/201910/CS/1100/11295',
+  //     'neu.edu/201910/CS/1100/14654',
+  //     'neu.edu/201910/CS/1100/14660',
+  //     'neu.edu/201910/CS/1100/11296',
+  //     'neu.edu/201910/CS/1100/14655',
+  //     'neu.edu/201910/CS/1100/14661',
+  //   ],
+  //   watchingClasses: ['neu.edu/201910/CS/1100', 'neu.edu/201910/ENGW/3302'],
+  //   firstName: 'Test Fistname',
+  //   lastName: 'Test Lastname',
+  //   facebookMessengerId: '1111111111111111',
+  //   facebookPageId: '12345678',
+  //   loginKeys: ['123'],
+  // };
 
   database.set('users', JSON.parse(userData));
 
