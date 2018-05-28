@@ -123,9 +123,9 @@ class Updater {
       }
     }
 
-    // Remove duplicates. This will occur if multiple people are watching the same class. 
+    // Remove duplicates. This will occur if multiple people are watching the same class.
     classHashes = _.uniq(classHashes);
-    sectionHashes = _.uniq(sectionHashes)
+    sectionHashes = _.uniq(sectionHashes);
 
     const sectionHashMap = {};
 
