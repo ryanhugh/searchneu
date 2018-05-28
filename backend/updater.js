@@ -96,8 +96,15 @@ class Updater {
         user.watchingSections = [];
       }
 
-      classHashes = _.uniq(user.watchingClasses).concat(classHashes);
-      sectionHashes = _.uniq(user.watchingSections).concat(sectionHashes);
+      // When an item is deleted from an array in firebase, firebase dosen't shift the rest of the items down one index.
+      // Instead, it adds an undefined item to the array.
+      // This removes any possible undefined items from the array.
+      // The warnings can be added back when unsubscribing is done with code.
+      _.pull(user.watchingClasses, null);
+      _.pull(user.watchingSections, null);
+
+      classHashes = classHashes.concat(user.watchingClasses);
+      sectionHashes = sectionHashes.concat(user.watchingSections);
 
       for (const classHash of user.watchingClasses) {
         if (!classHashToUsers[classHash]) {
@@ -116,24 +123,9 @@ class Updater {
       }
     }
 
-    // if (classHashes.includes(undefined) || sectionHashes.includes(undefined)) {
-    //   macros.log('class hashes or section hashes includes undefined!', classHashes, sectionHashes);
-    // }
-
-    // if (classHashes.includes(null) || sectionHashes.includes(null)) {
-    //   macros.log('class hashes or section hashes includes null!', classHashes, sectionHashes);
-    // }
-
-    // When an item is deleted from an array in firebase, firebase dosen't shift the rest of the items down one index.
-    // Instead, it adds an undefined item to the array.
-    // This removes any possible undefined items from the array.
-    // The warnings can be added back when unsubscribing is done with code.
-    _.pull(classHashes, null);
-    _.pull(classHashes, undefined);
-
-    _.pull(sectionHashes, null);
-    _.pull(sectionHashes, undefined);
-
+    // Remove duplicates. This will occur if multiple people are watching the same class. 
+    classHashes = _.uniq(classHashes);
+    sectionHashes = _.uniq(sectionHashes)
 
     const sectionHashMap = {};
 
@@ -356,12 +348,6 @@ class Updater {
         for (const user of usersToMessage) {
           if (!userToMessageMap[user]) {
             userToMessageMap[user] = [];
-          }
-
-          // Debugging why multiple messages
-          if (userToMessageMap[user].includes(message)) {
-            macros.log('ignoring dup message??', user, message, oldSection, newSection);
-            continue;
           }
 
           userToMessageMap[user].push(message);
