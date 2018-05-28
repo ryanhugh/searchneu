@@ -30,6 +30,7 @@ class Notifyer {
     if (!macros.PROD && sender !== '1397905100304615') {
       macros.log('Refusing to send message to anyone other than Ryan not in prod mode');
       macros.log('Not sending', sender, text);
+      return;
     }
 
     const token = await macros.getEnvVariable('fbToken');
