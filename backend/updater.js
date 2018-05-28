@@ -355,7 +355,24 @@ class Updater {
       }
     }
 
+    // Update dataLib with the updated termDump
+    // If we ever move to a real database, we would want to change this so it only updates the classes that the scrapers found.
+    for (const aClass of output.classes) {
+      this.dataLib.setClass(aClass);
+    }
+
+    for (const section of output.sections) {
+      this.dataLib.setSection(section);
+    }
+
+
     // Loop through the messages and send them.
+    // Do this as the very last stage on purpose.
+    // If something crashes/breaks above, the new data is saved to the database
+    // and does not cause a notification to be sent to users every five minutes
+    // (because the new data will be saved, the next time this runs it will compare against the new data)
+    // If this is ran before the data is saved, this could happen:
+    // Fetch new data -> send notification -> crash (repeat), and never save the updated data.
     for (const fbUserId of Object.keys(userToMessageMap)) {
       for (const message of userToMessageMap[fbUserId]) {
         notifyer.sendFBNotification(fbUserId, message);
@@ -371,15 +388,6 @@ class Updater {
       });
     }
 
-    // Update dataLib with the updated termDump
-    // If we ever move to a real database, we would want to change this so it only updates the classes that the scrapers found.
-    for (const aClass of output.classes) {
-      this.dataLib.setClass(aClass);
-    }
-
-    for (const section of output.sections) {
-      this.dataLib.setSection(section);
-    }
 
     const totalTime = Date.now() - startTime;
 
