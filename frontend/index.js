@@ -44,7 +44,7 @@ if (macros.PROD && !window.localStorage.noTrack) {
   // Disable the tracker for FullStory for now. 
   // We can enable it again when adding a new feature to the frontend or making significant changes
   // If we leave it running all the time we will quickly go over the free tier. 
-  if (true) {
+  if (false) {
     // Tracker for Fullstory.
     window['_fs_debug'] = false;
     window['_fs_host'] = 'fullstory.com';
