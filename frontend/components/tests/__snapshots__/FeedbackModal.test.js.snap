@@ -39,6 +39,7 @@ ShallowWrapper {
           [Function]
         </Transition>,
         <Modal
+          centered={true}
           className="feedback-modal-container"
           closeOnDimmerClick={true}
           closeOnDocumentClick={false}
@@ -147,6 +148,7 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "class",
         "props": Object {
+          "centered": true,
           "children": Array [
             <Header
               content="Search NEU Feedback"
@@ -508,6 +510,7 @@ ShallowWrapper {
             [Function]
           </Transition>,
           <Modal
+            centered={true}
             className="feedback-modal-container"
             closeOnDimmerClick={true}
             closeOnDocumentClick={false}
@@ -616,6 +619,7 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "class",
           "props": Object {
+            "centered": true,
             "children": Array [
               <Header
                 content="Search NEU Feedback"
@@ -1002,6 +1006,7 @@ ShallowWrapper {
           [Function]
         </Transition>,
         <Modal
+          centered={true}
           className="feedback-modal-container"
           closeOnDimmerClick={true}
           closeOnDocumentClick={false}
@@ -1110,6 +1115,7 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "class",
         "props": Object {
+          "centered": true,
           "children": Array [
             <Header
               content="Search NEU Feedback"
@@ -1471,6 +1477,7 @@ ShallowWrapper {
             [Function]
           </Transition>,
           <Modal
+            centered={true}
             className="feedback-modal-container"
             closeOnDimmerClick={true}
             closeOnDocumentClick={false}
@@ -1579,6 +1586,7 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "class",
           "props": Object {
+            "centered": true,
             "children": Array [
               <Header
                 content="Search NEU Feedback"
