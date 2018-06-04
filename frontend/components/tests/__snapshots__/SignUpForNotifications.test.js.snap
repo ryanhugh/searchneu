@@ -239,6 +239,7 @@ ShallowWrapper {
               },
             ]
           }
+          centered={true}
           className="adblock-notification-modal-container"
           closeOnDimmerClick={true}
           closeOnDocumentClick={false}
@@ -282,6 +283,7 @@ ShallowWrapper {
               "positive": true,
             },
           ],
+          "centered": true,
           "className": "adblock-notification-modal-container",
           "closeOnDimmerClick": true,
           "closeOnDocumentClick": false,
@@ -324,6 +326,7 @@ ShallowWrapper {
                 },
               ]
             }
+            centered={true}
             className="adblock-notification-modal-container"
             closeOnDimmerClick={true}
             closeOnDocumentClick={false}
@@ -367,6 +370,7 @@ ShallowWrapper {
                 "positive": true,
               },
             ],
+            "centered": true,
             "className": "adblock-notification-modal-container",
             "closeOnDimmerClick": true,
             "closeOnDocumentClick": false,
@@ -646,6 +650,7 @@ ShallowWrapper {
               },
             ]
           }
+          centered={true}
           className="adblock-notification-modal-container"
           closeOnDimmerClick={true}
           closeOnDocumentClick={false}
@@ -750,6 +755,7 @@ ShallowWrapper {
               "positive": true,
             },
           ],
+          "centered": true,
           "className": "adblock-notification-modal-container",
           "closeOnDimmerClick": true,
           "closeOnDocumentClick": false,
@@ -805,6 +811,7 @@ ShallowWrapper {
                 },
               ]
             }
+            centered={true}
             className="adblock-notification-modal-container"
             closeOnDimmerClick={true}
             closeOnDocumentClick={false}
@@ -909,6 +916,7 @@ ShallowWrapper {
                 "positive": true,
               },
             ],
+            "centered": true,
             "className": "adblock-notification-modal-container",
             "closeOnDimmerClick": true,
             "closeOnDocumentClick": false,

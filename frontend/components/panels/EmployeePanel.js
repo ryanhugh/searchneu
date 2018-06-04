@@ -45,7 +45,15 @@ export default class EmployeePanel extends React.Component {
     employee: PropTypes.object.isRequired,
   };
 
-  static injectBRs(arr) {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showMoreThanTitle: false,
+    };
+  }
+
+  injectBRs(arr) {
     const retVal = [];
 
     // Add <br/>s between the elements
@@ -58,14 +66,6 @@ export default class EmployeePanel extends React.Component {
     }
 
     return retVal;
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showMoreThanTitle: false,
-    };
   }
 
   toggleShowMoreThanTitle = () => {
@@ -197,10 +197,10 @@ export default class EmployeePanel extends React.Component {
         }}
         >
           <div className='inlineBlock contact-box'>
-            {this.constructor.injectBRs(firstColumn)}
+            {this.injectBRs(firstColumn)}
           </div>
           <div className='employee-panel-second-column'>
-            {this.constructor.injectBRs(secondColumn)}
+            {this.injectBRs(secondColumn)}
           </div>
         </div>
       </div>

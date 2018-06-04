@@ -19,11 +19,11 @@ import Keys from '../../common/Keys';
 // TODO: Lets make it so clicking on the Send To Messenger button changes this to a third state that just says thanks for signing up!
 
 class SignUpForNotifications extends React.Component {
+  static hasAdblock = false;
+
   static propTypes = {
     aClass: PropTypes.object.isRequired,
   };
-
-  static hasAdblock = false;
 
   constructor(props) {
     super(props);
