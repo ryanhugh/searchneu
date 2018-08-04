@@ -426,7 +426,6 @@ class Home extends React.Component {
       );
     }
 
-
     // Styles for the search header and the boston outline at the bottom of the above-the-fold content.
     const bostonContainerStyle = {};
     const topHeaderStyle = {};

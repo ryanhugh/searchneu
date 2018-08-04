@@ -651,6 +651,7 @@ if (macros.DEV) {
   const compiler = webpack(webpackConfig);
   middleware = webpackMiddleware(compiler, {
     publicPath: webpackConfig.output.publicPath,
+    logLevel: 'silent',
     stats: {
       colors: true,
       timings: true,
@@ -662,7 +663,9 @@ if (macros.DEV) {
   });
 
   app.use(middleware);
-  app.use(webpackHotMiddleware(compiler));
+  app.use(webpackHotMiddleware(compiler, {
+    log: false,
+  }));
 }
 
 
