@@ -6,13 +6,15 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
+import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin';
+import notifier from 'node-notifier';
 
 import macros from './macros';
 
 const rootDir = path.join(__dirname, '..');
 
 export default {
-  devtool: macros.PROD ? 'source-map' : 'cheap-modules-eval-source-map',
+  devtool: macros.PROD ? 'source-map' : 'cheap-module-eval-source-map',
   mode: macros.PROD ? 'production' : 'development',
   entry: [
     'babel-polyfill',
@@ -31,6 +33,27 @@ export default {
   },
 
   plugins: [
+    // new ErrorOverlayPlugin(),
+    new FriendlyErrorsWebpackPlugin({
+
+      // Don't clear on windows because the terminal dosen't have great support for it
+      clearConsole: (process.env.OS !== 'Windows_NT'),
+
+      onErrors: (severity, errors) => {
+        if (severity !== 'error') {
+          return;
+        }
+        const error = errors[0];
+        notifier.notify({
+          title: error.name,
+          message: error.file || '',
+          // subtitle: error.file || '',
+          // icon: ICON
+        });
+      },
+    }),
+
+
     new HtmlWebpackPlugin({
       template: './frontend/index.html',
       inject: 'body',
@@ -38,6 +61,7 @@ export default {
     }),
     ...macros.DEV ? [
       new webpack.HotModuleReplacementPlugin(),
+
       new webpack.DefinePlugin({
         'process.env': {
           PROD: 'false',
@@ -61,6 +85,8 @@ export default {
         minimize: true,
       }),
     ],
+    // Make moment not include the locale files. Makes the output bundle smaller
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ],
 
   resolve: {
@@ -86,6 +112,9 @@ export default {
         loader: 'babel-loader',
 
         include: path.join(rootDir, 'frontend'),
+        options: {
+          cacheDirectory: true,
+        },
       },
 
       {
@@ -93,6 +122,9 @@ export default {
         loader: 'babel-loader',
 
         include: path.join(rootDir, 'common'),
+        options: {
+          cacheDirectory: true,
+        },
       },
 
       // This css loader is for 3rd party css files. Load them globally.
