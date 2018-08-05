@@ -46,7 +46,7 @@ export default {
         notifier.notify({
           title: error.name,
           message: error.file || '',
-        })
+        });
       },
     }),
 
@@ -162,6 +162,6 @@ export default {
     ],
   },
   node: {
-    fs: "empty"
-  }
+    fs: 'empty',
+  },
 };
