@@ -131,6 +131,7 @@
     "style-loader": "^0.21.0"
   },
   "jest": {
+    "testURL": "http://localhost/",
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/dist/"
