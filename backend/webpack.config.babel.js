@@ -33,7 +33,6 @@ export default {
   },
 
   plugins: [
-    // new ErrorOverlayPlugin(),
     new FriendlyErrorsWebpackPlugin({
 
       // Don't clear on windows because the terminal dosen't have great support for it
@@ -47,9 +46,7 @@ export default {
         notifier.notify({
           title: error.name,
           message: error.file || '',
-          // subtitle: error.file || '',
-          // icon: ICON
-        });
+        })
       },
     }),
 
@@ -164,4 +161,7 @@ export default {
       },
     ],
   },
+  node: {
+    fs: "empty"
+  }
 };
