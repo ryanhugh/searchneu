@@ -52,11 +52,7 @@ ShallowWrapper {
         />,
         <div
           className="bostonContainer"
-          style={
-            Object {
-              "opacity": 0,
-            }
-          }
+          style={Object {}}
         >
           <img
             alt="logo"
@@ -67,11 +63,7 @@ ShallowWrapper {
         <div>
           <div
             className="ui center spacing aligned icon header topHeader"
-            style={
-              Object {
-                "transform": "translateY(-50%) translateY(230px)",
-              }
-            }
+            style={Object {}}
           >
             <div
               className="centerTextContainer"
@@ -100,7 +92,7 @@ ShallowWrapper {
                   <input
                     autoComplete="off"
                     className="searchBox"
-                    defaultValue="lank"
+                    defaultValue=""
                     id="seach_id"
                     onChange={[Function]}
                     onKeyDown={[Function]}
@@ -160,11 +152,7 @@ ShallowWrapper {
         </div>,
         <div
           className="resultsContainer"
-          style={
-            Object {
-              "transform": "translateY(-463px)",
-            }
-          }
+          style={Object {}}
         >
           <div>
             <span
@@ -399,9 +387,7 @@ ShallowWrapper {
             src="file"
           />,
           "className": "bostonContainer",
-          "style": Object {
-            "opacity": 0,
-          },
+          "style": Object {},
         },
         "ref": null,
         "rendered": Object {
@@ -426,11 +412,7 @@ ShallowWrapper {
         "props": Object {
           "children": <div
             className="ui center spacing aligned icon header topHeader"
-            style={
-              Object {
-                "transform": "translateY(-50%) translateY(230px)",
-              }
-            }
+            style={Object {}}
           >
             <div
               className="centerTextContainer"
@@ -459,7 +441,7 @@ ShallowWrapper {
                   <input
                     autoComplete="off"
                     className="searchBox"
-                    defaultValue="lank"
+                    defaultValue=""
                     id="seach_id"
                     onChange={[Function]}
                     onKeyDown={[Function]}
@@ -550,7 +532,7 @@ ShallowWrapper {
                   <input
                     autoComplete="off"
                     className="searchBox"
-                    defaultValue="lank"
+                    defaultValue=""
                     id="seach_id"
                     onChange={[Function]}
                     onKeyDown={[Function]}
@@ -607,9 +589,7 @@ ShallowWrapper {
               </div>
             </div>,
             "className": "ui center spacing aligned icon header topHeader",
-            "style": Object {
-              "transform": "translateY(-50%) translateY(230px)",
-            },
+            "style": Object {},
           },
           "ref": null,
           "rendered": Object {
@@ -642,7 +622,7 @@ ShallowWrapper {
                     <input
                       autoComplete="off"
                       className="searchBox"
-                      defaultValue="lank"
+                      defaultValue=""
                       id="seach_id"
                       onChange={[Function]}
                       onKeyDown={[Function]}
@@ -746,7 +726,7 @@ ShallowWrapper {
                       <input
                         autoComplete="off"
                         className="searchBox"
-                        defaultValue="lank"
+                        defaultValue=""
                         id="seach_id"
                         onChange={[Function]}
                         onKeyDown={[Function]}
@@ -820,7 +800,7 @@ ShallowWrapper {
                         <input
                           autoComplete="off"
                           className="searchBox"
-                          defaultValue="lank"
+                          defaultValue=""
                           id="seach_id"
                           onChange={[Function]}
                           onKeyDown={[Function]}
@@ -864,7 +844,7 @@ ShallowWrapper {
                         "props": Object {
                           "autoComplete": "off",
                           "className": "searchBox",
-                          "defaultValue": "lank",
+                          "defaultValue": "",
                           "id": "seach_id",
                           "onChange": [Function],
                           "onKeyDown": [Function],
@@ -1042,9 +1022,7 @@ ShallowWrapper {
             </div>,
           ],
           "className": "resultsContainer",
-          "style": Object {
-            "transform": "translateY(-463px)",
-          },
+          "style": Object {},
         },
         "ref": null,
         "rendered": Array [
@@ -1505,11 +1483,7 @@ ShallowWrapper {
           />,
           <div
             className="bostonContainer"
-            style={
-              Object {
-                "opacity": 0,
-              }
-            }
+            style={Object {}}
           >
             <img
               alt="logo"
@@ -1520,11 +1494,7 @@ ShallowWrapper {
           <div>
             <div
               className="ui center spacing aligned icon header topHeader"
-              style={
-                Object {
-                  "transform": "translateY(-50%) translateY(230px)",
-                }
-              }
+              style={Object {}}
             >
               <div
                 className="centerTextContainer"
@@ -1553,7 +1523,7 @@ ShallowWrapper {
                     <input
                       autoComplete="off"
                       className="searchBox"
-                      defaultValue="lank"
+                      defaultValue=""
                       id="seach_id"
                       onChange={[Function]}
                       onKeyDown={[Function]}
@@ -1613,11 +1583,7 @@ ShallowWrapper {
           </div>,
           <div
             className="resultsContainer"
-            style={
-              Object {
-                "transform": "translateY(-463px)",
-              }
-            }
+            style={Object {}}
           >
             <div>
               <span
@@ -1852,9 +1818,7 @@ ShallowWrapper {
               src="file"
             />,
             "className": "bostonContainer",
-            "style": Object {
-              "opacity": 0,
-            },
+            "style": Object {},
           },
           "ref": null,
           "rendered": Object {
@@ -1879,11 +1843,7 @@ ShallowWrapper {
           "props": Object {
             "children": <div
               className="ui center spacing aligned icon header topHeader"
-              style={
-                Object {
-                  "transform": "translateY(-50%) translateY(230px)",
-                }
-              }
+              style={Object {}}
             >
               <div
                 className="centerTextContainer"
@@ -1912,7 +1872,7 @@ ShallowWrapper {
                     <input
                       autoComplete="off"
                       className="searchBox"
-                      defaultValue="lank"
+                      defaultValue=""
                       id="seach_id"
                       onChange={[Function]}
                       onKeyDown={[Function]}
@@ -2003,7 +1963,7 @@ ShallowWrapper {
                     <input
                       autoComplete="off"
                       className="searchBox"
-                      defaultValue="lank"
+                      defaultValue=""
                       id="seach_id"
                       onChange={[Function]}
                       onKeyDown={[Function]}
@@ -2060,9 +2020,7 @@ ShallowWrapper {
                 </div>
               </div>,
               "className": "ui center spacing aligned icon header topHeader",
-              "style": Object {
-                "transform": "translateY(-50%) translateY(230px)",
-              },
+              "style": Object {},
             },
             "ref": null,
             "rendered": Object {
@@ -2095,7 +2053,7 @@ ShallowWrapper {
                       <input
                         autoComplete="off"
                         className="searchBox"
-                        defaultValue="lank"
+                        defaultValue=""
                         id="seach_id"
                         onChange={[Function]}
                         onKeyDown={[Function]}
@@ -2199,7 +2157,7 @@ ShallowWrapper {
                         <input
                           autoComplete="off"
                           className="searchBox"
-                          defaultValue="lank"
+                          defaultValue=""
                           id="seach_id"
                           onChange={[Function]}
                           onKeyDown={[Function]}
@@ -2273,7 +2231,7 @@ ShallowWrapper {
                           <input
                             autoComplete="off"
                             className="searchBox"
-                            defaultValue="lank"
+                            defaultValue=""
                             id="seach_id"
                             onChange={[Function]}
                             onKeyDown={[Function]}
@@ -2317,7 +2275,7 @@ ShallowWrapper {
                           "props": Object {
                             "autoComplete": "off",
                             "className": "searchBox",
-                            "defaultValue": "lank",
+                            "defaultValue": "",
                             "id": "seach_id",
                             "onChange": [Function],
                             "onKeyDown": [Function],
@@ -2495,9 +2453,7 @@ ShallowWrapper {
               </div>,
             ],
             "className": "resultsContainer",
-            "style": Object {
-              "transform": "translateY(-463px)",
-            },
+            "style": Object {},
           },
           "ref": null,
           "rendered": Array [
