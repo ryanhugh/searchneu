@@ -55,7 +55,7 @@ export default class DesktopSectionPanel extends React.Component {
           <span className='onlineDivLineContainer'>
             <span className='onlineDivLine onlineLeftLine' />
             <span>
-Online Class
+              Online Class
             </span>
             <span className='onlineDivLine' />
           </span>
@@ -77,30 +77,48 @@ Online Class
       }
 
 
-      tdElements.push(<td key='weekDayBoxes'>
-        <WeekdayBoxes section={ this.props.section } />
-      </td>);
-      tdElements.push(<td key='times'>
-        {meetingStrings}
-      </td>);
-      tdElements.push(<td key='locationLinks'>
-        <LocationLinks section={ this.props.section } />
-      </td>);
+      tdElements.push(
+        <td key='weekDayBoxes'>
+          <WeekdayBoxes section={ this.props.section } />
+        </td>
+      );
+
+      tdElements.push(
+        <td key='times'>
+          {meetingStrings}
+        </td>
+      );
+
+      tdElements.push(
+        <td key='locationLinks'>
+          <LocationLinks section={ this.props.section } />
+        </td>
+      );
 
       // If there are exams, fill in those cells too
       // Calculate the exam elements in each row
       if (this.props.shouldShowExamColumns) {
         const sectionExamMeeting = this.props.section.getExamMeeting();
         if (examMeeting) {
-          tdElements.push(<td key='exam1'>
-            {examTimeString}
-          </td>);
-          tdElements.push(<td key='exam3'>
-            {sectionExamMeeting.endDate.format('MMM Do')}
-          </td>);
-          tdElements.push(<td key='exam4'>
-            {sectionExamMeeting.where}
-                          </td>);
+
+          tdElements.push(
+            <td key='exam1'>
+              {examTimeString}
+            </td>
+          );
+
+          tdElements.push(
+            <td key='exam3'>
+              {sectionExamMeeting.endDate.format('MMM Do')}
+            </td>
+          );
+
+          tdElements.push(
+            <td key='exam4'>
+              {sectionExamMeeting.where}
+            </td>
+          );
+
         } else {
           tdElements.push(<td key='exam5' />);
           tdElements.push(<td key='exam6' />);
@@ -125,17 +143,13 @@ Online Class
 
         <td>
           <div data-tip='Open Seats/Total Seats' className='inlineBlock'>
-            {this.props.section.seatsRemaining}
-            /
-            {this.props.section.seatsCapacity}
+            {this.props.section.seatsRemaining}/{this.props.section.seatsCapacity}
           </div>
         </td>
 
         <td style={{ display: !this.props.showWaitList && 'none' }}>
           <div data-tip='Open/Total Waitlist Seats' className='inlineBlock'>
-            {this.props.section.waitRemaining}
-            /
-            {this.props.section.waitCapacity}
+            {this.props.section.waitRemaining}/{this.props.section.waitCapacity}
           </div>
         </td>
 

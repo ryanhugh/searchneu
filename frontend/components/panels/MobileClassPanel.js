@@ -42,9 +42,8 @@ class MobileClassPanel extends BaseClassPanel {
           <br />
           <div>
             {creditsString}
-            <br />
-            Updated
-            {aClass.getLastUpdateString()}
+            <br /> 
+            Updated {aClass.getLastUpdateString()}
             <br />
             <a target='_blank' rel='noopener noreferrer' href={ aClass.prettyUrl || aClass.url }>
               {`View on ${aClass.host}`}
@@ -89,8 +88,7 @@ class MobileClassPanel extends BaseClassPanel {
     return (
       <span>
         <span>
-          {`${sliceDesc}...`}
-          &nbsp;&nbsp;&nbsp;&nbsp;
+          {`${sliceDesc}...`}&nbsp;&nbsp;&nbsp;&nbsp;
         </span>
         <div>
           <a
@@ -143,10 +141,7 @@ class MobileClassPanel extends BaseClassPanel {
           >
             <img className='chevron' src={ chevron } alt='' />
             <span className='classTitle'>
-              {aClass.subject}
-              {aClass.classId}
-              :
-              {aClass.name}
+              {aClass.subject} {aClass.classId}: {aClass.name}
             </span>
           </div>
 
