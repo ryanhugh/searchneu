@@ -40,7 +40,11 @@ function LocationLinks(props) {
     }
 
     if (location.toUpperCase() === 'BOSTON DEPT') {
-      return <span key='Boston DEPT'>TBA &nbsp;(Boston Campus)</span>;
+      return (
+        <span key='Boston DEPT'>
+          TBA &nbsp;(Boston Campus)
+        </span>
+      );
     }
 
     // The <a> tag needs to be on one line, or else react will insert spaces in the generated HTML.
@@ -48,7 +52,10 @@ function LocationLinks(props) {
     // eg YMCA, Hurting Hall and not YMCA , Hurting Hall
     return (
       <span key={ location }>
-        <a target='_blank' rel='noopener noreferrer' href={ `https://maps.google.com/?q=${macros.collegeName} ${buildingName}` }>{location}</a>{optionalComma}
+        <a target='_blank' rel='noopener noreferrer' href={ `https://maps.google.com/?q=${macros.collegeName} ${buildingName}` }>
+          {location}
+        </a>
+        {optionalComma}
       </span>
     );
   });

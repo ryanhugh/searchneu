@@ -120,9 +120,13 @@ class SearchIndex {
       splitName = splitName.filter((word) => {
         if (word.length === 0) {
           return false;
-        } else if (macros.isNumeric(word)) {
+        }
+
+        if (macros.isNumeric(word)) {
           return false;
-        } else if (word[0] !== word[0].toUpperCase()) {
+        }
+
+        if (word[0] !== word[0].toUpperCase()) {
           return false;
         }
 

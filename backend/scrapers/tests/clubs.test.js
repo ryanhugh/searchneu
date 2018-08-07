@@ -25,4 +25,3 @@ it('parseLetterAndPage should work', async (done) => {
   expect(output).toMatchSnapshot();
   done();
 });
-

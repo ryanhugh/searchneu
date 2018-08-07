@@ -137,22 +137,22 @@ it('parseTable should work 2', async (done) => {
 });
 
 
-const text = '\n' +
-'    1.000 TO     2.000 Credit hours\n' +
-'\n' +
-'\n' +
-'Levels: Undergraduate Transcript\n' +
-'\n' +
-'Schedule Types: Research Project\n' +
-'\n' +
-'\n' +
-'Non-Divisional Division\n' +
-'\n' +
-'Cognitive Science Department\n' +
-'\n' +
-'\n' +
-'\n' +
-'\n';
+const text = '\n'
++ '    1.000 TO     2.000 Credit hours\n'
++ '\n'
++ '\n'
++ 'Levels: Undergraduate Transcript\n'
++ '\n'
++ 'Schedule Types: Research Project\n'
++ '\n'
++ '\n'
++ 'Non-Divisional Division\n'
++ '\n'
++ 'Cognitive Science Department\n'
++ '\n'
++ '\n'
++ '\n'
++ '\n';
 
 it('credit test', () => {
   let creditsParsed = baseParser.parseCredits(text);

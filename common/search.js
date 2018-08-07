@@ -269,7 +269,8 @@ class Search {
       }
 
       return 10000 - classNum;
-    } else if (object.type === 'employee') {
+    }
+    if (object.type === 'employee') {
       return Object.keys(object.employee).length;
     }
 
@@ -296,7 +297,9 @@ class Search {
         const bScore = this.getBusinessScore(b);
         if (aScore >= bScore) {
           return -1;
-        } else if (aScore === bScore) {
+        }
+
+        if (aScore === bScore) {
           return 0;
         }
 

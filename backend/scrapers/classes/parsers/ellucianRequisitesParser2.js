@@ -96,7 +96,9 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
           return;
 
         // If only contains 1 value, merge
-        } else if (subData.values.length === 1) {
+        }
+
+        if (subData.values.length === 1) {
           retVal.values.push(subData.values[0]);
           return;
         }
@@ -189,12 +191,16 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
         type: 'and',
         length: 1,
       };
-    } else if (this.bufferStartsWith(' or ')) {
+    }
+
+    if (this.bufferStartsWith(' or ')) {
       return {
         type: 'or',
         length: 4,
       };
-    } else if (this.bufferStartsWith(' and ')) {
+    }
+
+    if (this.bufferStartsWith(' and ')) {
       return {
         type: 'and',
         length: 5,

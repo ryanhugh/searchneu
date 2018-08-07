@@ -38,4 +38,3 @@ it('should render the fb button after the button is clicked', () => {
 
   expect(wrapper).toMatchSnapshot();
 });
-

@@ -5,8 +5,18 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon, Modal, Header, TextArea, Input, Form, Message } from 'semantic-ui-react';
 import { Transition } from 'react-transition-group';
+
+import {
+  Button,
+  Icon,
+  Modal,
+  Header,
+  TextArea,
+  Input,
+  Form,
+  Message,
+} from 'semantic-ui-react';
 
 import macros from './macros';
 import request from './request';
@@ -104,24 +114,28 @@ class FeedbackModal extends React.Component {
       <div className='feedback-container'>
         <Transition in={ this.state.messageVisible } timeout={ 500 }>
           {(state) => {
-         return (
-           <Message
-             success
-             className='alertMessage'
-             header='Your submission was successful.'
-             style={{ ...transitionStyles[state] }}
-             onDismiss={ this.hideMessage }
-           />
+            return (
+              <Message
+                success
+                className='alertMessage'
+                header='Your submission was successful.'
+                style={{ ...transitionStyles[state] }}
+                onDismiss={ this.hideMessage }
+              />
             );
-        }}
+          }}
         </Transition>
         <Modal open={ this.props.feedbackModalOpen } onClose={ this.props.closeForm } size='small' className='feedback-modal-container'>
           <Header icon='mail' content='Search NEU Feedback' />
           <Modal.Content className='formModalContent'>
             <Form>
-              <div className='feedbackParagraph'>Find a bug in Search NEU? Find a query that dosen&apos;t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.</div>
+              <div className='feedbackParagraph'>
+                Find a bug in Search NEU? Find a query that dosen&apos;t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+              </div>
               <TextArea name='response' form='feedbackForm' className='feedbackTextbox' onChange={ this.onTextAreaChange } />
-              <p>By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.</p>
+              <p>
+                By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+              </p>
               <Input name='contact' form='feedbackForm' className='formModalInput' onChange={ this.onContactChange } />
             </Form>
           </Modal.Content>

@@ -433,7 +433,9 @@ class Request {
           macros.log('Try#:', tryCount, 'Warning, body did not contain specified text', response.body.length, response.statusCode, this.openRequests, config.url);
           callback('Body missing required text.');
           return;
-        } else if (response.body.length < 4000 && !config.shortBodyWarning === false) {
+        }
+
+        if (response.body.length < 4000 && !config.shortBodyWarning === false) {
           macros.log('Warning, short body', config.url, response.body, this.openRequests);
         }
 

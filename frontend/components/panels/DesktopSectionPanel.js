@@ -50,12 +50,13 @@ export default class DesktopSectionPanel extends React.Component {
       // need to span more cells if final exam columns are being shown.
       const length = (this.props.shouldShowExamColumns) ? 6 : 3;
 
-      const onlineElement =
-      (
+      const onlineElement = (
         <td key='onlineWideCell' colSpan={ length } className='wideOnlineCell'>
           <span className='onlineDivLineContainer'>
             <span className='onlineDivLine onlineLeftLine' />
-            <span>Online Class</span>
+            <span>
+Online Class
+            </span>
             <span className='onlineDivLine' />
           </span>
         </td>
@@ -76,18 +77,30 @@ export default class DesktopSectionPanel extends React.Component {
       }
 
 
-      tdElements.push(<td key='weekDayBoxes'> <WeekdayBoxes section={ this.props.section } /> </td>);
-      tdElements.push(<td key='times'>{meetingStrings}</td>);
-      tdElements.push(<td key='locationLinks'> <LocationLinks section={ this.props.section } /> </td>);
+      tdElements.push(<td key='weekDayBoxes'>
+        <WeekdayBoxes section={ this.props.section } />
+      </td>);
+      tdElements.push(<td key='times'>
+        {meetingStrings}
+      </td>);
+      tdElements.push(<td key='locationLinks'>
+        <LocationLinks section={ this.props.section } />
+      </td>);
 
       // If there are exams, fill in those cells too
       // Calculate the exam elements in each row
       if (this.props.shouldShowExamColumns) {
         const sectionExamMeeting = this.props.section.getExamMeeting();
         if (examMeeting) {
-          tdElements.push(<td key='exam1'>{examTimeString}</td>);
-          tdElements.push(<td key='exam3'>{sectionExamMeeting.endDate.format('MMM Do')}</td>);
-          tdElements.push(<td key='exam4'>{sectionExamMeeting.where}</td>);
+          tdElements.push(<td key='exam1'>
+            {examTimeString}
+          </td>);
+          tdElements.push(<td key='exam3'>
+            {sectionExamMeeting.endDate.format('MMM Do')}
+          </td>);
+          tdElements.push(<td key='exam4'>
+            {sectionExamMeeting.where}
+                          </td>);
         } else {
           tdElements.push(<td key='exam5' />);
           tdElements.push(<td key='exam6' />);
@@ -101,20 +114,28 @@ export default class DesktopSectionPanel extends React.Component {
 
     return (
       <tr key={ Keys.create(this.props.section).getHash() }>
-        <td> {this.props.section.crn} </td>
-        <td> {this.props.section.getProfs().join(', ')} </td>
+        <td>
+          {this.props.section.crn}
+        </td>
+        <td>
+          {this.props.section.getProfs().join(', ')}
+        </td>
 
         {tdElements}
 
         <td>
           <div data-tip='Open Seats/Total Seats' className='inlineBlock'>
-            {this.props.section.seatsRemaining}/{this.props.section.seatsCapacity}
+            {this.props.section.seatsRemaining}
+            /
+            {this.props.section.seatsCapacity}
           </div>
         </td>
 
         <td style={{ display: !this.props.showWaitList && 'none' }}>
           <div data-tip='Open/Total Waitlist Seats' className='inlineBlock'>
-            {this.props.section.waitRemaining}/{this.props.section.waitCapacity}
+            {this.props.section.waitRemaining}
+            /
+            {this.props.section.waitCapacity}
           </div>
         </td>
 

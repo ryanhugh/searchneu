@@ -173,7 +173,11 @@ class SignUpForNotifications extends React.Component {
       content = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!' className='notificationButton' />;
     } else {
       // Show a button that says there are currently seats available.
-      content = <div className='disabledButton notificationButton'>There are seats available in all sections.</div>;
+      content = (
+        <div className='disabledButton notificationButton'>
+          There are seats available in all sections.
+        </div>
+      );
     }
 
     const actions = [

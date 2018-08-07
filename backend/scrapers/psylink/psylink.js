@@ -144,4 +144,3 @@ export default instance;
 if (require.main === module) {
   instance.main();
 }
-

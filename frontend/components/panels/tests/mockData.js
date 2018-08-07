@@ -222,8 +222,7 @@ const cs1210 = Class.create({
   subject: 'CS',
 });
 
-const sectionsForcs1210 =
-[{
+const sectionsForcs1210 = [{
   seatsCapacity: 19,
   seatsRemaining: 0,
   waitCapacity: 0,

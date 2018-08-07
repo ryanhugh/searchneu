@@ -104,7 +104,8 @@ class Meeting {
     flatTimes.sort((a, b) => {
       if (a.start.unix() < b.start.unix()) {
         return -1;
-      } else if (a.start.unix() > b.start.unix()) {
+      }
+      if (a.start.unix() > b.start.unix()) {
         return 1;
       }
 
@@ -154,11 +155,14 @@ class Meeting {
   compareTo(other) {
     if (this.times.length === 0) {
       return 1;
-    } else if (other.times.length === 0) {
+    }
+    if (other.times.length === 0) {
       return -1;
-    } else if (this.times[0][0].start.unix() > other.times[0][0].start.unix()) {
+    }
+    if (this.times[0][0].start.unix() > other.times[0][0].start.unix()) {
       return 1;
-    } else if (this.times[0][0].start.unix() < other.times[0][0].start.unix()) {
+    }
+    if (this.times[0][0].start.unix() < other.times[0][0].start.unix()) {
       return -1;
     }
 

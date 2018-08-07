@@ -29,4 +29,3 @@ it('parseDetailpage', async (done) => {
   expect(output).toMatchSnapshot();
   done();
 });
-
