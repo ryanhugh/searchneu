@@ -99,9 +99,7 @@ export default class EmployeePanel extends React.Component {
 
     if (employee.emails) {
       employee.emails.forEach((email) => {
-        contactRows.push(<a key={ email } href={ `mailto:${email}` }>
-          {email}
-        </a>);
+        contactRows.push(<a key={ email } href={ `mailto:${email}`}>{email}</a>);
       });
     }
 
