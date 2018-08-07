@@ -124,7 +124,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <tr className='sectionTableFirstRow' />
             {this.state.renderedSections.map((section) => {
               return (
-                  <DesktopSectionPanel
+                <DesktopSectionPanel
                   key={ section.crn }
                   showWaitList={ showWaitList }
                   shouldShowExamColumns={ aClass.sectionsHaveExam() }

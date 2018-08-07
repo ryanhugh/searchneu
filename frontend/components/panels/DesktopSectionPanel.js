@@ -42,7 +42,7 @@ export default class DesktopSectionPanel extends React.Component {
     // Instead of calculating a lot of these individually and putting them together in the return call
     // Append to this array as we go.
     // So the logic can be separated into distinct if statements.
-    const tdElements = [];
+    let tdElements = [];
 
     // If it is online, just put one super wide cell
     if (this.props.section.online) {
@@ -76,53 +76,34 @@ export default class DesktopSectionPanel extends React.Component {
         examTimeString = this.getTimeStingFromMeetings(examMeeting.times[0]);
       }
 
-
-      tdElements.push(
+      tdElements = tdElements.concat([
         <td key='weekDayBoxes'>
           <WeekdayBoxes section={ this.props.section } />
-        </td>
-      );
-
-      tdElements.push(
+        </td>,
         <td key='times'>
           {meetingStrings}
-        </td>
-      );
-
-      tdElements.push(
+        </td>,
         <td key='locationLinks'>
           <LocationLinks section={ this.props.section } />
-        </td>
-      );
+        </td>,
+      ]);
 
       // If there are exams, fill in those cells too
       // Calculate the exam elements in each row
       if (this.props.shouldShowExamColumns) {
         const sectionExamMeeting = this.props.section.getExamMeeting();
         if (examMeeting) {
-
-          tdElements.push(
-            <td key='exam1'>
-              {examTimeString}
-            </td>
-          );
-
-          tdElements.push(
-            <td key='exam3'>
-              {sectionExamMeeting.endDate.format('MMM Do')}
-            </td>
-          );
-
-          tdElements.push(
-            <td key='exam4'>
-              {sectionExamMeeting.where}
-            </td>
-          );
-
+          tdElements = tdElements.concat([
+            <td key='exam1'> {examTimeString} </td>,
+            <td key='exam3'> {sectionExamMeeting.endDate.format('MMM Do')} </td>,
+            <td key='exam4'> {sectionExamMeeting.where} </td>,
+          ]);
         } else {
-          tdElements.push(<td key='exam5' />);
-          tdElements.push(<td key='exam6' />);
-          tdElements.push(<td key='exam7' />);
+          tdElements = tdElements.concat([
+            <td key='exam5' />,
+            <td key='exam6' />,
+            <td key='exam7' />,
+          ]);
         }
       }
     }

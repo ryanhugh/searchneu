@@ -51,6 +51,8 @@ export default class EmployeePanel extends React.Component {
     this.state = {
       showMoreThanTitle: false,
     };
+
+    this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
   }
 
   injectBRs(arr) {
@@ -68,9 +70,11 @@ export default class EmployeePanel extends React.Component {
     return retVal;
   }
 
-  toggleShowMoreThanTitle = () => {
-    this.setState({
-      showMoreThanTitle: !this.state.showMoreThanTitle,
+  toggleShowMoreThanTitle() {
+    this.setState((state) => {
+      return {
+        showMoreThanTitle: !state.showMoreThanTitle,
+      };
     });
   }
 
@@ -99,7 +103,7 @@ export default class EmployeePanel extends React.Component {
 
     if (employee.emails) {
       employee.emails.forEach((email) => {
-        contactRows.push(<a key={ email } href={ `mailto:${email}`}>{email}</a>);
+        contactRows.push(<a key={ email } href={ `mailto:${email}` }>{email}</a>);
       });
     }
 
@@ -114,9 +118,11 @@ export default class EmployeePanel extends React.Component {
 
       const phoneText = phone.join('');
 
-      contactRows.push(<a key='tel' href={ `tel:${phoneText}` }>
-        {phoneText}
-      </a>);
+      contactRows.push(
+        <a key='tel' href={ `tel:${phoneText}` }>
+          {phoneText}
+        </a>,
+      );
     }
 
     if (macros.isMobile) {
