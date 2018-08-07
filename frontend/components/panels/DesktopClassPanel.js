@@ -123,13 +123,15 @@ export default class DesktopClassPanel extends BaseClassPanel {
               This tr is hidden so the first visible row is a dark stripe instead of the second one. */}
             <tr className='sectionTableFirstRow' />
             {this.state.renderedSections.map((section) => {
-              return (<DesktopSectionPanel
-                key={ section.crn }
-                showWaitList={ showWaitList }
-                shouldShowExamColumns={ aClass.sectionsHaveExam() }
-                showHonorsColumn={ showHonorsColumn }
-                section={ section }
-              />);
+              return (
+                  <DesktopSectionPanel
+                  key={ section.crn }
+                  showWaitList={ showWaitList }
+                  shouldShowExamColumns={ aClass.sectionsHaveExam() }
+                  showHonorsColumn={ showHonorsColumn }
+                  section={ section }
+                />
+              );
             })}
           </tbody>
         </table>
