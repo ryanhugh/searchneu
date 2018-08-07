@@ -32,7 +32,7 @@ module.exports = {
     // /
     // {seatsCapacity}
     // which is less readable. If they allow it to keep short elements or inline elements on the same line, might re-enable in the future. 
-    'react/jsx-one-expression-per-line inline': 0,
+    'react/jsx-one-expression-per-line': 0,
 
     // Allow for-of loops. 
     "no-restricted-syntax": [

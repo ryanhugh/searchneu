@@ -45,17 +45,21 @@ class BaseClassPanel extends React.Component {
   onShowMoreClick() {
     macros.log('Adding more sections to the bottom.');
 
-    // Get the length of the our sections
-    const rendered = this.state.renderedSections;
-    const unrendered = this.state.unrenderedSections;
+    this.setState((state) => {
 
-    const showAmount = (rendered.length > macros.sectionsShowAllThreshold)
-      ? unrendered.length : macros.sectionsAddedWhenShowMoreClicked;
+      // Get the length of the our sections
+      const rendered = state.renderedSections;
+      const unrendered = state.unrenderedSections;
 
-    this.setState({
-      renderedSections: rendered.concat(unrendered.slice(0, showAmount)),
-      unrenderedSections: unrendered.slice(showAmount, unrendered.length),
-    });
+      const showAmount = (rendered.length > macros.sectionsShowAllThreshold)
+        ? unrendered.length : macros.sectionsAddedWhenShowMoreClicked;
+
+      return {
+        renderedSections: rendered.concat(unrendered.slice(0, showAmount)),
+        unrenderedSections: unrendered.slice(showAmount, unrendered.length),
+      });
+    })
+
   }
 
   // Prevents page reload and fires off new search without reloading.
