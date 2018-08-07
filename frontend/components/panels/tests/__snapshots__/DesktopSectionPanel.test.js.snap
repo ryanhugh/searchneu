@@ -57,18 +57,13 @@ ShallowWrapper {
     "props": Object {
       "children": Array [
         <td>
-           
           13502
-           
         </td>,
         <td>
-           
           Jennifer Anne Shire
-           
         </td>,
         Array [
           <td>
-             
             <WeekdayBoxes
               section={
                 Section {
@@ -105,13 +100,11 @@ ShallowWrapper {
                 }
               }
             />
-             
           </td>,
           <td>
             9:50 - 11:30 am
           </td>,
           <td>
-             
             <LocationLinks
               section={
                 Section {
@@ -148,7 +141,6 @@ ShallowWrapper {
                 }
               }
             />
-             
           </td>,
         ],
         <td>
@@ -212,18 +204,10 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": Array [
-            " ",
-            "13502",
-            " ",
-          ],
+          "children": "13502",
         },
         "ref": null,
-        "rendered": Array [
-          " ",
-          "13502",
-          " ",
-        ],
+        "rendered": "13502",
         "type": "td",
       },
       Object {
@@ -231,18 +215,10 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": Array [
-            " ",
-            "Jennifer Anne Shire",
-            " ",
-          ],
+          "children": "Jennifer Anne Shire",
         },
         "ref": null,
-        "rendered": Array [
-          " ",
-          "Jennifer Anne Shire",
-          " ",
-        ],
+        "rendered": "Jennifer Anne Shire",
         "type": "td",
       },
       Object {
@@ -250,56 +226,9 @@ ShallowWrapper {
         "key": "weekDayBoxes",
         "nodeType": "host",
         "props": Object {
-          "children": Array [
-            " ",
-            <WeekdayBoxes
-              section={
-                Section {
-                  "classId": "1210",
-                  "crn": "13502",
-                  "host": "neu.edu",
-                  "lastUpdateTime": 1511131914029,
-                  "meetings": Array [
-                    Meeting {
-                      "endDate": "2017-12-07T00:00:00.000Z",
-                      "profs": Array [
-                        "Jennifer Anne Shire",
-                      ],
-                      "startDate": "2017-09-07T00:00:00.000Z",
-                      "times": Array [
-                        Array [
-                          Object {
-                            "end": "1970-01-06T11:30:00.000Z",
-                            "start": "1970-01-06T09:50:00.000Z",
-                          },
-                        ],
-                      ],
-                      "where": "Snell Engineering Center 108",
-                    },
-                  ],
-                  "online": false,
-                  "seatsCapacity": 19,
-                  "seatsRemaining": 0,
-                  "subject": "CS",
-                  "termId": "201810",
-                  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
-                  "waitCapacity": 0,
-                  "waitRemaining": 0,
-                }
-              }
-            />,
-            " ",
-          ],
-        },
-        "ref": null,
-        "rendered": Array [
-          " ",
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "section": Section {
+          "children": <WeekdayBoxes
+            section={
+              Section {
                 "classId": "1210",
                 "crn": "13502",
                 "host": "neu.edu",
@@ -330,14 +259,53 @@ ShallowWrapper {
                 "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
                 "waitCapacity": 0,
                 "waitRemaining": 0,
-              },
+              }
+            }
+          />,
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "section": Section {
+              "classId": "1210",
+              "crn": "13502",
+              "host": "neu.edu",
+              "lastUpdateTime": 1511131914029,
+              "meetings": Array [
+                Meeting {
+                  "endDate": "2017-12-07T00:00:00.000Z",
+                  "profs": Array [
+                    "Jennifer Anne Shire",
+                  ],
+                  "startDate": "2017-09-07T00:00:00.000Z",
+                  "times": Array [
+                    Array [
+                      Object {
+                        "end": "1970-01-06T11:30:00.000Z",
+                        "start": "1970-01-06T09:50:00.000Z",
+                      },
+                    ],
+                  ],
+                  "where": "Snell Engineering Center 108",
+                },
+              ],
+              "online": false,
+              "seatsCapacity": 19,
+              "seatsRemaining": 0,
+              "subject": "CS",
+              "termId": "201810",
+              "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+              "waitCapacity": 0,
+              "waitRemaining": 0,
             },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
           },
-          " ",
-        ],
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
         "type": "td",
       },
       Object {
@@ -356,56 +324,9 @@ ShallowWrapper {
         "key": "locationLinks",
         "nodeType": "host",
         "props": Object {
-          "children": Array [
-            " ",
-            <LocationLinks
-              section={
-                Section {
-                  "classId": "1210",
-                  "crn": "13502",
-                  "host": "neu.edu",
-                  "lastUpdateTime": 1511131914029,
-                  "meetings": Array [
-                    Meeting {
-                      "endDate": "2017-12-07T00:00:00.000Z",
-                      "profs": Array [
-                        "Jennifer Anne Shire",
-                      ],
-                      "startDate": "2017-09-07T00:00:00.000Z",
-                      "times": Array [
-                        Array [
-                          Object {
-                            "end": "1970-01-06T11:30:00.000Z",
-                            "start": "1970-01-06T09:50:00.000Z",
-                          },
-                        ],
-                      ],
-                      "where": "Snell Engineering Center 108",
-                    },
-                  ],
-                  "online": false,
-                  "seatsCapacity": 19,
-                  "seatsRemaining": 0,
-                  "subject": "CS",
-                  "termId": "201810",
-                  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
-                  "waitCapacity": 0,
-                  "waitRemaining": 0,
-                }
-              }
-            />,
-            " ",
-          ],
-        },
-        "ref": null,
-        "rendered": Array [
-          " ",
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "section": Section {
+          "children": <LocationLinks
+            section={
+              Section {
                 "classId": "1210",
                 "crn": "13502",
                 "host": "neu.edu",
@@ -436,14 +357,53 @@ ShallowWrapper {
                 "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
                 "waitCapacity": 0,
                 "waitRemaining": 0,
-              },
+              }
+            }
+          />,
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "section": Section {
+              "classId": "1210",
+              "crn": "13502",
+              "host": "neu.edu",
+              "lastUpdateTime": 1511131914029,
+              "meetings": Array [
+                Meeting {
+                  "endDate": "2017-12-07T00:00:00.000Z",
+                  "profs": Array [
+                    "Jennifer Anne Shire",
+                  ],
+                  "startDate": "2017-09-07T00:00:00.000Z",
+                  "times": Array [
+                    Array [
+                      Object {
+                        "end": "1970-01-06T11:30:00.000Z",
+                        "start": "1970-01-06T09:50:00.000Z",
+                      },
+                    ],
+                  ],
+                  "where": "Snell Engineering Center 108",
+                },
+              ],
+              "online": false,
+              "seatsCapacity": 19,
+              "seatsRemaining": 0,
+              "subject": "CS",
+              "termId": "201810",
+              "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+              "waitCapacity": 0,
+              "waitRemaining": 0,
             },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
           },
-          " ",
-        ],
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
         "type": "td",
       },
       Object {
@@ -615,18 +575,13 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <td>
-             
             13502
-             
           </td>,
           <td>
-             
             Jennifer Anne Shire
-             
           </td>,
           Array [
             <td>
-               
               <WeekdayBoxes
                 section={
                   Section {
@@ -663,13 +618,11 @@ ShallowWrapper {
                   }
                 }
               />
-               
             </td>,
             <td>
               9:50 - 11:30 am
             </td>,
             <td>
-               
               <LocationLinks
                 section={
                   Section {
@@ -706,7 +659,6 @@ ShallowWrapper {
                   }
                 }
               />
-               
             </td>,
           ],
           <td>
@@ -770,18 +722,10 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": Array [
-              " ",
-              "13502",
-              " ",
-            ],
+            "children": "13502",
           },
           "ref": null,
-          "rendered": Array [
-            " ",
-            "13502",
-            " ",
-          ],
+          "rendered": "13502",
           "type": "td",
         },
         Object {
@@ -789,18 +733,10 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": Array [
-              " ",
-              "Jennifer Anne Shire",
-              " ",
-            ],
+            "children": "Jennifer Anne Shire",
           },
           "ref": null,
-          "rendered": Array [
-            " ",
-            "Jennifer Anne Shire",
-            " ",
-          ],
+          "rendered": "Jennifer Anne Shire",
           "type": "td",
         },
         Object {
@@ -808,56 +744,9 @@ ShallowWrapper {
           "key": "weekDayBoxes",
           "nodeType": "host",
           "props": Object {
-            "children": Array [
-              " ",
-              <WeekdayBoxes
-                section={
-                  Section {
-                    "classId": "1210",
-                    "crn": "13502",
-                    "host": "neu.edu",
-                    "lastUpdateTime": 1511131914029,
-                    "meetings": Array [
-                      Meeting {
-                        "endDate": "2017-12-07T00:00:00.000Z",
-                        "profs": Array [
-                          "Jennifer Anne Shire",
-                        ],
-                        "startDate": "2017-09-07T00:00:00.000Z",
-                        "times": Array [
-                          Array [
-                            Object {
-                              "end": "1970-01-06T11:30:00.000Z",
-                              "start": "1970-01-06T09:50:00.000Z",
-                            },
-                          ],
-                        ],
-                        "where": "Snell Engineering Center 108",
-                      },
-                    ],
-                    "online": false,
-                    "seatsCapacity": 19,
-                    "seatsRemaining": 0,
-                    "subject": "CS",
-                    "termId": "201810",
-                    "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
-                    "waitCapacity": 0,
-                    "waitRemaining": 0,
-                  }
-                }
-              />,
-              " ",
-            ],
-          },
-          "ref": null,
-          "rendered": Array [
-            " ",
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "section": Section {
+            "children": <WeekdayBoxes
+              section={
+                Section {
                   "classId": "1210",
                   "crn": "13502",
                   "host": "neu.edu",
@@ -888,14 +777,53 @@ ShallowWrapper {
                   "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
                   "waitCapacity": 0,
                   "waitRemaining": 0,
-                },
+                }
+              }
+            />,
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "section": Section {
+                "classId": "1210",
+                "crn": "13502",
+                "host": "neu.edu",
+                "lastUpdateTime": 1511131914029,
+                "meetings": Array [
+                  Meeting {
+                    "endDate": "2017-12-07T00:00:00.000Z",
+                    "profs": Array [
+                      "Jennifer Anne Shire",
+                    ],
+                    "startDate": "2017-09-07T00:00:00.000Z",
+                    "times": Array [
+                      Array [
+                        Object {
+                          "end": "1970-01-06T11:30:00.000Z",
+                          "start": "1970-01-06T09:50:00.000Z",
+                        },
+                      ],
+                    ],
+                    "where": "Snell Engineering Center 108",
+                  },
+                ],
+                "online": false,
+                "seatsCapacity": 19,
+                "seatsRemaining": 0,
+                "subject": "CS",
+                "termId": "201810",
+                "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                "waitCapacity": 0,
+                "waitRemaining": 0,
               },
-              "ref": null,
-              "rendered": null,
-              "type": [Function],
             },
-            " ",
-          ],
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
           "type": "td",
         },
         Object {
@@ -914,56 +842,9 @@ ShallowWrapper {
           "key": "locationLinks",
           "nodeType": "host",
           "props": Object {
-            "children": Array [
-              " ",
-              <LocationLinks
-                section={
-                  Section {
-                    "classId": "1210",
-                    "crn": "13502",
-                    "host": "neu.edu",
-                    "lastUpdateTime": 1511131914029,
-                    "meetings": Array [
-                      Meeting {
-                        "endDate": "2017-12-07T00:00:00.000Z",
-                        "profs": Array [
-                          "Jennifer Anne Shire",
-                        ],
-                        "startDate": "2017-09-07T00:00:00.000Z",
-                        "times": Array [
-                          Array [
-                            Object {
-                              "end": "1970-01-06T11:30:00.000Z",
-                              "start": "1970-01-06T09:50:00.000Z",
-                            },
-                          ],
-                        ],
-                        "where": "Snell Engineering Center 108",
-                      },
-                    ],
-                    "online": false,
-                    "seatsCapacity": 19,
-                    "seatsRemaining": 0,
-                    "subject": "CS",
-                    "termId": "201810",
-                    "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
-                    "waitCapacity": 0,
-                    "waitRemaining": 0,
-                  }
-                }
-              />,
-              " ",
-            ],
-          },
-          "ref": null,
-          "rendered": Array [
-            " ",
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "section": Section {
+            "children": <LocationLinks
+              section={
+                Section {
                   "classId": "1210",
                   "crn": "13502",
                   "host": "neu.edu",
@@ -994,14 +875,53 @@ ShallowWrapper {
                   "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
                   "waitCapacity": 0,
                   "waitRemaining": 0,
-                },
+                }
+              }
+            />,
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "section": Section {
+                "classId": "1210",
+                "crn": "13502",
+                "host": "neu.edu",
+                "lastUpdateTime": 1511131914029,
+                "meetings": Array [
+                  Meeting {
+                    "endDate": "2017-12-07T00:00:00.000Z",
+                    "profs": Array [
+                      "Jennifer Anne Shire",
+                    ],
+                    "startDate": "2017-09-07T00:00:00.000Z",
+                    "times": Array [
+                      Array [
+                        Object {
+                          "end": "1970-01-06T11:30:00.000Z",
+                          "start": "1970-01-06T09:50:00.000Z",
+                        },
+                      ],
+                    ],
+                    "where": "Snell Engineering Center 108",
+                  },
+                ],
+                "online": false,
+                "seatsCapacity": 19,
+                "seatsRemaining": 0,
+                "subject": "CS",
+                "termId": "201810",
+                "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502",
+                "waitCapacity": 0,
+                "waitRemaining": 0,
               },
-              "ref": null,
-              "rendered": null,
-              "type": [Function],
             },
-            " ",
-          ],
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
           "type": "td",
         },
         Object {
@@ -1233,18 +1153,13 @@ ShallowWrapper {
     "props": Object {
       "children": Array [
         <td>
-           
           14404
-           
         </td>,
         <td>
-           
           Jennifer Anne Shire
-           
         </td>,
         Array [
           <td>
-             
             <WeekdayBoxes
               section={
                 Section {
@@ -1281,13 +1196,11 @@ ShallowWrapper {
                 }
               }
             />
-             
           </td>,
           <td>
             11:45 - 1:25 pm
           </td>,
           <td>
-             
             <LocationLinks
               section={
                 Section {
@@ -1324,7 +1237,6 @@ ShallowWrapper {
                 }
               }
             />
-             
           </td>,
         ],
         <td>
@@ -1388,18 +1300,10 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": Array [
-            " ",
-            "14404",
-            " ",
-          ],
+          "children": "14404",
         },
         "ref": null,
-        "rendered": Array [
-          " ",
-          "14404",
-          " ",
-        ],
+        "rendered": "14404",
         "type": "td",
       },
       Object {
@@ -1407,18 +1311,10 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": Array [
-            " ",
-            "Jennifer Anne Shire",
-            " ",
-          ],
+          "children": "Jennifer Anne Shire",
         },
         "ref": null,
-        "rendered": Array [
-          " ",
-          "Jennifer Anne Shire",
-          " ",
-        ],
+        "rendered": "Jennifer Anne Shire",
         "type": "td",
       },
       Object {
@@ -1426,56 +1322,9 @@ ShallowWrapper {
         "key": "weekDayBoxes",
         "nodeType": "host",
         "props": Object {
-          "children": Array [
-            " ",
-            <WeekdayBoxes
-              section={
-                Section {
-                  "classId": "1210",
-                  "crn": "14404",
-                  "host": "neu.edu",
-                  "lastUpdateTime": 1511131914065,
-                  "meetings": Array [
-                    Meeting {
-                      "endDate": "2017-12-07T00:00:00.000Z",
-                      "profs": Array [
-                        "Jennifer Anne Shire",
-                      ],
-                      "startDate": "2017-09-07T00:00:00.000Z",
-                      "times": Array [
-                        Array [
-                          Object {
-                            "end": "1970-01-06T13:25:00.000Z",
-                            "start": "1970-01-06T11:45:00.000Z",
-                          },
-                        ],
-                      ],
-                      "where": "Ryder Hall 431",
-                    },
-                  ],
-                  "online": false,
-                  "seatsCapacity": 19,
-                  "seatsRemaining": 0,
-                  "subject": "CS",
-                  "termId": "201810",
-                  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
-                  "waitCapacity": 0,
-                  "waitRemaining": 0,
-                }
-              }
-            />,
-            " ",
-          ],
-        },
-        "ref": null,
-        "rendered": Array [
-          " ",
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "section": Section {
+          "children": <WeekdayBoxes
+            section={
+              Section {
                 "classId": "1210",
                 "crn": "14404",
                 "host": "neu.edu",
@@ -1506,14 +1355,53 @@ ShallowWrapper {
                 "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
                 "waitCapacity": 0,
                 "waitRemaining": 0,
-              },
+              }
+            }
+          />,
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "section": Section {
+              "classId": "1210",
+              "crn": "14404",
+              "host": "neu.edu",
+              "lastUpdateTime": 1511131914065,
+              "meetings": Array [
+                Meeting {
+                  "endDate": "2017-12-07T00:00:00.000Z",
+                  "profs": Array [
+                    "Jennifer Anne Shire",
+                  ],
+                  "startDate": "2017-09-07T00:00:00.000Z",
+                  "times": Array [
+                    Array [
+                      Object {
+                        "end": "1970-01-06T13:25:00.000Z",
+                        "start": "1970-01-06T11:45:00.000Z",
+                      },
+                    ],
+                  ],
+                  "where": "Ryder Hall 431",
+                },
+              ],
+              "online": false,
+              "seatsCapacity": 19,
+              "seatsRemaining": 0,
+              "subject": "CS",
+              "termId": "201810",
+              "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+              "waitCapacity": 0,
+              "waitRemaining": 0,
             },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
           },
-          " ",
-        ],
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
         "type": "td",
       },
       Object {
@@ -1532,56 +1420,9 @@ ShallowWrapper {
         "key": "locationLinks",
         "nodeType": "host",
         "props": Object {
-          "children": Array [
-            " ",
-            <LocationLinks
-              section={
-                Section {
-                  "classId": "1210",
-                  "crn": "14404",
-                  "host": "neu.edu",
-                  "lastUpdateTime": 1511131914065,
-                  "meetings": Array [
-                    Meeting {
-                      "endDate": "2017-12-07T00:00:00.000Z",
-                      "profs": Array [
-                        "Jennifer Anne Shire",
-                      ],
-                      "startDate": "2017-09-07T00:00:00.000Z",
-                      "times": Array [
-                        Array [
-                          Object {
-                            "end": "1970-01-06T13:25:00.000Z",
-                            "start": "1970-01-06T11:45:00.000Z",
-                          },
-                        ],
-                      ],
-                      "where": "Ryder Hall 431",
-                    },
-                  ],
-                  "online": false,
-                  "seatsCapacity": 19,
-                  "seatsRemaining": 0,
-                  "subject": "CS",
-                  "termId": "201810",
-                  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
-                  "waitCapacity": 0,
-                  "waitRemaining": 0,
-                }
-              }
-            />,
-            " ",
-          ],
-        },
-        "ref": null,
-        "rendered": Array [
-          " ",
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "section": Section {
+          "children": <LocationLinks
+            section={
+              Section {
                 "classId": "1210",
                 "crn": "14404",
                 "host": "neu.edu",
@@ -1612,14 +1453,53 @@ ShallowWrapper {
                 "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
                 "waitCapacity": 0,
                 "waitRemaining": 0,
-              },
+              }
+            }
+          />,
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "section": Section {
+              "classId": "1210",
+              "crn": "14404",
+              "host": "neu.edu",
+              "lastUpdateTime": 1511131914065,
+              "meetings": Array [
+                Meeting {
+                  "endDate": "2017-12-07T00:00:00.000Z",
+                  "profs": Array [
+                    "Jennifer Anne Shire",
+                  ],
+                  "startDate": "2017-09-07T00:00:00.000Z",
+                  "times": Array [
+                    Array [
+                      Object {
+                        "end": "1970-01-06T13:25:00.000Z",
+                        "start": "1970-01-06T11:45:00.000Z",
+                      },
+                    ],
+                  ],
+                  "where": "Ryder Hall 431",
+                },
+              ],
+              "online": false,
+              "seatsCapacity": 19,
+              "seatsRemaining": 0,
+              "subject": "CS",
+              "termId": "201810",
+              "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+              "waitCapacity": 0,
+              "waitRemaining": 0,
             },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
           },
-          " ",
-        ],
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
         "type": "td",
       },
       Object {
@@ -1791,18 +1671,13 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <td>
-             
             14404
-             
           </td>,
           <td>
-             
             Jennifer Anne Shire
-             
           </td>,
           Array [
             <td>
-               
               <WeekdayBoxes
                 section={
                   Section {
@@ -1839,13 +1714,11 @@ ShallowWrapper {
                   }
                 }
               />
-               
             </td>,
             <td>
               11:45 - 1:25 pm
             </td>,
             <td>
-               
               <LocationLinks
                 section={
                   Section {
@@ -1882,7 +1755,6 @@ ShallowWrapper {
                   }
                 }
               />
-               
             </td>,
           ],
           <td>
@@ -1946,18 +1818,10 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": Array [
-              " ",
-              "14404",
-              " ",
-            ],
+            "children": "14404",
           },
           "ref": null,
-          "rendered": Array [
-            " ",
-            "14404",
-            " ",
-          ],
+          "rendered": "14404",
           "type": "td",
         },
         Object {
@@ -1965,18 +1829,10 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": Array [
-              " ",
-              "Jennifer Anne Shire",
-              " ",
-            ],
+            "children": "Jennifer Anne Shire",
           },
           "ref": null,
-          "rendered": Array [
-            " ",
-            "Jennifer Anne Shire",
-            " ",
-          ],
+          "rendered": "Jennifer Anne Shire",
           "type": "td",
         },
         Object {
@@ -1984,56 +1840,9 @@ ShallowWrapper {
           "key": "weekDayBoxes",
           "nodeType": "host",
           "props": Object {
-            "children": Array [
-              " ",
-              <WeekdayBoxes
-                section={
-                  Section {
-                    "classId": "1210",
-                    "crn": "14404",
-                    "host": "neu.edu",
-                    "lastUpdateTime": 1511131914065,
-                    "meetings": Array [
-                      Meeting {
-                        "endDate": "2017-12-07T00:00:00.000Z",
-                        "profs": Array [
-                          "Jennifer Anne Shire",
-                        ],
-                        "startDate": "2017-09-07T00:00:00.000Z",
-                        "times": Array [
-                          Array [
-                            Object {
-                              "end": "1970-01-06T13:25:00.000Z",
-                              "start": "1970-01-06T11:45:00.000Z",
-                            },
-                          ],
-                        ],
-                        "where": "Ryder Hall 431",
-                      },
-                    ],
-                    "online": false,
-                    "seatsCapacity": 19,
-                    "seatsRemaining": 0,
-                    "subject": "CS",
-                    "termId": "201810",
-                    "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
-                    "waitCapacity": 0,
-                    "waitRemaining": 0,
-                  }
-                }
-              />,
-              " ",
-            ],
-          },
-          "ref": null,
-          "rendered": Array [
-            " ",
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "section": Section {
+            "children": <WeekdayBoxes
+              section={
+                Section {
                   "classId": "1210",
                   "crn": "14404",
                   "host": "neu.edu",
@@ -2064,14 +1873,53 @@ ShallowWrapper {
                   "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
                   "waitCapacity": 0,
                   "waitRemaining": 0,
-                },
+                }
+              }
+            />,
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "section": Section {
+                "classId": "1210",
+                "crn": "14404",
+                "host": "neu.edu",
+                "lastUpdateTime": 1511131914065,
+                "meetings": Array [
+                  Meeting {
+                    "endDate": "2017-12-07T00:00:00.000Z",
+                    "profs": Array [
+                      "Jennifer Anne Shire",
+                    ],
+                    "startDate": "2017-09-07T00:00:00.000Z",
+                    "times": Array [
+                      Array [
+                        Object {
+                          "end": "1970-01-06T13:25:00.000Z",
+                          "start": "1970-01-06T11:45:00.000Z",
+                        },
+                      ],
+                    ],
+                    "where": "Ryder Hall 431",
+                  },
+                ],
+                "online": false,
+                "seatsCapacity": 19,
+                "seatsRemaining": 0,
+                "subject": "CS",
+                "termId": "201810",
+                "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                "waitCapacity": 0,
+                "waitRemaining": 0,
               },
-              "ref": null,
-              "rendered": null,
-              "type": [Function],
             },
-            " ",
-          ],
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
           "type": "td",
         },
         Object {
@@ -2090,56 +1938,9 @@ ShallowWrapper {
           "key": "locationLinks",
           "nodeType": "host",
           "props": Object {
-            "children": Array [
-              " ",
-              <LocationLinks
-                section={
-                  Section {
-                    "classId": "1210",
-                    "crn": "14404",
-                    "host": "neu.edu",
-                    "lastUpdateTime": 1511131914065,
-                    "meetings": Array [
-                      Meeting {
-                        "endDate": "2017-12-07T00:00:00.000Z",
-                        "profs": Array [
-                          "Jennifer Anne Shire",
-                        ],
-                        "startDate": "2017-09-07T00:00:00.000Z",
-                        "times": Array [
-                          Array [
-                            Object {
-                              "end": "1970-01-06T13:25:00.000Z",
-                              "start": "1970-01-06T11:45:00.000Z",
-                            },
-                          ],
-                        ],
-                        "where": "Ryder Hall 431",
-                      },
-                    ],
-                    "online": false,
-                    "seatsCapacity": 19,
-                    "seatsRemaining": 0,
-                    "subject": "CS",
-                    "termId": "201810",
-                    "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
-                    "waitCapacity": 0,
-                    "waitRemaining": 0,
-                  }
-                }
-              />,
-              " ",
-            ],
-          },
-          "ref": null,
-          "rendered": Array [
-            " ",
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "section": Section {
+            "children": <LocationLinks
+              section={
+                Section {
                   "classId": "1210",
                   "crn": "14404",
                   "host": "neu.edu",
@@ -2170,14 +1971,53 @@ ShallowWrapper {
                   "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
                   "waitCapacity": 0,
                   "waitRemaining": 0,
-                },
+                }
+              }
+            />,
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "section": Section {
+                "classId": "1210",
+                "crn": "14404",
+                "host": "neu.edu",
+                "lastUpdateTime": 1511131914065,
+                "meetings": Array [
+                  Meeting {
+                    "endDate": "2017-12-07T00:00:00.000Z",
+                    "profs": Array [
+                      "Jennifer Anne Shire",
+                    ],
+                    "startDate": "2017-09-07T00:00:00.000Z",
+                    "times": Array [
+                      Array [
+                        Object {
+                          "end": "1970-01-06T13:25:00.000Z",
+                          "start": "1970-01-06T11:45:00.000Z",
+                        },
+                      ],
+                    ],
+                    "where": "Ryder Hall 431",
+                  },
+                ],
+                "online": false,
+                "seatsCapacity": 19,
+                "seatsRemaining": 0,
+                "subject": "CS",
+                "termId": "201810",
+                "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404",
+                "waitCapacity": 0,
+                "waitRemaining": 0,
               },
-              "ref": null,
-              "rendered": null,
-              "type": [Function],
             },
-            " ",
-          ],
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
           "type": "td",
         },
         Object {
