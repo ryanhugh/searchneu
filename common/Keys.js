@@ -261,9 +261,12 @@ class Keys {
   propsEqual(other) {
     if (this.isString && other.isString) {
       return this.desc === other.desc;
-    } else if (this.isString || other.isString) {
+    }
+
+    if (this.isString || other.isString) {
       return false;
     }
+
     if (this.hash) {
       if (this.hash === other.hash) {
         return true;

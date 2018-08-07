@@ -47,7 +47,8 @@ class Section {
     retVal.sort((a, b) => {
       if (a.start.unix() > b.start.unix()) {
         return 1;
-      } else if (a.start.unix() < b.start.unix()) {
+      }
+      if (a.start.unix() < b.start.unix()) {
         return -1;
       }
 
@@ -169,7 +170,8 @@ class Section {
     }
     if (this.meetings.length > 0 && other.meetings.length === 0) {
       return -1;
-    } else if (this.meetings.length === 0 && other.meetings.length > 0) {
+    }
+    if (this.meetings.length === 0 && other.meetings.length > 0) {
       return 1;
     }
 

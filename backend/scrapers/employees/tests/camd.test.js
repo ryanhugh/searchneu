@@ -20,4 +20,3 @@ it('should work for profile page', async (done) => {
 
   done();
 });
-

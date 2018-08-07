@@ -40,11 +40,14 @@ class RequisiteBranch {
   compareTo(other) {
     if (!(other instanceof RequisiteBranch)) {
       return -1;
-    } else if (other.prereqs.values.length < this.prereqs.values.length) {
+    }
+    if (other.prereqs.values.length < this.prereqs.values.length) {
       return -1;
-    } else if (other.prereqs.values.length > this.prereqs.values.length) {
+    }
+    if (other.prereqs.values.length > this.prereqs.values.length) {
       return 1;
-    } else if (other.prereqs.values.length === 0 && this.prereqs.values.length === 0) {
+    }
+    if (other.prereqs.values.length === 0 && this.prereqs.values.length === 0) {
       return 0;
     }
 

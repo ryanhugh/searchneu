@@ -104,4 +104,3 @@ class SimplifyProfList extends BaseProcessor.BaseProcessor {
 }
 
 export default new SimplifyProfList();
-

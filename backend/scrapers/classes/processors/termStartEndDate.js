@@ -117,4 +117,3 @@ class TermStartEndDate extends BaseProcessor.BaseProcessor {
 
 TermStartEndDate.prototype.TermStartEndDate = TermStartEndDate;
 export default new TermStartEndDate();
-

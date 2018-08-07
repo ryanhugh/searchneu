@@ -299,21 +299,29 @@ class Class {
 
     if (aId > bId) {
       return 1;
-    } else if (aId < bId) {
+    }
+
+    if (aId < bId) {
       return -1;
+    }
 
     // If ids are the same, sort by subject
-    } else if (this.subject > otherClass.subject) {
+    if (this.subject > otherClass.subject) {
       return 1;
-    } else if (this.subject < otherClass.subject) {
+    }
+    if (this.subject < otherClass.subject) {
       return -1;
-    } else if (this.name > otherClass.name) {
+    }
+    if (this.name > otherClass.name) {
       return 1;
-    } else if (this.name < otherClass.name) {
+    }
+    if (this.name < otherClass.name) {
       return -1;
-    } else if (this.classId > otherClass.classId) {
+    }
+    if (this.classId > otherClass.classId) {
       return 1;
-    } else if (this.classId < otherClass.classId) {
+    }
+    if (this.classId < otherClass.classId) {
       return -1;
     }
     return 0;

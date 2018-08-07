@@ -105,7 +105,8 @@ class EllucianSubjectParser extends EllucianBaseParser.EllucianBaseParser {
     parsedForm.payloads.forEach((entry) => {
       if (entry.name === 'sel_subj' && entry.value === '%') {
         return;
-      } else if (entry.value === '%') {
+      }
+      if (entry.value === '%') {
         allOptionsFound.push(entry.name);
       }
       payloads.push(entry);

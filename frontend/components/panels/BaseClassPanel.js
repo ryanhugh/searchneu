@@ -49,8 +49,8 @@ class BaseClassPanel extends React.Component {
     const rendered = this.state.renderedSections;
     const unrendered = this.state.unrenderedSections;
 
-    const showAmount = (rendered.length > macros.sectionsShowAllThreshold) ?
-      unrendered.length : macros.sectionsAddedWhenShowMoreClicked;
+    const showAmount = (rendered.length > macros.sectionsShowAllThreshold)
+      ? unrendered.length : macros.sectionsAddedWhenShowMoreClicked;
 
     this.setState({
       renderedSections: rendered.concat(unrendered.slice(0, showAmount)),
@@ -224,10 +224,12 @@ class BaseClassPanel extends React.Component {
     }
 
     if (retVal.length === 0) {
-      return <span className='hint-text'>None</span>;
+      return (
+        <span className='hint-text'>
+          None
+        </span>
+      );
     }
-
-    // retVal = retVal.join(' ' + this.prereqs.type + ' ')
 
     return retVal;
   }
@@ -299,9 +301,9 @@ class BaseClassPanel extends React.Component {
   showMore(prereqType) {
     const data = this.getReqsString(prereqType, this.props.aClass);
 
-    if (!Array.isArray(data) ||
-      this.getStateValue(prereqType) >= 3 ||
-      this.getShowAmount(prereqType) >= data.length) {
+    if (!Array.isArray(data)
+      || this.getStateValue(prereqType) >= 3
+      || this.getShowAmount(prereqType) >= data.length) {
       return null;
     }
 
@@ -326,7 +328,8 @@ class BaseClassPanel extends React.Component {
             }
           });
         } }
-      >Show More
+      >
+        Show More
       </div>
     );
   }

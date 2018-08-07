@@ -209,9 +209,9 @@ class Main {
         deps: parsersOutput,
       },
 
-        // Add the data that was calculated here
-        // Don't put this as a parent of the rest of the processors
-        // so the host: data from here is not copied to the children
+      // Add the data that was calculated here
+      // Don't put this as a parent of the rest of the processors
+      // so the host: data from here is not copied to the children
       {
         type: 'colleges',
         value: {

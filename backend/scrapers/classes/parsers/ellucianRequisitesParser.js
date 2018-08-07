@@ -79,9 +79,10 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
         if (subData.type === data.type) {
           retVal.values = retVal.values.concat(subData.values);
           return;
+        }
 
         // If only contains 1 value, merge
-        } else if (subData.values.length === 1) {
+        if (subData.values.length === 1) {
           retVal.values.push(subData.values[0]);
           return;
         }

@@ -30,4 +30,3 @@ it('should render form is closed', () => {
   const result = shallow(<FeedbackModal closeForm={ closeForm } feedbackModalOpen={ false } />);
   expect(result).toMatchSnapshot();
 });
-

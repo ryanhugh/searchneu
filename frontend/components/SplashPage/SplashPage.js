@@ -31,7 +31,9 @@ function SplashPage() {
         {/* These widths must add up to 16.*/}
         <Grid.Column width={ 7 } className='text'>
           <div className='text-inner'>
-            <h1>Instantly search through all of NEU&apos;s classes.</h1>
+            <h1>
+              Instantly search through all of NEU&apos;s classes.
+            </h1>
             <div className='all-text-desc'>
               Search through classes, professors, sections, and subjects at Northeastern. Going to add more features soon!
             </div>
@@ -70,20 +72,32 @@ function SplashPage() {
         </Grid.Column>
         <Grid.Column width={ 7 } className='text'>
           <div className='text-inner'>
-            <h1>Everything you could be looking for.</h1>
-            <div className='all-text-desc'>See class descriptions, prereqs, coreqs, CRNs, professors, meetings, and locations! Even more stuff coming soon!</div>
-            <Button onClick={ () => { window.dispatchEvent(searchForENGW1111Event); } } primary className='button-grey'>Search for ENGW 1111</Button>
+            <h1>
+              Everything you could be looking for.
+            </h1>
+            <div className='all-text-desc'>
+              See class descriptions, prereqs, coreqs, CRNs, professors, meetings, and locations! Even more stuff coming soon!
+            </div>
+            <Button onClick={ () => { window.dispatchEvent(searchForENGW1111Event); } } primary className='button-grey'>
+              Search for ENGW 1111
+            </Button>
           </div>
         </Grid.Column>
       </Grid>
 
       {/* Third Row. */}
       <Grid stackable className='row-third'>
-        <Grid.Column width={ 7 } className='text' >
+        <Grid.Column width={ 7 } className='text'>
           <div className='text-inner'>
-            <h1>Works great on mobile!</h1>
-            <div className='all-text-desc'>holla holla</div>
-            <Button onClick={ () => { window.dispatchEvent(searchForOODEvent); } } primary className='button-red'>Search for OOD</Button>
+            <h1>
+              Works great on mobile!
+            </h1>
+            <div className='all-text-desc'>
+              holla holla
+            </div>
+            <Button onClick={ () => { window.dispatchEvent(searchForOODEvent); } } primary className='button-red'>
+              Search for OOD
+            </Button>
           </div>
         </Grid.Column>
         <Grid.Column width={ 9 } className='img-container'>

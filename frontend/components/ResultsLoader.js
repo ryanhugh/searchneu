@@ -115,7 +115,7 @@ class ResultsLoader extends React.Component {
 
     return (
       <div className='ui container results-loader-container'>
-        <div className='five column row' >
+        <div className='five column row'>
           <div className='page-home' ref={ (c) => { this.elementsContainer = c; } }>
             {this.state.visibleObjects.map((obj) => {
               if (obj.type === 'class') {
@@ -124,7 +124,8 @@ class ResultsLoader extends React.Component {
                 }
 
                 return <DesktopClassPanel key={ Keys.create(obj.data).getHash() } aClass={ obj.data } />;
-              } else if (obj.type === 'employee') {
+              }
+              if (obj.type === 'employee') {
                 return <EmployeePanel key={ obj.data.id } employee={ obj.data } />;
               }
 

@@ -14,6 +14,7 @@ import macros from './macros';
 const rootDir = path.join(__dirname, '..');
 
 export default {
+  // https://webpack.js.org/configuration/devtool/
   devtool: macros.PROD ? 'source-map' : 'cheap-module-eval-source-map',
   mode: macros.PROD ? 'production' : 'development',
   entry: [
@@ -94,7 +95,7 @@ export default {
   module: {
     rules: [
 
-    // Ensure that everything passes eslint.
+      // Ensure that everything passes eslint.
       // {
       //   enforce: 'pre',
       //   test: /\.js$/,

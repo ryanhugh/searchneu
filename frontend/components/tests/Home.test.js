@@ -16,4 +16,3 @@ it('should render a section', () => {
   const result = shallow(<Home />);
   expect(result).toMatchSnapshot();
 });
-

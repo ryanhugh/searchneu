@@ -121,9 +121,10 @@ class Database {
     if (keySplit.length === 1) {
       if (currObject[currKey].type === 'leaf') {
         return currObject[currKey].value;
-      } else if (currObject[currKey].type === 'node') {
-        // Return all of the leafs that are children of this node
+      }
 
+      // Return all of the leafs that are children of this node
+      if (currObject[currKey].type === 'node') {
         return this.getChildren(currObject[currKey]);
       }
 
