@@ -42,7 +42,7 @@ class MobileClassPanel extends BaseClassPanel {
           <br />
           <div>
             {creditsString}
-            <br /> 
+            <br />
             Updated {aClass.getLastUpdateString()}
             <br />
             <a target='_blank' rel='noopener noreferrer' href={ aClass.prettyUrl || aClass.url }>
@@ -93,8 +93,10 @@ class MobileClassPanel extends BaseClassPanel {
         <div>
           <a
             onClick={ () => {
-              this.setState({
-                showAllClassDetails: !this.state.showAllClassDetails,
+              this.setState((state) => {
+                return {
+                  showAllClassDetails: !state.showAllClassDetails,
+                };
               });
             } }
             style={{ display:'inline-block' }}
@@ -132,8 +134,10 @@ class MobileClassPanel extends BaseClassPanel {
           <div
             className='header'
             onClick={ () => {
-              this.setState({
-                showMoreThanTitle: !this.state.showMoreThanTitle,
+              this.setState((state) => {
+                return {
+                  showMoreThanTitle: !state.showMoreThanTitle,
+                };
               });
             } }
             role='button'

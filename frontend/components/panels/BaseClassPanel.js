@@ -46,7 +46,6 @@ class BaseClassPanel extends React.Component {
     macros.log('Adding more sections to the bottom.');
 
     this.setState((state) => {
-
       // Get the length of the our sections
       const rendered = state.renderedSections;
       const unrendered = state.unrenderedSections;
@@ -57,9 +56,8 @@ class BaseClassPanel extends React.Component {
       return {
         renderedSections: rendered.concat(unrendered.slice(0, showAmount)),
         unrenderedSections: unrendered.slice(showAmount, unrendered.length),
-      });
-    })
-
+      };
+    });
   }
 
   // Prevents page reload and fires off new search without reloading.
