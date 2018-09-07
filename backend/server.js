@@ -523,6 +523,24 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   }
 }
 
+async function unsubscribeSender(sender) {
+  const firebaseRef = await database.getRef(`/users/${sender}`);
+
+  let existingData = await firebaseRef.once('value');
+  existingData = existingData.val();
+
+  if (existingData) {
+    existingData.watchingClasses = [];
+    existingData.watchingSections = [];
+    macros.log('Unsubscribed ', sender, ' from everything.');
+    firebaseRef.set(existingData);
+  } else {
+    macros.log("Didn't unsubscribe ", sender, ' from anything because they were not in the database');
+  }
+
+  notifyer.sendFBNotification(sender, "You've been unsubscribed from everything! Free free to re-subscribe to updates on https://searchneu.com");
+}
+
 // In production, this is called from Facebook's servers.
 // When a user sends a Facebook messsage to the Search NEU bot or when someone hits the send to messenger button.
 // If someone sends a message to this bot it will respond with some hard-coded responses
@@ -555,6 +573,8 @@ app.post('/webhook/', wrap(async (req, res) => {
 
       if (text === 'test') {
         notifyer.sendFBNotification(sender, 'CS 1800 now has 1 seat available!! Check it out on https://searchneu.com/cs1800 !');
+      } else if (text.toLowerCase() === 'stop') {
+        unsubscribeSender(sender);
       } else if (text === 'What is my facebook messenger sender id?') {
         notifyer.sendFBNotification(sender, sender);
       } else {
