@@ -31,7 +31,7 @@ class Home extends React.Component {
     // Check the following sources, in order, for the current selected term. If any are found, use that one and don't continue.
     // 1. The url.
     // 2. Localstorage
-    // 3. Default to Spring 2018.
+    // 3. Default to Fall 2018.
 
     // After the term is found, keep it in localstorage in case the url is changed or the
     // Keeping this in localStorage makes it sticky across page loads.
@@ -40,10 +40,11 @@ class Home extends React.Component {
     } else if (window.localStorage.selectedTermId) {
       selectedTermId = window.localStorage.selectedTermId;
     } else {
-      // Defalt to Spring 2018 (need to make this dynamic in the future...)
-      selectedTermId = '201830';
+      // Defalt to Fall 2018 (need to make this dynamic in the future...)
+      selectedTermId = '201910';
     }
 
+    // If the user had Fall 2017 selected (which is no longer scraped) change the option to Fall 2019
     if (selectedTermId === '201810') {
       selectedTermId = '201910';
     }
@@ -70,6 +71,9 @@ class Home extends React.Component {
 
       // Keep track of whether the feedback modal is open or not.
       feedbackModalOpen: false,
+
+      // Keep track of whether the help modal is open or not. 
+      helpModalOpen: false,
     };
 
     // Timer used to debounce search queries
@@ -103,6 +107,8 @@ class Home extends React.Component {
     this.onTermdropdownChange = this.onTermdropdownChange.bind(this);
     this.openForm = this.openForm.bind(this);
     this.closeForm = this.closeForm.bind(this);
+    this.closeHelpModal = this.closeHelpModal.bind(this);
+    this.openHelpModal = this.openHelpModal.bind(this);
 
     // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
@@ -286,6 +292,14 @@ class Home extends React.Component {
     this.setState({ feedbackModalOpen: true });
   }
 
+  closeHelpModal() {
+    this.setState({ helpModalOpen: false });
+  }
+
+  openHelpModal() {
+    this.setState({ helpModalOpen: true });
+  }
+
   logSearch(searchQuery) {
     searchQuery = searchQuery.trim();
     if (searchQuery === this.lastSearch) {
@@ -378,12 +392,20 @@ class Home extends React.Component {
   render() {
     let resultsElement = null;
 
+    let wantToHelpOpacity = 1;
+
+
+
+
     if (!this.state.showSearchResults) {
       resultsElement = (
         <span className='splashPage'>
           <SplashPage />
         </span>
       );
+
+      // wantToHelpOpacity = 1;
+
     } else if (this.state.results) {
       const memeMatches = {
         meme: true,
@@ -444,9 +466,11 @@ class Home extends React.Component {
     // Don't animate anything on mobile.
     // and set the second state of the animations if there is something in the text box.
     if (!macros.isMobile && this.state.searchQuery.length !== 0) {
-      topHeaderStyle.transform = 'translateY(-50%) translateY(230px)';
+      // topHeaderStyle.transform = 'translateY(-50%) translateY(230px)';
+      topHeaderStyle.transform = 'translateY(-50%) translateY(292px)';
       resultsContainerStyle.transform = `translateY(-${window.innerHeight - 305}px)`;
       bostonContainerStyle.opacity = 0;
+      wantToHelpOpacity = 0;
     }
 
     // On mobile only show the logo and the github corner if there are no results and the search box is not focused (the virtual keyboard is not on the screen).
@@ -460,6 +484,8 @@ class Home extends React.Component {
         containerClassnames += ' mobileFull';
       }
     }
+
+   
 
     const termDropDownOptions = [
       {
@@ -553,6 +579,19 @@ class Home extends React.Component {
                   onChange={ this.onTermdropdownChange }
                 />
               </div>
+              <div style={{opacity: wantToHelpOpacity}} className="wantToHelp">
+                <p className="helpFistRow">
+                  We're looking for more team members!
+                </p>
+                <p>
+                  Want to help build Search NEU? 
+                </p>
+                <p>
+                  <span onClick={this.openHelpModal}>
+                  Get involved > 
+                  </span>
+                </p>
+              </div>
               {hitEnterToSearch}
             </div>
           </div>
@@ -612,7 +651,9 @@ class Home extends React.Component {
           </div>
         </div>
 
-        <FeedbackModal closeForm={ this.closeForm } feedbackModalOpen={ this.state.feedbackModalOpen } />
+        <FeedbackModal isFeedback={true} closeForm={ this.closeForm } feedbackModalOpen={ this.state.feedbackModalOpen } />
+
+        <FeedbackModal isHelpOut={true} closeForm={ this.closeHelpModal } feedbackModalOpen={ this.state.helpModalOpen } />
 
         <ReactTooltip effect='solid' className='listIconTooltip' />
       </div>

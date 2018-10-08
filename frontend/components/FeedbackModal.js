@@ -29,6 +29,8 @@ class FeedbackModal extends React.Component {
   static propTypes = {
     closeForm: PropTypes.func.isRequired,
     feedbackModalOpen: PropTypes.bool.isRequired,
+    isFeedback: PropTypes.bool,
+    isHelpOut: PropTypes.bool,
   };
 
   constructor(props) {
@@ -110,6 +112,24 @@ class FeedbackModal extends React.Component {
       exited: { display: 'none', opacity: 0 },
     };
 
+    let firstText;
+    let secondBody;
+
+    if (this.props.isFeedback) {
+      firstText = 'Find a bug in Search NEU? Find a query that dosen&apos;t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.'
+      secondBody = (
+        <span>
+          <p>
+            By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+          </p>
+          <Input name='contact' form='feedbackForm' className='formModalInput' onChange={ this.onContactChange } />
+        </span>
+      )
+    }
+    else {
+      firstText = 'Thanks for your interest! We\'d love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don\'t have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!'
+    }
+
     return (
       <div className='feedback-container'>
         <Transition in={ this.state.messageVisible } timeout={ 500 }>
@@ -130,13 +150,10 @@ class FeedbackModal extends React.Component {
           <Modal.Content className='formModalContent'>
             <Form>
               <div className='feedbackParagraph'>
-                Find a bug in Search NEU? Find a query that dosen&apos;t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                {firstText}
               </div>
               <TextArea name='response' form='feedbackForm' className='feedbackTextbox' onChange={ this.onTextAreaChange } />
-              <p>
-                By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-              </p>
-              <Input name='contact' form='feedbackForm' className='formModalInput' onChange={ this.onContactChange } />
+              {secondBody}
             </Form>
           </Modal.Content>
           <Modal.Actions>

@@ -138,6 +138,7 @@
     @media only screen and (min-width: 767px) {
         .topHeader {
             padding: 3em 0 !important;
+            transition-timing-function: cubic-bezier(0.46, 0.03, 0.47, 1.11);
             transition-delay: 1s !important;
             transition: transform .75s;
             transition: 1s;
@@ -145,6 +146,7 @@
         .resultsContainer {
             transition: transform .75s;
             transition-delay: 1s !important;
+            transition-timing-function: cubic-bezier(0.46, 0.03, 0.62, 0.98);
         }
         .title {
             font-size: 54px;
@@ -331,6 +333,40 @@
         color: rgb(174, 69, 67) !important;
     }
 
+
+    .wantToHelp {
+        max-width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+        color: #888;
+        margin-top: 62px;
+        line-height: 25px;
+        transition: opacity .6s;
+        transition-delay: 1s;
+        margin-bottom: -16px;
+
+
+        p {
+            margin: 0px;
+        }
+
+        p:last-child {
+            font-size: 20px;
+            pointer-events: initial;
+        cursor: pointer;
+        
+        }
+
+        p:last-child:hover {
+
+            font-size: 20px;
+            text-decoration: underline;
+        }
+    }
+}
+
+.home-container.mobileCompact .wantToHelp {
+    display: none;
 }
 
 

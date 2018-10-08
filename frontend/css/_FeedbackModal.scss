@@ -25,14 +25,6 @@
 // Put any css for the elements inside the model in here, and any css for elements outside the feedback-modal-container above.
 .feedback-modal-container {
 
-  // This css fixes the position of the feedback modal. It broke when we updated the version of a package. 
-  // It might be fixed (and make this code obsolete) in a future package. 
-  top: 50%;
-  position: fixed;
-  left: 50%;
-  transform: translate(-50%, 0px);
-
-
   .feedbackTextbox {
     width: 100%;
     height: 100px;
