@@ -62,7 +62,7 @@ ShallowWrapper {
               <div
                 className="feedbackParagraph"
               >
-                Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
               </div>
               <TextArea
                 as="textarea"
@@ -71,16 +71,6 @@ ShallowWrapper {
                 name="response"
                 onChange={[Function]}
                 rows={3}
-              />
-              <p>
-                By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-              </p>
-              <Input
-                className="formModalInput"
-                form="feedbackForm"
-                name="contact"
-                onChange={[Function]}
-                type="text"
               />
             </Form>
           </ModalContent>
@@ -163,7 +153,7 @@ ShallowWrapper {
                 <div
                   className="feedbackParagraph"
                 >
-                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
                 </div>
                 <TextArea
                   as="textarea"
@@ -172,16 +162,6 @@ ShallowWrapper {
                   name="response"
                   onChange={[Function]}
                   rows={3}
-                />
-                <p>
-                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-                </p>
-                <Input
-                  className="formModalInput"
-                  form="feedbackForm"
-                  name="contact"
-                  onChange={[Function]}
-                  type="text"
                 />
               </Form>
             </ModalContent>,
@@ -249,7 +229,7 @@ ShallowWrapper {
                 <div
                   className="feedbackParagraph"
                 >
-                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
                 </div>
                 <TextArea
                   as="textarea"
@@ -258,16 +238,6 @@ ShallowWrapper {
                   name="response"
                   onChange={[Function]}
                   rows={3}
-                />
-                <p>
-                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-                </p>
-                <Input
-                  className="formModalInput"
-                  form="feedbackForm"
-                  name="contact"
-                  onChange={[Function]}
-                  type="text"
                 />
               </Form>,
               "className": "formModalContent",
@@ -283,7 +253,7 @@ ShallowWrapper {
                   <div
                     className="feedbackParagraph"
                   >
-                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                    Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
                   </div>,
                   <TextArea
                     as="textarea"
@@ -293,16 +263,7 @@ ShallowWrapper {
                     onChange={[Function]}
                     rows={3}
                   />,
-                  <p>
-                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-                  </p>,
-                  <Input
-                    className="formModalInput"
-                    form="feedbackForm"
-                    name="contact"
-                    onChange={[Function]}
-                    type="text"
-                  />,
+                  undefined,
                 ],
               },
               "ref": null,
@@ -312,11 +273,11 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "host",
                   "props": Object {
-                    "children": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                    "children": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
                     "className": "feedbackParagraph",
                   },
                   "ref": null,
-                  "rendered": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                  "rendered": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
                   "type": "div",
                 },
                 Object {
@@ -335,32 +296,7 @@ ShallowWrapper {
                   "rendered": null,
                   "type": [Function],
                 },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
-                  },
-                  "ref": null,
-                  "rendered": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
-                  "type": "p",
-                },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "class",
-                  "props": Object {
-                    "className": "formModalInput",
-                    "form": "feedbackForm",
-                    "name": "contact",
-                    "onChange": [Function],
-                    "type": "text",
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
+                undefined,
               ],
               "type": [Function],
             },
@@ -533,7 +469,7 @@ ShallowWrapper {
                 <div
                   className="feedbackParagraph"
                 >
-                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
                 </div>
                 <TextArea
                   as="textarea"
@@ -542,16 +478,6 @@ ShallowWrapper {
                   name="response"
                   onChange={[Function]}
                   rows={3}
-                />
-                <p>
-                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-                </p>
-                <Input
-                  className="formModalInput"
-                  form="feedbackForm"
-                  name="contact"
-                  onChange={[Function]}
-                  type="text"
                 />
               </Form>
             </ModalContent>
@@ -634,7 +560,7 @@ ShallowWrapper {
                   <div
                     className="feedbackParagraph"
                   >
-                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                    Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
                   </div>
                   <TextArea
                     as="textarea"
@@ -643,16 +569,6 @@ ShallowWrapper {
                     name="response"
                     onChange={[Function]}
                     rows={3}
-                  />
-                  <p>
-                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-                  </p>
-                  <Input
-                    className="formModalInput"
-                    form="feedbackForm"
-                    name="contact"
-                    onChange={[Function]}
-                    type="text"
                   />
                 </Form>
               </ModalContent>,
@@ -720,7 +636,7 @@ ShallowWrapper {
                   <div
                     className="feedbackParagraph"
                   >
-                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                    Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
                   </div>
                   <TextArea
                     as="textarea"
@@ -729,16 +645,6 @@ ShallowWrapper {
                     name="response"
                     onChange={[Function]}
                     rows={3}
-                  />
-                  <p>
-                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-                  </p>
-                  <Input
-                    className="formModalInput"
-                    form="feedbackForm"
-                    name="contact"
-                    onChange={[Function]}
-                    type="text"
                   />
                 </Form>,
                 "className": "formModalContent",
@@ -754,7 +660,7 @@ ShallowWrapper {
                     <div
                       className="feedbackParagraph"
                     >
-                      Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                      Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
                     </div>,
                     <TextArea
                       as="textarea"
@@ -764,16 +670,7 @@ ShallowWrapper {
                       onChange={[Function]}
                       rows={3}
                     />,
-                    <p>
-                      By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-                    </p>,
-                    <Input
-                      className="formModalInput"
-                      form="feedbackForm"
-                      name="contact"
-                      onChange={[Function]}
-                      type="text"
-                    />,
+                    undefined,
                   ],
                 },
                 "ref": null,
@@ -783,11 +680,11 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "host",
                     "props": Object {
-                      "children": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                      "children": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
                       "className": "feedbackParagraph",
                     },
                     "ref": null,
-                    "rendered": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                    "rendered": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
                     "type": "div",
                   },
                   Object {
@@ -806,32 +703,7 @@ ShallowWrapper {
                     "rendered": null,
                     "type": [Function],
                   },
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "children": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
-                    },
-                    "ref": null,
-                    "rendered": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
-                    "type": "p",
-                  },
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "class",
-                    "props": Object {
-                      "className": "formModalInput",
-                      "form": "feedbackForm",
-                      "name": "contact",
-                      "onChange": [Function],
-                      "type": "text",
-                    },
-                    "ref": null,
-                    "rendered": null,
-                    "type": [Function],
-                  },
+                  undefined,
                 ],
                 "type": [Function],
               },
@@ -1029,7 +901,7 @@ ShallowWrapper {
               <div
                 className="feedbackParagraph"
               >
-                Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
               </div>
               <TextArea
                 as="textarea"
@@ -1038,16 +910,6 @@ ShallowWrapper {
                 name="response"
                 onChange={[Function]}
                 rows={3}
-              />
-              <p>
-                By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-              </p>
-              <Input
-                className="formModalInput"
-                form="feedbackForm"
-                name="contact"
-                onChange={[Function]}
-                type="text"
               />
             </Form>
           </ModalContent>
@@ -1130,7 +992,7 @@ ShallowWrapper {
                 <div
                   className="feedbackParagraph"
                 >
-                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
                 </div>
                 <TextArea
                   as="textarea"
@@ -1139,16 +1001,6 @@ ShallowWrapper {
                   name="response"
                   onChange={[Function]}
                   rows={3}
-                />
-                <p>
-                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-                </p>
-                <Input
-                  className="formModalInput"
-                  form="feedbackForm"
-                  name="contact"
-                  onChange={[Function]}
-                  type="text"
                 />
               </Form>
             </ModalContent>,
@@ -1216,7 +1068,7 @@ ShallowWrapper {
                 <div
                   className="feedbackParagraph"
                 >
-                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
                 </div>
                 <TextArea
                   as="textarea"
@@ -1225,16 +1077,6 @@ ShallowWrapper {
                   name="response"
                   onChange={[Function]}
                   rows={3}
-                />
-                <p>
-                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-                </p>
-                <Input
-                  className="formModalInput"
-                  form="feedbackForm"
-                  name="contact"
-                  onChange={[Function]}
-                  type="text"
                 />
               </Form>,
               "className": "formModalContent",
@@ -1250,7 +1092,7 @@ ShallowWrapper {
                   <div
                     className="feedbackParagraph"
                   >
-                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                    Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
                   </div>,
                   <TextArea
                     as="textarea"
@@ -1260,16 +1102,7 @@ ShallowWrapper {
                     onChange={[Function]}
                     rows={3}
                   />,
-                  <p>
-                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-                  </p>,
-                  <Input
-                    className="formModalInput"
-                    form="feedbackForm"
-                    name="contact"
-                    onChange={[Function]}
-                    type="text"
-                  />,
+                  undefined,
                 ],
               },
               "ref": null,
@@ -1279,11 +1112,11 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "host",
                   "props": Object {
-                    "children": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                    "children": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
                     "className": "feedbackParagraph",
                   },
                   "ref": null,
-                  "rendered": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                  "rendered": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
                   "type": "div",
                 },
                 Object {
@@ -1302,32 +1135,7 @@ ShallowWrapper {
                   "rendered": null,
                   "type": [Function],
                 },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
-                  },
-                  "ref": null,
-                  "rendered": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
-                  "type": "p",
-                },
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "class",
-                  "props": Object {
-                    "className": "formModalInput",
-                    "form": "feedbackForm",
-                    "name": "contact",
-                    "onChange": [Function],
-                    "type": "text",
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
+                undefined,
               ],
               "type": [Function],
             },
@@ -1500,7 +1308,7 @@ ShallowWrapper {
                 <div
                   className="feedbackParagraph"
                 >
-                  Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                  Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
                 </div>
                 <TextArea
                   as="textarea"
@@ -1509,16 +1317,6 @@ ShallowWrapper {
                   name="response"
                   onChange={[Function]}
                   rows={3}
-                />
-                <p>
-                  By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-                </p>
-                <Input
-                  className="formModalInput"
-                  form="feedbackForm"
-                  name="contact"
-                  onChange={[Function]}
-                  type="text"
                 />
               </Form>
             </ModalContent>
@@ -1601,7 +1399,7 @@ ShallowWrapper {
                   <div
                     className="feedbackParagraph"
                   >
-                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                    Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
                   </div>
                   <TextArea
                     as="textarea"
@@ -1610,16 +1408,6 @@ ShallowWrapper {
                     name="response"
                     onChange={[Function]}
                     rows={3}
-                  />
-                  <p>
-                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-                  </p>
-                  <Input
-                    className="formModalInput"
-                    form="feedbackForm"
-                    name="contact"
-                    onChange={[Function]}
-                    type="text"
                   />
                 </Form>
               </ModalContent>,
@@ -1687,7 +1475,7 @@ ShallowWrapper {
                   <div
                     className="feedbackParagraph"
                   >
-                    Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                    Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
                   </div>
                   <TextArea
                     as="textarea"
@@ -1696,16 +1484,6 @@ ShallowWrapper {
                     name="response"
                     onChange={[Function]}
                     rows={3}
-                  />
-                  <p>
-                    By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-                  </p>
-                  <Input
-                    className="formModalInput"
-                    form="feedbackForm"
-                    name="contact"
-                    onChange={[Function]}
-                    type="text"
                   />
                 </Form>,
                 "className": "formModalContent",
@@ -1721,7 +1499,7 @@ ShallowWrapper {
                     <div
                       className="feedbackParagraph"
                     >
-                      Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.
+                      Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
                     </div>,
                     <TextArea
                       as="textarea"
@@ -1731,16 +1509,7 @@ ShallowWrapper {
                       onChange={[Function]}
                       rows={3}
                     />,
-                    <p>
-                      By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-                    </p>,
-                    <Input
-                      className="formModalInput"
-                      form="feedbackForm"
-                      name="contact"
-                      onChange={[Function]}
-                      type="text"
-                    />,
+                    undefined,
                   ],
                 },
                 "ref": null,
@@ -1750,11 +1519,11 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "host",
                     "props": Object {
-                      "children": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                      "children": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
                       "className": "feedbackParagraph",
                     },
                     "ref": null,
-                    "rendered": "Find a bug in Search NEU? Find a query that dosen't come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.",
+                    "rendered": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
                     "type": "div",
                   },
                   Object {
@@ -1773,32 +1542,7 @@ ShallowWrapper {
                     "rendered": null,
                     "type": [Function],
                   },
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "children": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
-                    },
-                    "ref": null,
-                    "rendered": "By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.",
-                    "type": "p",
-                  },
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "class",
-                    "props": Object {
-                      "className": "formModalInput",
-                      "form": "feedbackForm",
-                      "name": "contact",
-                      "onChange": [Function],
-                      "type": "text",
-                    },
-                    "ref": null,
-                    "rendered": null,
-                    "type": [Function],
-                  },
+                  undefined,
                 ],
                 "type": [Function],
               },
