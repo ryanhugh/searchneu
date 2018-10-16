@@ -106,7 +106,7 @@ ShallowWrapper {
                   className="termDropdown"
                   closeOnBlur={true}
                   deburr={false}
-                  defaultValue="201830"
+                  defaultValue="201910"
                   fluid={true}
                   icon="dropdown"
                   minCharacters={1}
@@ -145,6 +145,30 @@ ShallowWrapper {
                   selection={true}
                   wrapSelection={true}
                 />
+              </div>
+              <div
+                className="wantToHelp"
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
+              >
+                <p
+                  className="helpFistRow"
+                >
+                  We're looking for more team members!
+                </p>
+                <p>
+                  Want to help build Search NEU?
+                </p>
+                <p>
+                  <span
+                    onClick={[Function]}
+                  >
+                    Get involved &gt;
+                  </span>
+                </p>
               </div>
             </div>
           </div>
@@ -248,6 +272,12 @@ ShallowWrapper {
         <FeedbackModal
           closeForm={[Function]}
           feedbackModalOpen={false}
+          isFeedback={true}
+        />,
+        <FeedbackModal
+          closeForm={[Function]}
+          feedbackModalOpen={false}
+          isHelpOut={true}
         />,
         <ReactTooltip
           className="listIconTooltip"
@@ -450,7 +480,7 @@ ShallowWrapper {
                   className="termDropdown"
                   closeOnBlur={true}
                   deburr={false}
-                  defaultValue="201830"
+                  defaultValue="201910"
                   fluid={true}
                   icon="dropdown"
                   minCharacters={1}
@@ -489,6 +519,30 @@ ShallowWrapper {
                   selection={true}
                   wrapSelection={true}
                 />
+              </div>
+              <div
+                className="wantToHelp"
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
+              >
+                <p
+                  className="helpFistRow"
+                >
+                  We're looking for more team members!
+                </p>
+                <p>
+                  Want to help build Search NEU?
+                </p>
+                <p>
+                  <span
+                    onClick={[Function]}
+                  >
+                    Get involved &gt;
+                  </span>
+                </p>
               </div>
             </div>
           </div>,
@@ -541,7 +595,7 @@ ShallowWrapper {
                   className="termDropdown"
                   closeOnBlur={true}
                   deburr={false}
-                  defaultValue="201830"
+                  defaultValue="201910"
                   fluid={true}
                   icon="dropdown"
                   minCharacters={1}
@@ -580,6 +634,30 @@ ShallowWrapper {
                   selection={true}
                   wrapSelection={true}
                 />
+              </div>
+              <div
+                className="wantToHelp"
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
+              >
+                <p
+                  className="helpFistRow"
+                >
+                  We're looking for more team members!
+                </p>
+                <p>
+                  Want to help build Search NEU?
+                </p>
+                <p>
+                  <span
+                    onClick={[Function]}
+                  >
+                    Get involved &gt;
+                  </span>
+                </p>
               </div>
             </div>,
             "className": "ui center spacing aligned icon header topHeader",
@@ -631,7 +709,7 @@ ShallowWrapper {
                     className="termDropdown"
                     closeOnBlur={true}
                     deburr={false}
-                    defaultValue="201830"
+                    defaultValue="201910"
                     fluid={true}
                     icon="dropdown"
                     minCharacters={1}
@@ -670,6 +748,30 @@ ShallowWrapper {
                     selection={true}
                     wrapSelection={true}
                   />
+                </div>,
+                <div
+                  className="wantToHelp"
+                  style={
+                    Object {
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <p
+                    className="helpFistRow"
+                  >
+                    We're looking for more team members!
+                  </p>
+                  <p>
+                    Want to help build Search NEU?
+                  </p>
+                  <p>
+                    <span
+                      onClick={[Function]}
+                    >
+                      Get involved &gt;
+                    </span>
+                  </p>
                 </div>,
                 null,
               ],
@@ -735,7 +837,7 @@ ShallowWrapper {
                       className="termDropdown"
                       closeOnBlur={true}
                       deburr={false}
-                      defaultValue="201830"
+                      defaultValue="201910"
                       fluid={true}
                       icon="dropdown"
                       minCharacters={1}
@@ -863,7 +965,7 @@ ShallowWrapper {
                       "className": "termDropdown",
                       "closeOnBlur": true,
                       "deburr": false,
-                      "defaultValue": "201830",
+                      "defaultValue": "201910",
                       "fluid": true,
                       "icon": "dropdown",
                       "minCharacters": 1,
@@ -903,6 +1005,87 @@ ShallowWrapper {
                     "ref": null,
                     "rendered": null,
                     "type": [Function],
+                  },
+                ],
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <p
+                      className="helpFistRow"
+                    >
+                      We're looking for more team members!
+                    </p>,
+                    <p>
+                      Want to help build Search NEU?
+                    </p>,
+                    <p>
+                      <span
+                        onClick={[Function]}
+                      >
+                        Get involved &gt;
+                      </span>
+                    </p>,
+                  ],
+                  "className": "wantToHelp",
+                  "style": Object {
+                    "opacity": 1,
+                  },
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "We're looking for more team members!",
+                      "className": "helpFistRow",
+                    },
+                    "ref": null,
+                    "rendered": "We're looking for more team members!",
+                    "type": "p",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Want to help build Search NEU?",
+                    },
+                    "ref": null,
+                    "rendered": "Want to help build Search NEU?",
+                    "type": "p",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": <span
+                        onClick={[Function]}
+                      >
+                        Get involved &gt;
+                      </span>,
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Get involved >",
+                        "onClick": [Function],
+                      },
+                      "ref": null,
+                      "rendered": "Get involved >",
+                      "type": "span",
+                    },
+                    "type": "p",
                   },
                 ],
                 "type": "div",
@@ -1401,6 +1584,20 @@ ShallowWrapper {
         "props": Object {
           "closeForm": [Function],
           "feedbackModalOpen": false,
+          "isFeedback": true,
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "closeForm": [Function],
+          "feedbackModalOpen": false,
+          "isHelpOut": true,
         },
         "ref": null,
         "rendered": null,
@@ -1519,7 +1716,7 @@ ShallowWrapper {
                     className="termDropdown"
                     closeOnBlur={true}
                     deburr={false}
-                    defaultValue="201830"
+                    defaultValue="201910"
                     fluid={true}
                     icon="dropdown"
                     minCharacters={1}
@@ -1558,6 +1755,30 @@ ShallowWrapper {
                     selection={true}
                     wrapSelection={true}
                   />
+                </div>
+                <div
+                  className="wantToHelp"
+                  style={
+                    Object {
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <p
+                    className="helpFistRow"
+                  >
+                    We're looking for more team members!
+                  </p>
+                  <p>
+                    Want to help build Search NEU?
+                  </p>
+                  <p>
+                    <span
+                      onClick={[Function]}
+                    >
+                      Get involved &gt;
+                    </span>
+                  </p>
                 </div>
               </div>
             </div>
@@ -1661,6 +1882,12 @@ ShallowWrapper {
           <FeedbackModal
             closeForm={[Function]}
             feedbackModalOpen={false}
+            isFeedback={true}
+          />,
+          <FeedbackModal
+            closeForm={[Function]}
+            feedbackModalOpen={false}
+            isHelpOut={true}
           />,
           <ReactTooltip
             className="listIconTooltip"
@@ -1863,7 +2090,7 @@ ShallowWrapper {
                     className="termDropdown"
                     closeOnBlur={true}
                     deburr={false}
-                    defaultValue="201830"
+                    defaultValue="201910"
                     fluid={true}
                     icon="dropdown"
                     minCharacters={1}
@@ -1902,6 +2129,30 @@ ShallowWrapper {
                     selection={true}
                     wrapSelection={true}
                   />
+                </div>
+                <div
+                  className="wantToHelp"
+                  style={
+                    Object {
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <p
+                    className="helpFistRow"
+                  >
+                    We're looking for more team members!
+                  </p>
+                  <p>
+                    Want to help build Search NEU?
+                  </p>
+                  <p>
+                    <span
+                      onClick={[Function]}
+                    >
+                      Get involved &gt;
+                    </span>
+                  </p>
                 </div>
               </div>
             </div>,
@@ -1954,7 +2205,7 @@ ShallowWrapper {
                     className="termDropdown"
                     closeOnBlur={true}
                     deburr={false}
-                    defaultValue="201830"
+                    defaultValue="201910"
                     fluid={true}
                     icon="dropdown"
                     minCharacters={1}
@@ -1993,6 +2244,30 @@ ShallowWrapper {
                     selection={true}
                     wrapSelection={true}
                   />
+                </div>
+                <div
+                  className="wantToHelp"
+                  style={
+                    Object {
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <p
+                    className="helpFistRow"
+                  >
+                    We're looking for more team members!
+                  </p>
+                  <p>
+                    Want to help build Search NEU?
+                  </p>
+                  <p>
+                    <span
+                      onClick={[Function]}
+                    >
+                      Get involved &gt;
+                    </span>
+                  </p>
                 </div>
               </div>,
               "className": "ui center spacing aligned icon header topHeader",
@@ -2044,7 +2319,7 @@ ShallowWrapper {
                       className="termDropdown"
                       closeOnBlur={true}
                       deburr={false}
-                      defaultValue="201830"
+                      defaultValue="201910"
                       fluid={true}
                       icon="dropdown"
                       minCharacters={1}
@@ -2083,6 +2358,30 @@ ShallowWrapper {
                       selection={true}
                       wrapSelection={true}
                     />
+                  </div>,
+                  <div
+                    className="wantToHelp"
+                    style={
+                      Object {
+                        "opacity": 1,
+                      }
+                    }
+                  >
+                    <p
+                      className="helpFistRow"
+                    >
+                      We're looking for more team members!
+                    </p>
+                    <p>
+                      Want to help build Search NEU?
+                    </p>
+                    <p>
+                      <span
+                        onClick={[Function]}
+                      >
+                        Get involved &gt;
+                      </span>
+                    </p>
                   </div>,
                   null,
                 ],
@@ -2148,7 +2447,7 @@ ShallowWrapper {
                         className="termDropdown"
                         closeOnBlur={true}
                         deburr={false}
-                        defaultValue="201830"
+                        defaultValue="201910"
                         fluid={true}
                         icon="dropdown"
                         minCharacters={1}
@@ -2276,7 +2575,7 @@ ShallowWrapper {
                         "className": "termDropdown",
                         "closeOnBlur": true,
                         "deburr": false,
-                        "defaultValue": "201830",
+                        "defaultValue": "201910",
                         "fluid": true,
                         "icon": "dropdown",
                         "minCharacters": 1,
@@ -2316,6 +2615,87 @@ ShallowWrapper {
                       "ref": null,
                       "rendered": null,
                       "type": [Function],
+                    },
+                  ],
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      <p
+                        className="helpFistRow"
+                      >
+                        We're looking for more team members!
+                      </p>,
+                      <p>
+                        Want to help build Search NEU?
+                      </p>,
+                      <p>
+                        <span
+                          onClick={[Function]}
+                        >
+                          Get involved &gt;
+                        </span>
+                      </p>,
+                    ],
+                    "className": "wantToHelp",
+                    "style": Object {
+                      "opacity": 1,
+                    },
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "We're looking for more team members!",
+                        "className": "helpFistRow",
+                      },
+                      "ref": null,
+                      "rendered": "We're looking for more team members!",
+                      "type": "p",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Want to help build Search NEU?",
+                      },
+                      "ref": null,
+                      "rendered": "Want to help build Search NEU?",
+                      "type": "p",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": <span
+                          onClick={[Function]}
+                        >
+                          Get involved &gt;
+                        </span>,
+                      },
+                      "ref": null,
+                      "rendered": Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": "Get involved >",
+                          "onClick": [Function],
+                        },
+                        "ref": null,
+                        "rendered": "Get involved >",
+                        "type": "span",
+                      },
+                      "type": "p",
                     },
                   ],
                   "type": "div",
@@ -2814,6 +3194,20 @@ ShallowWrapper {
           "props": Object {
             "closeForm": [Function],
             "feedbackModalOpen": false,
+            "isFeedback": true,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "closeForm": [Function],
+            "feedbackModalOpen": false,
+            "isHelpOut": true,
           },
           "ref": null,
           "rendered": null,
