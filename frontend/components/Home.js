@@ -554,7 +554,7 @@ class Home extends React.Component {
                   </label>
                   <input
                     type='search'
-                    id='seach_id'
+                    id='search_id'
                     autoComplete='off'
                     spellCheck='false'
                     tabIndex='0'
