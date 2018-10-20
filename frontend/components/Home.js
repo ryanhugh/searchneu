@@ -72,7 +72,7 @@ class Home extends React.Component {
       // Keep track of whether the feedback modal is open or not.
       feedbackModalOpen: false,
 
-      // Keep track of whether the help modal is open or not. 
+      // Keep track of whether the help modal is open or not.
       helpModalOpen: false,
     };
 
@@ -395,8 +395,6 @@ class Home extends React.Component {
     let wantToHelpOpacity = 1;
 
 
-
-
     if (!this.state.showSearchResults) {
       resultsElement = (
         <span className='splashPage'>
@@ -405,7 +403,6 @@ class Home extends React.Component {
       );
 
       // wantToHelpOpacity = 1;
-
     } else if (this.state.results) {
       const memeMatches = {
         meme: true,
@@ -485,7 +482,6 @@ class Home extends React.Component {
       }
     }
 
-   
 
     const termDropDownOptions = [
       {
@@ -579,16 +575,16 @@ class Home extends React.Component {
                   onChange={ this.onTermdropdownChange }
                 />
               </div>
-              <div style={{opacity: wantToHelpOpacity}} className="wantToHelp">
-                <p className="helpFistRow">
-                  We're looking for more team members!
+              <div style={{ opacity: wantToHelpOpacity }} className='wantToHelp'>
+                <p className='helpFistRow'>
+                  We&apos;re looking for more team members!
                 </p>
                 <p>
-                  Want to help build Search NEU? 
+                  Want to help build Search NEU?
                 </p>
                 <p>
-                  <span className="getInvolvedText" onClick={this.openHelpModal}>
-                  Get involved > 
+                  <span role='button' tabIndex={ 0 } className='getInvolvedText' onClick={ this.openHelpModal }>
+                  Get involved &gt;
                   </span>
                 </p>
               </div>
@@ -651,9 +647,9 @@ class Home extends React.Component {
           </div>
         </div>
 
-        <FeedbackModal isFeedback={true} closeForm={ this.closeForm } feedbackModalOpen={ this.state.feedbackModalOpen } />
+        <FeedbackModal isFeedback closeForm={ this.closeForm } feedbackModalOpen={ this.state.feedbackModalOpen } />
 
-        <FeedbackModal isHelpOut={true} closeForm={ this.closeHelpModal } feedbackModalOpen={ this.state.helpModalOpen } />
+        <FeedbackModal isHelpOut closeForm={ this.closeHelpModal } feedbackModalOpen={ this.state.helpModalOpen } />
 
         <ReactTooltip effect='solid' className='listIconTooltip' />
       </div>

@@ -33,6 +33,11 @@ class FeedbackModal extends React.Component {
     isHelpOut: PropTypes.bool,
   };
 
+  static defaultProps = {
+    isFeedback: false,
+    isHelpOut: false,
+  };
+
   constructor(props) {
     super(props);
 
@@ -47,6 +52,10 @@ class FeedbackModal extends React.Component {
       // Whether the message is visible or not.
       messageVisible: false,
     };
+
+    if (!props.isHelpOut && !props.isFeedback) {
+      macros.error('popup has to either be ishelp out or isFeedback');
+    }
 
     this.onTextAreaChange = this.onTextAreaChange.bind(this);
     this.onContactChange = this.onContactChange.bind(this);
@@ -116,7 +125,7 @@ class FeedbackModal extends React.Component {
     let secondBody;
 
     if (this.props.isFeedback) {
-      firstText = 'Find a bug in Search NEU? Find a query that dosen\'t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.'
+      firstText = 'Find a bug in Search NEU? Find a query that dosen\'t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.';
       secondBody = (
         <span>
           <p>
@@ -124,10 +133,9 @@ class FeedbackModal extends React.Component {
           </p>
           <Input name='contact' form='feedbackForm' className='formModalInput' onChange={ this.onContactChange } />
         </span>
-      )
-    }
-    else {
-      firstText = 'Thanks for your interest! We\'d love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don\'t have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!'
+      );
+    } else {
+      firstText = 'Thanks for your interest! We\'d love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don\'t have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!';
     }
 
     return (
