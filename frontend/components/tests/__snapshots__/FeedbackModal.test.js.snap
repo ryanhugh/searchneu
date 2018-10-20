@@ -7,6 +7,8 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <FeedbackModal
     closeForm={[Function]}
     feedbackModalOpen={false}
+    isFeedback={false}
+    isHelpOut={false}
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -62,7 +64,7 @@ ShallowWrapper {
               <div
                 className="feedbackParagraph"
               >
-                Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
               </div>
               <TextArea
                 as="textarea"
@@ -153,7 +155,7 @@ ShallowWrapper {
                 <div
                   className="feedbackParagraph"
                 >
-                  Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                  Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
                 </div>
                 <TextArea
                   as="textarea"
@@ -229,7 +231,7 @@ ShallowWrapper {
                 <div
                   className="feedbackParagraph"
                 >
-                  Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                  Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
                 </div>
                 <TextArea
                   as="textarea"
@@ -253,7 +255,7 @@ ShallowWrapper {
                   <div
                     className="feedbackParagraph"
                   >
-                    Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                    Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
                   </div>,
                   <TextArea
                     as="textarea"
@@ -273,11 +275,11 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "host",
                   "props": Object {
-                    "children": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
+                    "children": "Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!",
                     "className": "feedbackParagraph",
                   },
                   "ref": null,
-                  "rendered": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
+                  "rendered": "Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!",
                   "type": "div",
                 },
                 Object {
@@ -469,7 +471,7 @@ ShallowWrapper {
                 <div
                   className="feedbackParagraph"
                 >
-                  Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                  Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
                 </div>
                 <TextArea
                   as="textarea"
@@ -560,7 +562,7 @@ ShallowWrapper {
                   <div
                     className="feedbackParagraph"
                   >
-                    Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                    Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
                   </div>
                   <TextArea
                     as="textarea"
@@ -636,7 +638,7 @@ ShallowWrapper {
                   <div
                     className="feedbackParagraph"
                   >
-                    Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                    Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
                   </div>
                   <TextArea
                     as="textarea"
@@ -660,7 +662,7 @@ ShallowWrapper {
                     <div
                       className="feedbackParagraph"
                     >
-                      Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                      Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
                     </div>,
                     <TextArea
                       as="textarea"
@@ -680,11 +682,11 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "host",
                     "props": Object {
-                      "children": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
+                      "children": "Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!",
                       "className": "feedbackParagraph",
                     },
                     "ref": null,
-                    "rendered": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
+                    "rendered": "Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!",
                     "type": "div",
                   },
                   Object {
@@ -846,6 +848,8 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <FeedbackModal
     closeForm={[Function]}
     feedbackModalOpen={true}
+    isFeedback={false}
+    isHelpOut={false}
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -901,7 +905,7 @@ ShallowWrapper {
               <div
                 className="feedbackParagraph"
               >
-                Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
               </div>
               <TextArea
                 as="textarea"
@@ -992,7 +996,7 @@ ShallowWrapper {
                 <div
                   className="feedbackParagraph"
                 >
-                  Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                  Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
                 </div>
                 <TextArea
                   as="textarea"
@@ -1068,7 +1072,7 @@ ShallowWrapper {
                 <div
                   className="feedbackParagraph"
                 >
-                  Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                  Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
                 </div>
                 <TextArea
                   as="textarea"
@@ -1092,7 +1096,7 @@ ShallowWrapper {
                   <div
                     className="feedbackParagraph"
                   >
-                    Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                    Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
                   </div>,
                   <TextArea
                     as="textarea"
@@ -1112,11 +1116,11 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "host",
                   "props": Object {
-                    "children": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
+                    "children": "Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!",
                     "className": "feedbackParagraph",
                   },
                   "ref": null,
-                  "rendered": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
+                  "rendered": "Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!",
                   "type": "div",
                 },
                 Object {
@@ -1308,7 +1312,7 @@ ShallowWrapper {
                 <div
                   className="feedbackParagraph"
                 >
-                  Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                  Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
                 </div>
                 <TextArea
                   as="textarea"
@@ -1399,7 +1403,7 @@ ShallowWrapper {
                   <div
                     className="feedbackParagraph"
                   >
-                    Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                    Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
                   </div>
                   <TextArea
                     as="textarea"
@@ -1475,7 +1479,7 @@ ShallowWrapper {
                   <div
                     className="feedbackParagraph"
                   >
-                    Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                    Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
                   </div>
                   <TextArea
                     as="textarea"
@@ -1499,7 +1503,7 @@ ShallowWrapper {
                     <div
                       className="feedbackParagraph"
                     >
-                      Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!
+                      Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!
                     </div>,
                     <TextArea
                       as="textarea"
@@ -1519,11 +1523,11 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "host",
                     "props": Object {
-                      "children": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
+                      "children": "Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!",
                       "className": "feedbackParagraph",
                     },
                     "ref": null,
-                    "rendered": "Thanks for your interest! We'd love to have more people help out with the project! There is a lot we can do including technical and non-technical work. No big deal if you don't have a lot of experience! Leave your name and some way we can get in contact (Facebook, email, Fortnite voice chat, etc) and someone will reach out!",
+                    "rendered": "Thanks for your interest! We'd love to have more people help out with the project. There's a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don't have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!",
                     "type": "div",
                   },
                   Object {

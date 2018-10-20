@@ -166,6 +166,8 @@ ShallowWrapper {
                   <span
                     className="getInvolvedText"
                     onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
                   >
                     Get involved &gt;
                   </span>
@@ -274,10 +276,12 @@ ShallowWrapper {
           closeForm={[Function]}
           feedbackModalOpen={false}
           isFeedback={true}
+          isHelpOut={false}
         />,
         <FeedbackModal
           closeForm={[Function]}
           feedbackModalOpen={false}
+          isFeedback={false}
           isHelpOut={true}
         />,
         <ReactTooltip
@@ -541,6 +545,8 @@ ShallowWrapper {
                   <span
                     className="getInvolvedText"
                     onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
                   >
                     Get involved &gt;
                   </span>
@@ -657,6 +663,8 @@ ShallowWrapper {
                   <span
                     className="getInvolvedText"
                     onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
                   >
                     Get involved &gt;
                   </span>
@@ -772,6 +780,8 @@ ShallowWrapper {
                     <span
                       className="getInvolvedText"
                       onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
                     >
                       Get involved &gt;
                     </span>
@@ -1031,6 +1041,8 @@ ShallowWrapper {
                       <span
                         className="getInvolvedText"
                         onClick={[Function]}
+                        role="button"
+                        tabIndex={0}
                       >
                         Get involved &gt;
                       </span>
@@ -1074,6 +1086,8 @@ ShallowWrapper {
                       "children": <span
                         className="getInvolvedText"
                         onClick={[Function]}
+                        role="button"
+                        tabIndex={0}
                       >
                         Get involved &gt;
                       </span>,
@@ -1087,6 +1101,8 @@ ShallowWrapper {
                         "children": "Get involved >",
                         "className": "getInvolvedText",
                         "onClick": [Function],
+                        "role": "button",
+                        "tabIndex": 0,
                       },
                       "ref": null,
                       "rendered": "Get involved >",
@@ -1592,6 +1608,7 @@ ShallowWrapper {
           "closeForm": [Function],
           "feedbackModalOpen": false,
           "isFeedback": true,
+          "isHelpOut": false,
         },
         "ref": null,
         "rendered": null,
@@ -1604,6 +1621,7 @@ ShallowWrapper {
         "props": Object {
           "closeForm": [Function],
           "feedbackModalOpen": false,
+          "isFeedback": false,
           "isHelpOut": true,
         },
         "ref": null,
@@ -1783,6 +1801,8 @@ ShallowWrapper {
                     <span
                       className="getInvolvedText"
                       onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
                     >
                       Get involved &gt;
                     </span>
@@ -1891,10 +1911,12 @@ ShallowWrapper {
             closeForm={[Function]}
             feedbackModalOpen={false}
             isFeedback={true}
+            isHelpOut={false}
           />,
           <FeedbackModal
             closeForm={[Function]}
             feedbackModalOpen={false}
+            isFeedback={false}
             isHelpOut={true}
           />,
           <ReactTooltip
@@ -2158,6 +2180,8 @@ ShallowWrapper {
                     <span
                       className="getInvolvedText"
                       onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
                     >
                       Get involved &gt;
                     </span>
@@ -2274,6 +2298,8 @@ ShallowWrapper {
                     <span
                       className="getInvolvedText"
                       onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
                     >
                       Get involved &gt;
                     </span>
@@ -2389,6 +2415,8 @@ ShallowWrapper {
                       <span
                         className="getInvolvedText"
                         onClick={[Function]}
+                        role="button"
+                        tabIndex={0}
                       >
                         Get involved &gt;
                       </span>
@@ -2648,6 +2676,8 @@ ShallowWrapper {
                         <span
                           className="getInvolvedText"
                           onClick={[Function]}
+                          role="button"
+                          tabIndex={0}
                         >
                           Get involved &gt;
                         </span>
@@ -2691,6 +2721,8 @@ ShallowWrapper {
                         "children": <span
                           className="getInvolvedText"
                           onClick={[Function]}
+                          role="button"
+                          tabIndex={0}
                         >
                           Get involved &gt;
                         </span>,
@@ -2704,6 +2736,8 @@ ShallowWrapper {
                           "children": "Get involved >",
                           "className": "getInvolvedText",
                           "onClick": [Function],
+                          "role": "button",
+                          "tabIndex": 0,
                         },
                         "ref": null,
                         "rendered": "Get involved >",
@@ -3209,6 +3243,7 @@ ShallowWrapper {
             "closeForm": [Function],
             "feedbackModalOpen": false,
             "isFeedback": true,
+            "isHelpOut": false,
           },
           "ref": null,
           "rendered": null,
@@ -3221,6 +3256,7 @@ ShallowWrapper {
           "props": Object {
             "closeForm": [Function],
             "feedbackModalOpen": false,
+            "isFeedback": false,
             "isHelpOut": true,
           },
           "ref": null,
