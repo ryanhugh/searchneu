@@ -345,6 +345,17 @@
         transition-delay: 1s;
         margin-bottom: -16px;
 
+        font-weight: 200;
+        color: #a3a3a3;
+        font-size: 21px;
+
+        .getInvolvedText {
+            color: #5a5a5a;
+        }
+
+        .getInvolvedText:hover {
+            border-bottom: 1px solid #5a5a5a;
+        }
 
         p {
             margin: 0px;
@@ -353,14 +364,17 @@
         p:last-child {
             font-size: 20px;
             pointer-events: initial;
-        cursor: pointer;
+            cursor: pointer;
+            
+
         
         }
 
         p:last-child:hover {
 
             font-size: 20px;
-            text-decoration: underline;
+            // text-decoration: underline;
+
         }
     }
 }
