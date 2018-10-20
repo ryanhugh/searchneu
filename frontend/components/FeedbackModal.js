@@ -135,9 +135,9 @@ class FeedbackModal extends React.Component {
           <Input name='contact' form='feedbackForm' className='formModalInput' onChange={ this.onContactChange } />
         </span>
       );
-      header = 'Search NEU Feedback'
+      header = 'Search NEU Feedback';
     } else {
-      header = "Get Involved with Search NEU!"
+      header = 'Get Involved with Search NEU!';
       firstText = 'Thanks for your interest! We\'d love to have more people help out with the project. There\'s a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don\'t have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!';
     }
 
@@ -157,7 +157,7 @@ class FeedbackModal extends React.Component {
           }}
         </Transition>
         <Modal open={ this.props.feedbackModalOpen } onClose={ this.props.closeForm } size='small' className='feedback-modal-container'>
-          <Header icon='mail' content={header} />
+          <Header icon='mail' content={ header } />
           <Modal.Content className='formModalContent'>
             <Form>
               <div className='feedbackParagraph'>
