@@ -587,7 +587,7 @@ class Home extends React.Component {
                   Want to help build Search NEU? 
                 </p>
                 <p>
-                  <span onClick={this.openHelpModal}>
+                  <span className="getInvolvedText" onClick={this.openHelpModal}>
                   Get involved > 
                   </span>
                 </p>
