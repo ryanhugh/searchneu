@@ -164,6 +164,7 @@ ShallowWrapper {
                 </p>
                 <p>
                   <span
+                    className="getInvolvedText"
                     onClick={[Function]}
                   >
                     Get involved &gt;
@@ -538,6 +539,7 @@ ShallowWrapper {
                 </p>
                 <p>
                   <span
+                    className="getInvolvedText"
                     onClick={[Function]}
                   >
                     Get involved &gt;
@@ -653,6 +655,7 @@ ShallowWrapper {
                 </p>
                 <p>
                   <span
+                    className="getInvolvedText"
                     onClick={[Function]}
                   >
                     Get involved &gt;
@@ -767,6 +770,7 @@ ShallowWrapper {
                   </p>
                   <p>
                     <span
+                      className="getInvolvedText"
                       onClick={[Function]}
                     >
                       Get involved &gt;
@@ -1025,6 +1029,7 @@ ShallowWrapper {
                     </p>,
                     <p>
                       <span
+                        className="getInvolvedText"
                         onClick={[Function]}
                       >
                         Get involved &gt;
@@ -1067,6 +1072,7 @@ ShallowWrapper {
                     "nodeType": "host",
                     "props": Object {
                       "children": <span
+                        className="getInvolvedText"
                         onClick={[Function]}
                       >
                         Get involved &gt;
@@ -1079,6 +1085,7 @@ ShallowWrapper {
                       "nodeType": "host",
                       "props": Object {
                         "children": "Get involved >",
+                        "className": "getInvolvedText",
                         "onClick": [Function],
                       },
                       "ref": null,
@@ -1774,6 +1781,7 @@ ShallowWrapper {
                   </p>
                   <p>
                     <span
+                      className="getInvolvedText"
                       onClick={[Function]}
                     >
                       Get involved &gt;
@@ -2148,6 +2156,7 @@ ShallowWrapper {
                   </p>
                   <p>
                     <span
+                      className="getInvolvedText"
                       onClick={[Function]}
                     >
                       Get involved &gt;
@@ -2263,6 +2272,7 @@ ShallowWrapper {
                   </p>
                   <p>
                     <span
+                      className="getInvolvedText"
                       onClick={[Function]}
                     >
                       Get involved &gt;
@@ -2377,6 +2387,7 @@ ShallowWrapper {
                     </p>
                     <p>
                       <span
+                        className="getInvolvedText"
                         onClick={[Function]}
                       >
                         Get involved &gt;
@@ -2635,6 +2646,7 @@ ShallowWrapper {
                       </p>,
                       <p>
                         <span
+                          className="getInvolvedText"
                           onClick={[Function]}
                         >
                           Get involved &gt;
@@ -2677,6 +2689,7 @@ ShallowWrapper {
                       "nodeType": "host",
                       "props": Object {
                         "children": <span
+                          className="getInvolvedText"
                           onClick={[Function]}
                         >
                           Get involved &gt;
@@ -2689,6 +2702,7 @@ ShallowWrapper {
                         "nodeType": "host",
                         "props": Object {
                           "children": "Get involved >",
+                          "className": "getInvolvedText",
                           "onClick": [Function],
                         },
                         "ref": null,
