@@ -654,7 +654,7 @@ app.post('/submitFeedback', wrap(async (req, res) => {
   const response = await notifyer.sendFBNotification('1397905100304615', message);
 
   if (response.error) {
-    console.log(response.error)
+    macros.log(response.error);
     res.send(JSON.stringify({
       error: 'Error.',
     }));
