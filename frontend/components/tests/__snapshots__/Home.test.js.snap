@@ -146,6 +146,33 @@ ShallowWrapper {
                   wrapSelection={true}
                 />
               </div>
+              <div
+                className="wantToHelp"
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
+              >
+                <p
+                  className="helpFistRow"
+                >
+                  We're looking for more team members!
+                </p>
+                <p>
+                  Want to help build Search NEU?
+                </p>
+                <p>
+                  <span
+                    className="getInvolvedText"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    Get involved &gt;
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
         </div>,
@@ -498,6 +525,33 @@ ShallowWrapper {
                   wrapSelection={true}
                 />
               </div>
+              <div
+                className="wantToHelp"
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
+              >
+                <p
+                  className="helpFistRow"
+                >
+                  We're looking for more team members!
+                </p>
+                <p>
+                  Want to help build Search NEU?
+                </p>
+                <p>
+                  <span
+                    className="getInvolvedText"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    Get involved &gt;
+                  </span>
+                </p>
+              </div>
             </div>
           </div>,
         },
@@ -589,6 +643,33 @@ ShallowWrapper {
                   wrapSelection={true}
                 />
               </div>
+              <div
+                className="wantToHelp"
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
+              >
+                <p
+                  className="helpFistRow"
+                >
+                  We're looking for more team members!
+                </p>
+                <p>
+                  Want to help build Search NEU?
+                </p>
+                <p>
+                  <span
+                    className="getInvolvedText"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    Get involved &gt;
+                  </span>
+                </p>
+              </div>
             </div>,
             "className": "ui center spacing aligned icon header topHeader",
             "style": Object {},
@@ -678,6 +759,33 @@ ShallowWrapper {
                     selection={true}
                     wrapSelection={true}
                   />
+                </div>,
+                <div
+                  className="wantToHelp"
+                  style={
+                    Object {
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <p
+                    className="helpFistRow"
+                  >
+                    We're looking for more team members!
+                  </p>
+                  <p>
+                    Want to help build Search NEU?
+                  </p>
+                  <p>
+                    <span
+                      className="getInvolvedText"
+                      onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      Get involved &gt;
+                    </span>
+                  </p>
                 </div>,
                 null,
               ],
@@ -911,6 +1019,96 @@ ShallowWrapper {
                     "ref": null,
                     "rendered": null,
                     "type": [Function],
+                  },
+                ],
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <p
+                      className="helpFistRow"
+                    >
+                      We're looking for more team members!
+                    </p>,
+                    <p>
+                      Want to help build Search NEU?
+                    </p>,
+                    <p>
+                      <span
+                        className="getInvolvedText"
+                        onClick={[Function]}
+                        role="button"
+                        tabIndex={0}
+                      >
+                        Get involved &gt;
+                      </span>
+                    </p>,
+                  ],
+                  "className": "wantToHelp",
+                  "style": Object {
+                    "opacity": 1,
+                  },
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "We're looking for more team members!",
+                      "className": "helpFistRow",
+                    },
+                    "ref": null,
+                    "rendered": "We're looking for more team members!",
+                    "type": "p",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Want to help build Search NEU?",
+                    },
+                    "ref": null,
+                    "rendered": "Want to help build Search NEU?",
+                    "type": "p",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": <span
+                        className="getInvolvedText"
+                        onClick={[Function]}
+                        role="button"
+                        tabIndex={0}
+                      >
+                        Get involved &gt;
+                      </span>,
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Get involved >",
+                        "className": "getInvolvedText",
+                        "onClick": [Function],
+                        "role": "button",
+                        "tabIndex": 0,
+                      },
+                      "ref": null,
+                      "rendered": "Get involved >",
+                      "type": "span",
+                    },
+                    "type": "p",
                   },
                 ],
                 "type": "div",
@@ -1583,6 +1781,33 @@ ShallowWrapper {
                     wrapSelection={true}
                   />
                 </div>
+                <div
+                  className="wantToHelp"
+                  style={
+                    Object {
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <p
+                    className="helpFistRow"
+                  >
+                    We're looking for more team members!
+                  </p>
+                  <p>
+                    Want to help build Search NEU?
+                  </p>
+                  <p>
+                    <span
+                      className="getInvolvedText"
+                      onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      Get involved &gt;
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>
           </div>,
@@ -1935,6 +2160,33 @@ ShallowWrapper {
                     wrapSelection={true}
                   />
                 </div>
+                <div
+                  className="wantToHelp"
+                  style={
+                    Object {
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <p
+                    className="helpFistRow"
+                  >
+                    We're looking for more team members!
+                  </p>
+                  <p>
+                    Want to help build Search NEU?
+                  </p>
+                  <p>
+                    <span
+                      className="getInvolvedText"
+                      onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      Get involved &gt;
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>,
           },
@@ -2026,6 +2278,33 @@ ShallowWrapper {
                     wrapSelection={true}
                   />
                 </div>
+                <div
+                  className="wantToHelp"
+                  style={
+                    Object {
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <p
+                    className="helpFistRow"
+                  >
+                    We're looking for more team members!
+                  </p>
+                  <p>
+                    Want to help build Search NEU?
+                  </p>
+                  <p>
+                    <span
+                      className="getInvolvedText"
+                      onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      Get involved &gt;
+                    </span>
+                  </p>
+                </div>
               </div>,
               "className": "ui center spacing aligned icon header topHeader",
               "style": Object {},
@@ -2115,6 +2394,33 @@ ShallowWrapper {
                       selection={true}
                       wrapSelection={true}
                     />
+                  </div>,
+                  <div
+                    className="wantToHelp"
+                    style={
+                      Object {
+                        "opacity": 1,
+                      }
+                    }
+                  >
+                    <p
+                      className="helpFistRow"
+                    >
+                      We're looking for more team members!
+                    </p>
+                    <p>
+                      Want to help build Search NEU?
+                    </p>
+                    <p>
+                      <span
+                        className="getInvolvedText"
+                        onClick={[Function]}
+                        role="button"
+                        tabIndex={0}
+                      >
+                        Get involved &gt;
+                      </span>
+                    </p>
                   </div>,
                   null,
                 ],
@@ -2348,6 +2654,96 @@ ShallowWrapper {
                       "ref": null,
                       "rendered": null,
                       "type": [Function],
+                    },
+                  ],
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      <p
+                        className="helpFistRow"
+                      >
+                        We're looking for more team members!
+                      </p>,
+                      <p>
+                        Want to help build Search NEU?
+                      </p>,
+                      <p>
+                        <span
+                          className="getInvolvedText"
+                          onClick={[Function]}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          Get involved &gt;
+                        </span>
+                      </p>,
+                    ],
+                    "className": "wantToHelp",
+                    "style": Object {
+                      "opacity": 1,
+                    },
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "We're looking for more team members!",
+                        "className": "helpFistRow",
+                      },
+                      "ref": null,
+                      "rendered": "We're looking for more team members!",
+                      "type": "p",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Want to help build Search NEU?",
+                      },
+                      "ref": null,
+                      "rendered": "Want to help build Search NEU?",
+                      "type": "p",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": <span
+                          className="getInvolvedText"
+                          onClick={[Function]}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          Get involved &gt;
+                        </span>,
+                      },
+                      "ref": null,
+                      "rendered": Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": "Get involved >",
+                          "className": "getInvolvedText",
+                          "onClick": [Function],
+                          "role": "button",
+                          "tabIndex": 0,
+                        },
+                        "ref": null,
+                        "rendered": "Get involved >",
+                        "type": "span",
+                      },
+                      "type": "p",
                     },
                   ],
                   "type": "div",
