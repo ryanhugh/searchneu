@@ -575,7 +575,7 @@ class Home extends React.Component {
                   onChange={ this.onTermdropdownChange }
                 />
               </div>
-              {/*<div style={{ opacity: wantToHelpOpacity }} className='wantToHelp'>
+              <div style={{ opacity: wantToHelpOpacity }} className='wantToHelp'>
                 <p className='helpFistRow'>
                   We&apos;re looking for more team members!
                 </p>
@@ -587,7 +587,7 @@ class Home extends React.Component {
                   Get involved &gt;
                   </span>
                 </p>
-              </div>*/}
+              </div>
               {hitEnterToSearch}
             </div>
           </div>
