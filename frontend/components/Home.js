@@ -23,7 +23,7 @@ import boston from './boston.svg';
 // Terms that used to be scraped at one point, but are no longer scraped. 
 // These may be stored in user's localStorage from the last time they selected a term. 
 // If they are, unselected them and select the latest term. 
-const OLD_TERMS = ["201860", "201858", "201855", "201854", "201852", "201850", "201840", "201838", "201835", "201834", "201832", "201830", "201828", "201825"]
+const OLD_TERMS = ["201858", "201855", "201854", "201852", "201838", "201835", "201834", "201832", "201830", "201828", "201825"]
 
 // The lastest term
 const LATEST_TERM = '201930'
@@ -493,6 +493,10 @@ class Home extends React.Component {
 
     const termDropDownOptions = [
       {
+        text: 'Spring 2019',
+        value: '201930',
+      },
+      {
         text: 'Fall 2018',
         value: '201910',
       },
@@ -507,10 +511,6 @@ class Home extends React.Component {
       {
         text: 'Summer Full 2018',
         value: '201850',
-      },
-      {
-        text: 'Spring 2018',
-        value: '201830',
       },
     ];
 
