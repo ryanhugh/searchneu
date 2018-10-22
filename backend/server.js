@@ -28,7 +28,6 @@ import notifyer from './notifyer';
 import Updater from './updater';
 import database from './database';
 import DataLib from '../common/classModels/DataLib';
-// import psylink from './scrapers/psylink/psylink';
 
 const request = new Request('server');
 
@@ -232,8 +231,8 @@ async function loadPromises() {
   const termDumpPromise = getFrontendData('getTermDump/neu.edu/201910.json');
   const searchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201910.json');
 
-  const spring2018DataPromise = getFrontendData('getTermDump/neu.edu/201830.json');
-  const spring2018SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201830.json');
+  const spring2019DataPromise = getFrontendData('getTermDump/neu.edu/201930.json');
+  const spring2019SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201930.json');
 
   const summer1DataPromise = getFrontendData('getTermDump/neu.edu/201840.json');
   const summer1SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201840.json');
@@ -248,11 +247,14 @@ async function loadPromises() {
   const employeesSearchIndexPromise = getFrontendData('employeesSearchIndex.json');
 
   try {
+    const spring2019TermDump = await spring2019TermDumpPromise;
+    const spring2019SearchIndex = await spring2019SearchIndexPromise;
+
     const fallData = await termDumpPromise;
     const fallSearchIndex = await searchIndexPromise;
 
-    const springData = await spring2018DataPromise;
-    const springSearchIndex = await spring2018SearchIndexPromise;
+    const springData = await spring2019DataPromise;
+    const springSearchIndex = await spring2019SearchIndexPromise;
 
     const employeeMap = await employeeMapPromise;
     const employeesSearchIndex = await employeesSearchIndexPromise;
@@ -273,7 +275,7 @@ async function loadPromises() {
 
     const dataLib = DataLib.loadData({
       201910: fallData,
-      201830: springData,
+      201930: springData,
       201840: summer1Data,
       201860: summer2Data,
       201850: summerFullData,
@@ -281,7 +283,7 @@ async function loadPromises() {
 
     const searchIndexies = {
       201910: elasticlunr.Index.load(fallSearchIndex),
-      201830: elasticlunr.Index.load(springSearchIndex),
+      201930: elasticlunr.Index.load(springSearchIndex),
       201840: elasticlunr.Index.load(summer1SearchIndex),
       201860: elasticlunr.Index.load(summer2SearchIndex),
       201850: elasticlunr.Index.load(summerFullSearchIndex),
