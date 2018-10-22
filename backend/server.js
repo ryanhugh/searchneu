@@ -247,9 +247,6 @@ async function loadPromises() {
   const employeesSearchIndexPromise = getFrontendData('employeesSearchIndex.json');
 
   try {
-    const spring2019TermDump = await spring2019TermDumpPromise;
-    const spring2019SearchIndex = await spring2019SearchIndexPromise;
-
     const fallData = await termDumpPromise;
     const fallSearchIndex = await searchIndexPromise;
 
