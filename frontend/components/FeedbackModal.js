@@ -138,7 +138,7 @@ class FeedbackModal extends React.Component {
       header = 'Search NEU Feedback';
     } else {
       header = 'Get Involved with Search NEU!';
-      firstText = 'Thanks for your interest! We\'d love to have more people help out with the project. There\'s a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don\'t have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook, email, Fortnite username, etc) and someone will reach out!';
+      firstText = 'Thanks for your interest! We\'d love to have more people help out with the project. We are looking for people for both introductory level roles and leadership roles. There\'s a lot of CS stuff (new features, etc) and non-CS stuff (posters, marketing, outreach, etc) that we could work on, so it is no problem at all if you don\'t have a lot of experience in CS! Everything is flexible, and we could help you learn some programming along the way if you want to work on the site 🙂. Leave your name and some way we can get in contact (Facebook URL, email, Fortnite username, etc) and someone will reach out!';
     }
 
     return (
