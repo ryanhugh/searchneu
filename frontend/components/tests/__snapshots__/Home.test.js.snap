@@ -151,6 +151,7 @@ ShallowWrapper {
                 style={
                   Object {
                     "opacity": 1,
+                    "visibility": "",
                   }
                 }
               >
@@ -164,7 +165,7 @@ ShallowWrapper {
                 </p>
                 <p>
                   <span
-                    className="getInvolvedText"
+                    className="getInvolvedText "
                     onClick={[Function]}
                     role="button"
                     tabIndex={0}
@@ -530,6 +531,7 @@ ShallowWrapper {
                 style={
                   Object {
                     "opacity": 1,
+                    "visibility": "",
                   }
                 }
               >
@@ -543,7 +545,7 @@ ShallowWrapper {
                 </p>
                 <p>
                   <span
-                    className="getInvolvedText"
+                    className="getInvolvedText "
                     onClick={[Function]}
                     role="button"
                     tabIndex={0}
@@ -648,6 +650,7 @@ ShallowWrapper {
                 style={
                   Object {
                     "opacity": 1,
+                    "visibility": "",
                   }
                 }
               >
@@ -661,7 +664,7 @@ ShallowWrapper {
                 </p>
                 <p>
                   <span
-                    className="getInvolvedText"
+                    className="getInvolvedText "
                     onClick={[Function]}
                     role="button"
                     tabIndex={0}
@@ -765,6 +768,7 @@ ShallowWrapper {
                   style={
                     Object {
                       "opacity": 1,
+                      "visibility": "",
                     }
                   }
                 >
@@ -778,7 +782,7 @@ ShallowWrapper {
                   </p>
                   <p>
                     <span
-                      className="getInvolvedText"
+                      className="getInvolvedText "
                       onClick={[Function]}
                       role="button"
                       tabIndex={0}
@@ -1039,7 +1043,7 @@ ShallowWrapper {
                     </p>,
                     <p>
                       <span
-                        className="getInvolvedText"
+                        className="getInvolvedText "
                         onClick={[Function]}
                         role="button"
                         tabIndex={0}
@@ -1051,6 +1055,7 @@ ShallowWrapper {
                   "className": "wantToHelp",
                   "style": Object {
                     "opacity": 1,
+                    "visibility": "",
                   },
                 },
                 "ref": null,
@@ -1084,7 +1089,7 @@ ShallowWrapper {
                     "nodeType": "host",
                     "props": Object {
                       "children": <span
-                        className="getInvolvedText"
+                        className="getInvolvedText "
                         onClick={[Function]}
                         role="button"
                         tabIndex={0}
@@ -1099,7 +1104,7 @@ ShallowWrapper {
                       "nodeType": "host",
                       "props": Object {
                         "children": "Get involved >",
-                        "className": "getInvolvedText",
+                        "className": "getInvolvedText ",
                         "onClick": [Function],
                         "role": "button",
                         "tabIndex": 0,
@@ -1786,6 +1791,7 @@ ShallowWrapper {
                   style={
                     Object {
                       "opacity": 1,
+                      "visibility": "",
                     }
                   }
                 >
@@ -1799,7 +1805,7 @@ ShallowWrapper {
                   </p>
                   <p>
                     <span
-                      className="getInvolvedText"
+                      className="getInvolvedText "
                       onClick={[Function]}
                       role="button"
                       tabIndex={0}
@@ -2165,6 +2171,7 @@ ShallowWrapper {
                   style={
                     Object {
                       "opacity": 1,
+                      "visibility": "",
                     }
                   }
                 >
@@ -2178,7 +2185,7 @@ ShallowWrapper {
                   </p>
                   <p>
                     <span
-                      className="getInvolvedText"
+                      className="getInvolvedText "
                       onClick={[Function]}
                       role="button"
                       tabIndex={0}
@@ -2283,6 +2290,7 @@ ShallowWrapper {
                   style={
                     Object {
                       "opacity": 1,
+                      "visibility": "",
                     }
                   }
                 >
@@ -2296,7 +2304,7 @@ ShallowWrapper {
                   </p>
                   <p>
                     <span
-                      className="getInvolvedText"
+                      className="getInvolvedText "
                       onClick={[Function]}
                       role="button"
                       tabIndex={0}
@@ -2400,6 +2408,7 @@ ShallowWrapper {
                     style={
                       Object {
                         "opacity": 1,
+                        "visibility": "",
                       }
                     }
                   >
@@ -2413,7 +2422,7 @@ ShallowWrapper {
                     </p>
                     <p>
                       <span
-                        className="getInvolvedText"
+                        className="getInvolvedText "
                         onClick={[Function]}
                         role="button"
                         tabIndex={0}
@@ -2674,7 +2683,7 @@ ShallowWrapper {
                       </p>,
                       <p>
                         <span
-                          className="getInvolvedText"
+                          className="getInvolvedText "
                           onClick={[Function]}
                           role="button"
                           tabIndex={0}
@@ -2686,6 +2695,7 @@ ShallowWrapper {
                     "className": "wantToHelp",
                     "style": Object {
                       "opacity": 1,
+                      "visibility": "",
                     },
                   },
                   "ref": null,
@@ -2719,7 +2729,7 @@ ShallowWrapper {
                       "nodeType": "host",
                       "props": Object {
                         "children": <span
-                          className="getInvolvedText"
+                          className="getInvolvedText "
                           onClick={[Function]}
                           role="button"
                           tabIndex={0}
@@ -2734,7 +2744,7 @@ ShallowWrapper {
                         "nodeType": "host",
                         "props": Object {
                           "children": "Get involved >",
-                          "className": "getInvolvedText",
+                          "className": "getInvolvedText ",
                           "onClick": [Function],
                           "role": "button",
                           "tabIndex": 0,

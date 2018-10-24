@@ -351,20 +351,27 @@
 
         .getInvolvedText {
             color: #5a5a5a;
+            cursor: pointer;
         }
 
         .getInvolvedText:hover {
             border-bottom: 1px solid #717171;
         }
 
+        .getInvolvedTextHidden {
+            cursor: initial;
+            pointer-events: none;
+        }
+
+
         p {
             margin: 0px;
+            pointer-events: initial;
         }
 
         p:last-child {
             font-size: 20px;
-            pointer-events: initial;
-            cursor: pointer;
+            
             
 
         
