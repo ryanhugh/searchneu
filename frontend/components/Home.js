@@ -467,6 +467,7 @@ class Home extends React.Component {
     const bostonContainerStyle = {};
     const topHeaderStyle = {};
     const resultsContainerStyle = {};
+    let hiddenHelpButton = '';
 
     // Don't animate anything on mobile.
     // and set the second state of the animations if there is something in the text box.
@@ -476,6 +477,7 @@ class Home extends React.Component {
       resultsContainerStyle.transform = `translateY(-${window.innerHeight - 305}px)`;
       bostonContainerStyle.opacity = 0;
       wantToHelpOpacity = 0;
+      hiddenHelpButton = 'getInvolvedTextHidden';
     }
 
     // On mobile only show the logo and the github corner if there are no results and the search box is not focused (the virtual keyboard is not on the screen).
@@ -513,6 +515,7 @@ class Home extends React.Component {
         value: '201850',
       },
     ];
+
 
     // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation.
     // Actually it only removes the extra whitespace on chrome. Need to come up with a better solution for other browsers.
@@ -583,7 +586,7 @@ class Home extends React.Component {
                   onChange={ this.onTermdropdownChange }
                 />
               </div>
-              <div style={{ opacity: wantToHelpOpacity }} className='wantToHelp'>
+              <div style={{ opacity: wantToHelpOpacity, visibility:(wantToHelpOpacity === 0) ? 'hidden' : '' }} className='wantToHelp'>
                 <p className='helpFistRow'>
                   We&apos;re looking for more team members!
                 </p>
@@ -591,7 +594,7 @@ class Home extends React.Component {
                   Want to help build Search NEU?
                 </p>
                 <p>
-                  <span role='button' tabIndex={ 0 } className='getInvolvedText' onClick={ this.openHelpModal }>
+                  <span role='button' tabIndex={ 0 } className={ `getInvolvedText ${hiddenHelpButton}` } onClick={ this.openHelpModal }>
                   Get involved &gt;
                   </span>
                 </p>
