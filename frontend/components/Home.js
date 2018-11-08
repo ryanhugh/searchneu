@@ -16,6 +16,7 @@ import SplashPage from './SplashPage/SplashPage';
 import search from './search';
 import FeedbackModal from './FeedbackModal';
 import macros from './macros';
+import request from './request';
 import ResultsLoader from './ResultsLoader';
 import logo from './logo.svg';
 import boston from './boston.svg';
@@ -407,6 +408,12 @@ class Home extends React.Component {
   submitEmail() {
 
     console.log('submitting email', this.state.userEmail)
+
+    request.post({
+      url:'/subscribeEmail', 
+      body: {
+        email: this.state.userEmail
+      }})
 
   }
 

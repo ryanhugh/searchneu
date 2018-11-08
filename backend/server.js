@@ -601,10 +601,42 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
   // Don't cache this endpoint.
   res.setHeader('Cache-Control', 'no-cache, no-store');
 
+  if (!req.body || !req.body.email) {
+    console.log('invalid email ingored:', req.body);
+    res.send('nope');
+    return 'no email found'
+  }
 
-  
+  if (macros.occurrences(req.body.email, '@', true) > 1) {
+    console.log('invalid email ingored:', req.body);
+    res.send('nope');
+    return 'invalid no email found';
+  }
 
 
+
+  const mailChimpKey = await macros.getEnvVariable('mailChimpKey');
+  console.log(mailChimpKey)
+
+
+  let body = {
+    "email_address": req.body.email,
+    "status": "subscribed"
+  }
+
+  // The first part of the url comes from the API key.
+  let response = await request.post({
+    url: 'https://us16.api.mailchimp.com/3.0/lists/31a64acc18/members/', 
+    // url: 'http://localhost:7898/3.0/lists/31a64acc18/members/', 
+    headers: {
+      'Authorization': 'Basic: ' + mailChimpKey
+    },
+    body: JSON.stringify(body)
+  })
+
+  console.log(response.body)
+
+  res.sendStatus(200);
 }))
 
 // Rate-limit submissions on a per-IP basis
