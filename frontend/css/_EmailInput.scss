@@ -11,8 +11,18 @@
     // border-left: 0;
     // /* background: white; */
 
+    font-weight: 200;
+    color: #a3a3a3;
+    font-size: 21px;
+    padding-top: 15px;
+
+    .emailTopString {
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
+
     .enterEmail {
-        padding-top: 15px;
+        // padding-top: 15px;
         padding-bottom: 10px;
         color: gray;
         width: 350px;
