@@ -6,7 +6,7 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import cx from 'classnames/bind';
-import { Dropdown } from 'semantic-ui-react';
+import { Dropdown, Input } from 'semantic-ui-react';
 
 import 'semantic-ui-css/semantic.min.css';
 import '../css/base.scss';
@@ -27,6 +27,8 @@ const OLD_TERMS = ['201858', '201855', '201854', '201852', '201838', '201835', '
 
 // The lastest term
 const LATEST_TERM = '201930';
+
+const SHOW_SUBMIT_EMAIL = Math.random() > .3;
 
 // Home page component
 class Home extends React.Component {
@@ -60,6 +62,9 @@ class Home extends React.Component {
 
     this.state = {
       results: [],
+
+      // Value of the email text box when people are entering their email
+      userEmail: '',
 
       // Value to set the search box to after the search box is rendered.
       // If the user navigates to a page, search for the query.
@@ -117,6 +122,8 @@ class Home extends React.Component {
     this.closeForm = this.closeForm.bind(this);
     this.closeHelpModal = this.closeHelpModal.bind(this);
     this.openHelpModal = this.openHelpModal.bind(this);
+    this.onEmailChange = this.onEmailChange.bind(this);
+    this.submitEmail = this.submitEmail.bind(this);
 
     // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
@@ -397,6 +404,23 @@ class Home extends React.Component {
     }
   }
 
+  submitEmail() {
+
+    console.log('submitting email', this.state.userEmail)
+
+  }
+
+  onEmailChange(data) {
+    if (data.key == 'Enter') {
+      this.submitEmail();
+    } 
+    else {
+      this.setState({
+        userEmail: data.target.value
+      })
+    }
+  }
+
   render() {
     let resultsElement = null;
 
@@ -517,6 +541,44 @@ class Home extends React.Component {
     ];
 
 
+    let attentionSection;
+    let actionCenterStyle = { opacity: wantToHelpOpacity, visibility:(wantToHelpOpacity === 0) ? 'hidden' : '' }
+
+    if (!SHOW_SUBMIT_EMAIL && 0) {
+      attentionSection  = 
+          (
+          <div style={actionCenterStyle} className='wantToHelp'>
+            <p className='helpFistRow'>
+              We&apos;re looking for more team members!
+            </p>
+            <p>
+              Want to help build Search NEU?
+            </p>
+            <p>
+              <span role='button' tabIndex={ 0 } className={ `getInvolvedText ${hiddenHelpButton}` } onClick={ this.openHelpModal }>
+              Get involved &gt;
+              </span>
+            </p>
+          </div>
+        )
+    }
+    else {
+
+      let submitButton = (<button className="ui button" onClick={this.submitEmail} role="button">Submit</button>)
+
+      attentionSection = 
+      (
+        <div style={actionCenterStyle} className='wantToHelp'>
+         <p className='helpFistRow emailTopString'>
+            Want to get updates when new features are released?
+          </p>
+
+          <Input onKeyDown={this.onEmailChange} type="email" name="email" className="enterEmail" size="mini" action={submitButton} placeholder='Enter your email...' />
+        </div>
+      )
+    }
+
+
     // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation.
     // Actually it only removes the extra whitespace on chrome. Need to come up with a better solution for other browsers.
     return (
@@ -586,19 +648,8 @@ class Home extends React.Component {
                   onChange={ this.onTermdropdownChange }
                 />
               </div>
-              <div style={{ opacity: wantToHelpOpacity, visibility:(wantToHelpOpacity === 0) ? 'hidden' : '' }} className='wantToHelp'>
-                <p className='helpFistRow'>
-                  We&apos;re looking for more team members!
-                </p>
-                <p>
-                  Want to help build Search NEU?
-                </p>
-                <p>
-                  <span role='button' tabIndex={ 0 } className={ `getInvolvedText ${hiddenHelpButton}` } onClick={ this.openHelpModal }>
-                  Get involved &gt;
-                  </span>
-                </p>
-              </div>
+              {attentionSection}
+              
               {hitEnterToSearch}
             </div>
           </div>
