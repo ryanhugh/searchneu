@@ -617,7 +617,7 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
     return;
   }
 
-
+  macros.logAmplitudeEvent('Backend Email Submit', { email: req.body.email });
   macros.log(req.body.email, 'subscribing');
 
 

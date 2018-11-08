@@ -29,7 +29,12 @@ const OLD_TERMS = ['201858', '201855', '201854', '201852', '201838', '201835', '
 // The lastest term
 const LATEST_TERM = '201930';
 
-const SHOW_SUBMIT_EMAIL = Math.random() > 0.3;
+let SHOW_SUBMIT_EMAIL = Math.random() > 0.3;
+
+if (macros.TESTS) {
+  SHOW_SUBMIT_EMAIL = true;
+}
+
 
 // Home page component
 class Home extends React.Component {
@@ -523,7 +528,7 @@ class Home extends React.Component {
     let attentionSection;
     const actionCenterStyle = { opacity: wantToHelpOpacity, visibility:(wantToHelpOpacity === 0) ? 'hidden' : '' };
 
-    if (!SHOW_SUBMIT_EMAIL && 0) {
+    if (!SHOW_SUBMIT_EMAIL) {
       attentionSection = (
         <div style={ actionCenterStyle } className='atentionContainer'>
           <p className='helpFistRow'>
