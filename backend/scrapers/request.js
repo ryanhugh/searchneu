@@ -88,7 +88,7 @@ dnsCache({
 });
 
 
-const MAX_RETRY_COUNT = 35;
+const MAX_RETRY_COUNT = 1;
 
 // These numbers are in ms.
 const RETRY_DELAY = 100;
