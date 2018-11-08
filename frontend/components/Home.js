@@ -16,8 +16,8 @@ import SplashPage from './SplashPage/SplashPage';
 import search from './search';
 import FeedbackModal from './FeedbackModal';
 import macros from './macros';
-import request from './request';
 import ResultsLoader from './ResultsLoader';
+import EmailInput from './EmailInput';
 import logo from './logo.svg';
 import boston from './boston.svg';
 
@@ -63,9 +63,6 @@ class Home extends React.Component {
 
     this.state = {
       results: [],
-
-      // Value of the email text box when people are entering their email
-      userEmail: '',
 
       // Value to set the search box to after the search box is rendered.
       // If the user navigates to a page, search for the query.
@@ -123,8 +120,6 @@ class Home extends React.Component {
     this.closeForm = this.closeForm.bind(this);
     this.closeHelpModal = this.closeHelpModal.bind(this);
     this.openHelpModal = this.openHelpModal.bind(this);
-    this.onEmailChange = this.onEmailChange.bind(this);
-    this.onEmailSubmitButton = this.onEmailSubmitButton.bind(this);
 
     // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
@@ -405,39 +400,6 @@ class Home extends React.Component {
     }
   }
 
-  submitEmail(email) {
-
-    if (macros.occurrences(email, '@', true) != 1) {
-      macros.log('not submitting invalid email');
-
-    }
-
-    console.log('submitting email', email)
-
-
-    request.post({
-      url:'/subscribeEmail', 
-      body: {
-        email: email
-      }})
-  }
-
-  onEmailSubmitButton() {
-    this.submitEmail(this.state.userEmail);
-  }
-
-  onEmailChange(event) {
-    if (event.key == 'Enter') {
-      this.submitEmail(event.target.value);
-    } 
-    else {
-      console.log('updatinging email', event.target.value)
-      this.setState({
-        userEmail: event.target.value
-      })
-    }
-  }
-
   render() {
     let resultsElement = null;
 
@@ -580,19 +542,7 @@ class Home extends React.Component {
         )
     }
     else {
-
-      let submitButton = (<button className="ui button" onClick={this.onEmailSubmitButton} role="button">Submit</button>)
-
-      attentionSection = 
-      (
-        <div style={actionCenterStyle} className='wantToHelp'>
-         <p className='helpFistRow emailTopString'>
-            Want to get updates when new features are released?
-          </p>
-
-          <Input onKeyDown={this.onEmailChange} type="email" name="email" className="enterEmail" size="mini" action={submitButton} placeholder='Enter your email...' />
-        </div>
-      )
+      attentionSection = (<EmailInput containerStyle={actionCenterStyle}/>)
     }
 
 
