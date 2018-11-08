@@ -26,17 +26,19 @@ class EmaillInput extends React.Component {
 
     this.state = {
 
-      // Value of the email text box when people are entering their email
-      userEmail: '',
-
       // Value of the status string below the text box submittion
       statusString: '',
 
       emailSubmitStatus: SUBMIT_STATUS.HIDDEN
     }
 
-    this.inputRef = React.createRef();
 
+    // We have to use a ref because when browsers
+    // autofill the input, they don't populate the value of <input>.value until the user takes another action on the page
+    // which is super weird, but whatever
+    // so we have to grab the <input>.value the next time the user makes an action
+    // https://github.com/facebook/react/issues/1159
+    this.inputRef = React.createRef();
 
     this.onEmailChange = this.onEmailChange.bind(this);
     this.onEmailSubmitButton = this.onEmailSubmitButton.bind(this);
@@ -76,6 +78,9 @@ class EmaillInput extends React.Component {
         emailSubmitStatus: SUBMIT_STATUS.SUCCESS
       })
 
+      // Clear the input
+      this.inputRef.current.inputRef.value = '';
+
       // Hide the message after 2 seconds
       setTimeout(() => {
         this.setState({
@@ -94,15 +99,12 @@ class EmaillInput extends React.Component {
 
   onEmailChange(event) {
     let email = this.inputRef.current.inputRef.values
-    
+
     if (event.key == 'Enter') {
       this.submitEmail(email);
     } 
     else {
       console.log('updatinging email', event.target.value)
-      // this.setState({
-      //   userEmail: event.target.value
-      // })
     }
   }
 
@@ -124,12 +126,12 @@ class EmaillInput extends React.Component {
     }
 
     return (
-      <div style={this.props.actionCenterStyle} className='enterEmailContainer atentionContainer'>
+      <div style={this.props.containerStyle} className='enterEmailContainer atentionContainer'>
        <p className='helpFistRow emailTopString'>
           Want to get updates when new features are released?
         </p>
 
-        <Input ref={this.inputRef} onKeyDown={this.onEmailChange} type="email" name="email" className="enterEmail" size="mini" action={submitButton} placeholder='Enter your email...' />
+        <Input ref={this.inputRef} onKeyDown={this.onEmailChange} type="email" name="email" className="enterEmail" size="mini" action={submitButton} placeholder='Enter your email' />
         <div className="statusContainer">
           <p className={statusClassName}>
             {string}
