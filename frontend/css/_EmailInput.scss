@@ -23,7 +23,7 @@
 
     .enterEmail {
         // padding-top: 15px;
-        padding-bottom: 10px;
+        padding-bottom: 5px;
         color: gray;
         width: 350px;
 
@@ -41,4 +41,36 @@
             border-left: 0;
         }
     }
+
+
+    .statusContainer {
+        width: 350px;
+        // margin-left:
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .emailStatus {
+        // visibility: hidden;
+        opacity: 0;
+        transition: opacity .5s ease-in-out;
+        text-align: left;
+        font-size: 15px !important;
+        min-height: 25px;
+        color: green;
+    }
+
+    .emailStatus.success {
+        opacity: 1;
+        // visibility: visible;
+        color: green;
+    }
+
+    .emailStatus.error {
+        opacity: 1;
+        // visibility: hidden;
+        color: #ae4543;
+    }
+    
+    
 }

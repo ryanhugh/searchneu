@@ -11,6 +11,13 @@ import { Dropdown, Input } from 'semantic-ui-react';
 import macros from './macros';
 import request from './request';
 
+const SUBMIT_STATUS = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+  HIDDEN: 'hidden'
+}
+
+
 
 // Home page component
 class EmaillInput extends React.Component {
@@ -22,19 +29,21 @@ class EmaillInput extends React.Component {
       // Value of the email text box when people are entering their email
       userEmail: '',
 
+      // Value of the status string below the text box submittion
+      statusString: '',
 
-
+      emailSubmitStatus: SUBMIT_STATUS.HIDDEN
     }
+
+    this.inputRef = React.createRef();
 
 
     this.onEmailChange = this.onEmailChange.bind(this);
     this.onEmailSubmitButton = this.onEmailSubmitButton.bind(this);
-
-
 	}
 
 
-  submitEmail(email) {
+  async submitEmail(email) {
 
     if (macros.occurrences(email, '@', true) != 1) {
       macros.log('not submitting invalid email');
@@ -44,26 +53,56 @@ class EmaillInput extends React.Component {
     console.log('submitting email', email)
 
 
-    request.post({
-      url:'/subscribeEmail', 
-      body: {
-        email: email
+    let response;
+    try {
+      response = await request.post({
+        url:'/subscribeEmail', 
+        body: {
+          email: email
       }})
+    }
+    catch (e) {
+      response = {error:true}
+    }
+
+    if (response.error) {
+
+      this.setState({
+        emailSubmitStatus: SUBMIT_STATUS.ERROR
+      })
+    }
+    else {
+      this.setState({
+        emailSubmitStatus: SUBMIT_STATUS.SUCCESS
+      })
+
+      // Hide the message after 2 seconds
+      setTimeout(() => {
+        this.setState({
+          emailSubmitStatus: SUBMIT_STATUS.HIDDEN
+        });
+      }, 2000);
+    }
   }
 
   onEmailSubmitButton() {
-    this.submitEmail(this.state.userEmail);
+
+    let email = this.inputRef.current.inputRef.value
+
+    this.submitEmail(email);
   }
 
   onEmailChange(event) {
+    let email = this.inputRef.current.inputRef.values
+    
     if (event.key == 'Enter') {
-      this.submitEmail(event.target.value);
+      this.submitEmail(email);
     } 
     else {
       console.log('updatinging email', event.target.value)
-      this.setState({
-        userEmail: event.target.value
-      })
+      // this.setState({
+      //   userEmail: event.target.value
+      // })
     }
   }
 
@@ -73,16 +112,29 @@ class EmaillInput extends React.Component {
 	render() {
     let submitButton = (<button className="ui button" onClick={this.onEmailSubmitButton} role="button">Submit</button>)
 
+    let string = 'Successfully Submitted';
+    let statusClassName = 'emailStatus '; 
+    if (this.state.emailSubmitStatus === SUBMIT_STATUS.SUCCESS) {
+      string = "Successfully Submitted";
+      statusClassName += 'success'
+    }
+    else if (this.state.emailSubmitStatus === SUBMIT_STATUS.ERROR) {
+      string = 'Error submitting email.';
+      statusClassName += 'error'
+    }
+
     return (
       <div style={this.props.actionCenterStyle} className='enterEmailContainer atentionContainer'>
        <p className='helpFistRow emailTopString'>
           Want to get updates when new features are released?
         </p>
 
-        <Input onKeyDown={this.onEmailChange} type="email" name="email" className="enterEmail" size="mini" action={submitButton} placeholder='Enter your email...' />
-        <p>
-
-        </p>
+        <Input ref={this.inputRef} onKeyDown={this.onEmailChange} type="email" name="email" className="enterEmail" size="mini" action={submitButton} placeholder='Enter your email...' />
+        <div className="statusContainer">
+          <p className={statusClassName}>
+            {string}
+          </p>
+        </div>
       </div>
     )
 

@@ -603,19 +603,23 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
 
   if (!req.body || !req.body.email) {
     console.log('invalid email ingored:', req.body);
-    res.send('nope');
+    res.send(JSON.stringify({
+      error: 'nope.',
+    }));
     return 'no email found'
   }
 
   if (macros.occurrences(req.body.email, '@', true) != 1) {
     console.log('invalid email ingored:', req.body);
-    res.send('nope');
+    res.send(JSON.stringify({
+      error: 'nope.',
+    }));
     return 'invalid no email found';
   }
 
 
 
-  const mailChimpKey = await macros.getEnvVariable('mailChimpKey');
+  
   console.log(req.body.email, 'subscribing')
 
 
@@ -624,19 +628,39 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
     "status": "subscribed"
   }
 
-  // The first part of the url comes from the API key.
-  let response = await request.post({
-    url: 'https://us16.api.mailchimp.com/3.0/lists/31a64acc18/members/', 
-    // url: 'http://localhost:7898/3.0/lists/31a64acc18/members/', 
-    headers: {
-      'Authorization': 'Basic: ' + mailChimpKey
-    },
-    body: JSON.stringify(body)
-  })
+  const mailChimpKey = await macros.getEnvVariable('mailChimpKey');
 
-  console.log(response.body)
+  if (mailChimpKey) {
 
-  res.sendStatus(200);
+    if (macros.PROD) {
+      macros.log("Submitting email", req.body.email, 'to mail chimp.');
+
+      // The first part of the url comes from the API key.
+      let response = await request.post({
+        url: 'https://us16.api.mailchimp.com/3.0/lists/31a64acc18/members/', 
+        headers: {
+          'Authorization': 'Basic: ' + mailChimpKey
+        },
+        body: JSON.stringify(body)
+      })
+
+      console.log(response.body)
+    }
+    else {
+      macros.log("Not submitting ", req.body.email, 'to mailchimp because not in PROD');
+    }
+
+  }
+  else {
+    macros.log("Not submitting to mailchip, don't have mailchimp key.")
+  }
+
+  
+  
+
+  res.send(JSON.stringify({
+      status: 'success',
+    }));
 }))
 
 // Rate-limit submissions on a per-IP basis
