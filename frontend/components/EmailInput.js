@@ -19,6 +19,10 @@ const SUBMIT_STATUS = {
 
 // Home page component
 class EmaillInput extends React.Component {
+  static propTypes = {
+    containerStyle: PropTypes.object.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
@@ -38,10 +42,21 @@ class EmaillInput extends React.Component {
     this.onEmailSubmitButton = this.onEmailSubmitButton.bind(this);
   }
 
-  static propTypes = {
-    containerStyle: PropTypes.object.isRequired,
-  };
+  onEmailSubmitButton() {
+    const email = this.inputRef.current.inputRef.value;
 
+    this.submitEmail(email);
+  }
+
+  onEmailChange(event) {
+    const email = this.inputRef.current.inputRef.values;
+
+    if (event.key === 'Enter') {
+      this.submitEmail(email);
+    } else {
+      macros.log('updatinging email', event.target.value);
+    }
+  }
 
   async submitEmail(email) {
     if (macros.occurrences(email, '@', true) !== 1) {
@@ -81,22 +96,6 @@ class EmaillInput extends React.Component {
           emailSubmitStatus: SUBMIT_STATUS.HIDDEN,
         });
       }, 2000);
-    }
-  }
-
-  onEmailSubmitButton() {
-    const email = this.inputRef.current.inputRef.value;
-
-    this.submitEmail(email);
-  }
-
-  onEmailChange(event) {
-    const email = this.inputRef.current.inputRef.values;
-
-    if (event.key === 'Enter') {
-      this.submitEmail(email);
-    } else {
-      macros.log('updatinging email', event.target.value);
     }
   }
 

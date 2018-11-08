@@ -1,28 +1,10 @@
 .enterEmailContainer {
 
-    // font-weight: 500;
-        // color: grey;
-
-    //         color: grey;
-    // font-weight: 500;
-    // background: rgba(224, 225, 226, .5);
-    // font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
-    // border: 1px solid rgba(34,36,38,0.1);
-    // border-left: 0;
-    // /* background: white; */
-
-    // font-weight: 200;
-    // color: #a3a3a3;
-    // font-size: 21px;
-    // padding-top: 15px;
-
     .emailTopString {
         margin-bottom: 20px !important;
-        // margin-top: 64px;
     }
 
     .enterEmail {
-        // padding-top: 15px;
         padding-bottom: 5px;
         color: gray;
         width: 350px;
@@ -45,15 +27,13 @@
 
     .statusContainer {
         width: 350px;
-        // margin-left:
         margin-left: auto;
         margin-right: auto;
     }
 
     .emailStatus {
-        // visibility: hidden;
         opacity: 0;
-        transition: opacity .5s ease-in-out;
+        transition: opacity .75s ease-in-out;
         text-align: left;
         font-size: 15px !important;
         min-height: 25px;
@@ -62,15 +42,11 @@
 
     .emailStatus.success {
         opacity: 1;
-        // visibility: visible;
         color: green;
     }
 
     .emailStatus.error {
         opacity: 1;
-        // visibility: hidden;
         color: #ae4543;
     }
-    
-    
 }
