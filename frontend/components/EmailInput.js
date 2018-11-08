@@ -74,7 +74,7 @@ class EmaillInput extends React.Component {
     let submitButton = (<button className="ui button" onClick={this.onEmailSubmitButton} role="button">Submit</button>)
 
     return (
-      <div style={this.props.actionCenterStyle} className='enterEmailContainer'>
+      <div style={this.props.actionCenterStyle} className='enterEmailContainer atentionContainer'>
        <p className='helpFistRow emailTopString'>
           Want to get updates when new features are released?
         </p>

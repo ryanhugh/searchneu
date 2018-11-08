@@ -526,7 +526,7 @@ class Home extends React.Component {
     if (!SHOW_SUBMIT_EMAIL && 0) {
       attentionSection  = 
           (
-          <div style={actionCenterStyle} className='wantToHelp'>
+          <div style={actionCenterStyle} className='atentionContainer'>
             <p className='helpFistRow'>
               We&apos;re looking for more team members!
             </p>
