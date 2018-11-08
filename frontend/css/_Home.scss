@@ -8,39 +8,6 @@
 .home-container {
     height: 100%;
 
-
-    // font-weight: 500;
-        // color: grey;
-
-    //         color: grey;
-    // font-weight: 500;
-    // background: rgba(224, 225, 226, .5);
-    // font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
-    // border: 1px solid rgba(34,36,38,0.1);
-    // border-left: 0;
-    // /* background: white; */
-
-    .enterEmail {
-        padding-top: 15px;
-        padding-bottom: 10px;
-        color: gray;
-        width: 350px;
-
-        input {
-            pointer-events: initial;
-        }
-
-        button {
-            pointer-events: initial;
-            color: grey;
-            font-weight: 500;
-            background: rgba(224, 225, 226, .5);
-            font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
-            border: 1px solid rgba(34,36,38,0.1);
-            border-left: 0;
-        }
-    }
-
     .displayNone {
         display: none;
     }
