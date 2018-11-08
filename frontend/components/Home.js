@@ -124,7 +124,7 @@ class Home extends React.Component {
     this.closeHelpModal = this.closeHelpModal.bind(this);
     this.openHelpModal = this.openHelpModal.bind(this);
     this.onEmailChange = this.onEmailChange.bind(this);
-    this.submitEmail = this.submitEmail.bind(this);
+    this.onEmailSubmitButton = this.onEmailSubmitButton.bind(this);
 
     // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
@@ -405,25 +405,35 @@ class Home extends React.Component {
     }
   }
 
-  submitEmail() {
+  submitEmail(email) {
 
-    console.log('submitting email', this.state.userEmail)
+    if (macros.occurrences(email, '@', true) != 1) {
+      macros.log('not submitting invalid email');
+
+    }
+
+    console.log('submitting email', email)
+
 
     request.post({
       url:'/subscribeEmail', 
       body: {
-        email: this.state.userEmail
+        email: email
       }})
-
   }
 
-  onEmailChange(data) {
-    if (data.key == 'Enter') {
-      this.submitEmail();
+  onEmailSubmitButton() {
+    this.submitEmail(this.state.userEmail);
+  }
+
+  onEmailChange(event) {
+    if (event.key == 'Enter') {
+      this.submitEmail(event.target.value);
     } 
     else {
+      console.log('updatinging email', event.target.value)
       this.setState({
-        userEmail: data.target.value
+        userEmail: event.target.value
       })
     }
   }
@@ -571,7 +581,7 @@ class Home extends React.Component {
     }
     else {
 
-      let submitButton = (<button className="ui button" onClick={this.submitEmail} role="button">Submit</button>)
+      let submitButton = (<button className="ui button" onClick={this.onEmailSubmitButton} role="button">Submit</button>)
 
       attentionSection = 
       (

@@ -607,7 +607,7 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
     return 'no email found'
   }
 
-  if (macros.occurrences(req.body.email, '@', true) > 1) {
+  if (macros.occurrences(req.body.email, '@', true) != 1) {
     console.log('invalid email ingored:', req.body);
     res.send('nope');
     return 'invalid no email found';
@@ -616,7 +616,7 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
 
 
   const mailChimpKey = await macros.getEnvVariable('mailChimpKey');
-  console.log(mailChimpKey)
+  console.log(req.body.email, 'subscribing')
 
 
   let body = {
