@@ -620,6 +620,11 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
   macros.logAmplitudeEvent('Backend Email Submit', { email: req.body.email });
   macros.log(req.body.email, 'subscribing');
 
+  // Regardless of what happens from here out, we want to tell the user this was successful.
+  // So tell them now to prevent some delay.
+  res.send(JSON.stringify({
+    status: 'success',
+  }));
 
   const body = {
     email_address: req.body.email,
@@ -647,9 +652,6 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
         macros.log('Failed to submit email', req.body.email);
 
         // Don't tell the frontend this email has already been submitted.
-        res.send(JSON.stringify({
-          status: 'success',
-        }));
         return;
       }
 
@@ -660,11 +662,6 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
   } else {
     macros.log("Not submitting to mailchip, don't have mailchimp key.");
   }
-
-
-  res.send(JSON.stringify({
-    status: 'success',
-  }));
 }));
 
 // Rate-limit submissions on a per-IP basis
