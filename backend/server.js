@@ -597,6 +597,16 @@ app.post('/webhook/', wrap(async (req, res) => {
   res.sendStatus(200);
 }));
 
+app.post('/subscribeEmail', wrap(async (req, res) => {
+  // Don't cache this endpoint.
+  res.setHeader('Cache-Control', 'no-cache, no-store');
+
+
+  
+
+
+}))
+
 // Rate-limit submissions on a per-IP basis
 let rateLimit = {};
 let lastHour = 0;
