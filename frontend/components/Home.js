@@ -6,7 +6,7 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import cx from 'classnames/bind';
-import { Dropdown, Input } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
 
 import 'semantic-ui-css/semantic.min.css';
 import '../css/base.scss';
@@ -29,7 +29,7 @@ const OLD_TERMS = ['201858', '201855', '201854', '201852', '201838', '201835', '
 // The lastest term
 const LATEST_TERM = '201930';
 
-const SHOW_SUBMIT_EMAIL = Math.random() > .3;
+const SHOW_SUBMIT_EMAIL = Math.random() > 0.3;
 
 // Home page component
 class Home extends React.Component {
@@ -521,28 +521,26 @@ class Home extends React.Component {
 
 
     let attentionSection;
-    let actionCenterStyle = { opacity: wantToHelpOpacity, visibility:(wantToHelpOpacity === 0) ? 'hidden' : '' }
+    const actionCenterStyle = { opacity: wantToHelpOpacity, visibility:(wantToHelpOpacity === 0) ? 'hidden' : '' };
 
     if (!SHOW_SUBMIT_EMAIL && 0) {
-      attentionSection  = 
-          (
-          <div style={actionCenterStyle} className='atentionContainer'>
-            <p className='helpFistRow'>
+      attentionSection = (
+        <div style={ actionCenterStyle } className='atentionContainer'>
+          <p className='helpFistRow'>
               We&apos;re looking for more team members!
-            </p>
-            <p>
+          </p>
+          <p>
               Want to help build Search NEU?
-            </p>
-            <p>
-              <span role='button' tabIndex={ 0 } className={ `getInvolvedText ${hiddenHelpButton}` } onClick={ this.openHelpModal }>
+          </p>
+          <p>
+            <span role='button' tabIndex={ 0 } className={ `getInvolvedText ${hiddenHelpButton}` } onClick={ this.openHelpModal }>
               Get involved &gt;
-              </span>
-            </p>
-          </div>
-        )
-    }
-    else {
-      attentionSection = (<EmailInput containerStyle={actionCenterStyle}/>)
+            </span>
+          </p>
+        </div>
+      );
+    } else {
+      attentionSection = (<EmailInput containerStyle={ actionCenterStyle } />);
     }
 
 
@@ -616,7 +614,7 @@ class Home extends React.Component {
                 />
               </div>
               {attentionSection}
-              
+
               {hitEnterToSearch}
             </div>
           </div>

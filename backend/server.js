@@ -602,66 +602,58 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
   res.setHeader('Cache-Control', 'no-cache, no-store');
 
   if (!req.body || !req.body.email) {
-    console.log('invalid email ingored:', req.body);
+    macros.log('invalid email ingored:', req.body);
     res.send(JSON.stringify({
       error: 'nope.',
     }));
-    return 'no email found'
+    return;
   }
 
-  if (macros.occurrences(req.body.email, '@', true) != 1) {
-    console.log('invalid email ingored:', req.body);
+  if (macros.occurrences(req.body.email, '@', true) !== 1) {
+    macros.log('invalid email ingored:', req.body);
     res.send(JSON.stringify({
       error: 'nope.',
     }));
-    return 'invalid no email found';
+    return;
   }
 
 
-
-  
-  console.log(req.body.email, 'subscribing')
+  macros.log(req.body.email, 'subscribing');
 
 
-  let body = {
-    "email_address": req.body.email,
-    "status": "subscribed"
-  }
+  const body = {
+    email_address: req.body.email,
+    status: 'subscribed',
+  };
 
   const mailChimpKey = await macros.getEnvVariable('mailChimpKey');
 
   if (mailChimpKey) {
-
     if (macros.PROD) {
-      macros.log("Submitting email", req.body.email, 'to mail chimp.');
+      macros.log('Submitting email', req.body.email, 'to mail chimp.');
 
       // The first part of the url comes from the API key.
-      let response = await request.post({
-        url: 'https://us16.api.mailchimp.com/3.0/lists/31a64acc18/members/', 
+      const response = await request.post({
+        url: 'https://us16.api.mailchimp.com/3.0/lists/31a64acc18/members/',
         headers: {
-          'Authorization': 'Basic: ' + mailChimpKey
+          Authorization: `Basic: ${mailChimpKey}`,
         },
-        body: JSON.stringify(body)
-      })
+        body: JSON.stringify(body),
+      });
 
-      console.log(response.body)
+      macros.log(response.body);
+    } else {
+      macros.log('Not submitting ', req.body.email, 'to mailchimp because not in PROD');
     }
-    else {
-      macros.log("Not submitting ", req.body.email, 'to mailchimp because not in PROD');
-    }
-
-  }
-  else {
-    macros.log("Not submitting to mailchip, don't have mailchimp key.")
+  } else {
+    macros.log("Not submitting to mailchip, don't have mailchimp key.");
   }
 
-  
-  
 
   res.send(JSON.stringify({
-      status: 'success',
-    }));
-}))
+    status: 'success',
+  }));
+}));
 
 // Rate-limit submissions on a per-IP basis
 let rateLimit = {};
