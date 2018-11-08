@@ -633,13 +633,26 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
       macros.log('Submitting email', req.body.email, 'to mail chimp.');
 
       // The first part of the url comes from the API key.
-      const response = await request.post({
-        url: 'https://us16.api.mailchimp.com/3.0/lists/31a64acc18/members/',
-        headers: {
-          Authorization: `Basic: ${mailChimpKey}`,
-        },
-        body: JSON.stringify(body),
-      });
+      let response;
+
+      try {
+        response = await request.post({
+          url: 'https://us16.api.mailchimp.com/3.0/lists/31a64acc18/members/',
+          headers: {
+            Authorization: `Basic: ${mailChimpKey}`,
+          },
+          body: JSON.stringify(body),
+        });
+      }
+      catch (e) {
+        macros.log("Failed to submit email", req.body.email);
+
+        // Don't tell the frontend this email has already been submitted.
+        res.send(JSON.stringify({
+          status: 'success',
+        }));
+        return;
+      }
 
       macros.log(response.body);
     } else {
