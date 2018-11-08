@@ -643,9 +643,8 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
           },
           body: JSON.stringify(body),
         });
-      }
-      catch (e) {
-        macros.log("Failed to submit email", req.body.email);
+      } catch (e) {
+        macros.log('Failed to submit email', req.body.email);
 
         // Don't tell the frontend this email has already been submitted.
         res.send(JSON.stringify({
