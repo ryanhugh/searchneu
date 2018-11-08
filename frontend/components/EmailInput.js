@@ -49,7 +49,7 @@ class EmaillInput extends React.Component {
   }
 
   onEmailChange(event) {
-    const email = this.inputRef.current.inputRef.values;
+    const email = event.target.value || this.inputRef.current.inputRef.values;
 
     if (event.key === 'Enter') {
       this.submitEmail(email);
@@ -64,7 +64,7 @@ class EmaillInput extends React.Component {
     }
 
     macros.log('submitting email', email);
-
+    macros.logAmplitudeEvent('Frontend Email Submit', { email: email });
 
     let response;
     try {
