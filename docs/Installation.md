@@ -3,7 +3,7 @@
 
 #### Fork the repository
 
-Head over to [Github](https://github.com) and create an account, if you don't already have one. Then, while logged into Github, fork the Search NEU repository by clicking on the fork button in the top right corner of this page. This will copy all of the Search NEU code to your personal github account and let you make any changes you want to. (Later, once you have made some changes, this will also let you easily merge the changes into the main repository.)
+Head over to [Github's registration page](https://github.com/join) and create an account, if you don't already have one. Then, while logged into Github, fork the Search NEU repository by clicking on the fork button in the top right corner of this page. This will copy all of the Search NEU code to your personal github account and let you make any changes you want to. (Later, once you have made some changes, this will also let you easily merge the changes into the main repository.)
 
 ### Windows Computers 
 If you are not on Windows, you can skip this section.
