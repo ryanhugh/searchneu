@@ -15,7 +15,8 @@ We recommend using [Bash on Windows](https://www.microsoft.com/en-us/p/ubuntu/9n
 
 First, you need to download and install Node.js by following the instructions [here](https://nodejs.org/en). This one installation package includes the commands `npm` and `node`, both of which are used later on.  If you are using Ubuntu on Windows, follow the instructions [here](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions-enterprise-linux-fedora-and-snap-packages) instead of using the Windows instructions for Node.js. 
 
-We recommend that you use yarn to install and manage the npm packages. Yarn is an alternate to the npm client that was developed by Facebook. Follow the instructions here to install yarn: https://yarnpkg.com/lang/en/docs/install/
+We recommend that you use yarn to install and manage the npm packages. Yarn is an alternate to the npm client that was developed by Facebook. While not required, we stronlgy recommend everyone to use yarn. Follow the instructions [here](https://yarnpkg.com/lang/en/docs/install/) to install yarn. 
+
 
 ## Clone the repository
 
