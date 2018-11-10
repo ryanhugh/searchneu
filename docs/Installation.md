@@ -21,7 +21,7 @@ We recommend that you use yarn to install and manage the npm packages. Yarn is a
 
 ### Github Desktop
 
-If you are not that familiar with using git from the command line, you can also use the desktop app. You can download that here. https://desktop.github.com. Once you have it setup, download the searchneu repository you just cloned to your personal Github account. After this, open up the terminal and `cd` to the `searchneu` directory. Then, skip to the section below on installing the dependencies. 
+If you are not that familiar with using git from the command line, you can also use the desktop app. You can download that [here](https://desktop.github.com). Once you have it setup, download the searchneu repository you just cloned to your personal Github account. After this, open up the terminal and `cd` to the `searchneu` directory. Then, skip to the section below on installing the dependencies. 
 
 ### Git command line
 If you want to, you can also use the command line to download the repository. Start by cloning the repo with `git clone`.
