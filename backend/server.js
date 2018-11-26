@@ -784,7 +784,7 @@ app.get('*', (req, res) => {
 
 
 // your express error handler
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   // in case of specific URIError
   if (err instanceof URIError) {
     macros.log('Warning, could not process malformed url: ', req.url);
