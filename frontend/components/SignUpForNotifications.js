@@ -196,7 +196,7 @@ class SignUpForNotifications extends React.Component {
           className='adblock-notification-modal-container'
           header='Please disable adblock and sign into Facebook.'
           open={ this.state.showAdblockMessage }
-          content="Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled. If you can't get it working send me a message at ryanhughes624@gmail.com."
+          content="Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled. If you are using Safari, try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
           actions={ actions }
         />
       </div>
