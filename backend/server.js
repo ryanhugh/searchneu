@@ -159,7 +159,6 @@ function getTime() {
 app.use((req, res, next) => {
   const remoteIp = getIpPath(req);
 
-
   // If this is https request, done.
   if (req.protocol === 'https') {
     next();

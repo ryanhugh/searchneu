@@ -3,7 +3,7 @@
   "version": "1.0.9",
   "scripts": {
     "_comment": "These commands are used in dev.",
-    "start": "cross-env NODE_ENV=dev babel-node backend/server.js",
+    "start": "./node_modules/.bin/cross-env NODE_ENV=dev babel-node backend/server.js",
     "scrape": "babel-node --max_old_space_size=12000 backend/scrapers/main.js",
     "scrape_classes": "babel-node --max_old_space_size=12000 backend/scrapers/classes/main.js",
     "lint": "node ./node_modules/eslint/bin/eslint.js backend/ common/ frontend/",
@@ -12,7 +12,7 @@
     "test": "./node_modules/jest-cli/bin/jest.js",
     "coverage": "./node_modules/jest-cli/bin/jest.js --coverage",
     "_comment2": "These comands are used to build the code",
-    "build_frontend": "mkdir -p public; cp frontend/static/* public/; cross-env NODE_ENV=prod babel-node ./node_modules/webpack/bin/webpack.js --config ./backend/webpack.config.babel.js --profile --colors",
+    "build_frontend": "mkdir -p public; cp frontend/static/* public/; ./node_modules/.bin/cross-env NODE_ENV=prod babel-node ./node_modules/webpack/bin/webpack.js --config ./backend/webpack.config.babel.js --colors",
     "build_backend": "mkdir -p dist; mkdir -p dist/backend; ./node_modules/babel-cli/bin/babel.js backend -d dist/backend; ./node_modules/babel-cli/bin/babel.js common -d dist/common",
     "build": "npm run build_backend; npm run build_frontend",
     "start_prod": "./node_modules/forever/bin/forever stopall; NODE_ENV=prod ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start dist/backend/startup.js"
@@ -29,6 +29,12 @@
     ],
     "plugins": [
       "transform-decorators-legacy",
+      [
+        "@babel/plugin-transform-arrow-functions",
+        {
+          "spec": true
+        }
+      ],
       "transform-object-rest-spread",
       "react-hot-loader/babel"
     ]
@@ -38,6 +44,7 @@
   "_comment2": "Async adds about 30k to the final bundled output. There are smaller libraries that can also do async.retry (only thing that is being used in async)",
   "_comment3": "but that is only about 3% of the final JS size.",
   "dependencies": {
+    "@babel/plugin-transform-arrow-functions": "^7.2.0",
     "@mapbox/togeojson": "^0.16.0",
     "acorn": "^5.5.1",
     "amplitude": "^3.5.0",
