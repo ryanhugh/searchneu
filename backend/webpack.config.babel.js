@@ -109,52 +109,10 @@ export default {
         test: /\.js$/,
         loader: 'babel-loader',
 
-        include: path.join(rootDir, 'frontend'),
+        include: [path.join(rootDir, 'frontend'), path.join(rootDir, 'common')],
         options: {
           cacheDirectory: true,
-          presets: [[
-        "@babel/preset-env",
-        {
-          "targets": {
-            "browsers": ["> 0.25%", "not dead", "ie >= 11"]
-          }
         }
-      ]]
-          // plugins: ['@babel/plugin-transform-arrow-functions']
-        },
-        // use: {
-          // loader: 'babel-loader',
-        // options: {
-          
-        // }
-
-        // query: {
-          // presets: ['react', 'es2015', 'react-hmre'],
-          // plugins: ['transform-class-properties']
-        // }
-      },
-
-    {
-        test: /\.js$/,
-        loader: 'babel-loader',
-
-        include: path.join(rootDir, 'common'),
-        options: {
-          cacheDirectory: true,
-          presets: [[
-        "@babel/preset-env",
-        {
-          "targets": {
-            "browsers": ["> 0.25%", "not dead", "ie >= 11"]
-          }
-        }
-      ],]
-          // plugins: ['@babel/plugin-transform-arrow-functions']
-        },
-        // query: {
-          // presets: ['react', 'es2015', 'react-hmre'],
-          // plugins: ['transform-class-properties']
-        // }
       },
 
       // This css loader is for 3rd party css files. Load them globally.
