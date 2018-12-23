@@ -112,13 +112,13 @@ export default {
         include: path.join(rootDir, 'frontend'),
         options: {
           cacheDirectory: true,
+          presets: ['@babel/preset-env'],
+          plugins: ['@babel/plugin-transform-arrow-functions']
         },
         // use: {
-        //   loader: 'babel-loader',
-        //   options: {
-        //     presets: ['@babel/preset-env'],
-        //     plugins: ['@babel/plugin-transform-arrow-functions']
-        //   }
+          // loader: 'babel-loader',
+        // options: {
+          
         // }
 
         // query: {
@@ -134,6 +134,8 @@ export default {
         include: path.join(rootDir, 'common'),
         options: {
           cacheDirectory: true,
+          presets: ['@babel/preset-env'],
+          plugins: ['@babel/plugin-transform-arrow-functions']
         },
         // query: {
           // presets: ['react', 'es2015', 'react-hmre'],
