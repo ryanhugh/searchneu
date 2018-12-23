@@ -112,8 +112,15 @@ export default {
         include: path.join(rootDir, 'frontend'),
         options: {
           cacheDirectory: true,
-          presets: ['@babel/preset-env'],
-          plugins: ['@babel/plugin-transform-arrow-functions']
+          presets: [[
+        "@babel/preset-env",
+        {
+          "targets": {
+            "browsers": ["> 0.25%", "not dead", "ie >= 11"]
+          }
+        }
+      ]]
+          // plugins: ['@babel/plugin-transform-arrow-functions']
         },
         // use: {
           // loader: 'babel-loader',
@@ -134,8 +141,15 @@ export default {
         include: path.join(rootDir, 'common'),
         options: {
           cacheDirectory: true,
-          presets: ['@babel/preset-env'],
-          plugins: ['@babel/plugin-transform-arrow-functions']
+          presets: [[
+        "@babel/preset-env",
+        {
+          "targets": {
+            "browsers": ["> 0.25%", "not dead", "ie >= 11"]
+          }
+        }
+      ],]
+          // plugins: ['@babel/plugin-transform-arrow-functions']
         },
         // query: {
           // presets: ['react', 'es2015', 'react-hmre'],
