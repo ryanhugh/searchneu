@@ -3,8 +3,8 @@
  * See the license file in the root folder for details.
  */
 
-require('babel-core/register');
-require('babel-polyfill');
+require('@babel/register');
+require('@babel/polyfill');
 const main = require('./main.js');
 
 main.default.main();

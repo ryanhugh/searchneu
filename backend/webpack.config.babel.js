@@ -18,7 +18,7 @@ export default {
   devtool: macros.PROD ? 'source-map' : 'cheap-module-eval-source-map',
   mode: macros.PROD ? 'production' : 'development',
   entry: [
-    'babel-polyfill',
+    '@babel/polyfill',
     ...macros.DEV ? [
       'react-hot-loader/patch',
       'webpack-hot-middleware/client',
@@ -113,13 +113,13 @@ export default {
         options: {
           cacheDirectory: true,
         },
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-transform-arrow-functions']
-          }
-        }
+        // use: {
+        //   loader: 'babel-loader',
+        //   options: {
+        //     presets: ['@babel/preset-env'],
+        //     plugins: ['@babel/plugin-transform-arrow-functions']
+        //   }
+        // }
 
         // query: {
           // presets: ['react', 'es2015', 'react-hmre'],
@@ -127,7 +127,7 @@ export default {
         // }
       },
 
-      {
+    {
         test: /\.js$/,
         loader: 'babel-loader',
 
