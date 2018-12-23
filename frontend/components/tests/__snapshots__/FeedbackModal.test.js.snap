@@ -82,7 +82,6 @@ ShallowWrapper {
               basic={true}
               color="red"
               onClick={[Function]}
-              role="button"
             >
               <Icon
                 as="i"
@@ -95,7 +94,6 @@ ShallowWrapper {
               color="green"
               form="feedbackForm"
               onClick={[Function]}
-              role="button"
               type="submit"
             >
               <Icon
@@ -173,7 +171,6 @@ ShallowWrapper {
                 basic={true}
                 color="red"
                 onClick={[Function]}
-                role="button"
               >
                 <Icon
                   as="i"
@@ -186,7 +183,6 @@ ShallowWrapper {
                 color="green"
                 form="feedbackForm"
                 onClick={[Function]}
-                role="button"
                 type="submit"
               >
                 <Icon
@@ -315,7 +311,6 @@ ShallowWrapper {
                   basic={true}
                   color="red"
                   onClick={[Function]}
-                  role="button"
                 >
                   <Icon
                     as="i"
@@ -328,7 +323,6 @@ ShallowWrapper {
                   color="green"
                   form="feedbackForm"
                   onClick={[Function]}
-                  role="button"
                   type="submit"
                 >
                   <Icon
@@ -357,7 +351,6 @@ ShallowWrapper {
                   ],
                   "color": "red",
                   "onClick": [Function],
-                  "role": "button",
                 },
                 "ref": null,
                 "rendered": Array [
@@ -393,7 +386,6 @@ ShallowWrapper {
                   "color": "green",
                   "form": "feedbackForm",
                   "onClick": [Function],
-                  "role": "button",
                   "type": "submit",
                 },
                 "ref": null,
@@ -489,7 +481,6 @@ ShallowWrapper {
                 basic={true}
                 color="red"
                 onClick={[Function]}
-                role="button"
               >
                 <Icon
                   as="i"
@@ -502,7 +493,6 @@ ShallowWrapper {
                 color="green"
                 form="feedbackForm"
                 onClick={[Function]}
-                role="button"
                 type="submit"
               >
                 <Icon
@@ -580,7 +570,6 @@ ShallowWrapper {
                   basic={true}
                   color="red"
                   onClick={[Function]}
-                  role="button"
                 >
                   <Icon
                     as="i"
@@ -593,7 +582,6 @@ ShallowWrapper {
                   color="green"
                   form="feedbackForm"
                   onClick={[Function]}
-                  role="button"
                   type="submit"
                 >
                   <Icon
@@ -722,7 +710,6 @@ ShallowWrapper {
                     basic={true}
                     color="red"
                     onClick={[Function]}
-                    role="button"
                   >
                     <Icon
                       as="i"
@@ -735,7 +722,6 @@ ShallowWrapper {
                     color="green"
                     form="feedbackForm"
                     onClick={[Function]}
-                    role="button"
                     type="submit"
                   >
                     <Icon
@@ -764,7 +750,6 @@ ShallowWrapper {
                     ],
                     "color": "red",
                     "onClick": [Function],
-                    "role": "button",
                   },
                   "ref": null,
                   "rendered": Array [
@@ -800,7 +785,6 @@ ShallowWrapper {
                     "color": "green",
                     "form": "feedbackForm",
                     "onClick": [Function],
-                    "role": "button",
                     "type": "submit",
                   },
                   "ref": null,
@@ -933,7 +917,6 @@ ShallowWrapper {
               basic={true}
               color="red"
               onClick={[Function]}
-              role="button"
             >
               <Icon
                 as="i"
@@ -946,7 +929,6 @@ ShallowWrapper {
               color="green"
               form="feedbackForm"
               onClick={[Function]}
-              role="button"
               type="submit"
             >
               <Icon
@@ -1024,7 +1006,6 @@ ShallowWrapper {
                 basic={true}
                 color="red"
                 onClick={[Function]}
-                role="button"
               >
                 <Icon
                   as="i"
@@ -1037,7 +1018,6 @@ ShallowWrapper {
                 color="green"
                 form="feedbackForm"
                 onClick={[Function]}
-                role="button"
                 type="submit"
               >
                 <Icon
@@ -1166,7 +1146,6 @@ ShallowWrapper {
                   basic={true}
                   color="red"
                   onClick={[Function]}
-                  role="button"
                 >
                   <Icon
                     as="i"
@@ -1179,7 +1158,6 @@ ShallowWrapper {
                   color="green"
                   form="feedbackForm"
                   onClick={[Function]}
-                  role="button"
                   type="submit"
                 >
                   <Icon
@@ -1208,7 +1186,6 @@ ShallowWrapper {
                   ],
                   "color": "red",
                   "onClick": [Function],
-                  "role": "button",
                 },
                 "ref": null,
                 "rendered": Array [
@@ -1244,7 +1221,6 @@ ShallowWrapper {
                   "color": "green",
                   "form": "feedbackForm",
                   "onClick": [Function],
-                  "role": "button",
                   "type": "submit",
                 },
                 "ref": null,
@@ -1340,7 +1316,6 @@ ShallowWrapper {
                 basic={true}
                 color="red"
                 onClick={[Function]}
-                role="button"
               >
                 <Icon
                   as="i"
@@ -1353,7 +1328,6 @@ ShallowWrapper {
                 color="green"
                 form="feedbackForm"
                 onClick={[Function]}
-                role="button"
                 type="submit"
               >
                 <Icon
@@ -1431,7 +1405,6 @@ ShallowWrapper {
                   basic={true}
                   color="red"
                   onClick={[Function]}
-                  role="button"
                 >
                   <Icon
                     as="i"
@@ -1444,7 +1417,6 @@ ShallowWrapper {
                   color="green"
                   form="feedbackForm"
                   onClick={[Function]}
-                  role="button"
                   type="submit"
                 >
                   <Icon
@@ -1573,7 +1545,6 @@ ShallowWrapper {
                     basic={true}
                     color="red"
                     onClick={[Function]}
-                    role="button"
                   >
                     <Icon
                       as="i"
@@ -1586,7 +1557,6 @@ ShallowWrapper {
                     color="green"
                     form="feedbackForm"
                     onClick={[Function]}
-                    role="button"
                     type="submit"
                   >
                     <Icon
@@ -1615,7 +1585,6 @@ ShallowWrapper {
                     ],
                     "color": "red",
                     "onClick": [Function],
-                    "role": "button",
                   },
                   "ref": null,
                   "rendered": Array [
@@ -1651,7 +1620,6 @@ ShallowWrapper {
                     "color": "green",
                     "form": "feedbackForm",
                     "onClick": [Function],
-                    "role": "button",
                     "type": "submit",
                   },
                   "ref": null,
