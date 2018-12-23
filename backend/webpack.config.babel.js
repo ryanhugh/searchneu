@@ -113,6 +113,18 @@ export default {
         options: {
           cacheDirectory: true,
         },
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+            plugins: ['@babel/plugin-transform-arrow-functions']
+          }
+        }
+
+        // query: {
+          // presets: ['react', 'es2015', 'react-hmre'],
+          // plugins: ['transform-class-properties']
+        // }
       },
 
       {
@@ -123,6 +135,10 @@ export default {
         options: {
           cacheDirectory: true,
         },
+        // query: {
+          // presets: ['react', 'es2015', 'react-hmre'],
+          // plugins: ['transform-class-properties']
+        // }
       },
 
       // This css loader is for 3rd party css files. Load them globally.
