@@ -61,6 +61,7 @@
     "@babel/plugin-transform-arrow-functions": "^7.2.0",
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.0.0",
+    "@babel/register": "^7.0.0",
     "@mapbox/togeojson": "^0.16.0",
     "acorn": "^6.0.4",
     "amplitude": "^3.5.0",
