@@ -112,7 +112,7 @@ export default {
         include: [path.join(rootDir, 'frontend'), path.join(rootDir, 'common')],
         options: {
           cacheDirectory: true,
-        }
+        },
       },
 
       // This css loader is for 3rd party css files. Load them globally.
