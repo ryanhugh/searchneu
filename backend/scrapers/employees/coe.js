@@ -53,13 +53,13 @@ class COE {
     const roles = $('div.field-collection-container > div.faculty-roles > div.faculty-roles__role');
     const positions = [];
     for (let i = 0; i < roles.length; i++) {
-      let rolesChildren = roles[i].children;
+      const rolesChildren = roles[i].children;
       if (rolesChildren.length === 0) {
-        console.log('Roles has no children')
+        macros.log('Roles has no children', obj);
         continue;
       }
 
-      if (rolesChildren[0].data == undefined) {
+      if (rolesChildren[0].data === undefined) {
         macros.log("Skipping role because it didn't have role and department", obj);
         continue;
       }
