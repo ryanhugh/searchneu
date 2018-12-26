@@ -53,7 +53,17 @@ class COE {
     const roles = $('div.field-collection-container > div.faculty-roles > div.faculty-roles__role');
     const positions = [];
     for (let i = 0; i < roles.length; i++) {
-      let role = roles[i].children[0].data.trim();
+      let rolesChildren = roles[i].children;
+      if (rolesChildren.length === 0) {
+        continue;
+      }
+
+      if (rolesChildren[0].data == undefined) {
+        macros.log("Skipping role because it didn't have role and department", obj);
+        continue;
+      }
+
+      let role = rolesChildren[0].data.trim();
       const department = $('a', $(roles[i])).text();
 
       if (role.endsWith(',')) {
