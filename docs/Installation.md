@@ -49,13 +49,13 @@ cd searchneu
 Almost every Node.js project has a lot of dependencies. These include React, Lodash, Webpack, and usually a bunch of other libraries. Lets install them. 
 
 ```bash
-yarn global add eslint jest @babel/cli  # Eslint is just for linting the code and jest is used for testing the code.
+yarn global add eslint jest @babel/node  # Eslint is just for linting the code and jest is used for testing the code.
 yarn
 ```
 
 Or if you want to use npm to install the node.js packages:
 ```bash
-npm -g install eslint jest @babel/cli
+npm -g install eslint jest @babel/node
 npm install
 ```
 

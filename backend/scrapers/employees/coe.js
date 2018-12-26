@@ -55,6 +55,7 @@ class COE {
     for (let i = 0; i < roles.length; i++) {
       let rolesChildren = roles[i].children;
       if (rolesChildren.length === 0) {
+        console.log('Roles has no children')
         continue;
       }
 
