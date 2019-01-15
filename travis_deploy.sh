@@ -22,6 +22,16 @@ npm run test
 echo 'Building the code for production.'
 npm run build
 
+# Check to make sure there are no arrow functions in the output
+NUM_OF_ARROWS=$(cat public/*.js | grep  =\> | wc -l | awk '{$1=$1};1')
+
+if [ "$NUM_OF_ARROWS" -ne "0" ]
+then
+  echo 'ERROR FOUND =\>' $NUM_OF_ARROWS
+  exit 1
+fi
+
+
 # Pull requests and commits to other branches shouldn't try to deploy
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo $TRAVIS_PULL_REQUEST
