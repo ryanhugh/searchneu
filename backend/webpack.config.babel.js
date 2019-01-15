@@ -152,7 +152,10 @@ export default {
       },
     ],
   },
+  externals: {
+    '../backend/macros': 'empty',
+  },
   node: {
-    fs: 'empty',
+    fs: 'empty'
   },
 };
