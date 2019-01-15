@@ -27,12 +27,6 @@
       "@babel/preset-react"
     ],
     "plugins": [
-      [
-        "@babel/plugin-transform-arrow-functions",
-        {
-          "spec": false
-        }
-      ],
       "@babel/plugin-proposal-class-properties",
       [
         "@babel/plugin-proposal-decorators",
@@ -40,7 +34,6 @@
           "legacy": true
         }
       ],
-      "@babel/plugin-proposal-object-rest-spread",
       "react-hot-loader/babel",
       "@babel/plugin-syntax-dynamic-import",
       "@babel/plugin-syntax-import-meta",
@@ -60,7 +53,6 @@
   "dependencies": {
     "@babel/plugin-transform-arrow-functions": "^7.2.0",
     "@babel/polyfill": "^7.2.5",
-    "@babel/preset-env": "^7.0.0",
     "@babel/register": "^7.0.0",
     "@mapbox/togeojson": "^0.16.0",
     "acorn": "^6.0.4",
@@ -149,6 +141,7 @@
     "@babel/plugin-proposal-throw-expressions": "^7.0.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-syntax-import-meta": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "babel-eslint": "^10.0.1",
