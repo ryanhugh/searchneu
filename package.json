@@ -34,17 +34,7 @@
     ],
     "plugins": [
       "@babel/plugin-proposal-class-properties",
-      [
-        "@babel/plugin-proposal-decorators",
-        {
-          "legacy": true
-        }
-      ],
-      "react-hot-loader/babel",
-      "@babel/plugin-syntax-dynamic-import",
-      "@babel/plugin-proposal-throw-expressions",
-      "@babel/plugin-proposal-export-default-from",
-      "@babel/plugin-proposal-logical-assignment-operators"
+      "react-hot-loader/babel"
     ]
   },
   "main": "dist/backend/scrapers/main.js",
