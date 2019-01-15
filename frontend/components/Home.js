@@ -29,7 +29,7 @@ const OLD_TERMS = ['201858', '201855', '201854', '201852', '201838', '201835', '
 // The lastest term
 const LATEST_TERM = '201930';
 
-let SHOW_SUBMIT_EMAIL = true;
+const SHOW_SUBMIT_EMAIL = true;
 
 
 // Home page component
