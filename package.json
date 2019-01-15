@@ -23,7 +23,13 @@
   },
   "babel": {
     "presets": [
-      "@babel/preset-env",
+      [
+        "@babel/preset-env",
+        {
+          "useBuiltIns": "entry",
+          "targets": "> 0.25%, not dead"
+        }
+      ],
       "@babel/preset-react"
     ],
     "plugins": [
@@ -36,11 +42,6 @@
       ],
       "react-hot-loader/babel",
       "@babel/plugin-syntax-dynamic-import",
-      "@babel/plugin-syntax-import-meta",
-      "@babel/plugin-proposal-json-strings",
-      "@babel/plugin-proposal-function-sent",
-      "@babel/plugin-proposal-export-namespace-from",
-      "@babel/plugin-proposal-numeric-separator",
       "@babel/plugin-proposal-throw-expressions",
       "@babel/plugin-proposal-export-default-from",
       "@babel/plugin-proposal-logical-assignment-operators"
