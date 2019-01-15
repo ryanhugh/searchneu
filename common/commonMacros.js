@@ -13,7 +13,7 @@ if (typeof window !== 'undefined') {
   toExport = require('../frontend/components/macros'); // eslint-disable-line global-require
 } else {
   // This string must be mentioned in webpack's external config to avoid being bundled with the output js
-  toExport = require('../backend/macros'); // eslint-disable-line dot-notation
+  toExport = require('../backend/macros'); // eslint-disable-line global-require
 }
 
 export default toExport.default;

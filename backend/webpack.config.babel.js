@@ -156,6 +156,6 @@ export default {
     '../backend/macros': 'empty',
   },
   node: {
-    fs: 'empty'
+    fs: 'empty',
   },
 };
