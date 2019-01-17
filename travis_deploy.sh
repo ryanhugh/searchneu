@@ -23,6 +23,7 @@ echo 'Building the code for production.'
 npm run build
 
 # Check to make sure there are no arrow functions in the output
+# https://github.com/babel/babel/issues/9300
 NUM_OF_ARROWS=$(cat public/*.js | grep  =\> | wc -l | awk '{$1=$1};1')
 
 if [ "$NUM_OF_ARROWS" -ne "0" ]
