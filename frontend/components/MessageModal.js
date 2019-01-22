@@ -36,7 +36,7 @@ class FeedbackModal extends React.Component {
 
     this.state = {
 
-      // The value of hte message box.
+      // The value of the message box.
       messageValue: '',
 
       // The value of the contact box.
