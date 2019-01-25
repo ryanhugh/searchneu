@@ -6,4 +6,4 @@ sandbox.js
 public
 *.log
 coverage
-
+.DS_Store
