@@ -233,14 +233,14 @@ async function loadPromises() {
   const spring2019DataPromise = getFrontendData('getTermDump/neu.edu/201930.json');
   const spring2019SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201930.json');
 
-  const summer1DataPromise = getFrontendData('getTermDump/neu.edu/201840.json');
-  const summer1SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201840.json');
+  const summer1DataPromise = getFrontendData('getTermDump/neu.edu/201940.json');
+  const summer1SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201940.json');
 
-  const summer2DataPromise = getFrontendData('getTermDump/neu.edu/201860.json');
-  const summer2SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201860.json');
+  const summer2DataPromise = getFrontendData('getTermDump/neu.edu/201960.json');
+  const summer2SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201960.json');
 
-  const summerFullDataPromise = getFrontendData('getTermDump/neu.edu/201850.json');
-  const summerFullSearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201850.json');
+  const summerFullDataPromise = getFrontendData('getTermDump/neu.edu/201950.json');
+  const summerFullSearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201950.json');
 
   const employeeMapPromise = getFrontendData('employeeMap.json');
   const employeesSearchIndexPromise = getFrontendData('employeesSearchIndex.json');
@@ -272,17 +272,17 @@ async function loadPromises() {
     const dataLib = DataLib.loadData({
       201910: fallData,
       201930: springData,
-      201840: summer1Data,
-      201860: summer2Data,
-      201850: summerFullData,
+      201940: summer1Data,
+      201960: summer2Data,
+      201950: summerFullData,
     });
 
     const searchIndexies = {
       201910: elasticlunr.Index.load(fallSearchIndex),
       201930: elasticlunr.Index.load(springSearchIndex),
-      201840: elasticlunr.Index.load(summer1SearchIndex),
-      201860: elasticlunr.Index.load(summer2SearchIndex),
-      201850: elasticlunr.Index.load(summerFullSearchIndex),
+      201940: elasticlunr.Index.load(summer1SearchIndex),
+      201960: elasticlunr.Index.load(summer2SearchIndex),
+      201950: elasticlunr.Index.load(summerFullSearchIndex),
     };
 
     Updater.create(dataLib);

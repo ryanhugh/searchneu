@@ -27,7 +27,7 @@ import boston from './boston.svg';
 const OLD_TERMS = ['201858', '201855', '201854', '201852', '201838', '201835', '201834', '201832', '201830', '201828', '201825'];
 
 // The lastest term
-const LATEST_TERM = '201930';
+const LATEST_TERM = '201940';
 
 const SHOW_SUBMIT_EMAIL = true;
 
@@ -499,24 +499,24 @@ class Home extends React.Component {
 
     const termDropDownOptions = [
       {
+        text: 'Summer I 2019',
+        value: '201940',
+      },
+      {
+        text: 'Summer II 2019',
+        value: '201960',
+      },
+      {
+        text: 'Summer Full 2019',
+        value: '201950',
+      },
+      {
         text: 'Spring 2019',
         value: '201930',
       },
       {
         text: 'Fall 2018',
         value: '201910',
-      },
-      {
-        text: 'Summer I 2018',
-        value: '201840',
-      },
-      {
-        text: 'Summer II 2018',
-        value: '201860',
-      },
-      {
-        text: 'Summer Full 2018',
-        value: '201850',
       },
     ];
 
