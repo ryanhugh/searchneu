@@ -276,10 +276,10 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
             classInfo = currClassInfo;
           }
         } else {
-          this.logError('Unknown element in parseString');
+          this.logError('Unknown element in parseString:' + this.buffer[0].name);
         }
       } else {
-        this.logError('Unknown buffer type in parseString');
+        this.logError('Unknown buffer type in parseString:' + this.buffer[0].type);
       }
       this.buffer.shift();
     }

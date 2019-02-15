@@ -235,6 +235,44 @@ class Macros extends commonMacros {
     });
   }
 
+  async static logRollbarError(event, shouldExit) {
+    const rollbarKey = await Macros.getEnvVariable('rollbarPostServerItemToken');
+
+    if (!rollbarKey) {
+      console.log("Don't have rollbar so not logging error in prod?"); // eslint-disable-line no-console
+      console.log(...event); // eslint-disable-line no-console
+      return;
+    }
+
+    rollbar.init(rollbarKey);
+
+    const stack = (new Error()).stack;
+
+    // The middle object can include any properties and values, much like amplitude.
+    event.stack = stack;
+
+    // if (event.length === 0) {
+    //   event.push('Error had no message?');
+    // }
+
+    if (event[0] instanceof Error) {
+      // The middle object can include any properties and values, much like amplitude.
+      rollbar.handleError(event[0], event, () => {
+        if (shouldExit) {
+          // And kill the process to recover.
+          // forver.js will restart it.
+          process.exit(1);  
+        }
+      });
+    } else {
+      rollbar.error(event[0], event, () => {
+        if (shouldExit) {
+          process.exit(1);  
+        }
+      });
+    }
+  }
+
 
   // This is for programming errors. This will cause the program to exit anywhere.
   // This *should* never be called.
@@ -247,6 +285,10 @@ class Macros extends commonMacros {
       process.exit(1);
     }
   }
+
+
+
+
 
   // Use this for stuff that should never happen, but does not mean the program cannot continue.
   // This will continue running in dev, but will exit on CI
@@ -263,37 +305,7 @@ class Macros extends commonMacros {
 
       // If running on AWS, tell rollbar about the error so rollbar sends off an email.
       } else {
-        const rollbarKey = await Macros.getEnvVariable('rollbarPostServerItemToken');
-
-        if (!rollbarKey) {
-          console.log("Don't have rollbar so not logging error in prod?"); // eslint-disable-line no-console
-          console.log(...args); // eslint-disable-line no-console
-          return;
-        }
-
-        rollbar.init(rollbarKey);
-
-        const stack = (new Error()).stack;
-
-        // The middle object can include any properties and values, much like amplitude.
-        args.stack = stack;
-
-        if (args.length === 0) {
-          args.push('Error had no message?');
-        }
-
-        if (args[0] instanceof Error) {
-          // The middle object can include any properties and values, much like amplitude.
-          rollbar.handleError(args[0], args, () => {
-            // And kill the process to recover.
-            // forver.js will restart it.
-            process.exit(1);
-          });
-        } else {
-          rollbar.error(args[0], args, () => {
-            process.exit(1);
-          });
-        }
+        
       }
     }
   }
