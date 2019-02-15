@@ -64,6 +64,11 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
     // Null when not parsing.
     // {type:'and'|'or',values:[...]}
     this.currFrame = null;
+
+    // Keeps track of whether an error has been encounterd while processing. 
+    // This invalid input - invalid syntax or ambigious input (eg (a or b and c or d - ambigious and/or grouping) or ( a b and c or d e - missing and/or))
+    // If an error is hit, it returns "Error while processing prereqs" and logs and error to rollbar
+    this.error = null;
   }
 
 
@@ -157,14 +162,15 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
   }
 
 
-  logWarning(message) {
-    macros.log(...this.getLogString(message));
-  }
-
-
   logError(message) {
-    macros.error(...this.getLogString(message));
+    macros.warn(...this.getLogString(message));
+    this.error = true;
   }
+
+
+  // logError(message) {
+  //   macros.error(...this.getLogString(message));
+  // }
 
 
   // Start of the parsing functions. These will return false if they should not parse the start of the buffer.
@@ -220,7 +226,8 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
     }
 
     if (this.currFrame.type && this.currFrame.type !== dividerObj.type) {
-      this.logWarning(`Mismatched types. divider=${this.currFrame.type}:${dividerObj.type}`);
+      this.logError(`Mismatched types. divider=${this.currFrame.type}:${dividerObj.type}`);
+      return true;
     }
 
     this.buffer.splice(0, dividerObj.length);
@@ -272,14 +279,18 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
           if (currClassInfo) {
             if (classInfo) {
               this.logError(`Two urls found in one string?${JSON.stringify(classInfo)}${JSON.stringify(currClassInfo)}`);
+              // Error out. 
+              return true;
             }
             classInfo = currClassInfo;
           }
         } else {
           this.logError('Unknown element in parseString:' + this.buffer[0].name);
+          return true;
         }
       } else {
         this.logError('Unknown buffer type in parseString:' + this.buffer[0].type);
+        return true;
       }
       this.buffer.shift();
     }
@@ -345,7 +356,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
   // Only parseOpenParen and parseCloseParen modify this.parentFrames
   // When any of them matches something, start from the beginning again.
   parse() {
-    while (this.buffer.length > 0) {
+    while (this.buffer.length > 0 && !this.error) {
       if (this.parseOpenParen()) {
         continue;
       } else if (this.parseCloseParen()) {
@@ -361,6 +372,12 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
         this.buffer.shift();
       }
     }
+
+    if (this.error) {
+      return null;
+    }
+
+
 
     if (!this.currFrame.type && this.currFrame.values.length === 1 && this.currFrame.values[0].type && this.currFrame.values[0].values) {
       return this.currFrame.values[0];
@@ -477,7 +494,6 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
             continue;
           }
 
-
           elements.push(classDetails[i]);
           continue;
         } else {
@@ -503,6 +519,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
     this.currentUrl = url;
     this.buffer = [];
     this.parentFrames = [];
+    this.error = null;
 
     // Keep track of the current list of groups being parsed.
     // This stack does not include the current group being parsed, which is kept track in retVal.
@@ -518,6 +535,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
     this.buffer = null;
     this.parentFrames = null;
     this.currFrame = null;
+    this.error = null;
   }
 
 
@@ -534,6 +552,16 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
     this.buffer = this.convertElementListToWideMode(elements);
 
     let retVal = this.parse();
+
+    if (this.error) {
+      this.finish();
+      return {
+        type: 'and',
+        values: ["Error while parsing " + sectionName + '.'],
+      };
+    }
+
+
     retVal = this.simplifyRequirements(retVal);
 
     this.finish();

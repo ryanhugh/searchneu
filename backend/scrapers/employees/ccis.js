@@ -178,7 +178,7 @@ class NeuCCISFaculty {
       }
     }
 
-    const resp = await request.get('http://www.ccis.northeastern.edu/people-view-all/');
+    const resp = await request.get('http://www.khoury.northeastern.edu/people-view-all/');
     const peopleObjects = this.parsePeopleList(resp);
 
     const promises = [];

@@ -275,8 +275,22 @@ it('3 levels', async (done) => {
   const rootNode = $.root()[0].children;
 
   const prereqs = ellucianRequisitesParser.parseRequirementSection(url, rootNode, 'prerequisites');
-  macros.log(prereqs);
 
+  expect(prereqs).toMatchSnapshot();
+  done();
+});
+
+// note that this site has a lot of options for classes to take under the catalog listing and then only 3 under the section page
+it('missing and', async (done) => {
+  const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianRequisitesParser', 'missing and.html'), 'utf8');
+
+  const url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201935&crn_in=81089';
+
+  const $ = cheerio.load(body);
+
+  const rootNode = $.root()[0].children;
+
+  const prereqs = ellucianRequisitesParser.parseRequirementSection(url, rootNode, 'prerequisites');
   expect(prereqs).toMatchSnapshot();
   done();
 });

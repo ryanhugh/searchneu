@@ -53,6 +53,7 @@ const separateReqDefaultPool = { maxSockets: 50, keepAlive: true, maxFreeSockets
 // Some other schools' servers will crash/slow to a crawl if too many requests are sent too quickly.
 const separateReqPools = {
   'www.ccis.northeastern.edu': { maxSockets: 8, keepAlive: true, maxFreeSockets: 8 },
+  'www.khoury.northeastern.edu': { maxSockets: 8, keepAlive: true, maxFreeSockets: 8 },
 
   // Needed for https://www.northeastern.edu/cssh/faculty
   // Looks like northeastern.edu is just a request redirector and sends any requests for /cssh to another server
