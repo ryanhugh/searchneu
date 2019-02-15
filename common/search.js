@@ -339,7 +339,7 @@ class Search {
     }
 
     if (!this.dataLib.hasTerm(termId)) {
-      macros.log('Invalid termId', termId);
+      macros.log('Invalid termId', termId, searchTerm);
       return {
         results: [],
         analytics: {
@@ -349,6 +349,7 @@ class Search {
           query: searchTerm,
           minIndex: minIndex,
           maxIndex: maxIndex,
+          termId: termId,
           resultCount: 0,
         },
       };
