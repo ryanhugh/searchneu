@@ -24,7 +24,7 @@ import boston from './boston.svg';
 // Terms that used to be scraped at one point, but are no longer scraped.
 // These may be stored in user's localStorage from the last time they selected a term.
 // If they are, unselected them and select the latest term.
-const OLD_TERMS = ['201858', '201855', '201854', '201852', '201838', '201835', '201834', '201832', '201830', '201828', '201825'];
+const OLD_TERMS = ['201858', '201855', '201854', '201852', '201838', '201835', '201834', '201832', '201830', '201828', '201825', '201840', '201860', '201850', '201730', '201630', '201810', '201820'];
 
 // The lastest term
 const LATEST_TERM = '201940';
