@@ -235,7 +235,10 @@ class Macros extends commonMacros {
     });
   }
 
-  async static logRollbarError(event, shouldExit) {
+  // Takes an array of a bunch of thigs to log to rollbar
+  // Any of the times in the args array can be an error, and it will be logs according to rollbar's API
+  // shouldExit - exit after logging. 
+  async static logRollbarError(args, shouldExit) {
     const rollbarKey = await Macros.getEnvVariable('rollbarPostServerItemToken');
 
     if (!rollbarKey) {
@@ -249,15 +252,22 @@ class Macros extends commonMacros {
     const stack = (new Error()).stack;
 
     // The middle object can include any properties and values, much like amplitude.
-    event.stack = stack;
+    args.stack = stack;
 
-    // if (event.length === 0) {
-    //   event.push('Error had no message?');
-    // }
+    // Search through the args array for an error. If one is found, log that separately.
+    let possibleError;
 
-    if (event[0] instanceof Error) {
-      // The middle object can include any properties and values, much like amplitude.
-      rollbar.handleError(event[0], event, () => {
+    for (let value of Object.values(args)) {
+      if (value instanceof Error) {
+        possibleError = value;
+        break;
+      }
+    }
+
+    if (possibleError) {
+      // The arguments can come in any order. Any errors should be logged separately.  
+      // https://docs.rollbar.com/docs/nodejs#section-rollbar-log-
+      rollbar.error(possibleError, args, () => {
         if (shouldExit) {
           // And kill the process to recover.
           // forver.js will restart it.
@@ -265,7 +275,7 @@ class Macros extends commonMacros {
         }
       });
     } else {
-      rollbar.error(event[0], event, () => {
+      rollbar.error(args, () => {
         if (shouldExit) {
           process.exit(1);  
         }
@@ -288,6 +298,23 @@ class Macros extends commonMacros {
 
 
 
+  // Use this for stuff that is bad, and shouldn't happen, but isn't mission critical and can be ignored and the app will continue working 
+  // Will log something to rollbar and rollbar will send off an email 
+  static async warn(...args) {
+    super.error(...args);
+
+    if (Macros.PROD) {
+      // If running on Travis, just exit 1 and travis will send off an email.
+      if (process.env.CI) {
+        process.exit(1);
+
+      // If running on AWS, tell rollbar about the error so rollbar sends off an email.
+      } else {
+        this.logRollbarError(args, true);
+      }
+    }
+  }
+
 
 
   // Use this for stuff that should never happen, but does not mean the program cannot continue.
@@ -305,7 +332,7 @@ class Macros extends commonMacros {
 
       // If running on AWS, tell rollbar about the error so rollbar sends off an email.
       } else {
-        
+        this.logRollbarError(args, true);
       }
     }
   }
