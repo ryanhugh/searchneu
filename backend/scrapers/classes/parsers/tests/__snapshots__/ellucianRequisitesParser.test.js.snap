@@ -35,6 +35,15 @@ Object {
 }
 `;
 
+exports[`missing and 1`] = `
+Object {
+  "type": "and",
+  "values": Array [
+    "Error while parsing prerequisites.",
+  ],
+}
+`;
+
 exports[`should filter out prereqs that just say they are prereqs 1`] = `
 Object {
   "type": "and",
