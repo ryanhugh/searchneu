@@ -7,7 +7,7 @@ import path from 'path';
 import cheerio from 'cheerio';
 import fs from 'fs-extra';
 
-import ellucianRequisitesParser from '../ellucianRequisitesParser2';
+import ellucianRequisitesParser from '../ellucianRequisitesParser';
 
 
 it('should load a bunch of string prereqs from many on linked.html', async (done) => {

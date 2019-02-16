@@ -5,14 +5,12 @@
 
 import cheerio from 'cheerio';
 import domutils from 'domutils';
-import _ from 'lodash';
 
 import cache from '../../cache';
 import Request from '../../request';
 import macros from '../../../macros';
 import ellucianBaseParser from './ellucianBaseParser';
 import ellucianRequisitesParser from './ellucianRequisitesParser';
-import ellucianRequisitesParser2 from './ellucianRequisitesParser2';
 
 
 const request = new Request('EllucianSectionParser');
@@ -161,24 +159,12 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
 
     const coreqs = ellucianRequisitesParser.parseRequirementSection(url, element.parent.children, 'corequisites');
 
-    //find co and pre reqs and restrictions
-    const prereqs2 = ellucianRequisitesParser2.parseRequirementSection(url, element.parent.children, 'prerequisites');
-    if (!_.isEqual(prereqs, prereqs2)) {
-      macros.log('WARNING: prereqs parsed by the new parser are not equal', JSON.stringify(prereqs, null, 4), JSON.stringify(prereqs2, null, 4));
+    if (prereqs) {
+      retVal.prereqs = prereqs;
     }
 
-    const coreqs2 = ellucianRequisitesParser2.parseRequirementSection(url, element.parent.children, 'corequisites');
-    if (!_.isEqual(coreqs, coreqs2)) {
-      macros.log('WARNING: coreqs parsed by the new parser are not equal', JSON.stringify(coreqs, null, 4), JSON.stringify(coreqs2, null, 4));
-    }
-
-    if (prereqs2) {
-      retVal.prereqs = prereqs2;
-    }
-
-
-    if (coreqs2) {
-      retVal.coreqs = coreqs2;
+    if (coreqs) {
+      retVal.coreqs = coreqs;
     }
 
     //grab credits
