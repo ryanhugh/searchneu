@@ -461,9 +461,34 @@ const razzaq = {
 };
 
 
+const cs9999 = Class.create({
+  lastUpdateTime: 1511131674191,
+  name: 'Some class that has error prereqs',
+  url: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=CS&crse_in=1210&schd_in=%',
+  crns: [],
+  honors: false,
+  maxCredits: 1,
+  minCredits: 1,
+  desc: 'once apon a time there was a magician who went to fillory',
+  classId: '1210',
+  prettyUrl: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=CS&crse_numb_in=1210',
+  termId: '201810',
+  host: 'neu.edu',
+  subject: 'CS',
+  "prereqs": {
+      "type": "or",
+      "values": [
+          "Error while parsing prerequisites."
+      ]
+  }
+});
+
+
+
 export default {
   cs0210: cs0210,
   cs1210: cs1210,
   razzaq: razzaq,
   WMNS4520section: WMNS4520section,
+  cs9999: cs9999
 };
