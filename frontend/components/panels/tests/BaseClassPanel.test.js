@@ -77,3 +77,13 @@ it('should render coreqs string', () => {
 
   expect(coreqs).toMatchSnapshot();
 });
+
+it('should render single prereq string', () => {
+  const component = renderer.create(<BaseClassPanel aClass={ mockData.cs9999 } />);
+
+  const instance = component.getInstance();
+
+  const prereqs = instance.optionalDisplay(macros.prereqTypes.PREREQ);
+
+  expect(prereqs).toEqual([ 'Error while parsing prerequisites.' ])
+});

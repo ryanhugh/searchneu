@@ -124,10 +124,7 @@ class BaseClassPanel extends React.Component {
     return `${retStr}${this.props.aClass.maxCredits} credits`;
   }
 
-  // The argument wrapper func is optional
-  // If it exists, it is called on when formatting the classes
-  // It is called with a class
-  // and can return either a string or a react element.
+  // returns an array made to be rendered by react to display the prereqs
   getReqsString(reqType, aClass = this.props.aClass) {
     const retVal = [];
 
@@ -275,7 +272,7 @@ class BaseClassPanel extends React.Component {
    * @param {prereqTypes} prereqType type of prerequisite.
    */
   optionalDisplay(prereqType) {
-    const data = this.getReqsString(prereqType, this.props.aClass);
+    let data = this.getReqsString(prereqType, this.props.aClass);
 
     if (Array.isArray(data)) {
       if (this.getStateValue(prereqType) >= 3) {
@@ -284,12 +281,12 @@ class BaseClassPanel extends React.Component {
 
       const showAmt = this.getShowAmount(prereqType);
 
-      if (showAmt < data.length) {
-        data.length = showAmt;
-      }
+      // Slice down the array of elements to show to the number of elements we should show.
+      data = data.slice(0, showAmt);
 
-      if (typeof data[data.length - 1] === 'string') {
-        data.length -= 1;
+      // If it ends in a comma, remove the comma from the end.
+      if (typeof data[data.length - 1] === 'string' && data[data.length - 1].trim() == ',') {
+        data = data.slice(0, data.length - 1);
       }
     }
 
@@ -320,7 +317,7 @@ class BaseClassPanel extends React.Component {
               case macros.prereqTypes.PREREQ:
                 return { prereqsPage: prevState.prereqsPage + 1 };
               case macros.prereqTypes.COREQ:
-                return { prereqsPage: prevState.coreqsPage + 1 };
+                return { coreqsPage: prevState.coreqsPage + 1 };
               case macros.prereqTypes.PREREQ_FOR:
                 return { prereqsForPage: prevState.prereqsForPage + 1 };
               case macros.prereqTypes.OPT_PREREQ_FOR:
