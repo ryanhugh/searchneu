@@ -13,7 +13,6 @@ import Request from '../../request';
 import EllucianBaseParser from './ellucianBaseParser';
 import ellucianClassParser from './ellucianClassParser';
 import ellucianRequisitesParser from './ellucianRequisitesParser';
-import ellucianRequisitesParser2 from './ellucianRequisitesParser2';
 
 
 const request = new Request('EllucianCatalogParser');
@@ -121,24 +120,12 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
 
     const coreqs = ellucianRequisitesParser.parseRequirementSection(url, element.children, 'corequisites');
 
-
-    //find co and pre reqs and restrictions
-    const prereqs2 = ellucianRequisitesParser2.parseRequirementSection(url, element.children, 'prerequisites');
-    if (!_.isEqual(prereqs, prereqs2)) {
-      macros.log('WARNING: prereqs parsed by the new parser are not equal', JSON.stringify(prereqs, null, 4), JSON.stringify(prereqs2, null, 4));
+    if (prereqs) {
+      depData.prereqs = prereqs;
     }
 
-    const coreqs2 = ellucianRequisitesParser2.parseRequirementSection(url, element.children, 'corequisites');
-    if (!_.isEqual(coreqs, coreqs2)) {
-      macros.log('WARNING: coreqs parsed by the new parser are not equal', JSON.stringify(coreqs, null, 4), JSON.stringify(coreqs2, null, 4));
-    }
-
-    if (prereqs2) {
-      depData.prereqs = prereqs2;
-    }
-
-    if (coreqs2) {
-      depData.coreqs = coreqs2;
+    if (coreqs) {
+      depData.coreqs = coreqs;
     }
 
     return depData;

@@ -323,7 +323,7 @@ The next step of the process is to scrape all of the sections.  This information
 
 # Prerequisites and Corequisites
 
-The prerequisites and corequisites are parsed from Northeastern's site and converted into an [Abstract Syntax Tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree). This is a complicated process and has undergone a couple iterations. The old version of this code is in RequisiteParser.js and the new version is in RequisiteParser2.js. They are both kept around for now because they have different edge-cases, but, sometime in the future, the old one will be removed. These requisite parsers parse the prerequisite and corequisite sections on both the catalog page and the section page. The input for this process looks like this:
+The prerequisites and corequisites are parsed from Northeastern's site and converted into an [Abstract Syntax Tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree). This is a complicated process and has undergone a couple iterations. The code behind this is in RequisiteParser.js. It parses the prerequisite and corequisite sections on both the catalog page and the section page. The input for this process looks like this:
 
 ------
 ##### Prerequisites:
@@ -378,7 +378,7 @@ Minimum Grade of C-)
 ```
 
 
-The first step in this process is to parse this HTML into an DOM with cheerio. Then, the important pieces of information are copied from the HTML DOM into another data structure. This happens in the `convertElementListToWideMode` method in `ellucianRequisiteParser2.js`. Then, the AST is built. This process is similar to how math equations are parsed and what this code is based off of. Check out [this](https://medium.freecodecamp.org/parsing-math-expressions-with-javascript-7e8f5572276e) article for some information on how this works.
+The first step in this process is to parse this HTML into an DOM with cheerio. Then, the important pieces of information are copied from the HTML DOM into another data structure. This happens in the `convertElementListToWideMode` method in `ellucianRequisiteParser.js`. Then, the AST is built. This process is similar to how math equations are parsed and what this code is based off of. Check out [this](https://medium.freecodecamp.org/parsing-math-expressions-with-javascript-7e8f5572276e) article for some information on how this works.
 
 The output of this process looks like this:
 
