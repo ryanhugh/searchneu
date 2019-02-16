@@ -7,7 +7,6 @@ import path from 'path';
 import cheerio from 'cheerio';
 import fs from 'fs-extra';
 
-import macros from '../../../../macros';
 import ellucianRequisitesParser from '../ellucianRequisitesParser2';
 
 

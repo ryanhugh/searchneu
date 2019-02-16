@@ -85,5 +85,5 @@ it('should render single prereq string', () => {
 
   const prereqs = instance.optionalDisplay(macros.prereqTypes.PREREQ);
 
-  expect(prereqs).toEqual([ 'Error while parsing prerequisites.' ])
+  expect(prereqs).toEqual(['Error while parsing prerequisites.']);
 });

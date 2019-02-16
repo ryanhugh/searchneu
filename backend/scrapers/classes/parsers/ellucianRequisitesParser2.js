@@ -65,7 +65,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
     // {type:'and'|'or',values:[...]}
     this.currFrame = null;
 
-    // Keeps track of whether an error has been encounterd while processing. 
+    // Keeps track of whether an error has been encounterd while processing.
     // This invalid input - invalid syntax or ambigious input (eg (a or b and c or d - ambigious and/or grouping) or ( a b and c or d e - missing and/or))
     // If an error is hit, it returns "Error while processing prereqs" and logs and error to rollbar
     this.error = null;
@@ -279,17 +279,17 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
           if (currClassInfo) {
             if (classInfo) {
               this.logError(`Two urls found in one string?${JSON.stringify(classInfo)}${JSON.stringify(currClassInfo)}`);
-              // Error out. 
+              // Error out.
               return true;
             }
             classInfo = currClassInfo;
           }
         } else {
-          this.logError('Unknown element in parseString:' + this.buffer[0].name);
+          this.logError(`Unknown element in parseString:${this.buffer[0].name}`);
           return true;
         }
       } else {
-        this.logError('Unknown buffer type in parseString:' + this.buffer[0].type);
+        this.logError(`Unknown buffer type in parseString:${this.buffer[0].type}`);
         return true;
       }
       this.buffer.shift();
@@ -376,7 +376,6 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
     if (this.error) {
       return null;
     }
-
 
 
     if (!this.currFrame.type && this.currFrame.values.length === 1 && this.currFrame.values[0].type && this.currFrame.values[0].values) {
@@ -557,7 +556,7 @@ class EllucianRequisitesParser extends EllucianBaseParser.EllucianBaseParser {
       this.finish();
       return {
         type: 'and',
-        values: ["Error while parsing " + sectionName + '.'],
+        values: [`Error while parsing ${sectionName}.`],
       };
     }
 

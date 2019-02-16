@@ -285,7 +285,7 @@ class BaseClassPanel extends React.Component {
       data = data.slice(0, showAmt);
 
       // If it ends in a comma, remove the comma from the end.
-      if (typeof data[data.length - 1] === 'string' && data[data.length - 1].trim() == ',') {
+      if (typeof data[data.length - 1] === 'string' && data[data.length - 1].trim() === ',') {
         data = data.slice(0, data.length - 1);
       }
     }
