@@ -14,7 +14,7 @@ class Macros {
   // Will log as normal, but stays silent during testing
   static log(...args) {
     if (process.env.NODE_ENV === 'test') {
-      // return;
+      return;
     }
 
     console.log(...args); // eslint-disable-line no-console

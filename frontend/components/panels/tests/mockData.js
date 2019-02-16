@@ -475,14 +475,13 @@ const cs9999 = Class.create({
   termId: '201810',
   host: 'neu.edu',
   subject: 'CS',
-  "prereqs": {
-      "type": "or",
-      "values": [
-          "Error while parsing prerequisites."
-      ]
-  }
+  prereqs: {
+    type: 'or',
+    values: [
+      'Error while parsing prerequisites.',
+    ],
+  },
 });
-
 
 
 export default {
@@ -490,5 +489,5 @@ export default {
   cs1210: cs1210,
   razzaq: razzaq,
   WMNS4520section: WMNS4520section,
-  cs9999: cs9999
+  cs9999: cs9999,
 };
