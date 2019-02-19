@@ -126,6 +126,8 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     const fullSectiondata = {};
 
+    // Some of the data that we want on the section object is parsed from this page.
+    // This is where we merge it into the data from the section parser.
     Object.assign(fullSectiondata, dataFromSectionPage, sectionStartingData);
 
     // Run some checks and merge some data into the class object.
