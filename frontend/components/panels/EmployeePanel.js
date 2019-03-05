@@ -6,6 +6,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {findDOMNode} from 'react-dom'
+import ReactTooltip from 'react-tooltip';
+
 import macros from '../macros';
 
 import globe from './globe.svg';
@@ -138,7 +141,7 @@ export default class EmployeePanel extends React.Component {
       const phoneText = phone.join('');
 
       contactRows.push(
-        <a key='tel' href={ `tel:${phoneText}` }>
+        <a key='tel' data-tip="Click to copy" className="employeePhone" onClick={ this.copyOnClick }>
           {phoneText}
         </a>,
       );
@@ -223,6 +226,17 @@ export default class EmployeePanel extends React.Component {
           </span>
           {linkElement}
         </div>
+        <p ref='foo' data-tip='tooltip'></p>
+        <button data-tip='tooltip' data-event="click" onClick={(event) => { 
+
+          // ReactTooltip.show(event.target);  
+          // setTimeout(500, () => {
+          //   ReactTooltip.hide(event.target);  
+          // })
+
+
+
+        }}></button>
 
         <div
           className='body'
