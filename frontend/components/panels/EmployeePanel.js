@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {findDOMNode} from 'react-dom'
+import copyToClipboard from 'copy-text-to-clipboard';
 import ReactTooltip from 'react-tooltip';
 
 import macros from '../macros';
@@ -81,32 +81,18 @@ export default class EmployeePanel extends React.Component {
     });
   }
 
-  // https://css-tricks.com/native-browser-copy-clipboard/
   copyOnClick(event) {  
 
     event.target.setAttribute('data-tip', 'Copied!')
 
     ReactTooltip.show(event.target);
 
-    navigator.clipboard.writeText(event.target.innerText)
-
-    return;
-
-    let range = document.createRange();  
-    range.selectNode(event.target);  
-    window.getSelection().addRange(range);  
-
-    document.execCommand('copy');  
-      
-    // Remove just this range if the browser has support for it.
-    // If not remove all ranges
-    let selection = window.getSelection()
-    if (selection.removeRange) {
-      selection.removeRange(range)
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(event.target.innerText)
+      return;
     }
-    else {
-      selection.removeAllRanges();  
-    }
+
+    copyToClipboard(event.target.innerText);
   }
 
   showTooltipOnEvent(event) {
