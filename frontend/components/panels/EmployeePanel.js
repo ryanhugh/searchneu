@@ -107,35 +107,13 @@ export default class EmployeePanel extends React.Component {
 
   showTooltipOnEvent(event) {
 
-    // console.log('hiiii')
     event.target.setAttribute('data-tip', 'Click to copy')
 
-          // onMouseEnter onMouseLeave
-
-    ReactTooltip.show(event.target);  
-          // setTimeout(500, () => {
-          //   ReactTooltip.hide(event.target);  
-          // })
+    ReactTooltip.show(event.target);
   }
 
-
-  // showTooltipOnEvent2(event) {
-  //   event.target.setAttribute('data-tip', 'Copied!')
-  //   ReactTooltip.show(event.target);  
-  // }
-
-
   hideTooltipOnEvent(event) {
-
-    // console.log('hii22222ii')
-
-          // onMouseEnter onMouseLeave
-
-  ReactTooltip.hide(event.target);  
-          // setTimeout(500, () => {
-          //   ReactTooltip.hide(event.target);  
-          // })
-
+    ReactTooltip.hide(event.target);
   }
 
   render() {
@@ -163,7 +141,18 @@ export default class EmployeePanel extends React.Component {
 
     if (employee.emails) {
       employee.emails.forEach((email) => {
-        contactRows.push(<a data-tip="Click to copy" key={ email } className="employeeEmail" onClick={ this.copyOnClick }>{email}</a>);
+        contactRows.push(
+          <a 
+            key={ email }
+            className="employeeEmail"
+            onClick={ this.copyOnClick }
+            data-tip=''
+            onMouseEnter={this.showTooltipOnEvent}
+            onMouseLeave={this.hideTooltipOnEvent}
+            onClick={this.copyOnClick}>
+              {email}
+          </a>
+          );
       });
     }
 
@@ -264,8 +253,9 @@ export default class EmployeePanel extends React.Component {
           </span>
           {linkElement}
         </div>
+
         <p ref='foo' data-tip='tooltip'></p>
-        <button data-tip='tooltip' onMouseEnter={this.showTooltipOnEvent} onMouseLeave={this.hideTooltipOnEvent} onClick={this.copyOnClick} ></button>
+        <button data-tip='' onMouseEnter={this.showTooltipOnEvent} onMouseLeave={this.hideTooltipOnEvent} onClick={this.copyOnClick}></button>
 
         <div
           className='body'
