@@ -87,18 +87,18 @@ export default class EmployeePanel extends React.Component {
 
     ReactTooltip.show(event.target);
 
+    // Try to copy with the new API, if it exists
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(event.target.innerText)
       return;
     }
 
+    // If not, use a npm module that does it the old way.
     copyToClipboard(event.target.innerText);
   }
 
   showTooltipOnEvent(event) {
-
     event.target.setAttribute('data-tip', 'Click to copy')
-
     ReactTooltip.show(event.target);
   }
 
@@ -217,7 +217,8 @@ export default class EmployeePanel extends React.Component {
       linkElement = (
         <span className='classGlobeLink'>
           <a
-            key='jfdalsj'
+            data-tip={"View on " + macros.collegeHost}
+            key='0'
             target='_blank'
             rel='noopener noreferrer'
             className='inlineBlock'
