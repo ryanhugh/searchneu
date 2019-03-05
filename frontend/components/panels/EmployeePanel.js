@@ -78,6 +78,25 @@ export default class EmployeePanel extends React.Component {
     });
   }
 
+  // https://css-tricks.com/native-browser-copy-clipboard/
+  copyOnClick(event) {  
+    let range = document.createRange();  
+    range.selectNode(event.target);  
+    window.getSelection().addRange(range);  
+
+    document.execCommand('copy');  
+      
+    // Remove just this range if the browser has support for it.
+    // If not remove all ranges
+    let selection = window.getSelection()
+    if (selection.removeRange) {
+      selection.removeRange(range)
+    }
+    else {
+      selection.removeAllRanges();  
+    }
+  };
+
   render() {
     const employee = this.props.employee;
 
@@ -103,7 +122,7 @@ export default class EmployeePanel extends React.Component {
 
     if (employee.emails) {
       employee.emails.forEach((email) => {
-        contactRows.push(<a key={ email } href={ `mailto:${email}` }>{email}</a>);
+        contactRows.push(<a data-tip="Click to copy" key={ email } className="employeeEmail" onClick={ this.copyOnClick }>{email}</a>);
       });
     }
 
