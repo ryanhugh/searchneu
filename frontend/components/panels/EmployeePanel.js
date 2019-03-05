@@ -88,6 +88,10 @@ export default class EmployeePanel extends React.Component {
 
     ReactTooltip.show(event.target);
 
+    navigator.clipboard.writeText(event.target.innerText)
+
+    return;
+
     let range = document.createRange();  
     range.selectNode(event.target);  
     window.getSelection().addRange(range);  
@@ -168,7 +172,7 @@ export default class EmployeePanel extends React.Component {
       const phoneText = phone.join('');
 
       contactRows.push(
-        <a key='tel' data-tip="Click to copy" className="employeePhone" onClick={ this.copyOnClick }>
+        <a key='tel' data-tip="" className="employeePhone" onMouseEnter={this.showTooltipOnEvent} onMouseLeave={this.hideTooltipOnEvent} onClick={ this.copyOnClick }>
           {phoneText}
         </a>,
       );
@@ -253,9 +257,6 @@ export default class EmployeePanel extends React.Component {
           </span>
           {linkElement}
         </div>
-
-        <p ref='foo' data-tip='tooltip'></p>
-        <button data-tip='' onMouseEnter={this.showTooltipOnEvent} onMouseLeave={this.hideTooltipOnEvent} onClick={this.copyOnClick}></button>
 
         <div
           className='body'
