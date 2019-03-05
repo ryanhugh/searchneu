@@ -83,6 +83,11 @@ export default class EmployeePanel extends React.Component {
 
   // https://css-tricks.com/native-browser-copy-clipboard/
   copyOnClick(event) {  
+
+    event.target.setAttribute('data-tip', 'Copied!')
+
+    ReactTooltip.show(event.target);
+
     let range = document.createRange();  
     range.selectNode(event.target);  
     window.getSelection().addRange(range);  
@@ -98,7 +103,40 @@ export default class EmployeePanel extends React.Component {
     else {
       selection.removeAllRanges();  
     }
-  };
+  }
+
+  showTooltipOnEvent(event) {
+
+    // console.log('hiiii')
+    event.target.setAttribute('data-tip', 'Click to copy')
+
+          // onMouseEnter onMouseLeave
+
+    ReactTooltip.show(event.target);  
+          // setTimeout(500, () => {
+          //   ReactTooltip.hide(event.target);  
+          // })
+  }
+
+
+  // showTooltipOnEvent2(event) {
+  //   event.target.setAttribute('data-tip', 'Copied!')
+  //   ReactTooltip.show(event.target);  
+  // }
+
+
+  hideTooltipOnEvent(event) {
+
+    // console.log('hii22222ii')
+
+          // onMouseEnter onMouseLeave
+
+  ReactTooltip.hide(event.target);  
+          // setTimeout(500, () => {
+          //   ReactTooltip.hide(event.target);  
+          // })
+
+  }
 
   render() {
     const employee = this.props.employee;
@@ -227,16 +265,7 @@ export default class EmployeePanel extends React.Component {
           {linkElement}
         </div>
         <p ref='foo' data-tip='tooltip'></p>
-        <button data-tip='tooltip' data-event="click" onClick={(event) => { 
-
-          // ReactTooltip.show(event.target);  
-          // setTimeout(500, () => {
-          //   ReactTooltip.hide(event.target);  
-          // })
-
-
-
-        }}></button>
+        <button data-tip='tooltip' onMouseEnter={this.showTooltipOnEvent} onMouseLeave={this.hideTooltipOnEvent} onClick={this.copyOnClick} ></button>
 
         <div
           className='body'
