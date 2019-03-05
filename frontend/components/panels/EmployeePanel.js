@@ -81,15 +81,14 @@ export default class EmployeePanel extends React.Component {
     });
   }
 
-  copyOnClick(event) {  
-
-    event.target.setAttribute('data-tip', 'Copied!')
+  copyOnClick(event) {
+    event.target.setAttribute('data-tip', 'Copied!');
 
     ReactTooltip.show(event.target);
 
     // Try to copy with the new API, if it exists
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(event.target.innerText)
+      navigator.clipboard.writeText(event.target.innerText);
       return;
     }
 
@@ -98,7 +97,7 @@ export default class EmployeePanel extends React.Component {
   }
 
   showTooltipOnEvent(event) {
-    event.target.setAttribute('data-tip', 'Click to copy')
+    event.target.setAttribute('data-tip', 'Click to copy');
     ReactTooltip.show(event.target);
   }
 
@@ -132,17 +131,19 @@ export default class EmployeePanel extends React.Component {
     if (employee.emails) {
       employee.emails.forEach((email) => {
         contactRows.push(
-          <a 
+          <a
             key={ email }
-            className="employeeEmail"
+            className='employeeEmail'
             onClick={ this.copyOnClick }
             data-tip=''
-            onMouseEnter={this.showTooltipOnEvent}
-            onMouseLeave={this.hideTooltipOnEvent}
-            onClick={this.copyOnClick}>
-              {email}
-          </a>
-          );
+            onMouseEnter={ this.showTooltipOnEvent }
+            onMouseLeave={ this.hideTooltipOnEvent }
+            role='button'
+            tabIndex={ 0 }
+          >
+            {email}
+          </a>,
+        );
       });
     }
 
@@ -158,7 +159,7 @@ export default class EmployeePanel extends React.Component {
       const phoneText = phone.join('');
 
       contactRows.push(
-        <a key='tel' data-tip="" className="employeePhone" onMouseEnter={this.showTooltipOnEvent} onMouseLeave={this.hideTooltipOnEvent} onClick={ this.copyOnClick }>
+        <a key='tel' data-tip='' className='employeePhone' onMouseEnter={ this.showTooltipOnEvent } onMouseLeave={ this.hideTooltipOnEvent } onClick={ this.copyOnClick } role='button' tabIndex={ 0 }>
           {phoneText}
         </a>,
       );
@@ -217,7 +218,7 @@ export default class EmployeePanel extends React.Component {
       linkElement = (
         <span className='classGlobeLink'>
           <a
-            data-tip={"View on " + macros.collegeHost}
+            data-tip={ `View on ${macros.collegeHost}` }
             key='0'
             target='_blank'
             rel='noopener noreferrer'
