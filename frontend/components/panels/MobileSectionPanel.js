@@ -66,6 +66,12 @@ export default class MobileSectionPanel extends React.Component {
         const examDayMoment = examMeeting.endDate;
         const examTimeMoment = examMeeting.times[0][0].start;
 
+        let examLocation = examMeeting.where;
+
+        if (examLocation === 'TBA') {
+          examLocation = 'Location TBA';
+        }
+
         examRow = [
           <tr key='0'>
             <td className='firstColumn'>Exam</td>
@@ -74,9 +80,9 @@ export default class MobileSectionPanel extends React.Component {
             </td>
           </tr>,
           <tr key='1'>
-            <td className='firstColumn'>Room</td>
+            <td className='firstColumn'>Exam</td>
             <td className='secondColumn'>
-              <LocationLinks locations={ [examMeeting.where] } />
+              <LocationLinks locations={ [examLocation] } />
             </td>
           </tr>,
         ];
