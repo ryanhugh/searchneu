@@ -54,8 +54,11 @@ export default class EmployeePanel extends React.Component {
       showMoreThanTitle: false,
     };
 
+    // When a phone number of email is clicked on desktop,
+    // a popup shows that says "Copied!". This timeout will hide the tooltip after a while.
+    this.hideTimeout = null;
+
     this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
-    this.copyToClipboard = this.copyToClipboard.bind(this);
     this.copyOnClick = this.copyOnClick.bind(this);
     this.hideTooltipOnEvent = this.hideTooltipOnEvent.bind(this);
     this.showTooltipOnEvent = this.showTooltipOnEvent.bind(this);
@@ -84,90 +87,28 @@ export default class EmployeePanel extends React.Component {
     });
   }
 
-
-// TODOOOO
-//   The show needs to clear the hide timeout
-// Clean up the element added to the body
-
-
-  // Takes in text to be copied to the clipboard. 
-  // This process is longer than it seems like it should be... (thanks JS)
-  // There is a new APi
-  copyToClipboard(input) {
-
-    // Try to copy with the new API, if it exists
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(target.innerText);
-      return;
-    }
-
-    // If not, use a much longer process...
-    const isRTL = document.documentElement.getAttribute('dir') == 'rtl';
-
-    let container = document.body
-
-    this.fakeHandlerCallback = () => this.removeFake();
-    // this.fakeHandler = this.container.addEventListener('click', this.fakeHandlerCallback);
-
-    this.fakeElem = document.createElement('textarea');
-    // Prevent zooming on iOS
-    this.fakeElem.style.fontSize = '12pt';
-    // Reset box model
-    this.fakeElem.style.border = '0';
-    this.fakeElem.style.padding = '0';
-    this.fakeElem.style.margin = '0';
-    // Move element out of screen horizontally
-    this.fakeElem.style.position = 'absolute';
-    this.fakeElem.style[ isRTL ? 'right' : 'left' ] = '-9999px';
-    // Move element to the same position vertically
-    let yPosition = window.pageYOffset || document.documentElement.scrollTop;
-    this.fakeElem.style.top = `${yPosition}px`;
-
-    this.fakeElem.setAttribute('readonly', '');
-    this.fakeElem.value = input;
-
-    document.body.appendChild(this.fakeElem);
-
-    // this.selectedText = select(this.fakeElem);
-
-    var isReadOnly = this.fakeElem.hasAttribute('readonly');
-
-    this.fakeElem.select();
-    this.fakeElem.setSelectionRange(0, this.fakeElem.value.length);
-    
-    try {
-       document.execCommand('copy');
-    }
-    catch (err) {
-      console.log(err)
-    }
-  }
-
-
   copyOnClick(event) {
     event.target.setAttribute('data-tip', 'Copied!');
-    console.log("changing text to click to copied!")
 
-    let target = event.target;
+    const target = event.target;
 
     ReactTooltip.show(target);
 
     // Start a timer to hide the target
-    setTimeout(() => {
-
+    this.hideTimeout = setTimeout(() => {
       // Check to make sure it is still in the document
       if (document.contains(target)) {
         ReactTooltip.hide(target);
       }
-    }, 1250)
+    }, 1250);
 
 
-    this.copyToClipboard(target.innerText);
+    macros.copyToClipboard(target.innerText);
   }
 
   showTooltipOnEvent(event) {
+    clearTimeout(this.hideTimeout);
     event.target.setAttribute('data-tip', 'Click to copy');
-    console.log("changing text to click to copy")
     ReactTooltip.show(event.target);
   }
 
@@ -201,23 +142,21 @@ export default class EmployeePanel extends React.Component {
     // and a "Copied!" when it is clicked
     // If we want to enable this functionality on mobile too
     // use just the onClick method for mobile, and don't use the other two.
-    let copyOnClickEvents = {
+    const copyOnClickEvents = {
       onClick: this.copyOnClick,
       onMouseEnter: this.showTooltipOnEvent,
       onMouseLeave: this.hideTooltipOnEvent,
-    }
+    };
 
     if (employee.emails) {
       employee.emails.forEach((email) => {
-
         let events;
         if (macros.isMobile) {
           events = {
-            href: 'mailto:' + email
-          }
-        }
-        else {
-          events = copyOnClickEvents
+            href: `mailto:${email}`,
+          };
+        } else {
+          events = copyOnClickEvents;
         }
 
 
@@ -228,7 +167,7 @@ export default class EmployeePanel extends React.Component {
             data-tip=''
             role='button'
             tabIndex={ 0 }
-            {...events}
+            { ...events }
           >
             {email}
           </a>,
@@ -250,16 +189,15 @@ export default class EmployeePanel extends React.Component {
       let events;
       if (macros.isMobile) {
         events = {
-          href: 'tel:' + employee.phone
-        }
-      }
-      else {
-        events = copyOnClickEvents
+          href: `tel:${employee.phone}`,
+        };
+      } else {
+        events = copyOnClickEvents;
       }
 
 
       contactRows.push(
-        <a key='tel' data-tip='' className='employeePhone' role='button' tabIndex={ 0 } {...events}>
+        <a key='tel' data-tip='' className='employeePhone' role='button' tabIndex={ 0 } { ...events }>
           {phoneText}
         </a>,
       );

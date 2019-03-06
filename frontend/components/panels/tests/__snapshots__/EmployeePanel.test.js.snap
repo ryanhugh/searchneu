@@ -55,6 +55,7 @@ ShallowWrapper {
           >
             <a
               className="inlineBlock"
+              data-tip="View on neu.edu"
               href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
               rel="noopener noreferrer"
               target="_blank"
@@ -104,19 +105,37 @@ ShallowWrapper {
             132C Nightingale Hall
             <br />
             <a
-              href="mailto:l.razzaq@northeastern.edu"
+              className="employeeEmail"
+              data-tip=""
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              role="button"
+              tabIndex={0}
             >
               l.razzaq@northeastern.edu
             </a>
             <br />
             <a
-              href="mailto:lrazzaq@ccs.neu.edu"
+              className="employeeEmail"
+              data-tip=""
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              role="button"
+              tabIndex={0}
             >
               lrazzaq@ccs.neu.edu
             </a>
             <br />
             <a
-              href="tel:617-373-5797"
+              className="employeePhone"
+              data-tip=""
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              role="button"
+              tabIndex={0}
             >
               617-373-5797
             </a>
@@ -144,6 +163,7 @@ ShallowWrapper {
             >
               <a
                 className="inlineBlock"
+                data-tip="View on neu.edu"
                 href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -182,6 +202,7 @@ ShallowWrapper {
             "props": Object {
               "children": <a
                 className="inlineBlock"
+                data-tip="View on neu.edu"
                 href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -196,7 +217,7 @@ ShallowWrapper {
             "ref": null,
             "rendered": Object {
               "instance": null,
-              "key": "jfdalsj",
+              "key": "0",
               "nodeType": "host",
               "props": Object {
                 "children": <img
@@ -204,6 +225,7 @@ ShallowWrapper {
                   src="file"
                 />,
                 "className": "inlineBlock",
+                "data-tip": "View on neu.edu",
                 "href": "https://www.ccis.northeastern.edu/people/leena-razzaq/",
                 "rel": "noopener noreferrer",
                 "target": "_blank",
@@ -263,19 +285,37 @@ ShallowWrapper {
               132C Nightingale Hall
               <br />
               <a
-                href="mailto:l.razzaq@northeastern.edu"
+                className="employeeEmail"
+                data-tip=""
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                role="button"
+                tabIndex={0}
               >
                 l.razzaq@northeastern.edu
               </a>
               <br />
               <a
-                href="mailto:lrazzaq@ccs.neu.edu"
+                className="employeeEmail"
+                data-tip=""
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                role="button"
+                tabIndex={0}
               >
                 lrazzaq@ccs.neu.edu
               </a>
               <br />
               <a
-                href="tel:617-373-5797"
+                className="employeePhone"
+                data-tip=""
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                role="button"
+                tabIndex={0}
               >
                 617-373-5797
               </a>
@@ -388,19 +428,37 @@ ShallowWrapper {
                 "132C Nightingale Hall",
                 <br />,
                 <a
-                  href="mailto:l.razzaq@northeastern.edu"
+                  className="employeeEmail"
+                  data-tip=""
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  role="button"
+                  tabIndex={0}
                 >
                   l.razzaq@northeastern.edu
                 </a>,
                 <br />,
                 <a
-                  href="mailto:lrazzaq@ccs.neu.edu"
+                  className="employeeEmail"
+                  data-tip=""
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  role="button"
+                  tabIndex={0}
                 >
                   lrazzaq@ccs.neu.edu
                 </a>,
                 <br />,
                 <a
-                  href="tel:617-373-5797"
+                  className="employeePhone"
+                  data-tip=""
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  role="button"
+                  tabIndex={0}
                 >
                   617-373-5797
                 </a>,
@@ -425,7 +483,13 @@ ShallowWrapper {
                 "nodeType": "host",
                 "props": Object {
                   "children": "l.razzaq@northeastern.edu",
-                  "href": "mailto:l.razzaq@northeastern.edu",
+                  "className": "employeeEmail",
+                  "data-tip": "",
+                  "onClick": [Function],
+                  "onMouseEnter": [Function],
+                  "onMouseLeave": [Function],
+                  "role": "button",
+                  "tabIndex": 0,
                 },
                 "ref": null,
                 "rendered": "l.razzaq@northeastern.edu",
@@ -446,7 +510,13 @@ ShallowWrapper {
                 "nodeType": "host",
                 "props": Object {
                   "children": "lrazzaq@ccs.neu.edu",
-                  "href": "mailto:lrazzaq@ccs.neu.edu",
+                  "className": "employeeEmail",
+                  "data-tip": "",
+                  "onClick": [Function],
+                  "onMouseEnter": [Function],
+                  "onMouseLeave": [Function],
+                  "role": "button",
+                  "tabIndex": 0,
                 },
                 "ref": null,
                 "rendered": "lrazzaq@ccs.neu.edu",
@@ -467,7 +537,13 @@ ShallowWrapper {
                 "nodeType": "host",
                 "props": Object {
                   "children": "617-373-5797",
-                  "href": "tel:617-373-5797",
+                  "className": "employeePhone",
+                  "data-tip": "",
+                  "onClick": [Function],
+                  "onMouseEnter": [Function],
+                  "onMouseLeave": [Function],
+                  "role": "button",
+                  "tabIndex": 0,
                 },
                 "ref": null,
                 "rendered": "617-373-5797",
@@ -505,6 +581,7 @@ ShallowWrapper {
             >
               <a
                 className="inlineBlock"
+                data-tip="View on neu.edu"
                 href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -554,19 +631,37 @@ ShallowWrapper {
               132C Nightingale Hall
               <br />
               <a
-                href="mailto:l.razzaq@northeastern.edu"
+                className="employeeEmail"
+                data-tip=""
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                role="button"
+                tabIndex={0}
               >
                 l.razzaq@northeastern.edu
               </a>
               <br />
               <a
-                href="mailto:lrazzaq@ccs.neu.edu"
+                className="employeeEmail"
+                data-tip=""
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                role="button"
+                tabIndex={0}
               >
                 lrazzaq@ccs.neu.edu
               </a>
               <br />
               <a
-                href="tel:617-373-5797"
+                className="employeePhone"
+                data-tip=""
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                role="button"
+                tabIndex={0}
               >
                 617-373-5797
               </a>
@@ -594,6 +689,7 @@ ShallowWrapper {
               >
                 <a
                   className="inlineBlock"
+                  data-tip="View on neu.edu"
                   href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
                   rel="noopener noreferrer"
                   target="_blank"
@@ -632,6 +728,7 @@ ShallowWrapper {
               "props": Object {
                 "children": <a
                   className="inlineBlock"
+                  data-tip="View on neu.edu"
                   href="https://www.ccis.northeastern.edu/people/leena-razzaq/"
                   rel="noopener noreferrer"
                   target="_blank"
@@ -646,7 +743,7 @@ ShallowWrapper {
               "ref": null,
               "rendered": Object {
                 "instance": null,
-                "key": "jfdalsj",
+                "key": "0",
                 "nodeType": "host",
                 "props": Object {
                   "children": <img
@@ -654,6 +751,7 @@ ShallowWrapper {
                     src="file"
                   />,
                   "className": "inlineBlock",
+                  "data-tip": "View on neu.edu",
                   "href": "https://www.ccis.northeastern.edu/people/leena-razzaq/",
                   "rel": "noopener noreferrer",
                   "target": "_blank",
@@ -713,19 +811,37 @@ ShallowWrapper {
                 132C Nightingale Hall
                 <br />
                 <a
-                  href="mailto:l.razzaq@northeastern.edu"
+                  className="employeeEmail"
+                  data-tip=""
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  role="button"
+                  tabIndex={0}
                 >
                   l.razzaq@northeastern.edu
                 </a>
                 <br />
                 <a
-                  href="mailto:lrazzaq@ccs.neu.edu"
+                  className="employeeEmail"
+                  data-tip=""
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  role="button"
+                  tabIndex={0}
                 >
                   lrazzaq@ccs.neu.edu
                 </a>
                 <br />
                 <a
-                  href="tel:617-373-5797"
+                  className="employeePhone"
+                  data-tip=""
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  role="button"
+                  tabIndex={0}
                 >
                   617-373-5797
                 </a>
@@ -838,19 +954,37 @@ ShallowWrapper {
                   "132C Nightingale Hall",
                   <br />,
                   <a
-                    href="mailto:l.razzaq@northeastern.edu"
+                    className="employeeEmail"
+                    data-tip=""
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
+                    role="button"
+                    tabIndex={0}
                   >
                     l.razzaq@northeastern.edu
                   </a>,
                   <br />,
                   <a
-                    href="mailto:lrazzaq@ccs.neu.edu"
+                    className="employeeEmail"
+                    data-tip=""
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
+                    role="button"
+                    tabIndex={0}
                   >
                     lrazzaq@ccs.neu.edu
                   </a>,
                   <br />,
                   <a
-                    href="tel:617-373-5797"
+                    className="employeePhone"
+                    data-tip=""
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
+                    role="button"
+                    tabIndex={0}
                   >
                     617-373-5797
                   </a>,
@@ -875,7 +1009,13 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": "l.razzaq@northeastern.edu",
-                    "href": "mailto:l.razzaq@northeastern.edu",
+                    "className": "employeeEmail",
+                    "data-tip": "",
+                    "onClick": [Function],
+                    "onMouseEnter": [Function],
+                    "onMouseLeave": [Function],
+                    "role": "button",
+                    "tabIndex": 0,
                   },
                   "ref": null,
                   "rendered": "l.razzaq@northeastern.edu",
@@ -896,7 +1036,13 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": "lrazzaq@ccs.neu.edu",
-                    "href": "mailto:lrazzaq@ccs.neu.edu",
+                    "className": "employeeEmail",
+                    "data-tip": "",
+                    "onClick": [Function],
+                    "onMouseEnter": [Function],
+                    "onMouseLeave": [Function],
+                    "role": "button",
+                    "tabIndex": 0,
                   },
                   "ref": null,
                   "rendered": "lrazzaq@ccs.neu.edu",
@@ -917,7 +1063,13 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": "617-373-5797",
-                    "href": "tel:617-373-5797",
+                    "className": "employeePhone",
+                    "data-tip": "",
+                    "onClick": [Function],
+                    "onMouseEnter": [Function],
+                    "onMouseLeave": [Function],
+                    "role": "button",
+                    "tabIndex": 0,
                   },
                   "ref": null,
                   "rendered": "617-373-5797",
@@ -1028,19 +1180,31 @@ ShallowWrapper {
             132C Nightingale Hall
             <br />
             <a
+              className="employeeEmail"
+              data-tip=""
               href="mailto:l.razzaq@northeastern.edu"
+              role="button"
+              tabIndex={0}
             >
               l.razzaq@northeastern.edu
             </a>
             <br />
             <a
+              className="employeeEmail"
+              data-tip=""
               href="mailto:lrazzaq@ccs.neu.edu"
+              role="button"
+              tabIndex={0}
             >
               lrazzaq@ccs.neu.edu
             </a>
             <br />
             <a
-              href="tel:617-373-5797"
+              className="employeePhone"
+              data-tip=""
+              href="tel:6173735797"
+              role="button"
+              tabIndex={0}
             >
               617-373-5797
             </a>
@@ -1132,19 +1296,31 @@ ShallowWrapper {
               132C Nightingale Hall
               <br />
               <a
+                className="employeeEmail"
+                data-tip=""
                 href="mailto:l.razzaq@northeastern.edu"
+                role="button"
+                tabIndex={0}
               >
                 l.razzaq@northeastern.edu
               </a>
               <br />
               <a
+                className="employeeEmail"
+                data-tip=""
                 href="mailto:lrazzaq@ccs.neu.edu"
+                role="button"
+                tabIndex={0}
               >
                 lrazzaq@ccs.neu.edu
               </a>
               <br />
               <a
-                href="tel:617-373-5797"
+                className="employeePhone"
+                data-tip=""
+                href="tel:6173735797"
+                role="button"
+                tabIndex={0}
               >
                 617-373-5797
               </a>
@@ -1182,19 +1358,31 @@ ShallowWrapper {
                 "132C Nightingale Hall",
                 <br />,
                 <a
+                  className="employeeEmail"
+                  data-tip=""
                   href="mailto:l.razzaq@northeastern.edu"
+                  role="button"
+                  tabIndex={0}
                 >
                   l.razzaq@northeastern.edu
                 </a>,
                 <br />,
                 <a
+                  className="employeeEmail"
+                  data-tip=""
                   href="mailto:lrazzaq@ccs.neu.edu"
+                  role="button"
+                  tabIndex={0}
                 >
                   lrazzaq@ccs.neu.edu
                 </a>,
                 <br />,
                 <a
-                  href="tel:617-373-5797"
+                  className="employeePhone"
+                  data-tip=""
+                  href="tel:6173735797"
+                  role="button"
+                  tabIndex={0}
                 >
                   617-373-5797
                 </a>,
@@ -1239,7 +1427,11 @@ ShallowWrapper {
                 "nodeType": "host",
                 "props": Object {
                   "children": "l.razzaq@northeastern.edu",
+                  "className": "employeeEmail",
+                  "data-tip": "",
                   "href": "mailto:l.razzaq@northeastern.edu",
+                  "role": "button",
+                  "tabIndex": 0,
                 },
                 "ref": null,
                 "rendered": "l.razzaq@northeastern.edu",
@@ -1260,7 +1452,11 @@ ShallowWrapper {
                 "nodeType": "host",
                 "props": Object {
                   "children": "lrazzaq@ccs.neu.edu",
+                  "className": "employeeEmail",
+                  "data-tip": "",
                   "href": "mailto:lrazzaq@ccs.neu.edu",
+                  "role": "button",
+                  "tabIndex": 0,
                 },
                 "ref": null,
                 "rendered": "lrazzaq@ccs.neu.edu",
@@ -1281,7 +1477,11 @@ ShallowWrapper {
                 "nodeType": "host",
                 "props": Object {
                   "children": "617-373-5797",
-                  "href": "tel:617-373-5797",
+                  "className": "employeePhone",
+                  "data-tip": "",
+                  "href": "tel:6173735797",
+                  "role": "button",
+                  "tabIndex": 0,
                 },
                 "ref": null,
                 "rendered": "617-373-5797",
@@ -1374,19 +1574,31 @@ ShallowWrapper {
               132C Nightingale Hall
               <br />
               <a
+                className="employeeEmail"
+                data-tip=""
                 href="mailto:l.razzaq@northeastern.edu"
+                role="button"
+                tabIndex={0}
               >
                 l.razzaq@northeastern.edu
               </a>
               <br />
               <a
+                className="employeeEmail"
+                data-tip=""
                 href="mailto:lrazzaq@ccs.neu.edu"
+                role="button"
+                tabIndex={0}
               >
                 lrazzaq@ccs.neu.edu
               </a>
               <br />
               <a
-                href="tel:617-373-5797"
+                className="employeePhone"
+                data-tip=""
+                href="tel:6173735797"
+                role="button"
+                tabIndex={0}
               >
                 617-373-5797
               </a>
@@ -1478,19 +1690,31 @@ ShallowWrapper {
                 132C Nightingale Hall
                 <br />
                 <a
+                  className="employeeEmail"
+                  data-tip=""
                   href="mailto:l.razzaq@northeastern.edu"
+                  role="button"
+                  tabIndex={0}
                 >
                   l.razzaq@northeastern.edu
                 </a>
                 <br />
                 <a
+                  className="employeeEmail"
+                  data-tip=""
                   href="mailto:lrazzaq@ccs.neu.edu"
+                  role="button"
+                  tabIndex={0}
                 >
                   lrazzaq@ccs.neu.edu
                 </a>
                 <br />
                 <a
-                  href="tel:617-373-5797"
+                  className="employeePhone"
+                  data-tip=""
+                  href="tel:6173735797"
+                  role="button"
+                  tabIndex={0}
                 >
                   617-373-5797
                 </a>
@@ -1528,19 +1752,31 @@ ShallowWrapper {
                   "132C Nightingale Hall",
                   <br />,
                   <a
+                    className="employeeEmail"
+                    data-tip=""
                     href="mailto:l.razzaq@northeastern.edu"
+                    role="button"
+                    tabIndex={0}
                   >
                     l.razzaq@northeastern.edu
                   </a>,
                   <br />,
                   <a
+                    className="employeeEmail"
+                    data-tip=""
                     href="mailto:lrazzaq@ccs.neu.edu"
+                    role="button"
+                    tabIndex={0}
                   >
                     lrazzaq@ccs.neu.edu
                   </a>,
                   <br />,
                   <a
-                    href="tel:617-373-5797"
+                    className="employeePhone"
+                    data-tip=""
+                    href="tel:6173735797"
+                    role="button"
+                    tabIndex={0}
                   >
                     617-373-5797
                   </a>,
@@ -1585,7 +1821,11 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": "l.razzaq@northeastern.edu",
+                    "className": "employeeEmail",
+                    "data-tip": "",
                     "href": "mailto:l.razzaq@northeastern.edu",
+                    "role": "button",
+                    "tabIndex": 0,
                   },
                   "ref": null,
                   "rendered": "l.razzaq@northeastern.edu",
@@ -1606,7 +1846,11 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": "lrazzaq@ccs.neu.edu",
+                    "className": "employeeEmail",
+                    "data-tip": "",
                     "href": "mailto:lrazzaq@ccs.neu.edu",
+                    "role": "button",
+                    "tabIndex": 0,
                   },
                   "ref": null,
                   "rendered": "lrazzaq@ccs.neu.edu",
@@ -1627,7 +1871,11 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": "617-373-5797",
-                    "href": "tel:617-373-5797",
+                    "className": "employeePhone",
+                    "data-tip": "",
+                    "href": "tel:6173735797",
+                    "role": "button",
+                    "tabIndex": 0,
                   },
                   "ref": null,
                   "rendered": "617-373-5797",
