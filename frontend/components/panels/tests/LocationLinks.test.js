@@ -15,12 +15,12 @@ Enzyme.configure({ adapter: new Adapter() });
 
 
 it('should render a section', () => {
-  const result = shallow(<LocationLinks section={ mockData.cs1210.sections[0] } />);
+  const result = shallow(<LocationLinks locations={ mockData.cs1210.sections[0].getLocations() } />);
   expect(result).toMatchSnapshot();
 });
 
 
 it('should render another section', () => {
-  const result = shallow(<LocationLinks section={ mockData.cs0210.sections[0] } />);
+  const result = shallow(<LocationLinks locations={ mockData.cs0210.sections[0].getLocations() } />);
   expect(result).toMatchSnapshot();
 });

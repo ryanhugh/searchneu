@@ -67,18 +67,18 @@ export default class MobileSectionPanel extends React.Component {
         const examTimeMoment = examMeeting.times[0][0].start;
 
         examRow = [
-          <tr key="0">
+          <tr key='0'>
             <td className='firstColumn'>Exam</td>
             <td className='secondColumn'>
               {examDayMoment.format('MMMM Do @ ') + examTimeMoment.format('h:mm a')}
             </td>
           </tr>,
-          <tr key="1">
+          <tr key='1'>
             <td className='firstColumn'>Room</td>
             <td className='secondColumn'>
-              {examMeeting.where}
+              <LocationLinks locations={ [examMeeting.where] } />
             </td>
-          </tr>
+          </tr>,
         ];
       }
     }
@@ -109,6 +109,11 @@ export default class MobileSectionPanel extends React.Component {
       );
     }
 
+    // Format the location of the section
+    let sectionLocations = null;
+    if (!this.props.section.online) {
+      sectionLocations = <LocationLinks locations={ this.props.section.getLocations() } />;
+    }
 
     return (
       <div className='section-container'>
@@ -137,7 +142,7 @@ export default class MobileSectionPanel extends React.Component {
             <tr style={{ display: this.props.section.online && 'none' }}>
               <td className='firstColumn'>Place</td>
               <td className='secondColumn'>
-                <LocationLinks section={ this.props.section } />
+                {sectionLocations}
               </td>
             </tr>
             <tr style={{ display: this.props.section.online && 'none' }}>
