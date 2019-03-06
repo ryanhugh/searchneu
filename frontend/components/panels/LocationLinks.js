@@ -26,12 +26,12 @@ function LocationLinks(props) {
       optionalComma = ', ';
     }
 
-    if (location.toUpperCase() === 'TBA') {
+    if (location.toUpperCase() === 'TBA' || location.toUpperCase() === 'LOCATION TBA') {
       if (locations.length > 1) {
         return null;
       }
 
-      return 'TBA';
+      return location;
     }
 
     if (location.toUpperCase() === 'BOSTON DEPT') {
