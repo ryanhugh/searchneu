@@ -66,15 +66,20 @@ export default class MobileSectionPanel extends React.Component {
         const examDayMoment = examMeeting.endDate;
         const examTimeMoment = examMeeting.times[0][0].start;
 
-
-        examRow = (
-          <tr>
+        examRow = [
+          <tr key="0">
             <td className='firstColumn'>Exam</td>
             <td className='secondColumn'>
               {examDayMoment.format('MMMM Do @ ') + examTimeMoment.format('h:mm a')}
             </td>
+          </tr>,
+          <tr key="1">
+            <td className='firstColumn'>Room</td>
+            <td className='secondColumn'>
+              {examMeeting.where}
+            </td>
           </tr>
-        );
+        ];
       }
     }
 
@@ -147,7 +152,6 @@ export default class MobileSectionPanel extends React.Component {
                 <WeekdayBoxes section={ this.props.section } />
               </td>
             </tr>
-            {examRow}
             <tr style={{ display: hasWaitList && 'none' }}>
               <td className='firstColumn'>Seats</td>
               <td className='secondColumn'>
@@ -155,6 +159,7 @@ export default class MobileSectionPanel extends React.Component {
               </td>
             </tr>
             {waitlistRow}
+            {examRow}
           </tbody>
         </table>
       </div>
