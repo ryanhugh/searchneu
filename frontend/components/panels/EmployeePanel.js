@@ -6,10 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import copyToClipboard from 'copy-text-to-clipboard';
 import ReactTooltip from 'react-tooltip';
-
-import ClipboardJS from 'clipboard';
 
 import macros from '../macros';
 
