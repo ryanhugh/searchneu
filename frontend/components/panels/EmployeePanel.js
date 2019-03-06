@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 import copyToClipboard from 'copy-text-to-clipboard';
 import ReactTooltip from 'react-tooltip';
 
+import ClipboardJS from 'clipboard';
+
 import macros from '../macros';
 
 import globe from './globe.svg';
@@ -56,7 +58,7 @@ export default class EmployeePanel extends React.Component {
     };
 
     this.toggleShowMoreThanTitle = this.toggleShowMoreThanTitle.bind(this);
-    this.copyToClipboardOldMode = this.copyToClipboardOldMode.bind(this);
+    this.copyToClipboard = this.copyToClipboard.bind(this);
     this.copyOnClick = this.copyOnClick.bind(this);
     this.hideTooltipOnEvent = this.hideTooltipOnEvent.bind(this);
     this.showTooltipOnEvent = this.showTooltipOnEvent.bind(this);
@@ -85,82 +87,65 @@ export default class EmployeePanel extends React.Component {
     });
   }
 
-  copyToClipboardOldMode_backup(input) {
-    const el = document.createElement('textarea');
 
-    console.log("Attempting to copy", input)
+// TODOOOO
+//   The show needs to clear the hide timeout
+// Clean up the element added to the body
 
-    el.value = input;
 
-    // Prevent keyboard from showing on mobile
-    // el.setAttribute('readonly', '');
+  // Takes in text to be copied to the clipboard. 
+  // This process is longer than it seems like it should be... (thanks JS)
+  // There is a new APi
+  copyToClipboard(input) {
 
-    el.style.contain = 'strict';
-    el.style.position = 'absolute';
-    el.style.left = '-9999px';
-    el.style.fontSize = '12pt'; // Prevent zooming on iOS
-
-    const selection = document.getSelection();
-    let originalRange = false;
-    if (selection.rangeCount > 0) {
-      originalRange = selection.getRangeAt(0);
+    // Try to copy with the new API, if it exists
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(target.innerText);
+      return;
     }
 
-    document.body.appendChild(el);
-    el.select();
+    // If not, use a much longer process...
+    const isRTL = document.documentElement.getAttribute('dir') == 'rtl';
 
-    // Explicit selection workaround for iOS
-    el.selectionStart = 0;
-    el.selectionEnd = input.length;
+    let container = document.body
 
-    let success = false;
-    try {
-      success = document.execCommand('copy');
-    } catch (err) {}
+    this.fakeHandlerCallback = () => this.removeFake();
+    // this.fakeHandler = this.container.addEventListener('click', this.fakeHandlerCallback);
 
-    document.body.removeChild(el);
+    this.fakeElem = document.createElement('textarea');
+    // Prevent zooming on iOS
+    this.fakeElem.style.fontSize = '12pt';
+    // Reset box model
+    this.fakeElem.style.border = '0';
+    this.fakeElem.style.padding = '0';
+    this.fakeElem.style.margin = '0';
+    // Move element out of screen horizontally
+    this.fakeElem.style.position = 'absolute';
+    this.fakeElem.style[ isRTL ? 'right' : 'left' ] = '-9999px';
+    // Move element to the same position vertically
+    let yPosition = window.pageYOffset || document.documentElement.scrollTop;
+    this.fakeElem.style.top = `${yPosition}px`;
 
-    if (originalRange) {
-      selection.removeAllRanges();
-      selection.addRange(originalRange);
-    }
-  }
+    this.fakeElem.setAttribute('readonly', '');
+    this.fakeElem.value = input;
 
-  copyToClipboardOldMode(input) {
+    document.body.appendChild(this.fakeElem);
 
-    console.log("Attempting to copy", input)
+    // this.selectedText = select(this.fakeElem);
 
-    let textarea;
-    let result;
+    var isReadOnly = this.fakeElem.hasAttribute('readonly');
+
+    this.fakeElem.select();
+    this.fakeElem.setSelectionRange(0, this.fakeElem.value.length);
     
     try {
-      textarea = document.createElement('textarea');
-      textarea.setAttribute('readonly', true);
-      textarea.setAttribute('contenteditable', true);
-      textarea.style.position = 'fixed'; // prevent scroll from jumping to the bottom when focus is set.
-      textarea.value = input;
-
-      document.body.appendChild(textarea);
-
-      textarea.focus();
-      textarea.select();
-
-      const range = document.createRange();
-      range.selectNodeContents(textarea);
-
-      const sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
-
-      textarea.setSelectionRange(0, textarea.value.length);
-      result = document.execCommand('copy');
-    } catch (err) {
-      console.error(err);
-      result = null;
-    } finally {
-      document.body.removeChild(textarea);
+       document.execCommand('copy');
+    }
+    catch (err) {
+      console.log(err)
     }
   }
+
 
   copyOnClick(event) {
     event.target.setAttribute('data-tip', 'Copied!');
@@ -177,18 +162,10 @@ export default class EmployeePanel extends React.Component {
       if (document.contains(target)) {
         ReactTooltip.hide(target);
       }
-    }, 750)
+    }, 1250)
 
 
-
-    // Try to copy with the new API, if it exists
-    // if (navigator.clipboard && navigator.clipboard.writeText) {
-    //   navigator.clipboard.writeText(target.innerText);
-    //   return;
-    // }
-
-    // If not, use a npm module that does it the old way.
-    this.copyToClipboardOldMode(target.innerText);
+    this.copyToClipboard(target.innerText);
   }
 
   showTooltipOnEvent(event) {
@@ -205,7 +182,6 @@ export default class EmployeePanel extends React.Component {
     const employee = this.props.employee;
 
     // Create the address box
-
     let firstColumn = [];
     let secondColumn = [];
 
@@ -223,26 +199,28 @@ export default class EmployeePanel extends React.Component {
       contactRows.push(employee.officeRoom);
     }
 
+    // Events to run if the link is clicked on desktop
+    // These will show a "Click to copy" when hovered
+    // and a "Copied!" when it is clicked
+    // If we want to enable this functionality on mobile too
+    // use just the onClick method for mobile, and don't use the other two.
+    let copyOnClickEvents = {
+      onClick: this.copyOnClick,
+      onMouseEnter: this.showTooltipOnEvent,
+      onMouseLeave: this.hideTooltipOnEvent,
+    }
 
     if (employee.emails) {
       employee.emails.forEach((email) => {
 
-
-        // If is mobile, just show the "Copied!" tooltip when the user presses on the link
         let events;
         if (macros.isMobile) {
           events = {
-            onClick: this.copyOnClick
+            href: 'mailto:' + email
           }
         }
         else {
-
-          // On desktop, show more info when the link is hovered over
-          events = {
-            onClick: this.copyOnClick,
-            onMouseEnter: this.showTooltipOnEvent,
-            onMouseLeave: this.hideTooltipOnEvent,
-          }
+          events = copyOnClickEvents
         }
 
 
@@ -272,8 +250,19 @@ export default class EmployeePanel extends React.Component {
 
       const phoneText = phone.join('');
 
+      let events;
+      if (macros.isMobile) {
+        events = {
+          href: 'tel:' + employee.phone
+        }
+      }
+      else {
+        events = copyOnClickEvents
+      }
+
+
       contactRows.push(
-        <a key='tel' data-tip='' className='employeePhone' onMouseEnter={ this.showTooltipOnEvent } onMouseLeave={ this.hideTooltipOnEvent } onClick={ this.copyOnClick } role='button' tabIndex={ 0 }>
+        <a key='tel' data-tip='' className='employeePhone' role='button' tabIndex={ 0 } {...events}>
           {phoneText}
         </a>,
       );
