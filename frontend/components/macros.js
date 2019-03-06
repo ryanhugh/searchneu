@@ -58,8 +58,15 @@ class Macros extends commonMacros {
   // There is a new APi
   // This code is gutted from the core of this module: https://github.com/zenorocha/clipboard.js#readme
   static copyToClipboard(input) {
+    const suppotsNewAPI = navigator.clipboard && navigator.clipboard.writeText;
+
+    this.logAmplitudeEvent('copy event', {
+      text: input,
+      suppotsNewAPI: suppotsNewAPI,
+    });
+
     // Try to copy with the new API, if it exists
-    if (navigator.clipboard && navigator.clipboard.writeText) {
+    if (suppotsNewAPI) {
       navigator.clipboard.writeText(input);
       return;
     }
