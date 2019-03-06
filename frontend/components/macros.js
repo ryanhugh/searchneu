@@ -15,6 +15,9 @@ import commonMacros from '../../common/abstractMacros';
 let tooltipTimer = null;
 
 class Macros extends commonMacros {
+  // Text area used for the copy method, below
+  static copyTextArea = null;
+
   static log(...args) {
     // Don't log stuff in prod mode
     if (Macros.PROD) {
@@ -48,6 +51,59 @@ class Macros extends commonMacros {
         Macros.log('Amplitude logging failed', statusCode);
       }
     });
+  }
+
+  // Takes in text to be copied to the clipboard.
+  // This process is longer than it seems like it should be... (thanks JS)
+  // There is a new APi
+  // This code is gutted from the core of this module: https://github.com/zenorocha/clipboard.js#readme
+  static copyToClipboard(input) {
+    // Try to copy with the new API, if it exists
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(input);
+      return;
+    }
+
+    // If not, use a much longer process...
+    const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
+
+    if (!this.copyTextArea) {
+      this.copyTextArea = document.createElement('textarea');
+    }
+
+    this.copyTextArea.style.display = '';
+
+
+    // Prevent zooming on iOS
+    this.copyTextArea.style.fontSize = '12pt';
+    // Reset box model
+    this.copyTextArea.style.border = '0';
+    this.copyTextArea.style.padding = '0';
+    this.copyTextArea.style.margin = '0';
+    // Move element out of screen horizontally
+    this.copyTextArea.style.position = 'absolute';
+    this.copyTextArea.style[isRTL ? 'right' : 'left'] = '-9999px';
+    // Move element to the same position vertically
+    const yPosition = window.pageYOffset || document.documentElement.scrollTop;
+    this.copyTextArea.style.top = `${yPosition}px`;
+
+    this.copyTextArea.setAttribute('readonly', '');
+    this.copyTextArea.value = input;
+
+    if (!document.body.contains(this.copyTextArea)) {
+      document.body.appendChild(this.copyTextArea);
+    }
+
+    this.copyTextArea.select();
+    this.copyTextArea.setSelectionRange(0, this.copyTextArea.value.length);
+
+    try {
+      document.execCommand('copy');
+    } catch (err) {
+      this.error('Cannot copy', err);
+    }
+
+    this.copyTextArea.style.display = 'none';
   }
 }
 
