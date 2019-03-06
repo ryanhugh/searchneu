@@ -124,6 +124,7 @@ class Section {
     });
 
     // If it is at least 1 long with TBAs remove, return the array without any TBAs
+    // Eg ["TBA", "Richards Hall 201" ] -> ["Richards Hall 201"]
     const noTBAs = _.pull(retVal.slice(0), 'TBA');
     if (noTBAs.length > 0) {
       return noTBAs;

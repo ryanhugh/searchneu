@@ -76,6 +76,13 @@ export default class DesktopSectionPanel extends React.Component {
         examTimeString = this.getTimeStingFromMeetings(examMeeting.times[0]);
       }
 
+
+      // Format the location of the section
+      let sectionLocations = null;
+      if (!this.props.section.online) {
+        sectionLocations = <LocationLinks locations={ this.props.section.getLocations() } />;
+      }
+
       tdElements = tdElements.concat([
         <td key='weekDayBoxes'>
           <WeekdayBoxes section={ this.props.section } />
@@ -84,7 +91,7 @@ export default class DesktopSectionPanel extends React.Component {
           {meetingStrings}
         </td>,
         <td key='locationLinks'>
-          <LocationLinks section={ this.props.section } />
+          {sectionLocations}
         </td>,
       ]);
 
@@ -96,7 +103,7 @@ export default class DesktopSectionPanel extends React.Component {
           tdElements = tdElements.concat([
             <td key='exam1'> {examTimeString} </td>,
             <td key='exam3'> {sectionExamMeeting.endDate.format('MMM Do')} </td>,
-            <td key='exam4'> {sectionExamMeeting.where} </td>,
+            <td key='exam4'> <LocationLinks locations={ [sectionExamMeeting.where] } /> </td>,
           ]);
         } else {
           tdElements = tdElements.concat([
