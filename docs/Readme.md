@@ -7,7 +7,7 @@ Table of Contents
 * [Contributing 🎉👍](Contributing.md)  
 * [Bug Bounty 🌯🎉](Bug%20bounty.md)  
 * [API](API.md)  
-* Data structures
+* Scraping & Data
    * [Class data](Classes.md)   
    * [Employee data](Employees.md)   
 * Processes

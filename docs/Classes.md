@@ -5,11 +5,93 @@ To get all the data for classes we are scraping MyNEU's Banner system. This syst
 ```
 searchneu/backend/scrapers/classes
 ```
+
  
-There are two main steps in scraping this data: the parsing and the processing. The parsing takes the vast majority of the time and includes all of the HTTP requests and HTML parsing. The processing re-organizes and cleans up the data, and only takes a couple of seconds.
+There are two main steps in scraping this data: the parsing and the processing. The code that connects these two parts is in `backend/scraping/classes/main.js`. The parsing takes the vast majority of the time and includes all of the HTTP requests and HTML parsing. The processing re-organizes and cleans up the data, and only takes a couple of seconds.
  
+
+## Parsing
+
+All the code for parsing lives in 
+```
+backend/scrapers/classes/parsers
+```
+
+Each file in this directory is responsible for sraping an individual page of Banner. Every file in here inherent from BaseParser.js. 
+
+
 #### Really cool note about the class scrapers 
 Thousands of colleges use the same registration system that Northeastern uses to keep track of classes (Banner). Because of this, these scrapers will work for any one of these colleges. For instance, Brown, Bucknell, GW, Swarthmore, Purdue, Drexel, Temple, Villanova, etc, can all easily be scraped with these scrapers. Many of these colleges' URLs are listed in [differentCollegeUrls.js](https://github.com/ryanhugh/searchneu/blob/master/backend/scrapers/classes/differentCollegeUrls.js).
+
+
+First, differentCollegeUrls.js is loaded. This file contains a list of URLs that ellucianTermsParser can process on different colleges. Ex:
+```
+'https://oscar.gatech.edu/pls/bprod/bwckschd.p_disp_dyn_sched', 
+'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched', 
+'https://sisssb.clemson.edu/sisbnprd/bwckschd.p_disp_dyn_sched', 
+'https://ssb.ccsu.edu/pls/ssb_cPROD/bwckschd.p_disp_dyn_sched', 
+'https://ssb.cc.binghamton.edu/banner/bwckschd.p_disp_dyn_sched',
+'https://tturedss1.tntech.edu/pls/PROD/bwckschd.p_disp_dyn_sched',
+```
+
+When the parsers are staretd, one of these are picked (right now NEU is hardcoded) and the rest of the parsers start running. 
+
+
+The first page that main.js calls into is `ellucianTermsParser.js`. This file parses any of the URLs mentioned above. It then calls into ellucianSubjectParser to parse the subjects (the page that appears if you select a term at that url above.) It then incorporates the return value of ellucianSubjectParser into its data, and returns the new data. 
+
+While ellucianSubjectParser is scraping, it scrapes its page, calls into ellucianClassListParser to parse a different page, and then merges the two sets of data and returns the new data. 
+
+This pattern continues for each parser. Each parser is only responsible for parsing one URL. Parsers can call into any number of other parsers. 
+
+The full chain of parsers and their URLS is here. ellucianSectionParser doesn't call into any other parsers. 
+
+name | url | Data collected on this page [TODO]
+--- | --- | ---
+ellucianTermsParser | [example url](https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched)
+ellucianSubjectParser | POST request - hit submit on the term page to get to it
+ellucianClassListParser | [example url](https://wl11gp.neu.edu/udcprod8/bwckctlg.p_display_courses?sel_crse_strt=&sel_crse_end=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&term_in=201830&one_subj=GAME)
+ellucianCatalogParser | [example url](https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201830&subj_code_in=GAME&crse_numb_in=3700) | credits, class id, prereqs, coreqs
+ellucianClassParser | [example url](https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=PSYC&crse_in=1101&schd_in=LEC) | description, meeting times, locations, professors, crns, class name
+ellucianSectionParser | [example url](https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14579) | seats taken & capacity, waitlist spots taken & capacity, credits, is honors, coreqs & prereqs (again, for verification)
+
+ellucianClassParser and ellucianSectionParser use ellucianRequisitesParser to parse the complex prerequisites and corequisites section. See the prerequisites section below for how that works. 
+
+They use two layers of caching to speed up scraping during development: 
+1. The output of each parsing file is cached in the main method of each parser. 
+2. All the files use request.js (a file in the backend folder) to make the actual network requests. This file caches the full response of every reqeust that the parsers make, and does some other optimizations that help a lot in production too. 
+
+This makes it super easy to develop on the parsers. If the request cache is full, it only takes a couple minutes to run all the parsers (as compared to 20+ min). Additionally, if you want to only run a few parsers, you can delete the parser output cache, and re-run the scrapers, to run just those parsers. Also, if you run directly run an individual parser (eg `babel-node ellucianCatalogParser.js`) it will skip that parser's cache and run the full parser. This is a great way to test changes to an individual parser. 
+
+When developing the parsers, I rarely touch the request cache. This means that, while developing the scrapers, the code rarely makes any networking requests at all and can be quickly changed and tested - even if you are offline. 
+
+## Processing
+
+The entire processing pipeline takes only a few minutes to run. Each processor is ran sequencially and synchronously. Here are the current processors, in the order they are ran. 
+
+##### markMissingPrereqs
+
+Goes through each class's corequisites and prerequisites and verifies that each class mentioned actually exists in the databset. Classes that do not exist are marked as missing. Later, when the frontend loads these prerequisites and corequisites, it removes these missing classes. 
+
+##### termStartEndDate
+
+On Banner, each in each class says when it starts and ends but Banner does not keep track of the official start and end date of each semeter. This processor goes through the start end end dates of each section in each class to find the start end end date of the semeter. Uses some heuristics to find the start and end dates if sections have varying dates. 
+
+##### simplifyProfList
+
+Goes through every section in the data set and cleans up the list of professors in every section. Sometimes, in Banner, a different professor will be mentioned in every section, along with the professor who actually runs the lecture. After this processor runs, only the professor who runs the lecture will be shown. Courseoff does this too. 
+
+##### addPreRequisiteFor
+
+The prerequisites section shows you what classes you have to take this class. This processor uses this data to build the inverse - a data structure that shows you what you what classes taking this class can lead to in the future. This info is stored along side the prerequisites info. 
+
+##### Semesterly 
+Dumps the data in a data format that can be processed by the site Semester.ly. At one point, we were trying to add [support for NEU to Semester.ly](https://github.com/noahpresler/semesterly/pull/1041), but efforts have died down since. 
+
+##### Indexing
+Creates search indexes that are core data structure behind the super fast searching on Search NEU. Saves this info to a file, for later uploading to EC2 after the scrapers are done. This search index doesn't include the data itself, so the data is saved too (below). 
+
+##### Dumping
+Dumps all the data to some files (one per semester), for uploading to EC2 with the search index.
 
 
 # The data
@@ -432,4 +514,3 @@ The output of this process looks like this:
     ]
 }
  ```
-
