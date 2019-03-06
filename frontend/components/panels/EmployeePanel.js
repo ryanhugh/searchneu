@@ -87,6 +87,7 @@ export default class EmployeePanel extends React.Component {
     });
   }
 
+  // Shows the Copied! tooltip, starts the hide timeout, and copies the text. 
   copyOnClick(event) {
     event.target.setAttribute('data-tip', 'Copied!');
 
@@ -113,6 +114,7 @@ export default class EmployeePanel extends React.Component {
   }
 
   hideTooltipOnEvent(event) {
+    clearTimeout(this.hideTimeout);
     ReactTooltip.hide(event.target);
   }
 
