@@ -49,21 +49,13 @@ class MobileClassPanel extends BaseClassPanel {
               {`View on ${aClass.host}`}
             </a>
             <br />
-            Prerequisites:
-            {this.optionalDisplay(macros.prereqTypes.PREREQ)}
-            {this.showMore(macros.prereqTypes.PREREQ)}
+            Prerequisites: {this.optionalDisplay(macros.prereqTypes.PREREQ)} {this.showMore(macros.prereqTypes.PREREQ)}
             <br />
-            Corequisites:
-            {this.optionalDisplay(macros.prereqTypes.COREQ)}
-            {this.showMore(macros.prereqTypes.COREQ)}
+            Corequisites: {this.optionalDisplay(macros.prereqTypes.COREQ)} {this.showMore(macros.prereqTypes.COREQ)}
             <br />
-            Prerequisite for:
-            {this.optionalDisplay(macros.prereqTypes.PREREQ_FOR)}
-            {this.showMore(macros.prereqTypes.PREREQ_FOR)}
+            Prerequisite for: {this.optionalDisplay(macros.prereqTypes.PREREQ_FOR)} {this.showMore(macros.prereqTypes.PREREQ_FOR)}
             <br />
-            Optional Prerequisite for:
-            {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)}
-            {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
+            Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
             <br />
             <SignUpForNotifications aClass={ aClass } />
           </div>
