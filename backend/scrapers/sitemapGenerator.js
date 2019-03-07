@@ -12,7 +12,7 @@ class SitemapGenerator {
   async go(termDump, mergedEmployees) {
     // Items to link to.
     // The part after the https://searchneu.com/
-    const items = [];
+    let items = [];
 
     // Figure out what semester it currently happening and make the site map from that one.
     // If we are in between semesters, use the next one to occur.
@@ -111,6 +111,9 @@ class SitemapGenerator {
     for (const employee of mergedEmployees) {
       items.push(employee.name);
     }
+
+    // Remove duplicates
+    items = Array.from(new Set(items));
 
     // Convert the items to urls and put them inside xml
     const xml = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
