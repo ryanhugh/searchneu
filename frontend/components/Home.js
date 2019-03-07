@@ -112,6 +112,7 @@ class Home extends React.Component {
     this.onKeyDown = this.onKeyDown.bind(this);
     this.loadMore = this.loadMore.bind(this);
     this.onPopState = this.onPopState.bind(this);
+    this.onResize = this.onResize.bind(this);
     this.onDOMEventSearch = this.onDOMEventSearch.bind(this);
     this.onInputFocus = this.onInputFocus.bind(this);
     this.onSearchDebounced = this.onSearchDebounced.bind(this);
@@ -132,6 +133,7 @@ class Home extends React.Component {
   componentDidMount() {
     // Add a listener for location changes.
     window.addEventListener('popstate', this.onPopState);
+    window.addEventListener('resize', this.onResize);
     window.addEventListener(macros.searchEvent, this.onDOMEventSearch);
 
     if (this.inputElement) {
@@ -152,12 +154,17 @@ class Home extends React.Component {
   // Remove the listener when this component goes away.
   // Even this component will never go away in prod, it can go away in dev due to HMR.
   componentWillUnmount() {
-    window.removeEventListener('onpopstate', this.onPopState);
+    window.removeEventListener('popstate', this.onPopState);
+    window.removeEventListener('resize', this.onPopState);
     window.removeEventListener(macros.searchEvent, this.onDOMEventSearch);
 
     if (this.inputElement) {
       this.inputElement.removeEventListener('focus', this.onInputFocus);
     }
+  }
+
+  onResize() {
+    this.setState({})
   }
 
   // Runs when the user clicks back or forward in their browser.
@@ -478,11 +485,19 @@ class Home extends React.Component {
     if (!macros.isMobile && this.state.searchQuery.length !== 0) {
       // topHeaderStyle.transform = 'translateY(-50%) translateY(230px)';
       topHeaderStyle.transform = 'translateY(-50%) translateY(292px)';
-      resultsContainerStyle.transform = `translateY(-${window.innerHeight - 305}px)`;
+
+
+      // resultsContainerStyle.transform = `translateY(-${window.innerHeight - 305}px)`;
+
+      resultsContainerStyle.transform = `translateY(305px)`;
+
+
+
       bostonContainerStyle.opacity = 0;
       wantToHelpOpacity = 0;
       hiddenHelpButton = 'getInvolvedTextHidden';
     }
+    
 
     // On mobile only show the logo and the github corner if there are no results and the search box is not focused (the virtual keyboard is not on the screen).
     let containerClassnames = 'home-container';

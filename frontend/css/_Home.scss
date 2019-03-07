@@ -147,6 +147,12 @@
             transition: transform .75s;
             transition-delay: 1s !important;
             transition-timing-function: cubic-bezier(0.46, 0.03, 0.62, 0.98);
+            
+            position: absolute;
+            top: 0px;
+            left: auto;
+            right: auto;
+            transform: translateY(100vh);
         }
         .title {
             font-size: 54px;
