@@ -76,6 +76,13 @@ ssh-add ~/.ssh/id_rsa
 if [ "$TRAVIS_BRANCH" == "prod" ]; then
   echo 'Deploying to prod'
   
+  # Check to see if the SSL certificate needs to be renewed
+  # If it does, try to renew it
+  # if renewal is successful, restart nginx
+  # Hooks will only be run if a certificate is due for renewal and the deploy-hook will only run if renewal is successful.
+  # https://certbot.eff.org/docs/using.html#pre-and-post-validation-hooks
+  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'sudo certbot renew --deploy-hook "sudo service nginx restart"'
+
   ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git reset --hard'
   ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git pull'
   ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git checkout prod'
