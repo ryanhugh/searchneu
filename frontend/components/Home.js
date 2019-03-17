@@ -102,9 +102,6 @@ class Home extends React.Component {
     // Updated with react refs when the render function runs.
     this.inputElement = null;
 
-    // Used to get the height of the results container element so we can move the stuff below the container up the amount it was transformed.
-    this.resultsContainerElement = null;
-
     // Timer used for hidding the search results after an interval
     this.hideSearchResultsTimeout = null;
 
@@ -622,7 +619,7 @@ class Home extends React.Component {
         </div>
 
         <div style={ resultsContainerStyle } className='resultsContainer'>
-          <div ref={ (element) => { this.resultsContainerElement = element; } }>
+          <div>
             {resultsElement}
           </div>
 
