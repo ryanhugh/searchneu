@@ -106,7 +106,7 @@ ShallowWrapper {
                   className="termDropdown"
                   closeOnBlur={true}
                   deburr={false}
-                  defaultValue="201940"
+                  defaultValue="202010"
                   fluid={true}
                   icon="dropdown"
                   minCharacters={1}
@@ -115,6 +115,10 @@ ShallowWrapper {
                   openOnFocus={true}
                   options={
                     Array [
+                      Object {
+                        "text": "Fall 2019",
+                        "value": "202010",
+                      },
                       Object {
                         "text": "Summer I 2019",
                         "value": "201940",
@@ -130,10 +134,6 @@ ShallowWrapper {
                       Object {
                         "text": "Spring 2019",
                         "value": "201930",
-                      },
-                      Object {
-                        "text": "Fall 2018",
-                        "value": "201910",
                       },
                     ]
                   }
@@ -466,7 +466,7 @@ ShallowWrapper {
                   className="termDropdown"
                   closeOnBlur={true}
                   deburr={false}
-                  defaultValue="201940"
+                  defaultValue="202010"
                   fluid={true}
                   icon="dropdown"
                   minCharacters={1}
@@ -475,6 +475,10 @@ ShallowWrapper {
                   openOnFocus={true}
                   options={
                     Array [
+                      Object {
+                        "text": "Fall 2019",
+                        "value": "202010",
+                      },
                       Object {
                         "text": "Summer I 2019",
                         "value": "201940",
@@ -490,10 +494,6 @@ ShallowWrapper {
                       Object {
                         "text": "Spring 2019",
                         "value": "201930",
-                      },
-                      Object {
-                        "text": "Fall 2018",
-                        "value": "201910",
                       },
                     ]
                   }
@@ -565,7 +565,7 @@ ShallowWrapper {
                   className="termDropdown"
                   closeOnBlur={true}
                   deburr={false}
-                  defaultValue="201940"
+                  defaultValue="202010"
                   fluid={true}
                   icon="dropdown"
                   minCharacters={1}
@@ -574,6 +574,10 @@ ShallowWrapper {
                   openOnFocus={true}
                   options={
                     Array [
+                      Object {
+                        "text": "Fall 2019",
+                        "value": "202010",
+                      },
                       Object {
                         "text": "Summer I 2019",
                         "value": "201940",
@@ -589,10 +593,6 @@ ShallowWrapper {
                       Object {
                         "text": "Spring 2019",
                         "value": "201930",
-                      },
-                      Object {
-                        "text": "Fall 2018",
-                        "value": "201910",
                       },
                     ]
                   }
@@ -663,7 +663,7 @@ ShallowWrapper {
                     className="termDropdown"
                     closeOnBlur={true}
                     deburr={false}
-                    defaultValue="201940"
+                    defaultValue="202010"
                     fluid={true}
                     icon="dropdown"
                     minCharacters={1}
@@ -672,6 +672,10 @@ ShallowWrapper {
                     openOnFocus={true}
                     options={
                       Array [
+                        Object {
+                          "text": "Fall 2019",
+                          "value": "202010",
+                        },
                         Object {
                           "text": "Summer I 2019",
                           "value": "201940",
@@ -687,10 +691,6 @@ ShallowWrapper {
                         Object {
                           "text": "Spring 2019",
                           "value": "201930",
-                        },
-                        Object {
-                          "text": "Fall 2018",
-                          "value": "201910",
                         },
                       ]
                     }
@@ -775,7 +775,7 @@ ShallowWrapper {
                       className="termDropdown"
                       closeOnBlur={true}
                       deburr={false}
-                      defaultValue="201940"
+                      defaultValue="202010"
                       fluid={true}
                       icon="dropdown"
                       minCharacters={1}
@@ -784,6 +784,10 @@ ShallowWrapper {
                       openOnFocus={true}
                       options={
                         Array [
+                          Object {
+                            "text": "Fall 2019",
+                            "value": "202010",
+                          },
                           Object {
                             "text": "Summer I 2019",
                             "value": "201940",
@@ -799,10 +803,6 @@ ShallowWrapper {
                           Object {
                             "text": "Spring 2019",
                             "value": "201930",
-                          },
-                          Object {
-                            "text": "Fall 2018",
-                            "value": "201910",
                           },
                         ]
                       }
@@ -903,7 +903,7 @@ ShallowWrapper {
                       "className": "termDropdown",
                       "closeOnBlur": true,
                       "deburr": false,
-                      "defaultValue": "201940",
+                      "defaultValue": "202010",
                       "fluid": true,
                       "icon": "dropdown",
                       "minCharacters": 1,
@@ -911,6 +911,10 @@ ShallowWrapper {
                       "onChange": [Function],
                       "openOnFocus": true,
                       "options": Array [
+                        Object {
+                          "text": "Fall 2019",
+                          "value": "202010",
+                        },
                         Object {
                           "text": "Summer I 2019",
                           "value": "201940",
@@ -926,10 +930,6 @@ ShallowWrapper {
                         Object {
                           "text": "Spring 2019",
                           "value": "201930",
-                        },
-                        Object {
-                          "text": "Fall 2018",
-                          "value": "201910",
                         },
                       ],
                       "placeholder": "Spring 2018",
@@ -1083,7 +1083,7 @@ ShallowWrapper {
                 <SplashPage />
               </span>,
             },
-            "ref": [Function],
+            "ref": null,
             "rendered": Object {
               "instance": null,
               "key": undefined,
@@ -1589,7 +1589,7 @@ ShallowWrapper {
                     className="termDropdown"
                     closeOnBlur={true}
                     deburr={false}
-                    defaultValue="201940"
+                    defaultValue="202010"
                     fluid={true}
                     icon="dropdown"
                     minCharacters={1}
@@ -1598,6 +1598,10 @@ ShallowWrapper {
                     openOnFocus={true}
                     options={
                       Array [
+                        Object {
+                          "text": "Fall 2019",
+                          "value": "202010",
+                        },
                         Object {
                           "text": "Summer I 2019",
                           "value": "201940",
@@ -1613,10 +1617,6 @@ ShallowWrapper {
                         Object {
                           "text": "Spring 2019",
                           "value": "201930",
-                        },
-                        Object {
-                          "text": "Fall 2018",
-                          "value": "201910",
                         },
                       ]
                     }
@@ -1949,7 +1949,7 @@ ShallowWrapper {
                     className="termDropdown"
                     closeOnBlur={true}
                     deburr={false}
-                    defaultValue="201940"
+                    defaultValue="202010"
                     fluid={true}
                     icon="dropdown"
                     minCharacters={1}
@@ -1958,6 +1958,10 @@ ShallowWrapper {
                     openOnFocus={true}
                     options={
                       Array [
+                        Object {
+                          "text": "Fall 2019",
+                          "value": "202010",
+                        },
                         Object {
                           "text": "Summer I 2019",
                           "value": "201940",
@@ -1973,10 +1977,6 @@ ShallowWrapper {
                         Object {
                           "text": "Spring 2019",
                           "value": "201930",
-                        },
-                        Object {
-                          "text": "Fall 2018",
-                          "value": "201910",
                         },
                       ]
                     }
@@ -2048,7 +2048,7 @@ ShallowWrapper {
                     className="termDropdown"
                     closeOnBlur={true}
                     deburr={false}
-                    defaultValue="201940"
+                    defaultValue="202010"
                     fluid={true}
                     icon="dropdown"
                     minCharacters={1}
@@ -2057,6 +2057,10 @@ ShallowWrapper {
                     openOnFocus={true}
                     options={
                       Array [
+                        Object {
+                          "text": "Fall 2019",
+                          "value": "202010",
+                        },
                         Object {
                           "text": "Summer I 2019",
                           "value": "201940",
@@ -2072,10 +2076,6 @@ ShallowWrapper {
                         Object {
                           "text": "Spring 2019",
                           "value": "201930",
-                        },
-                        Object {
-                          "text": "Fall 2018",
-                          "value": "201910",
                         },
                       ]
                     }
@@ -2146,7 +2146,7 @@ ShallowWrapper {
                       className="termDropdown"
                       closeOnBlur={true}
                       deburr={false}
-                      defaultValue="201940"
+                      defaultValue="202010"
                       fluid={true}
                       icon="dropdown"
                       minCharacters={1}
@@ -2155,6 +2155,10 @@ ShallowWrapper {
                       openOnFocus={true}
                       options={
                         Array [
+                          Object {
+                            "text": "Fall 2019",
+                            "value": "202010",
+                          },
                           Object {
                             "text": "Summer I 2019",
                             "value": "201940",
@@ -2170,10 +2174,6 @@ ShallowWrapper {
                           Object {
                             "text": "Spring 2019",
                             "value": "201930",
-                          },
-                          Object {
-                            "text": "Fall 2018",
-                            "value": "201910",
                           },
                         ]
                       }
@@ -2258,7 +2258,7 @@ ShallowWrapper {
                         className="termDropdown"
                         closeOnBlur={true}
                         deburr={false}
-                        defaultValue="201940"
+                        defaultValue="202010"
                         fluid={true}
                         icon="dropdown"
                         minCharacters={1}
@@ -2267,6 +2267,10 @@ ShallowWrapper {
                         openOnFocus={true}
                         options={
                           Array [
+                            Object {
+                              "text": "Fall 2019",
+                              "value": "202010",
+                            },
                             Object {
                               "text": "Summer I 2019",
                               "value": "201940",
@@ -2282,10 +2286,6 @@ ShallowWrapper {
                             Object {
                               "text": "Spring 2019",
                               "value": "201930",
-                            },
-                            Object {
-                              "text": "Fall 2018",
-                              "value": "201910",
                             },
                           ]
                         }
@@ -2386,7 +2386,7 @@ ShallowWrapper {
                         "className": "termDropdown",
                         "closeOnBlur": true,
                         "deburr": false,
-                        "defaultValue": "201940",
+                        "defaultValue": "202010",
                         "fluid": true,
                         "icon": "dropdown",
                         "minCharacters": 1,
@@ -2394,6 +2394,10 @@ ShallowWrapper {
                         "onChange": [Function],
                         "openOnFocus": true,
                         "options": Array [
+                          Object {
+                            "text": "Fall 2019",
+                            "value": "202010",
+                          },
                           Object {
                             "text": "Summer I 2019",
                             "value": "201940",
@@ -2409,10 +2413,6 @@ ShallowWrapper {
                           Object {
                             "text": "Spring 2019",
                             "value": "201930",
-                          },
-                          Object {
-                            "text": "Fall 2018",
-                            "value": "201910",
                           },
                         ],
                         "placeholder": "Spring 2018",
@@ -2566,7 +2566,7 @@ ShallowWrapper {
                   <SplashPage />
                 </span>,
               },
-              "ref": [Function],
+              "ref": null,
               "rendered": Object {
                 "instance": null,
                 "key": undefined,
