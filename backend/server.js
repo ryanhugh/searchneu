@@ -227,8 +227,8 @@ async function getFrontendData(file) {
 
 
 async function loadPromises() {
-  const termDumpPromise = getFrontendData('getTermDump/neu.edu/201910.json');
-  const searchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201910.json');
+  const termDumpPromise = getFrontendData('getTermDump/neu.edu/202010.json');
+  const searchIndexPromise = getFrontendData('getSearchIndex/neu.edu/202010.json');
 
   const spring2019DataPromise = getFrontendData('getTermDump/neu.edu/201930.json');
   const spring2019SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201930.json');
@@ -270,7 +270,7 @@ async function loadPromises() {
     }
 
     const dataLib = DataLib.loadData({
-      201910: fallData,
+      202010: fallData,
       201930: springData,
       201940: summer1Data,
       201960: summer2Data,
@@ -278,7 +278,7 @@ async function loadPromises() {
     });
 
     const searchIndexies = {
-      201910: elasticlunr.Index.load(fallSearchIndex),
+      202010: elasticlunr.Index.load(fallSearchIndex),
       201930: elasticlunr.Index.load(springSearchIndex),
       201940: elasticlunr.Index.load(summer1SearchIndex),
       201960: elasticlunr.Index.load(summer2SearchIndex),

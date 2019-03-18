@@ -24,10 +24,30 @@ import boston from './boston.svg';
 // Terms that used to be scraped at one point, but are no longer scraped.
 // These may be stored in user's localStorage from the last time they selected a term.
 // If they are, unselected them and select the latest term.
-const OLD_TERMS = ['201858', '201855', '201854', '201852', '201838', '201835', '201834', '201832', '201830', '201828', '201825', '201840', '201860', '201850', '201730', '201630', '201810', '201820'];
+const OLD_TERMS = [
+  '201858',
+  '201855',
+  '201854',
+  '201852',
+  '201838',
+  '201835',
+  '201834',
+  '201832',
+  '201830',
+  '201828',
+  '201825',
+  '201840',
+  '201860',
+  '201850',
+  '201730',
+  '201630',
+  '201810',
+  '201820',
+  '201910',
+];
 
-// The lastest term
-const LATEST_TERM = '201940';
+// The lastest term - Fall 2019
+const LATEST_TERM = '202010';
 
 const SHOW_SUBMIT_EMAIL = true;
 
@@ -43,7 +63,7 @@ class Home extends React.Component {
     // Check the following sources, in order, for the current selected term. If any are found, use that one and don't continue.
     // 1. The url.
     // 2. Localstorage
-    // 3. Default to Spring 2019.
+    // 3. Default to LATEST_TERM (As of now this is Fall 2019).
 
     // After the term is found, keep it in localstorage in case the url is changed or the
     // Keeping this in localStorage makes it sticky across page loads.
@@ -52,11 +72,11 @@ class Home extends React.Component {
     } else if (window.localStorage.selectedTermId) {
       selectedTermId = window.localStorage.selectedTermId;
     } else {
-      // Defalt to Spring 2019 (need to make this dynamic in the future...)
+      // Defalt to LATEST_TERM (need to make this dynamic in the future...)
       selectedTermId = LATEST_TERM;
     }
 
-    // If the user had Spring 2017 selected (which is no longer scraped) change the option to Spring 2019
+    // If the user had an old semester selected (which is no longer scraped) change the option to LATEST_TERM
     if (OLD_TERMS.includes(selectedTermId)) {
       selectedTermId = LATEST_TERM;
     }
@@ -496,6 +516,10 @@ class Home extends React.Component {
 
     const termDropDownOptions = [
       {
+        text: 'Fall 2019',
+        value: '202010',
+      },
+      {
         text: 'Summer I 2019',
         value: '201940',
       },
@@ -510,10 +534,6 @@ class Home extends React.Component {
       {
         text: 'Spring 2019',
         value: '201930',
-      },
-      {
-        text: 'Fall 2018',
-        value: '201910',
       },
     ];
 
