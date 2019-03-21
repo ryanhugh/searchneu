@@ -551,7 +551,7 @@ class Home extends React.Component {
               Want to help build Search NEU?
           </p>
           <p>
-            <a href="https://scout1.typeform.com/to/FFksIl" target="_blank" className={ `getInvolvedText ${hiddenHelpButton}` }>
+            <a href='https://scout1.typeform.com/to/FFksIl' target='_blank' rel='noopener noreferrer' className={ `getInvolvedText ${hiddenHelpButton}` }>
               Get involved &gt;
             </a>
           </p>
