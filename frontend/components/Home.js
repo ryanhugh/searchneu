@@ -49,7 +49,7 @@ const OLD_TERMS = [
 // The lastest term - Fall 2019
 const LATEST_TERM = '202010';
 
-const SHOW_SUBMIT_EMAIL = true;
+const SHOW_SUBMIT_EMAIL = false;
 
 
 // Home page component
@@ -551,9 +551,9 @@ class Home extends React.Component {
               Want to help build Search NEU?
           </p>
           <p>
-            <span role='button' tabIndex={ 0 } className={ `getInvolvedText ${hiddenHelpButton}` } onClick={ this.openHelpModal }>
+            <a href="https://scout1.typeform.com/to/FFksIl" target="_blank" className={ `getInvolvedText ${hiddenHelpButton}` }>
               Get involved &gt;
-            </span>
+            </a>
           </p>
         </div>
       );
