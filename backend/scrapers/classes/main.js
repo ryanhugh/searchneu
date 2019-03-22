@@ -11,6 +11,7 @@ import Keys from '../../../common/Keys';
 import searchIndex from './searchIndex';
 import termDump from './termDump';
 import differentCollegeUrls from './differentCollegeUrls';
+import bannerv9CollegeUrls from './bannerv9CollegeUrls';
 
 // Processors
 import markMissingPrereqs from './processors/markMissingPrereqs';
@@ -22,6 +23,7 @@ import addPreRequisiteFor from './processors/addPreRequisiteFor';
 // Parsers
 import collegeNamesParser from './parsers/collegeNamesParser';
 import ellucianTermsParser from './parsers/ellucianTermsParser';
+import bannerv9Parser from './parsers/bannerv9Parser';
 
 
 // This is the main entry point for scraping classes
@@ -109,7 +111,7 @@ class Main {
   }
 
 
-  getUrlsFromCollegeAbbrs(collegeAbbrs) {
+  getUrlsFromCollegeAbbrs(collegeAbbrs, listToCheck) {
     // This list is modified below, so clone it here so we don't modify the input object.
     collegeAbbrs = collegeAbbrs.slice(0);
 
@@ -122,7 +124,7 @@ class Main {
 
     const urlsToProcess = [];
 
-    differentCollegeUrls.forEach((url) => {
+    listToCheck.forEach((url) => {
       const urlParsed = new URI(url);
 
       let primaryHost = urlParsed.hostname().slice(urlParsed.subdomain().length);
@@ -184,21 +186,44 @@ class Main {
     }
 
 
-    const urls = this.getUrlsFromCollegeAbbrs(collegeAbbrs);
-    if (urls.length > 1) {
+    const bannerv8Urls = this.getUrlsFromCollegeAbbrs(collegeAbbrs, differentCollegeUrls);
+    if (bannerv8Urls.length > 1) {
       macros.error('Unsure if can do more than one abbr at at time. Exiting. ');
       return null;
     }
 
-    const url = urls[0];
+    const bannerv9Urls = this.getUrlsFromCollegeAbbrs(collegeAbbrs, bannerv9CollegeUrls);
+    if (bannerv9Urls.length > 1) {
+      macros.error('Unsure if can do more than one abbr at at time. Exiting. ');
+      return null;
+    }
+
+    
+
+    const bannerv8Url = bannerv8Urls[0];
+    const bannerv9Url = bannerv9Urls[0];
 
 
     // Find the name of the college (neu.edu -> Northeastern University)
-    const host = macros.getBaseHost(url);
+    const host = macros.getBaseHost(bannerv8Url);
     const collegeNamePromise = collegeNamesParser.main(host);
 
+    // Hold the promise so both parsers run at the same time. 
+    const bannerv9ParserOutputPromise = bannerv9Parser.main(bannerv9Url);
 
-    const parsersOutput = await ellucianTermsParser.main(url);
+    const parsersOutput = await ellucianTermsParser.main(bannerv8Url);
+
+
+    const bannerv9ParserOutput = await bannerv9ParserOutputPromise;
+
+    //bannerv9ParserOutput and parsersOutput should be the same.
+    if (_.isEqual(bannerv9ParserOutput, parsersOutput)) {
+      macros.log("parsers output not the same")
+    }
+    else {
+      macros.log("Parsers output is the same!")
+    }
+
 
     const rootNode = {
       type: 'ignore',
