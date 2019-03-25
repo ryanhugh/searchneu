@@ -166,9 +166,9 @@ class Cache {
 
   // Returns a promsie when it is done.
   // The optimize for speed option:
-  //     If set to false, the data is debuffed at 10 seconds and saved as JSON.
+  //     If set to false, the data is debounced at 10 seconds and saved as JSON.
   //    This is meant for files that don't save very much data and it would be nice to be able to easily read the cache.
-  //     If set to true, the data is debuffed at 120 seconds and saved with msgpack.
+  //     If set to true, the data is debounced at 120 seconds and saved with msgpack.
   //      This is much faster than JSON, but is binary (not openable by editors easily).
   async set(folderName, className, key, value, optimizeForSpeed = false) {
     if (!macros.DEV) {
@@ -183,7 +183,7 @@ class Cache {
     const dataMap = await this.dataPromiseMap[filePath];
 
     // Clone the object so that the object that is going to be saved now is modified before the file is saved,
-    // the value that was given to this function is saved and
+    // the value that was given to this function is saved and not some other value
     if (!optimizeForSpeed) {
       const startTime = Date.now();
       value = _.cloneDeep(value);
