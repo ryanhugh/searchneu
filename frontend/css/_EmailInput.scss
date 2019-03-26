@@ -1,52 +1,57 @@
-.enterEmailContainer {
+/*
+ * This file is part of Search NEU and licensed under AGPL3. 
+ * See the license file in the root folder for details. 
+ */
 
-    .emailTopString {
-        margin-bottom: 20px !important;
+ .enterEmailContainer {
+
+  .emailTopString {
+    margin-bottom: 20px !important;
+  }
+
+  .enterEmail {
+    padding-bottom: 5px;
+    color: gray;
+    width: 350px;
+
+    input {
+      pointer-events: initial;
     }
 
-    .enterEmail {
-        padding-bottom: 5px;
-        color: gray;
-        width: 350px;
-
-        input {
-            pointer-events: initial;
-        }
-
-        button {
-            pointer-events: initial;
-            color: grey;
-            font-weight: 500;
-            background: rgba(224, 225, 226, .5);
-            font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
-            border: 1px solid rgba(34,36,38,0.1);
-            border-left: 0;
-        }
+    button {
+      pointer-events: initial;
+      color: grey;
+      font-weight: 500;
+      background: rgba(224, 225, 226, .5);
+      font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+      border: 1px solid rgba(34,36,38,0.1);
+      border-left: 0;
     }
+  }
 
 
-    .statusContainer {
-        width: 350px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+  .statusContainer {
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-    .emailStatus {
-        opacity: 0;
-        transition: opacity .75s ease-in-out;
-        text-align: left;
-        font-size: 15px !important;
-        min-height: 25px;
-        color: green;
-    }
+  .emailStatus {
+    opacity: 0;
+    transition: opacity .75s ease-in-out;
+    text-align: left;
+    font-size: 15px !important;
+    min-height: 25px;
+    color: green;
+  }
 
-    .emailStatus.success {
-        opacity: 1;
-        color: green;
-    }
+  .emailStatus.success {
+    opacity: 1;
+    color: green;
+  }
 
-    .emailStatus.error {
-        opacity: 1;
-        color: #ae4543;
-    }
+  .emailStatus.error {
+    opacity: 1;
+    color: #ae4543;
+  }
 }
