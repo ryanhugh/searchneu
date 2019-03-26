@@ -208,17 +208,17 @@ class Main {
     const host = macros.getBaseHost(bannerv8Url);
     const collegeNamePromise = collegeNamesParser.main(host);
 
-    // Hold the promise so both parsers run at the same time. 
-    const bannerv9ParserOutputPromise = bannerv9Parser.main(bannerv9Url);
-
+    // Change this when we want to enable the new v9 parser. 
+    // const bannerv9ParserOutputPromise = bannerv9Parser.main(bannerv9Url);
+    const bannerv9ParserOutputPromise = Promise.resolve({});
+    
     const parsersOutput = await ellucianTermsParser.main(bannerv8Url);
-
 
     const bannerv9ParserOutput = await bannerv9ParserOutputPromise;
 
-    //bannerv9ParserOutput and parsersOutput should be the same.
+    // bannerv9ParserOutput and parsersOutput should be the same.
     if (_.isEqual(bannerv9ParserOutput, parsersOutput)) {
-      macros.log("parsers output not the same")
+      macros.log("Parsers output not the same")
     }
     else {
       macros.log("Parsers output is the same!")

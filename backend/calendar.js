@@ -11,7 +11,7 @@ import macros from './macros';
 // This file is not currently used in production.
 // run yarn add ics when this file is used again
 // I started working on a calendar feature that used this file in a different branch, but deleted the branch and saving the file here.
-
+// This file is for this feature https://github.com/ryanhugh/searchneu/issues/61
 
 // hash -> ical file
 class Calendar {
