@@ -14,27 +14,27 @@ const request = new Request('bannerv9Parser');
 
 
 class Bannerv9Parser {
-
-
   parse(body, url) {
-  	// TODO: write 
-  	// body is the response from https://nubanner.neu.edu/StudentRegistrationSsb/ssb/registration
-  	// This method should be synchronous, which makes it much easier to test and develop
-  	// the body paremeter is the body of the response of the page
-  	// if you need other response information too (like Set-Cookie headers we can get that stuff too)
-  	// this method doesn't have to use the url parameter
-  	// The only places I tend to use it is for logging - if something breakes I log the url so I can see what url broke stuff
-  	// but if it works the url paremeter isn't used.
-  	// use cheerio to parse out the data you want (
+    macros.log(moment, cheerio, body, url);
+
+    // TODO: write
+    // body is the response from https://nubanner.neu.edu/StudentRegistrationSsb/ssb/registration
+    // This method should be synchronous, which makes it much easier to test and develop
+    // the body paremeter is the body of the response of the page
+    // if you need other response information too (like Set-Cookie headers we can get that stuff too)
+    // this method doesn't have to use the url parameter
+    // The only places I tend to use it is for logging - if something breakes I log the url so I can see what url broke stuff
+    // but if it works the url paremeter isn't used.
+    // use cheerio to parse out the data you want (
     // including urls (or any data, really) that you want to pass to other parsers
     // In some of the existing processors I send the url and some parameters for a post request to make to that url
     // at the end of this method just return everything you want to keep from parsing the body
-  	// and just return everything
+    // and just return everything
     // Check out the other parsers for examples
     return {};
   }
 
-  // This method that 
+  // This method that
   async main(url) {
     // Possibly load from DEV
     if (macros.DEV && require.main !== module) {
@@ -49,6 +49,7 @@ class Bannerv9Parser {
     // TODO: write this method
     const output = this.parse(resp.body, url);
 
+    macros.log(output);
 
 
     // TOD: Run any other parsers you want to run
@@ -57,9 +58,9 @@ class Bannerv9Parser {
 
     // let outputFromOtherParsers = await someOtherParser.main(urlOrSomeData);
 
-    // TODO: merge the data from outputFromOtherParsers with the output from this parser. 
+    // TODO: merge the data from outputFromOtherParsers with the output from this parser.
 
-    let mergedOutput = {};
+    const mergedOutput = {};
 
 
     // Possibly save the mergedOutput to disk so we don't have to run all this again
@@ -73,17 +74,11 @@ class Bannerv9Parser {
   }
 
 
-  // Just a convient test method, if you want to 
+  // Just a convient test method, if you want to
   async test() {
     const output = await this.main('https://nubanner.neu.edu/StudentRegistrationSsb/ssb/registration');
     macros.log(output);
   }
-
-}
-
-
-if (require.main === module) {
-  instance.test();
 }
 
 
