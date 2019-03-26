@@ -198,7 +198,6 @@ class Main {
       return null;
     }
 
-    
 
     const bannerv8Url = bannerv8Urls[0];
     const bannerv9Url = bannerv9Urls[0];
@@ -208,20 +207,24 @@ class Main {
     const host = macros.getBaseHost(bannerv8Url);
     const collegeNamePromise = collegeNamesParser.main(host);
 
-    // Change this when we want to enable the new v9 parser. 
-    // const bannerv9ParserOutputPromise = bannerv9Parser.main(bannerv9Url);
-    const bannerv9ParserOutputPromise = Promise.resolve({});
-    
+    // Change this when we want to enable the new v9 parser.
+    let bannerv9ParserOutputPromise;
+    if (false) { // eslint-disable-line no-constant-condition
+      bannerv9ParserOutputPromise = bannerv9Parser.main(bannerv9Url);
+    } else {
+      bannerv9ParserOutputPromise = Promise.resolve({});
+    }
+
+
     const parsersOutput = await ellucianTermsParser.main(bannerv8Url);
 
     const bannerv9ParserOutput = await bannerv9ParserOutputPromise;
 
     // bannerv9ParserOutput and parsersOutput should be the same.
     if (_.isEqual(bannerv9ParserOutput, parsersOutput)) {
-      macros.log("Parsers output not the same")
-    }
-    else {
-      macros.log("Parsers output is the same!")
+      macros.log('Parsers output not the same');
+    } else {
+      macros.log('Parsers output is the same!');
     }
 
 
