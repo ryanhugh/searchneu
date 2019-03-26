@@ -115,8 +115,8 @@
     }
 
     .bostonContainer {
+      transition-property: opacity;
       transition-delay: 1s !important;
-      transition: opacity 1s;
     }
   }
 
@@ -136,12 +136,13 @@
       padding: 3em 0 !important;
       transition-timing-function: cubic-bezier(0.46, 0.03, 0.47, 1.11);
       transition-delay: 1s !important;
-      transition: transform 0.75s;
-      transition: 1s;
+      transition-duration: 0.75s;
+      transition-property: transform;
     }
 
     .resultsContainer {
-      transition: transform 0.75s;
+      transition-duration: 0.75s;
+      transition-property: transform;
       transition-delay: 1s !important;
       transition-timing-function: cubic-bezier(0.46, 0.03, 0.62, 0.98);
     }
@@ -217,12 +218,12 @@
   }
 
   @media (max-width: 500px) {
-    .githubCornerContainer:hover .octopusArm {
-      animation: none;
-    }
-
     .githubCornerContainer .octopusArm {
       animation: octocat-wave 560ms ease-in-out;
+    }
+
+    .githubCornerContainer:hover .octopusArm {
+      animation: none;
     }
   }
 
