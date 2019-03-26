@@ -8,6 +8,14 @@ import path from 'path';
 import moment from 'moment';
 import macros from '../macros';
 
+// This file generates https://searchneu.com/sitemap.xml
+// This helps SIGIFICANTLY with SEO on Google (and other search engines).
+
+// Goes through every employee and class in the DB and generates a url entry in the sitemap
+// for every entry in the data dump.
+
+// This file is ran with the other processors.
+
 class SitemapGenerator {
   async go(termDump, mergedEmployees) {
     // Items to link to.

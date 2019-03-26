@@ -11,6 +11,14 @@ import formUrlencoded from 'form-urlencoded';
 import Request from '../request';
 import macros from '../../macros';
 
+// This file is not used.
+// This code started with just a MyNEU username and password.
+// And logged into the old MyNEU (yeah, the one that was taken down in 2018 and is no longer around)
+// and then navigated to TRACE
+// using only raw requests
+// and not a headless browser.
+// which made it pretty fast - and avoided unneeded dependencies on headless browsers.
+
 
 // Login code for MyNEU
 // Just uses request and cheerio, no headless browser
