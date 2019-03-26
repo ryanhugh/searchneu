@@ -11,7 +11,25 @@ import _ from 'lodash';
 
 import macros from '../macros';
 
-const msgpack = msgpackImport(); // namespace our extensions
+const msgpack = msgpackImport();
+
+
+// This file is responsible for caching things during development mode
+// It doesn't run at all in production or testing
+// It works just like a key-value store,
+// they key is just split into three parts - folder, filename, and keyname
+// It saves a different hash map to disk at each folder/filename combo (eg searchneu/cache/dev_data/EllucianCatalogParser.cache.msgpack).
+// Each key in the hash map maps to the value passed in the set method.
+// This is used in two places in the codebase: to cache HTTP requests for the scrapers, and the output from each parser
+// When an HTTP request in the scrapers is made in development, its response is cached to disk with this file
+// This way, while developing the code when you make another request, it will load from disk instead of the net (much faster)
+// The data will be outdated, but that doesn't matter for dev.
+
+// When this is called from the requests the folder is set to macros.REQUESTS_CACHE_DIR
+// and when it is called from the parsers it is set to macros.DEV_DATA_DIR.
+
+// If we want to ever make this better in the future, we could add a feature to append to an existing json/msgpack buffer
+// instead of decoding and re-encoding the entire buffer over again every time we save.
 
 
 // Quick history of caching the http requests:
@@ -60,6 +78,14 @@ class Cache {
 
   getFilePath(folderName, className) {
     return `${path.join('cache', folderName, className)}.cache`;
+  }
+
+  // Ensures that the folder name is one of the two currently used folder names
+  // More can be added later, just change this method to allow them
+  verifyFolderName(name) {
+    if (name !== macros.DEV_DATA_DIR || name !== macros.REQUESTS_CACHE_DIR) {
+      macros.critical('Folder name must be macros.DEV_DATA_DIR (for parsers cache) or macros.REQUESTS_CACHE_DIR (for request cache)');
+    }
   }
 
   async loadFile(filePath) {
@@ -115,14 +141,7 @@ class Cache {
       macros.error('Called cache.js get but not in DEV mode?');
     }
 
-    // Foldername can be either requests or dev_data
-    // if (folderName !== 'requests' && folderName !== 'dev_data' ) {
-    //  macros.critical('Invalid folderName for cache', folderName);
-    //  return null;
-    // }
-
-    // We could also just use it for just requests and not dev_data, but eh maybe later.
-
+    this.verifyFolderName(folderName);
 
     const filePath = this.getFilePath(folderName, className);
 
@@ -166,14 +185,16 @@ class Cache {
 
   // Returns a promsie when it is done.
   // The optimize for speed option:
-  //     If set to false, the data is debounced at 10 seconds and saved as JSON.
+  //     If set to false, the data is debounced at SAVE_INTERVAL_SHORT (60 as of now) seconds and saved as JSON.
   //    This is meant for files that don't save very much data and it would be nice to be able to easily read the cache.
-  //     If set to true, the data is debounced at 120 seconds and saved with msgpack.
+  //     If set to true, the data is debounced at SAVE_INTERVAL_LONG (120 as of now) seconds and saved with msgpack.
   //      This is much faster than JSON, but is binary (not openable by editors easily).
   async set(folderName, className, key, value, optimizeForSpeed = false) {
     if (!macros.DEV) {
       macros.error('Called cache.js set but not in DEV mode?');
     }
+
+    this.verifyFolderName(folderName);
 
     const filePath = this.getFilePath(folderName, className);
 
@@ -199,7 +220,7 @@ class Cache {
       intervalTime = this.SAVE_INTERVAL_SHORT;
     }
 
-    // Wait 10 seconds before saving.
+    // Start a timeout and save when the timeout fires.
     if (!this.saveTimeoutMap[filePath]) {
       this.saveTimeoutMap[filePath] = setTimeout(async () => {
         await this.save(filePath, optimizeForSpeed);

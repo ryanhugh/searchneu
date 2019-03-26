@@ -27,7 +27,8 @@ import bannerv9Parser from './parsers/bannerv9Parser';
 
 
 // This is the main entry point for scraping classes
-// call the main(['neu']) function below to scrape a college
+// This file calls into the first Banner v8 parser, the processors, and hopefully soon, the v9 parsers too.
+// Call the main(['neu']) function below to scrape a college
 // This file also generates the search index and data dumps.
 
 
