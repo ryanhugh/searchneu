@@ -456,8 +456,9 @@ class CombineCCISandEmployees {
 }
 
 const instance = new CombineCCISandEmployees();
-export default instance;
 
 if (require.main === module) {
   instance.main();
 }
+
+export default instance;

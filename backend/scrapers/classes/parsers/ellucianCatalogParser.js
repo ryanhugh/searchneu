@@ -162,7 +162,6 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
   }
 
 
-  //
   async main(url) {
     // Possibly load from DEV
     if (macros.DEV && require.main !== module) {
@@ -246,8 +245,6 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     // Possibly save to dev
     if (macros.DEV && require.main !== module) {
       await cache.set(macros.DEV_DATA_DIR, this.constructor.name, url, classWrapper);
-
-      // Don't log anything because there would just be too much logging.
     }
 
     return classWrapper;

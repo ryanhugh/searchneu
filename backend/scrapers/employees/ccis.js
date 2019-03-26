@@ -11,7 +11,11 @@ import cache from '../cache';
 
 const request = new Request('CCIS');
 
+
+// Scrapes professor info from
 // http://www.ccis.northeastern.edu/people-view-all/
+
+
 // Scraped info:
 // "name": "Amal Ahmed",
 // "url": "http://www.ccis.northeastern.edu/people/amal-ahmed/",
