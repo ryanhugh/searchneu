@@ -6,19 +6,20 @@
 $box-size: 12px;
 
 .weekday-indicator {
+  display: inline-block;
+
+  .weekday-box {
+    width: $box-size;
+    height: $box-size;
     display: inline-block;
+    border: 2px solid #bbb;
+    border-radius: 3px;
+    margin: 0 1px;
 
-    .weekday-box {
-        width: $box-size;
-        height: $box-size;
-        display: inline-block;
-        border: 2px solid #BBB;
-        border-radius: 3px;
-        margin: 0 1px;
+    &-checked {
+      @extend .weekday-box;
 
-        &-checked {
-            @extend .weekday-box;
-            background: #888;
-        }
+      background: #888;
     }
+  }
 }

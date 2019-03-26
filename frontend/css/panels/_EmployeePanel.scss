@@ -4,57 +4,60 @@
  */
 
 .employee-panel-container {
-    padding: 0px !important;
-    font-size: 16px !important;
+  padding: 0 !important;
+  font-size: 16px !important;
 
-
-   .header {
-      outline: 0;
-      border: none;
-      background: #fafafb;
-      padding: 11px;
-      margin-top: 0px;
-      border-radius: 5px;
-      font-size: 20px;
-      font-weight: 700;
+  .header {
+    outline: 0;
+    border: none;
+    background: #fafafb;
+    padding: 11px;
+    margin-top: 0;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: 700;
   }
+
   .body {
-      padding: 20px;
+    padding: 20px;
   }
+
   .inlineBlock {
-      display: inline-block;
+    display: inline-block;
   }
+
   .link {
-    opacity: .8;
+    opacity: 0.8;
     float: right;
   }
 
   /* These were copied from class panel. */
   .chevron {
     width: 18px;
-    opacity: .6;
+    opacity: 0.6;
     vertical-align: top;
     margin-right: 10px;
     margin-top: 2px;
   }
+
   .displayNone {
-      display: none;
+    display: none;
   }
+
   .titleText {
     display: inline-block;
     max-width: calc(100% - 30px);
     font-size: 19px;
   }
 
-  .employeeEmail, .employeePhone {
+  .employeeEmail,
+  .employeePhone {
     cursor: pointer;
   }
 
-
-
   .contact-box {
-      vertical-align: top;
-      min-width: 300px;
+    vertical-align: top;
+    min-width: 300px;
   }
 
   .employee-panel-second-column {
@@ -74,5 +77,4 @@
       padding-left: 100px;
     }
   }
-
 }
