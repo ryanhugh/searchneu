@@ -83,8 +83,9 @@ class Cache {
   // Ensures that the folder name is one of the two currently used folder names
   // More can be added later, just change this method to allow them
   verifyFolderName(name) {
-    if (name !== macros.DEV_DATA_DIR || name !== macros.REQUESTS_CACHE_DIR) {
-      macros.critical('Folder name must be macros.DEV_DATA_DIR (for parsers cache) or macros.REQUESTS_CACHE_DIR (for request cache)');
+    if (name !== macros.DEV_DATA_DIR && name !== macros.REQUESTS_CACHE_DIR) {
+      macros.critical('Folder name must be macros.DEV_DATA_DIR (for parsers cache) or macros.REQUESTS_CACHE_DIR (for request cache). Given:', name);
+
     }
   }
 
