@@ -33,6 +33,13 @@ then
 fi
 
 
+# Make sure files in folders can run also be ran with babel-node
+# https://github.com/babel/babel/issues/9750
+cd backend
+npm run script macros.js
+cd ..
+
+
 # Pull requests and commits to other branches shouldn't try to deploy
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo $TRAVIS_PULL_REQUEST
