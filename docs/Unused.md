@@ -27,6 +27,7 @@ If we ever want to add support for clubs at Northeastern, we can work on this fi
 It pulls data about clubs from a few spots on Northeastern's website (orgsync).
 
 https://github.com/ryanhugh/searchneu/blob/0958ad3a2ddf72425f3e18b268e9d2dd6c945f88/backend/scrapers/clubs.js
+https://github.com/ryanhugh/searchneu/blob/0958ad3a2ddf72425f3e18b268e9d2dd6c945f88/backend/scrapers/tests/clubs.test.js
 
 
 ### buildings.js
