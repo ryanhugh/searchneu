@@ -13,6 +13,10 @@ import notifyer from '../../notifyer';
 
 const request = new Request('psylink');
 
+// This file is not used.
+// Scraper for http://psylink.psych.neu.edu/ to get the list of avalible studies.
+// We can keep working on this if we ever want to add support for this.
+
 
 // Scraper for http://psylink.psych.neu.edu/ to get the list of avalible studies.
 // Requires login, but the login is different than the login for MyNEU

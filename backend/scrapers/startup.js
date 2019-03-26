@@ -7,4 +7,7 @@ require('@babel/register');
 require('@babel/polyfill');
 const main = require('./main.js');
 
+// This file is the first file ran when calling 'yarn scrape'
+// This file is required because babel needs the starting file to be ES5.
+
 main.default.main();

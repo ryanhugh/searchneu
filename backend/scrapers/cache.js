@@ -85,7 +85,6 @@ class Cache {
   verifyFolderName(name) {
     if (name !== macros.DEV_DATA_DIR && name !== macros.REQUESTS_CACHE_DIR) {
       macros.critical('Folder name must be macros.DEV_DATA_DIR (for parsers cache) or macros.REQUESTS_CACHE_DIR (for request cache). Given:', name);
-
     }
   }
 
