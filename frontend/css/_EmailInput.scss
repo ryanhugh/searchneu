@@ -1,10 +1,9 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
- .enterEmailContainer {
-
+.enterEmailContainer {
   .emailTopString {
     margin-bottom: 20px !important;
   }
@@ -22,13 +21,12 @@
       pointer-events: initial;
       color: grey;
       font-weight: 500;
-      background: rgba(224, 225, 226, .5);
-      font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
-      border: 1px solid rgba(34,36,38,0.1);
+      background: rgba(224, 225, 226, 0.5);
+      font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      border: 1px solid rgba(34, 36, 38, 0.1);
       border-left: 0;
     }
   }
-
 
   .statusContainer {
     width: 350px;
@@ -38,7 +36,7 @@
 
   .emailStatus {
     opacity: 0;
-    transition: opacity .75s ease-in-out;
+    transition: opacity 0.75s ease-in-out;
     text-align: left;
     font-size: 15px !important;
     min-height: 25px;
