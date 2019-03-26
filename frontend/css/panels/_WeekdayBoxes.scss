@@ -15,11 +15,9 @@ $box-size: 12px;
     border: 2px solid #bbb;
     border-radius: 3px;
     margin: 0 1px;
+  }
 
-    &-checked {
-      @extend .weekday-box;
-
-      background: #888;
-    }
+  .weekday-box-checked {
+    background: #888;
   }
 }
