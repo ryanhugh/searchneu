@@ -4,27 +4,24 @@
  */
 
 .sign-up-for-notifications-container {
-
-
   .disabledButton {
-    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
-    margin: 0 .25em 0 0;
-    padding: .78571429em 1.5em .78571429em;
+    font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    margin: 0 0.25em 0 0;
+    padding: 0.78571429em 1.5em 0.78571429em;
     line-height: 1em;
     text-align: center;
-    color: rgba(0,0,0,.6);
+    color: rgba(0, 0, 0, 0.6);
     font-weight: 400;
-    border-radius: .28571429rem;
-    -webkit-box-shadow: 0 0 0 1px rgba(34,36,38,.15) inset;
-    box-shadow: 0 0 0 1px rgba(34,36,38,.15) inset;
-    opacity: .55;
+    border-radius: 0.28571429rem;
+    -webkit-box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.15) inset;
+    box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.15) inset;
+    opacity: 0.55;
   }
 
   .notificationButton {
     margin-top: 3px !important;
-
     margin-left: 5px !important;
-    margin-right: 0px;
+    margin-right: 0;
   }
 
   @media only screen and (min-width: 767px) {
@@ -37,7 +34,7 @@
   .diableAdblockButton {
     margin-top: 3px !important;
     margin-left: 5px !important;
-    margin-right: 0px;
+    margin-right: 0;
   }
 
   @media only screen and (min-width: 767px) {
@@ -67,7 +64,6 @@
     }
   }
 
-
   .sendToMessengerButton {
     width: 153px;
     max-height: 55px !important;
@@ -75,29 +71,25 @@
     display: inline-block !important;
   }
 
-
   @media only screen and (max-width: 767px) {
     .sendToMessengerButton {
       max-width: 155px;
     }
   }
 
-
-
   .inlineBlock {
     display: inline-block;
   }
 }
 
-
 // Note: all the HTML elements inside this modal are inject directly into the body and are not inside the feedback-container above.
 // Put any css for the elements inside the model in here, and any css for elements outside the feedback-modal-container above.
 .adblock-notification-modal-container {
 
-  // This css fixes the position of the feedback modal. It broke when we updated the version of a package. 
-  // It might be fixed (and make this code obsolete) in a future package. 
+  // This css fixes the position of the feedback modal. It broke when we updated the version of a package.
+  // It might be fixed (and make this code obsolete) in a future package.
   top: 50%;
   position: fixed;
   left: 50%;
-  transform: translate(-50%, 0px);
+  transform: translate(-50%, 0);
 }

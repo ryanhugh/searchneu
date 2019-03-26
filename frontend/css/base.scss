@@ -6,28 +6,50 @@
  * that imports all partials.
  */
 
- @import 'variables';
+@import 'variables';
+@import 'panels/BaseClassPanel';
+@import 'panels/DesktopClassPanel';
+@import 'panels/DesktopSectionPanel';
+@import 'panels/EmployeePanel';
+@import 'panels/MobileClassPanel';
+@import 'panels/MobileSectionPanel';
+@import 'panels/SplashPage';
+@import 'panels/WeekdayBoxes';
+@import 'FeedbackModal';
+@import 'SignUpForNotifications';
+@import 'ResultsLoader';
+@import 'EmailInput';
+@import 'Home';
 
- @import 'panels/BaseClassPanel';
- @import 'panels/DesktopClassPanel';
- @import 'panels/DesktopSectionPanel';
- @import 'panels/EmployeePanel';
- @import 'panels/MobileClassPanel';
- @import 'panels/MobileSectionPanel';
- @import 'panels/SplashPage';
- @import 'panels/WeekdayBoxes';
- @import 'FeedbackModal';
- @import 'SignUpForNotifications';
- @import 'ResultsLoader';
- @import 'EmailInput';
- @import 'Home';
-
- html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td {
+html,
+body,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+dl,
+li,
+dt,
+dd,
+p,
+blockquote,
+pre,
+form,
+fieldset,
+table,
+th,
+td {
   margin: 0;
   padding: 0;
 }
 
-html, body {
+html,
+body {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -38,7 +60,9 @@ html {
   font-size: 18px;
 }
 
-*, *:before, *:after {
+*,
+*::before,
+*::after {
   -webkit-box-sizing: inherit;
   -moz-box-sizing: inherit;
   box-sizing: inherit;
@@ -49,9 +73,10 @@ img {
 }
 
 a {
-  color: #009FDA;
+  color: #009fda;
   text-decoration: none;
 }
+
 body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #505050;

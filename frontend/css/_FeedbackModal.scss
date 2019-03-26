@@ -1,11 +1,10 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3. 
- * See the license file in the root folder for details. 
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
  */
 
 .feedback-container {
-
-  .alertMessage{
+  .alertMessage {
     position: fixed !important;
     top: 20px;
     margin: 0 auto !important;
@@ -13,38 +12,32 @@
     z-index: 900;
     transform: translate(-50%, 0);
     opacity: 0;
-    transition: opacity .5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
     width: 450px;
     max-width: 90%;
     text-align: center;
   }
-
 }
 
 // Note: all the HTML elements inside this modal are inject directly into the body and are not inside the feedback-container above.
 // Put any css for the elements inside the model in here, and any css for elements outside the feedback-modal-container above.
 .feedback-modal-container {
-
   .feedbackTextbox {
     width: 100%;
     height: 100px;
   }
 
-
   .formModalInput {
-      min-width: 50%;
+    min-width: 50%;
   }
 
   @media (max-width: 500px) {
-      .formModalInput {
-          min-width: 100%;
-      }
+    .formModalInput {
+      min-width: 100%;
+    }
   }
-
 
   .feedbackParagraph {
-      padding-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 }
-
-
