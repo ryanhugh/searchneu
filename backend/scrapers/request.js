@@ -370,7 +370,7 @@ class Request {
       if (this.safeToCacheByUrl(config)) {
         newKey = config.url;
       } else {
-        // Make a new requeset without the cookies and the cookie jar.
+        // Make a new request without the cookies and the cookie jar.
         const headersWithoutCookie = {};
         Object.assign(headersWithoutCookie, config.headers);
         headersWithoutCookie.Cookie = undefined;

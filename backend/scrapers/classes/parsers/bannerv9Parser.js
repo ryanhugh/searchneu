@@ -44,6 +44,12 @@ class Bannerv9Parser {
       }
     }
 
+    // Request the url
+    // If you want to spider a site, you can use LinkSpider.js
+
+    // If you need to deal with cookies, check out scrapers/employees/employee.js
+    // which gets a cookie from one page before any other requests will work
+    // If you need more advanced cookie management or cookie jar stuff we could build that out somehow
     const resp = await request.get(url);
 
     // TODO: write this method

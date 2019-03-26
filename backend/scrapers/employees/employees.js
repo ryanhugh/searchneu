@@ -142,7 +142,6 @@ class Employee {
       // Parse the cookie from the response
       const cookieString = resp.headers['set-cookie'][0];
       const cookies = cookie.parse(cookieString);
-      macros.verbose('Got cookie.');
       return cookies.JSESSIONID;
     });
 

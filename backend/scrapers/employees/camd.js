@@ -4,7 +4,6 @@
  */
 
 import cheerio from 'cheerio';
-// import path from 'path';
 
 import macros from '../../macros';
 import linkSpider from '../linkSpider';
@@ -12,6 +11,9 @@ import Request from '../request';
 import cache from '../cache';
 
 const request = new Request('Camd');
+
+// Scrapes all the faculty and staff info from camd.northeastern.edu
+
 
 class Camd {
   // Given a list of elements, this will return the text from all the elements that are text elements
@@ -119,8 +121,6 @@ class Camd {
 
 
   async main() {
-    // const outputFile = path.join(macros.DEV_DATA_DIR, 'camd.json');
-
     if (macros.DEV && require.main !== module) {
       const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, 'main');
       if (devData) {
