@@ -13,6 +13,10 @@ import macros from '../macros';
 import request from './request';
 import cache from './cache';
 
+// This file is not used.
+// If we ever want to add support for buildings at Northeastern, we can work on this file some more.
+// It pulls data about buildings from a few spots on Northeastern's website.
+
 
 // Downloads building data from the interactive Google map of Northeastern Buildings that NEU provides
 // Google Maps has a fantastic download option, so this file is pretty small :)

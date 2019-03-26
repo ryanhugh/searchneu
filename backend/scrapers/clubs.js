@@ -12,6 +12,10 @@ import path from 'path';
 import macros from '../macros';
 import request from './request';
 
+// This file is not used.
+// If we ever want to add support for clubs at Northeastern, we can work on this file some more.
+// It pulls data about clubs from a few spots on Northeastern's website (orgsync).
+
 
 // TODO
 // might be able to scrape events off facebook pages for more info on when they are meeting
