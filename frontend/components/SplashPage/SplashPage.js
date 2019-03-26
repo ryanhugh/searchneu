@@ -27,7 +27,7 @@ function SplashPage() {
     <span id='splash-page'>
 
       {/* First Row. */}
-      <Grid stackable className='row-first'>
+      <Grid stackable className='row-first splash-row'>
         {/* These widths must add up to 16.*/}
         <Grid.Column width={ 7 } className='text'>
           <div className='text-inner'>
@@ -60,7 +60,7 @@ function SplashPage() {
 
 
       {/* Second Row. */}
-      <Grid stackable reversed='mobile' className='row-second'>
+      <Grid stackable reversed='mobile' className='row-second splash-row'>
         <Grid.Column width={ 9 } className='img-container'>
           <img
             id='engw1111-desktop'
@@ -86,7 +86,7 @@ function SplashPage() {
       </Grid>
 
       {/* Third Row. */}
-      <Grid stackable className='row-third'>
+      <Grid stackable className='row-third splash-row'>
         <Grid.Column width={ 7 } className='text'>
           <div className='text-inner'>
             <h1>

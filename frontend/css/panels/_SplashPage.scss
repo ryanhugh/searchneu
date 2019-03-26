@@ -68,137 +68,129 @@
     max-width: 540px;
   }
 
-  .row {
-    h1 {
-      font-weight: 300;
-      padding-bottom: 30px;
+  .splash-row h1 {
+    font-weight: 300;
+    padding-bottom: 30px;
+  }
+
+  .row-first {
+    background: rgb(125, 128, 121);
+
+    .text {
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
     }
 
-    &-first {
-      @extend .row;
-
-      background: rgb(125, 128, 121);
-
-      .text {
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-      }
-
-      .img-container {
-        display: inline-block;
-      }
-
-      .right-side {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-left: 4%;
-        overflow: hidden;
-      }
-
-      .rotated-div {
-        padding-top: 50%;
-        width: 50%;
-        background: rgb(231, 83, 83);
-        transform: rotate(65deg);
-        float: right;
-        position: absolute;
-        top: 27%;
-        right: 29%;
-      }
-
-      #cs2510-desktop {
-        width: 89%;
-        z-index: 2;
-        position: relative;
-      }
+    .img-container {
+      display: inline-block;
     }
 
-    &-second {
-      @extend .row;
+    .right-side {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 4%;
+      overflow: hidden;
+    }
 
+    .rotated-div {
+      padding-top: 50%;
+      width: 50%;
       background: rgb(231, 83, 83);
+      transform: rotate(65deg);
+      float: right;
+      position: absolute;
+      top: 27%;
+      right: 29%;
+    }
 
-      .img-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-left: 4%;
-        overflow: hidden;
-      }
+    #cs2510-desktop {
+      width: 89%;
+      z-index: 2;
+      position: relative;
+    }
+  }
 
-      .text {
-        color: white;
-      }
+  .row-second {
+    background: rgb(231, 83, 83);
 
-      .rotated-div {
-        padding-top: 50%;
-        width: 50%;
-        background: rgb(125, 128, 121);
-        transform: rotate(65deg);
-        float: right;
-        position: absolute;
-        top: 21%;
-        right: 26%;
-      }
+    .img-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 4%;
+      overflow: hidden;
+    }
 
-      #engw1111-desktop {
-        width: 67%;
-        z-index: 2;
+    .text {
+      color: white;
+    }
+
+    .rotated-div {
+      padding-top: 50%;
+      width: 50%;
+      background: rgb(125, 128, 121);
+      transform: rotate(65deg);
+      float: right;
+      position: absolute;
+      top: 21%;
+      right: 26%;
+    }
+
+    #engw1111-desktop {
+      width: 67%;
+      z-index: 2;
+      position: relative;
+    }
+
+    #lerner-mobile {
+      position: absolute;
+      z-index: 3;
+    }
+  }
+
+  .row-third {
+    height: 906px;
+    background: rgb(221, 218, 210);
+    position: relative;
+    padding-left: 10px;
+
+    .text {
+      color: rgb(125, 128, 121);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .img-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 4%;
+      overflow: hidden;
+
+      .img-inner {
+        height: 0;
+        padding-top: 57%;
+        width: 87%;
         position: relative;
-      }
-
-      #lerner-mobile {
-        position: absolute;
-        z-index: 3;
+        margin-right: 12%;
       }
     }
 
-    &-third {
-      @extend .row;
-
-      height: 906px;
-      background: rgb(221, 218, 210);
-      position: relative;
-      padding-left: 10px;
-
-      .text {
-        color: rgb(125, 128, 121);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-      }
-
-      .img-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-left: 4%;
-        overflow: hidden;
-
-        .img-inner {
-          height: 0;
-          padding-top: 57%;
-          width: 87%;
-          position: relative;
-          margin-right: 12%;
-        }
-      }
-
-      .rotated-div {
-        padding-top: 70%;
-        width: 70%;
-        background: rgb(174, 69, 67);
-        transform: rotate(65deg);
-        float: right;
-        position: absolute;
-        top: -2%;
-        right: 17%;
-      }
+    .rotated-div {
+      padding-top: 70%;
+      width: 70%;
+      background: rgb(174, 69, 67);
+      transform: rotate(65deg);
+      float: right;
+      position: absolute;
+      top: -2%;
+      right: 17%;
     }
   }
 }
