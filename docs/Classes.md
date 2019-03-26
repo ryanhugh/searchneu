@@ -60,7 +60,7 @@ They use two layers of caching to speed up scraping during development:
 1. The output of each parsing file is cached in the main method of each parser. 
 2. All the files use request.js (a file in the backend folder) to make the actual network requests. This file caches the full response of every reqeust that the parsers make, and does some other optimizations that help a lot in production too. 
 
-This makes it super easy to develop on the parsers. If the request cache is full, it only takes a couple minutes to run all the parsers (as compared to 20+ min). Additionally, if you want to only run a few parsers, you can delete the parser output cache, and re-run the scrapers, to run just those parsers. Also, if you run directly run an individual parser (eg `babel-node ellucianCatalogParser.js`) it will skip that parser's cache and run the full parser. This is a great way to test changes to an individual parser. 
+This makes it super easy to develop on the parsers. If the request cache is full, it only takes a couple minutes to run all the parsers (as compared to 20+ min). Additionally, if you want to only run a few parsers, you can delete the parser output cache, and re-run the scrapers, to run just those parsers. Also, you can directly run run an individual parser with the command `yarn script ellucianCatalogParser.js` and it will skip that parser's cache and run the full parser. This is a great way to test changes to an individual parser. 
 
 When developing the parsers, I rarely touch the request cache. This means that, while developing the scrapers, the code rarely makes any networking requests at all and can be quickly changed and tested - even if you are offline. 
 
