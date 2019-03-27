@@ -35,7 +35,7 @@ function WeekdayBoxes(props) {
     return (
       <div
         key={ index } // eslint-disable-line react/no-array-index-key
-        className={ `weekday-box ${meets ? 'weekday-box-checked ' : ''}` }
+        className={ `weekday-box${meets ? ' weekday-box-checked' : ''}` }
       />
     );
   });
