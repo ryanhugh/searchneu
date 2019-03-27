@@ -77,7 +77,7 @@ ShallowWrapper {
           className="weekday-box"
         />,
         <div
-          className="weekday-box-checked "
+          className="weekday-box weekday-box-checked"
         />,
         <div
           className="weekday-box"
@@ -86,7 +86,7 @@ ShallowWrapper {
           className="weekday-box"
         />,
         <div
-          className="weekday-box-checked "
+          className="weekday-box weekday-box-checked"
         />,
       ],
       "className": "weekday-indicator",
@@ -110,7 +110,7 @@ ShallowWrapper {
         "key": "1",
         "nodeType": "host",
         "props": Object {
-          "className": "weekday-box-checked ",
+          "className": "weekday-box weekday-box-checked",
         },
         "ref": null,
         "rendered": null,
@@ -143,7 +143,7 @@ ShallowWrapper {
         "key": "4",
         "nodeType": "host",
         "props": Object {
-          "className": "weekday-box-checked ",
+          "className": "weekday-box weekday-box-checked",
         },
         "ref": null,
         "rendered": null,
@@ -163,7 +163,7 @@ ShallowWrapper {
             className="weekday-box"
           />,
           <div
-            className="weekday-box-checked "
+            className="weekday-box weekday-box-checked"
           />,
           <div
             className="weekday-box"
@@ -172,7 +172,7 @@ ShallowWrapper {
             className="weekday-box"
           />,
           <div
-            className="weekday-box-checked "
+            className="weekday-box weekday-box-checked"
           />,
         ],
         "className": "weekday-indicator",
@@ -196,7 +196,7 @@ ShallowWrapper {
           "key": "1",
           "nodeType": "host",
           "props": Object {
-            "className": "weekday-box-checked ",
+            "className": "weekday-box weekday-box-checked",
           },
           "ref": null,
           "rendered": null,
@@ -229,7 +229,7 @@ ShallowWrapper {
           "key": "4",
           "nodeType": "host",
           "props": Object {
-            "className": "weekday-box-checked ",
+            "className": "weekday-box weekday-box-checked",
           },
           "ref": null,
           "rendered": null,
