@@ -21,7 +21,7 @@ import atob from 'atob';
 import _ from 'lodash';
 
 import Request from './scrapers/request';
-import search from '../common/search';
+import search from './search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 import notifyer from './notifyer';

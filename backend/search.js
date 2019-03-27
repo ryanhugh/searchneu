@@ -4,8 +4,8 @@
  */
 
 
-import Keys from './Keys';
-import macros from './commonMacros';
+import Keys from '../common/Keys';
+import macros from './macros';
 
 // The plan is to use this in both the frontend and the backend.
 // Right now it is only in use in the backend.
