@@ -407,6 +407,7 @@ class Search {
       // Update the timestamp of this cache item.
       this.refCache[termId + searchTerm].time = Date.now();
     } else {
+      // if subject matches, make sure to get appropriate info needed
       const possibleSubjectMatch = this.checkForSubjectMatch(searchTerm, termId);
       if (possibleSubjectMatch) {
         refs = possibleSubjectMatch.results;
@@ -419,6 +420,7 @@ class Search {
 
       this.itemsInCache++;
 
+      // if the subject is null, then the extra code won't be triggered
       this.refCache[termId + searchTerm] = {
         refs: refs,
         wasSubjectMatch: wasSubjectMatch,
