@@ -10,8 +10,9 @@ import request from './request';
 
 class Search {
   constructor() {
-    // Mapping of search term to an array of the results that have been loaded so far.
-      
+    // Mapping of search term to an object which contains three fields,
+    // the results that have been loaded so far, the subjectName (if it exists),
+    // and subjectCount (if it exists)
     this.cache = {};
 
     // Queries that have loaded all of the results, and no longer need to hit the server for any more.
@@ -21,7 +22,7 @@ class Search {
 
   // Min terms is the minimum number of terms needed.
   // When this function is called for the first time for a given query, it will be 4.
-  // Then, on subsequent calls, it will be 14, 24, etc. (if increasing by 10)
+  // Then, on subsequent calls, it will be 14, 24, etc. (if increasing by 10) (set by termCount)
   async search(query, termId, termCount) {
     // Searches are case insensitive.
     query = query.trim().toLowerCase();
@@ -36,6 +37,7 @@ class Search {
       return { results: [] };
     }
 
+    // if in cache, set appropriate term count
     let existingTermCount = 0;
     if (this.cache[termId + query]) {
       existingTermCount = this.cache[termId + query].results.length;
@@ -45,9 +47,9 @@ class Search {
     if (termCount <= existingTermCount && existingTermCount > 0 || this.allLoaded[termId + query]) {
       macros.log('Cache hit.', this.allLoaded[termId + query]);
       return {
-	results: this.cache[termId + query].results.slice(0, termCount),
-	subjectName: this.cache[termId + query].subjectName,
-	subjectCount: this.cache[termId + query].subjectCount,
+        results: this.cache[termId + query].results.slice(0, termCount),
+        subjectName: this.cache[termId + query].subjectName,
+        subjectCount: this.cache[termId + query].subjectCount,
       };
     }
 
@@ -62,6 +64,7 @@ class Search {
       maxIndex: termCount,
     }).toString();
 
+    // gets results 
     const startTime = Date.now();
     const waitedRequest = await request.get(url);
 
@@ -78,7 +81,8 @@ class Search {
       return { results: [] };
     }
 
-
+    // if cache doesn't exist, instantiate. Subject info only changed here
+    // since it should only be changed on cache misses
     if (!this.cache[termId + query]) {
       this.cache[termId + query] = {};
       this.cache[termId + query].results = [];
@@ -89,15 +93,12 @@ class Search {
     // Add to the end of exiting results.
     this.cache[termId + query].results = this.cache[termId + query].results.concat(results);
 
-
+    
     if (results.length < termCount - existingTermCount) {
       this.allLoaded[termId + query] = true;
     }
-    return ({
-      subjectName: this.cache[termId + query].subjectName,
-      subjectCount: this.cache[termId + query].subjectCount,
-      results: this.cache[termId + query].results,
-    });
+    
+    return (this.cache[termId + query]);
   }
 }
 
