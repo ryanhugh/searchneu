@@ -57,10 +57,10 @@ class Search {
       maxIndex: termCount,
     }).toString();
 
-      const startTime = Date.now();
-      let waited_request = await request.get(url);
+    const startTime = Date.now();
+    const waitedRequest = await request.get(url);
 
-      const results = waited_request.results;
+    const results = waitedRequest.results;
     window.amplitude.logEvent('Search Timing', {
       query: query.toLowerCase(),
       time: Date.now() - startTime,
@@ -84,10 +84,11 @@ class Search {
     if (results.length < termCount - existingTermCount) {
       this.allLoaded[termId + query] = true;
     }
-      return ({
-	  subjectName: waited_request.subjectName,
-	  subjectCount: waited_request.subjectCount,
-	  results: this.cache[termId + query]});
+    return ({
+      subjectName: waitedRequest.subjectName,
+      subjectCount: waitedRequest.subjectCount,
+      results: this.cache[termId + query],
+    });
   }
 }
 

@@ -356,13 +356,13 @@ class Home extends React.Component {
   async search(searchQuery, selectedTermId, termCount = 5) {
     this.currentQueryAndTerm = searchQuery + selectedTermId;
 
-      const obj = await search.search(searchQuery, selectedTermId, termCount);
-      const results = obj.results;
+    const obj = await search.search(searchQuery, selectedTermId, termCount);
+    const results = obj.results;
 
-      console.log('ope');
-      console.log(obj);
-      console.log(results);
-      
+    macros.log('ope');
+    macros.log(obj);
+    macros.log(results);
+
 
     if ((searchQuery + selectedTermId) !== this.currentQueryAndTerm) {
       macros.log('Did not come back in order, discarding ', this.currentQueryAndTerm, '!==', searchQuery, selectedTermId);
@@ -376,9 +376,9 @@ class Home extends React.Component {
       showSearchResults: true,
       searchQuery: searchQuery,
       selectedTermId: selectedTermId,
-	waitingOnEnter: false,
-	subjectName: obj.subjectName,
-	subjectCount: obj.subjectCount,
+      waitingOnEnter: false,
+      subjectName: obj.subjectName,
+      subjectCount: obj.subjectCount,
     };
 
     if (searchQuery.length !== 0) {
@@ -473,23 +473,22 @@ class Home extends React.Component {
             </div>
           </div>
         );
+      } else if (this.state.subjectName) {
+        macros.log('printthiscontainer');
+        resultsElement = (
+          <div className='subjectContainerow'>
+            <center><p>Showing {this.state.subjectCount} classes from {this.state.subjectName}</p></center>
+            <ResultsLoader
+              results={ this.state.results }
+              loadMore={ this.loadMore }
+            />
+          </div>);
       } else {
-	  if (this.state.subjectName) {
-	      console.log("printthiscontainer");
-	      resultsElement = (
-		      <div className='subjectContainerow'>
-		      <center><p>Showing {this.state.subjectCount} classes from {this.state.subjectName}</p></center>
-		                <ResultsLoader
-            results={ this.state.results }
-            loadMore={ this.loadMore }
-          /></div>);
-	  } else {
         resultsElement = (
           <ResultsLoader
             results={ this.state.results }
             loadMore={ this.loadMore }
-		/>);
-	}
+          />);
       }
     }
 
