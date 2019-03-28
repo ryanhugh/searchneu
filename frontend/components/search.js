@@ -84,10 +84,11 @@ class Search {
     // if cache doesn't exist, instantiate. Subject info only changed here
     // since it should only be changed on cache misses
     if (!this.cache[termId + query]) {
-      this.cache[termId + query] = {};
-      this.cache[termId + query].results = [];
-      this.cache[termId + query].subjectName = waitedRequest.subjectName;
-      this.cache[termId + query].subjectCount = waitedRequest.subjectCount;
+      this.cache[termId + query] = {
+	results: [],
+	subjectName: waitedRequest.subjectName, 
+	subjectCount: waitedRequest.subjectCount,
+      }
     }
 
     // Add to the end of exiting results.

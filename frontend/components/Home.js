@@ -377,8 +377,6 @@ class Home extends React.Component {
       subjectCount: obj.subjectCount,
     };
 
-    macros.log('sweet home', newState);
-
     if (searchQuery.length !== 0) {
       newState.results = results;
     }

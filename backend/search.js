@@ -332,7 +332,9 @@ class Search {
     if (maxIndex <= minIndex) {
       macros.error('Error. Max index < Min index.', minIndex, maxIndex, maxIndex <= minIndex, typeof maxIndex, typeof minIndex);
       return {
-        results: [],
+        resultsObject: {
+	  results: [],
+	},
         analytics: {
           status: 'Index range error',
           wasSubjectMatch: false,
@@ -348,7 +350,9 @@ class Search {
     if (!this.dataLib.hasTerm(termId)) {
       macros.log('Invalid termId', termId, searchTerm);
       return {
-        results: [],
+        resultsObject: {
+	  results: []
+	},
         analytics: {
           status: 'Invalid termId',
           wasSubjectMatch: false,
@@ -397,12 +401,8 @@ class Search {
     if (cacheEntry) {
       refs = this.refCache[termId + searchTerm].refs;
       wasSubjectMatch = this.refCache[termId + searchTerm].wasSubjectMatch;
-      // if (wasSubjectMatch) {
-      //     const possibleSubjectMatch = this.checkForSubjectMatch(searchTerm, termId);
-      //     subCount = possibleSubjectMatch.subjectCount;
-      //     subName = possibleSubjectMatch.subjectName;
-
-      // }
+      subName = this.refCache[termId + searchTerm].subjectName;
+      subCount = this.refCache[termId + searchTerm].subjectCount;
 
       // Update the timestamp of this cache item.
       this.refCache[termId + searchTerm].time = Date.now();
@@ -433,8 +433,6 @@ class Search {
     const analytics = {
       status: 'Success',
       wasSubjectMatch: wasSubjectMatch,
-      subjectCount: subCount,
-      subjectName: subName,
       isCacheHit: !!cacheEntry,
       query: searchTerm,
       minIndex: minIndex,
@@ -463,7 +461,12 @@ class Search {
     // If there were no results or asking for a range beyond the results length, stop here.
     if (refs.length === 0 || minIndex >= refs.length) {
       return {
-        results: [],
+        resultsObject: {
+	  results: [],
+	  subjectCount: subCount,
+	  subjectName: subName,
+	  wasSubjectMatch: wasSubjectMatch,
+	},
         analytics: analytics,
       };
     }
@@ -546,7 +549,12 @@ class Search {
 
 
     return {
-      results: objects.slice(startOffset, startOffset + returnItemCount),
+      resultsObject: {
+	results: objects.slice(startOffset, startOffset + returnItemCount),
+	subjectCount: subCount,
+	subjectName: subName,
+	wasSubjectMatch: wasSubjectMatch,
+      },
       analytics: analytics,
     };
   }
