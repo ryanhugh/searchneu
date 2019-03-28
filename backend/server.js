@@ -350,17 +350,8 @@ app.get('/search', wrap(async (req, res) => {
   const startTime = Date.now();
   const searchOutput = index.search(req.query.query, req.query.termId, minIndex, maxIndex);
   const midTime = Date.now();
-  let string;
-  if (searchOutput.analytics.wasSubjectMatch) {
-    string = JSON.stringify({
-      subjectCount: searchOutput.analytics.subjectCount,
-      subjectName: searchOutput.analytics.subjectName,
-      wasSubjectMatch: true,
-      results: searchOutput.results,
-    });
-  } else {
-    string = JSON.stringify({ results: searchOutput.results });
-  }
+  const string = JSON.stringify(searchOutput.resultsObject);
+
 
   const analytics = searchOutput.analytics;
 
