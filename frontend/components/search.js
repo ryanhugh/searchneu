@@ -99,7 +99,7 @@ class Search {
       this.allLoaded[termId + query] = true;
     }
 
-    return (this.cache[termId + query]);
+    return this.cache[termId + query];
   }
 }
 
