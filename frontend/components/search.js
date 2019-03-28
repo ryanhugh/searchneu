@@ -37,16 +37,16 @@ class Search {
 
     let existingTermCount = 0;
     if (this.cache[termId + query]) {
-      existingTermCount = this.cache[termId + query].length;
+      existingTermCount = this.cache[termId + query].results.length;
     }
 
     // Cache hit
     if (termCount <= existingTermCount && existingTermCount > 0 || this.allLoaded[termId + query]) {
       macros.log('Cache hit.', this.allLoaded[termId + query]);
 	return {
-	    results: this.cache[termId + query].slice(0, termCount),
-	    subjectName: potSN,
-	    subjectCount: potSC};
+	    results: this.cache[termId + query].results.slice(0, termCount),
+	    subjectName: this.cache[termId + query].subjectName,
+	    subjectCount: this.cache[termId + query].subjectCount};
     }
 
     // If we got here, we need to hit the network.
@@ -78,11 +78,14 @@ class Search {
 
 
     if (!this.cache[termId + query]) {
-      this.cache[termId + query] = [];
+	this.cache[termId + query] = {};
+	this.cache[termId + query].results = [];
     }
 
     // Add to the end of exiting results.
-    this.cache[termId + query] = this.cache[termId + query].concat(results);
+      this.cache[termId + query].results = this.cache[termId + query].results.concat(results);
+      this.cache[termId + query].subjectName = waitedRequest.subjectName;
+      this.cache[termId + query].subjectCount = waitedRequest.subjectCount;
 
     if (results.length < termCount - existingTermCount) {
       this.allLoaded[termId + query] = true;
@@ -90,7 +93,7 @@ class Search {
     return ({
       subjectName: waitedRequest.subjectName,
       subjectCount: waitedRequest.subjectCount,
-      results: this.cache[termId + query],
+      results: this.cache[termId + query].results,
     });
   }
 }

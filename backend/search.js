@@ -401,7 +401,6 @@ class Search {
 	    const possibleSubjectMatch = this.checkForSubjectMatch(searchTerm, termId);
 	    subCount = possibleSubjectMatch.subjectCount;
 	    subName = possibleSubjectMatch.subjectName;
-
 	}
 
       // Update the timestamp of this cache item.
