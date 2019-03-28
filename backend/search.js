@@ -200,7 +200,14 @@ class Search {
           });
         });
 
-        return output;
+        // object that holds subject name, count, wasSubjectMatch, results
+        const returnable = {
+          subjectCount: output.length,
+          subjectName: subject.text,
+          results: output,
+        };
+
+        return returnable;
       }
     }
     return null;
@@ -325,7 +332,9 @@ class Search {
     if (maxIndex <= minIndex) {
       macros.error('Error. Max index < Min index.', minIndex, maxIndex, maxIndex <= minIndex, typeof maxIndex, typeof minIndex);
       return {
-        results: [],
+        resultsObject: {
+	  results: [],
+	},
         analytics: {
           status: 'Index range error',
           wasSubjectMatch: false,
@@ -341,7 +350,9 @@ class Search {
     if (!this.dataLib.hasTerm(termId)) {
       macros.log('Invalid termId', termId, searchTerm);
       return {
-        results: [],
+        resultsObject: {
+	  results: []
+	},
         analytics: {
           status: 'Invalid termId',
           wasSubjectMatch: false,
@@ -385,16 +396,23 @@ class Search {
 
     // Cache the refs.
     let refs;
+    let subCount;
+    let subName;
     if (cacheEntry) {
       refs = this.refCache[termId + searchTerm].refs;
       wasSubjectMatch = this.refCache[termId + searchTerm].wasSubjectMatch;
+      subName = this.refCache[termId + searchTerm].subjectName;
+      subCount = this.refCache[termId + searchTerm].subjectCount;
 
       // Update the timestamp of this cache item.
       this.refCache[termId + searchTerm].time = Date.now();
     } else {
+      // if subject matches, make sure to get appropriate info needed
       const possibleSubjectMatch = this.checkForSubjectMatch(searchTerm, termId);
       if (possibleSubjectMatch) {
-        refs = possibleSubjectMatch;
+        refs = possibleSubjectMatch.results;
+        subCount = possibleSubjectMatch.subjectCount;
+        subName = possibleSubjectMatch.subjectName;
         wasSubjectMatch = true;
       } else {
         refs = this.getRefs(searchTerm, termId);
@@ -402,9 +420,12 @@ class Search {
 
       this.itemsInCache++;
 
+      // if the subject is null, then the extra code won't be triggered
       this.refCache[termId + searchTerm] = {
         refs: refs,
         wasSubjectMatch: wasSubjectMatch,
+        subjectName: subName,
+        subjectCount: subCount,
         time: Date.now(),
       };
     }
@@ -418,6 +439,7 @@ class Search {
       maxIndex: maxIndex,
       resultCount: refs.length,
     };
+
 
     // Check the cache when over 10,000 items are added to the cache
     if (this.itemsInCache > 10000) {
@@ -439,7 +461,12 @@ class Search {
     // If there were no results or asking for a range beyond the results length, stop here.
     if (refs.length === 0 || minIndex >= refs.length) {
       return {
-        results: [],
+        resultsObject: {
+	  results: [],
+	  subjectCount: subCount,
+	  subjectName: subName,
+	  wasSubjectMatch: wasSubjectMatch,
+	},
         analytics: analytics,
       };
     }
@@ -522,7 +549,12 @@ class Search {
 
 
     return {
-      results: objects.slice(startOffset, startOffset + returnItemCount),
+      resultsObject: {
+	results: objects.slice(startOffset, startOffset + returnItemCount),
+	subjectCount: subCount,
+	subjectName: subName,
+	wasSubjectMatch: wasSubjectMatch,
+      },
       analytics: analytics,
     };
   }

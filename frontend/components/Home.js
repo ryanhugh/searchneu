@@ -356,7 +356,9 @@ class Home extends React.Component {
   async search(searchQuery, selectedTermId, termCount = 5) {
     this.currentQueryAndTerm = searchQuery + selectedTermId;
 
-    const results = await search.search(searchQuery, selectedTermId, termCount);
+    const obj = await search.search(searchQuery, selectedTermId, termCount);
+    const results = obj.results;
+
 
     if ((searchQuery + selectedTermId) !== this.currentQueryAndTerm) {
       macros.log('Did not come back in order, discarding ', this.currentQueryAndTerm, '!==', searchQuery, selectedTermId);
@@ -371,6 +373,8 @@ class Home extends React.Component {
       searchQuery: searchQuery,
       selectedTermId: selectedTermId,
       waitingOnEnter: false,
+      subjectName: obj.subjectName,
+      subjectCount: obj.subjectCount,
     };
 
     if (searchQuery.length !== 0) {
@@ -465,13 +469,26 @@ class Home extends React.Component {
             </div>
           </div>
         );
+      } else if (this.state.subjectName) {
+
+	const pStyle = {
+	  fontSize: "24px",
+	  color: "#a3a3a3"
+	}
+        resultsElement = (
+          <div className='subjectContainerow'>
+            <center><p style={pStyle}>Showing {this.state.subjectCount} classes from {this.state.subjectName}</p></center>
+            <ResultsLoader
+              results={ this.state.results }
+              loadMore={ this.loadMore }
+            />
+          </div>);
       } else {
         resultsElement = (
           <ResultsLoader
             results={ this.state.results }
             loadMore={ this.loadMore }
-          />
-        );
+          />);
       }
     }
 
