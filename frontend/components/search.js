@@ -64,7 +64,7 @@ class Search {
       maxIndex: termCount,
     }).toString();
 
-    // gets results 
+    // gets results
     const startTime = Date.now();
     const waitedRequest = await request.get(url);
 
@@ -93,11 +93,11 @@ class Search {
     // Add to the end of exiting results.
     this.cache[termId + query].results = this.cache[termId + query].results.concat(results);
 
-    
+
     if (results.length < termCount - existingTermCount) {
       this.allLoaded[termId + query] = true;
     }
-    
+
     return (this.cache[termId + query]);
   }
 }
