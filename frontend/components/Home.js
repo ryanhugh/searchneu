@@ -356,7 +356,9 @@ class Home extends React.Component {
   async search(searchQuery, selectedTermId, termCount = 5) {
     this.currentQueryAndTerm = searchQuery + selectedTermId;
 
-    const obj = await search.search(searchQuery, selectedTermId, termCount);
+    macros.log("oppa", this.state.subjectName, this.state.subjectCount);
+    const obj = await search.search(searchQuery, selectedTermId, termCount,
+				    this.state.subjectName, this.state.subjectCount);
     const results = obj.results;
 
     macros.log('ope');
@@ -380,6 +382,8 @@ class Home extends React.Component {
       subjectName: obj.subjectName,
       subjectCount: obj.subjectCount,
     };
+
+      macros.log("sweet home", newState);
 
     if (searchQuery.length !== 0) {
       newState.results = results;

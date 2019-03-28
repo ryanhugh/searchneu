@@ -21,18 +21,18 @@ class Search {
   // Min terms is the minimum number of terms needed.
   // When this function is called for the first time for a given query, it will be 4.
   // Then, on subsequent calls, it will be 14, 24, etc. (if increasing by 10)
-  async search(query, termId, termCount) {
+  async search(query, termId, termCount, potSN, potSC) {
     // Searches are case insensitive.
     query = query.trim().toLowerCase();
 
     if (!query || query.length === 0) {
       macros.log('No query given in frontend/search.js. Returning empty array.', query, termCount);
-      return [];
+	return {results: []};
     }
 
     if (!termId || termId.length !== 6) {
       macros.log('No termId given in frontend/search.js. Returning empty array.', termId, termCount);
-      return [];
+	return {results: []};
     }
 
     let existingTermCount = 0;
@@ -43,7 +43,10 @@ class Search {
     // Cache hit
     if (termCount <= existingTermCount && existingTermCount > 0 || this.allLoaded[termId + query]) {
       macros.log('Cache hit.', this.allLoaded[termId + query]);
-      return this.cache[termId + query].slice(0, termCount);
+	return {
+	    results: this.cache[termId + query].slice(0, termCount),
+	    subjectName: potSN,
+	    subjectCount: potSC};
     }
 
     // If we got here, we need to hit the network.
@@ -70,7 +73,7 @@ class Search {
 
     if (results.error) {
       macros.error('Error with networking request', results.error);
-      return [];
+	return {results: []};
     }
 
 
