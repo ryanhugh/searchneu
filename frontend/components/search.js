@@ -11,6 +11,7 @@ import request from './request';
 class Search {
   constructor() {
     // Mapping of search term to an array of the results that have been loaded so far.
+      
     this.cache = {};
 
     // Queries that have loaded all of the results, and no longer need to hit the server for any more.
@@ -44,9 +45,9 @@ class Search {
     if (termCount <= existingTermCount && existingTermCount > 0 || this.allLoaded[termId + query]) {
       macros.log('Cache hit.', this.allLoaded[termId + query]);
       return {
-        results: this.cache[termId + query].results.slice(0, termCount),
-        subjectName: this.cache[termId + query].subjectName,
-        subjectCount: this.cache[termId + query].subjectCount,
+	results: this.cache[termId + query].results.slice(0, termCount),
+	subjectName: this.cache[termId + query].subjectName,
+	subjectCount: this.cache[termId + query].subjectCount,
       };
     }
 

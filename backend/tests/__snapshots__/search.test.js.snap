@@ -9,6 +9,8 @@ Object {
     "query": "hi",
     "resultCount": 3,
     "status": "Success",
+    "subjectCount": undefined,
+    "subjectName": undefined,
     "wasSubjectMatch": false,
   },
   "results": Array [
@@ -173,6 +175,8 @@ Object {
     "query": "craig",
     "resultCount": 1,
     "status": "Success",
+    "subjectCount": undefined,
+    "subjectName": undefined,
     "wasSubjectMatch": false,
   },
   "results": Array [
@@ -208,6 +212,8 @@ Object {
     "query": "experiential",
     "resultCount": 1,
     "status": "Success",
+    "subjectCount": undefined,
+    "subjectName": undefined,
     "wasSubjectMatch": false,
   },
   "results": Array [
@@ -256,6 +262,8 @@ Object {
     "query": "ls",
     "resultCount": 13,
     "status": "Success",
+    "subjectCount": 13,
+    "subjectName": "Legal Studies",
     "wasSubjectMatch": true,
   },
   "results": Array [
@@ -909,6 +917,8 @@ Object {
     "query": "ws",
     "resultCount": 4,
     "status": "Success",
+    "subjectCount": 4,
+    "subjectName": "Woahhhhhh Stan",
     "wasSubjectMatch": true,
   },
   "results": Array [
