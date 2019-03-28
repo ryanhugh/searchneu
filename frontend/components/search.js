@@ -21,18 +21,18 @@ class Search {
   // Min terms is the minimum number of terms needed.
   // When this function is called for the first time for a given query, it will be 4.
   // Then, on subsequent calls, it will be 14, 24, etc. (if increasing by 10)
-  async search(query, termId, termCount, potSN, potSC) {
+  async search(query, termId, termCount) {
     // Searches are case insensitive.
     query = query.trim().toLowerCase();
 
     if (!query || query.length === 0) {
       macros.log('No query given in frontend/search.js. Returning empty array.', query, termCount);
-	return {results: []};
+      return { results: [] };
     }
 
     if (!termId || termId.length !== 6) {
       macros.log('No termId given in frontend/search.js. Returning empty array.', termId, termCount);
-	return {results: []};
+      return { results: [] };
     }
 
     let existingTermCount = 0;
@@ -43,10 +43,11 @@ class Search {
     // Cache hit
     if (termCount <= existingTermCount && existingTermCount > 0 || this.allLoaded[termId + query]) {
       macros.log('Cache hit.', this.allLoaded[termId + query]);
-	return {
-	    results: this.cache[termId + query].results.slice(0, termCount),
-	    subjectName: this.cache[termId + query].subjectName,
-	    subjectCount: this.cache[termId + query].subjectCount};
+      return {
+        results: this.cache[termId + query].results.slice(0, termCount),
+        subjectName: this.cache[termId + query].subjectName,
+        subjectCount: this.cache[termId + query].subjectCount,
+      };
     }
 
     // If we got here, we need to hit the network.
@@ -73,19 +74,19 @@ class Search {
 
     if (results.error) {
       macros.error('Error with networking request', results.error);
-	return {results: []};
+      return { results: [] };
     }
 
 
     if (!this.cache[termId + query]) {
-	this.cache[termId + query] = {};
-	this.cache[termId + query].results = [];
-	this.cache[termId + query].subjectName = waitedRequest.subjectName;
-	this.cache[termId + query].subjectCount = waitedRequest.subjectCount;
+      this.cache[termId + query] = {};
+      this.cache[termId + query].results = [];
+      this.cache[termId + query].subjectName = waitedRequest.subjectName;
+      this.cache[termId + query].subjectCount = waitedRequest.subjectCount;
     }
 
     // Add to the end of exiting results.
-      this.cache[termId + query].results = this.cache[termId + query].results.concat(results);
+    this.cache[termId + query].results = this.cache[termId + query].results.concat(results);
 
 
     if (results.length < termCount - existingTermCount) {
