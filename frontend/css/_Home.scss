@@ -12,6 +12,18 @@
     display: none;
   }
 
+  .subjectContaineRowContainer {
+    display: flex;
+    margin-bottom: -11px;
+  }
+
+  .subjectContaineRow {
+    font-size: 19px;
+    color: #a3a3a3;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .topHeader {
     display: flex !important;
     align-items: center;

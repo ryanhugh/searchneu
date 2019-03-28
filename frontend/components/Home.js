@@ -373,12 +373,12 @@ class Home extends React.Component {
       searchQuery: searchQuery,
       selectedTermId: selectedTermId,
       waitingOnEnter: false,
-      subjectName: obj.subjectName,
-      subjectCount: obj.subjectCount,
     };
 
     if (searchQuery.length !== 0) {
       newState.results = results;
+      newState.subjectName = obj.subjectName;
+      newState.subjectCount = obj.subjectCount;
     }
 
 
@@ -469,25 +469,22 @@ class Home extends React.Component {
             </div>
           </div>
         );
-      } else if (this.state.subjectName) {
-        const pStyle = {
-          fontSize: '24px',
-          color: '#a3a3a3',
-        };
+      } else {
+        let subjectInfoRow = null;
+        if (this.state.subjectName) {
+          subjectInfoRow = (<div className='subjectContaineRow'>Showing {this.state.subjectCount} classes from {this.state.subjectName}</div>);
+        }
+
         resultsElement = (
-          <div className='subjectContainerow'>
-            <center><p style={ pStyle }>Showing {this.state.subjectCount} classes from {this.state.subjectName}</p></center>
+          <div>
+            <div className='subjectContaineRowContainer'>
+              {subjectInfoRow}
+            </div>
             <ResultsLoader
               results={ this.state.results }
               loadMore={ this.loadMore }
             />
           </div>);
-      } else {
-        resultsElement = (
-          <ResultsLoader
-            results={ this.state.results }
-            loadMore={ this.loadMore }
-          />);
       }
     }
 
