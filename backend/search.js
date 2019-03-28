@@ -202,9 +202,9 @@ class Search {
 
         // object that holds subject name, count, wasSubjectMatch, results
         const returnable = {
-          subjectCount: output.length,
-          subjectName: subject.text,
-          results: output,
+	subjectCount: output.length,
+	subjectName: subject.text,
+	results: output,
         };
 
         return returnable;
@@ -395,8 +395,14 @@ class Search {
     let subCount;
     let subName;
     if (cacheEntry) {
-      refs = this.refCache[termId + searchTerm].refs;
-      wasSubjectMatch = this.refCache[termId + searchTerm].wasSubjectMatch;
+	refs = this.refCache[termId + searchTerm].refs;
+	wasSubjectMatch = this.refCache[termId + searchTerm].wasSubjectMatch;
+	if (wasSubjectMatch) {
+	    const possibleSubjectMatch = this.checkForSubjectMatch(searchTerm, termId);
+	    subCount = possibleSubjectMatch.subjectCount;
+	    subName = possibleSubjectMatch.subjectName;
+
+	}
 
       // Update the timestamp of this cache item.
       this.refCache[termId + searchTerm].time = Date.now();
@@ -404,8 +410,8 @@ class Search {
       const possibleSubjectMatch = this.checkForSubjectMatch(searchTerm, termId);
       if (possibleSubjectMatch) {
         refs = possibleSubjectMatch.results;
-        subCount = possibleSubjectMatch.subjectCount;
-        subName = possibleSubjectMatch.subjectName;
+	subCount = possibleSubjectMatch.subjectCount;
+	subName = possibleSubjectMatch.subjectName;
         wasSubjectMatch = true;
       } else {
         refs = this.getRefs(searchTerm, termId);
@@ -416,20 +422,22 @@ class Search {
       this.refCache[termId + searchTerm] = {
         refs: refs,
         wasSubjectMatch: wasSubjectMatch,
+	subjectName: subName,
+	subjectCount: subCount,
         time: Date.now(),
       };
     }
 
     const analytics = {
-      status: 'Success',
-      wasSubjectMatch: wasSubjectMatch,
-      subjectCount: subCount,
-      subjectName: subName,
-      isCacheHit: !!cacheEntry,
-      query: searchTerm,
-      minIndex: minIndex,
-      maxIndex: maxIndex,
-      resultCount: refs.length,
+	status: 'Success',
+	wasSubjectMatch: wasSubjectMatch,
+	subjectCount: subCount,
+	subjectName: subName,
+	isCacheHit: !!cacheEntry,
+	query: searchTerm,
+	minIndex: minIndex,
+	maxIndex: maxIndex,
+	resultCount: refs.length,
     };
 
 
