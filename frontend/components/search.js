@@ -80,19 +80,20 @@ class Search {
     if (!this.cache[termId + query]) {
 	this.cache[termId + query] = {};
 	this.cache[termId + query].results = [];
+	this.cache[termId + query].subjectName = waitedRequest.subjectName;
+	this.cache[termId + query].subjectCount = waitedRequest.subjectCount;
     }
 
     // Add to the end of exiting results.
       this.cache[termId + query].results = this.cache[termId + query].results.concat(results);
-      this.cache[termId + query].subjectName = waitedRequest.subjectName;
-      this.cache[termId + query].subjectCount = waitedRequest.subjectCount;
+
 
     if (results.length < termCount - existingTermCount) {
       this.allLoaded[termId + query] = true;
     }
     return ({
-      subjectName: waitedRequest.subjectName,
-      subjectCount: waitedRequest.subjectCount,
+      subjectName: this.cache[termId + query].subjectName,
+      subjectCount: this.cache[termId + query].subjectCount,
       results: this.cache[termId + query].results,
     });
   }

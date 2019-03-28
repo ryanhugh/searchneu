@@ -397,11 +397,12 @@ class Search {
     if (cacheEntry) {
 	refs = this.refCache[termId + searchTerm].refs;
 	wasSubjectMatch = this.refCache[termId + searchTerm].wasSubjectMatch;
-	if (wasSubjectMatch) {
-	    const possibleSubjectMatch = this.checkForSubjectMatch(searchTerm, termId);
-	    subCount = possibleSubjectMatch.subjectCount;
-	    subName = possibleSubjectMatch.subjectName;
-	}
+	// if (wasSubjectMatch) {
+	//     const possibleSubjectMatch = this.checkForSubjectMatch(searchTerm, termId);
+	//     subCount = possibleSubjectMatch.subjectCount;
+	//     subName = possibleSubjectMatch.subjectName;
+
+	// }
 
       // Update the timestamp of this cache item.
       this.refCache[termId + searchTerm].time = Date.now();
