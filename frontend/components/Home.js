@@ -356,13 +356,8 @@ class Home extends React.Component {
   async search(searchQuery, selectedTermId, termCount = 5) {
     this.currentQueryAndTerm = searchQuery + selectedTermId;
 
-    macros.log('oppa', this.state.subjectName, this.state.subjectCount);
     const obj = await search.search(searchQuery, selectedTermId, termCount);
     const results = obj.results;
-
-    macros.log('ope');
-    macros.log(obj);
-    macros.log(results);
 
 
     if ((searchQuery + selectedTermId) !== this.currentQueryAndTerm) {
@@ -477,7 +472,7 @@ class Home extends React.Component {
           </div>
         );
       } else if (this.state.subjectName) {
-        macros.log('printthiscontainer');
+
         resultsElement = (
           <div className='subjectContainerow'>
             <center><p>Showing {this.state.subjectCount} classes from {this.state.subjectName}</p></center>
