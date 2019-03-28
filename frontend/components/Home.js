@@ -471,9 +471,13 @@ class Home extends React.Component {
         );
       } else if (this.state.subjectName) {
 
+	const pStyle = {
+	  fontSize: "24px",
+	  color: "#a3a3a3"
+	}
         resultsElement = (
           <div className='subjectContainerow'>
-            <center><p>Showing {this.state.subjectCount} classes from {this.state.subjectName}</p></center>
+            <center><p style={pStyle}>Showing {this.state.subjectCount} classes from {this.state.subjectName}</p></center>
             <ResultsLoader
               results={ this.state.results }
               loadMore={ this.loadMore }
