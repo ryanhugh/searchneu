@@ -85,10 +85,10 @@ class Search {
     // since it should only be changed on cache misses
     if (!this.cache[termId + query]) {
       this.cache[termId + query] = {
-	results: [],
-	subjectName: waitedRequest.subjectName, 
-	subjectCount: waitedRequest.subjectCount,
-      }
+        results: [],
+        subjectName: waitedRequest.subjectName,
+        subjectCount: waitedRequest.subjectCount,
+      };
     }
 
     // Add to the end of exiting results.

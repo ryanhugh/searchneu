@@ -333,8 +333,8 @@ class Search {
       macros.error('Error. Max index < Min index.', minIndex, maxIndex, maxIndex <= minIndex, typeof maxIndex, typeof minIndex);
       return {
         resultsObject: {
-	  results: [],
-	},
+          results: [],
+        },
         analytics: {
           status: 'Index range error',
           wasSubjectMatch: false,
@@ -351,8 +351,8 @@ class Search {
       macros.log('Invalid termId', termId, searchTerm);
       return {
         resultsObject: {
-	  results: []
-	},
+          results: [],
+        },
         analytics: {
           status: 'Invalid termId',
           wasSubjectMatch: false,
@@ -462,11 +462,11 @@ class Search {
     if (refs.length === 0 || minIndex >= refs.length) {
       return {
         resultsObject: {
-	  results: [],
-	  subjectCount: subCount,
-	  subjectName: subName,
-	  wasSubjectMatch: wasSubjectMatch,
-	},
+          results: [],
+          subjectCount: subCount,
+          subjectName: subName,
+          wasSubjectMatch: wasSubjectMatch,
+        },
         analytics: analytics,
       };
     }
@@ -550,10 +550,10 @@ class Search {
 
     return {
       resultsObject: {
-	results: objects.slice(startOffset, startOffset + returnItemCount),
-	subjectCount: subCount,
-	subjectName: subName,
-	wasSubjectMatch: wasSubjectMatch,
+        results: objects.slice(startOffset, startOffset + returnItemCount),
+        subjectCount: subCount,
+        subjectName: subName,
+        wasSubjectMatch: wasSubjectMatch,
       },
       analytics: analytics,
     };
