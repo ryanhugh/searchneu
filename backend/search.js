@@ -200,12 +200,12 @@ class Search {
           });
         });
 
-	// object that holds subject name, count, wasSubjectMatch, results
-	const returnable = {
-	    subjectCount: output.length,
-	    subjectName: subject.text,
-	    results: output
-	};
+        // object that holds subject name, count, wasSubjectMatch, results
+        const returnable = {
+          subjectCount: output.length,
+          subjectName: subject.text,
+          results: output,
+        };
 
         return returnable;
       }
@@ -391,9 +391,9 @@ class Search {
     const cacheEntry = this.refCache[termId + searchTerm];
 
     // Cache the refs.
-      let refs;
-      let subCount;
-      let subName;
+    let refs;
+    let subCount;
+    let subName;
     if (cacheEntry) {
       refs = this.refCache[termId + searchTerm].refs;
       wasSubjectMatch = this.refCache[termId + searchTerm].wasSubjectMatch;
@@ -402,11 +402,11 @@ class Search {
       this.refCache[termId + searchTerm].time = Date.now();
     } else {
       const possibleSubjectMatch = this.checkForSubjectMatch(searchTerm, termId);
-	if (possibleSubjectMatch) {
-            refs = possibleSubjectMatch.results;
-	    subCount = possibleSubjectMatch.subjectCount;
-	    subName = possibleSubjectMatch.subjectName;
-          wasSubjectMatch = true;
+      if (possibleSubjectMatch) {
+        refs = possibleSubjectMatch.results;
+        subCount = possibleSubjectMatch.subjectCount;
+        subName = possibleSubjectMatch.subjectName;
+        wasSubjectMatch = true;
       } else {
         refs = this.getRefs(searchTerm, termId);
       }
@@ -420,17 +420,17 @@ class Search {
       };
     }
 
-      const analytics = {
-	  status: 'Success',
-	  wasSubjectMatch: wasSubjectMatch,
-	  subjectCount: subCount,
-	  subjectName: subName,
-	  isCacheHit: !!cacheEntry,
-	  query: searchTerm,
-	  minIndex: minIndex,
-	  maxIndex: maxIndex,
-	  resultCount: refs.length,
-      };
+    const analytics = {
+      status: 'Success',
+      wasSubjectMatch: wasSubjectMatch,
+      subjectCount: subCount,
+      subjectName: subName,
+      isCacheHit: !!cacheEntry,
+      query: searchTerm,
+      minIndex: minIndex,
+      maxIndex: maxIndex,
+      resultCount: refs.length,
+    };
 
 
     // Check the cache when over 10,000 items are added to the cache

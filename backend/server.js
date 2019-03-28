@@ -348,20 +348,20 @@ app.get('/search', wrap(async (req, res) => {
   }
 
   const startTime = Date.now();
-    const searchOutput = index.search(req.query.query, req.query.termId, minIndex, maxIndex);
-    const midTime = Date.now();
+  const searchOutput = index.search(req.query.query, req.query.termId, minIndex, maxIndex);
+  const midTime = Date.now();
   let string;
-    if (searchOutput.analytics.wasSubjectMatch) {
-	
-	string = JSON.stringify({
-	    subjectCount: searchOutput.analytics.subjectCount,
-	    subjectName: searchOutput.analytics.subjectName,
-	    wasSubjectMatch: true,
-	    results: searchOutput.results});
-    } else {
-	string = JSON.stringify({results: searchOutput.results});
-    }
-    
+  if (searchOutput.analytics.wasSubjectMatch) {
+    string = JSON.stringify({
+      subjectCount: searchOutput.analytics.subjectCount,
+      subjectName: searchOutput.analytics.subjectName,
+      wasSubjectMatch: true,
+      results: searchOutput.results,
+    });
+  } else {
+    string = JSON.stringify({ results: searchOutput.results });
+  }
+
   const analytics = searchOutput.analytics;
 
   analytics.searchTime = midTime - startTime;
@@ -372,7 +372,7 @@ app.get('/search', wrap(async (req, res) => {
   macros.log(getTime(), getIpPath(req), 'Search for', req.query.query, 'from', minIndex, 'to', maxIndex, 'took', midTime - startTime, 'ms and stringify took', Date.now() - midTime, 'with', analytics.resultCount, 'results');
 
   // Set the header for application/json and send the data.
-    res.setHeader('Content-Type', 'application/json; charset=UTF-8');
+  res.setHeader('Content-Type', 'application/json; charset=UTF-8');
   res.send(string);
 }));
 
