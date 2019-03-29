@@ -19,7 +19,7 @@
     // min-height: 16px;
 
     display: flex;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
     text-align: center;
     margin-top: 5px;
   }
@@ -28,7 +28,7 @@
   /* Desktop. */
   @media only screen and (min-width: 767px) {
     .subjectContaineRowContainer {
-      min-height: 23px;
+      min-height: 25px;
     }
   }
 
