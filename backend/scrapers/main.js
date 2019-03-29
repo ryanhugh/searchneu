@@ -3,7 +3,6 @@
  * See the license file in the root folder for details.
  */
 
-import fs from 'fs-extra';
 import matchEmployees from './employees/matchEmployees';
 import macros from '../macros';
 import classes from './classes/main';
@@ -33,14 +32,8 @@ if (process.env.TRAVIS && macros.DEV) {
 
 
 class Main {
-  async main(semesterly = false) {
-    const classesPromise = classes.main(['neu'], semesterly);
-
-    // If scraping stuff for semesterly, scrape just the classes
-    if (semesterly) {
-      return classesPromise;
-    }
-
+  async main() {
+    const classesPromise = classes.main(['neu']);
 
     const promises = [classesPromise, matchEmployees.main()];
 
@@ -49,27 +42,13 @@ class Main {
     await sitemapGenerator.go(termDump, mergedEmployees);
 
     macros.log('done scrapers/main.js');
-
-    return null;
   }
 }
-
 
 const instance = new Main();
 
-
-async function localRun() {
-  if (require.main === module) {
-    // Change it to .main(true) to run the Semester.ly code
-    const semesterlyData = await instance.main(false);
-
-    if (semesterlyData) {
-      await fs.writeFile('semesterly_courses.json', JSON.stringify(semesterlyData));
-      macros.log('Saved output for semesterly!');
-    }
-  }
+if (require.main === module) {
+  instance.main();
 }
-
-localRun();
 
 export default instance;

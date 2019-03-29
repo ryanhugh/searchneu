@@ -17,7 +17,6 @@ import bannerv9CollegeUrls from './bannerv9CollegeUrls';
 import markMissingPrereqs from './processors/markMissingPrereqs';
 import termStartEndDate from './processors/termStartEndDate';
 import simplifyProfList from './processors/simplifyProfList';
-import semesterly from './processors/semesterly';
 import addPreRequisiteFor from './processors/addPreRequisiteFor';
 
 // Parsers
@@ -170,7 +169,7 @@ class Main {
   }
 
 
-  async main(collegeAbbrs, semesterlySchema = false) {
+  async main(collegeAbbrs) {
     if (!collegeAbbrs) {
       macros.error('Need collegeAbbrs for scraping classes');
       return null;
@@ -179,7 +178,7 @@ class Main {
     const cacheKey = collegeAbbrs.join(',');
 
     // if this is dev and this data is already scraped, just return the data
-    if (macros.DEV && require.main !== module && !semesterlySchema) {
+    if (macros.DEV && require.main !== module) {
       const devData = await cache.get(macros.DEV_DATA_DIR, 'classes', cacheKey);
       if (devData) {
         return devData;
@@ -257,13 +256,6 @@ class Main {
 
     const dump = this.runProcessors(restructuredData);
 
-
-    // If running with semesterly, save in the semesterly schema
-    // If not, save in the searchneu schema
-    macros.log('semesterly:', semesterlySchema);
-    if (semesterlySchema) {
-      return semesterly.main(dump);
-    }
 
     await searchIndex.main(dump);
     await termDump.main(dump);

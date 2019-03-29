@@ -84,9 +84,6 @@ Goes through every section in the data set and cleans up the list of professors 
 
 The prerequisites section shows you what classes you have to take this class. This processor uses this data to build the inverse - a data structure that shows you what you what classes taking this class can lead to in the future. This info is stored along side the prerequisites info. 
 
-##### Semesterly 
-Dumps the data in a data format that can be processed by the site Semester.ly. At one point, we were trying to add [support for NEU to Semester.ly](https://github.com/noahpresler/semesterly/pull/1041), but efforts have died down since. 
-
 ##### Indexing
 Creates search indexes that are core data structure behind the super fast searching on Search NEU. Saves this info to a file, for later uploading to EC2 after the scrapers are done. This search index doesn't include the data itself, so the data is saved too (below). 
 
