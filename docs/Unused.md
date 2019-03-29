@@ -3,6 +3,16 @@
 These files were created a while ago for some feature but were never finished or haven't been used in a long time. 
 If we ever want to add them back, we can copy them from here.
 
+
+### Semesterly.js
+
+At one point, we were going to add support for northeastern to semesterly with the data from search neu. The code worked a while ago, but we didn't end up keeping up with it. Code has been removed from search neu.
+
+https://github.com/noahpresler/semesterly/pull/1041
+https://github.com/ryanhugh/searchneu/blob/a8fc0b442807346523889ac3fe9a3638169a715f/backend/scrapers/classes/processors/semesterly.js
+
+
+
 They are in the codebase at commit [0958ad3a2ddf72425f3e18b268e9d2dd6c945f88](https://github.com/ryanhugh/searchneu/commit/0958ad3a2ddf72425f3e18b268e9d2dd6c945f88).
 
 ### login.js
