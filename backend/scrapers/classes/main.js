@@ -221,14 +221,6 @@ class Main {
 
     const bannerv9ParserOutput = await bannerv9ParserOutputPromise;
 
-    // bannerv9ParserOutput and parsersOutput should be the same.
-    if (_.isEqual(bannerv9ParserOutput, parsersOutput)) {
-      macros.log('Parsers output not the same');
-    } else {
-      macros.log('Parsers output is the same!');
-    }
-
-
     const rootNode = {
       type: 'ignore',
       value: {},
@@ -252,8 +244,18 @@ class Main {
       }],
     };
 
+    const restructuredData = this.restructureData(rootNode);
 
-    const dump = this.runProcessors(this.restructureData(rootNode));
+
+    // bannerv9ParserOutput and parsersOutput should be the same.
+    if (_.isEqual(bannerv9ParserOutput, restructuredData)) {
+      macros.log('Parsers output not the same');
+    } else {
+      macros.log('Parsers output is the same!');
+    }
+
+
+    const dump = this.runProcessors(restructuredData);
 
 
     // If running with semesterly, save in the semesterly schema
