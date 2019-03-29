@@ -8,10 +8,11 @@ import PropTypes from 'prop-types';
 
 import Keys from '../../common/Keys';
 import macros from './macros';
-import DataLib from '../../common/classModels/DataLib';
 import EmployeePanel from './panels/EmployeePanel';
 import DesktopClassPanel from './panels/DesktopClassPanel';
 import MobileClassPanel from './panels/MobileClassPanel';
+
+import Class from '../../common/classModels/Class'
 
 // The Home.js component now keeps track of how many to render.
 // This component watches for scroll events and tells Home.js if more items need to be requested.
@@ -83,7 +84,8 @@ class ResultsLoader extends React.Component {
         if (this.constructor.loadedClassObjects[hash]) {
           aClass = this.constructor.loadedClassObjects[hash];
         } else {
-          aClass = DataLib.createClassFromSearchResult(result);
+          aClass = Class.create(result.class);
+          aClass.loadSectionsFromServerList(result.sections);
           this.constructor.loadedClassObjects[hash] = aClass;
         }
 
