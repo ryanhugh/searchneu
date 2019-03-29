@@ -13,16 +13,35 @@
   }
 
   .subjectContaineRowContainer {
+    // display: flex;
+    // margin-bottom: 10px;
+    // text-align: center;
+    // min-height: 16px;
+
     display: flex;
-    margin-bottom: 10px;
+    margin-bottom: 2px;
     text-align: center;
-    min-height: 16px;
+    margin-top: 5px;
+  }
+
+
+  /* Desktop. */
+  @media only screen and (min-width: 767px) {
+    .subjectContaineRowContainer {
+      min-height: 23px;
+    }
   }
 
   .subjectContaineRow {
+    // font-size: 19px;
+    // color: #a3a3a3;
+    // margin-left: auto;
+    // margin-right: auto;
+
     font-size: 19px;
     color: #a3a3a3;
     margin-left: auto;
+    align-self: flex-end;
     margin-right: auto;
   }
 
