@@ -3,9 +3,9 @@
  * See the license file in the root folder for details.
  */
 
-import Class from './Class';
-import macros from '../commonMacros';
-import Keys from '../Keys';
+// import Class from './Class';
+import macros from './macros';
+import Keys from '../common/Keys';
 
 
 // Holds the class data that is used by the search backend

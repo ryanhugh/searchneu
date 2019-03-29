@@ -7,7 +7,7 @@ import fs from 'fs-extra';
 import _ from 'lodash';
 import path from 'path';
 
-import DataLib from '../common/classModels/DataLib';
+import DataLib from './DataLib';
 
 import classesScrapers from './scrapers/classes/main';
 

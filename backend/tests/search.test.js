@@ -5,10 +5,10 @@
 
 import elasticlunr from 'elasticlunr';
 import search from '../search';
-import DataLib from '../../common/classModels/DataLib';
+import DataLib from '../DataLib';
 
 import searchTestResultObjects from './data/searchTestResultObjects.json';
-import mockTermDump from '../../common/classModels/tests/mockTermDump.json';
+import mockTermDump from './data/mockTermDump.json';
 import mockSearchIndex from './data/mockSearchIndex.json';
 
 import employeeMap from './data/employeeMap.json';

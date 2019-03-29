@@ -27,7 +27,7 @@ import macros from './macros';
 import notifyer from './notifyer';
 import Updater from './updater';
 import database from './database';
-import DataLib from '../common/classModels/DataLib';
+import DataLib from './DataLib';
 
 const request = new Request('server');
 

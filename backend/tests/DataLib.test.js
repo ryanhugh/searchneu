@@ -5,7 +5,7 @@
 
 import DataLib from '../DataLib';
 
-import mockTermDump from './mockTermDump.json';
+import mockTermDump from './data/mockTermDump.json';
 
 it('should be able to create an instance', () => {
   const dataLib = DataLib.loadData({
