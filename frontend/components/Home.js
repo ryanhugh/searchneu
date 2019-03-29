@@ -435,7 +435,6 @@ class Home extends React.Component {
         </span>
       );
 
-      // wantToHelpOpacity = 1;
     } else if (this.state.results) {
       const memeMatches = {
         meme: true,
@@ -469,7 +468,7 @@ class Home extends React.Component {
             </div>
           </div>
         );
-      } else {
+      } else if (!this.state.waitingOnEnter) {
         let subjectInfoRow = null;
         if (this.state.subjectName) {
           subjectInfoRow = (<div className='subjectContaineRow'>Showing all {this.state.subjectCount} classes in {this.state.subjectName}</div>);

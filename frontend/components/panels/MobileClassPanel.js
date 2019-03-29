@@ -121,7 +121,6 @@ class MobileClassPanel extends BaseClassPanel {
     const chevron = (this.state.showMoreThanTitle) ? chevronDown : chevronRight;
 
     return (
-      <div>
         <div className='class-panel-container ui segment mobile'>
           <div
             className='header'
@@ -152,7 +151,6 @@ class MobileClassPanel extends BaseClassPanel {
             {showMoreSections}
           </span>
         </div>
-      </div>
     );
   }
 }
