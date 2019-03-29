@@ -9,8 +9,7 @@ If we ever want to add them back, we can copy them from here.
 At one point, we were going to add support for northeastern to semesterly with the data from search neu. The code worked a while ago, but we didn't end up keeping up with it. Code has been removed from search neu.
 
 https://github.com/noahpresler/semesterly/pull/1041
-https://github.com/ryanhugh/searchneu/blob/master/backend/scrapers/classes/processors/semesterly.js
-
+https://github.com/ryanhugh/searchneu/blob/a8fc0b442807346523889ac3fe9a3638169a715f/backend/scrapers/classes/processors/semesterly.js
 
 
 
