@@ -8,6 +8,11 @@ import URI from 'urijs';
 import macros from './macros';
 import request from './request';
 
+// Every time there is a breaking change in the search api, increment the version
+// This way, the backend will send back the result that frontend is expecting
+// Even though this is a website and we deploy the frontend and the backend at the same time
+// old version of the frontend may remain in browser's cache for a bit. 
+// Old versions don't stay around for too long, though. 
 const apiVersion = 2;
 
 class Search {
