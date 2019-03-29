@@ -12,7 +12,7 @@ import EmployeePanel from './panels/EmployeePanel';
 import DesktopClassPanel from './panels/DesktopClassPanel';
 import MobileClassPanel from './panels/MobileClassPanel';
 
-import Class from '../../common/classModels/Class'
+import Class from './classModels/Class'
 
 // The Home.js component now keeps track of how many to render.
 // This component watches for scroll events and tells Home.js if more items need to be requested.

@@ -6,7 +6,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-import macros from '../commonMacros';
+import macros from '../macros';
 
 class Meeting {
   constructor(serverData) {

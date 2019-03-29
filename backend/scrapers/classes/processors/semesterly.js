@@ -6,7 +6,9 @@
 import _ from 'lodash';
 
 import macros from '../../../macros';
-import Section from '../../../../common/classModels/Section';
+// import Section from '../classModels/Section';
+
+const Section = {};
 
 // Dumps the data in the semester.ly schema
 

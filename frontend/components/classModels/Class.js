@@ -7,8 +7,8 @@ import _ from 'lodash';
 import he from 'he';
 import moment from 'moment';
 
-import Keys from '../Keys';
-import macros from '../commonMacros';
+import Keys from '../../../common/Keys';
+import macros from '../macros';
 import Section from './Section';
 import RequisiteBranch from './RequisiteBranch';
 

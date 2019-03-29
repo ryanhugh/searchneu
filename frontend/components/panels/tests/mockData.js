@@ -4,8 +4,8 @@
  */
 
 
-import Class from '../../../../common/classModels/Class';
-import Section from '../../../../common/classModels/Section';
+import Class from '../../classModels/Class';
+import Section from '../../classModels/Section';
 
 
 // Contains a couple instances of classes

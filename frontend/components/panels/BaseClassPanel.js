@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import RequisiteBranch from '../../../common/classModels/RequisiteBranch';
+import RequisiteBranch from '../classModels/RequisiteBranch';
 import Keys from '../../../common/Keys';
 import macros from '../macros';
 

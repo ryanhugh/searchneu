@@ -5,7 +5,7 @@
 
 import _ from 'lodash';
 
-import macros from '../commonMacros';
+import macros from '../macros';
 import Meeting from './Meeting';
 
 class Section {

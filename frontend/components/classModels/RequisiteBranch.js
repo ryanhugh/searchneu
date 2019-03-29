@@ -4,7 +4,7 @@
  */
 
 
-import macros from '../commonMacros';
+import macros from '../macros';
 
 // This class holds a branch in the prerequisite or corequisite graph. For instance, if
 // a clas's prereqs are ((a or b) and (c or d)), then
