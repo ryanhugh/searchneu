@@ -434,7 +434,6 @@ class Home extends React.Component {
           <SplashPage />
         </span>
       );
-
     } else if (this.state.results) {
       const memeMatches = {
         meme: true,

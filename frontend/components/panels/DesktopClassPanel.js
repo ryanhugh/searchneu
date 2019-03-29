@@ -145,51 +145,51 @@ export default class DesktopClassPanel extends BaseClassPanel {
     const creditsString = this.getCreditsString();
 
     return (
-      
-        <div className='class-panel-container ui segment'>
-          <div className='header'>
-            <span className='classTitle'>
-              {aClass.subject} {aClass.classId}: {aClass.name}
-            </span>
-            <span className='classGlobeLinkContainer'>
-              <a
-                target='_blank'
-                rel='noopener noreferrer'
-                className='classGlobeLink'
-                data-tip={ `View on ${aClass.host}` }
-                href={ aClass.prettyUrl || aClass.url }
-              >
-                <img src={ globe } alt='link' />
-              </a>
-            </span>
-          </div>
 
-          <div className='panel-body'>
-            {aClass.desc}
-            <br />
-            <br />
-            <div className='leftPanel'>
-              Prerequisites: {this.optionalDisplay(macros.prereqTypes.PREREQ)} {this.showMore(macros.prereqTypes.PREREQ)}
-              <br />
-              Corequisites: {this.optionalDisplay(macros.prereqTypes.COREQ)} {this.showMore(macros.prereqTypes.COREQ)}
-              <br />
-              Prerequisite for: {this.optionalDisplay(macros.prereqTypes.PREREQ_FOR)} {this.showMore(macros.prereqTypes.PREREQ_FOR)}
-              <br />
-              Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
-            </div>
-            <div className='rightPanel'>
-              <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
-              {creditsString}
-              <div>
-                <SignUpForNotifications aClass={ aClass } />
-              </div>
-
-            </div>
-          </div>
-          {sectionTable}
-          {showMoreSections}
+      <div className='class-panel-container ui segment'>
+        <div className='header'>
+          <span className='classTitle'>
+            {aClass.subject} {aClass.classId}: {aClass.name}
+          </span>
+          <span className='classGlobeLinkContainer'>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              className='classGlobeLink'
+              data-tip={ `View on ${aClass.host}` }
+              href={ aClass.prettyUrl || aClass.url }
+            >
+              <img src={ globe } alt='link' />
+            </a>
+          </span>
         </div>
-      
+
+        <div className='panel-body'>
+          {aClass.desc}
+          <br />
+          <br />
+          <div className='leftPanel'>
+              Prerequisites: {this.optionalDisplay(macros.prereqTypes.PREREQ)} {this.showMore(macros.prereqTypes.PREREQ)}
+            <br />
+              Corequisites: {this.optionalDisplay(macros.prereqTypes.COREQ)} {this.showMore(macros.prereqTypes.COREQ)}
+            <br />
+              Prerequisite for: {this.optionalDisplay(macros.prereqTypes.PREREQ_FOR)} {this.showMore(macros.prereqTypes.PREREQ_FOR)}
+            <br />
+              Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
+          </div>
+          <div className='rightPanel'>
+            <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
+            {creditsString}
+            <div>
+              <SignUpForNotifications aClass={ aClass } />
+            </div>
+
+          </div>
+        </div>
+        {sectionTable}
+        {showMoreSections}
+      </div>
+
     );
   }
 }

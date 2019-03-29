@@ -121,36 +121,36 @@ class MobileClassPanel extends BaseClassPanel {
     const chevron = (this.state.showMoreThanTitle) ? chevronDown : chevronRight;
 
     return (
-        <div className='class-panel-container ui segment mobile'>
-          <div
-            className='header'
-            onClick={ () => {
-              this.setState((state) => {
-                return {
-                  showMoreThanTitle: !state.showMoreThanTitle,
-                };
-              });
-            } }
-            role='button'
-            tabIndex={ 0 }
-          >
-            <img className='chevron' src={ chevron } alt='' />
-            <span className='classTitle'>
-              {aClass.subject} {aClass.classId}: {aClass.name}
-            </span>
-          </div>
-
-          <span style={{ display: !this.state.showMoreThanTitle && 'none' }}>
-
-            <div className='panel-body'>
-              {this.getClassBody()}
-            </div>
-
-            {sectionTable}
-
-            {showMoreSections}
+      <div className='class-panel-container ui segment mobile'>
+        <div
+          className='header'
+          onClick={ () => {
+            this.setState((state) => {
+              return {
+                showMoreThanTitle: !state.showMoreThanTitle,
+              };
+            });
+          } }
+          role='button'
+          tabIndex={ 0 }
+        >
+          <img className='chevron' src={ chevron } alt='' />
+          <span className='classTitle'>
+            {aClass.subject} {aClass.classId}: {aClass.name}
           </span>
         </div>
+
+        <span style={{ display: !this.state.showMoreThanTitle && 'none' }}>
+
+          <div className='panel-body'>
+            {this.getClassBody()}
+          </div>
+
+          {sectionTable}
+
+          {showMoreSections}
+        </span>
+      </div>
     );
   }
 }
