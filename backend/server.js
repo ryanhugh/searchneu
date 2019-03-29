@@ -350,8 +350,13 @@ app.get('/search', wrap(async (req, res) => {
   const startTime = Date.now();
   const searchOutput = index.search(req.query.query, req.query.termId, minIndex, maxIndex);
   const midTime = Date.now();
-  const string = JSON.stringify(searchOutput.resultsObject);
 
+  let string;
+  if (req.query.apiVersion === '2') {
+    string = JSON.stringify(searchOutput.resultsObject);
+  } else {
+    string = JSON.stringify(searchOutput.resultsObject.results);
+  }
 
   const analytics = searchOutput.analytics;
 

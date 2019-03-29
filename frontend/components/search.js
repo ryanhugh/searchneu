@@ -8,6 +8,8 @@ import URI from 'urijs';
 import macros from './macros';
 import request from './request';
 
+const apiVersion = 2;
+
 class Search {
   constructor() {
     // Mapping of search term to an object which contains three fields,
@@ -62,6 +64,7 @@ class Search {
       termId: termId,
       minIndex: existingTermCount,
       maxIndex: termCount,
+      apiVersion: apiVersion,
     }).toString();
 
     // gets results
