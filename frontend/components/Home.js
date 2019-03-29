@@ -472,7 +472,7 @@ class Home extends React.Component {
       } else {
         let subjectInfoRow = null;
         if (this.state.subjectName) {
-          subjectInfoRow = (<div className='subjectContaineRow'>Showing {this.state.subjectCount} classes from {this.state.subjectName}</div>);
+          subjectInfoRow = (<div className='subjectContaineRow'>Showing all {this.state.subjectCount} classes in {this.state.subjectName}</div>);
         }
 
         resultsElement = (
@@ -508,7 +508,7 @@ class Home extends React.Component {
     if (!macros.isMobile && this.state.searchQuery.length !== 0) {
       // topHeaderStyle.transform = 'translateY(-50%) translateY(230px)';
       topHeaderStyle.transform = 'translateY(-50%) translateY(292px)';
-      resultsContainerStyle.transform = `translateY(-${window.innerHeight - 305}px)`;
+      resultsContainerStyle.transform = `translateY(-${window.innerHeight - 310}px)`;
       bostonContainerStyle.opacity = 0;
       wantToHelpOpacity = 0;
       hiddenHelpButton = 'getInvolvedTextHidden';

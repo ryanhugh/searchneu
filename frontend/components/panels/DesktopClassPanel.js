@@ -145,7 +145,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
     const creditsString = this.getCreditsString();
 
     return (
-      <div>
+      
         <div className='class-panel-container ui segment'>
           <div className='header'>
             <span className='classTitle'>
@@ -189,7 +189,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
           {sectionTable}
           {showMoreSections}
         </div>
-      </div>
+      
     );
   }
 }
