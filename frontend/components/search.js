@@ -75,6 +75,7 @@ class Search {
     // gets results
     const startTime = Date.now();
     const waitedRequest = await request.get(url);
+    macros.log(waitedRequest);
 
     const results = waitedRequest.results;
     window.amplitude.logEvent('Search Timing', {

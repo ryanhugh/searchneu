@@ -10,6 +10,7 @@ import macros from '../macros';
 import BaseClassPanel from './BaseClassPanel';
 import DesktopSectionPanel from './DesktopSectionPanel';
 import SignUpForNotifications from '../SignUpForNotifications';
+import Collapsible from 'react-collapsible';
 
 import globe from './globe.svg';
 
@@ -141,8 +142,10 @@ export default class DesktopClassPanel extends BaseClassPanel {
     // Render the Show More.. Button
     const showMoreSections = this.getMoreSectionsButton();
 
-    // Figure out the credits string
+    // Figure out the credits string, and course Attributes
     const creditsString = this.getCreditsString();
+    const courseAttrString = this.getCourseAttributesString();
+    
 
     return (
 
@@ -175,7 +178,12 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <br />
               Prerequisite for: {this.optionalDisplay(macros.prereqTypes.PREREQ_FOR)} {this.showMore(macros.prereqTypes.PREREQ_FOR)}
             <br />
-              Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
+        Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
+	<br />
+	<Collapsible trigger="Course Attributes">
+	<p>Div 1</p>
+	<p>Div 2</p>
+	</Collapsible>
           </div>
           <div className='rightPanel'>
             <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
