@@ -79,7 +79,16 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       depData.maxCredits = creditsParsed.maxCredits;
       depData.minCredits = creditsParsed.minCredits;
     } else {
-      macros.log('warning, nothing matchied credits', url, text);
+      macros.log('warning, nothing matched credits', url, text);
+    }
+
+    const courseAttributes = this.parseStacysMom(text);
+
+    if (courseAttributes) {
+      depData.courseAttributes = courseAttributes;
+      macros.log(depData);
+    } else {
+      macros.log('warning, nothing matched course attributes', url, text);
     }
 
 
@@ -89,7 +98,7 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     for (let i = 0; i < element.children.length; i++) {
       if (element.children[i].type === 'tag' && !['i', 'br', 'a'].includes(element.children[i].name)) {
         break;
-      }
+pp      }
       depData.desc += `  ${domutils.getText(element.children[i]).trim()}`;
     }
 
@@ -128,6 +137,7 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       depData.coreqs = coreqs;
     }
 
+    macros.log(depData);
     return depData;
   }
 
@@ -211,6 +221,7 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     classWrapper.value.name = catalogData.name;
     classWrapper.value.url = catalogData.url;
     classWrapper.value.lastUpdateTime = Date.now();
+    classWrapper.value.courseAttributes = catalogData.courseAttributes;
 
     // Merge the data about the class from the catalog page with the data about the class from the class page.
     // Merge min credits and max credits.

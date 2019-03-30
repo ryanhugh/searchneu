@@ -127,12 +127,12 @@ class BaseClassPanel extends React.Component {
   // returns course Attributes String
   // -> String
   getCourseAttributesString() {
-    /*
+/*
     let retString = '';
     macros.log(this.props.aClass);
     if (Array.isArray(this.props.aClass.courseAttributes)) {
       for (var i = 0; i < this.props.aClass.courseAttributes.length; i++) {
-	retString += this.props.aClass.courseAttributes[i].toString() + ', ';
+	retString += `<p>${this.props.aClass.courseAttributes[i].toString()}</p>`;
       }
     }
 

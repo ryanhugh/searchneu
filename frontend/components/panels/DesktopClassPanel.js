@@ -146,7 +146,6 @@ export default class DesktopClassPanel extends BaseClassPanel {
     const creditsString = this.getCreditsString();
     const courseAttrString = this.getCourseAttributesString();
     
-
     return (
 
       <div className='class-panel-container ui segment'>
@@ -180,9 +179,12 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <br />
         Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
 	<br />
-	<Collapsible trigger="Course Attributes">
-	<p>Div 1</p>
-	<p>Div 2</p>
+	<Collapsible trigger="Show Course Attributes">
+	<div>
+	{courseAttrString.map((i, key) => {
+	  return <div key={key}>{i}</div>;
+	})}
+      </div>
 	</Collapsible>
           </div>
           <div className='rightPanel'>
