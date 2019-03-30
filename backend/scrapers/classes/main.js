@@ -22,7 +22,7 @@ import addPreRequisiteFor from './processors/addPreRequisiteFor';
 // Parsers
 import collegeNamesParser from './parsers/collegeNamesParser';
 import ellucianTermsParser from './parsers/ellucianTermsParser';
-import bannerv9Parser from './parsers/bannerv9Parser';
+import bannerv9Parser from './parsersxe/bannerv9Parser';
 
 
 // This is the main entry point for scraping classes
