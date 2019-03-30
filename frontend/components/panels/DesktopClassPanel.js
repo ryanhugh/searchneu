@@ -6,11 +6,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Collapsible from 'react-collapsible';
 import macros from '../macros';
 import BaseClassPanel from './BaseClassPanel';
 import DesktopSectionPanel from './DesktopSectionPanel';
 import SignUpForNotifications from '../SignUpForNotifications';
-import Collapsible from 'react-collapsible';
 
 import globe from './globe.svg';
 
@@ -145,7 +145,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
     // Figure out the credits string, and course Attributes
     const creditsString = this.getCreditsString();
     const courseAttrString = this.getCourseAttributesString();
-    
+
     return (
 
       <div className='class-panel-container ui segment'>
@@ -178,14 +178,14 @@ export default class DesktopClassPanel extends BaseClassPanel {
               Prerequisite for: {this.optionalDisplay(macros.prereqTypes.PREREQ_FOR)} {this.showMore(macros.prereqTypes.PREREQ_FOR)}
             <br />
         Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
-	<br />
-	<Collapsible trigger="Show Course Attributes">
-	<div>
-	{courseAttrString.map((i, key) => {
-	  return <div key={key}>{i}</div>;
-	})}
-      </div>
-	</Collapsible>
+            <br />
+            <Collapsible trigger='Show Course Attributes'>
+              <div>
+                {courseAttrString.map((i, key) => {
+	  return <div key={ key }>{i}</div>;
+                })}
+              </div>
+            </Collapsible>
           </div>
           <div className='rightPanel'>
             <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>

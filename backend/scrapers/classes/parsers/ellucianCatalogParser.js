@@ -98,7 +98,7 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     for (let i = 0; i < element.children.length; i++) {
       if (element.children[i].type === 'tag' && !['i', 'br', 'a'].includes(element.children[i].name)) {
         break;
-pp      }
+      }
       depData.desc += `  ${domutils.getText(element.children[i]).trim()}`;
     }
 

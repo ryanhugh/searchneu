@@ -225,12 +225,12 @@ class BaseParser {
     let courseAttributes = gotItGoingOn.match(/(Course Attributes: \n)(.*)/i);
     try {
       courseAttributes = courseAttributes[2].trim().split(', ');
-      for (var i = 0; i < courseAttributes.length; i++) {
-	courseAttributes[i] = courseAttributes[i].trim()
+      for (let i = 0; i < courseAttributes.length; i++) {
+        courseAttributes[i] = courseAttributes[i].trim();
       }
       return courseAttributes;
     } catch (e) {
-      return;
+
     }
   }
 
