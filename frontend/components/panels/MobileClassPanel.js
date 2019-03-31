@@ -29,9 +29,9 @@ class MobileClassPanel extends BaseClassPanel {
     super(props);
 
     // Keep track of whether the panel should be expanded or should just the title be shown.
-    this.state = {
-      showMoreThanTitle: false,
-    };
+    // NOTE: this.state is setup (this.state = {...}) in the parent class BaseClassPanel,
+    // so all we need to do here is another field.
+    this.state.showMoreThanTitle = false;
   }
 
   getClassBody() {
