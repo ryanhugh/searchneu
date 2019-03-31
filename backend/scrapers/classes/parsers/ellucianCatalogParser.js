@@ -90,6 +90,8 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       macros.log('warning, nothing matched course attributes', url, text);
     }
 
+    depData.fees = this.parseOptionalFees(text);
+
 
     //desc
     //list all texts between this and next element, not including <br> or <i>
@@ -220,6 +222,7 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     classWrapper.value.url = catalogData.url;
     classWrapper.value.lastUpdateTime = Date.now();
     classWrapper.value.courseAttributes = catalogData.courseAttributes;
+    classWrapper.value.fees = catalogData.fees;
 
     // Merge the data about the class from the catalog page with the data about the class from the class page.
     // Merge min credits and max credits.

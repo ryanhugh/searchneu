@@ -232,6 +232,18 @@ class BaseParser {
     return courseAttributes;
   }
 
+  // gets the Optional $$$$ you need to take the class
+  // String -> [Maybe String]
+  parseOptionalFees(text) {
+    macros.log(text);
+    let optionalFees = text.match(/(Amount\n\s\t)(.*)/i);
+    if (optionalFees) {
+      return optionalFees[2];
+    }
+    return;
+    
+  }
+
 
   // http://dan.hersam.com/tools/smart-quotes.html
   simplifySymbols(s) {
