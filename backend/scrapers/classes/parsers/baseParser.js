@@ -221,15 +221,16 @@ class BaseParser {
 
   // gets the course Attributes. If course attributes don't exist, return null
   // String -> [Maybe String]
-  parseStacysMom(gotItGoingOn) {
-    let courseAttributes = gotItGoingOn.match(/(Course Attributes: \n)(.*)/i);
+  parseCourseAttr(text) {
+    let courseAttributes = text.match(/(Course Attributes: \n)(.*)/i);
     if (courseAttributes) {
       courseAttributes = courseAttributes[2].trim().split(', ');
       for (let i = 0; i < courseAttributes.length; i++) {
         courseAttributes[i] = courseAttributes[i].trim();
       }
+      return courseAttributes;
     }
-    return courseAttributes;
+    return null;
   }
 
 
