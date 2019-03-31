@@ -470,7 +470,7 @@ class Home extends React.Component {
       } else if (!this.state.waitingOnEnter) {
         let subjectInfoRow = null;
         if (this.state.subjectName) {
-          subjectInfoRow = (<div className='subjectContaineRow'>Showing all {this.state.subjectCount} classes in {this.state.subjectName}</div>);
+          subjectInfoRow = (<div className='subjectContaineRow'>Showing all {this.state.subjectCount} {this.state.subjectName} classes.</div>);
         }
 
         resultsElement = (
