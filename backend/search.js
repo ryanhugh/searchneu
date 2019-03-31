@@ -374,6 +374,10 @@ class Search {
     const slangMap = {
       fundies: 'fundamentals of computer science',
       orgo: 'Organic Chemistry',
+
+      // This allows people to type in "chemistry" and have all the chemistry class come up
+      // but if they type in "Chemistry & Chemical Biology" it is replaced to "chem & Chemical Biology"
+      // Which is no longer a subject match.
       chemistry: 'chem',
 
       // Searching for numerica or numeri has no results
