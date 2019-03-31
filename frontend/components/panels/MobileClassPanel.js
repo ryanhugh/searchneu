@@ -36,6 +36,12 @@ class MobileClassPanel extends BaseClassPanel {
       // Figure out the credits string
       const creditsString = this.getCreditsString();
       const courseAttrString = this.getCourseAttributesString();
+      let courseAttr;
+      if (courseAttrString) {
+        courseAttr = courseAttrString.map((i, k) => {
+          return <div k={ k }>{i}</div>;
+        });
+      }
 
       return (
         <span>
@@ -61,9 +67,7 @@ class MobileClassPanel extends BaseClassPanel {
             <br />
             <Collapsible trigger='Show Class Attributes'>
               <div>
-                {courseAttrString.map((i, k) => {
-                  return <div k={ k }>{i}</div>;
-                })}
+                {courseAttr}
               </div>
             </Collapsible>
 

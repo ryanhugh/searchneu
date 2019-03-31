@@ -145,6 +145,12 @@ export default class DesktopClassPanel extends BaseClassPanel {
     // Figure out the credits string, and course Attributes
     const creditsString = this.getCreditsString();
     const courseAttrString = this.getCourseAttributesString();
+    let courseAttr;
+    if (courseAttrString) {
+      courseAttr = courseAttrString.map((i, k) => {
+        return <div k={ k }>{i}</div>;
+      });
+    }
 
     return (
 
@@ -181,9 +187,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <br />
             <Collapsible trigger='Show Course Attributes'>
               <div>
-                {courseAttrString.map((i, k) => {
-                  return <div k={ k }>{i}</div>;
-                })}
+                {courseAttr}
               </div>
             </Collapsible>
           </div>
