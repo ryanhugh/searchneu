@@ -124,19 +124,9 @@ class BaseClassPanel extends React.Component {
     return `${retStr}${this.props.aClass.maxCredits} credits`;
   }
 
-  // returns course Attributes String
-  // -> String
+  // returns course Attributes
+  // -> List
   getCourseAttributesString() {
-    /*
-    let retString = '';
-    macros.log(this.props.aClass);
-    if (Array.isArray(this.props.aClass.courseAttributes)) {
-      for (var i = 0; i < this.props.aClass.courseAttributes.length; i++) {
-	retString += `<p>${this.props.aClass.courseAttributes[i].toString()}</p>`;
-      }
-    }
-
-    return retString;*/
     return this.props.aClass.courseAttributes;
   }
 

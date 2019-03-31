@@ -223,15 +223,13 @@ class BaseParser {
   // String -> [Maybe String]
   parseStacysMom(gotItGoingOn) {
     let courseAttributes = gotItGoingOn.match(/(Course Attributes: \n)(.*)/i);
-    try {
+    if (courseAttributes) {
       courseAttributes = courseAttributes[2].trim().split(', ');
       for (let i = 0; i < courseAttributes.length; i++) {
         courseAttributes[i] = courseAttributes[i].trim();
       }
-      return courseAttributes;
-    } catch (e) {
-
     }
+    return courseAttributes;
   }
 
 

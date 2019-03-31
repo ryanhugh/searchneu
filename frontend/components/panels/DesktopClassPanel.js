@@ -181,8 +181,8 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <br />
             <Collapsible trigger='Show Course Attributes'>
               <div>
-                {courseAttrString.map((i, key) => {
-	  return <div key={ key }>{i}</div>;
+                {courseAttrString.map((i, k) => {
+                  return <div k={ k }>{i}</div>;
                 })}
               </div>
             </Collapsible>
