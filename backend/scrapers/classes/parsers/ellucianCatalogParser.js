@@ -86,7 +86,6 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
 
     if (courseAttributes) {
       depData.courseAttributes = courseAttributes;
-      macros.log(depData);
     } else {
       macros.log('warning, nothing matched course attributes', url, text);
     }
@@ -137,7 +136,6 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       depData.coreqs = coreqs;
     }
 
-    macros.log(depData);
     return depData;
   }
 
