@@ -25,6 +25,15 @@ class MobileClassPanel extends BaseClassPanel {
     aClass: PropTypes.object.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+
+    // Keep track of whether the panel should be expanded or should just the title be shown.
+    this.state = {
+      showMoreThanTitle: false,
+    };
+  }
+
   getClassBody() {
     const aClass = this.props.aClass;
 
