@@ -79,15 +79,15 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       depData.maxCredits = creditsParsed.maxCredits;
       depData.minCredits = creditsParsed.minCredits;
     } else {
-      macros.log('warning, nothing matched credits', url, text);
+      macros.log('warning, nothing matched credits', url);
     }
 
-    const courseAttributes = this.parseStacysMom(text);
+    const courseAttributes = this.parseCourseAttr(text);
 
     if (courseAttributes) {
       depData.courseAttributes = courseAttributes;
     } else {
-      macros.log('warning, nothing matched course attributes', url, text);
+      macros.log('warning, nothing matched course attributes', url);
     }
 
 
