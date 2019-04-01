@@ -178,6 +178,8 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
       macros.log('warning, nothing matchied credits', url, text);
     }
 
+    retVal.fees = this.parseOptionalFees(text);
+
 
     // This is specific for NEU for now.
     // Other colleges probably do it a little differently.

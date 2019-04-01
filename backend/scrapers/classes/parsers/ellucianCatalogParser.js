@@ -90,8 +90,6 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       macros.log('warning, nothing matched course attributes', url, text);
     }
 
-    depData.fees = this.parseOptionalFees(text);
-
 
     //desc
     //list all texts between this and next element, not including <br> or <i>
