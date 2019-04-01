@@ -219,6 +219,16 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     classWrapper.value.name = catalogData.name;
     classWrapper.value.url = catalogData.url;
     classWrapper.value.lastUpdateTime = Date.now();
+
+    // Compare the courseAttributes from the catalog parser vs from the class parsers. Keep the catalog one if they conflict.
+    if (catalogData.courseAttributes) {
+      if (classWrapper.value.courseAttributes && !_.isEqual(classWrapper.value.courseAttributes, catalogData.courseAttributes)) {
+        macros.log('Not overriding catalog courseAttributes attributes with class courseAttributes...', catalogData.url);
+      }
+      classWrapper.value.courseAttributes = catalogData.courseAttributes;
+    }
+
+
     classWrapper.value.courseAttributes = catalogData.courseAttributes;
 
     // Merge the data about the class from the catalog page with the data about the class from the class page.
