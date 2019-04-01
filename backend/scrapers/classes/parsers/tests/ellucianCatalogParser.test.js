@@ -24,7 +24,7 @@ it('parse DESCRIPTION', async (done) => {
   expect(catalogParsed.desc).toBe('Uses the Gauss-Jordan elimination algorithm to analyze and find bases for subspaces such as the image and kernel of a linear transformation. Covers the geometry of linear transformations: orthogonality, the Gram-Schmidt process, rotation matrices, and least squares fit. Examines diagonalization and similarity, and the spectral theorem and the singular value decomposition. Is primarily for math and science majors; applications are drawn from many technical fields. Computation is aided by the use of software such as Maple or MATLAB, and graphing calculators. Prereq. MATH 1242, MATH 1252, MATH 1342, or CS 2800. 4.000 Lecture hours');
   expect(catalogParsed.classId).toBe('2331');
   expect(new URI(catalogParsed.url).equals(new URI(classURL))).toBe(true);
-  expect(catalogParsed.courseAttributes).toEqual(["NU Core Math/Anly Think Lvl 2", "UG College of Science"]);
+  expect(catalogParsed.courseAttributes).toEqual(['NU Core Math/Anly Think Lvl 2', 'UG College of Science']);
   done();
 });
 
