@@ -198,6 +198,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
       type: 'classes',
       value: {
         crns: [],
+        classAttributes: [],
       },
       deps: [],
     };
@@ -294,6 +295,31 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
       let classDetails = element.next;
       while (classDetails.type !== 'tag') {
         classDetails = classDetails.next;
+      }
+
+      const items = $('.fieldlabeltext', classDetails);
+
+      let classAttributes = [];
+
+      for (let i = 0; i < items.length; i++) {
+        if ($(items[i]).text().trim().toLowerCase() === 'classAttributes:') {
+          classAttributes = items[i].nextSibling.data.trim().split(', ');
+
+          for (let k = 0; k < classAttributes.length; k++) {
+            classAttributes[k] = classAttributes[k].trim();
+          }
+
+          // If class attributes doesn't already exist on this class object, assign it
+          if (!classWrapper.value.classAttributes) {
+            classWrapper.value.classAttributes = classAttributes;
+          } else if (!_.isEquals(classAttributes, classWrapper.value.classAttributes)) {
+            // If it does, just log a warning and don't re-assign
+            macros.log('Warning: class classAttributes are different than a different section on this same class.');
+          }
+
+
+          break;
+        }
       }
 
       // Find the table in this section.
