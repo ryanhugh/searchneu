@@ -5,6 +5,7 @@ Object {
   "deps": Array [],
   "type": "classes",
   "value": Object {
+    "classAttributes": Array [],
     "crns": Array [
       "10663",
       "10664",
@@ -535,6 +536,7 @@ Object {
     "deps": Array [],
     "type": "classes",
     "value": Object {
+      "classAttributes": Array [],
       "crns": Array [
         "24600",
         "24601",
