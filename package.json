@@ -55,7 +55,7 @@
     ]
   },
   "stylelint": {
-      "extends": "stylelint-config-standard"
+    "extends": "stylelint-config-standard"
   },
   "main": "dist/backend/scrapers/main.js",
   "_comment": "domutils upgrade is faster for parsing html (stack instead of recursive) but requires some code changes. Shoudn't be too bad.",
@@ -112,6 +112,7 @@
     "prop-types": "^15.5.8",
     "randomstring": "^1.1.5",
     "react": "^16.1.1",
+    "react-collapsible": "^2.6.0",
     "react-dom": "^16.1.1",
     "react-hot-loader": "^4.0.0",
     "react-test-renderer": "^16.1.1",
