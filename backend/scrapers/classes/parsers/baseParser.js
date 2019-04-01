@@ -236,9 +236,9 @@ class BaseParser {
   // String -> [Maybe String]
   parseOptionalFees(text) {
     macros.log(text);
-    let optionalFees = text.match(/(Amount\n\s\t)(.*)/i);
+    let optionalFees = text.match(/(amount\n\n\n)(.*)(\n)(.*)(\n.*)/i);
     if (optionalFees) {
-      return optionalFees[2];
+      return optionalFees[4] + ": " + optionalFees[5].trim();
     }
     return;
     
