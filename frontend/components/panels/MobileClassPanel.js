@@ -6,6 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Collapsible from 'react-collapsible';
 import MobileSectionPanel from './MobileSectionPanel';
 import BaseClassPanel from './BaseClassPanel';
 import macros from '../macros';
@@ -43,6 +44,13 @@ class MobileClassPanel extends BaseClassPanel {
     if (showFullClassBody) {
       // Figure out the credits string
       const creditsString = this.getCreditsString();
+      const courseAttrString = this.getCourseAttributesString();
+      let courseAttr;
+      if (courseAttrString) {
+        courseAttr = courseAttrString.map((i, k) => {
+          return <div k={ k }>{i}</div>;
+        });
+      }
 
       return (
         <span>
@@ -66,6 +74,12 @@ class MobileClassPanel extends BaseClassPanel {
             <br />
             Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
             <br />
+            <Collapsible trigger='Show Class Attributes'>
+              <div>
+                {courseAttr}
+              </div>
+            </Collapsible>
+
             <SignUpForNotifications aClass={ aClass } />
           </div>
         </span>

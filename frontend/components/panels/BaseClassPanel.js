@@ -124,6 +124,12 @@ class BaseClassPanel extends React.Component {
     return `${retStr}${this.props.aClass.maxCredits} credits`;
   }
 
+  // returns course Attributes
+  // -> List
+  getCourseAttributesString() {
+    return this.props.aClass.courseAttributes;
+  }
+
   // returns an array made to be rendered by react to display the prereqs
   getReqsString(reqType, aClass = this.props.aClass) {
     const retVal = [];
