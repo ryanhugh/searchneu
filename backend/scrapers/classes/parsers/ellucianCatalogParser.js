@@ -219,6 +219,12 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     classWrapper.value.name = catalogData.name;
     classWrapper.value.url = catalogData.url;
     classWrapper.value.lastUpdateTime = Date.now();
+
+
+    macros.log('The value from class ',classWrapper.value.courseAttributes);
+    macros.log(catalogData.courseAttributes)
+
+
     classWrapper.value.courseAttributes = catalogData.courseAttributes;
 
     // Merge the data about the class from the catalog page with the data about the class from the class page.
