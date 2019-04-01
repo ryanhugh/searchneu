@@ -69,7 +69,7 @@ class Cache {
     this.SAVE_INTERVAL_LONG = 120000;
 
     // Used when optimize for speed is set to false.
-    this.SAVE_INTERVAL_SHORT = 60000;
+    this.SAVE_INTERVAL_SHORT = 10000;
 
     this.totalTimeSpendEncoding = 0;
 

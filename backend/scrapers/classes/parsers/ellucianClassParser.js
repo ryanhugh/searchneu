@@ -296,6 +296,28 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
         classDetails = classDetails.next;
       }
 
+      let items = $('.fieldlabeltext', classDetails);
+
+      let attributes = []
+
+      for (var i = 0; i < items.length; i++) {
+        if ($(items[i]).text().trim().toLowerCase() == 'attributes:') {
+          attributes = items[i].nextSibling.data.trim().split(', ')
+
+          for (var k = 0; k < attributes.length; k++) {
+            attributes[k] = attributes[k].trim();
+          }
+
+          if (classWrapper.value.attributes && !_.isEquals(attributes, classWrapper.value.attributes)) {
+            macros.log('Wooooahhh attributes are different than a different section on this same page.')
+          }
+
+          classWrapper.value.attributes = attributes;
+
+          break;
+        }
+      }
+
       // Find the table in this section.
       const tables = domutils.getElementsByTagName('table', classDetails);
       if (tables.length !== 1) {
