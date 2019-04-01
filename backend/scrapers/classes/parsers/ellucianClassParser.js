@@ -198,6 +198,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
       type: 'classes',
       value: {
         crns: [],
+        classAttributes: []
       },
       deps: [],
     };
@@ -298,21 +299,26 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
       let items = $('.fieldlabeltext', classDetails);
 
-      let attributes = []
+      let classAttributes = []
 
       for (var i = 0; i < items.length; i++) {
-        if ($(items[i]).text().trim().toLowerCase() == 'attributes:') {
-          attributes = items[i].nextSibling.data.trim().split(', ')
+        if ($(items[i]).text().trim().toLowerCase() == 'classAttributes:') {
+          classAttributes = items[i].nextSibling.data.trim().split(', ')
 
-          for (var k = 0; k < attributes.length; k++) {
-            attributes[k] = attributes[k].trim();
+          for (var k = 0; k < classAttributes.length; k++) {
+            classAttributes[k] = classAttributes[k].trim();
           }
 
-          if (classWrapper.value.attributes && !_.isEquals(attributes, classWrapper.value.attributes)) {
-            macros.log('Wooooahhh attributes are different than a different section on this same page.')
+          // If class attributes doesn't already exist on this class object, assign it
+          if (!classWrapper.value.classAttributes) {
+            classWrapper.value.classAttributes = classAttributes;  
+          }
+          else if (!_.isEquals(classAttributes, classWrapper.value.classAttributes)) {
+
+            // If it does, just log a warning and don't re-assign
+            macros.log('Warning: class classAttributes are different than a different section on this same class.')  
           }
 
-          classWrapper.value.attributes = attributes;
 
           break;
         }
