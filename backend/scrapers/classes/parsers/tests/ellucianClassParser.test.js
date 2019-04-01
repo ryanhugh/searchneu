@@ -33,7 +33,7 @@ it('can parse crns', async (done) => {
   const aClass = output.classWrapper.value;
 
   expect(aClass).toEqual({
-    crns: ['15633', '15636', '15639', '16102', '17799', '17800'],
+    classAttributes: [], crns: ['15633', '15636', '15639', '16102', '17799', '17800'],
   });
 
   done();
@@ -55,6 +55,7 @@ it('should parse a bunch of deps', async (done) => {
   expect(ellucianClassParser.supportsPage(url)).toBe(true);
 
   expect(aClass).toEqual({
+    classAttributes: [],
     crns: [
       '24600',
       '24601',
@@ -80,7 +81,7 @@ it('should parse a bunch of crns', async (done) => {
   expect(ellucianClassParser.supportsPage(url)).toBe(true);
 
   expect(aClass).toEqual({
-    crns: ['11018', '11019', '11020', '11679', '19962', '20800', '22497', '23294', '23295', '24435', '6073', '6074', '6075', '6077', '6129', '6130', '8145'],
+    classAttributes: [], crns: ['11018', '11019', '11020', '11679', '19962', '20800', '22497', '23294', '23295', '24435', '6073', '6074', '6075', '6077', '6129', '6130', '8145'],
   });
 
   expect(output).toMatchSnapshot();
@@ -104,6 +105,7 @@ it('should parse a bunch of meetings', async (done) => {
   expect(ellucianClassParser.supportsPage(url)).toBe(true);
 
   expect(aClass).toEqual({
+    classAttributes: [],
     crns: ['12090'],
   });
 
