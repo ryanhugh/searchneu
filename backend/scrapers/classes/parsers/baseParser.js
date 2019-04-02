@@ -5,6 +5,7 @@
 
 import URI from 'urijs';
 import domutils from 'domutils';
+import cheerio from 'cheerio';
 
 import macros from '../../../macros';
 
@@ -236,7 +237,6 @@ class BaseParser {
   // gets the Optional $$$$ you need to take the class
   // String -> [Maybe String]
   parseOptionalFees(text) {
-    macros.log(text);
     let optionalFees = text.match(/(amount\n\n\n)(.*)(\n)(.*)(\n.*)/i);
     if (optionalFees) {
       return optionalFees[4] + ": " + optionalFees[5].trim();

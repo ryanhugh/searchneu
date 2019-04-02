@@ -230,7 +230,6 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
 
 
     classWrapper.value.courseAttributes = catalogData.courseAttributes;
-    classWrapper.value.fees = catalogData.fees;
 
     // Merge the data about the class from the catalog page with the data about the class from the class page.
     // Merge min credits and max credits.
