@@ -175,10 +175,13 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
       retVal.maxCredits = creditsParsed.maxCredits;
       retVal.minCredits = creditsParsed.minCredits;
     } else {
-      macros.log('warning, nothing matchied credits', url, text);
+      macros.log('warning, nothing matched credits', url, text);
     }
 
-    retVal.fees = this.parseOptionalFees(text);
+    // grabs optional feees
+    let tables = $('body > div.pagebodydiv > table > tbody > tr > td > table')
+
+    macros.log(tables);
 
 
     // This is specific for NEU for now.

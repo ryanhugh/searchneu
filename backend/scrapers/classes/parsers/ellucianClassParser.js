@@ -130,6 +130,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     // This is where we merge it into the data from the section parser.
     Object.assign(fullSectiondata, dataFromSectionPage, sectionStartingData);
 
+
     // Run some checks and merge some data into the class object.
     if (fullSectiondata.prereqs) {
       // If they both exists and are different I don't really have a great idea of what to do haha
@@ -167,6 +168,9 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
 
     fullSectiondata.minCredits = undefined;
     fullSectiondata.maxCredits = undefined;
+
+    classWrapper.value.fees = fullSectiondata.fees;
+    fullSectiondata.fees = undefined;
 
 
     // Check to make sure there is no room assigned for a class that is online.

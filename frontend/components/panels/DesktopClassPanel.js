@@ -191,7 +191,6 @@ export default class DesktopClassPanel extends BaseClassPanel {
                 {courseAttr}
               </div>
         </Collapsible>
-	<br />
 	{feeString}
           </div>
           <div className='rightPanel'>
