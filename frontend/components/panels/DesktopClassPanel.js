@@ -145,6 +145,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
     // Figure out the credits string, and course Attributes
     const creditsString = this.getCreditsString();
     const courseAttrString = this.getCourseAttributesString();
+    const feeString = this.getOptionalFees();
     let courseAttr;
     if (courseAttrString) {
       courseAttr = courseAttrString.map((i, k) => {
@@ -190,6 +191,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
                 {courseAttr}
               </div>
             </Collapsible>
+            {feeString}
           </div>
           <div className='rightPanel'>
             <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
