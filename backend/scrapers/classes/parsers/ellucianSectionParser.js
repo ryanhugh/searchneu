@@ -88,6 +88,7 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
 
     const retVal = {};
     const { tableData, rowCount } = this.parseTable(element);
+    console.log(tableData, rowCount)
 
     if (!tableData || rowCount === 0 || !tableData.capacity || !tableData.actual || !tableData.remaining) {
       macros.error('ERROR: invalid table in section parser', tableData, url);
