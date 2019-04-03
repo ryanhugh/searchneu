@@ -165,7 +165,6 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       return null;
     }
 
-
     return this.parseClass(matchingElement, url);
   }
 

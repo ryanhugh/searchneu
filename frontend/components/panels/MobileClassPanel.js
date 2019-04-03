@@ -51,6 +51,7 @@ class MobileClassPanel extends BaseClassPanel {
           return <div k={ k }>{i}</div>;
         });
       }
+      const feeString = this.getOptionalFees();
 
       return (
         <span>
@@ -79,6 +80,7 @@ class MobileClassPanel extends BaseClassPanel {
                 {courseAttr}
               </div>
             </Collapsible>
+            {feeString}
 
             <SignUpForNotifications aClass={ aClass } />
           </div>
