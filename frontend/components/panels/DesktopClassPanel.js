@@ -190,8 +190,8 @@ export default class DesktopClassPanel extends BaseClassPanel {
               <div>
                 {courseAttr}
               </div>
-        </Collapsible>
-	{feeString}
+            </Collapsible>
+            {feeString}
           </div>
           <div className='rightPanel'>
             <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>

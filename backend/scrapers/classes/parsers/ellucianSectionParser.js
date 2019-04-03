@@ -179,10 +179,17 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
     }
 
     // grabs optional feees
-    let tables = $('body > div.pagebodydiv > table > tbody > tr > td > table')
+    const table = $('body > div.pagebodydiv > table > tr > td > table');
 
-    macros.log(tables);
+    // for all tables... if table includes word "amount", parse table, get fees/description
+    for (let i = 0; i < table.length; i++) {
+      if ($(table[i]).attr().summary.includes('amount')) {
+        const parsedTable = this.parseTable(table[i]).tableData;
 
+        retVal.feeDescription = parsedTable.description[0];
+        retVal.feeAmount = parsedTable.amount[0];
+      }
+    }
 
     // This is specific for NEU for now.
     // Other colleges probably do it a little differently.
@@ -252,7 +259,7 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
   }
 
   async test() {
-    const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14579');
+    const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=17822');
     macros.log(output);
   }
 }
@@ -263,7 +270,7 @@ EllucianSectionParser.prototype.EllucianSectionParser = EllucianSectionParser;
 const instance = new EllucianSectionParser();
 
 if (require.main === module) {
-  instance.main();
+  instance.test();
 }
 
 export default instance;

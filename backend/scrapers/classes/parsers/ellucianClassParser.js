@@ -169,8 +169,11 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     fullSectiondata.minCredits = undefined;
     fullSectiondata.maxCredits = undefined;
 
-    classWrapper.value.fees = fullSectiondata.fees;
-    fullSectiondata.fees = undefined;
+
+    classWrapper.value.feeDescription = fullSectiondata.feeDescription;
+    classWrapper.value.feeAmount = fullSectiondata.feeAmount;
+    fullSectiondata.feeDescription = undefined;
+    fullSectiondata.feeAmount = undefined;
 
 
     // Check to make sure there is no room assigned for a class that is online.
