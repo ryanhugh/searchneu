@@ -79,8 +79,8 @@ class MobileClassPanel extends BaseClassPanel {
               <div>
                 {courseAttr}
               </div>
-          </Collapsible>
-	  {feeString}
+            </Collapsible>
+            {feeString}
 
             <SignUpForNotifications aClass={ aClass } />
           </div>
