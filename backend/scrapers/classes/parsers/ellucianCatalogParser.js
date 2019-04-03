@@ -82,10 +82,10 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       macros.log('warning, nothing matched credits', url);
     }
 
-    const courseAttributes = this.parseCourseAttr(text);
+    const classAttributes = this.parseCourseAttr(text);
 
-    if (courseAttributes) {
-      depData.courseAttributes = courseAttributes;
+    if (classAttributes) {
+      depData.classAttributes = classAttributes;
     } else {
       macros.log('warning, nothing matched course attributes', url);
     }
@@ -220,16 +220,16 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     classWrapper.value.url = catalogData.url;
     classWrapper.value.lastUpdateTime = Date.now();
 
-    // Compare the courseAttributes from the catalog parser vs from the class parsers. Keep the catalog one if they conflict.
-    if (catalogData.courseAttributes) {
-      if (classWrapper.value.courseAttributes && !_.isEqual(classWrapper.value.courseAttributes, catalogData.courseAttributes)) {
-        macros.log('Not overriding catalog courseAttributes attributes with class courseAttributes...', catalogData.url);
+    // Compare the classAttributes from the catalog parser vs from the class parsers. Keep the catalog one if they conflict.
+    if (catalogData.classAttributes) {
+      if (classWrapper.value.classAttributes && !_.isEqual(classWrapper.value.classAttributes, catalogData.classAttributes)) {
+        macros.log('Not overriding catalog classAttributes attributes with class classAttributes...', catalogData.url);
       }
-      classWrapper.value.courseAttributes = catalogData.courseAttributes;
+      classWrapper.value.classAttributes = catalogData.classAttributes;
     }
 
 
-    classWrapper.value.courseAttributes = catalogData.courseAttributes;
+    classWrapper.value.classAttributes = catalogData.classAttributes;
 
     // Merge the data about the class from the catalog page with the data about the class from the class page.
     // Merge min credits and max credits.

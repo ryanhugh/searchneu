@@ -44,7 +44,7 @@ class MobileClassPanel extends BaseClassPanel {
     if (showFullClassBody) {
       // Figure out the credits string
       const creditsString = this.getCreditsString();
-      const courseAttrString = this.getCourseAttributesString();
+      const courseAttrString = this.getClassAttributesString();
       let courseAttr;
       if (courseAttrString) {
         courseAttr = courseAttrString.map((i, k) => {
