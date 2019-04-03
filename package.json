@@ -7,7 +7,7 @@
     "scrape": "babel-node --max_old_space_size=12000 backend/scrapers/main.js",
     "scrape_classes": "babel-node --max_old_space_size=12000 backend/scrapers/classes/main.js",
     "script": "cd $INIT_CWD; babel-node --root-mode upward --ignore \".this_does_not_exit\"",
-    "inspect": "cd $INIT_CWD;echo 'Head over to chrome://inspect in chrome and hit the node button';npm run -s script -- --inspect-brk",
+    "inspect": "cd $INIT_CWD;echo 'Open chrome://inspect in chrome and hit the node button';npm run -s script -- --inspect-brk",
     "-linting-": "--------linting--------",
     "lintjs": "node ./node_modules/eslint/bin/eslint.js backend/ common/ frontend/",
     "fixjs": "node ./node_modules/eslint/bin/eslint.js backend/ common/ frontend/ --fix",
