@@ -1221,6 +1221,7 @@ ShallowWrapper {
                 >
                   <div />
                 </Collapsible>,
+                null,
               ],
               "className": "leftPanel",
             },
@@ -1367,6 +1368,7 @@ ShallowWrapper {
                 },
                 "type": [Function],
               },
+              null,
             ],
             "type": "div",
           },
@@ -3766,6 +3768,7 @@ ShallowWrapper {
                   >
                     <div />
                   </Collapsible>,
+                  null,
                 ],
                 "className": "leftPanel",
               },
@@ -3912,6 +3915,7 @@ ShallowWrapper {
                   },
                   "type": [Function],
                 },
+                null,
               ],
               "type": "div",
             },
