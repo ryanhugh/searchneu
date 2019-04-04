@@ -39,3 +39,19 @@ it('honors works', async (done) => {
 
   done();
 });
+
+
+it('optional fees?', async (done) => {
+  const body = await fs.readFile(path.join(__dirname, 'data', 'ellucianSectionParser', 'fees.html'), 'utf8');
+
+  const url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=17822';
+
+  expect(ellucianSectionParser.supportsPage(url)).toBe(true);
+
+  const retVal = ellucianSectionParser.parse(body, url);
+
+  expect(retVal).toMatchSnapshot();
+
+  done();
+
+});

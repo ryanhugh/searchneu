@@ -185,10 +185,18 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
     // for all tables... if table includes word "amount", parse table, get fees/description
     for (let i = 0; i < table.length; i++) {
       if ($(table[i]).attr().summary.includes('amount')) {
-        const parsedTable = this.parseTable(table[i]).tableData;
+	
+        const parsedTable = this.parseTable(table[i]);
 
-        retVal.feeDescription = parsedTable.description[0];
-        retVal.feeAmount = parsedTable.amount[0];
+	if (parsedTable.rowCount > 0) {
+          retVal.feeDescription = parsedTable.description[0];
+          retVal.feeAmount = parseFloat(parsedTable.amount[0]);
+
+	  if (parsedTable.rowCount > 1) {
+	    macros.log('warning... multiple fees?', url);
+	} else {
+	  macros.log('warning, fees table exists, but fees didn\'t. Nothing parsed.', url);
+	}
       }
     }
 
