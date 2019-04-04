@@ -126,8 +126,8 @@ class BaseClassPanel extends React.Component {
 
   // returns course Attributes
   // -> List
-  getCourseAttributesString() {
-    return this.props.aClass.courseAttributes;
+  getClassAttributesString() {
+    return this.props.aClass.classAttributes;
   }
 
   // returns optional fees if they exist
