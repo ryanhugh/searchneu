@@ -144,8 +144,10 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
     // Figure out the credits string, and course Attributes
     const creditsString = this.getCreditsString();
-    const courseAttrString = this.getCourseAttributesString();
+
     const feeString = this.getOptionalFees();
+    const courseAttrString = this.getClassAttributesString();
+    
     let courseAttr;
     if (courseAttrString) {
       courseAttr = courseAttrString.map((i, k) => {
