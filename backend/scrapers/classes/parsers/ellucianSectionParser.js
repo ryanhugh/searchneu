@@ -188,13 +188,14 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
         const parsedTable = this.parseTable(table[i]);
 
 	if (parsedTable.rowCount > 0) {
-          retVal.feeDescription = parsedTable.description[0];
-          retVal.feeAmount = parseFloat(parsedTable.amount[0]);
+          retVal.feeDescription = parsedTable.tableData.description[0];
+          retVal.feeAmount = parseFloat(parsedTable.tableData.amount[0]);
 
 	  if (parsedTable.rowCount > 1) {
 	    macros.log('warning... multiple fees?', url);
-	} else {
-	  macros.log('warning, fees table exists, but fees didn\'t. Nothing parsed.', url);
+	  } else {
+	    macros.log('warning, fees table exists, but fees didn\'t. Nothing parsed.', url);
+	  }
 	}
       }
     }
@@ -266,7 +267,7 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
     return retVal;
   }
 
-  async test() {
+    async test() {
     const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=17822');
     macros.log(output);
   }
