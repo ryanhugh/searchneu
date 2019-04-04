@@ -222,13 +222,13 @@ class BaseParser {
   // gets the course Attributes. If course attributes don't exist, return null
   // String -> [Maybe String]
   parseCourseAttr(text) {
-    let courseAttributes = text.match(/(Course Attributes: \n)(.*)/i);
-    if (courseAttributes) {
-      courseAttributes = courseAttributes[2].trim().split(', ');
-      for (let i = 0; i < courseAttributes.length; i++) {
-        courseAttributes[i] = courseAttributes[i].trim();
+    let classAttributes = text.match(/(Course Attributes: \n)(.*)/i);
+    if (classAttributes) {
+      classAttributes = classAttributes[2].trim().split(', ');
+      for (let i = 0; i < classAttributes.length; i++) {
+        classAttributes[i] = classAttributes[i].trim();
       }
-      return courseAttributes;
+      return classAttributes;
     }
     return null;
   }
