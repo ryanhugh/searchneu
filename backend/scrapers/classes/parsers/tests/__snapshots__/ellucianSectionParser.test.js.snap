@@ -15,7 +15,7 @@ Object {
 
 exports[`optional fees? 1`] = `
 Object {
-  "feeAmount": "651.00",
+  "feeAmount": 651,
   "feeDescription": "Music Lab Fee",
   "honors": false,
   "maxCredits": 1,
