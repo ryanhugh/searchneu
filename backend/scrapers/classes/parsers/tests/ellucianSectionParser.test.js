@@ -53,5 +53,4 @@ it('optional fees?', async (done) => {
   expect(retVal).toMatchSnapshot();
 
   done();
-
 });
