@@ -16,7 +16,8 @@ set -v
 npm run test
 
 # Make sure everything passes linting
-npm run lint
+npm run lintjs
+npm run lintstyle
 
 # This step runs regardless of branch, to ensure that any changes to the code did not break the build. 
 echo 'Building the code for production.'
