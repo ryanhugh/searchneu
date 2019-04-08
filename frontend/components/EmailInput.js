@@ -10,6 +10,10 @@ import PropTypes from 'prop-types';
 import macros from './macros';
 import request from './request';
 
+// This file managed an input just under the search bar that asked user's for their email
+// and sent it to mailchimp's mailing list
+// Can be enabled in Home.js, if we want to ask for users's emails.
+
 const SUBMIT_STATUS = {
   SUCCESS: 'success',
   ERROR: 'error',
