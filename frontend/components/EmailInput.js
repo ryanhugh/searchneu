@@ -75,7 +75,7 @@ class EmaillInput extends React.Component {
         },
       });
     } catch (e) {
-      response = { error:true };
+      response = { error: true };
     }
 
     if (response.error) {
