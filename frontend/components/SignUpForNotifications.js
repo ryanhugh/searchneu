@@ -8,7 +8,8 @@ import PropTypes from 'prop-types';
 import { Button, Modal } from 'semantic-ui-react';
 
 import macros from './macros';
-import authentication from './authentication';
+import facebook from './facebook';
+import user from './user';
 import Keys from '../../common/Keys';
 
 // This file is responsible for the Sign Up for notifications flow.
@@ -67,7 +68,7 @@ class SignUpForNotifications extends React.Component {
       const classHash = Keys.create(this.props.aClass).getHash();
 
       // If has adblock and haven't shown the warning yet, show the warning.
-      if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !this.constructor.hasAdblock && !authentication.successfullyRendered) {
+      if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !this.constructor.hasAdblock && !facebook.didPluginRender()) {
         if (macros.isMobile) {
           macros.error('Unable to render on mobile?', classHash);
 
@@ -110,7 +111,7 @@ class SignUpForNotifications extends React.Component {
 
   // Return the FB button itself.
   getSendToMessengerButton() {
-    const loginKey = authentication.getLoginKey();
+    const loginKey = user.getLoginKey();
 
     const aClass = this.props.aClass;
 

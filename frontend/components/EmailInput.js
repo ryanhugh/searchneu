@@ -10,6 +10,10 @@ import PropTypes from 'prop-types';
 import macros from './macros';
 import request from './request';
 
+// This file managed an input just under the search bar that asked user's for their email
+// and sent it to mailchimp's mailing list
+// Can be enabled in Home.js, if we want to ask for users's emails.
+
 const SUBMIT_STATUS = {
   SUCCESS: 'success',
   ERROR: 'error',
@@ -42,12 +46,15 @@ class EmaillInput extends React.Component {
     this.onEmailSubmitButton = this.onEmailSubmitButton.bind(this);
   }
 
+  // Handles the callback event from the submit button
+  // and sends the input to the server (using submitEmail)
   onEmailSubmitButton() {
     const email = this.inputRef.current.inputRef.value;
 
     this.submitEmail(email);
   }
 
+  // Handles the onchange event from the input box
   onEmailChange(event) {
     const email = event.target.value || this.inputRef.current.inputRef.values;
 
@@ -58,9 +65,11 @@ class EmaillInput extends React.Component {
     }
   }
 
+  // Submits a given email to the server using a post request
   async submitEmail(email) {
     if (macros.occurrences(email, '@', true) !== 1) {
       macros.log('not submitting invalid email');
+      return;
     }
 
     macros.log('submitting email', email);
@@ -75,7 +84,7 @@ class EmaillInput extends React.Component {
         },
       });
     } catch (e) {
-      response = { error:true };
+      response = { error: true };
     }
 
     if (response.error) {

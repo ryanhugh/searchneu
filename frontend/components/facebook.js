@@ -3,18 +3,15 @@
  * See the license file in the root folder for details.
  */
 
-import randomstring from 'randomstring';
-
 import request from './request';
 import macros from './macros';
+import user from './user';
 
-// TODO: add check to see if the user is logged in or not:
-// https://developers.facebook.com/docs/reference/javascript
-// https://developers.facebook.com/docs/reference/javascript/FB.getLoginStatus
+// This file is a wrapper around Facebook's API.
+// Call through this file if you need anything related to FB API
+// Currently, it manages initialization, the send_to_messenger callback, and getIsLoggedIn
 
-// Eventually, this can be used to get the current user data from the server.
-
-class Authentication {
+class Facebook {
   constructor() {
     // If the FB library has already loaded, call the init function.
     if (window.FB) {
@@ -29,15 +26,6 @@ class Authentication {
     this.successfullyRendered = false;
 
     this.onSendToMessengerClick = this.onSendToMessengerClick.bind(this);
-
-    this.downloadUserData();
-  }
-
-  // Downloads the user data from the server.
-  // Send the loginKey and the facebookMessengerId (if we have it).
-  // Save the facebookMessengerId when the server responds (the server can respond to this request a lot faster when given the facebookMessengerId).
-  downloadUserData() {
-
   }
 
 
@@ -53,16 +41,10 @@ class Authentication {
     window.FB.Event.subscribe('send_to_messenger', this.onSendToMessengerClick);
   }
 
-  getLoginKey() {
-    let loginKey = window.localStorage.loginKey;
-
-    // Init the loginKey if it dosen't exist
-    if (!loginKey) {
-      loginKey = randomstring.generate(100);
-      window.localStorage.loginKey = loginKey;
-    }
-
-    return loginKey;
+  // Return if the plugin has successfully rendered at least once.
+  // This can be used to tell if there any adblock on the page that is blocking the plugin.
+  didPluginRender() {
+    return this.successfullyRendered;
   }
 
   // This function assumes that 'searchneu.com' is whitelisted in the Facebook Developer console settings
@@ -107,8 +89,7 @@ class Authentication {
       macros.log(`Checkbox state: ${checkboxState}`);
     } else if (e.event === 'not_you') {
       macros.log("User clicked 'not you'");
-      delete window.localStorage.loginKey;
-      macros.log("User's loginKey has been deleted");
+      user.revokeLoginKey();
     } else if (e.event === 'hidden') {
       macros.log('Plugin was hidden');
     } else if (e.event === 'opt_in') {
@@ -161,4 +142,4 @@ class Authentication {
 }
 
 
-export default new Authentication();
+export default new Facebook();
