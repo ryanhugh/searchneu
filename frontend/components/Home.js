@@ -89,6 +89,8 @@ class Home extends React.Component {
 
 
     this.state = {
+      // The results of the search
+      // Fetched with search.js and passed to ResultLoader to be rendered
       results: [],
 
       // Value to set the search box to after the search box is rendered.
