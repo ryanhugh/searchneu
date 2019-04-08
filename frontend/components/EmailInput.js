@@ -46,12 +46,15 @@ class EmaillInput extends React.Component {
     this.onEmailSubmitButton = this.onEmailSubmitButton.bind(this);
   }
 
+  // Handles the callback event from the submit button 
+  // and sends the input to the server (using submitEmail)
   onEmailSubmitButton() {
     const email = this.inputRef.current.inputRef.value;
 
     this.submitEmail(email);
   }
 
+  // Handles the onchange event from the input box
   onEmailChange(event) {
     const email = event.target.value || this.inputRef.current.inputRef.values;
 
@@ -62,9 +65,11 @@ class EmaillInput extends React.Component {
     }
   }
 
+  // Submits a given email to the server using a post request
   async submitEmail(email) {
     if (macros.occurrences(email, '@', true) !== 1) {
       macros.log('not submitting invalid email');
+      return;
     }
 
     macros.log('submitting email', email);
