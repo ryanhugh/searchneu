@@ -319,10 +319,10 @@ ShallowWrapper {
               <div />
             </Collapsible>
             <div
-              class="tooltip"
+              className="tooltip"
             >
               <span
-                class="tooltiptext"
+                className="tooltiptext"
               >
                 You must pay 
                  extra to take this class
@@ -921,10 +921,10 @@ ShallowWrapper {
                 <div />
               </Collapsible>
               <div
-                class="tooltip"
+                className="tooltip"
               >
                 <span
-                  class="tooltiptext"
+                  className="tooltiptext"
                 >
                   You must pay 
                    extra to take this class
@@ -1242,10 +1242,10 @@ ShallowWrapper {
                   <div />
                 </Collapsible>,
                 <div
-                  class="tooltip"
+                  className="tooltip"
                 >
                   <span
-                    class="tooltiptext"
+                    className="tooltiptext"
                   >
                     You must pay 
                      extra to take this class
@@ -1405,13 +1405,13 @@ ShallowWrapper {
                   "children": Array [
                     null,
                     <span
-                      class="tooltiptext"
+                      className="tooltiptext"
                     >
                       You must pay 
                        extra to take this class
                     </span>,
                   ],
-                  "class": "tooltip",
+                  "className": "tooltip",
                 },
                 "ref": null,
                 "rendered": Array [
@@ -1426,7 +1426,7 @@ ShallowWrapper {
                         undefined,
                         " extra to take this class",
                       ],
-                      "class": "tooltiptext",
+                      "className": "tooltiptext",
                     },
                     "ref": null,
                     "rendered": Array [
@@ -2936,10 +2936,10 @@ ShallowWrapper {
                 <div />
               </Collapsible>
               <div
-                class="tooltip"
+                className="tooltip"
               >
                 <span
-                  class="tooltiptext"
+                  className="tooltiptext"
                 >
                   You must pay 
                    extra to take this class
@@ -3538,10 +3538,10 @@ ShallowWrapper {
                   <div />
                 </Collapsible>
                 <div
-                  class="tooltip"
+                  className="tooltip"
                 >
                   <span
-                    class="tooltiptext"
+                    className="tooltiptext"
                   >
                     You must pay 
                      extra to take this class
@@ -3859,10 +3859,10 @@ ShallowWrapper {
                     <div />
                   </Collapsible>,
                   <div
-                    class="tooltip"
+                    className="tooltip"
                   >
                     <span
-                      class="tooltiptext"
+                      className="tooltiptext"
                     >
                       You must pay 
                        extra to take this class
@@ -4022,13 +4022,13 @@ ShallowWrapper {
                     "children": Array [
                       null,
                       <span
-                        class="tooltiptext"
+                        className="tooltiptext"
                       >
                         You must pay 
                          extra to take this class
                       </span>,
                     ],
-                    "class": "tooltip",
+                    "className": "tooltip",
                   },
                   "ref": null,
                   "rendered": Array [
@@ -4043,7 +4043,7 @@ ShallowWrapper {
                           undefined,
                           " extra to take this class",
                         ],
-                        "class": "tooltiptext",
+                        "className": "tooltiptext",
                       },
                       "ref": null,
                       "rendered": Array [
