@@ -175,9 +175,29 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
       retVal.maxCredits = creditsParsed.maxCredits;
       retVal.minCredits = creditsParsed.minCredits;
     } else {
-      macros.log('warning, nothing matchied credits', url, text);
+      macros.log('warning, nothing matched credits', url, text);
     }
 
+    // grabs optional feees
+    const table = $('body > div.pagebodydiv > table > tr > td > table');
+
+    // for all tables... if table includes word "amount", parse table, get fees/description
+    for (let i = 0; i < table.length; i++) {
+      if ($(table[i]).attr().summary.includes('amount')) {
+        const parsedTable = this.parseTable(table[i]);
+
+        if (parsedTable.rowCount > 0) {
+          retVal.feeDescription = parsedTable.tableData.description[0];
+          retVal.feeAmount = parseFloat(parsedTable.tableData.amount[0]);
+
+          if (parsedTable.rowCount > 1) {
+            macros.log('warning... multiple fees?', url);
+          }
+        } else {
+          macros.log('warning, fees table exists, but fees didn\'t. Nothing parsed.', url);
+        }
+      }
+    }
 
     // This is specific for NEU for now.
     // Other colleges probably do it a little differently.

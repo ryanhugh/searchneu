@@ -130,6 +130,14 @@ class BaseClassPanel extends React.Component {
     return this.props.aClass.classAttributes;
   }
 
+  // returns optional fees if they exist
+  getOptionalFees() {
+    if (this.props.aClass.feeDescription && this.props.aClass.feeAmount) {
+      return `${this.props.aClass.feeDescription}: $${this.props.aClass.feeAmount}`;
+    }
+    return null;
+  }
+
   // returns an array made to be rendered by react to display the prereqs
   getReqsString(reqType, aClass = this.props.aClass) {
     const retVal = [];
