@@ -3,7 +3,6 @@
  * See the license file in the root folder for details.
  */
 
-// import Class from './Class';
 import macros from './macros';
 import Keys from '../common/Keys';
 
@@ -46,14 +45,6 @@ class DataLib {
 
     return new this(termDumpMap);
   }
-
-  // Right now only the class that is created is loaded. Need to add loading on demand later for times when you need more info on prereqs, corereqs, etc (prereq.prereq.prereq...)
-  // That is not needed for this project, however.
-  // static createClassFromSearchResult(searchResultData) {
-  //   const aClass = Class.create(searchResultData.class);
-  //   aClass.loadSectionsFromServerList(searchResultData.sections);
-  //   return aClass;
-  // }
 
   // Returns a list of the keys in a subject, sorted by classId
   // Usually takes ~ 5ms and does not instantiate any instances of Class or Subject

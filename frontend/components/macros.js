@@ -8,7 +8,8 @@ import ReactTooltip from 'react-tooltip';
 import commonMacros from '../../common/abstractMacros';
 
 
-// Macros and other utility constants and things that are just relevant in the frontend.
+// This file contains a bunch of utility functions and constants that are used all throughout the frontend.
+// It inherets from ../common/macros, so things there will also be here too
 
 
 // Used for debounceTooltipRebuild
