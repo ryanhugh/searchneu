@@ -5,6 +5,8 @@
 
 import randomstring from 'randomstring';
 
+import request from './request';
+
 // Manages user data in the frontend
 // Downloads the data from the server when the page first starts
 
@@ -12,14 +14,61 @@ import randomstring from 'randomstring';
 
 class User {
   constructor() {
+    // Promise to keep track of user data.
+    this.userDataPromise = null;
+
     this.downloadUserData();
   }
 
   // Downloads the user data from the server.
   // Send the loginKey and the facebookMessengerId (if we have it).
   // Save the facebookMessengerId when the server responds (the server can respond to this request a lot faster when given the facebookMessengerId).
-  downloadUserData() {
+  async downloadUserData() {
+    if (this.userDataPromise) {
+      return this.userDataPromise;
+    }
 
+    // User has not logged in before, don't bother making the request
+    if (!this.hasLoggedInBefore()) {
+      return null;
+    }
+
+
+    const body = {
+      loginKey: this.getLoginKey(),
+    };
+
+    // If we have sender id, send that up too
+    // (will make the server respond faster)
+    if (window.localStorage.senderId) {
+      body.senderId = window.localStorage.senderId;
+    }
+
+
+    const response = await request.post({
+      url: '/getUserData',
+      body: body,
+    });
+
+    this.user = response.body;
+
+    // Keep track of the sender id too.
+    window.localStorage.senderId = response.user.facebookMessengerId;
+
+
+    macros.log('got user data');
+  }
+
+  // Revokes the loginKey
+  revokeLoginKey() {
+    delete window.localStorage.loginkey;
+  }
+
+  // Return if the user has logged in before.
+  // This doesn't mean they are currently logged in, it just means they might be logged in.
+  // and we need to hit the server and check.
+  hasLoggedInBefore() {
+    return !!window.localStorage.loginKey;
   }
 
   getLoginKey() {

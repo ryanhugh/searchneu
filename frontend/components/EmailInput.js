@@ -46,7 +46,7 @@ class EmaillInput extends React.Component {
     this.onEmailSubmitButton = this.onEmailSubmitButton.bind(this);
   }
 
-  // Handles the callback event from the submit button 
+  // Handles the callback event from the submit button
   // and sends the input to the server (using submitEmail)
   onEmailSubmitButton() {
     const email = this.inputRef.current.inputRef.value;
