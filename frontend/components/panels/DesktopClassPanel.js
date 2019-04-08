@@ -11,6 +11,7 @@ import macros from '../macros';
 import BaseClassPanel from './BaseClassPanel';
 import DesktopSectionPanel from './DesktopSectionPanel';
 import SignUpForNotifications from '../SignUpForNotifications';
+import authentication from '../authentication';
 
 import globe from './globe.svg';
 
@@ -73,6 +74,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
     return false;
   }
 
+
   render() {
     const aClass = this.props.aClass;
     // Render the section table if this class has sections
@@ -90,6 +92,8 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
       // Add the Online sections head if there are any sections that are online
       const showWaitList = this.shouldShowWaitlist();
+
+      const showNotificationBoxes = authentication.showNotifColumn;
 
       const showHonorsColumn = aClass.getHasHonorsSections();
 
@@ -112,7 +116,10 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
               <th style={{ display: !showWaitList && 'none' }}>
                 Waitlist seats
-              </th>
+        </th>
+	  <th style={{ display: !showNotificationBoxes && 'none' }} >
+	  Enable Notifications
+	</th>
               <th style={{ display: !showHonorsColumn && 'none' }}>
                 Honors
               </th>
@@ -131,6 +138,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
                   shouldShowExamColumns={ aClass.sectionsHaveExam() }
                   showHonorsColumn={ showHonorsColumn }
                   section={ section }
+		  showNotificationBoxes={ showNotificationBoxes }
                 />
               );
             })}

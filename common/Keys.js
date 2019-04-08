@@ -18,7 +18,12 @@ const endpoints = [];
 const minData = 2;
 
 class Keys {
+
+  // creates the keys to be sent to the backend
   constructor(obj, endpoint, config) {
+
+    // if the object is Keys, or doesn't exist, or doesn't have a hash AND  ahost, or is a
+    // string and not allowed... welp
     if (obj instanceof Keys || !obj || (!obj.hash && !obj.host) || (obj.isString && !config.stringAllowed)) {
       macros.error('welp', obj);
     }

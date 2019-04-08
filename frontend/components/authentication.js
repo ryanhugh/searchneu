@@ -96,6 +96,8 @@ class Authentication {
     });
   }
 
+
+  // handles button events
   onSendToMessengerClick(e) {
     if (e.event === 'rendered') {
       macros.log('Plugin was rendered');
@@ -105,10 +107,14 @@ class Authentication {
       macros.log(`Checkbox state: ${checkboxState}`);
     } else if (e.event === 'not_you') {
       macros.log("User clicked 'not you'");
+      delete window.localStorage.loginKey;
+      macros.log("User's loginKey has been deleted");
     } else if (e.event === 'hidden') {
       macros.log('Plugin was hidden');
     } else if (e.event === 'opt_in') {
       macros.log('Opt in was clicked!', e);
+
+      this.showNotifColumn = true;
 
 
       macros.logAmplitudeEvent('FB Send to Messenger', {
@@ -137,7 +143,7 @@ class Authentication {
                     timestamp: Date.now(),
                     sender:
                       {
-                        id: '1397905100304615',
+                        id: '2178896222126069',
                       },
                     optin:
                       {
