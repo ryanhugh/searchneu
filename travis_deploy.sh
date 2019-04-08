@@ -16,6 +16,8 @@ set -v
 npm run test
 
 # Make sure everything passes linting
+# Run the commands separately, so if one fails, this script fails
+# (If npm run lint is ran, the exit code of npm run lintjs is ignored and the exit code of only npm run lintstyle is read)
 npm run lintjs
 npm run lintstyle
 
