@@ -154,6 +154,14 @@ export default class DesktopClassPanel extends BaseClassPanel {
     const creditsString = this.getCreditsString();
 
     const feeString = this.getOptionalFees();
+
+    let feeAmount;
+
+    if (feeString) {
+      feeAmount = feeString.split(' ');
+      feeAmount = feeAmount[feeAmount.length - 1];
+      feeAmount = 'You must pay ' + feeAmount + ' extra to take this class';
+    }
     const courseAttrString = this.getClassAttributesString();
 
     let courseAttr;
@@ -198,13 +206,13 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <br />
             <Collapsible trigger='Show Course Attributes'>
               <div>
-                {courseAttr}
+	        {courseAttr}
               </div>
-            </Collapsible>
-            {feeString}
-          </div>
-          <div className='rightPanel'>
-            <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
+        </Collapsible>
+	<div><div className='inlineBlock' data-tip={feeAmount}>{feeString}</div></div>
+	</div>
+        <div className='rightPanel'>
+        <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
             {creditsString}
             <div>
               <SignUpForNotifications aClass={ aClass } />

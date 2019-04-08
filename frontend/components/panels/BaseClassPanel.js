@@ -133,7 +133,7 @@ class BaseClassPanel extends React.Component {
   // returns optional fees if they exist
   getOptionalFees() {
     if (this.props.aClass.feeDescription && this.props.aClass.feeAmount) {
-      return `${this.props.aClass.feeDescription}: ${this.props.aClass.feeAmount}`;
+      return `${this.props.aClass.feeDescription}: $${this.props.aClass.feeAmount}`;
     }
     return null;
   }
