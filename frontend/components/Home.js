@@ -11,15 +11,15 @@ import { Dropdown } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import '../css/base.scss';
 
-import aoun from './aouuuuuuuuun.png';
+import aoun from './images/aouuuuuuuuun.png';
 import SplashPage from './SplashPage/SplashPage';
 import search from './search';
 import FeedbackModal from './FeedbackModal';
 import macros from './macros';
 import ResultsLoader from './ResultsLoader';
 import EmailInput from './EmailInput';
-import logo from './logo.svg';
-import boston from './boston.svg';
+import logo from './images/logo.svg';
+import boston from './images/boston.svg';
 
 // Terms that used to be scraped at one point, but are no longer scraped.
 // These may be stored in user's localStorage from the last time they selected a term.
