@@ -6,6 +6,8 @@
 import randomstring from 'randomstring';
 
 import request from './request';
+import macros from './macros';
+
 
 // Manages user data in the frontend
 // Downloads the data from the server when the page first starts
@@ -24,13 +26,9 @@ class User {
   // Send the loginKey and the facebookMessengerId (if we have it).
   // Save the facebookMessengerId when the server responds (the server can respond to this request a lot faster when given the facebookMessengerId).
   async downloadUserData() {
-    if (this.userDataPromise) {
-      return this.userDataPromise;
-    }
-
     // User has not logged in before, don't bother making the request
     if (!this.hasLoggedInBefore()) {
-      return null;
+      return;
     }
 
 
@@ -54,7 +52,6 @@ class User {
 
     // Keep track of the sender id too.
     window.localStorage.senderId = response.user.facebookMessengerId;
-
 
     macros.log('got user data');
   }
