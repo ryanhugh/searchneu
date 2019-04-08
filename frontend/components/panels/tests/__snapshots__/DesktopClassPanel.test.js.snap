@@ -318,6 +318,11 @@ ShallowWrapper {
             >
               <div />
             </Collapsible>
+            <div>
+              <div
+                className="inlineBlock"
+              />
+            </div>
           </div>
           <div
             className="rightPanel"
@@ -910,6 +915,11 @@ ShallowWrapper {
               >
                 <div />
               </Collapsible>
+              <div>
+                <div
+                  className="inlineBlock"
+                />
+              </div>
             </div>,
             <div
               className="rightPanel"
@@ -1221,6 +1231,11 @@ ShallowWrapper {
                 >
                   <div />
                 </Collapsible>,
+                <div>
+                  <div
+                    className="inlineBlock"
+                  />
+                </div>,
               ],
               "className": "leftPanel",
             },
@@ -1366,6 +1381,31 @@ ShallowWrapper {
                   "type": "div",
                 },
                 "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": <div
+                    className="inlineBlock"
+                  />,
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": null,
+                    "className": "inlineBlock",
+                    "data-tip": undefined,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "div",
+                },
+                "type": "div",
               },
             ],
             "type": "div",
@@ -2863,6 +2903,11 @@ ShallowWrapper {
               >
                 <div />
               </Collapsible>
+              <div>
+                <div
+                  className="inlineBlock"
+                />
+              </div>
             </div>
             <div
               className="rightPanel"
@@ -3455,6 +3500,11 @@ ShallowWrapper {
                 >
                   <div />
                 </Collapsible>
+                <div>
+                  <div
+                    className="inlineBlock"
+                  />
+                </div>
               </div>,
               <div
                 className="rightPanel"
@@ -3766,6 +3816,11 @@ ShallowWrapper {
                   >
                     <div />
                   </Collapsible>,
+                  <div>
+                    <div
+                      className="inlineBlock"
+                    />
+                  </div>,
                 ],
                 "className": "leftPanel",
               },
@@ -3911,6 +3966,31 @@ ShallowWrapper {
                     "type": "div",
                   },
                   "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": <div
+                      className="inlineBlock"
+                    />,
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": null,
+                      "className": "inlineBlock",
+                      "data-tip": undefined,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": "div",
+                  },
+                  "type": "div",
                 },
               ],
               "type": "div",
