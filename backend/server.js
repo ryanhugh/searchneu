@@ -29,10 +29,17 @@ import Updater from './updater';
 import database from './database';
 import DataLib from './DataLib';
 
+// This file manages every endpoint in the backend
+// and calls out to respective files depending on what was called
+
 const request = new Request('server');
 
 const app = express();
 
+// This xhub code is responsible for verifying that requests that hit the /webhook endpoint are from facebook in production
+// This does some crypto stuff to make this verification
+// This way, only facebook can make calls to the /webhook endpoint
+// This is not used in development
 let xhubPromise;
 async function loadExpressHub() {
   if (xhubPromise) {
@@ -46,10 +53,6 @@ async function loadExpressHub() {
   return xhubPromise;
 }
 loadExpressHub();
-
-
-// Start watching for new labs
-// psylink.startWatch();
 
 // Verify that the webhooks are coming from facebook
 // This needs to be above bodyParser for some reason
@@ -150,6 +153,7 @@ function getRemoteIp(req) {
   return splitHeader[splitHeader.length - 2].trim();
 }
 
+// Gets the current time, just used for loggin
 function getTime() {
   return moment().format('hh:mm:ss a');
 }
@@ -667,6 +671,100 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
   } else {
     macros.log("Not submitting to mailchip, don't have mailchimp key.");
   }
+}));
+
+
+async function findMatchingUser(requestLoginKey) {
+  // Loop over the db
+  const users = await database.get('users');
+  if (!users) {
+    return null;
+  }
+
+  // Loop over all the users
+  for (const user of users) {
+    for (const loginKey of user.loginKeys) {
+      if (requestLoginKey === loginKey) {
+        return user;
+      }
+    }
+  }
+
+  return null;
+}
+
+
+app.post('/getUserData', wrap(async (req, res) => {
+  // Don't cache this endpoint.
+  res.setHeader('Cache-Control', 'no-cache, no-store');
+
+  if (!req.body || !req.body.loginKey) {
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  // Checks checks checks
+  // Make sure the login key is valid
+  if (typeof req.body.loginKey !== 'string' || req.body.loginKey.length !== 100) {
+    macros.log('Invalid login key', req.body.loginKey);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  const senderId = req.body.senderId;
+
+  // Make sure the sender id is valid
+  if (senderId && (typeof senderId !== 'string' || senderId.length !== 16 || !macros.isNumeric(senderId))) {
+    macros.log('Invalid senderId', req.body, senderId);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  let matchingUser;
+
+  // If the client specified a specific senderId, lookup that specific user.
+  // if not, we have to loop over all the users's to find a matching loginKey
+  if (senderId) {
+    const user = await database.get(`/users/${senderId}`);
+
+    if (!user) {
+      macros.log('Invalid senderId', senderId);
+      res.send(JSON.stringify({
+        error: 'Error.',
+      }));
+      return;
+    }
+
+    // Ensure that a loginKey matches
+    if (!user.loginKeys.includes(req.body.loginKey)) {
+      macros.log('Invalid loginKey', senderId, req.body.loginKey, user);
+      res.send(JSON.stringify({
+        error: 'Error.',
+      }));
+      return;
+    }
+
+    matchingUser = user;
+  } else {
+    matchingUser = await findMatchingUser(req.body.loginKey);
+    if (!matchingUser) {
+      res.send(JSON.stringify({
+        error: 'Invalid loginKey.',
+      }));
+      return;
+    }
+  }
+
+  res.send(JSON.stringify({
+    status: 'Success',
+    user: matchingUser,
+  }));
 }));
 
 // Rate-limit submissions on a per-IP basis

@@ -3,12 +3,7 @@
  * See the license file in the root folder for details.
  */
 
-import authentication from '../authentication';
-
-it('should generate a login key', () => {
-  expect(authentication.getLoginKey()).toMatchSnapshot();
-});
-
+import facebook from '../facebook';
 
 it('should not crash', () => {
   const event = {
@@ -16,5 +11,5 @@ it('should not crash', () => {
     ref: 'eyJjbGFzc0hhc2giOiJuZXUuZWR1LzIwMTkxMC9DUy8wMTQxIiwic2VjdGlvbkhhc2hlcyI6W10sImRldiI6dHJ1ZSwibG9naW5LZXkiOiI2RlBNN0l0RGgxdEQ3ZlpIT29aNnBLbnF5bER3aU9OMlc5UG9YelVNbFdEdFVYMzFXd0lLcWxWWTk3VUl5QzE2Rmo1cVhIMnFYeXQwUHJ5TXdKOHR2VTJseG41T2xqZnhtdWlPIn0',
   };
 
-  authentication.onSendToMessengerClick(event);
+  facebook.onSendToMessengerClick(event);
 });

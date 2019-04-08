@@ -21,6 +21,11 @@ import {
 import macros from './macros';
 import request from './request';
 
+// This file manages the two popups that asks for user information
+// 1. the feedback popup that shows up if you click the feedback button on the bottom of the page
+// 2. At one point, instead of the typeform, we had a similar popup appear asking if user's were interested
+// These popups display a messge and have a a text box for users to enter data, and then they sent this data to the backend
+
 class FeedbackModal extends React.Component {
   // The bool of whether the feedback form should be open or not
   // needs to be tracked in home.js
