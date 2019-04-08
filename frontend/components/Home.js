@@ -21,6 +21,12 @@ import EmailInput from './EmailInput';
 import logo from './images/logo.svg';
 import boston from './images/boston.svg';
 
+// This file is the main starting point for the frontend
+// It calls into a bunch of different files
+// It calls into search.js and forward the results to resultsLoader
+// It also calls into EmailInput and FeedbackModal, if needed
+// And displays the SplashPage
+
 // Terms that used to be scraped at one point, but are no longer scraped.
 // These may be stored in user's localStorage from the last time they selected a term.
 // If they are, unselected them and select the latest term.
