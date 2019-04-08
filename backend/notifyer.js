@@ -27,8 +27,9 @@ class Notifyer {
 
     // If you want to message yourself in dev mode too, just change this.
     // This check is here so we don't accidentally message people with dev data.
-    if (!macros.PROD && sender !== '1397905100304615') {
-      macros.log('Refusing to send message to anyone other than Ryan not in prod mode');
+    if (!macros.PROD && sender !== '2178896222126069') {
+      macros.log('Refusing to send message to anyone other than Eddy with a y not in prod mode');
+      
       macros.log('Not sending', sender, text);
       return {
         error: 'true',
@@ -105,7 +106,7 @@ class Notifyer {
   }
 
   main() {
-    this.sendFBNotification('1397905100304615', 'test notification');
+    this.sendFBNotification('2178896222126069', 'test notification');
   }
 }
 

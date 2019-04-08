@@ -13,12 +13,16 @@ import WeekdayBoxes from './WeekdayBoxes';
 
 import globe from './globe.svg';
 
+/*
+  This class renders the sections for a class on the Desktop version
+*/
 export default class DesktopSectionPanel extends React.Component {
   static propTypes = {
     shouldShowExamColumns: PropTypes.bool.isRequired,
     showWaitList: PropTypes.bool.isRequired,
     showHonorsColumn: PropTypes.bool.isRequired,
     section: PropTypes.object.isRequired,
+    showNotificationBoxes: PropTypes.bool,
   };
 
   // Create the 4:35 - 5:40 pm string.
@@ -140,6 +144,12 @@ export default class DesktopSectionPanel extends React.Component {
             {this.props.section.waitRemaining}/{this.props.section.waitCapacity}
           </div>
         </td>
+
+	<td style={{ display: !this.props.showNotificationBoxes && 'none' }}>
+	<div data-tip='Sign up for notifications for this class' className='inelineBlock'>
+	  <p>Lopsum ipsum</p>
+	  </div>
+	</td>
 
         <td style={{ display: !this.props.showHonorsColumn && 'none' }}>
           {honorsCheck}

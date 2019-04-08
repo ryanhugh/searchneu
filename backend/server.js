@@ -527,7 +527,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   }
 }
 
-async function unsubscribeSender(sender) {
+async function unsubscribeSender(sender, text) {
   const firebaseRef = await database.getRef(`/users/${sender}`);
 
   let existingData = await firebaseRef.once('value');
@@ -577,10 +577,12 @@ app.post('/webhook/', wrap(async (req, res) => {
 
       if (text === 'test') {
         notifyer.sendFBNotification(sender, 'CS 1800 now has 1 seat available!! Check it out on https://searchneu.com/cs1800 !');
-      } else if (text.toLowerCase() === 'stop') {
-        unsubscribeSender(sender);
+      } else if (text.toLowerCase().includes('stop')) {
+        unsubscribeSender(sender, text);
       } else if (text === 'What is my facebook messenger sender id?') {
         notifyer.sendFBNotification(sender, sender);
+      } else if (text === 'no u') {
+	notifyer.sendFBNotification(sender, 'no u');
       } else {
         // Don't send anything if the user sends a message.
         // notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com !");
