@@ -5,6 +5,7 @@
 
 import request from './request';
 import macros from './macros';
+import user from './user';
 
 // This file is a wrapper around Facebook's API.
 // Call through this file if you need anything related to FB API
@@ -86,6 +87,7 @@ class Facebook {
       macros.log(`Checkbox state: ${checkboxState}`);
     } else if (e.event === 'not_you') {
       macros.log("User clicked 'not you'");
+      user.revokeLoginKey();
     } else if (e.event === 'hidden') {
       macros.log('Plugin was hidden');
     } else if (e.event === 'opt_in') {
