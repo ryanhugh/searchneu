@@ -318,6 +318,16 @@ ShallowWrapper {
             >
               <div />
             </Collapsible>
+            <div
+              class="tooltip"
+            >
+              <span
+                class="tooltiptext"
+              >
+                You must pay 
+                 extra to take this class
+              </span>
+            </div>
           </div>
           <div
             className="rightPanel"
@@ -910,6 +920,16 @@ ShallowWrapper {
               >
                 <div />
               </Collapsible>
+              <div
+                class="tooltip"
+              >
+                <span
+                  class="tooltiptext"
+                >
+                  You must pay 
+                   extra to take this class
+                </span>
+              </div>
             </div>,
             <div
               className="rightPanel"
@@ -1221,7 +1241,16 @@ ShallowWrapper {
                 >
                   <div />
                 </Collapsible>,
-                null,
+                <div
+                  class="tooltip"
+                >
+                  <span
+                    class="tooltiptext"
+                  >
+                    You must pay 
+                     extra to take this class
+                  </span>
+                </div>,
               ],
               "className": "leftPanel",
             },
@@ -1368,7 +1397,48 @@ ShallowWrapper {
                 },
                 "type": [Function],
               },
-              null,
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    null,
+                    <span
+                      class="tooltiptext"
+                    >
+                      You must pay 
+                       extra to take this class
+                    </span>,
+                  ],
+                  "class": "tooltip",
+                },
+                "ref": null,
+                "rendered": Array [
+                  null,
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        "You must pay ",
+                        undefined,
+                        " extra to take this class",
+                      ],
+                      "class": "tooltiptext",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      "You must pay ",
+                      undefined,
+                      " extra to take this class",
+                    ],
+                    "type": "span",
+                  },
+                ],
+                "type": "div",
+              },
             ],
             "type": "div",
           },
@@ -2865,6 +2935,16 @@ ShallowWrapper {
               >
                 <div />
               </Collapsible>
+              <div
+                class="tooltip"
+              >
+                <span
+                  class="tooltiptext"
+                >
+                  You must pay 
+                   extra to take this class
+                </span>
+              </div>
             </div>
             <div
               className="rightPanel"
@@ -3457,6 +3537,16 @@ ShallowWrapper {
                 >
                   <div />
                 </Collapsible>
+                <div
+                  class="tooltip"
+                >
+                  <span
+                    class="tooltiptext"
+                  >
+                    You must pay 
+                     extra to take this class
+                  </span>
+                </div>
               </div>,
               <div
                 className="rightPanel"
@@ -3768,7 +3858,16 @@ ShallowWrapper {
                   >
                     <div />
                   </Collapsible>,
-                  null,
+                  <div
+                    class="tooltip"
+                  >
+                    <span
+                      class="tooltiptext"
+                    >
+                      You must pay 
+                       extra to take this class
+                    </span>
+                  </div>,
                 ],
                 "className": "leftPanel",
               },
@@ -3915,7 +4014,48 @@ ShallowWrapper {
                   },
                   "type": [Function],
                 },
-                null,
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      null,
+                      <span
+                        class="tooltiptext"
+                      >
+                        You must pay 
+                         extra to take this class
+                      </span>,
+                    ],
+                    "class": "tooltip",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    null,
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": Array [
+                          "You must pay ",
+                          undefined,
+                          " extra to take this class",
+                        ],
+                        "class": "tooltiptext",
+                      },
+                      "ref": null,
+                      "rendered": Array [
+                        "You must pay ",
+                        undefined,
+                        " extra to take this class",
+                      ],
+                      "type": "span",
+                    },
+                  ],
+                  "type": "div",
+                },
               ],
               "type": "div",
             },

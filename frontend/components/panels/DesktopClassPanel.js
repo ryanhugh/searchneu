@@ -197,12 +197,12 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <br />
             <Collapsible trigger='Show Course Attributes'>
               <div>
-	        {courseAttr}
+                {courseAttr}
               </div>
             </Collapsible>
-        <div class="tooltip">{feeString} 
-	<span class="tooltiptext">You must pay {feeAmount} extra to take this class</span>
-	</div>
+            <div className='tooltip'>{feeString}
+              <span className='tooltiptext'>You must pay {feeAmount} extra to take this class</span>
+            </div>
           </div>
           <div className='rightPanel'>
             <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
