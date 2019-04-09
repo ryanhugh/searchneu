@@ -11,7 +11,7 @@ import macros from '../macros';
 import BaseClassPanel from './BaseClassPanel';
 import DesktopSectionPanel from './DesktopSectionPanel';
 import SignUpForNotifications from '../SignUpForNotifications';
-import authentication from '../authentication';
+import facebook from '../facebook';
 
 import globe from './globe.svg';
 
@@ -28,6 +28,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
   static propTypes = {
     aClass: PropTypes.object.isRequired,
   };
+
 
   componentDidUpdate() {
     macros.debounceTooltipRebuild();
@@ -92,8 +93,8 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
       // Add the Online sections head if there are any sections that are online
       const showWaitList = this.shouldShowWaitlist();
-
-      const showNotificationBoxes = authentication.showNotifColumn;
+      
+      const showNotificationBoxes = facebook.state.showNotifColumn;
 
       const showHonorsColumn = aClass.getHasHonorsSections();
 

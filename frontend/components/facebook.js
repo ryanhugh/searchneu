@@ -95,7 +95,7 @@ class Facebook {
     } else if (e.event === 'opt_in') {
       macros.log('Opt in was clicked!', e);
 
-      this.showNotifColumn = true;
+      this.setState({showNotifColumn: true});
 
 
       macros.logAmplitudeEvent('FB Send to Messenger', {
