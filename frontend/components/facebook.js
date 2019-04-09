@@ -35,7 +35,7 @@ class Facebook {
       autoLogAppEvents : false,
       xfbml            : false,
       version          : 'v2.11',
-    });
+    });;
 
 
     window.FB.Event.subscribe('send_to_messenger', this.onSendToMessengerClick);
