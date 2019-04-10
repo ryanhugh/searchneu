@@ -11,7 +11,6 @@ import macros from '../macros';
 import BaseClassPanel from './BaseClassPanel';
 import DesktopSectionPanel from './DesktopSectionPanel';
 import SignUpForNotifications from '../SignUpForNotifications';
-import facebook from '../facebook';
 
 import globe from './globe.svg';
 
@@ -94,7 +93,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
       // Add the Online sections head if there are any sections that are online
       const showWaitList = this.shouldShowWaitlist();
       
-      const showNotificationBoxes = facebook.state.showNotifColumn;
+      const showNotificationBoxes = facebook.state.showNotifs;
 
       const showHonorsColumn = aClass.getHasHonorsSections();
 
