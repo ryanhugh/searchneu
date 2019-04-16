@@ -24,6 +24,12 @@ import globe from './globe.svg';
 
 
 export default class DesktopClassPanel extends BaseClassPanel {
+
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+  
   static propTypes = {
     aClass: PropTypes.object.isRequired,
   };
@@ -74,6 +80,15 @@ export default class DesktopClassPanel extends BaseClassPanel {
     return false;
   }
 
+  handleClick() {
+    macros.log("was called");
+    this.state.showNotificationBoxes = true;
+    this.setState({
+      showNotificationBoxes: true,
+    });
+    macros.log(this.state);
+  }
+
 
   render() {
     const aClass = this.props.aClass;
@@ -92,8 +107,6 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
       // Add the Online sections head if there are any sections that are online
       const showWaitList = this.shouldShowWaitlist();
-      
-      const showNotificationBoxes = facebook.state.showNotifs;
 
       const showHonorsColumn = aClass.getHasHonorsSections();
 
@@ -117,8 +130,8 @@ export default class DesktopClassPanel extends BaseClassPanel {
               <th style={{ display: !showWaitList && 'none' }}>
                 Waitlist seats
         </th>
-	  <th style={{ display: !showNotificationBoxes && 'none' }} >
-	  Enable Notifications
+	  <th style={{ display: !this.state.showNotificationBoxes && 'none' }} >
+	  Notifs
 	</th>
               <th style={{ display: !showHonorsColumn && 'none' }}>
                 Honors
@@ -138,7 +151,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
                   shouldShowExamColumns={ aClass.sectionsHaveExam() }
                   showHonorsColumn={ showHonorsColumn }
                   section={ section }
-		  showNotificationBoxes={ showNotificationBoxes }
+		  showNotificationBoxes={ this.state.showNotificationBoxes }
                 />
               );
             })}
@@ -217,7 +230,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
             {creditsString}
             <div>
-              <SignUpForNotifications aClass={ aClass } />
+        <SignUpForNotifications aClass={ aClass } handleClick={this.handleClick}/>
             </div>
 
           </div>

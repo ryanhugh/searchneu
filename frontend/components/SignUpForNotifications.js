@@ -37,11 +37,7 @@ class SignUpForNotifications extends React.Component {
     this.facebookScopeRef = null;
     this.onSubscribeToggleChange = this.onSubscribeToggleChange.bind(this);
     this.closeModal = this.closeModal.bind(this);
-  }
-
-  // Callback for when the opt-in button is pressed to start showing the check boxes in sections
-  getShowNotificationColumns() {
-    this.setState({ showNotifs: facebook.showNotifications()});
+    this.handleClick = this.props.handleClick;
   }
 
   // After the button is added to the DOM, we need to tell FB's SDK that it was added to the code and should be processed.
@@ -111,6 +107,8 @@ class SignUpForNotifications extends React.Component {
     this.setState({
       showMessengerButton: true,
     });
+
+    facebook.handleClickGetter(this.handleClick);
   }
 
 

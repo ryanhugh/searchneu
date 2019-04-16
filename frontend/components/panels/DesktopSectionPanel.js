@@ -6,6 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
+import NotifCheckBox from './NotifCheckBox';
 
 import Keys from '../../../common/Keys';
 import LocationLinks from './LocationLinks';
@@ -121,7 +122,6 @@ export default class DesktopSectionPanel extends React.Component {
 
     const honorsCheck = this.props.section.honors ? <Icon name='check' /> : <Icon name='x' />;
 
-
     return (
       <tr key={ Keys.create(this.props.section).getHash() }>
         <td>
@@ -146,8 +146,8 @@ export default class DesktopSectionPanel extends React.Component {
         </td>
 
 	<td style={{ display: !this.props.showNotificationBoxes && 'none' }}>
-	<div data-tip='Sign up for notifications for this class' className='inelineBlock'>
-	  <p>Lopsum ipsum</p>
+	<div data-tip='Sign up for notifications for this class' className='inlineBlock'>
+	<NotifCheckBox seats={this.props.section.seatsRemaining}/>
 	  </div>
 	</td>
 

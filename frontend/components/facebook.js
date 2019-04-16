@@ -47,6 +47,10 @@ class Facebook {
     return this.successfullyRendered;
   }
 
+  handleClickGetter(callback) {
+    this.handleClick = callback;
+  }
+
   // This function assumes that 'searchneu.com' is whitelisted in the Facebook Developer console settings
   // https://developers.facebook.com/apps/1979224428978082/settings/basic/
   // Facebook only allows applications to run on one domain at a time
@@ -95,8 +99,8 @@ class Facebook {
     } else if (e.event === 'opt_in') {
       macros.log('Opt in was clicked!', e);
 
-      this.showNotifications = true;
-
+      this.handleClick();
+      
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'Sign up clicked',
         hash: JSON.parse(atob(e.ref)).classHash,
