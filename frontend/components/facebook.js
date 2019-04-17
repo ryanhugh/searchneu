@@ -87,7 +87,7 @@ class Facebook {
       macros.log(`Checkbox state: ${checkboxState}`);
     } else if (e.event === 'not_you') {
       macros.log("User clicked 'not you'");
-      user.revokeLoginKey();
+      user.logOut();
     } else if (e.event === 'hidden') {
       macros.log('Plugin was hidden');
     } else if (e.event === 'opt_in') {

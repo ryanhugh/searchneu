@@ -51,8 +51,7 @@ class User {
     // If error, delete local invalid data.
     if (response.error) {
       macros.log('Data in localStorage is invalid, deleting');
-      delete window.localStorage.senderId;
-      delete window.localStorage.loginKey;
+      this.logOut();
       return;
     }
 
@@ -64,9 +63,10 @@ class User {
     macros.log('got user data');
   }
 
-  // Revokes the loginKey
-  revokeLoginKey() {
+  // Revokes the loginKey and user user-specific data
+  logOut() {
     delete window.localStorage.loginkey;
+    delete window.localStorage.senderId;
   }
 
   // Return if the user has logged in before.
