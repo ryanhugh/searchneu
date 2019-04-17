@@ -48,6 +48,14 @@ class User {
       body: body,
     });
 
+    // If error, delete local invalid data.
+    if (response.error) {
+      macros.log('Data in localStorage is invalid, deleting');
+      delete window.localStorage.senderId;
+      delete window.localStorage.loginKey;
+      return;
+    }
+
     this.user = response.body;
 
     // Keep track of the sender id too.
