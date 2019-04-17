@@ -56,7 +56,7 @@ class User {
       return;
     }
 
-    this.user = response.body;
+    this.user = response.user;
 
     // Keep track of the sender id too.
     window.localStorage.senderId = response.user.facebookMessengerId;
