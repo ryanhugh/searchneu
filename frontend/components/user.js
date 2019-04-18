@@ -48,7 +48,15 @@ class User {
       body: body,
     });
 
-    this.user = response.body;
+    // If error, delete local invalid data.
+    if (response.error) {
+      macros.log('Data in localStorage is invalid, deleting');
+      this.logOut();
+      return;
+    }
+
+    this.user = response.user;
+    macros.log(this.user);
 
     // Keep track of the sender id too.
     window.localStorage.senderId = response.user.facebookMessengerId;
@@ -56,9 +64,10 @@ class User {
     macros.log('got user data');
   }
 
-  // Revokes the loginKey
-  revokeLoginKey() {
+  // Revokes the loginKey and user user-specific data
+  logOut() {
     delete window.localStorage.loginkey;
+    delete window.localStorage.senderId;
   }
 
   // Return if the user has logged in before.
@@ -78,6 +87,68 @@ class User {
     }
 
     return loginKey;
+  }
+
+  hasSectionAlready(sectionHash) {
+    if (this.user) {
+      return this.user.watchingSections.includes(sectionHash);
+    }
+  }
+
+  // removes a section from a user, as well as the class if no more sections are tracked
+  // in that class
+  removeSection(sectionHash) {
+    if (!this.user) {
+      macros.error('no user for removal?');
+      return;
+    }
+    
+    if (this.user.watchingSections.includes(sectionHash)) {
+      this.user.watchingSections.splice(this.user.watchingSections.indexOf(sectionHash), 1);
+
+      const classHash = sectionHash.substring(0, sectionHash.lastIndexOf('/'));
+
+      let acc = false;
+      for (var i = 0; i < this.user.watchingSections.length; i++) {
+	acc = acc || this.user.watchingSections[i].includes(classHash);
+      }
+
+      if (!acc) {
+	this.user.watchingClasses.splice(this.user.watchingClasses.indexOf(classHash), 1);
+      }
+
+      macros.log(this.user);
+      
+    } else {
+      macros.error("removed setion that doesn't exist on user?", sectionHash, this.user);
+    }
+  }
+
+  // enrolls a user in a section of a class
+  enrollSection(sectionHash) {
+    if (!this.user) {
+      macros.error('no user for addition?');
+      return;
+    }
+
+    if (this.user.watchingSections.includes(sectionHash)) {
+      macros.error('user already watching section?', sectionHash, this.user);
+    }
+
+    this.user.watchingSections.push(sectionHash);
+
+    let classHash = sectionHash.substring(0, sectionHash.lastIndexOf('/'));
+    let acc = false;
+    for (var i = 0; i < this.user.watchingSections.length; i++) {
+      acc = acc || this.user.watchingSections[i].includes(classHash);
+    }
+
+    if (acc) {
+      this.user.watchingClasses.push(classHash);
+    }
+
+    macros.log('eep', this.user);
+	
   }
 }
 
