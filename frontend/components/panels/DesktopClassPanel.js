@@ -82,7 +82,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
 
   // handles the sign up for notifications button being clicked,
-  // to allow for user to choose which sections to sign up for 
+  // to allow for user to choose which sections to sign up for
   handleClick() {
 
     this.state.showNotificationBoxes = true;

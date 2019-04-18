@@ -27,7 +27,6 @@ export default class NotifCheckBox extends Checkbox {
   }
 
   handleChange = (e, { value }) => {
-
     if (this.state.checked) {
       this.setState({checked: false});
       user.removeSection(this.state.section);
@@ -35,7 +34,7 @@ export default class NotifCheckBox extends Checkbox {
       this.setState({checked: true});
       user.enrollSection(this.state.section);
     }
-
+    //user.sendData();
   }
 
   render() {

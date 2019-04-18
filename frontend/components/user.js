@@ -143,11 +143,12 @@ class User {
       acc = acc || this.user.watchingSections[i].includes(classHash);
     }
 
-    if (acc) {
+    if (!acc) {
       this.user.watchingClasses.push(classHash);
     }
 
-    macros.log('eep', this.user);
+    macros.log(this.user);
+
 	
   }
 }
