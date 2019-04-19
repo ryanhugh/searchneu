@@ -99,13 +99,14 @@ class Facebook {
     } else if (e.event === 'opt_in') {
       macros.log('Opt in was clicked!', e);
 
-      this.handleClick();
+      user.downloadUserData(100);
       
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'Sign up clicked',
         hash: JSON.parse(atob(e.ref)).classHash,
       });
 
+      this.handleClick();
 
       // When the Send To Messenger button is clicked in development, the webhook is still sent to prod by Facebook
       // In this case, send the data to the development server directly.
@@ -140,7 +141,9 @@ class Facebook {
       } else {
         macros.log(e, 'other message');
       }
+      
     }
+
   }
 }
 

@@ -7,6 +7,8 @@ import randomstring from 'randomstring';
 
 import request from './request';
 import macros from './macros';
+import _ from 'lodash';
+import Keys from '../../common/Keys';
 
 
 // Manages user data in the frontend
@@ -20,18 +22,20 @@ class User {
     this.userDataPromise = null;
 
     this.downloadUserData();
+
+    this.callBack = [];
   }
 
   // Downloads the user data from the server.
   // Send the loginKey and the facebookMessengerId (if we have it).
   // Save the facebookMessengerId when the server responds (the server can respond to this request a lot faster when given the facebookMessengerId).
-  async downloadUserData() {
+  async downloadUserData(retry=3) {
     // User has not logged in before, don't bother making the request
     if (!this.hasLoggedInBefore()) {
       return;
     }
 
-
+    
     const body = {
       loginKey: this.getLoginKey(),
     };
@@ -42,11 +46,19 @@ class User {
       body.senderId = window.localStorage.senderId;
     }
 
+    let response;
+    for (let i = 0; i < retry; i++) {
+      response = await request.post({
+	url: '/getUserData',
+	body: body,
+      });
 
-    const response = await request.post({
-      url: '/getUserData',
-      body: body,
-    });
+      if (response && response.error) {
+	
+      } else {
+	break;
+      }
+    }
 
     // If error, delete local invalid data.
     if (response.error) {
@@ -60,6 +72,11 @@ class User {
 
     // Keep track of the sender id too.
     window.localStorage.senderId = response.user.facebookMessengerId;
+
+    for (let callback of this.callBack) {
+      macros.log(callback);
+      callback();
+    }
 
     macros.log('got user data');
   }
@@ -89,6 +106,7 @@ class User {
     return loginKey;
   }
 
+  // checks if the user already has the section in it
   hasSectionAlready(sectionHash) {
     if (this.user) {
       return this.user.watchingSections.includes(sectionHash);
@@ -97,16 +115,23 @@ class User {
 
   // removes a section from a user, as well as the class if no more sections are tracked
   // in that class
-  removeSection(sectionHash) {
+  removeSection(section) {
     if (!this.user) {
       macros.error('no user for removal?');
       return;
     }
+
+    let sectionHash = Keys.create(section).getHash();
     
     if (this.user.watchingSections.includes(sectionHash)) {
-      this.user.watchingSections.splice(this.user.watchingSections.indexOf(sectionHash), 1);
+      _.pull(this.user.watchingSections, [sectionHash,]);
 
-      const classHash = sectionHash.substring(0, sectionHash.lastIndexOf('/'));
+      const classHash = Keys.create({
+	host: section.host,
+	termId: section.termId,
+	subjectId: section.subjectId,
+	classId: section.classId
+      }).getHash();
 
       let acc = false;
       for (var i = 0; i < this.user.watchingSections.length; i++) {
@@ -114,30 +139,36 @@ class User {
       }
 
       if (!acc) {
-	this.user.watchingClasses.splice(this.user.watchingClasses.indexOf(classHash), 1);
+	_.pull(this.user.watchingClasses, [classHash]);
       }
 
       macros.log(this.user);
       
     } else {
-      macros.error("removed setion that doesn't exist on user?", sectionHash, this.user);
+      macros.error("removed section that doesn't exist on user?", section, this.user);
     }
   }
 
   // enrolls a user in a section of a class
-  enrollSection(sectionHash) {
+  enrollSection(section) {
     if (!this.user) {
       macros.error('no user for addition?');
       return;
     }
 
     if (this.user.watchingSections.includes(sectionHash)) {
-      macros.error('user already watching section?', sectionHash, this.user);
+      macros.error('user already watching section?', section, this.user);
     }
 
-    this.user.watchingSections.push(sectionHash);
+    this.user.watchingSections.push(Keys.create(section).getHash());
 
-    let classHash = sectionHash.substring(0, sectionHash.lastIndexOf('/'));
+    let classHash = Keys.create({
+      host: section.host,
+      termId: section.termId,
+      subjectId: section.subjectId,
+      classId: section.classId
+    }).getHash();
+
     let acc = false;
     for (var i = 0; i < this.user.watchingSections.length; i++) {
       acc = acc || this.user.watchingSections[i].includes(classHash);
@@ -150,6 +181,15 @@ class User {
     macros.log(this.user);
 
 	
+  }
+
+  
+  registerCallback(theCallback) {
+    this.callBack.push(theCallback);
+  }
+
+  unregisterCallback(theCallback) {
+    _.pull(this.callBack, [theCallback]);
   }
 }
 

@@ -8,24 +8,30 @@ import PropTypes from 'prop-types';
 import { Checkbox } from 'semantic-ui-react';
 import user from '../user';
 import macros from '../macros';
+import Keys from '../../../common/Keys';
 
 // This file renders the checkboxes that control which sections a user signs up for
 // notifications.
 
 export default class NotifCheckBox extends Checkbox {
 
-  
+
+  // creates a new Notification Check Box that has the section's
+  // hash in section, and sets checked to be the initial value of if the section
+  // is currently in the user or not
   constructor(props) {
     super(props);
 
     const wantedSection = this.props.section;
 
-    this.state.checked = user.hasSectionAlready(wantedSection);
+    this.state.checked = user.hasSectionAlready(Keys.create(wantedSection).getHash());
     this.state.section = wantedSection;
-
       
   }
 
+  // if the state is currently checked, uncheck, remove the section from the user's data
+  // do opposite.
+  // send data to backend
   handleChange = (e, { value }) => {
     if (this.state.checked) {
       this.setState({checked: false});
@@ -37,8 +43,11 @@ export default class NotifCheckBox extends Checkbox {
     //user.sendData();
   }
 
+
+  // renders the proper checkbox. If there are still seats, then make it read
+  // only, otherwise, set up callback on onChange 
   render() {
-    this.setState();
+    macros.log('rerender');
     if (this.props.seats) {
       return <Checkbox toggle readOnly/>
     } else {
