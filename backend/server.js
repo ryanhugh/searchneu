@@ -695,6 +695,59 @@ async function findMatchingUser(requestLoginKey) {
   return null;
 }
 
+app.post('/sendUserData', wrap(async (req, res) => {
+  // Don't cache this endpoint.
+  res.setHeader('Cache-Control', 'no-cache, no-store');
+
+
+
+  if (!req.body || !req.body.loginKey) {
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  // Checks checks checks
+  // Make sure the login key is valid
+  if (typeof req.body.loginKey !== 'string' || req.body.loginKey.length !== 100) {
+    macros.log('Invalid login key', req.body.loginKey);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  const senderId = req.body.senderId;
+
+  // Make sure the sender id is valid
+  if (senderId && (typeof senderId !== 'string' || senderId.length !== 16 || !macros.isNumeric(senderId))) {
+    macros.log('Invalid senderId', req.body, senderId);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+
+  // If the client specified a specific senderId, lookup that specific user.
+  // if not, we have to loop over all the users's to find a matching loginKey
+  if (senderId) {
+    await database.set(`/users/${senderId}`, req.body.info);
+
+  } else {
+    macros.log('Really invalid senderID', req.body, senderId);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+  }
+
+  res.send(JSON.stringify({
+    status: 'Success',
+  }));
+}));
+
+
 
 app.post('/getUserData', wrap(async (req, res) => {
   // Don't cache this endpoint.

@@ -81,6 +81,46 @@ class User {
     macros.log('got user data');
   }
 
+  async sendUserData() {
+     // User has not logged in before, don't bother making the request
+    if (!this.hasLoggedInBefore()) {
+      return;
+    }
+
+    
+    const body = {
+      loginKey: this.getLoginKey(),
+    };
+
+    body.info = this.user;
+
+    // If we have sender id, send that up too
+    // (will make the server respond faster)
+    if (window.localStorage.senderId) {
+      body.senderId = window.localStorage.senderId;
+    }
+
+    let response;
+    response = await request.post({
+      url: '/sendUserData',
+      body: body,
+    });
+
+
+
+    // If error, log it 
+    if (response.error) {
+      macros.log('something went wrong sending data');
+      return;
+    }
+
+    for (let callback of this.callBack) {
+      callback();
+    }
+
+    macros.log('sending success?');
+  }
+
   // Revokes the loginKey and user user-specific data
   logOut() {
     delete window.localStorage.loginkey;
@@ -121,15 +161,18 @@ class User {
       return;
     }
 
+
     let sectionHash = Keys.create(section).getHash();
     
     if (this.user.watchingSections.includes(sectionHash)) {
-      _.pull(this.user.watchingSections, [sectionHash,]);
+      macros.log('ope', this.user.watchingSections, sectionHash);
+      this.user.watchingSections.splice(this.user.watchingSections.indexOf(sectionHash), 1);
+      macros.log('eep', this.user.watchingSections);
 
       const classHash = Keys.create({
 	host: section.host,
 	termId: section.termId,
-	subjectId: section.subjectId,
+	subject: section.subject,
 	classId: section.classId
       }).getHash();
 
@@ -139,7 +182,7 @@ class User {
       }
 
       if (!acc) {
-	_.pull(this.user.watchingClasses, [classHash]);
+	this.user.watchingClasses.splice(this.user.watchingClasses.indexOf(classHash), 1);
       }
 
       macros.log(this.user);
@@ -156,6 +199,8 @@ class User {
       return;
     }
 
+    let sectionHash = Keys.create(section).getHash();
+    
     if (this.user.watchingSections.includes(sectionHash)) {
       macros.error('user already watching section?', section, this.user);
     }

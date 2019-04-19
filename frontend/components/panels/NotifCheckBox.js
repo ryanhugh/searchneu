@@ -34,13 +34,13 @@ export default class NotifCheckBox extends Checkbox {
   // send data to backend
   handleChange = (e, { value }) => {
     if (this.state.checked) {
-      this.setState({checked: false});
       user.removeSection(this.state.section);
+      this.setState({checked: false});
     } else {
-      this.setState({checked: true});
       user.enrollSection(this.state.section);
+      this.setState({checked: true});
     }
-    //user.sendData();
+    user.sendUserData();
   }
 
 
@@ -49,7 +49,7 @@ export default class NotifCheckBox extends Checkbox {
   render() {
     if (this.state.checked !== user.hasSectionAlready(Keys.create(this.state.section).getHash())) {
       macros.log('was called');
-      this.state.checked = true;
+      this.state.checked = !this.state.checked;
     }
     if (this.props.seats) {
       return <Checkbox toggle readOnly/>
