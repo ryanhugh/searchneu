@@ -51,8 +51,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
   }
 
   reRenderCheckBox() {
-    macros.log('was called');
-    this.setState();
+    this.setState({test: !this.state.test});
   }
 
   // Method to decide whether to show the waitlist or not

@@ -47,7 +47,10 @@ export default class NotifCheckBox extends Checkbox {
   // renders the proper checkbox. If there are still seats, then make it read
   // only, otherwise, set up callback on onChange 
   render() {
-    macros.log('rerender');
+    if (this.state.checked !== user.hasSectionAlready(Keys.create(this.state.section).getHash())) {
+      macros.log('was called');
+      this.state.checked = true;
+    }
     if (this.props.seats) {
       return <Checkbox toggle readOnly/>
     } else {

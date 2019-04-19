@@ -73,8 +73,8 @@ class User {
     // Keep track of the sender id too.
     window.localStorage.senderId = response.user.facebookMessengerId;
 
+    macros.log(this.callBack.length);
     for (let callback of this.callBack) {
-      macros.log(callback);
       callback();
     }
 
