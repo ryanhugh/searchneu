@@ -13,7 +13,6 @@ import EllucianTermsParser from '../parsers/ellucianTermsParser';
 
 const request = new Request('bannerv9Parser');
 
-
 class Bannerv9Parser {
   // parse(body, url) {
   //   macros.log(moment, cheerio, body, url);
@@ -61,23 +60,47 @@ class Bannerv9Parser {
       return EllucianTermsParser.isValidTerm(term.code, term.description);
     });
 
-    let subjects = [];
+    let subjectsRequests = [];
 
     toKeep.forEach((term) => {
       const max = 200;
       const subjectUrl = `https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/get_subject?searchTerm=&term=${term.code}&offset=1&max=${max}`;
-      const promise = request.get({
+      const subjectRequest = request.get({
         url: subjectUrl,
         json: true,
       });
-      subjects.push(promise);
+      subjectsRequests.push(subjectRequest);
     });
 
-    subjects = await Promise.all(subjects);
+    subjectsRequests = await Promise.all(subjectsRequests);
 
-    toKeep.forEach(term => {
-      term = term.body;
-      // this.getSectionsFromTerm(term.code); TODO
+    const terms = toKeep.map(term => {
+      renameKey(term, 'code', 'termId');
+      renameKey(term, 'description', 'text');
+      let host = '';
+      if (term.text.includes('CPS'))
+        host = '/cps';
+      else if (term.text.includes('Law'))
+        host = '/law';
+      else // undergraduate
+        term.text = term.text.replace(/ (Semester|Quarter)/, '');
+      term['host'] = 'neu.edu' + host;
+      return term;
+    });
+
+    const allSubjects = [];
+    terms.forEach(term => {
+      const subjectResponse = subjectsRequests.shift();
+      if (subjectResponse.statusCode !== 200)
+        macros.error('Problem with request for subjects' + subjectResponse.request.uri.href);
+      subjectResponse.body.forEach(subjectData => {
+        allSubjects.push({
+          subject: subjectData.code,
+          text: subjectData.description,
+          termId: term.termId,
+          host: term.host,
+        });
+      });
     });
 
     // await this.getSectionsFromTerm('202010'); TODO
@@ -98,178 +121,21 @@ class Bannerv9Parser {
           url: 'neu.edu',
         },
       ],
-      terms: [
-        {
-          termId: '201960',
-          text: 'Summer 2 2019',
-          host: 'neu.edu',
-        },
-      ],
-      subjects: [
-        {
-          subject: 'TCC',
-          text: 'Technical Communic - CPS',
-          termId: '201925',
-          host: 'neu.edu/cps',
-        },
-      ],
-      classes: [
-        {
-          crns: [],
-          classAttributes: [
-            'No Course Evaluation',
-            'CPS-Professional Programs GR 2',
-          ],
-          desc: 'Focuses on in-depth project in which a student conducts research or produces a product related to the student’s major field. May be repeated without limit. 1.000 TO 4.000 Lecture hours',
-          classId: '7995',
-          prettyUrl: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201925&subj_code_in=TCC&crse_numb_in=7995',
-          name: 'Project',
-          url: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201925&subj_in=TCC&crse_in=7995&schd_in=%',
-          lastUpdateTime: 1554252001221,
-          maxCredits: 4,
-          minCredits: 1,
-          termId: '201925',
-          host: 'neu.edu/cps',
-          subject: 'TCC',
-        },
-        {
-          crns: [
-            '30392',
-            '30393',
-            '34764',
-          ],
-          classAttributes: [
-            'NUpath Natural/Designed World',
-            'UG College of Science',
-          ],
-          prereqs: {
-            type: 'or',
-            values: [
-              {
-                classId: '1145',
-                subject: 'PHYS',
-              },
-              {
-                classId: '1149',
-                subject: 'PHYS',
-              },
-              {
-                classId: '1151',
-                subject: 'PHYS',
-              },
-              {
-                classId: '1161',
-                subject: 'PHYS',
-              },
-              {
-                classId: '1171',
-                subject: 'PHYS',
-              },
-            ],
-          },
-          coreqs: {
-            type: 'and',
-            values: [
-              {
-                classId: '1148',
-                subject: 'PHYS',
-              },
-            ],
-          },
-          maxCredits: 4,
-          minCredits: 4,
-          desc: 'Continues PHYS 1145. Covers heat, electricity, vibrations and waves, sound, geometrical optics, and nuclear physics and radioactivity. The application of physics to a variety of problems in the life and health sciences is emphasized. Electricity topics include electrostatics, capacitance, resistivity, direct-current circuits, and RC circuits. Vibrations and waves topics include simple harmonic motion and wave motion. Sound topics include wave characteristics, the ear, Doppler effect, shock waves, and ultrasound. Optics topics include reflection, mirrors, refraction, total internal reflection, fiber optics, lenses, the eye, telescopes, and microscopes. Nuclear physics and radioactivity topics include atomic nucleus, radioactivity, half-life, radioactive dating, detectors, nuclear reaction, fission, fusion, radiation damage, radiation therapy, PET, and MRI. A laboratory is included. 4.000 Lecture hours',
-          classId: '1147',
-          prettyUrl: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201930&subj_code_in=PHYS&crse_numb_in=1147',
-          name: 'Physics for Life Sciences 2',
-          url: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201930&subj_in=PHYS&crse_in=1147&schd_in=%',
-          lastUpdateTime: 1554252009829,
-          termId: '201930',
-          host: 'neu.edu',
-          subject: 'PHYS',
-        },
-      ],
-      sections: [
-        {
-          seatsCapacity: 25,
-          seatsRemaining: 3,
-          waitCapacity: 99,
-          waitRemaining: 99,
-          online: false,
-          honors: false,
-          url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201930&crn_in=30020',
-          crn: '30020',
-          meetings: [
-            {
-              startDate: 17903,
-              endDate: 18003,
-              profs: [
-                'Deborah Milbauer',
-              ],
-              where: 'Ryder Hall 247',
-              type: 'Class',
-              times: {
-                2: [
-                  {
-                    start: 42300,
-                    end: 48300,
-                  },
-                ],
-              },
-            },
-            {
-              startDate: 17903,
-              endDate: 18003,
-              profs: [
-                'Deborah Milbauer',
-              ],
-              where: 'Ryder Hall 247',
-              type: 'Class',
-              times: {
-                4: [
-                  {
-                    start: 53400,
-                    end: 59400,
-                  },
-                ],
-              },
-            },
-            {
-              startDate: 18005,
-              endDate: 18005,
-              profs: [
-                'Deborah Milbauer',
-              ],
-              where: 'TBA',
-              type: 'Final Exam',
-              times: {
-                5: [
-                  {
-                    start: 37800,
-                    end: 45000,
-                  },
-                ],
-              },
-            },
-          ],
-          lastUpdateTime: 1554252009569,
-          termId: '201930',
-          host: 'neu.edu',
-          subject: 'PHTH',
-          classId: '2350',
-        },
-      ],
+      terms: terms,
+      subjects: allSubjects
+      // TODO
+      classes: null,
+      sections: null,
     };
-
+    macros.log(mergedOutput);
 
     // Possibly save the mergedOutput to disk so we don't have to run all this again
     if (macros.DEV && require.main !== module) {
       await cache.set(macros.DEV_DATA_DIR, this.constructor.name, url, mergedOutput);
-
       // Don't log anything because there would just be too much logging.
     }
 
-    return mergedOutput;
+    return 'end of bannerv9Parser';
   }
 
   /**
@@ -295,7 +161,9 @@ class Bannerv9Parser {
     if (clickContinue.body.regAllowed === false) macros.error(`failed to get cookies (from clickContinue) for the term ${termCode}`, clickContinue);
 
     const cookiejar = request.jar();
-    clickContinue.headers['set-cookie'].forEach((cookie) => { return cookiejar.setCookie(cookie, 'https://nubanner.neu.edu/StudentRegistrationSsb/'); });
+    clickContinue.headers['set-cookie'].forEach((cookie) => {
+      return cookiejar.setCookie(cookie, 'https://nubanner.neu.edu/StudentRegistrationSsb/');
+    });
 
     // second, get the total number of sections in this semester
     let totalCount = await request.get({
@@ -357,6 +225,13 @@ class Bannerv9Parser {
     const output = await this.main('https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?offset=1&max=200&searchTerm=');
     macros.log(output);
   }
+}
+
+// mutates the object directly
+// renameKey({old: 5}, 'old', 'name') -> {name: 5}
+function renameKey(obj, old, name) {
+  obj[name] = obj[old];
+  delete obj[old];
 }
 
 
