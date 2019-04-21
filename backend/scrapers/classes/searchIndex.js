@@ -16,22 +16,18 @@ const elastic = new Client({ node: 'http://192.168.99.100:9200' });
 class SearchIndex {
   // Class Lists object is specific to this file, and is created below.
   async createSearchIndexFromClassLists(termData) {
-    const promises = [];
+    const bulk = [];
     for (const attrName2 of Object.keys(termData.classHash)) {
       const searchResultData = termData.classHash[attrName2];
 
-      const indexData = searchResultData;
-      searchResultData.class.code = searchResultData.class.subject + searchResultData.class.classId;
+      const clas = searchResultData.class;
+      clas.code = clas.subject + clas.classId;
 
-      const promise = elastic.index({
-        id: attrName2,
-        index: 'classes',
-        body: indexData,
-      });
-      await promise;
-      promises.push(promise);
+      bulk.push({ index:{ _id: attrName2 } });
+      bulk.push(searchResultData);
     }
-    //return Promise.all(promises);
+    await elastic.bulk({ index: 'classes', body: bulk });
+    macros.log('indexed ', termData.termId);
   }
 
 
@@ -119,7 +115,6 @@ class SearchIndex {
     const promises = [];
 
     for (const attrName of Object.keys(classLists)) {
-      console.log('indexing', attrName);
       const termData = classLists[attrName];
       promises.push(this.createSearchIndexFromClassLists(termData));
     }
