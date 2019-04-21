@@ -27,10 +27,6 @@ class Keys {
       this.endpoint = endpoint;
     }
 
-    console.log(obj, endpoint, config)
-    console.trace()
-
-
     // Get string off object if creating with string
     if (obj.desc && obj.host && config.stringAllowed) {
       this.host = obj.host;
@@ -121,7 +117,6 @@ class Keys {
         macros.error();
         return null;
       }
-
       return `${this.host}/${this.desc.replace(Keys.replacementRegex, '_')}`;
     }
     if (this.hash) {
@@ -298,7 +293,7 @@ class Keys {
 
 
 Keys.allKeys = ['host', 'termId', 'subject', 'classId', 'crn'];
-Keys.replacementRegex = /[^A-Za-z0-9.]+/g;
+Keys.replacementRegex = /[^A-Za-z0-9.]/g;
 
 
 // endpoint string here
