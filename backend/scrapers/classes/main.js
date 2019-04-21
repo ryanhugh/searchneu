@@ -181,6 +181,7 @@ class Main {
     if (macros.DEV && require.main !== module) {
       const devData = await cache.get(macros.DEV_DATA_DIR, 'classes', cacheKey);
       if (devData) {
+        await searchIndex.main(devData);
         return devData;
       }
     }
