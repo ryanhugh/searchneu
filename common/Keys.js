@@ -4,7 +4,7 @@
  */
 
 // This file manages the creation of hashes from (host, term, subject, classes, or section) objects.
-// Eg Class() that has host: 'neu.edu', termId: '201920', ... crn: '23456' 
+// Eg Class() that has host: 'neu.edu', termId: '201920', ... crn: '23456'
 // would be turned into a hash, eg: 'neu.edu/201920/CS/2500/23456'
 // These hashes are deterministic - will always get the same output for a given input
 // Yes, this hash isn't actually a hash - there is information about the output in here - but lets treat it as though it is.
@@ -13,7 +13,6 @@
 // TODO: explain better
 // don't substring the hashes
 // Don't substring the hash for more information about somet
-
 
 
 // This file is used to manage the {host:, termId: subject:...} objects used to get more data.
@@ -25,7 +24,7 @@ import macros from './commonMacros';
 // feature request from server.js: add classId if not given classId and given host+termId+subject
 // addclassIds. could also benefit from this feature.
 
-const minData = 2;
+// const minData = 2;
 
 const KEYS_REGEX = /[^A-Za-z0-9.]/g;
 
@@ -34,7 +33,6 @@ class Keys {
   //   if (obj instanceof Keys) {
   //     macros.error("Keys given instance of itself");
   //   }
-
 
 
   //   if (obj instanceof Keys || !obj || (!obj.hash && !obj.host) || obj.isString) {
@@ -103,32 +101,31 @@ class Keys {
       return null;
     }
 
-    let keys = Keys.allKeys.slice(0, endIndex);
+    const keys = Keys.allKeys.slice(0, endIndex);
 
     const output = [];
 
-    for (let key of keys) {
-
+    for (const key of keys) {
       // Make sure it has ever key it should.
       if (!obj[key]) {
         return null;
       }
 
       output.push(obj[key].replace(KEYS_REGEX, '_'));
-   }
+    }
 
-   if (output.length > 0) {
-     return output.join('/');
-   }
+    if (output.length > 0) {
+      return output.join('/');
+    }
 
-   return '';
+    return '';
   }
 
   static getHostHash(obj) {
-    let hash = this.getHashWithKeysSlice(obj, 1);
+    const hash = this.getHashWithKeysSlice(obj, 1);
 
     if (!hash) {
-      macros.error("Can't make host hash invalid info", obj)
+      macros.error("Can't make host hash invalid info", obj);
       return null;
     }
 
@@ -137,10 +134,10 @@ class Keys {
 
 
   static getTermHash(obj) {
-    let hash = this.getHashWithKeysSlice(obj, 2);
+    const hash = this.getHashWithKeysSlice(obj, 2);
 
     if (!hash) {
-      macros.error("Can't make term hash invalid info", obj)
+      macros.error("Can't make term hash invalid info", obj);
       return null;
     }
 
@@ -148,10 +145,10 @@ class Keys {
   }
 
   static getSubjectHash(obj) {
-    let hash = this.getHashWithKeysSlice(obj, 3);
+    const hash = this.getHashWithKeysSlice(obj, 3);
 
     if (!hash) {
-      macros.error("Can't make subject hash invalid info", obj)
+      macros.error("Can't make subject hash invalid info", obj);
       return null;
     }
 
@@ -159,12 +156,11 @@ class Keys {
   }
 
 
-
   static getClassHash(obj) {
-    let hash = this.getHashWithKeysSlice(obj, 4);
+    const hash = this.getHashWithKeysSlice(obj, 4);
 
     if (!hash) {
-      macros.error("Can't make class hash invalid info", obj)
+      macros.error("Can't make class hash invalid info", obj);
       return null;
     }
 
@@ -173,17 +169,15 @@ class Keys {
 
 
   static getSectionHash(obj) {
-    let hash = this.getHashWithKeysSlice(obj, 5);
+    const hash = this.getHashWithKeysSlice(obj, 5);
 
     if (!hash) {
-      macros.error("Can't make section hash invalid info", obj)
+      macros.error("Can't make section hash invalid info", obj);
       return null;
     }
 
     return hash;
   }
-
-
 
 
   // // returns neu.edu/201710/CS/4800_4444444/1234, etc
@@ -218,12 +212,10 @@ class Keys {
   //   // Possible if looking up all hosts
   //   return '';
   // }
-
 }
 
 
 Keys.allKeys = ['host', 'termId', 'subject', 'classId', 'crn'];
-
 
 
 // endpoint string here
