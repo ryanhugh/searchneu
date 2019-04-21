@@ -7,12 +7,8 @@
 // Eg Class() that has host: 'neu.edu', termId: '201920', ... crn: '23456'
 // would be turned into a hash, eg: 'neu.edu/201920/CS/2500/23456'
 // These hashes are deterministic - will always get the same output for a given input
-// Yes, this hash isn't actually a hash - there is information about the output in here - but lets treat it as though it is.
-
-
-// TODO: explain better
-// don't substring the hashes
-// Don't substring the hash for more information about somet
+// Yes, this hash isn't actually a hash - there is information about the input in the output to help debug - but lets treat it as though it is.
+// So like, don't do hash.splice('/') - just create another hash with the info and compare them
 
 
 // This file is used to manage the {host:, termId: subject:...} objects used to get more data.
@@ -20,17 +16,15 @@
 // So anything that is required is is added many different places.
 import macros from './commonMacros';
 
-
-// feature request from server.js: add classId if not given classId and given host+termId+subject
-// addclassIds. could also benefit from this feature.
-
-// const minData = 2;
-
 const KEYS_REGEX = /[^A-Za-z0-9.]/g;
 
 class Keys {
+  static allKeys = ['host', 'termId', 'subject', 'classId', 'crn']
  
   // Internal use only.
+  // Gets a hash from the object from 0 to the given key index
+  // eg if key index is 3 it would be a subject hash - host, termId, subject
+  // returns the hash - a string
   static getHashWithKeysSlice(obj, endIndex) {
     if (!obj) {
       return null;
@@ -56,6 +50,7 @@ class Keys {
     return '';
   }
 
+  // Takes in an object with a host field and returns a host hash
   static getHostHash(obj) {
     const hash = this.getHashWithKeysSlice(obj, 1);
 
@@ -67,7 +62,7 @@ class Keys {
     return hash;
   }
 
-
+  // Takes in an object with a host,termId field and returns a term hash
   static getTermHash(obj) {
     const hash = this.getHashWithKeysSlice(obj, 2);
 
@@ -79,6 +74,7 @@ class Keys {
     return hash;
   }
 
+  // Takes in an object with a host,termId,subject field and returns a subject hash
   static getSubjectHash(obj) {
     const hash = this.getHashWithKeysSlice(obj, 3);
 
@@ -91,6 +87,7 @@ class Keys {
   }
 
 
+  // Takes in an object with a host,termId,subject,classId field and returns a class hash
   static getClassHash(obj) {
     const hash = this.getHashWithKeysSlice(obj, 4);
 
@@ -102,7 +99,7 @@ class Keys {
     return hash;
   }
 
-
+  // Takes in an object with a host,termId,subject,classId,crn field and returns a section hash
   static getSectionHash(obj) {
     const hash = this.getHashWithKeysSlice(obj, 5);
 
@@ -113,14 +110,8 @@ class Keys {
 
     return hash;
   }
-
 }
 
 
-Keys.allKeys = ['host', 'termId', 'subject', 'classId', 'crn'];
-
-
-// endpoint string here
-// -- grab from dump database, server, all the datas, and ctrl f frontend backend
 
 export default Keys;
