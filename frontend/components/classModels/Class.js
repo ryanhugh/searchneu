@@ -59,15 +59,14 @@ class Class {
     return instance;
   }
 
-  //TODO here
-  //abstrat away some of the checks that are the same accross fns here
-
-  loadFromClassMap(classMap) {
-    const hash = Keys.getClassHash(this);
-
-    this.updateWithData(classMap[hash]);
+  // Returns a hash of this object used for referencing this instance - eg neu.edu/201910/CS/2500
+  getHash() {
+    return Keys.getClassHash(this);
   }
 
+  loadFromClassMap(classMap) {
+    this.updateWithData(classMap[this.getHash()]);
+  }
 
   convertServerRequisites(data) {
     let retVal = {};

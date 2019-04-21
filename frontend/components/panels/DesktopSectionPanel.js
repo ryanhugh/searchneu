@@ -119,7 +119,7 @@ export default class DesktopSectionPanel extends React.Component {
 
 
     return (
-      <tr key={ Keys.getSectionHash(this.props.section) }>
+      <tr key={ this.props.section.getHash() }>
         <td>
           {this.props.section.crn}
         </td>

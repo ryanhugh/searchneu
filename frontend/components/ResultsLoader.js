@@ -122,10 +122,10 @@ class ResultsLoader extends React.Component {
             {this.state.visibleObjects.map((obj) => {
               if (obj.type === 'class') {
                 if (macros.isMobile) {
-                  return <MobileClassPanel key={ Keys.getClassHash(obj.data) } aClass={ obj.data } />;
+                  return <MobileClassPanel key={ obj.data.getHash() } aClass={ obj.data } />;
                 }
 
-                return <DesktopClassPanel key={ Keys.getClassHash(obj.data) } aClass={ obj.data } />;
+                return <DesktopClassPanel key={ obj.data.getHash() } aClass={ obj.data } />;
               }
               if (obj.type === 'employee') {
                 return <EmployeePanel key={ obj.data.id } employee={ obj.data } />;
