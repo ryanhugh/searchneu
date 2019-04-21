@@ -8,14 +8,9 @@ import macros from '../../macros';
 import Keys from '../../../common/Keys';
 import mapping from './esMapping.json';
 
-const client = new Client({ node: 'http://192.168.99.100:9200' });
+const elastic = new Client({ node: 'http://192.168.99.100:9200' });
 
 // Creates the search index for classes
-
-// TODO: figure out how to have acronym skip the search pipeline.
-// The pipeline strips different endings of different words
-// eg, it treats [fcs] the same as [fc].
-// Which might not always be the same.
 
 
 class SearchIndex {
@@ -24,10 +19,14 @@ class SearchIndex {
     const promises = [];
     for (const attrName2 of Object.keys(termData.classHash)) {
       const searchResultData = termData.classHash[attrName2];
-      const promise = client.index({
+
+      const indexData = searchResultData;
+      searchResultData.class.code = searchResultData.class.subject + searchResultData.class.classId;
+
+      const promise = elastic.index({
         id: attrName2,
         index: 'classes',
-        body: searchResultData,
+        body: indexData,
       });
       await promise;
       promises.push(promise);
@@ -106,10 +105,10 @@ class SearchIndex {
     }
 
     // Clear out the classes index.
-    await client.indices.delete({ index: 'classes' }).catch(() => {});
+    await elastic.indices.delete({ index: 'classes' }).catch(() => {});
     try {
       // Put in the new classes mapping (elasticsearch doesn't let you change mapping of existing index)
-      await client.indices.create({
+      await elastic.indices.create({
         index: 'classes',
         body: mapping,
       });

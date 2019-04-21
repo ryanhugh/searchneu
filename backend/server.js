@@ -3,6 +3,7 @@
  * See the license file in the root folder for details.
  */
 
+import { Client } from '@elastic/elasticsearch';
 import path from 'path';
 import express from 'express';
 import webpack from 'webpack';
@@ -33,6 +34,7 @@ import DataLib from './DataLib';
 // and calls out to respective files depending on what was called
 
 const request = new Request('server');
+const elastic = new Client({ node: 'http://192.168.99.100:9200' });
 
 const app = express();
 
@@ -327,34 +329,44 @@ app.get('/search', wrap(async (req, res) => {
   }
 
 
-  const index = (await promises).search;
-
-  if (!index) {
-    // Don't cache errors.
-    res.setHeader('Cache-Control', 'no-cache, no-store');
-    res.send('Could not start backend. No data found.');
-    return;
-  }
-
-  const startTime = Date.now();
-  const searchOutput = index.search(req.query.query, req.query.termId, minIndex, maxIndex);
+  const searchOutput = await elastic.search({
+    index: 'classes',
+    from: minIndex,
+    size: maxIndex - minIndex,
+    body: {
+      query: {
+        multi_match: {
+          query: req.query.query,
+          fields: [
+            'class.name',
+            'class.code^2',
+          ],
+        },
+      },
+    },
+  });
+  // eslint-disable-next-line no-underscore-dangle
+  const searchContent = searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score, type: 'class' }; });
   const midTime = Date.now();
 
   let string;
   if (req.query.apiVersion === '2') {
-    string = JSON.stringify(searchOutput.resultsObject);
+    string = JSON.stringify({ results: searchContent });
   } else {
-    string = JSON.stringify(searchOutput.resultsObject.results);
+    string = JSON.stringify(searchContent);
   }
 
-  const analytics = searchOutput.analytics;
-
-  analytics.searchTime = midTime - startTime;
-  analytics.stringifyTime = Date.now() - midTime;
+  // Not sure I am logging all the necessary analytics
+  const took = searchOutput.body.took;
+  const analytics = {
+    searchTime: took,
+    stringifyTime: Date.now() - midTime,
+    resultCount: searchOutput.body.hits.total.value,
+  };
 
   macros.logAmplitudeEvent('Backend Search', analytics);
 
-  macros.log(getTime(), getIpPath(req), 'Search for', req.query.query, 'from', minIndex, 'to', maxIndex, 'took', midTime - startTime, 'ms and stringify took', Date.now() - midTime, 'with', analytics.resultCount, 'results');
+  macros.log(getTime(), getIpPath(req), 'Search for', req.query.query, 'from', minIndex, 'to', maxIndex, 'took', took, 'ms and stringify took', Date.now() - midTime, 'with', analytics.resultCount, 'results');
 
   // Set the header for application/json and send the data.
   res.setHeader('Content-Type', 'application/json; charset=UTF-8');

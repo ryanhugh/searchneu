@@ -9,10 +9,14 @@
             "search_analyzer": "autocomplete_search"
           },
           "classId": {
-            "type": "text"
+            "type": "keyword"
           },
           "subject": {
             "type": "text"
+          },
+          "code": {
+            "type": "text",
+            "analyzer": "course_code"
           },
           "prereqs": {
             "type": "object",
@@ -31,6 +35,10 @@
         },
         "autocomplete_search": {
           "tokenizer": "lowercase"
+        },
+        "course_code": {
+          "tokenizer": "standard",
+          "filter": ["lowercase", "word_delimiter"]
         }
       },
       "tokenizer": {
