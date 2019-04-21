@@ -353,12 +353,12 @@ class BaseClassPanel extends React.Component {
       <div>
         <div>
           {this.state.renderedSections.map((aClass) => {
-            return Keys.create(aClass).getHash();
+            return Keys.getClassHash(aClass);
           })}
         </div>
         <div>
           {this.state.unrenderedSections.map((aClass) => {
-            return Keys.create(aClass).getHash();
+            return Keys.getClassHash(aClass);
           })}
         </div>
       </div>

@@ -66,7 +66,7 @@ class TermDump {
     }
 
     for (const section of termDump.sections) {
-      const hash = Keys.create(section).getHash();
+      const hash = Keys.getSectionHash(section);
 
       const termHash = Keys.getTermHash({
         host: section.host,

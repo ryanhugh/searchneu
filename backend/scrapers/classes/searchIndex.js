@@ -22,7 +22,7 @@ import Keys from '../../../common/Keys';
 class SearchIndex {
   // Class Lists object is specific to this file, and is created below.
   async createSearchIndexFromClassLists(termData) {
-    const keys = Keys.create(termData);
+    // const keys = Keys.create(termData);
 
     // One possibility for this is to create a custom elastic search index.
     // By default, the input fields are ran though three pipeline functions.
@@ -146,7 +146,7 @@ class SearchIndex {
 
     const searchIndexString = JSON.stringify(index.toJSON());
 
-    const fileName = path.join(macros.PUBLIC_DIR, `/getSearchIndex/${keys.getTermHash()}.json`);
+    const fileName = path.join(macros.PUBLIC_DIR, `/getSearchIndex/${Keys.getTermHash(termData)}.json`);
     const folderName = path.dirname(fileName);
 
     await mkdirp(folderName);

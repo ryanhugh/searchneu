@@ -135,7 +135,7 @@ class MobileClassPanel extends BaseClassPanel {
 
     if (aClass.sections && aClass.sections.length > 0) {
       sectionTable = this.state.renderedSections.map((section) => {
-        return <MobileSectionPanel key={ Keys.create(section).getHash() } section={ section } />;
+        return <MobileSectionPanel key={ Keys.getSectionHash(section) } section={ section } />;
       });
     }
 
