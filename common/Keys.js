@@ -21,7 +21,7 @@ const KEYS_REGEX = /[^A-Za-z0-9.]/g;
 class Keys {
   // The five keys to track the five different data structures
   static allKeys = ['host', 'termId', 'subject', 'classId', 'crn']
- 
+
   // Internal use only.
   // Gets a hash from the object from 0 to the given key index
   // eg if key index is 3 it would be a subject hash - host, termId, subject
@@ -112,7 +112,6 @@ class Keys {
     return hash;
   }
 }
-
 
 
 export default Keys;

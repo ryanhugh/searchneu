@@ -11,7 +11,6 @@ import MobileSectionPanel from './MobileSectionPanel';
 import BaseClassPanel from './BaseClassPanel';
 import macros from '../macros';
 import SignUpForNotifications from '../SignUpForNotifications';
-import Keys from '../../../common/Keys';
 
 import chevronDown from './chevron-down.svg';
 import chevronRight from './chevron-right.svg';

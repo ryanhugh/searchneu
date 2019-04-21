@@ -7,7 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import RequisiteBranch from '../classModels/RequisiteBranch';
-import Keys from '../../../common/Keys';
 import macros from '../macros';
 
 class BaseClassPanel extends React.Component {

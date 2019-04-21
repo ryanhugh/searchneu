@@ -10,7 +10,6 @@ import { Button, Modal } from 'semantic-ui-react';
 import macros from './macros';
 import facebook from './facebook';
 import user from './user';
-import Keys from '../../common/Keys';
 
 // This file is responsible for the Sign Up for notifications flow.
 // First, this will render a button that will say something along the lines of "Get notified when...!"
