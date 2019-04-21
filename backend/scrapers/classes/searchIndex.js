@@ -20,6 +20,8 @@ class SearchIndex {
     for (const attrName2 of Object.keys(termData.classHash)) {
       const searchResultData = termData.classHash[attrName2];
 
+      // Add a code attribute (CS2500) and tokenize it using word_delimiter
+      // This allows "cs2500" and "cs 2500" to both find class.code correctly.
       const clas = searchResultData.class;
       clas.code = clas.subject + clas.classId;
 

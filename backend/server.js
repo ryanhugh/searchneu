@@ -335,12 +335,21 @@ app.get('/search', wrap(async (req, res) => {
     size: maxIndex - minIndex,
     body: {
       query: {
-        multi_match: {
-          query: req.query.query,
-          fields: [
-            'class.name',
-            'class.code^2',
-          ],
+        bool: {
+          must: {
+            multi_match: {
+              query: req.query.query,
+              fields: [
+                'class.name',
+                'class.code^2',
+              ],
+            },
+          },
+          filter: {
+            term: {
+              'class.termId': req.query.termId,
+            },
+          },
         },
       },
     },

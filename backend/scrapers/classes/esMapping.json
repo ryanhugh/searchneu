@@ -8,6 +8,9 @@
             "analyzer": "autocomplete",
             "search_analyzer": "autocomplete_search"
           },
+          "crns": {
+            "type": "keyword"
+          },
           "classId": {
             "type": "keyword"
           },
@@ -21,8 +24,24 @@
           "prereqs": {
             "type": "object",
             "enabled": false
+          },
+          "coreqs": {
+            "type": "object",
+            "enabled": false
+          },
+          "optPrereqsFor": {
+            "type": "object",
+            "enabled": false
+          },
+          "prereqsFor": {
+            "type": "object",
+            "enabled": false
           }
         }
+      },
+      "sections": {
+        "type": "object",
+        "enabled": false
       }
     }
   },
