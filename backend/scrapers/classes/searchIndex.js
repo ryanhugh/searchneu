@@ -19,9 +19,6 @@ import Keys from '../../../common/Keys';
 // eg, it treats [fcs] the same as [fc].
 // Which might not always be the same.
 
-
-const getSearchIndex = '/getSearchIndex';
-
 class SearchIndex {
   // Class Lists object is specific to this file, and is created below.
   async createSearchIndexFromClassLists(termData) {
@@ -149,7 +146,7 @@ class SearchIndex {
 
     const searchIndexString = JSON.stringify(index.toJSON());
 
-    const fileName = path.join(macros.PUBLIC_DIR, `${keys.getHashWithEndpoint(getSearchIndex)}.json`);
+    const fileName = path.join(macros.PUBLIC_DIR, `/getSearchIndex/${keys.getHash()}.json`);
     const folderName = path.dirname(fileName);
 
     await mkdirp(folderName);

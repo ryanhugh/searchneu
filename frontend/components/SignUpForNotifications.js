@@ -132,6 +132,8 @@ class SignUpForNotifications extends React.Component {
       loginKey: loginKey,
     }));
 
+    console.log(Keys.create(aClass).getHash(), aClass)
+
     return (
       <div ref={ (ele) => { this.facebookScopeRef = ele; } } className='inlineBlock'>
         <div

@@ -27,6 +27,9 @@ class Keys {
       this.endpoint = endpoint;
     }
 
+    console.log(obj, endpoint, config)
+    console.trace()
+
 
     // Get string off object if creating with string
     if (obj.desc && obj.host && config.stringAllowed) {
