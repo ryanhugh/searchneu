@@ -61,7 +61,7 @@ class SearchIndex {
         desc: searchResultData.class.desc.replace(/^\W+/, '').replace(/\W+$/, ''),
         subject: searchResultData.class.subject,
         name: searchResultData.class.name,
-        key: Keys.create(searchResultData.class).getHash(),
+        key: Keys.getClassHash(searchResultData.class),
       };
 
       let profs = [];
@@ -146,7 +146,7 @@ class SearchIndex {
 
     const searchIndexString = JSON.stringify(index.toJSON());
 
-    const fileName = path.join(macros.PUBLIC_DIR, `/getSearchIndex/${keys.getHash()}.json`);
+    const fileName = path.join(macros.PUBLIC_DIR, `/getSearchIndex/${keys.getTermHash()}.json`);
     const folderName = path.dirname(fileName);
 
     await mkdirp(folderName);
@@ -159,12 +159,12 @@ class SearchIndex {
     const classLists = {};
 
     termDump.classes.forEach((aClass) => {
-      const termHash = Keys.create({
+      const termHash = Keys.getTermHash({
         host: aClass.host,
         termId: aClass.termId,
-      }).getHash();
+      });
 
-      const classHash = Keys.create(aClass).getHash();
+      const classHash = Keys.getClassHash(aClass);
 
       if (!classLists[termHash]) {
         classLists[termHash] = {
@@ -182,17 +182,17 @@ class SearchIndex {
 
 
     termDump.sections.forEach((section) => {
-      const termHash = Keys.create({
+      const termHash = Keys.getTermHash({
         host: section.host,
         termId: section.termId,
-      }).getHash();
+      });
 
-      const classHash = Keys.create({
+      const classHash = Keys.getClassHash({
         host: section.host,
         termId: section.termId,
         subject: section.subject,
         classId: section.classId,
-      }).getHash();
+      });
 
 
       if (!classLists[termHash]) {
