@@ -1,5 +1,177 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`hi there 2 1`] = `
+Object {
+  "postUrl": "https://wl11gp.neu.edu/udcprod8/bwckgens.p_proc_term_date",
+  "terms": Array [
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "subCollegeName": "LAW",
+        "termId": "201718",
+        "text": "Fall 2016 Quarter",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "subCollegeName": "CPS",
+        "termId": "201715",
+        "text": "Fall 2016 Quarter",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "subCollegeName": "CPS",
+        "termId": "201714",
+        "text": "Fall 2016 Semester",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "subCollegeName": "LAW",
+        "termId": "201712",
+        "text": "Fall 2016 Semester",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "termId": "201710",
+        "text": "Fall 2016",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "termId": "201660",
+        "text": "Summer 2 2016",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "subCollegeName": "LAW",
+        "termId": "201658",
+        "text": "Summer 2016 Quarter",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "subCollegeName": "CPS",
+        "termId": "201655",
+        "text": "Summer 2016 Quarter",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "termId": "201652",
+        "text": "Summer 2016 Law",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "termId": "201650",
+        "text": "Summer Full 2016",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "termId": "201640",
+        "text": "Summer 1 2016",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "subCollegeName": "LAW",
+        "termId": "201638",
+        "text": "Spring 2016 Quarter",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "subCollegeName": "CPS",
+        "termId": "201635",
+        "text": "Spring 2016 Quarter",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "subCollegeName": "LAW",
+        "termId": "201632",
+        "text": "Spring 2016 Semester",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "termId": "201630",
+        "text": "Spring 2016",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "subCollegeName": "LAW",
+        "termId": "201628",
+        "text": "Winter 2016 Quarter",
+      },
+    },
+    Object {
+      "deps": null,
+      "type": "terms",
+      "value": Object {
+        "host": "neu.edu",
+        "subCollegeName": "CPS",
+        "termId": "201625",
+        "text": "Winter 2016 Quarter",
+      },
+    },
+  ],
+}
+`;
+
 exports[`should behave... 1`] = `
 Object {
   "postUrl": "https://bannerweb.upstate.edu/isis/bwckgens.p_proc_term_date",
