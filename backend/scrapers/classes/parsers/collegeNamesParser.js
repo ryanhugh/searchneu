@@ -27,21 +27,6 @@ import cache from '../../cache';
 import BaseParser from './baseParser';
 
 
-const staticHosts = [
-  {
-    includes:'Law',
-    mainHost:'neu.edu',
-    title:'Northeastern University Law',
-    host:'neu.edu/law',
-  },
-  {
-    includes:'CPS',
-    mainHost:'neu.edu',
-    title:'Northeastern University CPS',
-    host:'neu.edu/cps',
-  }];
-
-
 class CollegeNamesParser extends BaseParser.BaseParser {
   async main(hostname) {
     if (macros.DEV && require.main !== module) {
@@ -59,23 +44,6 @@ class CollegeNamesParser extends BaseParser.BaseParser {
     }
 
     return title;
-  }
-
-
-  // This function modifies the TERM STRING ITSELF (IT REMOVES THE PART FOUND IN THE COLLEGE NAME)
-  // AND ALSO THIS FILE SHOULD ALLWAYS RETURN THE STATIC HOSTS
-  // YEAH
-  getHostForTermTitle(mainHost, termString) {
-    for (let i = 0; i < staticHosts.length; i++) {
-      const staticHost = staticHosts[i];
-      if (staticHost.mainHost === mainHost && termString.includes(staticHost.includes)) {
-        return {
-          host:staticHost.host,
-          text:termString.replace(staticHost.includes, '').replace(/\s+/gi, ' ').trim(),
-        };
-      }
-    }
-    return null;
   }
 
 
