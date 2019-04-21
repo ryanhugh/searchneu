@@ -375,8 +375,7 @@ class Class {
 
   loadSectionsFromSectionMap(sectionMap) {
     if (this.isString) {
-      macros.error('ERROR cant load sections of !class or string');
-      macros.error('!class or string');
+      macros.error('ERROR cant load sections of class.string');
       return;
     }
 
