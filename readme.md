@@ -24,7 +24,7 @@ Feel free to reach out if you have any questions! hey@searchneu.com
 
 ### API 🎉👍
 
-All the data on Search NEU is availible to download! For more details see [the documentation](https://github.com/ryanhugh/searchneu/blob/master/docs/API.md). 
+All the data on Search NEU is available to download! For more details see [the documentation](https://github.com/ryanhugh/searchneu/blob/master/docs/API.md). 
 
 
 ### License

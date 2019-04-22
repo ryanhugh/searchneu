@@ -22,7 +22,7 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
    */
   go(termDump) {
     for (const aClass of termDump.classes) {
-      const key = Keys.create(aClass).getHash();
+      const key = Keys.getClassHash(aClass);
 
       // Reset all the prereqsFor arrays at the beginning of each time this is ran over a termDump.
       this.initializeArray(aClass);
@@ -64,12 +64,12 @@ class AddPreRequisiteFor extends BaseProcessor.BaseProcessor {
 
     // Get the the class we wish to refere to
     if (this.isClass(node)) {
-      const find = Keys.create({
+      const find = Keys.getClassHash({
         host: mainClass.host,
         termId: mainClass.termId,
         subject: node.subject,
         classId: node.classId,
-      }).getHash();
+      });
 
       const nodeRef = this.classMap[find];
 

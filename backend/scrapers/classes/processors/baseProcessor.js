@@ -18,7 +18,7 @@ class BaseProcessor {
         classId: section.classId,
       };
 
-      const hash = Keys.create(obj).getHash();
+      const hash = Keys.getClassHash(obj);
 
       if (!classHash[hash]) {
         classHash[hash] = [];
@@ -41,7 +41,7 @@ class BaseProcessor {
       }
 
       // multiple classes could have same key
-      const hash = Keys.create(aClass).getHash();
+      const hash = Keys.getClassHash(aClass);
 
       // only need to keep subject and classId
       keyToRows[hash] = aClass;

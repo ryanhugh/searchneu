@@ -5,6 +5,7 @@
 
 import _ from 'lodash';
 
+import Keys from '../../../common/Keys';
 import macros from '../macros';
 import Meeting from './Meeting';
 
@@ -29,6 +30,9 @@ class Section {
     return instance;
   }
 
+  getHash() {
+    return Keys.getSectionHash(this);
+  }
 
   meetsOnWeekends() {
     return this.meetings.some((meeting) => { return meeting.getMeetsOnWeekends(); });

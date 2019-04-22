@@ -130,6 +130,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     // This is where we merge it into the data from the section parser.
     Object.assign(fullSectiondata, dataFromSectionPage, sectionStartingData);
 
+
     // Run some checks and merge some data into the class object.
     if (fullSectiondata.prereqs) {
       // If they both exists and are different I don't really have a great idea of what to do haha
@@ -169,6 +170,12 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     fullSectiondata.maxCredits = undefined;
 
 
+    classWrapper.value.feeDescription = fullSectiondata.feeDescription;
+    classWrapper.value.feeAmount = fullSectiondata.feeAmount;
+    fullSectiondata.feeDescription = undefined;
+    fullSectiondata.feeAmount = undefined;
+
+
     // Check to make sure there is no room assigned for a class that is online.
     if (fullSectiondata.online && fullSectiondata.meetings) {
       for (const meeting of fullSectiondata.meetings) {
@@ -198,6 +205,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
       type: 'classes',
       value: {
         crns: [],
+        classAttributes: [],
       },
       deps: [],
     };
@@ -294,6 +302,31 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
       let classDetails = element.next;
       while (classDetails.type !== 'tag') {
         classDetails = classDetails.next;
+      }
+
+      const items = $('.fieldlabeltext', classDetails);
+
+      let classAttributes = [];
+
+      for (let i = 0; i < items.length; i++) {
+        if ($(items[i]).text().trim().toLowerCase() === 'classAttributes:') {
+          classAttributes = items[i].nextSibling.data.trim().split(', ');
+
+          for (let k = 0; k < classAttributes.length; k++) {
+            classAttributes[k] = classAttributes[k].trim();
+          }
+
+          // If class attributes doesn't already exist on this class object, assign it
+          if (!classWrapper.value.classAttributes) {
+            classWrapper.value.classAttributes = classAttributes;
+          } else if (!_.isEquals(classAttributes, classWrapper.value.classAttributes)) {
+            // If it does, just log a warning and don't re-assign
+            macros.log('Warning: class classAttributes are different than a different section on this same class.');
+          }
+
+
+          break;
+        }
       }
 
       // Find the table in this section.

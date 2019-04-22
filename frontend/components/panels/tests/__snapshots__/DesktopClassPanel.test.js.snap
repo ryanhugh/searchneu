@@ -289,6 +289,40 @@ ShallowWrapper {
               None
             </span>
              
+            <br />
+            <Collapsible
+              className=""
+              classParentString="Collapsible"
+              contentContainerTagName="div"
+              contentInnerClassName=""
+              contentOuterClassName=""
+              easing="linear"
+              lazyRender={false}
+              onClose={[Function]}
+              onClosing={[Function]}
+              onOpen={[Function]}
+              onOpening={[Function]}
+              open={false}
+              openedClassName=""
+              overflowWhenOpen="hidden"
+              tabIndex={null}
+              transitionCloseTime={null}
+              transitionTime={400}
+              trigger="Show Course Attributes"
+              triggerClassName=""
+              triggerDisabled={false}
+              triggerOpenedClassName=""
+              triggerSibling={null}
+              triggerStyle={null}
+              triggerTagName="span"
+            >
+              <div />
+            </Collapsible>
+            <div>
+              <div
+                className="inlineBlock"
+              />
+            </div>
           </div>
           <div
             className="rightPanel"
@@ -852,6 +886,40 @@ ShallowWrapper {
                 None
               </span>
                
+              <br />
+              <Collapsible
+                className=""
+                classParentString="Collapsible"
+                contentContainerTagName="div"
+                contentInnerClassName=""
+                contentOuterClassName=""
+                easing="linear"
+                lazyRender={false}
+                onClose={[Function]}
+                onClosing={[Function]}
+                onOpen={[Function]}
+                onOpening={[Function]}
+                open={false}
+                openedClassName=""
+                overflowWhenOpen="hidden"
+                tabIndex={null}
+                transitionCloseTime={null}
+                transitionTime={400}
+                trigger="Show Course Attributes"
+                triggerClassName=""
+                triggerDisabled={false}
+                triggerOpenedClassName=""
+                triggerSibling={null}
+                triggerStyle={null}
+                triggerTagName="span"
+              >
+                <div />
+              </Collapsible>
+              <div>
+                <div
+                  className="inlineBlock"
+                />
+              </div>
             </div>,
             <div
               className="rightPanel"
@@ -1134,6 +1202,40 @@ ShallowWrapper {
                 </span>,
                 " ",
                 null,
+                <br />,
+                <Collapsible
+                  className=""
+                  classParentString="Collapsible"
+                  contentContainerTagName="div"
+                  contentInnerClassName=""
+                  contentOuterClassName=""
+                  easing="linear"
+                  lazyRender={false}
+                  onClose={[Function]}
+                  onClosing={[Function]}
+                  onOpen={[Function]}
+                  onOpening={[Function]}
+                  open={false}
+                  openedClassName=""
+                  overflowWhenOpen="hidden"
+                  tabIndex={null}
+                  transitionCloseTime={null}
+                  transitionTime={400}
+                  trigger="Show Course Attributes"
+                  triggerClassName=""
+                  triggerDisabled={false}
+                  triggerOpenedClassName=""
+                  triggerSibling={null}
+                  triggerStyle={null}
+                  triggerTagName="span"
+                >
+                  <div />
+                </Collapsible>,
+                <div>
+                  <div
+                    className="inlineBlock"
+                  />
+                </div>,
               ],
               "className": "leftPanel",
             },
@@ -1226,6 +1328,85 @@ ShallowWrapper {
               },
               " ",
               null,
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "children": <div />,
+                  "className": "",
+                  "classParentString": "Collapsible",
+                  "contentContainerTagName": "div",
+                  "contentInnerClassName": "",
+                  "contentOuterClassName": "",
+                  "easing": "linear",
+                  "lazyRender": false,
+                  "onClose": [Function],
+                  "onClosing": [Function],
+                  "onOpen": [Function],
+                  "onOpening": [Function],
+                  "open": false,
+                  "openedClassName": "",
+                  "overflowWhenOpen": "hidden",
+                  "tabIndex": null,
+                  "transitionCloseTime": null,
+                  "transitionTime": 400,
+                  "trigger": "Show Course Attributes",
+                  "triggerClassName": "",
+                  "triggerDisabled": false,
+                  "triggerOpenedClassName": "",
+                  "triggerSibling": null,
+                  "triggerStyle": null,
+                  "triggerTagName": "span",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": undefined,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "div",
+                },
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": <div
+                    className="inlineBlock"
+                  />,
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": null,
+                    "className": "inlineBlock",
+                    "data-tip": undefined,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "div",
+                },
+                "type": "div",
+              },
             ],
             "type": "div",
           },
@@ -2693,6 +2874,40 @@ ShallowWrapper {
                 None
               </span>
                
+              <br />
+              <Collapsible
+                className=""
+                classParentString="Collapsible"
+                contentContainerTagName="div"
+                contentInnerClassName=""
+                contentOuterClassName=""
+                easing="linear"
+                lazyRender={false}
+                onClose={[Function]}
+                onClosing={[Function]}
+                onOpen={[Function]}
+                onOpening={[Function]}
+                open={false}
+                openedClassName=""
+                overflowWhenOpen="hidden"
+                tabIndex={null}
+                transitionCloseTime={null}
+                transitionTime={400}
+                trigger="Show Course Attributes"
+                triggerClassName=""
+                triggerDisabled={false}
+                triggerOpenedClassName=""
+                triggerSibling={null}
+                triggerStyle={null}
+                triggerTagName="span"
+              >
+                <div />
+              </Collapsible>
+              <div>
+                <div
+                  className="inlineBlock"
+                />
+              </div>
             </div>
             <div
               className="rightPanel"
@@ -3256,6 +3471,40 @@ ShallowWrapper {
                   None
                 </span>
                  
+                <br />
+                <Collapsible
+                  className=""
+                  classParentString="Collapsible"
+                  contentContainerTagName="div"
+                  contentInnerClassName=""
+                  contentOuterClassName=""
+                  easing="linear"
+                  lazyRender={false}
+                  onClose={[Function]}
+                  onClosing={[Function]}
+                  onOpen={[Function]}
+                  onOpening={[Function]}
+                  open={false}
+                  openedClassName=""
+                  overflowWhenOpen="hidden"
+                  tabIndex={null}
+                  transitionCloseTime={null}
+                  transitionTime={400}
+                  trigger="Show Course Attributes"
+                  triggerClassName=""
+                  triggerDisabled={false}
+                  triggerOpenedClassName=""
+                  triggerSibling={null}
+                  triggerStyle={null}
+                  triggerTagName="span"
+                >
+                  <div />
+                </Collapsible>
+                <div>
+                  <div
+                    className="inlineBlock"
+                  />
+                </div>
               </div>,
               <div
                 className="rightPanel"
@@ -3538,6 +3787,40 @@ ShallowWrapper {
                   </span>,
                   " ",
                   null,
+                  <br />,
+                  <Collapsible
+                    className=""
+                    classParentString="Collapsible"
+                    contentContainerTagName="div"
+                    contentInnerClassName=""
+                    contentOuterClassName=""
+                    easing="linear"
+                    lazyRender={false}
+                    onClose={[Function]}
+                    onClosing={[Function]}
+                    onOpen={[Function]}
+                    onOpening={[Function]}
+                    open={false}
+                    openedClassName=""
+                    overflowWhenOpen="hidden"
+                    tabIndex={null}
+                    transitionCloseTime={null}
+                    transitionTime={400}
+                    trigger="Show Course Attributes"
+                    triggerClassName=""
+                    triggerDisabled={false}
+                    triggerOpenedClassName=""
+                    triggerSibling={null}
+                    triggerStyle={null}
+                    triggerTagName="span"
+                  >
+                    <div />
+                  </Collapsible>,
+                  <div>
+                    <div
+                      className="inlineBlock"
+                    />
+                  </div>,
                 ],
                 "className": "leftPanel",
               },
@@ -3630,6 +3913,85 @@ ShallowWrapper {
                 },
                 " ",
                 null,
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "children": <div />,
+                    "className": "",
+                    "classParentString": "Collapsible",
+                    "contentContainerTagName": "div",
+                    "contentInnerClassName": "",
+                    "contentOuterClassName": "",
+                    "easing": "linear",
+                    "lazyRender": false,
+                    "onClose": [Function],
+                    "onClosing": [Function],
+                    "onOpen": [Function],
+                    "onOpening": [Function],
+                    "open": false,
+                    "openedClassName": "",
+                    "overflowWhenOpen": "hidden",
+                    "tabIndex": null,
+                    "transitionCloseTime": null,
+                    "transitionTime": 400,
+                    "trigger": "Show Course Attributes",
+                    "triggerClassName": "",
+                    "triggerDisabled": false,
+                    "triggerOpenedClassName": "",
+                    "triggerSibling": null,
+                    "triggerStyle": null,
+                    "triggerTagName": "span",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": undefined,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": "div",
+                  },
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": <div
+                      className="inlineBlock"
+                    />,
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": null,
+                      "className": "inlineBlock",
+                      "data-tip": undefined,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": "div",
+                  },
+                  "type": "div",
+                },
               ],
               "type": "div",
             },

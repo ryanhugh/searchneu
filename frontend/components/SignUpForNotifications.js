@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 import { Button, Modal } from 'semantic-ui-react';
 
 import macros from './macros';
-import authentication from './authentication';
-import Keys from '../../common/Keys';
+import facebook from './facebook';
+import user from './user';
 
 // This file is responsible for the Sign Up for notifications flow.
 // First, this will render a button that will say something along the lines of "Get notified when...!"
@@ -54,7 +54,7 @@ class SignUpForNotifications extends React.Component {
     if (!iframe) {
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'Unable to load iframe for send to messenger plugin.',
-        hash: Keys.create(this.props.aClass).getHash(),
+        hash: this.props.aClass.getHash(),
       });
       macros.error('No iframe?');
       return;
@@ -64,10 +64,10 @@ class SignUpForNotifications extends React.Component {
       // Check to see if the plugin was successfully rendered
       const ele = this.facebookScopeRef.querySelector('.sendToMessengerButton > span');
 
-      const classHash = Keys.create(this.props.aClass).getHash();
+      const classHash = this.props.aClass.getHash();
 
       // If has adblock and haven't shown the warning yet, show the warning.
-      if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !this.constructor.hasAdblock && !authentication.successfullyRendered) {
+      if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !this.constructor.hasAdblock && !facebook.didPluginRender()) {
         if (macros.isMobile) {
           macros.error('Unable to render on mobile?', classHash);
 
@@ -99,7 +99,7 @@ class SignUpForNotifications extends React.Component {
   onSubscribeToggleChange() {
     macros.logAmplitudeEvent('FB Send to Messenger', {
       message: 'First button click',
-      hash: Keys.create(this.props.aClass).getHash(),
+      hash: this.props.aClass.getHash(),
     });
 
     this.setState({
@@ -109,7 +109,7 @@ class SignUpForNotifications extends React.Component {
 
   // Return the FB button itself.
   getSendToMessengerButton() {
-    const loginKey = authentication.getLoginKey();
+    const loginKey = user.getLoginKey();
 
     const aClass = this.props.aClass;
 
@@ -117,7 +117,7 @@ class SignUpForNotifications extends React.Component {
     const sectionsHashes = [];
     for (const section of aClass.sections) {
       if (section.seatsRemaining <= 0) {
-        sectionsHashes.push(Keys.create(section).getHash());
+        sectionsHashes.push(section.getHash());
       }
     }
 
@@ -125,7 +125,7 @@ class SignUpForNotifications extends React.Component {
     // Many characters arn't allowed to be in the ref attribute, including open and closing braces.
     // So base64 enocode it and then decode it on the server. Without the base64 encoding, the button will not render.
     const dataRef = btoa(JSON.stringify({
-      classHash: Keys.create(aClass).getHash(),
+      classHash: aClass.getHash(),
       sectionHashes: sectionsHashes,
       dev: macros.DEV,
       loginKey: loginKey,

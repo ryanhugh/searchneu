@@ -13,6 +13,21 @@ Object {
 }
 `;
 
+exports[`optional fees? 1`] = `
+Object {
+  "feeAmount": 651,
+  "feeDescription": "Music Lab Fee",
+  "honors": false,
+  "maxCredits": 1,
+  "minCredits": 1,
+  "online": false,
+  "seatsCapacity": 99,
+  "seatsRemaining": 67,
+  "waitCapacity": 0,
+  "waitRemaining": 0,
+}
+`;
+
 exports[`parse prereqs and coreqs and seat data from 1.html 1`] = `
 Object {
   "coreqs": Object {

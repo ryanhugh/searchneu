@@ -19,12 +19,12 @@ class TermDump {
 
 
     for (const aClass of termDump.classes) {
-      const hash = Keys.create(aClass).getHash();
+      const hash = Keys.getClassHash(aClass);
 
-      const termHash = Keys.create({
+      const termHash = Keys.getTermHash({
         host: aClass.host,
         termId: aClass.termId,
-      }).getHash();
+      });
 
       if (!termMapDump[termHash]) {
         termMapDump[termHash] = {
@@ -44,12 +44,12 @@ class TermDump {
         macros.error('Subject controller found in main.js????', subject);
         continue;
       }
-      const hash = Keys.create(subject).getHash();
+      const hash = Keys.getSubjectHash(subject);
 
-      const termHash = Keys.create({
+      const termHash = Keys.getTermHash({
         host: subject.host,
         termId: subject.termId,
-      }).getHash();
+      });
 
       if (!termMapDump[termHash]) {
         macros.log('Found subject with no class?');
@@ -66,12 +66,12 @@ class TermDump {
     }
 
     for (const section of termDump.sections) {
-      const hash = Keys.create(section).getHash();
+      const hash = Keys.getSectionHash(section);
 
-      const termHash = Keys.create({
+      const termHash = Keys.getTermHash({
         host: section.host,
         termId: section.termId,
-      }).getHash();
+      });
 
       if (!termMapDump[termHash]) {
         macros.log('Found section with no class?', termHash, hash);

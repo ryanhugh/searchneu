@@ -6,11 +6,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Collapsible from 'react-collapsible';
 import MobileSectionPanel from './MobileSectionPanel';
 import BaseClassPanel from './BaseClassPanel';
 import macros from '../macros';
 import SignUpForNotifications from '../SignUpForNotifications';
-import Keys from '../../../common/Keys';
 
 import chevronDown from './chevron-down.svg';
 import chevronRight from './chevron-right.svg';
@@ -25,6 +25,15 @@ class MobileClassPanel extends BaseClassPanel {
     aClass: PropTypes.object.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+
+    // Keep track of whether the panel should be expanded or should just the title be shown.
+    // NOTE: this.state is setup (this.state = {...}) in the parent class BaseClassPanel,
+    // so all we need to do here is another field.
+    this.state.showMoreThanTitle = false;
+  }
+
   getClassBody() {
     const aClass = this.props.aClass;
 
@@ -34,6 +43,14 @@ class MobileClassPanel extends BaseClassPanel {
     if (showFullClassBody) {
       // Figure out the credits string
       const creditsString = this.getCreditsString();
+      const courseAttrString = this.getClassAttributesString();
+      let courseAttr;
+      if (courseAttrString) {
+        courseAttr = courseAttrString.map((i, k) => {
+          return <div k={ k }>{i}</div>;
+        });
+      }
+      const feeString = this.getOptionalFees();
 
       return (
         <span>
@@ -57,6 +74,13 @@ class MobileClassPanel extends BaseClassPanel {
             <br />
             Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
             <br />
+            <Collapsible trigger='Show Class Attributes'>
+              <div>
+                {courseAttr}
+              </div>
+            </Collapsible>
+            {feeString}
+
             <SignUpForNotifications aClass={ aClass } />
           </div>
         </span>
@@ -110,7 +134,7 @@ class MobileClassPanel extends BaseClassPanel {
 
     if (aClass.sections && aClass.sections.length > 0) {
       sectionTable = this.state.renderedSections.map((section) => {
-        return <MobileSectionPanel key={ Keys.create(section).getHash() } section={ section } />;
+        return <MobileSectionPanel key={ section.getHash() } section={ section } />;
       });
     }
 

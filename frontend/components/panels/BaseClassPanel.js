@@ -7,7 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import RequisiteBranch from '../classModels/RequisiteBranch';
-import Keys from '../../../common/Keys';
 import macros from '../macros';
 
 class BaseClassPanel extends React.Component {
@@ -122,6 +121,20 @@ class BaseClassPanel extends React.Component {
       retStr = `${this.props.aClass.minCredits} to `;
     }
     return `${retStr}${this.props.aClass.maxCredits} credits`;
+  }
+
+  // returns course Attributes
+  // -> List
+  getClassAttributesString() {
+    return this.props.aClass.classAttributes;
+  }
+
+  // returns optional fees if they exist
+  getOptionalFees() {
+    if (this.props.aClass.feeDescription && this.props.aClass.feeAmount) {
+      return `${this.props.aClass.feeDescription}: $${this.props.aClass.feeAmount}`;
+    }
+    return null;
   }
 
   // returns an array made to be rendered by react to display the prereqs
@@ -338,13 +351,13 @@ class BaseClassPanel extends React.Component {
     return (
       <div>
         <div>
-          {this.state.renderedSections.map((aClass) => {
-            return Keys.create(aClass).getHash();
+          {this.state.renderedSections.map((section) => {
+            return section.getHash();
           })}
         </div>
         <div>
-          {this.state.unrenderedSections.map((aClass) => {
-            return Keys.create(aClass).getHash();
+          {this.state.unrenderedSections.map((section) => {
+            return section.getHash();
           })}
         </div>
       </div>

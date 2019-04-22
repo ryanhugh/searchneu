@@ -51,7 +51,7 @@ class Main {
     // Eg If so far we have a host, termId and a subject, and this is a class, a classId will be added to the newChildAttr object
     // and will be carried down to all the children with the host, termId and subject
     for (const attrName of Object.keys(rootNode.value)) {
-      if (!Keys.allKeys.includes(attrName) && attrName !== 'classId') {
+      if (!Keys.allKeys.includes(attrName)) {
         continue;
       }
 

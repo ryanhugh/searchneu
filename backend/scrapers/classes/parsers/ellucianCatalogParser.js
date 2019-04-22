@@ -79,7 +79,15 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       depData.maxCredits = creditsParsed.maxCredits;
       depData.minCredits = creditsParsed.minCredits;
     } else {
-      macros.log('warning, nothing matchied credits', url, text);
+      macros.log('warning, nothing matched credits', url);
+    }
+
+    const classAttributes = this.parseCourseAttr(text);
+
+    if (classAttributes) {
+      depData.classAttributes = classAttributes;
+    } else {
+      macros.log('warning, nothing matched course attributes', url);
     }
 
 
@@ -157,7 +165,6 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
       return null;
     }
 
-
     return this.parseClass(matchingElement, url);
   }
 
@@ -211,6 +218,17 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     classWrapper.value.name = catalogData.name;
     classWrapper.value.url = catalogData.url;
     classWrapper.value.lastUpdateTime = Date.now();
+
+    // Compare the classAttributes from the catalog parser vs from the class parsers. Keep the catalog one if they conflict.
+    if (catalogData.classAttributes) {
+      if (classWrapper.value.classAttributes && !_.isEqual(classWrapper.value.classAttributes, catalogData.classAttributes)) {
+        macros.log('Not overriding catalog classAttributes attributes with class classAttributes...', catalogData.url);
+      }
+      classWrapper.value.classAttributes = catalogData.classAttributes;
+    }
+
+
+    classWrapper.value.classAttributes = catalogData.classAttributes;
 
     // Merge the data about the class from the catalog page with the data about the class from the class page.
     // Merge min credits and max credits.

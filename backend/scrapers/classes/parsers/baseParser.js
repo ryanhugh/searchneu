@@ -219,6 +219,20 @@ class BaseParser {
     return null;
   }
 
+  // gets the course Attributes. If course attributes don't exist, return null
+  // String -> [Maybe String]
+  parseCourseAttr(text) {
+    let classAttributes = text.match(/(Course Attributes: \n)(.*)/i);
+    if (classAttributes) {
+      classAttributes = classAttributes[2].trim().split(', ');
+      for (let i = 0; i < classAttributes.length; i++) {
+        classAttributes[i] = classAttributes[i].trim();
+      }
+      return classAttributes;
+    }
+    return null;
+  }
+
 
   // http://dan.hersam.com/tools/smart-quotes.html
   simplifySymbols(s) {

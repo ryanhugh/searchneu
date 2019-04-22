@@ -51,9 +51,9 @@ it('hi there 2', async (done) => {
 
   const output = ellucianTermsParser.parse(body, url);
 
-  expect(true).toBe(ellucianTermsParser.supportsPage(url));
+  expect(ellucianTermsParser.supportsPage(url));
 
-  expect(output.terms.length).toBe(17);
+  expect(output).toMatchSnapshot();
 
   done();
 });

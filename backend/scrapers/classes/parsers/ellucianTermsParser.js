@@ -9,7 +9,6 @@ import cheerio from 'cheerio';
 import cache from '../../cache';
 import macros from '../../../macros';
 import Request from '../../request';
-import collegeNamesParser from './collegeNamesParser';
 
 
 import EllucianBaseParser from './ellucianBaseParser';
@@ -94,7 +93,7 @@ class EllucianTermsParser extends EllucianBaseParser.EllucianBaseParser {
       singleRequestPayload.forEach((payloadVar) => {
         if (this.shouldParseEntry(payloadVar)) {
           terms.push({
-            id: payloadVar.value,
+            termId: payloadVar.value,
             text: payloadVar.text,
           });
         }
@@ -107,50 +106,26 @@ class EllucianTermsParser extends EllucianBaseParser.EllucianBaseParser {
 
     const host = macros.getBaseHost(url);
 
-    terms.forEach((term) => {
+    for (const term of terms) {
       // If this is a term that matches a term in staticHosts
       // Remove
-      const possibleCustomHostAndText = collegeNamesParser.getHostForTermTitle(host, term.text);
 
-      if (possibleCustomHostAndText) {
-        term.text = possibleCustomHostAndText.text;
-        term.host = possibleCustomHostAndText.host;
-      } else {
-        term.host = host;
+      term.host = host;
+
+      if (term.host === 'neu.edu') {
+        if (term.text.toLowerCase().includes(' law ')) {
+          term.subCollegeName = 'LAW';
+          term.text = term.text.replace(/LAW/gi, '');
+        } else if (term.text.toLowerCase().includes(' cps ')) {
+          term.subCollegeName = 'CPS';
+          term.text = term.text.replace(/CPS/gi, '');
+        } else {
+          term.text = term.text.replace(/Semester/gi, '');
+        }
+
+        term.text = term.text.replace(/\s+/gi, ' ').trim();
       }
-
-      //add the shorter version of the term string
-      term.shortText = term.text.replace(/Quarter|Semester/gi, '').trim();
-    });
-
-
-    const duplicateTexts = {};
-
-
-    //keep track of texts, and if they are all different with some words removed
-    //keep the words out
-    terms.forEach((term) => {
-      if (!duplicateTexts[term.host]) {
-        duplicateTexts[term.host] = {
-          values: [],
-          areAllDifferent: true,
-        };
-      }
-      if (duplicateTexts[term.host].values.includes(term.shortText)) {
-        duplicateTexts[term.host].areAllDifferent = false;
-        return;
-      }
-      duplicateTexts[term.host].values.push(term.shortText);
-    });
-
-
-    //for each host, change the values if they are different
-    terms.forEach((term) => {
-      if (duplicateTexts[term.host].areAllDifferent) {
-        term.text = term.shortText;
-      }
-    });
-
+    }
 
     const outputTerms = [];
 
@@ -158,11 +133,7 @@ class EllucianTermsParser extends EllucianBaseParser.EllucianBaseParser {
     for (const term of terms) {
       outputTerms.push({
         type: 'terms',
-        value: {
-          termId: term.id,
-          text: term.text,
-          host: term.host,
-        },
+        value: term,
         deps: null,
       });
     }
@@ -286,6 +257,9 @@ class EllucianTermsParser extends EllucianBaseParser.EllucianBaseParser {
 
   async test() {
     const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_dyn_sched');
+    for (const thing of output) {
+      delete thing.deps;
+    }
     macros.log(output);
   }
 }

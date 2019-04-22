@@ -6,6 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Collapsible from 'react-collapsible';
 import macros from '../macros';
 import BaseClassPanel from './BaseClassPanel';
 import DesktopSectionPanel from './DesktopSectionPanel';
@@ -141,8 +142,26 @@ export default class DesktopClassPanel extends BaseClassPanel {
     // Render the Show More.. Button
     const showMoreSections = this.getMoreSectionsButton();
 
-    // Figure out the credits string
+    // Figure out the credits string, and course Attributes
     const creditsString = this.getCreditsString();
+
+    const feeString = this.getOptionalFees();
+
+    let feeAmount;
+
+    if (feeString) {
+      feeAmount = feeString.split(' ');
+      feeAmount = feeAmount[feeAmount.length - 1];
+      feeAmount = `You must pay ${feeAmount} extra to take this class`;
+    }
+    const courseAttrString = this.getClassAttributesString();
+
+    let courseAttr;
+    if (courseAttrString) {
+      courseAttr = courseAttrString.map((i, k) => {
+        return <div k={ k }>{i}</div>;
+      });
+    }
 
     return (
 
@@ -176,6 +195,15 @@ export default class DesktopClassPanel extends BaseClassPanel {
               Prerequisite for: {this.optionalDisplay(macros.prereqTypes.PREREQ_FOR)} {this.showMore(macros.prereqTypes.PREREQ_FOR)}
             <br />
               Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
+            <br />
+            <Collapsible trigger='Show Course Attributes'>
+              <div>
+                {courseAttr}
+              </div>
+            </Collapsible>
+            <div>
+              <div className='inlineBlock' data-tip={ feeAmount }>{feeString}</div>
+            </div>
           </div>
           <div className='rightPanel'>
             <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>

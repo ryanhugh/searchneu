@@ -127,7 +127,7 @@ class SitemapGenerator {
     const xml = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
     for (const item of items) {
       xml.push('  <url>');
-      xml.push(`    <loc>https://searchneu.com/${encodeURIComponent(item)}</loc>`);
+      xml.push(`    <loc>https://searchneu.com/${currentTerm}/${encodeURIComponent(item)}</loc>`);
       xml.push('  </url>');
     }
     xml.push('</urlset>');

@@ -59,15 +59,14 @@ class Class {
     return instance;
   }
 
-  //TODO here
-  //abstrat away some of the checks that are the same accross fns here
-
-  loadFromClassMap(classMap) {
-    const keys = Keys.create(this);
-
-    this.updateWithData(classMap[keys.getHash()]);
+  // Returns a hash of this object used for referencing this instance - eg neu.edu/201910/CS/2500
+  getHash() {
+    return Keys.getClassHash(this);
   }
 
+  loadFromClassMap(classMap) {
+    this.updateWithData(classMap[this.getHash()]);
+  }
 
   convertServerRequisites(data) {
     let retVal = {};
@@ -375,26 +374,22 @@ class Class {
 
   loadSectionsFromSectionMap(sectionMap) {
     if (this.isString) {
-      macros.error('ERROR cant load sections of !class or string');
-      macros.error('!class or string');
+      macros.error('ERROR cant load sections of class.string');
       return;
     }
 
     this.sections = [];
 
     this.crns.forEach((crn) => {
-      const keys = Keys.create({
+      const hash = Keys.getSectionHash({
         host: this.host,
         termId: this.termId,
         subject: this.subject,
         classId: this.classId,
         crn: crn,
       });
-      if (!keys) {
-        macros.error('Keys are null!');
-      }
 
-      const serverData = sectionMap[keys.getHash()];
+      const serverData = sectionMap[hash];
       if (!serverData) {
         macros.error('unable to find section in section map', this, crn);
         return;

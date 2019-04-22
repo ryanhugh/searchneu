@@ -11,15 +11,21 @@ import { Dropdown } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import '../css/base.scss';
 
-import aoun from './aouuuuuuuuun.png';
+import aoun from './images/aouuuuuuuuun.png';
 import SplashPage from './SplashPage/SplashPage';
 import search from './search';
 import FeedbackModal from './FeedbackModal';
 import macros from './macros';
 import ResultsLoader from './ResultsLoader';
 import EmailInput from './EmailInput';
-import logo from './logo.svg';
-import boston from './boston.svg';
+import logo from './images/logo.svg';
+import boston from './images/boston.svg';
+
+// This file is the main starting point for the frontend
+// It calls into a bunch of different files
+// It calls into search.js and forward the results to resultsLoader
+// It also calls into EmailInput and FeedbackModal, if needed
+// And displays the SplashPage
 
 // Terms that used to be scraped at one point, but are no longer scraped.
 // These may be stored in user's localStorage from the last time they selected a term.
@@ -83,6 +89,8 @@ class Home extends React.Component {
 
 
     this.state = {
+      // The results of the search
+      // Fetched with search.js and passed to ResultLoader to be rendered
       results: [],
 
       // Value to set the search box to after the search box is rendered.
@@ -470,7 +478,7 @@ class Home extends React.Component {
       } else if (!this.state.waitingOnEnter) {
         let subjectInfoRow = null;
         if (this.state.subjectName) {
-          subjectInfoRow = (<div className='subjectContaineRow'>Showing all {this.state.subjectCount} classes in {this.state.subjectName}</div>);
+          subjectInfoRow = (<div className='subjectContaineRow'>Showing all {this.state.subjectCount} {this.state.subjectName} classes.</div>);
         }
 
         resultsElement = (
@@ -562,7 +570,7 @@ class Home extends React.Component {
               Want to help build Search NEU?
           </p>
           <p>
-            <a href='https://scout1.typeform.com/to/FFksIl' target='_blank' rel='noopener noreferrer' className={ `getInvolvedText ${hiddenHelpButton}` }>
+            <a href='https://ryanhughes5.typeform.com/to/VuIgF8' target='_blank' rel='noopener noreferrer' className={ `getInvolvedText ${hiddenHelpButton}` }>
               Get involved &gt;
             </a>
           </p>

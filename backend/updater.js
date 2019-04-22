@@ -151,13 +151,13 @@ class Updater {
 
       if (aClass.crns) {
         for (const crn of aClass.crns) {
-          const sectionHash = Keys.create({
+          const sectionHash = Keys.getSectionHash({
             host: aClass.host,
             termId: aClass.termId,
             subject: aClass.subject,
             classId: aClass.classId,
             crn: crn,
-          }).getHash();
+          });
 
           // Remove this one from the hash map
           sectionHashMap[sectionHash] = false;
@@ -239,7 +239,7 @@ class Updater {
       const oldClasses = this.dataLib.getClassesInTerm(termId);
 
       for (const aClass of oldClasses) {
-        const hash = Keys.create(aClass).getHash();
+        const hash = Keys.getClassHash(aClass);
 
         // TODO: Change this from classHashes to a hash of the output classes after the re-factor away classUid
         if (!classHashes.includes(hash)) {
@@ -253,7 +253,7 @@ class Updater {
       // THIS WILL COPY OVER EVERY section from the old to the new data, even ones that no longer exist in the new data.
       // need a way to figure out how to exclude sections that no longer exist in the new data. TODOOOO
       for (const section of oldSections) {
-        const hash = Keys.create(section).getHash();
+        const hash = Keys.getSectionHash(section);
 
         // TODO: Change this from classHashes to a hash of the output classes after the re-factor away classUid
         if (!sectionHashes.includes(hash)) {
@@ -269,7 +269,7 @@ class Updater {
     const userToMessageMap = {};
 
     for (const aNewClass of output.classes) {
-      const hash = Keys.create(aNewClass).getHash();
+      const hash = Keys.getClassHash(aNewClass);
 
       const oldClass = this.dataLib.getClassServerDataFromHash(hash);
 
@@ -316,7 +316,7 @@ class Updater {
     }
 
     for (const newSection of output.sections) {
-      const hash = Keys.create(newSection).getHash();
+      const hash = Keys.getSectionHash(newSection);
 
       const oldSection = this.dataLib.getSectionServerDataFromHash(hash);
 

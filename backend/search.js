@@ -374,6 +374,10 @@ class Search {
     const slangMap = {
       fundies: 'fundamentals of computer science',
       orgo: 'Organic Chemistry',
+
+      // This allows people to type in "chemistry" and have all the chemistry class come up
+      // but if they type in "Chemistry & Chemical Biology" it is replaced to "chem & Chemical Biology"
+      // Which is no longer a subject match.
       chemistry: 'chem',
 
       // Searching for numerica or numeri has no results
@@ -508,13 +512,13 @@ class Search {
 
         if (aClass.crns) {
           for (const crn of aClass.crns) {
-            const sectionKey = Keys.create({
+            const sectionKey = Keys.getSectionHash({
               host: aClass.host,
               termId: aClass.termId,
               subject: aClass.subject,
               classId: aClass.classId,
               crn: crn,
-            }).getHash();
+            });
 
             if (!sectionKey) {
               macros.error('Error no hash', crn, aClass);
