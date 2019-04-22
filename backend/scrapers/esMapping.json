@@ -41,7 +41,11 @@
       },
       "sections": {
         "type": "object",
-        "enabled": false
+        "properties": {
+          "meetings": {
+            "type": "object"
+          }
+        }
       }
     }
   },

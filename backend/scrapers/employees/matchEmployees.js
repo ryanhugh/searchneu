@@ -4,7 +4,6 @@
  */
 
 import mkdirp from 'mkdirp-promise';
-import elasticlunr from 'elasticlunr';
 import _ from 'lodash';
 import objectHash from 'object-hash';
 import fs from 'fs-extra';
@@ -16,6 +15,7 @@ import ccisFaculty from './ccis';
 import coeFaculty from './coe';
 import csshFaculty from './cssh';
 import camdFaculty from './camd';
+import Elastic from '../../elastic';
 
 // This file combines the data from the ccis website and the NEU Employees site
 // If there is a match, the data from the ccis site has priority over the data from the employee site.
@@ -399,35 +399,13 @@ class CombineCCISandEmployees {
       employeeMap[person.id] = person;
     });
 
-
     // And save that too
     await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMap.json'), JSON.stringify(employeeMap));
 
-
-    // Make a search index
-    const index = elasticlunr();
-    index.saveDocument(false);
-
-    index.setRef('id');
-    index.addField('name');
-    index.addField('phone');
-    index.addField('emails');
-
-    // Enable in search.js if this is enabled again.
-    // index.addField('officeRoom');
-    index.addField('primaryRole');
-    index.addField('primaryDepartment');
-    index.saveDocument(false);
-
+    const bulk = [];
     mergedEmployees.forEach((row) => {
       const docToIndex = {};
       Object.assign(docToIndex, row);
-
-      // If their middle name is one character (not including symbols), don't add it to the search index.
-      // This prevents profs like Stacy C. Marsella from coming up when you type in [C]
-      // First, remove the first and last names and toLowerCase()
-      // Remove the middle name from the name to index if the middle name (not including symbols) is 1 or 0 characters.
-      docToIndex.name = macros.stripMiddleName(row.name, true, row.firstName, row.lastName);
 
       if (docToIndex.emails) {
         for (let i = 0; i < docToIndex.emails.length; i++) {
@@ -440,17 +418,11 @@ class CombineCCISandEmployees {
             docToIndex.emails[i] = docToIndex.emails[i].slice(0, docToIndex.emails[i].indexOf('@neu.edu'));
           }
         }
-
-        docToIndex.emails = docToIndex.emails.join(' ');
       }
-
-      index.addDoc(docToIndex);
+      bulk.push({ index:{ _id: docToIndex.id } });
+      bulk.push({ employee: docToIndex, type: 'employee' });
     });
-
-
-    await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeesSearchIndex.json'), JSON.stringify(index.toJSON()));
-    macros.log('wrote employee json files');
-
+    await Elastic.bulk({ index: 'items', body: bulk });
     return mergedEmployees;
   }
 }

@@ -3,7 +3,6 @@
  * See the license file in the root folder for details.
  */
 
-import { Client } from '@elastic/elasticsearch';
 import path from 'path';
 import express from 'express';
 import webpack from 'webpack';
@@ -20,6 +19,7 @@ import xhub from 'express-x-hub';
 import elasticlunr from 'elasticlunr';
 import atob from 'atob';
 import _ from 'lodash';
+import Elastic from './elastic';
 
 import Request from './scrapers/request';
 import search from './search';
@@ -34,7 +34,6 @@ import DataLib from './DataLib';
 // and calls out to respective files depending on what was called
 
 const request = new Request('server');
-const elastic = new Client({ node: 'http://192.168.99.100:9200' });
 
 const app = express();
 
@@ -329,8 +328,8 @@ app.get('/search', wrap(async (req, res) => {
   }
 
 
-  const searchOutput = await elastic.search({
-    index: 'classes',
+  const searchOutput = await Elastic.search({
+    index: 'items',
     from: minIndex,
     size: maxIndex - minIndex,
     body: {
@@ -342,12 +341,19 @@ app.get('/search', wrap(async (req, res) => {
               fields: [
                 'class.name',
                 'class.code^2',
+                'sections.meetings.profs',
+                'employee.name^2',
+                'employee.emails',
+                'employee.phone',
               ],
             },
           },
           filter: {
-            term: {
-              'class.termId': req.query.termId,
+            bool: {
+              should: [
+                { term: { 'class.termId': req.query.termId } },
+                { term: { type: 'employee' } },
+              ],
             },
           },
         },
@@ -355,7 +361,7 @@ app.get('/search', wrap(async (req, res) => {
     },
   });
   // eslint-disable-next-line no-underscore-dangle
-  const searchContent = searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score, type: 'class' }; });
+  const searchContent = searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; });
   const midTime = Date.now();
 
   let string;

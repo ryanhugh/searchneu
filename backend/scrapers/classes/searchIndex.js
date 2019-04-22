@@ -3,12 +3,9 @@
  * See the license file in the root folder for details.
  */
 
-import { Client } from '@elastic/elasticsearch';
 import macros from '../../macros';
 import Keys from '../../../common/Keys';
-import mapping from './esMapping.json';
-
-const elastic = new Client({ node: 'http://192.168.99.100:9200' });
+import Elastic from '../../elastic';
 
 // Creates the search index for classes
 
@@ -24,11 +21,12 @@ class SearchIndex {
       // This allows "cs2500" and "cs 2500" to both find class.code correctly.
       const clas = searchResultData.class;
       clas.code = clas.subject + clas.classId;
+      searchResultData.type = 'class';
 
       bulk.push({ index:{ _id: attrName2 } });
       bulk.push(searchResultData);
     }
-    await elastic.bulk({ index: 'classes', body: bulk });
+    await Elastic.bulk({ index: 'items', body: bulk });
     macros.log('indexed ', termData.termId);
   }
 
@@ -100,18 +98,6 @@ class SearchIndex {
           });
         }
       }
-    }
-
-    // Clear out the classes index.
-    await elastic.indices.delete({ index: 'classes' }).catch(() => {});
-    try {
-      // Put in the new classes mapping (elasticsearch doesn't let you change mapping of existing index)
-      await elastic.indices.create({
-        index: 'classes',
-        body: mapping,
-      });
-    } catch (error) {
-      throw new Error(error);
     }
 
     const promises = [];
