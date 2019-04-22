@@ -80,7 +80,7 @@ class ResultsLoader extends React.Component {
     this.props.results.forEach((result) => {
       if (result.type === 'class') {
         let aClass;
-        const hash = Keys.create(result.class).getHash();
+        const hash = Keys.getClassHash(result.class);
         if (this.constructor.loadedClassObjects[hash]) {
           aClass = this.constructor.loadedClassObjects[hash];
         } else {
@@ -122,10 +122,10 @@ class ResultsLoader extends React.Component {
             {this.state.visibleObjects.map((obj) => {
               if (obj.type === 'class') {
                 if (macros.isMobile) {
-                  return <MobileClassPanel key={ Keys.create(obj.data).getHash() } aClass={ obj.data } />;
+                  return <MobileClassPanel key={ obj.data.getHash() } aClass={ obj.data } />;
                 }
 
-                return <DesktopClassPanel key={ Keys.create(obj.data).getHash() } aClass={ obj.data } />;
+                return <DesktopClassPanel key={ obj.data.getHash() } aClass={ obj.data } />;
               }
               if (obj.type === 'employee') {
                 return <EmployeePanel key={ obj.data.id } employee={ obj.data } />;

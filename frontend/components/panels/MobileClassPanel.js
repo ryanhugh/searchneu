@@ -11,7 +11,6 @@ import MobileSectionPanel from './MobileSectionPanel';
 import BaseClassPanel from './BaseClassPanel';
 import macros from '../macros';
 import SignUpForNotifications from '../SignUpForNotifications';
-import Keys from '../../../common/Keys';
 
 import chevronDown from './chevron-down.svg';
 import chevronRight from './chevron-right.svg';
@@ -135,7 +134,7 @@ class MobileClassPanel extends BaseClassPanel {
 
     if (aClass.sections && aClass.sections.length > 0) {
       sectionTable = this.state.renderedSections.map((section) => {
-        return <MobileSectionPanel key={ Keys.create(section).getHash() } section={ section } />;
+        return <MobileSectionPanel key={ section.getHash() } section={ section } />;
       });
     }
 

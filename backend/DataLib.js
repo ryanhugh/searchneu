@@ -117,7 +117,7 @@ class DataLib {
   }
 
   setClass(aClass) {
-    const hash = Keys.create(aClass).getHash();
+    const hash = Keys.getClassHash(aClass);
 
     if (!this.termDumpMap[aClass.termId]) {
       macros.error('Cannot set class in non-existent term.');
@@ -131,7 +131,7 @@ class DataLib {
 
 
   setSection(section) {
-    const hash = Keys.create(section).getHash();
+    const hash = Keys.getSectionHash(section);
 
     if (!this.termDumpMap[section.termId]) {
       macros.error('Cannot set section in non-existent term.');

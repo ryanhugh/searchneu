@@ -20,12 +20,12 @@ class MarkMissingPrereqs extends BaseProcessor.BaseProcessor {
       if (typeof prereqEntry === 'string') {
         continue;
       } else if (prereqEntry.classId && prereqEntry.subject) {
-        const hash = Keys.create({
+        const hash = Keys.getClassHash({
           host: host,
           termId: termId,
           subject: prereqEntry.subject,
           classId: prereqEntry.classId,
-        }).getHash();
+        });
 
         if (!keyToRows[hash]) {
           prereqs.values[i].missing = true;

@@ -513,13 +513,13 @@ class Search {
 
         if (aClass.crns) {
           for (const crn of aClass.crns) {
-            const sectionKey = Keys.create({
+            const sectionKey = Keys.getSectionHash({
               host: aClass.host,
               termId: aClass.termId,
               subject: aClass.subject,
               classId: aClass.classId,
               crn: crn,
-            }).getHash();
+            });
 
             if (!sectionKey) {
               macros.error('Error no hash', crn, aClass);

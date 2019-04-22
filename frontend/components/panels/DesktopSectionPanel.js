@@ -10,7 +10,6 @@ import NotifCheckBox from './NotifCheckBox';
 import user from '../user';
 import macros from '../macros';
 
-import Keys from '../../../common/Keys';
 import LocationLinks from './LocationLinks';
 import WeekdayBoxes from './WeekdayBoxes';
 
@@ -134,7 +133,7 @@ export default class DesktopSectionPanel extends React.Component {
 
 
     return (
-      <tr key={ Keys.create(this.props.section).getHash() }>
+      <tr key={ this.props.section.getHash() }>
         <td>
           {this.props.section.crn}
         </td>

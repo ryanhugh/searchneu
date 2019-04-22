@@ -19,13 +19,10 @@ import Keys from '../../../common/Keys';
 // eg, it treats [fcs] the same as [fc].
 // Which might not always be the same.
 
-
-const getSearchIndex = '/getSearchIndex';
-
 class SearchIndex {
   // Class Lists object is specific to this file, and is created below.
   async createSearchIndexFromClassLists(termData) {
-    const keys = Keys.create(termData);
+    // const keys = Keys.create(termData);
 
     // One possibility for this is to create a custom elastic search index.
     // By default, the input fields are ran though three pipeline functions.
@@ -64,7 +61,7 @@ class SearchIndex {
         desc: searchResultData.class.desc.replace(/^\W+/, '').replace(/\W+$/, ''),
         subject: searchResultData.class.subject,
         name: searchResultData.class.name,
-        key: Keys.create(searchResultData.class).getHash(),
+        key: Keys.getClassHash(searchResultData.class),
       };
 
       let profs = [];
@@ -149,7 +146,7 @@ class SearchIndex {
 
     const searchIndexString = JSON.stringify(index.toJSON());
 
-    const fileName = path.join(macros.PUBLIC_DIR, `${keys.getHashWithEndpoint(getSearchIndex)}.json`);
+    const fileName = path.join(macros.PUBLIC_DIR, `/getSearchIndex/${Keys.getTermHash(termData)}.json`);
     const folderName = path.dirname(fileName);
 
     await mkdirp(folderName);
@@ -162,12 +159,12 @@ class SearchIndex {
     const classLists = {};
 
     termDump.classes.forEach((aClass) => {
-      const termHash = Keys.create({
+      const termHash = Keys.getTermHash({
         host: aClass.host,
         termId: aClass.termId,
-      }).getHash();
+      });
 
-      const classHash = Keys.create(aClass).getHash();
+      const classHash = Keys.getClassHash(aClass);
 
       if (!classLists[termHash]) {
         classLists[termHash] = {
@@ -185,17 +182,17 @@ class SearchIndex {
 
 
     termDump.sections.forEach((section) => {
-      const termHash = Keys.create({
+      const termHash = Keys.getTermHash({
         host: section.host,
         termId: section.termId,
-      }).getHash();
+      });
 
-      const classHash = Keys.create({
+      const classHash = Keys.getClassHash({
         host: section.host,
         termId: section.termId,
         subject: section.subject,
         classId: section.classId,
-      }).getHash();
+      });
 
 
       if (!classLists[termHash]) {

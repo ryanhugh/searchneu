@@ -62,12 +62,12 @@ function findOnlineClasses(termDump) {
   for (let section of Object.values(termDump.sectionMap)) {
 
     if (section.online) {
-      let hash = Keys.create({
+      let hash = Keys.getClassHash({
         host: section.host,
         termId: section.termId,
         subject: section.subject,
         classId: section.classId
-      }).getHash()
+      })
 
 
       onlineClasses[hash] = true;

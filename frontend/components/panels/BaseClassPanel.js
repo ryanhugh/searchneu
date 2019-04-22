@@ -7,7 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import RequisiteBranch from '../classModels/RequisiteBranch';
-import Keys from '../../../common/Keys';
 import macros from '../macros';
 
 class BaseClassPanel extends React.Component {
@@ -352,13 +351,13 @@ class BaseClassPanel extends React.Component {
     return (
       <div>
         <div>
-          {this.state.renderedSections.map((aClass) => {
-            return Keys.create(aClass).getHash();
+          {this.state.renderedSections.map((section) => {
+            return section.getHash();
           })}
         </div>
         <div>
-          {this.state.unrenderedSections.map((aClass) => {
-            return Keys.create(aClass).getHash();
+          {this.state.unrenderedSections.map((section) => {
+            return section.getHash();
           })}
         </div>
       </div>
