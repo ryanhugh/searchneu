@@ -6,18 +6,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
+import NotifCheckBox from './NotifCheckBox';
+import user from '../user';
+import macros from '../macros';
 
 import LocationLinks from './LocationLinks';
 import WeekdayBoxes from './WeekdayBoxes';
 
 import globe from './globe.svg';
 
+/*
+  This class renders the sections for a class on the Desktop version
+*/
 export default class DesktopSectionPanel extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {};
+
+  }
+  
   static propTypes = {
     shouldShowExamColumns: PropTypes.bool.isRequired,
     showWaitList: PropTypes.bool.isRequired,
     showHonorsColumn: PropTypes.bool.isRequired,
     section: PropTypes.object.isRequired,
+    showNotificationBoxes: PropTypes.bool,
   };
 
   // Create the 4:35 - 5:40 pm string.
@@ -117,6 +131,7 @@ export default class DesktopSectionPanel extends React.Component {
     const honorsCheck = this.props.section.honors ? <Icon name='check' /> : <Icon name='x' />;
 
 
+
     return (
       <tr key={ this.props.section.getHash() }>
         <td>
@@ -140,9 +155,16 @@ export default class DesktopSectionPanel extends React.Component {
           </div>
         </td>
 
+
         <td style={{ display: !this.props.showHonorsColumn && 'none' }}>
           {honorsCheck}
-        </td>
+      </td>
+
+	<td style={{ display: !this.props.showNotificationBoxes && 'none' }}>
+	<div data-tip='Sign up for notifications for this class' className='inlineBlock'>
+	<NotifCheckBox seats={this.props.section.seatsRemaining} section={this.props.section}/>
+	</div>
+	</td>
 
         <td>
           <a

@@ -174,7 +174,7 @@ class Database {
 
     return this.getMemoryStorage(this.standardizeKey(key));
   }
-
+ 
   // Returns the raw firebase ref for a key
   // Use this if you need to read a value, check something about it, and then write to it.
   async getRef(key) {

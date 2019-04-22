@@ -385,6 +385,7 @@ class Search {
       // https://github.com/ryanhugh/searchneu/pull/19
       numerica: 'numerical',
       numeri: 'numerical',
+      swd: 'software dev',
     };
 
     for (const word in slangMap) {
