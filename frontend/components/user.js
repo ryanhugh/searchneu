@@ -162,19 +162,19 @@ class User {
     }
 
 
-    let sectionHash = Keys.create(section).getHash();
+    let sectionHash = Keys.getSectionHash(section);
     
     if (this.user.watchingSections.includes(sectionHash)) {
       macros.log('ope', this.user.watchingSections, sectionHash);
       this.user.watchingSections.splice(this.user.watchingSections.indexOf(sectionHash), 1);
       macros.log('eep', this.user.watchingSections);
 
-      const classHash = Keys.create({
+      const classHash = Keys.getClassHash({
 	host: section.host,
 	termId: section.termId,
 	subject: section.subject,
 	classId: section.classId
-      }).getHash();
+      });
 
       let acc = false;
       for (var i = 0; i < this.user.watchingSections.length; i++) {
@@ -199,27 +199,23 @@ class User {
       return;
     }
 
-    let sectionHash = Keys.create(section).getHash();
+    let sectionHash = Keys.getSectionHash(section);
     
     if (this.user.watchingSections.includes(sectionHash)) {
       macros.error('user already watching section?', section, this.user);
     }
 
-    this.user.watchingSections.push(Keys.create(section).getHash());
+    this.user.watchingSections.push(Keys.getSectionHash(section));
 
-    let classHash = Keys.create({
+    let classHash = Keys.getClassHash({
       host: section.host,
       termId: section.termId,
-      subjectId: section.subjectId,
+      subject: section.subject,
       classId: section.classId
-    }).getHash();
+    });
 
-    let acc = false;
-    for (var i = 0; i < this.user.watchingSections.length; i++) {
-      acc = acc || this.user.watchingSections[i].includes(classHash);
-    }
-
-    if (!acc) {
+    macros.log(classHash);
+    if (!this.user.watchingClasses.includes(classHash)) {
       this.user.watchingClasses.push(classHash);
     }
 

@@ -130,8 +130,8 @@ class SignUpForNotifications extends React.Component {
     // So base64 enocode it and then decode it on the server. Without the base64 encoding, the button will not render.
     
     const dataRef = btoa(JSON.stringify({
-      classHash: aClass.getHash(),
-      sectionHashes: sectionsHashes,
+     // classHash: aClass.getHash(),
+     // sectionHashes: sectionsHashes,
       dev: macros.DEV,
       loginKey: loginKey,
     }));
