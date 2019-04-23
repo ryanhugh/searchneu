@@ -537,6 +537,7 @@ ShallowWrapper {
                     "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=CS&crse_in=1210&schd_in=%",
                   }
                 }
+                handleClick={[Function]}
               />
             </div>
           </div>
@@ -577,6 +578,15 @@ ShallowWrapper {
                 }
               >
                 Waitlist seats
+              </th>
+              <th
+                style={
+                  Object {
+                    "display": "none",
+                  }
+                }
+              >
+                Notifs
               </th>
               <th
                 style={
@@ -1134,6 +1144,7 @@ ShallowWrapper {
                       "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=CS&crse_in=1210&schd_in=%",
                     }
                   }
+                  handleClick={[Function]}
                 />
               </div>
             </div>,
@@ -1626,6 +1637,7 @@ ShallowWrapper {
                         "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=CS&crse_in=1210&schd_in=%",
                       }
                     }
+                    handleClick={[Function]}
                   />
                 </div>,
               ],
@@ -1859,6 +1871,7 @@ ShallowWrapper {
                         "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=CS&crse_in=1210&schd_in=%",
                       }
                     }
+                    handleClick={[Function]}
                   />,
                 },
                 "ref": null,
@@ -2066,6 +2079,7 @@ ShallowWrapper {
                       "termId": "201810",
                       "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=CS&crse_in=1210&schd_in=%",
                     },
+                    "handleClick": [Function],
                   },
                   "ref": null,
                   "rendered": null,
@@ -2118,6 +2132,15 @@ ShallowWrapper {
                   }
                 >
                   Waitlist seats
+                </th>
+                <th
+                  style={
+                    Object {
+                      "display": "none",
+                    }
+                  }
+                >
+                  Notifs
                 </th>
                 <th
                   style={
@@ -2305,6 +2328,15 @@ ShallowWrapper {
                     }
                   }
                 >
+                  Notifs
+                </th>
+                <th
+                  style={
+                    Object {
+                      "display": "none",
+                    }
+                  }
+                >
                   Honors
                 </th>
                 <th>
@@ -2351,6 +2383,15 @@ ShallowWrapper {
                     }
                   >
                     Waitlist seats
+                  </th>,
+                  <th
+                    style={
+                      Object {
+                        "display": "none",
+                      }
+                    }
+                  >
+                    Notifs
                   </th>,
                   <th
                     style={
@@ -2464,6 +2505,20 @@ ShallowWrapper {
                   },
                   "ref": null,
                   "rendered": "Waitlist seats",
+                  "type": "th",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Notifs",
+                    "style": Object {
+                      "display": "none",
+                    },
+                  },
+                  "ref": null,
+                  "rendered": "Notifs",
                   "type": "th",
                 },
                 Object {
@@ -2678,6 +2733,7 @@ ShallowWrapper {
                   },
                   "shouldShowExamColumns": false,
                   "showHonorsColumn": false,
+                  "showNotificationBoxes": undefined,
                   "showWaitList": false,
                 },
                 "ref": null,
@@ -2723,6 +2779,7 @@ ShallowWrapper {
                   },
                   "shouldShowExamColumns": false,
                   "showHonorsColumn": false,
+                  "showNotificationBoxes": undefined,
                   "showWaitList": false,
                 },
                 "ref": null,
@@ -2768,6 +2825,7 @@ ShallowWrapper {
                   },
                   "shouldShowExamColumns": false,
                   "showHonorsColumn": false,
+                  "showNotificationBoxes": undefined,
                   "showWaitList": false,
                 },
                 "ref": null,
@@ -3122,6 +3180,7 @@ ShallowWrapper {
                       "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=CS&crse_in=1210&schd_in=%",
                     }
                   }
+                  handleClick={[Function]}
                 />
               </div>
             </div>
@@ -3162,6 +3221,15 @@ ShallowWrapper {
                   }
                 >
                   Waitlist seats
+                </th>
+                <th
+                  style={
+                    Object {
+                      "display": "none",
+                    }
+                  }
+                >
+                  Notifs
                 </th>
                 <th
                   style={
@@ -3719,6 +3787,7 @@ ShallowWrapper {
                         "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=CS&crse_in=1210&schd_in=%",
                       }
                     }
+                    handleClick={[Function]}
                   />
                 </div>
               </div>,
@@ -4211,6 +4280,7 @@ ShallowWrapper {
                           "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=CS&crse_in=1210&schd_in=%",
                         }
                       }
+                      handleClick={[Function]}
                     />
                   </div>,
                 ],
@@ -4444,6 +4514,7 @@ ShallowWrapper {
                           "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=CS&crse_in=1210&schd_in=%",
                         }
                       }
+                      handleClick={[Function]}
                     />,
                   },
                   "ref": null,
@@ -4651,6 +4722,7 @@ ShallowWrapper {
                         "termId": "201810",
                         "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=CS&crse_in=1210&schd_in=%",
                       },
+                      "handleClick": [Function],
                     },
                     "ref": null,
                     "rendered": null,
@@ -4703,6 +4775,15 @@ ShallowWrapper {
                     }
                   >
                     Waitlist seats
+                  </th>
+                  <th
+                    style={
+                      Object {
+                        "display": "none",
+                      }
+                    }
+                  >
+                    Notifs
                   </th>
                   <th
                     style={
@@ -4890,6 +4971,15 @@ ShallowWrapper {
                       }
                     }
                   >
+                    Notifs
+                  </th>
+                  <th
+                    style={
+                      Object {
+                        "display": "none",
+                      }
+                    }
+                  >
                     Honors
                   </th>
                   <th>
@@ -4936,6 +5026,15 @@ ShallowWrapper {
                       }
                     >
                       Waitlist seats
+                    </th>,
+                    <th
+                      style={
+                        Object {
+                          "display": "none",
+                        }
+                      }
+                    >
+                      Notifs
                     </th>,
                     <th
                       style={
@@ -5049,6 +5148,20 @@ ShallowWrapper {
                     },
                     "ref": null,
                     "rendered": "Waitlist seats",
+                    "type": "th",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Notifs",
+                      "style": Object {
+                        "display": "none",
+                      },
+                    },
+                    "ref": null,
+                    "rendered": "Notifs",
                     "type": "th",
                   },
                   Object {
@@ -5263,6 +5376,7 @@ ShallowWrapper {
                     },
                     "shouldShowExamColumns": false,
                     "showHonorsColumn": false,
+                    "showNotificationBoxes": undefined,
                     "showWaitList": false,
                   },
                   "ref": null,
@@ -5308,6 +5422,7 @@ ShallowWrapper {
                     },
                     "shouldShowExamColumns": false,
                     "showHonorsColumn": false,
+                    "showNotificationBoxes": undefined,
                     "showWaitList": false,
                   },
                   "ref": null,
@@ -5353,6 +5468,7 @@ ShallowWrapper {
                     },
                     "shouldShowExamColumns": false,
                     "showHonorsColumn": false,
+                    "showNotificationBoxes": undefined,
                     "showWaitList": false,
                   },
                   "ref": null,
