@@ -56,11 +56,18 @@ class Bannerv9Parser {
     });
     resp = resp.body;
 
+
+    // ========================================
+    // my code starts here
+    // ========================================
+
+
     const toKeep = resp.filter((term) => {
       return EllucianTermsParser.isValidTerm(term.code, term.description);
     });
 
     let subjectsRequests = [];
+    let allSectionsData = [];
 
     toKeep.forEach((term) => {
       const max = 200;
@@ -70,25 +77,34 @@ class Bannerv9Parser {
         json: true,
       });
       subjectsRequests.push(subjectRequest);
+      allSectionsData.push(this.getSectionsFromTerm(term.code));
     });
 
     subjectsRequests = await Promise.all(subjectsRequests);
+    allSectionsData = await Promise.all(allSectionsData);
 
     const terms = toKeep.map(term => {
       renameKey(term, 'code', 'termId');
       renameKey(term, 'description', 'text');
-      let host = '';
-      if (term.text.includes('CPS'))
-        host = '/cps';
-      else if (term.text.includes('Law'))
-        host = '/law';
-      else // undergraduate
+      term.host = 'neu.edu';
+      const subCollege = determineSubCollegeName(term.text);
+      if (subCollege === 'undergraduate')
         term.text = term.text.replace(/ (Semester|Quarter)/, '');
-      term['host'] = 'neu.edu' + host;
+      else
+        term.subCollegeName = subCollege;
       return term;
     });
 
+    /*
+     * TODO
+     * go through every section, add into one array, add unique classes to uniqueClasses
+     * concurrent requests to searchResults API for section details such as
+     * enrollment, waitlist, meetings
+     */
     const allSubjects = [];
+    const allSections = [];
+    const uniqueClasses = [];
+
     terms.forEach(term => {
       const subjectResponse = subjectsRequests.shift();
       if (subjectResponse.statusCode !== 200)
@@ -103,7 +119,80 @@ class Bannerv9Parser {
       });
     });
 
-    // await this.getSectionsFromTerm('202010'); TODO
+    allSectionsData.forEach(allSectionsFromTerm => {
+      allSectionsFromTerm.forEach(sectionData => {
+        allSections.push({
+          seatsCapacity: 25,
+          seatsRemaining: 3,
+          waitCapacity: 99,
+          waitRemaining: 99,
+          online: false,
+          honors: false,
+          url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201930&crn_in=30020',
+          crn: '30020',
+          meetings: [
+            {
+              startDate: 17903,
+              endDate: 18003,
+              profs: [
+                'Deborah Milbauer',
+              ],
+              where: 'Ryder Hall 247',
+              type: 'Class',
+              times: {
+                2: [
+                  {
+                    start: 42300,
+                    end: 48300,
+                  },
+                ],
+              },
+            },
+            {
+              startDate: 17903,
+              endDate: 18003,
+              profs: [
+                'Deborah Milbauer',
+              ],
+              where: 'Ryder Hall 247',
+              type: 'Class',
+              times: {
+                4: [
+                  {
+                    start: 53400,
+                    end: 59400,
+                  },
+                ],
+              },
+            },
+            {
+              startDate: 18005,
+              endDate: 18005,
+              profs: [
+                'Deborah Milbauer',
+              ],
+              where: 'TBA',
+              type: 'Final Exam',
+              times: {
+                5: [
+                  {
+                    start: 37800,
+                    end: 45000,
+                  },
+                ],
+              },
+            },
+          ],
+          lastUpdateTime: Date.now(),
+          termId: sectionData.term,
+          host: 'neu.edu',
+          // WARNING: this object is missing the key subCollegeName
+          subject: sectionData.subject,
+          classId: sectionData.courseNumber,
+        });
+      });
+    });
+
 
     // TOD: Run any other parsers you want to run
     // All of the other existing parsers run 0 or 1 other parsers, but you can run any number
@@ -122,12 +211,11 @@ class Bannerv9Parser {
         },
       ],
       terms: terms,
-      subjects: allSubjects
-      // TODO
-      classes: null,
-      sections: null,
+      subjects: allSubjects,
+      classes: uniqueClasses,
+      sections: allSections,
     };
-    macros.log(mergedOutput);
+    // macros.log(mergedOutput);
 
     // Possibly save the mergedOutput to disk so we don't have to run all this again
     if (macros.DEV && require.main !== module) {
@@ -234,6 +322,22 @@ function renameKey(obj, old, name) {
   delete obj[old];
 }
 
+/**
+ * "Spring 2019 Semester" -> "undergraduate"
+ * "Spring 2019 Law Quarter" -> "LAW"
+ * "Spring 2019 CPS Quarter" -> "CPS"
+ *
+ * @param termDesc
+ * @returns {string}
+ */
+function determineSubCollegeName(termDesc) {
+  if (termDesc.includes('CPS'))
+    return 'CPS';
+  else if (termDesc.includes('Law'))
+    return 'LAW';
+  else
+    return 'undergraduate';
+}
 
 Bannerv9Parser.prototype.Bannerv9Parser = Bannerv9Parser;
 const instance = new Bannerv9Parser();
