@@ -32,6 +32,14 @@ async function searchWord(word) {
               ],
             },
           },
+          filter: {
+            bool: {
+              should: [
+                { term: { 'class.termId': 202010 } },
+                { term: { type: 'employee' } },
+              ],
+            },
+          },
         },
       },
     },
@@ -45,7 +53,7 @@ function median(arr) {
   return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
 }
 
-async function searchAll() {
+async function searchAllAtOnce() {
   const times = [];
   const numResults = [];
   const promises = words.map(async (word) => {
@@ -68,6 +76,29 @@ async function searchAll() {
   console.log('Mean time (ms): ', times.reduce((acc, c) => { return acc + c; }, 0) / times.length);
 }
 
+async function searchAll() {
+  const times = [];
+  const numResults = [];
+  for (const word of words) {
+    try {
+      const body = await searchWord(word);
+      // Only add this if we receive non-zero results back.
+      if (body.hits.total.value > 0) {
+        times.push(body.took);
+        numResults.push(body.hits.total.value);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  console.log('Total queries: ', words.length);
+  console.log('Queries with results: ', times.length);
+  console.log('Median # of results: ', median(numResults));
+  console.log('Median time (ms): ', median(times));
+  console.log('Mean time: ', times.reduce((acc, c) => { return acc + c; }, 0) / times.length);
+  console.log('Median time: ', median(times));
+}
+
 if (require.main === module) {
-  searchAll();
+  searchAllAtOnce();
 }
