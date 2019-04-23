@@ -47,20 +47,25 @@ function median(arr) {
 
 async function searchAll() {
   const times = [];
+  const numResults = [];
   const promises = words.map(async (word) => {
     try {
       const body = await searchWord(word);
       // Only add this if we receive non-zero results back.
       if (body.hits.total.value > 0) {
         times.push(body.took);
+        numResults.push(body.hits.total.value);
       }
     } catch (e) {
       console.log(e);
     }
   });
   await Promise.all(promises);
-  console.log('Mean time: ', times.reduce((acc, c) => { return acc + c; }, 0) / times.length);
-  console.log('Median time: ', median(times));
+  console.log('Total queries: ', words.length);
+  console.log('Queries with results: ', times.length);
+  console.log('Median # of results: ', median(numResults));
+  console.log('Median time (ms): ', median(times));
+  console.log('Mean time (ms): ', times.reduce((acc, c) => { return acc + c; }, 0) / times.length);
 }
 
 if (require.main === module) {
