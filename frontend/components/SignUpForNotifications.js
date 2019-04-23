@@ -46,7 +46,7 @@ class SignUpForNotifications extends React.Component {
   componentDidUpdate() {
     if (!this.facebookScopeRef) {
       return;
-     }
+    }
 
     window.FB.XFBML.parse(this.facebookScopeRef);
 
@@ -128,10 +128,8 @@ class SignUpForNotifications extends React.Component {
     // JSON stringify it and then base64 encode the data that we want to pass to the backend.
     // Many characters arn't allowed to be in the ref attribute, including open and closing braces.
     // So base64 enocode it and then decode it on the server. Without the base64 encoding, the button will not render.
-    
+
     const dataRef = btoa(JSON.stringify({
-     // classHash: aClass.getHash(),
-     // sectionHashes: sectionsHashes,
       dev: macros.DEV,
       loginKey: loginKey,
     }));
@@ -142,7 +140,7 @@ class SignUpForNotifications extends React.Component {
           className='fb-send-to-messenger sendToMessengerButton'
           messenger_app_id='1979224428978082'
           page_id='807584642748179'
-          data-ref={dataRef}
+          data-ref={ dataRef }
           color='white'
           size='large'
         />
@@ -179,12 +177,12 @@ class SignUpForNotifications extends React.Component {
     } else {
       // Show a button that says there are currently seats available.
       content = (
-          <div className='disabledButton notificationButton'>
+        <div className='disabledButton notificationButton'>
           There are seats available in all sections.
-          </div>
+        </div>
       );
     }
-    
+
     const actions = [
       {
         key: 'done',

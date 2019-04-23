@@ -5,9 +5,9 @@
 
 import randomstring from 'randomstring';
 
+import _ from 'lodash';
 import request from './request';
 import macros from './macros';
-import _ from 'lodash';
 import Keys from '../../common/Keys';
 
 
@@ -29,13 +29,13 @@ class User {
   // Downloads the user data from the server.
   // Send the loginKey and the facebookMessengerId (if we have it).
   // Save the facebookMessengerId when the server responds (the server can respond to this request a lot faster when given the facebookMessengerId).
-  async downloadUserData(retry=3) {
+  async downloadUserData(retry = 3) {
     // User has not logged in before, don't bother making the request
     if (!this.hasLoggedInBefore()) {
       return;
     }
 
-    
+
     const body = {
       loginKey: this.getLoginKey(),
     };
@@ -49,14 +49,12 @@ class User {
     let response;
     for (let i = 0; i < retry; i++) {
       response = await request.post({
-	url: '/getUserData',
-	body: body,
+        url: '/getUserData',
+        body: body,
       });
 
-      if (response && response.error) {
-	
-      } else {
-	break;
+      if (!response || !response.error) {
+        break;
       }
     }
 
@@ -74,7 +72,7 @@ class User {
     window.localStorage.senderId = response.user.facebookMessengerId;
 
     macros.log(this.callBack.length);
-    for (let callback of this.callBack) {
+    for (const callback of this.callBack) {
       callback();
     }
 
@@ -82,12 +80,12 @@ class User {
   }
 
   async sendUserData() {
-     // User has not logged in before, don't bother making the request
+    // User has not logged in before, don't bother making the request
     if (!this.hasLoggedInBefore()) {
       return;
     }
 
-    
+
     const body = {
       loginKey: this.getLoginKey(),
     };
@@ -100,21 +98,19 @@ class User {
       body.senderId = window.localStorage.senderId;
     }
 
-    let response;
-    response = await request.post({
+    const response = await request.post({
       url: '/sendUserData',
       body: body,
     });
 
 
-
-    // If error, log it 
+    // If error, log it
     if (response.error) {
       macros.log('something went wrong sending data');
       return;
     }
 
-    for (let callback of this.callBack) {
+    for (const callback of this.callBack) {
       callback();
     }
 
@@ -150,9 +146,8 @@ class User {
   hasSectionAlready(sectionHash) {
     if (this.user) {
       return this.user.watchingSections.includes(sectionHash);
-    } else {
-      return false;
     }
+    return false;
   }
 
   // removes a section from a user, as well as the class if no more sections are tracked
@@ -164,31 +159,30 @@ class User {
     }
 
 
-    let sectionHash = Keys.getSectionHash(section);
-    
+    const sectionHash = Keys.getSectionHash(section);
+
     if (this.user.watchingSections.includes(sectionHash)) {
       macros.log('ope', this.user.watchingSections, sectionHash);
       this.user.watchingSections.splice(this.user.watchingSections.indexOf(sectionHash), 1);
       macros.log('eep', this.user.watchingSections);
 
       const classHash = Keys.getClassHash({
-	host: section.host,
-	termId: section.termId,
-	subject: section.subject,
-	classId: section.classId
+        host: section.host,
+        termId: section.termId,
+        subject: section.subject,
+        classId: section.classId,
       });
 
       let acc = false;
-      for (var i = 0; i < this.user.watchingSections.length; i++) {
-	acc = acc || this.user.watchingSections[i].includes(classHash);
+      for (let i = 0; i < this.user.watchingSections.length; i++) {
+        acc = acc || this.user.watchingSections[i].includes(classHash);
       }
 
       if (!acc) {
-	this.user.watchingClasses.splice(this.user.watchingClasses.indexOf(classHash), 1);
+        this.user.watchingClasses.splice(this.user.watchingClasses.indexOf(classHash), 1);
       }
 
       macros.log(this.user);
-      
     } else {
       macros.error("removed section that doesn't exist on user?", section, this.user);
     }
@@ -201,19 +195,19 @@ class User {
       return;
     }
 
-    let sectionHash = Keys.getSectionHash(section);
-    
+    const sectionHash = Keys.getSectionHash(section);
+
     if (this.user.watchingSections.includes(sectionHash)) {
       macros.error('user already watching section?', section, this.user);
     }
 
     this.user.watchingSections.push(Keys.getSectionHash(section));
 
-    let classHash = Keys.getClassHash({
+    const classHash = Keys.getClassHash({
       host: section.host,
       termId: section.termId,
       subject: section.subject,
-      classId: section.classId
+      classId: section.classId,
     });
 
     macros.log(classHash);
@@ -222,11 +216,9 @@ class User {
     }
 
     macros.log(this.user);
-
-	
   }
 
-  
+
   registerCallback(theCallback) {
     this.callBack.push(theCallback);
   }

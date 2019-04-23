@@ -485,7 +485,7 @@ class Home extends React.Component {
           <div>
             <div className='subjectContaineRowContainer'>
               {subjectInfoRow}
-          </div>
+            </div>
             <ResultsLoader
               results={ this.state.results }
               loadMore={ this.loadMore }

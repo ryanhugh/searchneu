@@ -19,7 +19,6 @@ import macros from './commonMacros';
 const KEYS_REGEX = /[^A-Za-z0-9.]/g;
 
 class Keys {
-
   // The five keys to track the five different data structures
   static allKeys = ['host', 'termId', 'subject', 'classId', 'crn']
 

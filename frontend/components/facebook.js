@@ -35,7 +35,7 @@ class Facebook {
       autoLogAppEvents : false,
       xfbml            : false,
       version          : 'v2.11',
-    });;
+    });
 
 
     window.FB.Event.subscribe('send_to_messenger', this.onSendToMessengerClick);
@@ -47,6 +47,7 @@ class Facebook {
     return this.successfullyRendered;
   }
 
+  // sets the given callbakc to "handleClick"
   handleClickGetter(callback) {
     this.handleClick = callback;
   }
@@ -100,7 +101,7 @@ class Facebook {
       macros.log('Opt in was clicked!', e);
 
       user.downloadUserData(100);
-      
+
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'Sign up clicked',
         hash: JSON.parse(atob(e.ref)).classHash,
@@ -141,9 +142,7 @@ class Facebook {
       } else {
         macros.log(e, 'other message');
       }
-      
     }
-
   }
 }
 

@@ -410,7 +410,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     return;
   }
 
-  if (/*!userObject.classHash || !userObject.sectionHashes || */!userObject.loginKey) {
+  if (!userObject.loginKey) {
     macros.error('Invalid user object from webhook ', userObject);
     return;
   }
@@ -427,8 +427,6 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   let existingData = await firebaseRef.once('value');
   existingData = existingData.val();
 
-  const dataLib = (await promises).dataLib;
-  //const aClass = dataLib.getClassServerDataFromHash(userObject.classHash);
 
   // User is signing in from a new device
   if (existingData) {
@@ -440,39 +438,6 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     if (!existingData.watchingSections) {
       existingData.watchingSections = [];
     }
-
-    // const wasWatchingClass = existingData.watchingClasses.includes(userObject.classHash);
-/*
-    const sectionWasentWatchingBefore = [];
-
-    for (const section of userObject.sectionHashes) {
-      if (!existingData.watchingSections.includes(section)) {
-        sectionWasentWatchingBefore.push(section);
-      }
-    }
-*/
-//    const classCode = `${aClass.subject} ${aClass.classId}`;
-    // Check to see how many of these classes they were already signed up for.
-/*    if (wasWatchingClass && sectionWasentWatchingBefore.length === 0) {
-      notifyer.sendFBNotification(sender, `You are already signed up to get notifications if any of the sections of ${classCode} have seats that open up.`);
-    } else if (wasWatchingClass && sectionWasentWatchingBefore.length > 0) {
-      notifyer.sendFBNotification(sender, `You are already signed up to get notifications if seats open up in some of the sections in ${classCode} and are now signed up for ${sectionWasentWatchingBefore.length} more sections too!`);
-    } else if (sectionWasentWatchingBefore.length === 0) {
-      notifyer.sendFBNotification(sender, `Successfully signed up for notifications if sections are added to ${classCode}!`);
-    } else {
-      notifyer.sendFBNotification(sender, `Successfully signed up for notifications for ${sectionWasentWatchingBefore.length} sections in ${classCode}!`);
-    }*/
-
-    // ok lets add what classes the user saw in the frontend that have no seats availible and that he wants to sign up for
-    // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
-    // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
-
-    // Only add if it dosen't already exist in the user data.
-  /**  if (!existingData.watchingClasses.includes(userObject.classHash)) {
-      existingData.watchingClasses.push(userObject.classHash);
-    }
-
-    existingData.watchingSections = _.uniq(existingData.watchingSections.concat(userObject.sectionHashes));*/
 
     // Remove any null or undefined values from the watchingClasses and watchingSections
     // This can happen if data is manually deleted from the DB, and the data is no longer contineous.
@@ -531,7 +496,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   }
 }
 
-async function unsubscribeSender(sender, text) {
+async function unsubscribeSender(sender) {
   const firebaseRef = await database.getRef(`/users/${sender}`);
 
   let existingData = await firebaseRef.once('value');
@@ -586,7 +551,7 @@ app.post('/webhook/', wrap(async (req, res) => {
       } else if (text === 'What is my facebook messenger sender id?') {
         notifyer.sendFBNotification(sender, sender);
       } else if (text === 'no u') {
-	notifyer.sendFBNotification(sender, 'no u');
+        notifyer.sendFBNotification(sender, 'no u');
       } else {
         // Don't send anything if the user sends a message.
         // notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com !");
@@ -700,7 +665,6 @@ app.post('/sendUserData', wrap(async (req, res) => {
   res.setHeader('Cache-Control', 'no-cache, no-store');
 
 
-
   if (!req.body || !req.body.loginKey) {
     res.send(JSON.stringify({
       error: 'Error.',
@@ -735,7 +699,6 @@ app.post('/sendUserData', wrap(async (req, res) => {
   if (senderId) {
     await database.set(`/users/${senderId}`, req.body.info);
     macros.log('sending done, result is ', await database.get(`/users/${senderId}`));
-
   } else {
     macros.log('Really invalid senderID', req.body, senderId);
     res.send(JSON.stringify({
@@ -747,7 +710,6 @@ app.post('/sendUserData', wrap(async (req, res) => {
     status: 'Success',
   }));
 }));
-
 
 
 app.post('/getUserData', wrap(async (req, res) => {
@@ -816,8 +778,6 @@ app.post('/getUserData', wrap(async (req, res) => {
       return;
     }
   }
-
-  macros.log('getting done, is :', matchingUser);
 
   res.send(JSON.stringify({
     status: 'Success',

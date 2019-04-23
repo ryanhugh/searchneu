@@ -29,7 +29,7 @@ class Notifyer {
     // This check is here so we don't accidentally message people with dev data.
     if (!macros.PROD && sender !== '2178896222126069') {
       macros.log('Refusing to send message to anyone other than Eddy with a y not in prod mode');
-      
+
       macros.log('Not sending', sender, text);
       return {
         error: 'true',

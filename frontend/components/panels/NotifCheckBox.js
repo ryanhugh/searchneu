@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Checkbox } from 'semantic-ui-react';
 import user from '../user';
 import macros from '../macros';
@@ -14,8 +13,6 @@ import Keys from '../../../common/Keys';
 // notifications.
 
 export default class NotifCheckBox extends Checkbox {
-
-
   // creates a new Notification Check Box that has the section's
   // hash in section, and sets checked to be the initial value of if the section
   // is currently in the user or not
@@ -27,36 +24,33 @@ export default class NotifCheckBox extends Checkbox {
     this.state = {};
     this.state.checked = user.hasSectionAlready(Keys.getSectionHash(wantedSection));
     this.state.section = wantedSection;
-      
   }
 
   // if the state is currently checked, uncheck, remove the section from the user's data
   // do opposite.
   // send data to backend
-  handleChange = (e, { value }) => {
+  handleChange = () => {
     if (this.state.checked) {
       user.removeSection(this.state.section);
-      this.setState({checked: false});
+      this.setState({ checked: false });
     } else {
       user.enrollSection(this.state.section);
-      this.setState({checked: true});
+      this.setState({ checked: true });
     }
     user.sendUserData();
   }
 
 
   // renders the proper checkbox. If there are still seats, then make it read
-  // only, otherwise, set up callback on onChange 
+  // only, otherwise, set up callback on onChange
   render() {
     if (this.state.checked !== user.hasSectionAlready(Keys.getSectionHash(this.state.section))) {
       macros.log('ipe', this.state.checked, user.hasSectionAlready(Keys.getSectionHash(this.state.section)));
       this.state.checked = !this.state.checked;
     }
     if (this.props.seats) {
-      return <Checkbox toggle readOnly/>
-    } else {
-      return <Checkbox toggle checked={this.state.checked} onChange = {this.handleChange}/>
+      return <Checkbox toggle readOnly />;
     }
+    return <Checkbox toggle checked={ this.state.checked } onChange={ this.handleChange } />;
   }
-  
 }
