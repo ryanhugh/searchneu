@@ -410,7 +410,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     return;
   }
 
-  if (!userObject.loginKey) {
+  if (!userObject.loginKey || !userObject.classHash || !userObject.sectionHashes) {
     macros.error('Invalid user object from webhook ', userObject);
     return;
   }
@@ -427,6 +427,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   let existingData = await firebaseRef.once('value');
   existingData = existingData.val();
 
+  const dataLib = (await promises).dataLib;
 
   // User is signing in from a new device
   if (existingData) {
@@ -437,6 +438,31 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
     if (!existingData.watchingSections) {
       existingData.watchingSections = [];
+    }
+
+    const wasWatchingClass = existingData.watchingClasses.includes(userObject.classHash);	
+    
+    const sectionWasentWatchingBefore = [];	
+    for (const section of userObject.sectionHashes) {	
+      if (!existingData.watchingSections.includes(section)) {	
+        sectionWasentWatchingBefore.push(section);	
+      }	
+    }	
+    
+    const classCode = `${aClass.subject} ${aClass.classId}`;	
+    // Check to see how many of these classes they were already signed up for.	
+
+    // only auto enrolls if there's one section remaining 
+    if (sectionWasentWatchingBefore.length === 1) {
+     // ok lets add what classes the user saw in the frontend that have no seats availible and that they want to sign up for	
+    // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty	
+    // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it	
+
+     // Only add if it dosen't already exist in the user data.	
+      if (!existingData.watchingClasses.includes(userObject.classHash)) {	
+	existingData.watchingClasses.push(userObject.classHash);	
+      }	
+      existingData.watchingSections = _.uniq(existingData.watchingSections.concat(userObject.sectionHashes));
     }
 
     // Remove any null or undefined values from the watchingClasses and watchingSections
@@ -546,8 +572,8 @@ app.post('/webhook/', wrap(async (req, res) => {
 
       if (text === 'test') {
         notifyer.sendFBNotification(sender, 'CS 1800 now has 1 seat available!! Check it out on https://searchneu.com/cs1800 !');
-      } else if (text.toLowerCase().includes('stop')) {
-        unsubscribeSender(sender, text);
+      } else if (text.toLowerCase() === ('stop')) {
+        unsubscribeSender(sender);
       } else if (text === 'What is my facebook messenger sender id?') {
         notifyer.sendFBNotification(sender, sender);
       } else if (text === 'no u') {

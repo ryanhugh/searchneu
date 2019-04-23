@@ -36,7 +36,6 @@ class SignUpForNotifications extends React.Component {
     this.facebookScopeRef = null;
     this.onSubscribeToggleChange = this.onSubscribeToggleChange.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.handleClick = this.props.handleClick;
   }
 
   // After the button is added to the DOM, we need to tell FB's SDK that it was added to the code and should be processed.
@@ -107,7 +106,7 @@ class SignUpForNotifications extends React.Component {
       showMessengerButton: true,
     });
 
-    facebook.handleClickGetter(this.handleClick);
+    facebook.handleClickGetter(this.props.handleClick);
   }
 
 
@@ -130,6 +129,8 @@ class SignUpForNotifications extends React.Component {
     // So base64 enocode it and then decode it on the server. Without the base64 encoding, the button will not render.
 
     const dataRef = btoa(JSON.stringify({
+      classHash: aClass.getHash(),
+      sectionHashes: sectionHashes,
       dev: macros.DEV,
       loginKey: loginKey,
     }));
