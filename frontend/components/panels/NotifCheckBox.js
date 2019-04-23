@@ -24,6 +24,7 @@ export default class NotifCheckBox extends Checkbox {
 
     const wantedSection = this.props.section;
 
+    this.state = {};
     this.state.checked = user.hasSectionAlready(Keys.getSectionHash(wantedSection));
     this.state.section = wantedSection;
       
@@ -48,7 +49,7 @@ export default class NotifCheckBox extends Checkbox {
   // only, otherwise, set up callback on onChange 
   render() {
     if (this.state.checked !== user.hasSectionAlready(Keys.getSectionHash(this.state.section))) {
-      macros.log('was called');
+      macros.log('ipe', this.state.checked, user.hasSectionAlready(Keys.getSectionHash(this.state.section)));
       this.state.checked = !this.state.checked;
     }
     if (this.props.seats) {

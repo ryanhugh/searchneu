@@ -150,6 +150,8 @@ class User {
   hasSectionAlready(sectionHash) {
     if (this.user) {
       return this.user.watchingSections.includes(sectionHash);
+    } else {
+      return false;
     }
   }
 
