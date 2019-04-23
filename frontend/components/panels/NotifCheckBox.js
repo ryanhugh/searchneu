@@ -12,7 +12,7 @@ import Keys from '../../../common/Keys';
 // This file renders the checkboxes that control which sections a user signs up for
 // notifications.
 
-export default class NotifCheckBox extends React.component {
+export default class NotifCheckBox extends Checkbox {
   // creates a new Notification Check Box that has the section's
   // hash in section, and sets checked to be the initial value of if the section
   // is currently in the user or not
@@ -24,13 +24,12 @@ export default class NotifCheckBox extends React.component {
     this.state = {};
     this.state.checked = user.hasSectionAlready(Keys.getSectionHash(wantedSection));
     this.state.section = wantedSection;
-    this.handleChange = this.handleChange.bind(this);
   }
 
   // if the state is currently checked, uncheck, remove the section from the user's data
   // do opposite.
   // send data to backend
-  handleChange() {
+  handleChange = () => {
     if (this.state.checked) {
       user.removeSection(this.state.section);
       this.setState({ checked: false });

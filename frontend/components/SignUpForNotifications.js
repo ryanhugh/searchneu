@@ -117,10 +117,10 @@ class SignUpForNotifications extends React.Component {
     const aClass = this.props.aClass;
 
     // Get a list of all the sections that don't have seats remaining
-    const sectionsHashes = [];
+    const sectionHashes = [];
     for (const section of aClass.sections) {
       if (section.seatsRemaining <= 0) {
-        sectionsHashes.push(section.getHash());
+        sectionHashes.push(section.getHash());
       }
     }
 
