@@ -221,7 +221,7 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
 
     // Compare the classAttributes from the catalog parser vs from the class parsers. Keep the catalog one if they conflict.
     if (catalogData.classAttributes) {
-      if (classWrapper.value.classAttributes && !_.isEqual(classWrapper.value.classAttributes, catalogData.classAttributes)) {
+      if (classWrapper.value.classAttributes && !_.isEqual(classWrapper.value.classAttributes, catalogData.classAttributes) && !process.env.CI) {
         macros.log('Not overriding catalog classAttributes attributes with class classAttributes...', catalogData.url);
       }
       classWrapper.value.classAttributes = catalogData.classAttributes;
