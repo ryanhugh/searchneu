@@ -54,7 +54,7 @@ export default class NotifCheckBox extends React.Component {
       macros.log('ipe', this.state.checked, user.hasSectionAlready(Keys.getSectionHash(this.state.section)));
       this.state.checked = !this.state.checked;
     }
-    if (this.state.section.seatsRemaining) {
+    if (this.state.section && this.state.section.seatsRemaining) {
       return <Checkbox toggle readOnly />;
     }
     return <Checkbox toggle checked={ this.state.checked } onChange={ this.doChange } />;

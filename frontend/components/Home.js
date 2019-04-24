@@ -8,6 +8,7 @@ import ReactTooltip from 'react-tooltip';
 import cx from 'classnames/bind';
 import { Dropdown } from 'semantic-ui-react';
 
+
 import 'semantic-ui-css/semantic.min.css';
 import '../css/base.scss';
 
@@ -430,6 +431,7 @@ class Home extends React.Component {
     }
   }
 
+
   render() {
     let resultsElement = null;
 
@@ -447,6 +449,7 @@ class Home extends React.Component {
         meme: true,
         memes: true,
       };
+
 
       if (memeMatches[this.state.searchQuery.toLowerCase().trim()]) {
         resultsElement = (

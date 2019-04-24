@@ -161,7 +161,7 @@ export default class DesktopSectionPanel extends React.Component {
 
         <td style={{ display: !this.props.showNotificationBoxes && 'none' }}>
           <div data-tip='Sign up for notifications for this class' className='inlineBlock'>
-            <NotifCheckBox seats={ this.props.section.seatsRemaining } />
+            <NotifCheckBox seats={ this.props.section.seatsRemaining } section={ this.props.section } />
           </div>
         </td>
 
