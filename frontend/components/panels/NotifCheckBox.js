@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { Checkbox } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 import user from '../user';
 import macros from '../macros';
 import Keys from '../../../common/Keys';
@@ -13,6 +14,10 @@ import Keys from '../../../common/Keys';
 // notifications.
 
 export default class NotifCheckBox extends React.Component {
+  static propTypes = {
+    section: PropTypes.object.isRequired,
+  }
+
   // creates a new Notification Check Box that has the section's
   // hash in section, and sets checked to be the initial value of if the section
   // is currently in the user or not
@@ -49,7 +54,7 @@ export default class NotifCheckBox extends React.Component {
       macros.log('ipe', this.state.checked, user.hasSectionAlready(Keys.getSectionHash(this.state.section)));
       this.state.checked = !this.state.checked;
     }
-    if (this.props.seats) {
+    if (this.state.section.seatsRemaining) {
       return <Checkbox toggle readOnly />;
     }
     return <Checkbox toggle checked={ this.state.checked } onChange={ this.doChange } />;

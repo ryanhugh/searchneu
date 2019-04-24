@@ -50,7 +50,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
   }
 
   reRenderCheckBox() {
-    this.setState({ test: !this.state.test });
+    this.setState({ showNotificationBoxes: true });
   }
 
   // Method to decide whether to show the waitlist or not
@@ -94,8 +94,6 @@ export default class DesktopClassPanel extends BaseClassPanel {
   // handles the sign up for notifications button being clicked,
   // to allow for user to choose which sections to sign up for
   handleClick() {
-    // fishy...
-    this.state.showNotificationBoxes = true;
     this.setState({
       showNotificationBoxes: true,
     });

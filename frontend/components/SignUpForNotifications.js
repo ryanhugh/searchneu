@@ -23,6 +23,7 @@ class SignUpForNotifications extends React.Component {
 
   static propTypes = {
     aClass: PropTypes.object.isRequired,
+    handleClick: PropTypes.func.isRequired,
   };
 
   constructor(props) {

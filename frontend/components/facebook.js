@@ -108,7 +108,7 @@ class Facebook {
       });
 
       if (this.handleClick) {
-	this.handleClick();
+        this.handleClick();
       }
 
       // When the Send To Messenger button is clicked in development, the webhook is still sent to prod by Facebook

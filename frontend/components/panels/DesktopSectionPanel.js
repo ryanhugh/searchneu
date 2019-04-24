@@ -17,6 +17,10 @@ import globe from './globe.svg';
   This class renders the sections for a class on the Desktop version
 */
 export default class DesktopSectionPanel extends React.Component {
+  static defaultProps = {
+    showNotificationBoxes: false,
+  };
+
   static propTypes = {
     shouldShowExamColumns: PropTypes.bool.isRequired,
     showWaitList: PropTypes.bool.isRequired,
@@ -157,7 +161,7 @@ export default class DesktopSectionPanel extends React.Component {
 
         <td style={{ display: !this.props.showNotificationBoxes && 'none' }}>
           <div data-tip='Sign up for notifications for this class' className='inlineBlock'>
-            <NotifCheckBox seats={ this.props.section.seatsRemaining } section={ this.props.section } />
+            <NotifCheckBox seats={ this.props.section.seatsRemaining } />
           </div>
         </td>
 

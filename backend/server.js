@@ -427,8 +427,6 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   let existingData = await firebaseRef.once('value');
   existingData = existingData.val();
 
-  const dataLib = (await promises).dataLib;
-
   // User is signing in from a new device
   if (existingData) {
     // Add this array if it dosen't exist. It should exist
@@ -440,28 +438,25 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
       existingData.watchingSections = [];
     }
 
-    const wasWatchingClass = existingData.watchingClasses.includes(userObject.classHash);	
-    
-    const sectionWasentWatchingBefore = [];	
-    for (const section of userObject.sectionHashes) {	
-      if (!existingData.watchingSections.includes(section)) {	
-        sectionWasentWatchingBefore.push(section);	
-      }	
-    }	
-    
-    const classCode = `${aClass.subject} ${aClass.classId}`;	
-    // Check to see how many of these classes they were already signed up for.	
+    const sectionWasentWatchingBefore = [];
+    for (const section of userObject.sectionHashes) {
+      if (!existingData.watchingSections.includes(section)) {
+        sectionWasentWatchingBefore.push(section);
+      }
+    }
 
-    // only auto enrolls if there's one section remaining 
-    if (sectionWasentWatchingBefore.length === 1) {
-     // ok lets add what classes the user saw in the frontend that have no seats availible and that they want to sign up for	
-    // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty	
-    // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it	
+    // Check to see how many of these classes they were already signed up for.
 
-     // Only add if it dosen't already exist in the user data.	
-      if (!existingData.watchingClasses.includes(userObject.classHash)) {	
-	existingData.watchingClasses.push(userObject.classHash);	
-      }	
+    // only auto enrolls if there's one (or less???) sectionz remaining
+    if (sectionWasentWatchingBefore.length <= 1) {
+      // ok lets add what classes the user saw in the frontend that have no seats availible and that they want to sign up for
+    // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
+    // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
+
+      // Only add if it dosen't already exist in the user data.
+      if (!existingData.watchingClasses.includes(userObject.classHash)) {
+        existingData.watchingClasses.push(userObject.classHash);
+      }
       existingData.watchingSections = _.uniq(existingData.watchingSections.concat(userObject.sectionHashes));
     }
 
