@@ -859,11 +859,21 @@ if (macros.DEV) {
 }
 
 
-// Respond to requests for the api. 
-// This 
-app.get('/data/*', (req, res) => {
+// Respond to requests for the api and log info to amplitude.
+app.get('/data/*', wrap(async (req, res, next) => {
+  // Gather some info and send it to amplitude
+  const info = { ...req.headers };
 
-})
+  info.ip = getRemoteIp(req);
+  info.url = req.url;
+
+  macros.log('Api hit', info);
+
+  macros.logAmplitudeEvent('API Request', info);
+
+  // Use express to send the static file
+  express.static('public')(req, res, next);
+}));
 
 
 app.use(express.static('public'));
