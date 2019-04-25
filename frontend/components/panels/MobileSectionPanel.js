@@ -19,10 +19,9 @@ import globe from './globe.svg';
 
 // MobileSectionPanel page component
 export default class MobileSectionPanel extends React.Component {
-  
   static propTypes = {
     section: PropTypes.object.isRequired,
-    showNotificationBoxes: PropTypes.bool,
+    showNotificationBoxes: PropTypes.bool.isRequired,
   };
 
   // This is different than the one in ClassPanel.js because this can show and hide the waitlist based on a per-section basis

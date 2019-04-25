@@ -19,6 +19,6 @@ it('should render a section', () => {
 });
 
 it('should render another section w/ checkboxes', () => {
-  const result = shallow(<MobileSectionPanel section={ mockData.cs1210.sections[1] } showNotificationBoxes={ true } />);
+  const result = shallow(<MobileSectionPanel section={ mockData.cs1210.sections[1] } showNotificationBoxes />);
   expect(result).toMatchSnapshot();
 });
