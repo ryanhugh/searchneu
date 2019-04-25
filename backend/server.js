@@ -859,6 +859,13 @@ if (macros.DEV) {
 }
 
 
+// Respond to requests for the api. 
+// This 
+app.get('/data/*', (req, res) => {
+
+})
+
+
 app.use(express.static('public'));
 
 // Google Search Console Site Verification.
