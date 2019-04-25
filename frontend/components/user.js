@@ -218,11 +218,12 @@ class User {
     macros.log(this.user);
   }
 
-
+  // registers a callback to go on the list of callbacks for a user. 
   registerCallback(theCallback) {
     this.callBack.push(theCallback);
   }
 
+  // gets rid of said callback, and all other variants of it. 
   unregisterCallback(theCallback) {
     _.pull(this.callBack, [theCallback]);
   }

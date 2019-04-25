@@ -52,6 +52,7 @@ class Facebook {
     this.handleClick = callback;
   }
 
+
   // This function assumes that 'searchneu.com' is whitelisted in the Facebook Developer console settings
   // https://developers.facebook.com/apps/1979224428978082/settings/basic/
   // Facebook only allows applications to run on one domain at a time

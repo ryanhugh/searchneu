@@ -10,6 +10,7 @@ import { Icon } from 'semantic-ui-react';
 import WeekdayBoxes from './WeekdayBoxes';
 import LocationLinks from './LocationLinks';
 import macros from '../macros';
+import NotifCheckBox from './NotifCheckBox';
 
 import globe from './globe.svg';
 
@@ -168,8 +169,14 @@ export default class MobileSectionPanel extends React.Component {
               <td className='secondColumn'>
                 {this.props.section.seatsRemaining}/{this.props.section.seatsCapacity} Available
               </td>
-            </tr>
-            {waitlistRow}
+        </tr>
+        {waitlistRow}
+	<tr style= {{ display: !this.props.showNotificationBoxes && 'none' }}>
+	<td className='firstColumn'>Enable Notifications</td>
+	<td className='secondColumn'>
+	<NotifCheckBox section= { this.props.section } />
+	</td>
+	</tr>
             {examRow}
           </tbody>
         </table>
