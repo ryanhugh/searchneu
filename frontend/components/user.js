@@ -225,9 +225,7 @@ class User {
 
   // gets rid of said callback, and all other variants of it.
   unregisterCallback(theCallback) {
-    macros.log('oh', this.callBack, theCallback);
     _.pull(this.callBack, theCallback);
-    macros.log('no', this.callBack, theCallback);
   }
 }
 

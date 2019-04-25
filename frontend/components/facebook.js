@@ -109,9 +109,7 @@ class Facebook {
         hash: JSON.parse(atob(e.ref)).classHash,
       });
 
-      if (this.handleClick) {
-        this.handleClick();
-      }
+      this.handleClick();
 
       // When the Send To Messenger button is clicked in development, the webhook is still sent to prod by Facebook
       // In this case, send the data to the development server directly.
