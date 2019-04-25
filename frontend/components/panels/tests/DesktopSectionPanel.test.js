@@ -24,7 +24,6 @@ it('should render another section', () => {
 });
 
 it('should render a section w/ notif check boxes', () => {
-  const result = shallow(<DesktopSectionPanel shouldShowExamColumns={ false } showWaitList = { false } showHonorsColumn = { false } section= {mockData.cs1210.sections[0] } showNotificatinoBoxes={ true } />);
+  const result = shallow(<DesktopSectionPanel shouldShowExamColumns={ false } showWaitList={ false } showHonorsColumn={ false } section={ mockData.cs1210.sections[0] } showNotificatinoBoxes />);
   expect(result).toMatchSnapshot();
 });
-

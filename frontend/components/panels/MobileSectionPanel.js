@@ -19,8 +19,10 @@ import globe from './globe.svg';
 
 // MobileSectionPanel page component
 export default class MobileSectionPanel extends React.Component {
+  
   static propTypes = {
     section: PropTypes.object.isRequired,
+    showNotificationBoxes: PropTypes.bool,
   };
 
   // This is different than the one in ClassPanel.js because this can show and hide the waitlist based on a per-section basis
@@ -169,14 +171,14 @@ export default class MobileSectionPanel extends React.Component {
               <td className='secondColumn'>
                 {this.props.section.seatsRemaining}/{this.props.section.seatsCapacity} Available
               </td>
-        </tr>
-        {waitlistRow}
-	<tr style= {{ display: !this.props.showNotificationBoxes && 'none' }}>
-	<td className='firstColumn'>Enable Notifications</td>
-	<td className='secondColumn'>
-	<NotifCheckBox section= { this.props.section } />
-	</td>
-	</tr>
+            </tr>
+            {waitlistRow}
+            <tr style={{ display: !this.props.showNotificationBoxes && 'none' }}>
+              <td className='firstColumn'>Enable Notifications</td>
+              <td className='secondColumn'>
+                <NotifCheckBox section={ this.props.section } />
+              </td>
+            </tr>
             {examRow}
           </tbody>
         </table>

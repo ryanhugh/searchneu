@@ -88,7 +88,7 @@ class MobileClassPanel extends BaseClassPanel {
             </Collapsible>
             {feeString}
 
-          <SignUpForNotifications aClass={ aClass } handleClick = { this.handleClick } />
+            <SignUpForNotifications aClass={ aClass } handleClick={ this.handleClick } />
           </div>
         </span>
       );
@@ -141,7 +141,7 @@ class MobileClassPanel extends BaseClassPanel {
 
     if (aClass.sections && aClass.sections.length > 0) {
       sectionTable = this.state.renderedSections.map((section) => {
-        return <MobileSectionPanel key={ section.getHash() } section={ section } showNotificationBoxes={ this.state.showNotificationBoxes }/>;
+        return <MobileSectionPanel key={ section.getHash() } section={ section } showNotificationBoxes={ this.state.showNotificationBoxes } />;
       });
     }
 
