@@ -867,8 +867,6 @@ app.get('/data/*', wrap(async (req, res, next) => {
   info.ip = getRemoteIp(req);
   info.url = req.url;
 
-  macros.log('Api hit', info);
-
   macros.logAmplitudeEvent('API Request', info);
 
   // Use express to send the static file
