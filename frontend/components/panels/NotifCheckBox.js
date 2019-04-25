@@ -51,7 +51,6 @@ export default class NotifCheckBox extends React.Component {
   // only, otherwise, set up callback on onChange
   render() {
     if (this.state.checked !== user.hasSectionAlready(Keys.getSectionHash(this.state.section))) {
-      macros.log('ipe', this.state.checked, user.hasSectionAlready(Keys.getSectionHash(this.state.section)));
       this.state.checked = !this.state.checked;
     }
     if (this.state.section && this.state.section.seatsRemaining) {
