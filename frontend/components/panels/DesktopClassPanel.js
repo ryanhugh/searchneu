@@ -189,8 +189,8 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
     let courseAttr;
     if (courseAttrString) {
-      courseAttr = courseAttrString.map((i, k) => {
-        return <div k={ k }>{i}</div>;
+      courseAttr = courseAttrString.map((item) => {
+        return <div key={ item }>{item}</div>;
       });
     }
 
