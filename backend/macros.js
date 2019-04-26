@@ -225,7 +225,7 @@ class Macros extends commonMacros {
 
     const data = {
       event_type: type,
-      device_id: 'Backend ' + type,
+      device_id: `Backend ${type}`,
       session_id: Date.now(),
       event_properties: event,
     };
