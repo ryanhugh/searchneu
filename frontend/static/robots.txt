@@ -1,2 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /data
+
+Sitemap: https://searchneu.com/sitemap.xml
