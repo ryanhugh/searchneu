@@ -1,5 +1,9 @@
 User-agent: *
 Allow: /
+
+# There's no point in allowing spiders to hit the api
+# It will just generate logs unnecessarily
+User-agent: *
 Disallow: /data
 
 Sitemap: https://searchneu.com/sitemap.xml
