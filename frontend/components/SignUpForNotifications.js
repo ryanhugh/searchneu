@@ -98,16 +98,22 @@ class SignUpForNotifications extends React.Component {
 
   // Updates the state to show the button.
   onSubscribeToggleChange() {
-    macros.logAmplitudeEvent('FB Send to Messenger', {
-      message: 'First button click',
-      hash: this.props.aClass.getHash(),
-    });
 
-    this.setState({
-      showMessengerButton: true,
-    });
+    if (user.user) {
+      macros.log('user exists already', user.user);
+      this.props.handleClick();
+    } else {
+      macros.logAmplitudeEvent('FB Send to Messenger', {
+	message: 'First button click',
+	hash: this.props.aClass.getHash(),
+      });
 
-    facebook.handleClickGetter(this.props.handleClick);
+      this.setState({
+	showMessengerButton: true,
+      });
+
+      facebook.handleClickGetter(this.props.handleClick);
+    }
   }
 
 
