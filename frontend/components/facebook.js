@@ -52,7 +52,6 @@ class Facebook {
     this.handleClick = callback;
   }
 
-  
 
   // This function assumes that 'searchneu.com' is whitelisted in the Facebook Developer console settings
   // https://developers.facebook.com/apps/1979224428978082/settings/basic/
@@ -109,7 +108,9 @@ class Facebook {
         hash: JSON.parse(atob(e.ref)).classHash,
       });
 
-      this.handleClick();
+      if (this.handleClick) {
+	this.handleClick();
+      }
 
       // When the Send To Messenger button is clicked in development, the webhook is still sent to prod by Facebook
       // In this case, send the data to the development server directly.

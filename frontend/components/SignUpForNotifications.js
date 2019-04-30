@@ -98,19 +98,18 @@ class SignUpForNotifications extends React.Component {
 
   // Updates the state to show the button.
   onSubscribeToggleChange() {
-
     if (user.user) {
       macros.log('user exists already', user.user);
       this.props.handleClick();
       this.setState({ toggleBox: true });
     } else {
       macros.logAmplitudeEvent('FB Send to Messenger', {
-	message: 'First button click',
-	hash: this.props.aClass.getHash(),
+        message: 'First button click',
+        hash: this.props.aClass.getHash(),
       });
 
       this.setState({
-	showMessengerButton: true,
+        showMessengerButton: true,
       });
 
       facebook.handleClickGetter(this.props.handleClick);
@@ -185,7 +184,7 @@ class SignUpForNotifications extends React.Component {
       content = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when sections are added!' className='notificationButton' />;
     } else if (this.props.aClass.isAtLeastOneSectionFull()) {
       content = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when seats open up!' className='notificationButton' />;
-    }  else {
+    } else {
       // Show a button that says there are currently seats available.
       content = (
         <div className='disabledButton notificationButton'>

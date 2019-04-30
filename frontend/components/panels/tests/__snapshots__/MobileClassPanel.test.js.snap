@@ -307,6 +307,7 @@ ShallowWrapper {
                 "waitRemaining": 0,
               }
             }
+            showNotificationBoxes={false}
           />
           <div
             className="more-sections-button"
@@ -456,6 +457,7 @@ ShallowWrapper {
                     "waitRemaining": 0,
                   }
                 }
+                showNotificationBoxes={false}
               />,
             ],
             <div
@@ -626,7 +628,7 @@ ShallowWrapper {
                 "waitCapacity": 0,
                 "waitRemaining": 0,
               },
-              "showNotificationBoxes": undefined,
+              "showNotificationBoxes": false,
             },
             "ref": null,
             "rendered": null,
@@ -747,6 +749,7 @@ ShallowWrapper {
                   "waitRemaining": 0,
                 }
               }
+              showNotificationBoxes={false}
             />
             <div
               className="more-sections-button"
@@ -896,6 +899,7 @@ ShallowWrapper {
                       "waitRemaining": 0,
                     }
                   }
+                  showNotificationBoxes={false}
                 />,
               ],
               <div
@@ -1066,7 +1070,7 @@ ShallowWrapper {
                   "waitCapacity": 0,
                   "waitRemaining": 0,
                 },
-                "showNotificationBoxes": undefined,
+                "showNotificationBoxes": false,
               },
               "ref": null,
               "rendered": null,

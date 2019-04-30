@@ -7,7 +7,6 @@ import React from 'react';
 import { Checkbox } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import user from '../user';
-import macros from '../macros';
 import Keys from '../../../common/Keys';
 
 // This file renders the checkboxes that control which sections a user signs up for

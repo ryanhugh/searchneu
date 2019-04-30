@@ -148,7 +148,7 @@ class Home extends React.Component {
     this.closeForm = this.closeForm.bind(this);
     this.closeHelpModal = this.closeHelpModal.bind(this);
     this.openHelpModal = this.openHelpModal.bind(this);
-    
+
 
     // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
@@ -339,7 +339,7 @@ class Home extends React.Component {
   openHelpModal() {
     this.setState({ helpModalOpen: true });
   }
-	
+
   logSearch(searchQuery) {
     searchQuery = searchQuery.trim();
     if (searchQuery === this.lastSearch) {
@@ -483,8 +483,8 @@ class Home extends React.Component {
       } else if (!this.state.waitingOnEnter) {
         let subjectInfoRow = null;
 
-	// if they did a search on a subject's name, then it'll show the classes
-	/// in that subject, and clarify by showing "showing all classes in "x"
+        // if they did a search on a subject's name, then it'll show the classes
+        /// in that subject, and clarify by showing "showing all classes in "x"
         if (this.state.subjectName) {
           subjectInfoRow = (<div className='subjectContaineRow'>Showing all {this.state.subjectCount} {this.state.subjectName} classes.</div>);
         }

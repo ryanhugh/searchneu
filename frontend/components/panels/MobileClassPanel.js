@@ -33,6 +33,7 @@ class MobileClassPanel extends BaseClassPanel {
     // so all we need to do here is another field.
     this.state.showMoreThanTitle = false;
     this.handleClick = this.handleClick.bind(this);
+    this.state.showNotificationBoxes = false;
   }
 
   handleClick() {
