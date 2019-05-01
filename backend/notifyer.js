@@ -27,7 +27,7 @@ class Notifyer {
 
     // If you want to message yourself in dev mode too, just change this.
     // This check is here so we don't accidentally message people with dev data.
-    if (!macros.PROD && sender !== '2178896222126069' || sender !== '1397905100304615') {
+    if (!macros.PROD && sender !== '2178896222126069' && sender !== '1397905100304615') {
       macros.log('Refusing to send message to anyone other than Eddy with a y not in prod mode (or Ryan I guess)');
 
       macros.log('Not sending', sender, text);

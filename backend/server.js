@@ -513,6 +513,8 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     // Send the user a notification letting them know everything was successful.
     notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}!`);
 
+    macros.log('here');
+
     database.set(`/users/${sender}`, newUser);
   }
 }

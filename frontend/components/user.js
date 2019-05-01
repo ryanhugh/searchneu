@@ -48,7 +48,7 @@ class User {
 
     let response;
     for (let i = 0; i < retry; i++) {
-      response = await request.post({
+      response = await request.post({ //eslint-disable-line no-await-in-loop
         url: '/getUserData',
         body: body,
       });
