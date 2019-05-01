@@ -184,6 +184,29 @@ app.use((req, res, next) => {
   }
 });
 
+// Shows the entire DB in dev
+app.get('/getDatabaseInDev', wrap(async (req, res) => {
+  if (!macros.DEV) {
+    res.send(JSON.stringify({
+      error: 'no',
+    }));
+    return;
+  }
+
+  const ip = getRemoteIp(req);
+  if (ip !== 'localhost' && ip !== '127.0.0.1') {
+    res.send(JSON.stringify({
+      error: 'no',
+    }));
+    return;
+  }
+
+  const stuff = await database.get('/users');
+  macros.log(stuff);
+
+  res.send(JSON.stringify(stuff, null, 4));
+}));
+
 
 // Used for loading the data required to make the frontend work.
 // This is just the data stored in public and not in cache.
