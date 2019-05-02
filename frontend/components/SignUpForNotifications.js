@@ -54,8 +54,8 @@ class SignUpForNotifications extends React.Component {
     if (window.FB) {
       window.FB.XFBML.parse(this.facebookScopeRef);
     } else {
-      this.setState({
-	showFirefoxMessage: true,
+      this.setState({ // eslint-disable-line react/no-did-update-set-state
+        showFirefoxMessage: true,
       });
       return;
     }
@@ -179,7 +179,7 @@ class SignUpForNotifications extends React.Component {
       if (this.constructor.hasAdblock) {
         content = <Button basic content='Disable adblock to continue' className='diableAdblockButton' />;
       } else if (this.state.showFirefoxMessage) {
-	content = <Button basic content='Signing up for notifications does not work on Firefox' disabled className='diableAdblockButton' />;
+        content = <Button basic content='It seems your website blocks trackers, which breaks signing up for Facebook Messenger notifications' disabled className='diableAdblockButton' />;
       } else {
         content = (
           <div className='facebookButtonContainer'>
