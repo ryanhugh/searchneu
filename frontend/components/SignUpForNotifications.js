@@ -32,6 +32,7 @@ class SignUpForNotifications extends React.Component {
     this.state = {
       showMessengerButton: false,
       showAdblockMessage: false,
+      showFirefoxMessage: false,
     };
 
     this.facebookScopeRef = null;
@@ -48,7 +49,16 @@ class SignUpForNotifications extends React.Component {
       return;
     }
 
-    window.FB.XFBML.parse(this.facebookScopeRef);
+    // firefox has a strict no-trackers rule, which FB violates
+    // this is to make sure the site doesn't crash on firefox
+    if (window.FB) {
+      window.FB.XFBML.parse(this.facebookScopeRef);
+    } else {
+      this.setState({
+	showFirefoxMessage: true,
+      });
+      return;
+    }
 
     const iframe = this.facebookScopeRef.querySelector('iframe');
 
@@ -168,6 +178,8 @@ class SignUpForNotifications extends React.Component {
     if (this.state.showMessengerButton) {
       if (this.constructor.hasAdblock) {
         content = <Button basic content='Disable adblock to continue' className='diableAdblockButton' />;
+      } else if (this.state.showFirefoxMessage) {
+	content = <Button basic content='Signing up for notifications does not work on Firefox' disabled className='diableAdblockButton' />;
       } else {
         content = (
           <div className='facebookButtonContainer'>
