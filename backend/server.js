@@ -706,11 +706,13 @@ async function findMatchingUser(requestLoginKey) {
   return null;
 }
 
+// sends data to the database in the backend
 app.post('/sendUserData', wrap(async (req, res) => {
   // Don't cache this endpoint.
   res.setHeader('Cache-Control', 'no-cache, no-store');
 
 
+  // if there's no body in the request, well, we'll crash, so let's not
   if (!req.body || !req.body.loginKey) {
     res.send(JSON.stringify({
       error: 'Error.',
@@ -752,6 +754,7 @@ app.post('/sendUserData', wrap(async (req, res) => {
     }));
   }
 
+  // send a status of success. Hopefully it went well.
   res.send(JSON.stringify({
     status: 'Success',
   }));

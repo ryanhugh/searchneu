@@ -66,12 +66,10 @@ class User {
     }
 
     this.user = response.user;
-    macros.log(this.user);
 
     // Keep track of the sender id too.
     window.localStorage.senderId = response.user.facebookMessengerId;
 
-    macros.log(this.callBack.length);
     for (const callback of this.callBack) {
       callback();
     }
@@ -162,9 +160,7 @@ class User {
     const sectionHash = Keys.getSectionHash(section);
 
     if (this.user.watchingSections.includes(sectionHash)) {
-      macros.log('ope', this.user.watchingSections, sectionHash);
       this.user.watchingSections.splice(this.user.watchingSections.indexOf(sectionHash), 1);
-      macros.log('eep', this.user.watchingSections);
 
       const classHash = Keys.getClassHash({
         host: section.host,
@@ -210,12 +206,11 @@ class User {
       classId: section.classId,
     });
 
-    macros.log(classHash);
     if (!this.user.watchingClasses.includes(classHash)) {
       this.user.watchingClasses.push(classHash);
     }
 
-    macros.log(this.user);
+    macros.log('user has been enrolled in section', this.user);
   }
 
   // registers a callback to go on the list of callbacks for a user.

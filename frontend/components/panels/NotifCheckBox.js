@@ -13,6 +13,8 @@ import Keys from '../../../common/Keys';
 // notifications.
 
 export default class NotifCheckBox extends React.Component {
+  // the only thing required for you to pass in is what section this NotifCheckBox
+  // was rendered in. We can get all the other data from that.
   static propTypes = {
     section: PropTypes.object.isRequired,
   }
