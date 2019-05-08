@@ -11,7 +11,6 @@ import Keys from '../../../common/Keys';
 
 // This file renders the checkboxes that control which sections a user signs up for
 // notifications.
-
 export default class NotifCheckBox extends React.Component {
   // the only thing required for you to pass in is what section this NotifCheckBox
   // was rendered in. We can get all the other data from that.
@@ -25,11 +24,15 @@ export default class NotifCheckBox extends React.Component {
   constructor(props) {
     super(props);
 
-    const wantedSection = this.props.section;
+    this.state = {
+      // has a user already signed up for notifications on a section?
+      checked: user.hasSectionAlready(Keys.getSectionHash(this.props.section)),
 
-    this.state = {};
-    this.state.checked = user.hasSectionAlready(Keys.getSectionHash(wantedSection));
-    this.state.section = wantedSection;
+      // the section for a class that this NotifCheckBox is for
+      section: this.props.section,
+    };
+
+
     this.doChange = this.doChange.bind(this);
   }
 
@@ -51,12 +54,19 @@ export default class NotifCheckBox extends React.Component {
   // renders the proper checkbox. If there are still seats, then make it read
   // only, otherwise, set up callback on onChange
   render() {
+    // one last check to ensure the state is correct... since sometimes the user isn't
+    // in place by the time rendering has started.
     if (this.state.checked !== user.hasSectionAlready(Keys.getSectionHash(this.state.section))) {
       this.state.checked = !this.state.checked;
     }
+
+    // if we have a section, and the section has seats remaining, it doesn't make
+    // sense to sig up a user for notifications, so make the Checkbox readonly
     if (this.state.section && this.state.section.seatsRemaining) {
       return <Checkbox toggle readOnly />;
     }
+
+    // otherwise, return a checkbox that has the correct state
     return <Checkbox toggle checked={ this.state.checked } onChange={ this.doChange } />;
   }
 }

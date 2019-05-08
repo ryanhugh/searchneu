@@ -21,14 +21,17 @@ class User {
     // Promise to keep track of user data.
     this.userDataPromise = null;
 
+    // downloads the user data immediately
     this.downloadUserData();
 
+    // holds all of the callbacks necessary for the fuuttuurree
     this.callBack = [];
   }
 
   // Downloads the user data from the server.
   // Send the loginKey and the facebookMessengerId (if we have it).
   // Save the facebookMessengerId when the server responds (the server can respond to this request a lot faster when given the facebookMessengerId).
+  // Optional int is the number of times downloadUserData will retry downloading the user before giving up
   async downloadUserData(retry = 3) {
     // User has not logged in before, don't bother making the request
     if (!this.hasLoggedInBefore()) {
@@ -77,6 +80,7 @@ class User {
     macros.log('got user data');
   }
 
+  // sends the new user data to the backend.
   async sendUserData() {
     // User has not logged in before, don't bother making the request
     if (!this.hasLoggedInBefore()) {
@@ -108,6 +112,7 @@ class User {
       return;
     }
 
+    // calls callbacks to ensure the frontend is updated
     for (const callback of this.callBack) {
       callback();
     }
@@ -128,6 +133,7 @@ class User {
     return !!window.localStorage.loginKey;
   }
 
+  // gets a user's (as in browser) loginKey, or generates one if it doesn't exist yet
   getLoginKey() {
     let loginKey = window.localStorage.loginKey;
 
@@ -160,7 +166,8 @@ class User {
     const sectionHash = Keys.getSectionHash(section);
 
     if (this.user.watchingSections.includes(sectionHash)) {
-      this.user.watchingSections.splice(this.user.watchingSections.indexOf(sectionHash), 1);
+      _.pull(this.user.watchingSections, sectionHash);
+      // this.user.watchingSections.splice(this.user.watchingSections.indexOf(sectionHash), 1);
 
       const classHash = Keys.getClassHash({
         host: section.host,
@@ -175,10 +182,9 @@ class User {
       }
 
       if (!acc) {
-        this.user.watchingClasses.splice(this.user.watchingClasses.indexOf(classHash), 1);
+        _.pull(this.user.watchingClasses, classHash);
+        // this.user.watchingClasses.splice(this.user.watchingClasses.indexOf(classHash), 1);
       }
-
-      macros.log(this.user);
     } else {
       macros.error("removed section that doesn't exist on user?", section, this.user);
     }

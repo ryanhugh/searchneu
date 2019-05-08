@@ -17,6 +17,9 @@ import user from './user';
 // (This Sent To Messenger button is not rendered initially because it requires that an iframe is added and 10+ http requests are made for each time it is rendered)
 
 // TODO: Lets make it so clicking on the Send To Messenger button changes this to a third state that just says thanks for signing up!
+// (still needs to be done!)
+
+// All of the actually signing up for sections is now in NotifCheckbox
 
 class SignUpForNotifications extends React.Component {
   static hasAdblock = false;
@@ -30,8 +33,15 @@ class SignUpForNotifications extends React.Component {
     super(props);
 
     this.state = {
+
+      // initially, don't want to show the messenger button yet
       showMessengerButton: false,
+
+      // or the adblock message (sometimes, adblock blocks fb messenger button)
       showAdblockMessage: false,
+
+      // if firefox has strict privacy tracking enabled, the page can crash. Instead of
+      // doing that, we make sure we dont' try to render null things.
       showFirefoxMessage: false,
     };
 
@@ -108,6 +118,7 @@ class SignUpForNotifications extends React.Component {
 
   // Updates the state to show the button.
   onSubscribeToggleChange() {
+    // if a user exists already, we can show the notification checkboxes too
     if (user.user) {
       macros.log('user exists already', user.user);
       this.props.handleClick();
