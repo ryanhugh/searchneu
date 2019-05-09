@@ -7,11 +7,20 @@ const request = new Request('bannerv9Parser');
 // write one primary function that makes all these requests to get all the details for one section given termId, crn
 // returns all the details combined in one object
 
-// https://jennydaman.gitlab.io/nubanned/dark.html#searchresults-enrollment-info-post
-async function getSeats(termId, crn) {
-
+/**
+ * Makes a POST request to
+ * https://nubanner.neu.edu/StudentRegistrationSsb/ssb/searchResults/<endpoint>
+ * with the body
+ * term=000000&courseReferenceNumber=00000
+ *
+ * @param endpoint
+ * @param termId
+ * @param crn
+ * @returns {Promise<Request>}
+ */
+async function searchResults(endpoint, termId, crn) {
   const req = await request.post({
-    url: 'https://nubanner.neu.edu/StudentRegistrationSsb/ssb/searchResults/getEnrollmentInfo',
+    url: `https://nubanner.neu.edu/StudentRegistrationSsb/ssb/searchResults/${endpoint}`,
     form: {
       term: termId,
       courseReferenceNumber: crn
@@ -20,8 +29,15 @@ async function getSeats(termId, crn) {
   });
 
   if (req.statusCode !== 200)
-    macros.error(`getEnrollmentInfo for termId=${termId} and CRN=${crn} didn't work`);
+    macros.error(`${endpoint} for termId=${termId} and CRN=${crn} didn't work`);
 
+  return req;
+}
+
+// https://jennydaman.gitlab.io/nubanned/dark.html#searchresults-enrollment-info-post
+async function getSeats(termId, crn) {
+
+  const req = await searchResults('getEnrollmentInfo', termId, crn);
   const dom = cheerio.parseHTML(req.body);
 
   return {
@@ -56,18 +72,7 @@ function extractSeatsFromDom(domArray, key) {
 // https://jennydaman.gitlab.io/nubanned/dark.html#searchresults-class-details-post
 async function getClassDetails(termId, crn) {
 
-  const req = await request.post({
-    url: 'https://nubanner.neu.edu/StudentRegistrationSsb/ssb/searchResults/getClassDetails',
-    form: {
-      term: termId,
-      courseReferenceNumber: crn
-    },
-    cache: false
-  });
-
-  if (req.statusCode !== 200)
-    macros.error(`getClassDetails for termId=${termId} and CRN=${crn} didn't work`);
-
+  const req = await searchResults('getClassDetails', termId, crn);
   const dom = cheerio.parseHTML(req.body);
   const $ = cheerio.load(req.body);
 
