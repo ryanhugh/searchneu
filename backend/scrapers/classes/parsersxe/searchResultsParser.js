@@ -113,22 +113,28 @@ function extractTextFromDom(domArray, key) {
   return null; // did not find the value
 }
 
-// TODO
 // returns a list of attributes
 // parse list determine honors and NUPath
 // https://jennydaman.gitlab.io/nubanned/dark.html#searchresults-section-attributes-post
 async function getSectionAttributes(termId, crn) {
-
+  const req = await searchResults('getSectionAttributes', termId, crn);
+  const $ = cheerio.load(req.body);
+  const list = [];
+  $('span').each(function(i, element) {
+    list[i] = $(this).text().trim();
+  });
+  return list;
 }
 
 async function main() {
   // BIOL 1141 for Fall 2019
   //macros.log(await getSeats(202010, 17983));
   // BIOL 3605 for Summer 2 2019 is online
-  const BIOL3605 = await getClassDetails(201960, 61066);
+  // const BIOL3605 = await getClassDetails(201960, 61066);
   // macros.log(BIOL3605.online); // === true
   // macros.log((await getClassDetails(202010, 17983)).online); // === true
   // macros.log((await getClassDetails(202010, 10243)).online); // === false
+  macros.log(await getSectionAttributes(202010, 17983));
 }
 
 main();
