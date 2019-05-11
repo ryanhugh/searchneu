@@ -36,6 +36,7 @@
         "@babel/preset-env",
         {
           "useBuiltIns": "entry",
+          "corejs": "^3.0.1",
           "targets": {
             "browsers": [
               "> 0.25%",
@@ -78,6 +79,7 @@
     "classnames": "^2.2.5",
     "compression": "^1.6.2",
     "cookie": "^0.3.1",
+    "core-js": "^3.0.1",
     "cross-env": "^5.0.0",
     "dnscache": "^1.0.1",
     "domutils": "^1.6.2",
