@@ -4,7 +4,7 @@
 
 // Polyfill window.localStorage and window.sessionStorage for unit tests. (JSDOM dosen't include them)
 import 'mock-local-storage';
-import "regenerator-runtime/runtime";
+import 'regenerator-runtime/runtime';
 
 
 if (process.env.NODE_ENV === 'test') {
