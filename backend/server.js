@@ -472,11 +472,11 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
     // only auto enrolls if there's one (or less???) sectionz remaining
     if (sectionWasentWatchingBefore.length <= 1) {
-      // ok lets add what classes the user saw in the frontend that have no seats availible and that they want to sign up for
-    // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
-    // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
+      // ok lets add what classes the user saw in the frontend that have no seats available and that they want to sign up for
+      // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
+      // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
 
-      // Only add if it dosen't already exist in the user data.
+      // Only add if it doesn't already exist in the user data.
       if (!existingData.watchingClasses.includes(userObject.classHash)) {
         existingData.watchingClasses.push(userObject.classHash);
       }
@@ -484,7 +484,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     }
 
     // Remove any null or undefined values from the watchingClasses and watchingSections
-    // This can happen if data is manually deleted from the DB, and the data is no longer contineous.
+    // This can happen if data is manually deleted from the DB, and the data is no longer continuous.
     // (eg index 0 is deleted and Google keeps the others at index 1 and index 2, so index 0 just contains undefined)
     if (existingData.watchingClasses.includes(undefined) || existingData.watchingSections.includes(undefined)) {
       macros.log('existing data class hashes or section hashes includes undefined!', existingData.watchingClasses, existingData.watchingSections);
@@ -535,8 +535,6 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
     // Send the user a notification letting them know everything was successful.
     notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}!`);
-
-    macros.log('here');
 
     database.set(`/users/${sender}`, newUser);
   }
@@ -592,7 +590,7 @@ app.post('/webhook/', wrap(async (req, res) => {
 
       if (text === 'test') {
         notifyer.sendFBNotification(sender, 'CS 1800 now has 1 seat available!! Check it out on https://searchneu.com/cs1800 !');
-      } else if (text.toLowerCase() === ('stop')) {
+      } else if (text.toLowerCase() === 'stop') {
         unsubscribeSender(sender);
       } else if (text === 'What is my facebook messenger sender id?') {
         notifyer.sendFBNotification(sender, sender);

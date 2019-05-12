@@ -15,6 +15,10 @@ const request = new Request('notifyer', {
   retryCount: macros.DEV ? 1 : 3,
 });
 
+// Only send to these sender IDs in DEV mode.
+// If a message is sent to a different sender id in DEV mode, it is logged and ignored.
+const whitelistedSenders = ['2178896222126069', '1397905100304615'];
+
 class Notifyer {
   // Webhook to respond to Facebook messages.
   async sendFBNotification(sender, text) {
@@ -27,7 +31,7 @@ class Notifyer {
 
     // If you want to message yourself in dev mode too, just change this.
     // This check is here so we don't accidentally message people with dev data.
-    if (!macros.PROD && sender !== '2178896222126069' && sender !== '1397905100304615') {
+    if (!macros.PROD && !whitelistedSenders.includes(sender)) {
       macros.log('Refusing to send message to anyone other than Eddy with a y not in prod mode (or Ryan I guess)');
 
       macros.log('Not sending', sender, text);
@@ -105,7 +109,7 @@ class Notifyer {
     return JSON.parse(response.body);
   }
 
-  main() {
+  test() {
     // currently on Eddy with a y's id
     this.sendFBNotification('2178896222126069', 'test notification');
   }
@@ -115,5 +119,5 @@ const instance = new Notifyer();
 export default instance;
 
 if (require.main === module) {
-  instance.main();
+  instance.test();
 }
