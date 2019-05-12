@@ -4,7 +4,7 @@
  */
 
 require('@babel/register');
-require('@babel/polyfill');
+require('regenerator-runtime/runtime');
 const main = require('./main.js');
 
 // This file is the first file ran when calling 'yarn scrape'
