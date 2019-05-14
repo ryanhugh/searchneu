@@ -25,11 +25,12 @@ class Notifyer {
       };
     }
 
+    let devUserFbId = macros.getEnvVariable('fbMessengerId')
+
     // If you want to message yourself in dev mode too, just change this.
     // This check is here so we don't accidentally message people with dev data.
-    if (!macros.PROD && sender !== '1397905100304615') {
-      macros.log('Refusing to send message to anyone other than Ryan not in prod mode');
-      macros.log('Not sending', sender, text);
+    if (!macros.PROD && sender !== devUserFbId) {
+      macros.log('Not sending fb message in dev mode ', sender, text, 'is not', devUserFbId);
       return {
         error: 'true',
       };
@@ -104,8 +105,17 @@ class Notifyer {
     return JSON.parse(response.body);
   }
 
+<<<<<<< HEAD
   main() {
     this.sendFBNotification('1397905100304615', 'test notification');
+=======
+  test() {
+    // currently on whatever your current id is
+
+    let devUserFbId = macros.getEnvVariable('fbMessengerId')
+
+    this.sendFBNotification(devUserFbId, 'test notification');
+>>>>>>> f69f406... added fb user id to config.json and it should be used everywhere now - no more hardcoding ids
   }
 }
 

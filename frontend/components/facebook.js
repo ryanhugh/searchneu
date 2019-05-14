@@ -100,8 +100,23 @@ class Facebook {
       });
 
 
+      // In development mode, the fb id of the developer running this code
+      // should be injected into this code with webpack
+      // if is stored in the config.json. (backend macros.getEnvVariable)
+      let fbMessengerId;
+      if (process.env.fbMessengerId) {
+        fbMessengerId = process.env.fbMessengerId;
+      }
+      else {
+        // These 0's and the 1's below don't mean anything - they are just filler values. 
+        fbMessengerId = '0000000000000000'
+      }
+
+      macros.log('Your FB id is:', fbMessengerId)
+
       // When the Send To Messenger button is clicked in development, the webhook is still sent to prod by Facebook
       // In this case, send the data to the development server directly.
+      // These 1s don't mean anything - they are just filler values. 
       if (macros.DEV) {
         request.post({
           url: '/webhook',
@@ -120,7 +135,7 @@ class Facebook {
                     timestamp: Date.now(),
                     sender:
                       {
-                        id: '1397905100304615',
+                        id: process.env.fbMessengerId,
                       },
                     optin:
                       {
