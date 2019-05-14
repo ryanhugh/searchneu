@@ -30,6 +30,11 @@ class SignUpForNotifications extends React.Component {
 
     this.state = {
       showMessengerButton: false,
+
+      // Keeps track of whether the adblock message is being shown or not
+      // Sometimes, adblock will block the FB plugin from loading
+      // Firefox strict browsing also blocks this plugin from working
+      // If the plugin failed to load for whatever reason, show this message and ask the user to allow FB plugins
       showAdblockMessage: false,
     };
 
@@ -196,7 +201,7 @@ class SignUpForNotifications extends React.Component {
           className='adblock-notification-modal-container'
           header='Please disable adblock and sign into Facebook.'
           open={ this.state.showAdblockMessage }
-          content="Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled. If you are using Safari, try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
+          content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, youw will need to add an exception for this site for this feature to work. You can also try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
           actions={ actions }
         />
       </div>
