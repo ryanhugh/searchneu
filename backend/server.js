@@ -702,9 +702,10 @@ app.post('/getUserData', wrap(async (req, res) => {
 
   const senderId = req.body.senderId;
 
-  // Make sure the sender id is valid
+  // Make sure the sender id is valid.
+  // It is optional (if it is included it must be valid)
   if (senderId && (typeof senderId !== 'string' || senderId.length !== 16 || !macros.isNumeric(senderId))) {
-    macros.log('Invalid senderId', req.body, senderId);
+    macros.log('If sender id is included it must be valid.', req.body, senderId);
     res.send(JSON.stringify({
       error: 'Error.',
     }));
@@ -719,7 +720,7 @@ app.post('/getUserData', wrap(async (req, res) => {
     const user = await database.get(`/users/${senderId}`);
 
     if (!user) {
-      macros.log('Invalid senderId', senderId);
+      macros.log("This sender id doesn't exist in the db" , senderId);
       res.send(JSON.stringify({
         error: 'Error.',
       }));

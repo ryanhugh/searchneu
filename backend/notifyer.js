@@ -19,7 +19,8 @@ class Notifyer {
   // Webhook to respond to Facebook messages.
   async sendFBNotification(sender, text) {
     if (sender.length !== 16 || sender.includes(',')) {
-      macros.warn('Invalid sender ID:', sender);
+      macros.warn('Invalid sender ID:"' + sender + '"', sender.length, typeof sender);
+      console.trace();
       return {
         error: 'true',
       };
@@ -30,7 +31,8 @@ class Notifyer {
     // If you want to message yourself in dev mode too, just change this.
     // This check is here so we don't accidentally message people with dev data.
     if (!macros.PROD && sender !== devUserFbId) {
-      macros.log('Not sending fb message in dev mode ', sender, text, 'is not', devUserFbId);
+      macros.log('Not sending fb message in dev mode ', text, sender, 'is not', devUserFbId, typeof text, typeof devUserFbId);
+      console.trace();
       return {
         error: 'true',
       };

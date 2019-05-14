@@ -67,7 +67,7 @@ export default {
           PROD: 'false',
           DEV: 'true',
           TESTS: 'false',
-          fbMessengerId: fbMessengerId,
+          fbMessengerId: String(fbMessengerId),
         },
       }),
     ] : [
