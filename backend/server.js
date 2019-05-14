@@ -40,26 +40,11 @@ const app = express();
 // This does some crypto stuff to make this verification
 // This way, only facebook can make calls to the /webhook endpoint
 // This is not used in development
-let xhubPromise;
-async function loadExpressHub() {
-  if (xhubPromise) {
-    return xhubPromise;
-  }
-
-  xhubPromise = macros.getEnvVariable('fbAppSecret').then((token) => {
-    return xhub({ algorithm: 'sha1', secret: token });
-  });
-
-  return xhubPromise;
-}
-loadExpressHub();
+let fbAppSecret = macros.getEnvVariable('fbAppSecret')
 
 // Verify that the webhooks are coming from facebook
 // This needs to be above bodyParser for some reason
-app.use(wrap(async (req, res, next) => {
-  const func = await xhubPromise;
-  func(req, res, next);
-}));
+app.use(xhub({ algorithm: 'sha1', secret: fbAppSecret }));
 
 // gzip the output
 app.use(compress());
@@ -378,8 +363,8 @@ app.get('/search', wrap(async (req, res) => {
 
 
 // for Facebook verification of the endpoint.
-app.get('/webhook/', async (req, res) => {
-  const verifyToken = await macros.getEnvVariable('fbVerifyToken');
+app.get('/webhook/', (req, res) => {
+  const verifyToken = macros.getEnvVariable('fbVerifyToken');
 
   if (req.query['hub.verify_token'] === verifyToken) {
     macros.log('yup!');
@@ -640,7 +625,7 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
     status: 'subscribed',
   };
 
-  const mailChimpKey = await macros.getEnvVariable('mailChimpKey');
+  const mailChimpKey = macros.getEnvVariable('mailChimpKey');
 
   if (mailChimpKey) {
     if (macros.PROD) {
@@ -852,51 +837,13 @@ if (macros.DEV) {
     },
   });
 
-<<<<<<< HEAD
+
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler, {
     log: false,
   }));
-=======
-  // Set up the webpack middlware
-  // app.use(wrap(async (err, req, res, next) => {
-  //   // let webpackConfig = await webpackConfigGetter();
-
-  //   const compiler = await webpackCompilerPromise;
-  //   const webpackConfig = await webpackConfigPromise;
-
-  //   // await 
-
-
-  //   middleware = webpackMiddleware(compiler, {
-  //     publicPath: webpackConfig.output.publicPath,
-  //     logLevel: 'silent',
-  //     stats: {
-  //       colors: true,
-  //       timings: true,
-  //       hash: false,
-  //       chunksM: false,
-  //       chunkModules: false,
-  //       modules: false,
-  //     },
-  //   });
-
-  //   middleware(err, req, res, next);
-  // }));
-
-
-
-    // app.use(middleware);
-    // app.use(webpackHotMiddleware(compiler, {
-    //   log: false,
-    // }));
-
-
-  // }));
-
-  
->>>>>>> 22c18ea... changed over get env vars method to sync
 }
+
 
 
 // Respond to requests for the api and log info to amplitude.
@@ -963,33 +910,30 @@ if (macros.DEV) {
 }
 
 
-async function startServer() {
-  const rollbarKey = await macros.getEnvVariable('rollbarPostServerItemToken');
+const rollbarKey = macros.getEnvVariable('rollbarPostServerItemToken');
 
-  if (macros.PROD) {
-    if (rollbarKey) {
-      rollbar.init(rollbarKey);
-      const rollbarFunc = rollbar.errorHandler(rollbarKey);
+if (macros.PROD) {
+  if (rollbarKey) {
+    rollbar.init(rollbarKey);
+    const rollbarFunc = rollbar.errorHandler(rollbarKey);
 
-      // https://rollbar.com/docs/notifier/node_rollbar/
-      // Use the rollbar error handler to send exceptions to your rollbar account
-      app.use(rollbarFunc);
-    } else {
-      macros.error("Don't have rollbar key! Skipping rollbar. :O");
-    }
-  } else if (macros.DEV && !rollbarKey) {
-    macros.log("Don't have rollbar key! Skipping rollbar. :O");
+    // https://rollbar.com/docs/notifier/node_rollbar/
+    // Use the rollbar error handler to send exceptions to your rollbar account
+    app.use(rollbarFunc);
+  } else {
+    macros.error("Don't have rollbar key! Skipping rollbar. :O");
+  }
+} else if (macros.DEV && !rollbarKey) {
+  macros.log("Don't have rollbar key! Skipping rollbar. :O");
+}
+
+
+app.listen(port, '0.0.0.0', (err) => {
+  if (err) {
+    macros.log(err);
   }
 
+  macros.logAmplitudeEvent('Backend Server startup', {});
 
-  app.listen(port, '0.0.0.0', (err) => {
-    if (err) {
-      macros.log(err);
-    }
-
-    macros.logAmplitudeEvent('Backend Server startup', {});
-
-    macros.log(`Listening on port ${port}.`);
-  });
-}
-startServer();
+  macros.log(`Listening on port ${port}.`);
+});

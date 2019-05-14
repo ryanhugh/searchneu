@@ -16,16 +16,16 @@ import MockFirebaseRef from './MockFirebaseRef';
 class Database {
   constructor() {
     if (macros.PROD) {
-      // Promise for loading the firebase DB
-      this.dbPromise = this.loadDatabase();
+      // The firebase DB
+      this.db = this.loadDatabase();
     } else {
       // In memory storage
       this.memoryStorage = {};
     }
   }
 
-  async loadDatabase() {
-    const firebaseConfig = await macros.getEnvVariable('firebaseConfig');
+  loadDatabase() {
+    const firebaseConfig = macros.getEnvVariable('firebaseConfig');
     if (!firebaseConfig) {
       macros.log('====================================================');
       macros.log("Don't have firebase config, probably going to crash.");
@@ -153,10 +153,9 @@ class Database {
   // for users: /users/<user-id> (eg "/users/00000000000")
   // Value can be any JS object.
   // If it has sub-objects you can easily dive into them in the Firebase console.
-  async set(key, value) {
+  set(key, value) {
     if (macros.PROD) {
-      const db = await this.dbPromise;
-      return db.ref(key).set(value);
+      return this.db.ref(key).set(value);
     }
 
     this.setMemoryStorage(this.standardizeKey(key), value);
@@ -165,10 +164,9 @@ class Database {
 
   // Get the value at this key.
   // Key follows the same form in the set method
-  async get(key) {
+  get(key) {
     if (macros.PROD) {
-      const db = await this.dbPromise;
-      const value = await db.ref(key).once('value');
+      const value = this.db.ref(key).once('value');
       return value.val();
     }
 
@@ -177,10 +175,9 @@ class Database {
 
   // Returns the raw firebase ref for a key
   // Use this if you need to read a value, check something about it, and then write to it.
-  async getRef(key) {
+  getRef(key) {
     if (macros.PROD) {
-      const db = await this.dbPromise;
-      return db.ref(key);
+      return this.db.ref(key);
     }
 
     return new MockFirebaseRef(this, this.standardizeKey(key));

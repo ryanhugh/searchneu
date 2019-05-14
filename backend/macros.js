@@ -252,7 +252,7 @@ class Macros extends commonMacros {
   // Any of the times in the args array can be an error, and it will be logs according to rollbar's API
   // shouldExit - exit after logging.
   static async logRollbarError(args, shouldExit) {
-    const rollbarKey = await Macros.getEnvVariable('rollbarPostServerItemToken');
+    const rollbarKey = Macros.getEnvVariable('rollbarPostServerItemToken');
 
     if (!rollbarKey) {
       console.log("Don't have rollbar so not logging error in prod?"); // eslint-disable-line no-console

@@ -35,7 +35,7 @@ class Notifyer {
       };
     }
 
-    const token = await macros.getEnvVariable('fbToken');
+    const token = macros.getEnvVariable('fbToken');
 
     if (!token) {
       macros.warn("Don't have fbToken, not sending FB notification to", sender, text);
@@ -86,7 +86,7 @@ class Notifyer {
   // Get some info about the user
   // Docs here: https://developers.facebook.com/docs/messenger-platform/identity/user-profile
   async getUserProfileInfo(sender) {
-    const token = await macros.getEnvVariable('fbToken');
+    const token = macros.getEnvVariable('fbToken');
 
     if (!token) {
       macros.warn("Don't have fbToken, not getting user info for", sender);
