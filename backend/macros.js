@@ -47,8 +47,10 @@ while (1) {
 
 
 // This is the JSON object saved in /etc/searchneu/config.json
-// opened once getEnvVariable is called once.
-let envVariablesPromise = null;
+// null = hasen't been loaded yet. 
+// {} = it has been loaded, but nothing was found or the file doesn't exist or the file was {}
+// {...} = the file 
+let envVariables = null;
 
 class Macros extends commonMacros {
   static parseNameWithSpaces(name) {
@@ -189,32 +191,43 @@ class Macros extends commonMacros {
     return n;
   }
 
-  static async getAllEnvVariables() {
+  static getAllEnvVariables() {
+    if (envVariables) {
+      return envVariables;
+    }
+
+
     let configFileName = '/etc/searchneu/config.json';
 
-    let exists = await fs.exists(configFileName);
+    // Yes, this is syncronous instead of the normal Node.js async style
+    // But keeping it sync helps simplify other parts of the code
+    // and it only takes 0.2 ms on my Mac. 
+
+    let exists = fs.existsSync(configFileName);
 
     // Also check /mnt/c/etc... in case we are running inside WSL.
     if (!exists) {
       configFileName = '/mnt/c/etc/searchneu/config.json';
-      exists = await fs.exists(configFileName);
+      exists = fs.existsSync(configFileName);
     }
 
     if (!exists) {
-      return {};
+      envVariables = {};
+    }
+    else {
+      envVariables = JSON.parse(fs.readFileSync(configFileName));  
     }
 
-    const body = await fs.readFile(configFileName);
-
-    return JSON.parse(body);
+    return envVariables;
   }
 
-  static async getEnvVariable(name) {
-    if (!envVariablesPromise) {
-      envVariablesPromise = this.getAllEnvVariables();
+  static getEnvVariable(name) {
+    let envVariables;
+    if (!envVariables) {
+      return this.getAllEnvVariables()[name];
     }
 
-    return (await envVariablesPromise)[name];
+    return envVariables[name];
   }
 
   // Log an event to amplitude. Same function signature as the function for the frontend.

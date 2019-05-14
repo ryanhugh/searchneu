@@ -852,10 +852,50 @@ if (macros.DEV) {
     },
   });
 
+<<<<<<< HEAD
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler, {
     log: false,
   }));
+=======
+  // Set up the webpack middlware
+  // app.use(wrap(async (err, req, res, next) => {
+  //   // let webpackConfig = await webpackConfigGetter();
+
+  //   const compiler = await webpackCompilerPromise;
+  //   const webpackConfig = await webpackConfigPromise;
+
+  //   // await 
+
+
+  //   middleware = webpackMiddleware(compiler, {
+  //     publicPath: webpackConfig.output.publicPath,
+  //     logLevel: 'silent',
+  //     stats: {
+  //       colors: true,
+  //       timings: true,
+  //       hash: false,
+  //       chunksM: false,
+  //       chunkModules: false,
+  //       modules: false,
+  //     },
+  //   });
+
+  //   middleware(err, req, res, next);
+  // }));
+
+
+
+    // app.use(middleware);
+    // app.use(webpackHotMiddleware(compiler, {
+    //   log: false,
+    // }));
+
+
+  // }));
+
+  
+>>>>>>> 22c18ea... changed over get env vars method to sync
 }
 
 
