@@ -13,7 +13,7 @@ import macros from './macros';
 
 const rootDir = path.join(__dirname, '..');
 
-let fbMessengerId = macros.getEnvVariable('fbMessengerId')
+const fbMessengerId = macros.getEnvVariable('fbMessengerId');
 
 export default {
   // https://webpack.js.org/configuration/devtool/
@@ -67,7 +67,7 @@ export default {
           PROD: 'false',
           DEV: 'true',
           TESTS: 'false',
-          fbMessengerId: fbMessengerId
+          fbMessengerId: fbMessengerId,
         },
       }),
     ] : [

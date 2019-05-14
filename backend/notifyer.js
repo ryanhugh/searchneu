@@ -25,7 +25,7 @@ class Notifyer {
       };
     }
 
-    let devUserFbId = macros.getEnvVariable('fbMessengerId')
+    const devUserFbId = macros.getEnvVariable('fbMessengerId');
 
     // If you want to message yourself in dev mode too, just change this.
     // This check is here so we don't accidentally message people with dev data.
@@ -112,7 +112,7 @@ class Notifyer {
   test() {
     // currently on whatever your current id is
 
-    let devUserFbId = macros.getEnvVariable('fbMessengerId')
+    const devUserFbId = macros.getEnvVariable('fbMessengerId');
 
     this.sendFBNotification(devUserFbId, 'test notification');
 >>>>>>> f69f406... added fb user id to config.json and it should be used everywhere now - no more hardcoding ids

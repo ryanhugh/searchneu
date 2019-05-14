@@ -47,9 +47,9 @@ while (1) {
 
 
 // This is the JSON object saved in /etc/searchneu/config.json
-// null = hasen't been loaded yet. 
+// null = hasen't been loaded yet.
 // {} = it has been loaded, but nothing was found or the file doesn't exist or the file was {}
-// {...} = the file 
+// {...} = the file
 let envVariables = null;
 
 class Macros extends commonMacros {
@@ -196,12 +196,11 @@ class Macros extends commonMacros {
       return envVariables;
     }
 
-
     let configFileName = '/etc/searchneu/config.json';
 
     // Yes, this is syncronous instead of the normal Node.js async style
     // But keeping it sync helps simplify other parts of the code
-    // and it only takes 0.2 ms on my Mac. 
+    // and it only takes 0.2 ms on my Mac.
 
     let exists = fs.existsSync(configFileName);
 
@@ -213,21 +212,15 @@ class Macros extends commonMacros {
 
     if (!exists) {
       envVariables = {};
-    }
-    else {
-      envVariables = JSON.parse(fs.readFileSync(configFileName));  
+    } else {
+      envVariables = JSON.parse(fs.readFileSync(configFileName));
     }
 
     return envVariables;
   }
 
   static getEnvVariable(name) {
-    let envVariables;
-    if (!envVariables) {
-      return this.getAllEnvVariables()[name];
-    }
-
-    return envVariables[name];
+    return this.getAllEnvVariables()[name];
   }
 
   // Log an event to amplitude. Same function signature as the function for the frontend.

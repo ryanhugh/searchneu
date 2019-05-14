@@ -40,7 +40,7 @@ const app = express();
 // This does some crypto stuff to make this verification
 // This way, only facebook can make calls to the /webhook endpoint
 // This is not used in development
-let fbAppSecret = macros.getEnvVariable('fbAppSecret')
+const fbAppSecret = macros.getEnvVariable('fbAppSecret');
 
 // Verify that the webhooks are coming from facebook
 // This needs to be above bodyParser for some reason
@@ -819,7 +819,7 @@ app.post('/submitFeedback', wrap(async (req, res) => {
   }
 }));
 
-
+// This variable is also used far below to serve static files from ram in dev
 let middleware;
 
 if (macros.DEV) {
@@ -843,7 +843,6 @@ if (macros.DEV) {
     log: false,
   }));
 }
-
 
 
 // Respond to requests for the api and log info to amplitude.
