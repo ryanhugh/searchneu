@@ -19,8 +19,6 @@ import user from './user';
 // TODO: Lets make it so clicking on the Send To Messenger button changes this to a third state that just says thanks for signing up!
 
 class SignUpForNotifications extends React.Component {
-  static hasAdblock = false;
-
   static propTypes = {
     aClass: PropTypes.object.isRequired,
   };
@@ -47,12 +45,25 @@ class SignUpForNotifications extends React.Component {
   // This will tell FB's SDK to scan all the child elements of this.facebookScopeRef to look for fb-send-to-messenger buttons.
   // If the user goes to this page and is not logged into Facebook, a send to messenger button will still appear and they
   // will be asked to sign in after clicking it.
-  componentDidUpdate() {
+  async componentDidUpdate() {
     if (!this.facebookScopeRef) {
       return;
     }
 
-    window.FB.XFBML.parse(this.facebookScopeRef);
+    let FB;
+
+    try {
+      FB = await facebook.getFBPromise();
+    }
+    catch (e) {
+      this.setState({
+        showAdblockMessage: true,
+      });
+
+      return;
+    }
+
+    FB.XFBML.parse(this.facebookScopeRef);
 
     const iframe = this.facebookScopeRef.querySelector('iframe');
 
@@ -72,7 +83,7 @@ class SignUpForNotifications extends React.Component {
       const classHash = this.props.aClass.getHash();
 
       // If has adblock and haven't shown the warning yet, show the warning.
-      if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !this.constructor.hasAdblock && !facebook.didPluginRender()) {
+      if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !facebook.didPluginRender()) {
         if (macros.isMobile) {
           macros.error('Unable to render on mobile?', classHash);
 
@@ -89,7 +100,7 @@ class SignUpForNotifications extends React.Component {
           this.setState({
             showAdblockMessage: true,
           });
-          this.constructor.hasAdblock = true;
+          facebook.pluginFailedToRender();
         }
       } else {
         macros.logAmplitudeEvent('FB Send to Messenger', {
@@ -101,15 +112,26 @@ class SignUpForNotifications extends React.Component {
   }
 
   // Updates the state to show the button.
-  onSubscribeToggleChange() {
+  async onSubscribeToggleChange() {
     macros.logAmplitudeEvent('FB Send to Messenger', {
       message: 'First button click',
       hash: this.props.aClass.getHash(),
     });
 
-    this.setState({
-      showMessengerButton: true,
-    });
+    // Check the status of the FB plugin
+    // If it failed to load, show the message that asks user to disable adblock
+    let newState = {
+      showMessengerButton: true
+    }
+
+    try {
+      await facebook.getFBPromise();
+    }
+    catch (e) {
+      newState.showAdblockMessage = true;
+    }
+
+    this.setState(newState);
   }
 
   // Return the FB button itself.
@@ -160,8 +182,8 @@ class SignUpForNotifications extends React.Component {
     let content = null;
 
     if (this.state.showMessengerButton) {
-      if (this.constructor.hasAdblock) {
-        content = <Button basic content='Disable adblock to continue' className='diableAdblockButton' />;
+      if (facebook.didPluginFail()) {
+        content = <Button basic content='Disable adblock to continue' className='diableAdblockButton' disabled />;
       } else {
         content = (
           <div className='facebookButtonContainer'>
@@ -198,10 +220,9 @@ class SignUpForNotifications extends React.Component {
       <div className='sign-up-for-notifications-container'>
         {content}
         <Modal
-          className='adblock-notification-modal-container'
           header='Please disable adblock and sign into Facebook.'
           open={ this.state.showAdblockMessage }
-          content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, youw will need to add an exception for this site for this feature to work. You can also try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
+          content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, you will need to add an exception for this site for this feature to work. You can also try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
           actions={ actions }
         />
       </div>
