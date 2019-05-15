@@ -54,12 +54,7 @@ class SignUpForNotifications extends React.Component {
 
     try {
       FB = await facebook.getFBPromise();
-    }
-    catch (e) {
-      this.setState({
-        showAdblockMessage: true,
-      });
-
+    } catch (e) {
       return;
     }
 

@@ -18,8 +18,8 @@ if (window.location.hash === '#notrack') {
 }
 
 
-// The FB tracker is in facebook.js 
-// It was modified to include custom error handeling. 
+// The FB tracker is in facebook.js
+// It was modified to include custom error handeling.
 
 // Segment tracket. This includes trackers for Rollbar and Fullstory.
 // These are only used on prod and only used if the user has not opted out of tracking.

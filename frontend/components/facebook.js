@@ -12,26 +12,25 @@ import user from './user';
 // Currently, it manages initialization, the send_to_messenger callback, and getIsLoggedIn
 
 // It also handles dealing with various types of adblock blocking (and breaking) various parts of of FB's api
-// For instance, uBlock origin in Google chrome will allow the initial request to https://connect.facebook.net/en_US/sdk.js (which makes window.FB work), 
+// For instance, uBlock origin in Google chrome will allow the initial request to https://connect.facebook.net/en_US/sdk.js (which makes window.FB work),
 //     but blocks a subsequent request to https://www.facebook.com/v2.11/plugins/send_to_messenger.php?... which breaks the send to messenger plugin
-// Firefox's strict browsing mode blocks the initial request to https://connect.facebook.net/en_US/sdk.js, which makes window.FB never load at all. 
-// In both of these cases, show the user a popup asking them to disable their adblock for this feature to work. 
+// Firefox's strict browsing mode blocks the initial request to https://connect.facebook.net/en_US/sdk.js, which makes window.FB never load at all.
+// In both of these cases, show the user a popup asking them to disable their adblock for this feature to work.
 
 
-let MESSENGER_PLUGIN_STATE = {
+const MESSENGER_PLUGIN_STATE = {
   UNTESTED: 'Untested',
   FAILED: 'Failed',
   RENDERED: 'Rendered',
-}
+};
 
 class Facebook {
   constructor() {
-
     // The initial request for window.FB is kept track with a promise
-    // Add the FB tracking code to the page.     
+    // Add the FB tracking code to the page.
     this.fbPromise = this.loadFbApi();
 
-    // Keeps track of whether the FB api has ever failed to render or successfully rendered since the page has been loaded. 
+    // Keeps track of whether the FB api has ever failed to render or successfully rendered since the page has been loaded.
     this.messengerRenderState = MESSENGER_PLUGIN_STATE.UNTESTED;
 
     // Bind callbacks
@@ -40,40 +39,29 @@ class Facebook {
 
   // Loads the FB Api.
   // This is an private method - don't call from outside or else it may load the api twice.
-  // Just use this.fbPromise 
+  // Just use this.fbPromise
   loadFbApi() {
-
     return new Promise((resolve, reject) => {
-
       // This code was adapted from Facebook's tracking code
       // I added an error handler to know if the request failed (adblock, ff strict browsing mode, etc)
-      let id = 'facebook-jssdk';
-      let firstJavascript = document.getElementsByTagName('script')[0];
+      const id = 'facebook-jssdk';
+      const firstJavascript = document.getElementsByTagName('script')[0];
 
       // If it already exists, don't add it again
-      if (document.getElementById(id)) { 
+      if (document.getElementById(id)) {
         return;
       }
 
-      let js = document.createElement('script');
+      const js = document.createElement('script');
       js.id = id;
       js.src = 'https://connect.facebook.net/en_US/sdk.js';
 
-      console.log("EHERRE")
-
       js.addEventListener('error', () => {
-        console.log("IT ERROREDDDDDD");
-
-        // Also change the state of the plugin to failed. 
-        this.messengerRenderState = MESSENGER_PLUGIN_STATE.FAILED
+        // Also change the state of the plugin to failed.
+        this.messengerRenderState = MESSENGER_PLUGIN_STATE.FAILED;
 
         reject();
-      })
-
-      // js.addEventListener('load', () => {
-      //   console.log("IT loaded fine");
-      //   // debugger
-      // })
+      });
 
       firstJavascript.parentNode.insertBefore(js, firstJavascript);
 
@@ -91,8 +79,8 @@ class Facebook {
 
         // And finally, resolve the promise with window.FB
         resolve(window.FB);
-      }
-    })
+      };
+    });
   }
 
   getFBPromise() {
@@ -100,8 +88,8 @@ class Facebook {
   }
 
   pluginFailedToRender() {
-    if (this.messengerRenderState == MESSENGER_PLUGIN_STATE.RENDERED) {
-      macros.error("state was rendered but was just told it doesn't work. ")
+    if (this.messengerRenderState === MESSENGER_PLUGIN_STATE.RENDERED) {
+      macros.error("state was rendered but was just told it doesn't work. ");
     }
 
     this.messengerRenderState = MESSENGER_PLUGIN_STATE.FAILED;
@@ -111,11 +99,11 @@ class Facebook {
   // Return if the plugin has successfully rendered at least once.
   // This can be used to tell if there any adblock on the page that is blocking the plugin.
   didPluginRender() {
-    return this.messengerRenderState == MESSENGER_PLUGIN_STATE.RENDERED;
+    return this.messengerRenderState === MESSENGER_PLUGIN_STATE.RENDERED;
   }
 
   didPluginFail() {
-    return this.messengerRenderState == MESSENGER_PLUGIN_STATE.FAILED;
+    return this.messengerRenderState === MESSENGER_PLUGIN_STATE.FAILED;
   }
 
   // This function assumes that 'searchneu.com' is whitelisted in the Facebook Developer console settings
@@ -153,8 +141,8 @@ class Facebook {
     if (e.event === 'rendered') {
       macros.log('Plugin was rendered');
 
-      if (this.messengerRenderState == MESSENGER_PLUGIN_STATE.FAILED) {
-        macros.error("state was failed but it just worked.");
+      if (this.messengerRenderState === MESSENGER_PLUGIN_STATE.FAILED) {
+        macros.error('state was failed but it just worked.');
       }
 
       this.messengerRenderState = MESSENGER_PLUGIN_STATE.RENDERED;
@@ -189,7 +177,6 @@ class Facebook {
       // In this case, send the data to the development server directly.
       // These 1s don't mean anything - they are just filler values.
       if (macros.DEV) {
-        
         macros.log('Your FB id is:', fbMessengerId, typeof fbMessengerId);
 
         request.post({

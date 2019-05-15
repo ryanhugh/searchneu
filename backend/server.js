@@ -720,7 +720,7 @@ app.post('/getUserData', wrap(async (req, res) => {
     const user = await database.get(`/users/${senderId}`);
 
     if (!user) {
-      macros.log("This sender id doesn't exist in the db" , senderId);
+      macros.log("This sender id doesn't exist in the db", senderId);
       res.send(JSON.stringify({
         error: 'Error.',
       }));
