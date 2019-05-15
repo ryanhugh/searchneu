@@ -422,7 +422,7 @@ class CombineCCISandEmployees {
       bulk.push({ index:{ _id: docToIndex.id } });
       bulk.push({ employee: docToIndex, type: 'employee' });
     });
-    await Elastic.bulk({ index: 'items', body: bulk });
+    await Elastic.bulk({ index: 'employees', body: bulk });
     return mergedEmployees;
   }
 }

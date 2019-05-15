@@ -1,6 +1,6 @@
 import { Client } from '@elastic/elasticsearch';
 
-const Elastic = new Client({ node: 'http://192.168.99.100:9200' });
+const Elastic = new Client({ node: 'http://localhost:9200' });
 
 Elastic.resetIndex = async (indexName, mapping) => {
   // Clear out the index.
