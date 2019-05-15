@@ -32,9 +32,10 @@ it('should render the fb button after the button is clicked', () => {
   const wrapper = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } />);
   const instance = wrapper.instance();
 
-  instance.onSubscribeToggleChange();
+  await instance.onSubscribeToggleChange();
 
   wrapper.update();
 
   expect(wrapper).toMatchSnapshot();
+  done();
 });

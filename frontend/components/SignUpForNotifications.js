@@ -34,6 +34,9 @@ class SignUpForNotifications extends React.Component {
       // Firefox strict browsing also blocks this plugin from working
       // If the plugin failed to load for whatever reason, show this message and ask the user to allow FB plugins
       showAdblockMessage: false,
+
+      // Todo: document
+      toggleBox: false,
     };
 
     this.facebookScopeRef = null;
