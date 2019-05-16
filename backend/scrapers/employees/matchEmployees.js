@@ -381,27 +381,6 @@ class CombineCCISandEmployees {
 
     macros.log(`Changed/Removed ${beforeModifyCount - mergedEmployees.length} person(s) from the employee list.`);
 
-
-    // Save the file
-    await mkdirp(macros.PUBLIC_DIR);
-    await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employees.json'), JSON.stringify(mergedEmployees, null, 4));
-
-
-    // Create a map so the frontend is faster
-    const employeeMap = {};
-    mergedEmployees.forEach((person) => {
-      if (!person.id) {
-        macros.error('Error, need id to make map!', person);
-      }
-      if (employeeMap[person.id]) {
-        macros.error('Error, duplicate id!', person.id);
-      }
-      employeeMap[person.id] = person;
-    });
-
-    // And save that too
-    await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMap.json'), JSON.stringify(employeeMap));
-
     const bulk = [];
     mergedEmployees.forEach((row) => {
       const docToIndex = {};

@@ -9,24 +9,19 @@ import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import wrap from 'express-async-wrap';
-import fs from 'fs-extra';
 import compress from 'compression';
 import rollbar from 'rollbar';
 import bodyParser from 'body-parser';
-import mkdirp from 'mkdirp-promise';
 import moment from 'moment';
 import xhub from 'express-x-hub';
-import elasticlunr from 'elasticlunr';
 import atob from 'atob';
 import _ from 'lodash';
 import Elastic from './elastic';
 
 import Request from './scrapers/request';
-import search from './search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 import notifyer from './notifyer';
-import Updater from './updater';
 import database from './database';
 import DataLib from './DataLib';
 
@@ -170,128 +165,6 @@ app.use((req, res, next) => {
   }
 });
 
-
-// Used for loading the data required to make the frontend work.
-// This is just the data stored in public and not in cache.
-// Tries to load from a local file and if that fails loads from https://searchneu.com
-// And caches that locally.
-async function getFrontendData(file) {
-  const localPath = path.join(macros.PUBLIC_DIR, file);
-  const exists = await fs.exists(localPath);
-
-  // Exists locally, great
-  if (exists) {
-    const body = await fs.readFile(localPath);
-    return JSON.parse(body);
-  }
-
-  macros.log('Downloading ', file, ' from searchneu.com becaues it does not exist locally.');
-
-  // Download from https://searchneu.com
-  // Note this goes through the local request cache
-  let resp;
-  try {
-    resp = await request.get(`https://searchneu.com/data/v${macros.schemaVersion}/${file}`);
-  } catch (e) {
-    macros.error('Unable to load frontend data from locally or from searchneu.com!', file, e);
-    return null;
-  }
-
-  await mkdirp(path.dirname(localPath));
-
-  let data;
-
-  try {
-    data = JSON.parse(resp.body);
-  } catch (e) {
-    macros.log('Could not download term', file, 'from server!');
-    macros.log('Probably going to crash');
-    return null;
-  }
-
-  // Save that locally
-  await fs.writeFile(localPath, resp.body);
-
-  return data;
-}
-
-
-async function loadPromises() {
-  const termDumpPromise = getFrontendData('getTermDump/neu.edu/202010.json');
-  const searchIndexPromise = getFrontendData('getSearchIndex/neu.edu/202010.json');
-
-  const spring2019DataPromise = getFrontendData('getTermDump/neu.edu/201930.json');
-  const spring2019SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201930.json');
-
-  const summer1DataPromise = getFrontendData('getTermDump/neu.edu/201940.json');
-  const summer1SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201940.json');
-
-  const summer2DataPromise = getFrontendData('getTermDump/neu.edu/201960.json');
-  const summer2SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201960.json');
-
-  const summerFullDataPromise = getFrontendData('getTermDump/neu.edu/201950.json');
-  const summerFullSearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201950.json');
-
-  const employeeMapPromise = getFrontendData('employeeMap.json');
-  const employeesSearchIndexPromise = getFrontendData('employeesSearchIndex.json');
-
-  try {
-    const fallData = await termDumpPromise;
-    const fallSearchIndex = await searchIndexPromise;
-
-    const springData = await spring2019DataPromise;
-    const springSearchIndex = await spring2019SearchIndexPromise;
-
-    const employeeMap = await employeeMapPromise;
-    const employeesSearchIndex = await employeesSearchIndexPromise;
-
-    const summer1Data = await summer1DataPromise;
-    const summer1SearchIndex = await summer1SearchIndexPromise;
-    const summer2Data = await summer2DataPromise;
-    const summer2SearchIndex = await summer2SearchIndexPromise;
-
-    const summerFullData = await summerFullDataPromise;
-    const summerFullSearchIndex = await summerFullSearchIndexPromise;
-
-
-    if (!fallData || !springData || !fallSearchIndex || !springSearchIndex || !employeeMap || !employeesSearchIndex || !summer1Data || !summer1SearchIndex || !summer2Data || !summer2SearchIndex) {
-      macros.log("Couldn't download a file.", !!fallData, !!springData, !!fallSearchIndex, !!springSearchIndex, !!employeeMap, !!employeesSearchIndex, !!summer1Data, !!summer1SearchIndex, !!summer2Data, !!summer2SearchIndex);
-      return null;
-    }
-
-    const dataLib = DataLib.loadData({
-      202010: fallData,
-      201930: springData,
-      201940: summer1Data,
-      201960: summer2Data,
-      201950: summerFullData,
-    });
-
-    const searchIndexies = {
-      202010: elasticlunr.Index.load(fallSearchIndex),
-      201930: elasticlunr.Index.load(springSearchIndex),
-      201940: elasticlunr.Index.load(summer1SearchIndex),
-      201960: elasticlunr.Index.load(summer2SearchIndex),
-      201950: elasticlunr.Index.load(summerFullSearchIndex),
-    };
-
-    Updater.create(dataLib);
-
-    return {
-      search: search.create(employeeMap, elasticlunr.Index.load(employeesSearchIndex), dataLib, searchIndexies),
-      dataLib: dataLib,
-      searchIndexies: searchIndexies,
-    };
-  } catch (e) {
-    macros.error('Error:', e);
-    macros.error('Not starting search backend.');
-    return null;
-  }
-}
-
-// Load the index as soon as the app starts.
-const promises = loadPromises();
-
 app.get('/search', wrap(async (req, res) => {
   if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500) {
     macros.log(getTime(), 'Need query.', req.query);
@@ -329,7 +202,7 @@ app.get('/search', wrap(async (req, res) => {
 
 
   const searchOutput = await Elastic.search({
-    index: 'items',
+    index: `term${req.query.termId},employees`,
     from: minIndex,
     size: maxIndex - minIndex,
     body: {
@@ -345,14 +218,6 @@ app.get('/search', wrap(async (req, res) => {
                 'employee.name^2',
                 'employee.emails',
                 'employee.phone',
-              ],
-            },
-          },
-          filter: {
-            bool: {
-              should: [
-                { term: { 'class.termId': req.query.termId } },
-                { term: { type: 'employee' } },
               ],
             },
           },
@@ -439,7 +304,6 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   let existingData = await firebaseRef.once('value');
   existingData = existingData.val();
 
-  const dataLib = (await promises).dataLib;
   const aClass = dataLib.getClassServerDataFromHash(userObject.classHash);
 
   // User is signing in from a new device

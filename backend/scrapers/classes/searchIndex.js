@@ -5,6 +5,7 @@
 
 import macros from '../../macros';
 import Keys from '../../../common/Keys';
+import mapping from '../esMapping.json';
 import Elastic from '../../elastic';
 
 // Creates the search index for classes
@@ -26,11 +27,9 @@ class SearchIndex {
       bulk.push({ index:{ _id: attrName2 } });
       bulk.push(searchResultData);
     }
-<<<<<<< HEAD
-    await Elastic.bulk({ index: 'items', body: bulk });
-=======
+    
+    await Elastic.resetIndex(`term${termData.termId}`, mapping);
     await Elastic.bulk({ index: `term${termData.termId}`, body: bulk });
->>>>>>> different index for each term
     macros.log('indexed ', termData.termId);
   }
 

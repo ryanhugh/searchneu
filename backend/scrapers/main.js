@@ -7,8 +7,6 @@ import matchEmployees from './employees/matchEmployees';
 import macros from '../macros';
 import classes from './classes/main';
 import sitemapGenerator from './sitemapGenerator';
-import mapping from './esMapping.json';
-import Elastic from '../elastic';
 
 
 // Main file for scraping
@@ -36,8 +34,6 @@ if (process.env.TRAVIS && macros.DEV) {
 class Main {
   async main() {
     const classesPromise = classes.main(['neu']);
-
-    await Elastic.resetIndex('items', mapping);
 
     const promises = [classesPromise, matchEmployees.main()];
 
