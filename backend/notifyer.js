@@ -108,7 +108,6 @@ class Notifyer {
 
   test() {
     // currently on whatever your current id is
-
     const devUserFbId = macros.getEnvVariable('fbMessengerId');
 
     this.sendFBNotification(devUserFbId, 'test notification');
