@@ -17,6 +17,8 @@ import user from './user';
 // Firefox's strict browsing mode blocks the initial request to https://connect.facebook.net/en_US/sdk.js, which makes window.FB never load at all.
 // In both of these cases, show the user a popup asking them to disable their adblock for this feature to work.
 
+// This file does not run in tests
+// It is possible to require it directly with jest.requireActual, but then the loadFbApi still runs which you would need to make not run.
 
 const MESSENGER_PLUGIN_STATE = {
   UNTESTED: 'Untested',
@@ -41,31 +43,19 @@ class Facebook {
   // This is an private method - don't call from outside or else it may load the api twice.
   // Just use this.fbPromise
   loadFbApi() {
-
-    // in DEV and PROD, we want to load the FB library and attach error handelers and success handelers to the script
-    // so we can run code if it fails to load, or works
-    // In TEST, we want to run the code as if this request had failed. 
-    // (code that runs when the request passes depends on FB's API, which will not be available in testing)
-    if (macros.TESTS) {
-      Promise.resolve(null);
-      return;
-    }
-
     return new Promise((resolve, reject) => {
-
-
       // This code was adapted from Facebook's tracking code
       // I added an error handler to know if the request failed (adblock, ff strict browsing mode, etc)
       const id = 'facebook-jssdk';
-      const firstJavascript = document.getElementsByTagName('script')[0];
+      const firstJavascript = window.document.getElementsByTagName('script')[0];
 
       // If it already exists, don't add it again
-      if (document.getElementById(id)) {
+      if (window.document.getElementById(id)) {
         resolve(window.FB);
         return;
       }
 
-      const js = document.createElement('script');
+      const js = window.document.createElement('script');
       js.id = id;
       js.src = 'https://connect.facebook.net/en_US/sdk.js';
 

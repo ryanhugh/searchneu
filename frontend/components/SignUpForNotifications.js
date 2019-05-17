@@ -53,7 +53,7 @@ class SignUpForNotifications extends React.Component {
       return;
     }
 
-    let FB = await facebook.getFBPromise();
+    const FB = await facebook.getFBPromise();
 
     if (!FB) {
       return;

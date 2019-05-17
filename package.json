@@ -187,7 +187,7 @@
       "/dist/"
     ],
     "setupFiles": [
-      "./common/rafTestPolyfill.js"
+      "./common/jestSetupFile.js"
     ],
     "moduleNameMapper": {
       "__comment": "The css import needs to be an object that returns a string",
