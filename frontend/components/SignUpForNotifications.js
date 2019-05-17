@@ -53,11 +53,9 @@ class SignUpForNotifications extends React.Component {
       return;
     }
 
-    let FB;
+    let FB = await facebook.getFBPromise();
 
-    try {
-      FB = await facebook.getFBPromise();
-    } catch (e) {
+    if (!FB) {
       return;
     }
 

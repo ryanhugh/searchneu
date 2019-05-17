@@ -41,7 +41,19 @@ class Facebook {
   // This is an private method - don't call from outside or else it may load the api twice.
   // Just use this.fbPromise
   loadFbApi() {
+
+    // in DEV and PROD, we want to load the FB library and attach error handelers and success handelers to the script
+    // so we can run code if it fails to load, or works
+    // In TEST, we want to run the code as if this request had failed. 
+    // (code that runs when the request passes depends on FB's API, which will not be available in testing)
+    if (macros.TESTS) {
+      Promise.resolve(null);
+      return;
+    }
+
     return new Promise((resolve, reject) => {
+
+
       // This code was adapted from Facebook's tracking code
       // I added an error handler to know if the request failed (adblock, ff strict browsing mode, etc)
       const id = 'facebook-jssdk';
@@ -49,6 +61,7 @@ class Facebook {
 
       // If it already exists, don't add it again
       if (document.getElementById(id)) {
+        resolve(window.FB);
         return;
       }
 
