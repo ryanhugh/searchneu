@@ -29,7 +29,7 @@ it('should render', () => {
 });
 
 
-it('should render the fb button after the button is clicked', () => {
+it('should render the fb button after the button is clicked', async (done) => {
   const wrapper = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } />);
   const instance = wrapper.instance();
 

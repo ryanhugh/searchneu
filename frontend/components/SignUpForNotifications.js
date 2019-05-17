@@ -34,9 +34,6 @@ class SignUpForNotifications extends React.Component {
       // Firefox strict browsing also blocks this plugin from working
       // If the plugin failed to load for whatever reason, show this message and ask the user to allow FB plugins
       showAdblockMessage: false,
-
-      // Todo: document
-      toggleBox: false,
     };
 
     this.facebookScopeRef = null;
@@ -116,14 +113,13 @@ class SignUpForNotifications extends React.Component {
 
     // Check the status of the FB plugin
     // If it failed to load, show the message that asks user to disable adblock
-    let newState = {
-      showMessengerButton: true
-    }
+    const newState = {
+      showMessengerButton: true,
+    };
 
     try {
       await facebook.getFBPromise();
-    }
-    catch (e) {
+    } catch (e) {
       newState.showAdblockMessage = true;
     }
 
