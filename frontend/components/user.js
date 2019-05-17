@@ -5,9 +5,6 @@
 
 import randomstring from 'randomstring';
 
-import request from './request';
-import macros from './macros';
-
 
 // Manages user data in the frontend
 // Downloads the data from the server when the page first starts
