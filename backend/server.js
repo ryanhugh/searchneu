@@ -659,25 +659,6 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
 }));
 
 
-async function findMatchingUser(requestLoginKey) {
-  // Loop over the db
-  const users = await database.get('users');
-  if (!users) {
-    return null;
-  }
-
-  // Loop over all the users
-  for (const user of users) {
-    for (const loginKey of user.loginKeys) {
-      if (requestLoginKey === loginKey) {
-        return user;
-      }
-    }
-  }
-
-  return null;
-}
-
 // Rate-limit submissions on a per-IP basis
 let rateLimit = {};
 let lastHour = 0;
