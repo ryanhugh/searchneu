@@ -5,9 +5,6 @@
 
 import randomstring from 'randomstring';
 
-import request from './request';
-import macros from './macros';
-
 
 // Manages user data in the frontend
 // Downloads the data from the server when the page first starts
@@ -15,54 +12,6 @@ import macros from './macros';
 // Eventually, this can be used to get the current user data from the server.
 
 class User {
-  constructor() {
-    // Promise to keep track of user data.
-    this.userDataPromise = null;
-
-    this.downloadUserData();
-  }
-
-  // Downloads the user data from the server.
-  // Send the loginKey and the facebookMessengerId (if we have it).
-  // Save the facebookMessengerId when the server responds (the server can respond to this request a lot faster when given the facebookMessengerId).
-  async downloadUserData() {
-    // User has not logged in before, don't bother making the request
-    if (!this.hasLoggedInBefore()) {
-      return;
-    }
-
-
-    const body = {
-      loginKey: this.getLoginKey(),
-    };
-
-    // If we have sender id, send that up too
-    // (will make the server respond faster)
-    if (window.localStorage.senderId) {
-      body.senderId = window.localStorage.senderId;
-    }
-
-
-    const response = await request.post({
-      url: '/getUserData',
-      body: body,
-    });
-
-    // If error, delete local invalid data.
-    if (response.error) {
-      macros.log('Data in localStorage is invalid, deleting');
-      this.logOut();
-      return;
-    }
-
-    this.user = response.user;
-
-    // Keep track of the sender id too.
-    window.localStorage.senderId = response.user.facebookMessengerId;
-
-    macros.log('got user data');
-  }
-
   // Revokes the loginKey and user user-specific data
   logOut() {
     delete window.localStorage.loginkey;

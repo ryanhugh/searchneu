@@ -23,10 +23,9 @@ exports[`should render 1`] = `
       ]
     }
     centered={true}
-    className="adblock-notification-modal-container"
     closeOnDimmerClick={true}
     closeOnDocumentClick={false}
-    content="Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled. If you are using Safari, try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
+    content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, you will need to add an exception for this site for this feature to work. You can also try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
     dimmer={true}
     eventPool="Modal"
     header="Please disable adblock and sign into Facebook."
@@ -39,27 +38,13 @@ exports[`should render the fb button after the button is clicked 1`] = `
 <div
   className="sign-up-for-notifications-container"
 >
-  <div
-    className="facebookButtonContainer"
-  >
-    <div
-      className="sendToMessengerButtonLabel"
-    >
-      Click this button to continue
-    </div>
-    <div
-      className="inlineBlock"
-    >
-      <div
-        className="fb-send-to-messenger sendToMessengerButton"
-        color="white"
-        data-ref="eyJjbGFzc0hhc2giOiJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwIiwic2VjdGlvbkhhc2hlcyI6WyJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzEzNTAyIiwibmV1LmVkdS8yMDE4MTAvQ1MvMTIxMC8xNDQwNCIsIm5ldS5lZHUvMjAxODEwL0NTLzEyMTAvMTQ0MDUiLCJuZXUuZWR1LzIwMTgxMC9DUy8xMjEwLzE0Mzg2Il0sImRldiI6ZmFsc2UsImxvZ2luS2V5IjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9"
-        messenger_app_id="1979224428978082"
-        page_id="807584642748179"
-        size="large"
-      />
-    </div>
-  </div>
+  <Button
+    as="button"
+    basic={true}
+    className="diableAdblockButton"
+    content="Disable adblock to continue"
+    disabled={true}
+  />
   <Modal
     actions={
       Array [
@@ -72,10 +57,9 @@ exports[`should render the fb button after the button is clicked 1`] = `
       ]
     }
     centered={true}
-    className="adblock-notification-modal-container"
     closeOnDimmerClick={true}
     closeOnDocumentClick={false}
-    content="Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled. If you are using Safari, try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
+    content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, you will need to add an exception for this site for this feature to work. You can also try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
     dimmer={true}
     eventPool="Modal"
     header="Please disable adblock and sign into Facebook."

@@ -19,23 +19,24 @@ class Notifyer {
   // Webhook to respond to Facebook messages.
   async sendFBNotification(sender, text) {
     if (sender.length !== 16 || sender.includes(',')) {
-      macros.warn('Invalid sender ID:', sender);
+      macros.warn(`Invalid sender ID:"${sender}"`, sender.length, typeof sender);
       return {
         error: 'true',
       };
     }
+
+    const devUserFbId = macros.getEnvVariable('fbMessengerId');
 
     // If you want to message yourself in dev mode too, just change this.
     // This check is here so we don't accidentally message people with dev data.
-    if (!macros.PROD && sender !== '1397905100304615') {
-      macros.log('Refusing to send message to anyone other than Ryan not in prod mode');
-      macros.log('Not sending', sender, text);
+    if (!macros.PROD && sender !== devUserFbId) {
+      macros.log('Not sending fb message in dev mode ', text, sender, 'is not', devUserFbId, typeof text, typeof devUserFbId);
       return {
         error: 'true',
       };
     }
 
-    const token = await macros.getEnvVariable('fbToken');
+    const token = macros.getEnvVariable('fbToken');
 
     if (!token) {
       macros.warn("Don't have fbToken, not sending FB notification to", sender, text);
@@ -86,7 +87,7 @@ class Notifyer {
   // Get some info about the user
   // Docs here: https://developers.facebook.com/docs/messenger-platform/identity/user-profile
   async getUserProfileInfo(sender) {
-    const token = await macros.getEnvVariable('fbToken');
+    const token = macros.getEnvVariable('fbToken');
 
     if (!token) {
       macros.warn("Don't have fbToken, not getting user info for", sender);
@@ -104,8 +105,12 @@ class Notifyer {
     return JSON.parse(response.body);
   }
 
-  main() {
-    this.sendFBNotification('1397905100304615', 'test notification');
+
+  test() {
+    // currently on whatever your current id is
+    const devUserFbId = macros.getEnvVariable('fbMessengerId');
+
+    this.sendFBNotification(devUserFbId, 'test notification');
   }
 }
 
@@ -113,5 +118,5 @@ const instance = new Notifyer();
 export default instance;
 
 if (require.main === module) {
-  instance.main();
+  instance.test();
 }

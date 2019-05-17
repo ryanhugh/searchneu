@@ -13,6 +13,8 @@ import macros from './macros';
 
 const rootDir = path.join(__dirname, '..');
 
+const fbMessengerId = macros.getEnvVariable('fbMessengerId');
+
 export default {
   // https://webpack.js.org/configuration/devtool/
   devtool: macros.PROD ? 'source-map' : 'cheap-module-eval-source-map',
@@ -65,6 +67,7 @@ export default {
           PROD: 'false',
           DEV: 'true',
           TESTS: 'false',
+          fbMessengerId: String(fbMessengerId),
         },
       }),
     ] : [
