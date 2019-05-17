@@ -105,17 +105,13 @@ class Notifyer {
     return JSON.parse(response.body);
   }
 
-<<<<<<< HEAD
-  main() {
-    this.sendFBNotification('1397905100304615', 'test notification');
-=======
+
   test() {
     // currently on whatever your current id is
 
     const devUserFbId = macros.getEnvVariable('fbMessengerId');
 
     this.sendFBNotification(devUserFbId, 'test notification');
->>>>>>> f69f406... added fb user id to config.json and it should be used everywhere now - no more hardcoding ids
   }
 }
 
@@ -123,5 +119,5 @@ const instance = new Notifyer();
 export default instance;
 
 if (require.main === module) {
-  instance.main();
+  instance.test();
 }
