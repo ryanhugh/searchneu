@@ -12,6 +12,8 @@
             "type": "image/png"
         }
     ],
+    "short_name": "Search NEU",
+    "start_url": "https://searchneu.com",
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
     "display": "standalone"
