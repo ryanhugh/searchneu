@@ -490,7 +490,8 @@ class Home extends React.Component {
               results={ this.state.results }
               loadMore={ this.loadMore }
             />
-          </div>);
+          </div>
+        );
       }
     }
 

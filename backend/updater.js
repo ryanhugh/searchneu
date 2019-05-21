@@ -142,7 +142,10 @@ class Updater {
       const aClass = this.dataLib.getClassServerDataFromHash(classHash);
 
       if (!aClass) {
-        macros.warn('Unable to fetch class for hash!', classHash);
+        // TODO: fix, and then re-enable this line
+        // need to make sure outdated classes are not being processed.
+        // https://github.com/ryanhugh/searchneu/issues/83
+        // macros.warn('Unable to fetch class for hash!', classHash);
         continue;
       }
 

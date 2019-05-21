@@ -8,6 +8,7 @@ import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
+
 import SignUpForNotifications from '../SignUpForNotifications';
 import mockData from '../panels/tests/mockData';
 
@@ -28,13 +29,14 @@ it('should render', () => {
 });
 
 
-it('should render the fb button after the button is clicked', () => {
+it('should render the fb button after the button is clicked', async (done) => {
   const wrapper = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } />);
   const instance = wrapper.instance();
 
-  instance.onSubscribeToggleChange();
+  await instance.onSubscribeToggleChange();
 
   wrapper.update();
 
   expect(wrapper).toMatchSnapshot();
+  done();
 });

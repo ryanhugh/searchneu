@@ -2,7 +2,11 @@
 
 # API
 
-All the data used on the site is available to download! There are two different endpoints - one for downloading all the class data and another for downloading all the employee data. The data is updated [daily on Travis](https://travis-ci.org/ryanhugh/searchneu/builds). There are no endpoints for downloading a specific class or employee, you have to download everything or nothing.  Note that the class url contains the termId of the semester of data you want to download (201810 = Fall 2017, 201830 = Spring 2018).
+All the data used on the site is available to download! There are two different endpoints - one for downloading all the class data and another for downloading all the employee data. The data is updated [daily on Travis](https://travis-ci.org/ryanhugh/searchneu/builds). There are no endpoints for downloading a specific class or employee, you have to download everything or nothing.  Note that the class url contains the termId of the semester of data you want to download (201810 = Fall 2017, 201830 = Spring 2018). To get the latest term IDs, go to https://searchneu.com, hit the dropdown and look at the nav bar. You can also go to Northeastern's website and look at the URL.
+
+#### AGPL 3 Licensed
+
+Usage of this API must follows the same license of the rest of this codebase. See the LICENSE file for more info.
 
 ### Class data links
 https://searchneu.com/data/v2/getTermDump/neu.edu/201810.json (Fall 2017)  

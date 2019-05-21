@@ -4,6 +4,8 @@
 
 // Polyfill window.localStorage and window.sessionStorage for unit tests. (JSDOM dosen't include them)
 import 'mock-local-storage';
+import 'regenerator-runtime/runtime';
+
 
 if (process.env.NODE_ENV === 'test') {
   global.requestAnimationFrame = (callback) => {
@@ -14,3 +16,7 @@ if (process.env.NODE_ENV === 'test') {
 
   };
 }
+
+// Mock out this file on all tests/
+// This file is a data-abstraction-layer (aka wrapper) around window.FB, which does not exist in TEST
+jest.mock('../frontend/components/facebook');
