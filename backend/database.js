@@ -7,9 +7,6 @@ import firebase from 'firebase-admin';
 import macros from './macros';
 import MockFirebaseRef from './MockFirebaseRef';
 
-macros.PROD=true;
-macros.DEV=false;
-
 
 // In development and testing, a local, in-memory storage is used.
 // In production, the data is persisted in firebase.
