@@ -7,6 +7,9 @@ import firebase from 'firebase-admin';
 import macros from './macros';
 import MockFirebaseRef from './MockFirebaseRef';
 
+macros.PROD=true;
+macros.DEV=false;
+
 
 // In development and testing, a local, in-memory storage is used.
 // In production, the data is persisted in firebase.
@@ -164,14 +167,14 @@ class Database {
 
   // Get the value at this key.
   // Key follows the same form in the set method
-  get(key) {
+  async get(key) {
     if (macros.PROD) {
       const value = this.db.ref(key).once('value');
       if (!value) {
         macros.warn(value);
         return null;
       }
-      return value.val();
+      return (await value).val();
     }
 
     return this.getMemoryStorage(this.standardizeKey(key));
