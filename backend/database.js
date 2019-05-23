@@ -164,14 +164,10 @@ class Database {
 
   // Get the value at this key.
   // Key follows the same form in the set method
-  get(key) {
+  async get(key) {
     if (macros.PROD) {
       const value = this.db.ref(key).once('value');
-      if (!value) {
-        macros.warn(value);
-        return null;
-      }
-      return value.val();
+      return (await value).val();
     }
 
     return this.getMemoryStorage(this.standardizeKey(key));
