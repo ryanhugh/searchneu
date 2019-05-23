@@ -170,10 +170,6 @@ class Database {
   async get(key) {
     if (macros.PROD) {
       const value = this.db.ref(key).once('value');
-      if (!value) {
-        macros.warn(value);
-        return null;
-      }
       return (await value).val();
     }
 
