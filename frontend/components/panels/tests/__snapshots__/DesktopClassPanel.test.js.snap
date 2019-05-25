@@ -102,11 +102,7 @@ exports[`should render some stuff 1`] = `
       >
         <div />
       </Collapsible>
-      <div>
-        <div
-          className="inlineBlock"
-        />
-      </div>
+      <div />
     </div>
     <div
       className="rightPanel"
