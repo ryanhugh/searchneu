@@ -147,12 +147,13 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
     const feeString = this.getOptionalFees();
 
-    let feeAmount;
+    let feeElement = null;
 
     if (feeString) {
-      feeAmount = feeString.split(' ');
+      let feeAmount = feeString.split(' ');
       feeAmount = feeAmount[feeAmount.length - 1];
       feeAmount = `You must pay ${feeAmount} extra to take this class`;
+      feeElement = <div className='inlineBlock' data-tip={ feeAmount }>{feeString}</div>;
     }
     const courseAttrString = this.getClassAttributesString();
 
@@ -164,7 +165,6 @@ export default class DesktopClassPanel extends BaseClassPanel {
     }
 
     return (
-
       <div className='class-panel-container ui segment'>
         <div className='header'>
           <span className='classTitle'>
@@ -202,7 +202,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
               </div>
             </Collapsible>
             <div>
-              <div className='inlineBlock' data-tip={ feeAmount }>{feeString}</div>
+              {feeElement}
             </div>
           </div>
           <div className='rightPanel'>

@@ -132,14 +132,13 @@ class FeedbackModal extends React.Component {
 
     if (this.props.isFeedback) {
       firstText = 'Find a bug in Search NEU? Find a query that dosen\'t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.';
-      secondBody = (
-        <span>
-          <p>
+      secondBody = [
+        <p>
             By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
-          </p>
-          <Input name='contact' form='feedbackForm' className='formModalInput' onChange={ this.onContactChange } />
-        </span>
-      );
+        </p>,
+        <Input name='contact' form='feedbackForm' className='formModalInput' onChange={ this.onContactChange } />,
+      ];
+
       header = 'Search NEU Feedback';
     } else {
       header = 'Get Involved with Search NEU!';
