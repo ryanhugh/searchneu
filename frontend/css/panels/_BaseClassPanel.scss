@@ -20,6 +20,11 @@
 
   .panel-body {
     padding: 20px;
+
+    // For some reason, the <Collapsible> div causes this panel-body to have
+    // and extra 5px as its body, when collapsed.
+    // Offset that here.
+    padding-bottom: 15px;
   }
 
   .hint-text {

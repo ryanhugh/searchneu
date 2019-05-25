@@ -76,6 +76,7 @@
     position: absolute;
     bottom: 0;
     text-align: center;
+    line-height: 0;
   }
 
   .boston {
@@ -139,6 +140,7 @@
     .bostonContainer {
       transition-property: opacity;
       transition-delay: 1s !important;
+      transition-duration: 0.75s;
     }
   }
 
