@@ -39,7 +39,7 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 0 !important;
-    height: 100%;
+    height: 100vh;
     z-index: 100;
     position: relative;
     pointer-events: none;
@@ -76,6 +76,7 @@
     position: absolute;
     bottom: 0;
     text-align: center;
+    line-height: 0;
   }
 
   .boston {
@@ -139,6 +140,7 @@
     .bostonContainer {
       transition-property: opacity;
       transition-delay: 1s !important;
+      transition-duration: 0.75s;
     }
   }
 
