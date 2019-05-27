@@ -6,6 +6,7 @@ Table of Contents
 * [Learning the stack](Learning%20the%20stack.md)  
 * [Contributing 🎉👍](Contributing.md)  
 * [Bug Bounty 🌯🎉](Bug%20bounty.md)  
+* [Services](Services.md)  
 * [API](API.md)  
 * Scraping & Data
    * [Class data](Classes.md)   
