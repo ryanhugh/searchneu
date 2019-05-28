@@ -74,7 +74,9 @@ For the code.
 
 The https certificate. https://letsencrypt.org/ 
 
+### Typeform
 
+The form for recruiting new team members. 
 
 
 
