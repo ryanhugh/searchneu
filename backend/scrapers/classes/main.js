@@ -9,6 +9,7 @@ import cache from '../cache';
 import macros from '../../macros';
 import Keys from '../../../common/Keys';
 import searchIndex from './searchIndex';
+import termDump from './termDump';
 import differentCollegeUrls from './differentCollegeUrls';
 import bannerv9CollegeUrls from './bannerv9CollegeUrls';
 
@@ -257,6 +258,7 @@ class Main {
 
 
     await searchIndex.main(dump);
+    await termDump.main(dump);
 
     if (macros.DEV) {
       await cache.set(macros.DEV_DATA_DIR, 'classes', cacheKey, dump);
