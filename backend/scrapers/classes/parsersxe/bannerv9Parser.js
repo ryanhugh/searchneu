@@ -10,6 +10,7 @@ import cache from '../../cache';
 import macros from '../../../macros';
 import Request from '../../request';
 import EllucianTermsParser from '../parsers/ellucianTermsParser';
+import allSectionDetails from './searchResultsParser';
 
 const request = new Request('bannerv9Parser');
 
@@ -66,23 +67,6 @@ class Bannerv9Parser {
       return EllucianTermsParser.isValidTerm(term.code, term.description);
     });
 
-    let subjectsRequests = [];
-    let allSectionsData = [];
-
-    toKeep.forEach((term) => {
-      const max = 200;
-      const subjectUrl = `https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/get_subject?searchTerm=&term=${term.code}&offset=1&max=${max}`;
-      const subjectRequest = request.get({
-        url: subjectUrl,
-        json: true,
-      });
-      subjectsRequests.push(subjectRequest);
-      allSectionsData.push(this.getSectionsFromTerm(term.code));
-    });
-
-    subjectsRequests = await Promise.all(subjectsRequests);
-    allSectionsData = await Promise.all(allSectionsData);
-
     const terms = toKeep.map(term => {
       renameKey(term, 'code', 'termId');
       renameKey(term, 'description', 'text');
@@ -94,6 +78,22 @@ class Bannerv9Parser {
         term.subCollegeName = subCollege;
       return term;
     });
+
+    let subjectsRequests = [];
+    let allSectionsData = [];
+
+    toKeep.forEach((term) => {
+      const MAX = 200;
+      const subjectUrl = `https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/get_subject?searchTerm=&term=${term.termId}&offset=1&max=${MAX}`;
+      const subjectRequest = request.get({
+        url: subjectUrl,
+        json: true,
+      });
+      subjectsRequests.push(subjectRequest);
+      allSectionsData.push(this.getSectionsFromTerm(term.termId));
+    });
+    subjectsRequests = await Promise.all(subjectsRequests);
+    allSectionsData = await Promise.all(allSectionsData);
 
     /*
      * TODO
@@ -120,76 +120,10 @@ class Bannerv9Parser {
     });
 
     allSectionsData.forEach(allSectionsFromTerm => {
-      allSectionsFromTerm.forEach(sectionData => {
-        allSections.push({
-          seatsCapacity: 25,
-          seatsRemaining: 3,
-          waitCapacity: 99,
-          waitRemaining: 99,
-          online: false,
-          honors: false,
-          url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201930&crn_in=30020',
-          crn: '30020',
-          meetings: [
-            {
-              startDate: 17903,
-              endDate: 18003,
-              profs: [
-                'Deborah Milbauer',
-              ],
-              where: 'Ryder Hall 247',
-              type: 'Class',
-              times: {
-                2: [
-                  {
-                    start: 42300,
-                    end: 48300,
-                  },
-                ],
-              },
-            },
-            {
-              startDate: 17903,
-              endDate: 18003,
-              profs: [
-                'Deborah Milbauer',
-              ],
-              where: 'Ryder Hall 247',
-              type: 'Class',
-              times: {
-                4: [
-                  {
-                    start: 53400,
-                    end: 59400,
-                  },
-                ],
-              },
-            },
-            {
-              startDate: 18005,
-              endDate: 18005,
-              profs: [
-                'Deborah Milbauer',
-              ],
-              where: 'TBA',
-              type: 'Final Exam',
-              times: {
-                5: [
-                  {
-                    start: 37800,
-                    end: 45000,
-                  },
-                ],
-              },
-            },
-          ],
-          lastUpdateTime: Date.now(),
-          termId: sectionData.term,
-          host: 'neu.edu',
-          // WARNING: this object is missing the key subCollegeName
-          subject: sectionData.subject,
-          classId: sectionData.courseNumber,
-        });
+      allSectionsFromTerm.forEach(searchResultsFromXE => {
+        // searchResultsFromXE is this JSON object
+        // https://jennydaman.gitlab.io/nubanned/dark.html#studentregistrationssb-search-get
+        allSections.push(allSectionDetails(searchResultsFromXE));
       });
     });
 
