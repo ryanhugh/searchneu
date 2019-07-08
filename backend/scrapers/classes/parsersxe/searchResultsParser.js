@@ -1,9 +1,19 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ *
+ * https://github.com/ryanhugh/searchneu/blob/master/docs/Classes.md#sections
+ * A "section" is a specific offering of a course given by the termId and crn.
+ * A class has several sections taught by different professors at different times.
+ * This module provides a JavaScript interface to scraping the searchResults endpoint of NUBanner.
+ * https://jennydaman.gitlab.io/nubanned/dark.html#searchresults
+ */
 import cheerio from 'cheerio';
 import macros from '../../../macros';
 import Request from '../../request';
 import parseMeetings from './meetingParser';
 
-const request = new Request('bannerv9Parser');
+const request = new Request('searchResultsParser');
 
 /**
  * @param searchResultsFromXE the resulting data from
@@ -13,17 +23,20 @@ const request = new Request('bannerv9Parser');
 async function allSectionDetails(searchResultsFromXE) {
   const crn = searchResultsFromXE.courseReferenceNumber;
   const termId = searchResultsFromXE.term;
-  const allDetails = {};
-  (await Promise.all([
+
+  const someDetails = {};
+  const reqs = await Promise.all([
     getSeats(termId, crn),
     getOnline(termId, crn),
     getHonors(termId, crn),
-    getMeetingTimes(termId, crn)
-  ])).forEach(detailsObject => {
-    Object.assign(allDetails, detailsObject);
+    getMeetingTimes(termId, crn),
+  ]);
+  reqs.forEach((detailsObject) => {
+    Object.assign(someDetails, detailsObject);
   });
+
   return {
-    // object spread on allDetails gives these keys:
+    // object spread on someDetails gives these keys:
     // seatsCapacity: 30,
     // seatsRemaining: 2,
     // waitCapacity: 99,
@@ -31,9 +44,9 @@ async function allSectionDetails(searchResultsFromXE) {
     // online: false,
     // honors: false,
     // meetings: [...],
-    ...allDetails,
+    ...someDetails,
     url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched'
-      + `?term_in=${searchResultsFromXE.term}&crn_in=${crn}`,
+       + `?term_in=${searchResultsFromXE.term}&crn_in=${crn}`,
     crn: crn,
     lastUpdateTime: Date.now(),
     termId: searchResultsFromXE.term,
@@ -54,44 +67,66 @@ async function allSectionDetails(searchResultsFromXE) {
  * @param endpoint
  * @param termId
  * @param crn
- * @returns {Promise<Request>}
  */
-async function searchResults(endpoint, termId, crn) {
+async function searchResultsPostRequest(endpoint, termId, crn) {
   const req = await request.post({
     url: `https://nubanner.neu.edu/StudentRegistrationSsb/ssb/searchResults/${endpoint}`,
     form: {
       term: termId,
-      courseReferenceNumber: crn
+      courseReferenceNumber: crn,
     },
-    cache: false
+    cache: false,
   });
 
-  if (req.statusCode !== 200)
+  if (req.statusCode !== 200) {
     macros.error(`${endpoint} for termId=${termId} and CRN=${crn} didn't work`);
+  }
 
   return req;
 }
 
 
-// https://jennydaman.gitlab.io/nubanned/dark.html#searchresults-enrollment-info-post
-async function getSeats(termId, crn) {
-
-  const req = await searchResults('getEnrollmentInfo', termId, crn);
-  const dom = cheerio.parseHTML(req.body);
-
-  return {
-    seatsCapacity: extractSeatsFromDom(dom, 'Enrollment Maximum:'),
-    // number of seats that have been filled
-    // seatsFilled: extractSeatsFromDom(dom, 'Enrollment Actual:'),
-    seatsRemaining: extractSeatsFromDom(dom, 'Enrollment Seats Available:'),
-    waitCapacity: extractSeatsFromDom(dom, 'Waitlist Capacity:'),
-    // number of people on the waitlist
-    // waitTaken: extractSeatsFromDom(dom, 'Waitlist Actual:'),
-    waitRemaining: extractSeatsFromDom(dom, 'Waitlist Seats Available:'),
-  };
-  // maybe I should do some error checking that extractSeatsFromDom actually worked
+class NotFoundError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'NotFoundError';
+  }
 }
 
+/**
+ * https://jennydaman.gitlab.io/nubanned/dark.html#searchresults-enrollment-info-post
+ */
+async function getSeats(termId, crn) {
+  const req = await searchResultsPostRequest('getEnrollmentInfo', termId, crn);
+  const dom = cheerio.parseHTML(req.body);
+
+  const seats = {
+    seatsCapacity: 'Enrollment Maximum:',
+    // seatsFilled: 'Enrollment Actual:',  // number of seats that have been filled
+    seatsRemaining: 'Enrollment Seats Available:',
+    waitCapacity: 'Waitlist Capacity:',
+    // waitTaken: 'Waitlist Actual:',  // number of people on the waitlist
+    waitRemaining: 'Waitlist Seats Available:',
+  };
+
+  for (const [field, domKey] of seats) {
+    try {
+      seats[field] = extractSeatsFromDom(dom, domKey);
+    } catch (err) {
+      if (err instanceof NotFoundError) {
+        macros.warn(`Problem when finding seat info: "${domKey}" not found for termId=${termId} crn=${crn}`
+                    + '\nhttps://jennydaman.gitlab.io/nubanned/dark.html#searchresults-enrollment-info-post'
+                    + '\nAssigning field to 0...');
+        seats[field] = 0;
+      }
+      else {
+        macros.error(err);
+      }
+    }
+  }
+
+  return seats;
+}
 
 /**
  * Selects the integer value in the sibling of the element that contains the key text
@@ -103,10 +138,11 @@ function extractSeatsFromDom(domArray, key) {
   key = key.trim();
   for (let i = 0; i < domArray.length; i++) {
     const ele = cheerio(domArray[i]);
-    if (ele.text().trim() === key) // or should I use string.prototype.includes()?
+    if (ele.text().trim() === key) { // or should I use string.prototype.includes()?
       return parseInt(ele.next().text().trim());
+    }
   }
-  return -999; // did not find the value
+  throw new NotFoundError(`text "${key}" not found in domArray`);
 }
 
 
@@ -119,7 +155,7 @@ async function getOnline(termId, crn) {
  */
 async function getClassDetails(termId, crn) {
 
-  const req = await searchResults('getClassDetails', termId, crn);
+  const req = await searchResultsPostRequest('getClassDetails', termId, crn);
   const dom = cheerio.parseHTML(req.body);
   const $ = cheerio.load(req.body);
 
@@ -138,11 +174,10 @@ async function getClassDetails(termId, crn) {
   };
 }
 
-
 /**
  * Selects the text as a String that follows the element that contains the target key
  * @param domArray should be the result of cheerio.parseHTML
- * @param key {string}
+ * @param key {string} text to search for
  * @returns {string}
  */
 function extractTextFromDom(domArray, key) {
@@ -151,21 +186,28 @@ function extractTextFromDom(domArray, key) {
     const ele = cheerio(domArray[i]);
     if (ele.text().trim() === key) {
       const textNode = domArray[i + 1];
-      if (textNode.type !== 'text')
-        macros.error(`Expected a text node in DOM (result of cheerio.parseHTML) at index ${i + 1}`, domArray);
-      if (!textNode.data || typeof textNode.data !== 'string')
-        macros.error('cheerio parsed HTML text node data is invalid', textNode);
-      return textNode.data.trim();
+      // these error checks shouldn't even happen, calling toString() below just in case
+      if (textNode.type !== 'text') {
+        macros.warn(`Expected a text node in DOM at index ${i + 1}`, domArray);
+      }
+      if (!textNode.data || typeof textNode.data !== 'string') {
+        macros.warn('cheerio parsed HTML text node data is invalid', textNode);
+      }
+      return textNode.data.toString().trim();
     }
   }
   return null; // did not find the value
 }
 
 
+/**
+ * @return {Promise<{honors: boolean}>}
+ */
 async function getHonors(termId, crn) {
   for (const attr of await getSectionAttributes(termId, crn)) {
-    if (attr.toLowerCase().includes('honors'))
+    if (attr.toLowerCase().includes('honors')) {
       return { honors: true };
+    }
   }
   return { honors: false };
 }
@@ -178,7 +220,7 @@ async function getHonors(termId, crn) {
  * https://jennydaman.gitlab.io/nubanned/dark.html#searchresults-section-attributes-post
  */
 async function getSectionAttributes(termId, crn) {
-  const req = await searchResults('getSectionAttributes', termId, crn);
+  const req = await searchResultsPostRequest('getSectionAttributes', termId, crn);
   const $ = cheerio.load(req.body);
   const list = [];
   $('span').each(function (i, element) {
@@ -188,6 +230,10 @@ async function getSectionAttributes(termId, crn) {
 }
 
 
+/**
+ * Makes the request to .../getFacultyMeetingTimes and passes the data to meetingParser.js
+ * @return {Promise<{meetings: *}>}
+ */
 async function getMeetingTimes(termId, crn) {
   const data = await request.get({
     url: 'https://nubanner.neu.edu/StudentRegistrationSsb/ssb/searchResults'
@@ -197,28 +243,6 @@ async function getMeetingTimes(termId, crn) {
   // object so that it can be spread in the calling function above
   return { meetings: parseMeetings(data.body) };
 }
-
-
-
-import cs2500 from '../../../tests/dataxe/searchResults/cs2500.json';
-import chem2311 from '../../../tests/dataxe/searchResults/chem2311.json';
-
-async function main() {
-  // BIOL 1141 for Fall 2019
-  // BIOL 3605 for Summer 2 2019 is online
-  // macros.log(await getSeats(202010, 17983));
-  // const BIOL3605 = await getClassDetails(201960, 61066);
-  // macros.log(BIOL3605.online); // === true
-  // macros.log((await getClassDetails(202010, 17983)).online); // === true
-  // macros.log((await getClassDetails(202010, 10243)).online); // === false
-  // macros.log(await getSectionAttributes(202010, 17983));
-  // macros.log(await getSectionAttributes(202010, 10259)); // this is an honors class
-  // macros.log(await getMeetingTimes(202010, 17983));
-  // macros.log(JSON.stringify(await allSectionDetails(cs2500.data[0])));
-  macros.log(JSON.stringify(await allSectionDetails(chem2311.data[0])));
-}
-
-main();
 
 
 export default allSectionDetails;
