@@ -40,26 +40,11 @@ const app = express();
 // This does some crypto stuff to make this verification
 // This way, only facebook can make calls to the /webhook endpoint
 // This is not used in development
-let xhubPromise;
-async function loadExpressHub() {
-  if (xhubPromise) {
-    return xhubPromise;
-  }
-
-  xhubPromise = macros.getEnvVariable('fbAppSecret').then((token) => {
-    return xhub({ algorithm: 'sha1', secret: token });
-  });
-
-  return xhubPromise;
-}
-loadExpressHub();
+const fbAppSecret = macros.getEnvVariable('fbAppSecret');
 
 // Verify that the webhooks are coming from facebook
 // This needs to be above bodyParser for some reason
-app.use(wrap(async (req, res, next) => {
-  const func = await xhubPromise;
-  func(req, res, next);
-}));
+app.use(xhub({ algorithm: 'sha1', secret: fbAppSecret }));
 
 // gzip the output
 app.use(compress());
@@ -378,8 +363,8 @@ app.get('/search', wrap(async (req, res) => {
 
 
 // for Facebook verification of the endpoint.
-app.get('/webhook/', async (req, res) => {
-  const verifyToken = await macros.getEnvVariable('fbVerifyToken');
+app.get('/webhook/', (req, res) => {
+  const verifyToken = macros.getEnvVariable('fbVerifyToken');
 
   if (req.query['hub.verify_token'] === verifyToken) {
     macros.log('yup!');
@@ -640,7 +625,7 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
     status: 'subscribed',
   };
 
-  const mailChimpKey = await macros.getEnvVariable('mailChimpKey');
+  const mailChimpKey = macros.getEnvVariable('mailChimpKey');
 
   if (mailChimpKey) {
     if (macros.PROD) {
@@ -673,99 +658,6 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
   }
 }));
 
-
-async function findMatchingUser(requestLoginKey) {
-  // Loop over the db
-  const users = await database.get('users');
-  if (!users) {
-    return null;
-  }
-
-  // Loop over all the users
-  for (const user of users) {
-    for (const loginKey of user.loginKeys) {
-      if (requestLoginKey === loginKey) {
-        return user;
-      }
-    }
-  }
-
-  return null;
-}
-
-
-app.post('/getUserData', wrap(async (req, res) => {
-  // Don't cache this endpoint.
-  res.setHeader('Cache-Control', 'no-cache, no-store');
-
-  if (!req.body || !req.body.loginKey) {
-    res.send(JSON.stringify({
-      error: 'Error.',
-    }));
-    return;
-  }
-
-  // Checks checks checks
-  // Make sure the login key is valid
-  if (typeof req.body.loginKey !== 'string' || req.body.loginKey.length !== 100) {
-    macros.log('Invalid login key', req.body.loginKey);
-    res.send(JSON.stringify({
-      error: 'Error.',
-    }));
-    return;
-  }
-
-  const senderId = req.body.senderId;
-
-  // Make sure the sender id is valid
-  if (senderId && (typeof senderId !== 'string' || senderId.length !== 16 || !macros.isNumeric(senderId))) {
-    macros.log('Invalid senderId', req.body, senderId);
-    res.send(JSON.stringify({
-      error: 'Error.',
-    }));
-    return;
-  }
-
-  let matchingUser;
-
-  // If the client specified a specific senderId, lookup that specific user.
-  // if not, we have to loop over all the users's to find a matching loginKey
-  if (senderId) {
-    const user = await database.get(`/users/${senderId}`);
-
-    if (!user) {
-      macros.log('Invalid senderId', senderId);
-      res.send(JSON.stringify({
-        error: 'Error.',
-      }));
-      return;
-    }
-
-    // Ensure that a loginKey matches
-    if (!user.loginKeys.includes(req.body.loginKey)) {
-      macros.log('Invalid loginKey', senderId, req.body.loginKey, user);
-      res.send(JSON.stringify({
-        error: 'Error.',
-      }));
-      return;
-    }
-
-    matchingUser = user;
-  } else {
-    matchingUser = await findMatchingUser(req.body.loginKey);
-    if (!matchingUser) {
-      res.send(JSON.stringify({
-        error: 'Invalid loginKey.',
-      }));
-      return;
-    }
-  }
-
-  res.send(JSON.stringify({
-    status: 'Success',
-    user: matchingUser,
-  }));
-}));
 
 // Rate-limit submissions on a per-IP basis
 let rateLimit = {};
@@ -834,7 +726,7 @@ app.post('/submitFeedback', wrap(async (req, res) => {
   }
 }));
 
-
+// This variable is also used far below to serve static files from ram in dev
 let middleware;
 
 if (macros.DEV) {
@@ -852,11 +744,27 @@ if (macros.DEV) {
     },
   });
 
+
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler, {
     log: false,
   }));
 }
+
+
+// Respond to requests for the api and log info to amplitude.
+app.get('/data/*', wrap(async (req, res, next) => {
+  // Gather some info and send it to amplitude
+  const info = { ...req.headers };
+
+  info.ip = getRemoteIp(req);
+  info.url = req.url;
+
+  macros.logAmplitudeEvent('API Request', info);
+
+  // Use express to send the static file
+  express.static('public')(req, res, next);
+}));
 
 
 app.use(express.static('public'));
@@ -908,33 +816,30 @@ if (macros.DEV) {
 }
 
 
-async function startServer() {
-  const rollbarKey = await macros.getEnvVariable('rollbarPostServerItemToken');
+const rollbarKey = macros.getEnvVariable('rollbarPostServerItemToken');
 
-  if (macros.PROD) {
-    if (rollbarKey) {
-      rollbar.init(rollbarKey);
-      const rollbarFunc = rollbar.errorHandler(rollbarKey);
+if (macros.PROD) {
+  if (rollbarKey) {
+    rollbar.init(rollbarKey);
+    const rollbarFunc = rollbar.errorHandler(rollbarKey);
 
-      // https://rollbar.com/docs/notifier/node_rollbar/
-      // Use the rollbar error handler to send exceptions to your rollbar account
-      app.use(rollbarFunc);
-    } else {
-      macros.error("Don't have rollbar key! Skipping rollbar. :O");
-    }
-  } else if (macros.DEV && !rollbarKey) {
-    macros.log("Don't have rollbar key! Skipping rollbar. :O");
+    // https://rollbar.com/docs/notifier/node_rollbar/
+    // Use the rollbar error handler to send exceptions to your rollbar account
+    app.use(rollbarFunc);
+  } else {
+    macros.error("Don't have rollbar key! Skipping rollbar. :O");
+  }
+} else if (macros.DEV && !rollbarKey) {
+  macros.log("Don't have rollbar key! Skipping rollbar. :O");
+}
+
+
+app.listen(port, '0.0.0.0', (err) => {
+  if (err) {
+    macros.log(err);
   }
 
+  macros.logAmplitudeEvent('Backend Server startup', {});
 
-  app.listen(port, '0.0.0.0', (err) => {
-    if (err) {
-      macros.log(err);
-    }
-
-    macros.logAmplitudeEvent('Backend Server startup', {});
-
-    macros.log(`Listening on port ${port}.`);
-  });
-}
-startServer();
+  macros.log(`Listening on port ${port}.`);
+});

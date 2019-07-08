@@ -3,7 +3,8 @@
  * See the license file in the root folder for details.
  */
 
-import '@babel/polyfill';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
@@ -17,15 +18,8 @@ if (window.location.hash === '#notrack') {
 }
 
 
-/*eslint-disable */
-(function (d, s, id) {
-  let js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) { return; }
-  js = d.createElement(s); js.id = id;
-  js.src = 'https://connect.facebook.net/en_US/sdk.js';
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-/*eslint-enable */
+// The FB tracker is in facebook.js
+// It was modified to include custom error handeling.
 
 // Segment tracket. This includes trackers for Rollbar and Fullstory.
 // These are only used on prod and only used if the user has not opted out of tracking.

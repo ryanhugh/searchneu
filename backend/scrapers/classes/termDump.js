@@ -41,7 +41,7 @@ class TermDump {
 
     for (const subject of termDump.subjects) {
       if (!subject.subject) {
-        macros.error('Subject controller found in main.js????', subject);
+        macros.error('Subject controller found in termDump.js????', subject);
         continue;
       }
       const hash = Keys.getSubjectHash(subject);

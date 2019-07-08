@@ -75,14 +75,13 @@ class Updater {
     const classHashToUsers = {};
 
     for (const user of users) {
-      // Firebase, for some reason, strips leading 0s from the Facebook messenger id.
-      // Add them back here.
-
       if (!user.facebookMessengerId) {
         macros.warn('User has no FB id?', JSON.stringify(user));
         continue;
       }
 
+      // Firebase, for some reason, strips leading 0s from the Facebook messenger id.
+      // Add them back here.
       while (user.facebookMessengerId.length < 16) {
         user.facebookMessengerId = `0${user.facebookMessengerId}`;
       }
@@ -143,7 +142,10 @@ class Updater {
       const aClass = this.dataLib.getClassServerDataFromHash(classHash);
 
       if (!aClass) {
-        macros.warn('Unable to fetch class for hash!', classHash);
+        // TODO: fix, and then re-enable this line
+        // need to make sure outdated classes are not being processed.
+        // https://github.com/ryanhugh/searchneu/issues/83
+        // macros.warn('Unable to fetch class for hash!', classHash);
         continue;
       }
 
