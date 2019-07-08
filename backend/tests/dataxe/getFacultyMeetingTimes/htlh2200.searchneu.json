@@ -1,0 +1,74 @@
+[
+  {
+    "startDate": 18022,
+    "endDate": 18067,
+    "profs": [
+      "Domenic Corey",
+      "Robert Connolly",
+      "Todd Hodgkiss",
+      "Cassandra Johnson",
+      "Christopher Laffey",
+      "Matthew Williams"
+    ],
+    "where": "Forsyth Building 242",
+    "type": "Class",
+    "times": {
+      "2": {
+        "start": 35400,
+        "end": 48000
+      },
+      "4": {
+        "start": 35400,
+        "end": 48000
+      },
+      "5": {
+        "start": 35400,
+        "end": 48000
+      }
+    }
+  },
+  {
+    "startDate": 18022,
+    "endDate": 18072,
+    "profs": [
+      "Domenic Corey",
+      "Robert Connolly",
+      "Todd Hodgkiss",
+      "Cassandra Johnson",
+      "Christopher Laffey",
+      "Matthew Williams"
+    ],
+    "where": "Behrakis Health Sciences Cntr 420",
+    "type": "Lab",
+    "times": {
+      "1": {
+        "start": 36000,
+        "end": 52200
+      },
+      "3": {
+        "start": 36000,
+        "end": 52200
+      }
+    }
+  },
+  {
+    "startDate": 18072,
+    "endDate": 18072,
+    "profs": [
+      "Domenic Corey",
+      "Robert Connolly",
+      "Todd Hodgkiss",
+      "Cassandra Johnson",
+      "Christopher Laffey",
+      "Matthew Williams"
+    ],
+    "where": "Cargill Hall 094",
+    "type": "Final Exam",
+    "times": {
+      "2": {
+        "start": 55800,
+        "end": 63000
+      }
+    }
+  }
+]

@@ -95,12 +95,7 @@ class Bannerv9Parser {
     subjectsRequests = await Promise.all(subjectsRequests);
     allSectionsData = await Promise.all(allSectionsData);
 
-    /*
-     * TODO
-     * go through every section, add into one array, add unique classes to uniqueClasses
-     * concurrent requests to searchResults API for section details such as
-     * enrollment, waitlist, meetings
-     */
+    // TODO go through every section, add into one array, add unique classes to uniqueClasses
     const allSubjects = [];
     const allSections = [];
     const uniqueClasses = [];

@@ -374,7 +374,7 @@ class CombineCCISandEmployees {
     // Remove data from individual entries
     for (let i = 0; i < mergedEmployees.length; i++) {
       // This is also a specific exception, ask Ryan about it.
-      if (mergedEmployees[i].emails.includes('s.gary@northeastern.edu')) {
+      if (mergedEmployees[i].emails.includes('cs2500.json.gary@northeastern.edu')) {
         mergedEmployees[i].phone = undefined;
       }
     }
