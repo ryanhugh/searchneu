@@ -124,18 +124,10 @@ export default {
         include: [
           path.join(rootDir, 'node_modules'),
         ],
-        use: [
-          {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
-              },
-            },
-          },
+
+        loaders: [
+          'style-loader',
+          'css-loader',
         ],
       },
 
