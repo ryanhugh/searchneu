@@ -52,7 +52,10 @@ class SignUpForNotifications extends React.Component {
 
     const FB = await facebook.getFBPromise();
 
-    if (!FB) {
+    // Check for this.facebookScopeRef again because some rollbar errors were coming in that it was changed to null
+    // while the await above was running
+    // https://rollbar.com/ryanhugh/searchneu/items/373/
+    if (!FB || !this.facebookScopeRef) {
       return;
     }
 
