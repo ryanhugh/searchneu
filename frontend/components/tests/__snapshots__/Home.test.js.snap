@@ -91,6 +91,7 @@ exports[`should render a section 1`] = `
             additionPosition="top"
             className="termDropdown"
             closeOnBlur={true}
+            closeOnEscape={true}
             deburr={false}
             defaultValue="202010"
             fluid={true}
