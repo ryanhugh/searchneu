@@ -22,6 +22,7 @@ import Request from './scrapers/request';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 import notifyer from './notifyer';
+import Updater from './updater';
 import database from './database';
 import DataLib from './DataLib';
 
@@ -37,6 +38,9 @@ const app = express();
 // This way, only facebook can make calls to the /webhook endpoint
 // This is not used in development
 const fbAppSecret = macros.getEnvVariable('fbAppSecret');
+
+// Start updater interval
+Updater.create();
 
 // Verify that the webhooks are coming from facebook
 // This needs to be above bodyParser for some reason
@@ -304,7 +308,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   let existingData = await firebaseRef.once('value');
   existingData = existingData.val();
 
-  const aClass = dataLib.getClassServerDataFromHash(userObject.classHash);
+  const aClass = await DataLib.getClassServerDataFromHash(userObject.classHash);
 
   // User is signing in from a new device
   if (existingData) {

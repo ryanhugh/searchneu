@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /*
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
@@ -5,118 +6,99 @@
 
 import macros from './macros';
 import Keys from '../common/Keys';
-
+import Elastic from './elastic';
 
 // Holds the class data that is used by the search backend
 // and the updater.js
 
-class DataLib {
-  constructor(termDumpMap) {
-    this.termDumpMap = termDumpMap;
-
-
-    // Classes in different terms will never have conflicting hashes
-    // This is a hash map that includes all classes from every term
-    // Used for looking up classes in constant time from any term
-    this.allClassesMap = {};
-
-    this.allSectionsMap = {};
-
-    this.termDumpMap = termDumpMap;
-
-    // Fill up the above two hash maps
-    for (const termDump of Object.values(this.termDumpMap)) {
-      Object.assign(this.allClassesMap, termDump.classMap);
-      Object.assign(this.allSectionsMap, termDump.sectionMap);
-    }
-  }
-
-
-  static loadData(termDumpMap) {
-    const termDumps = Object.values(termDumpMap);
-
-    for (const termDump of termDumps) {
-      if (!termDump.classMap || !termDump.sectionMap) {
-        macros.error('invalid termDump', !!termDumpMap, Object.keys(termDump));
-        return null;
-      }
+const DataLib = {
+  getClassesInTerm: async (termId) => {
+    const index = `term${termId}`;
+    if (!(await DataLib.hasTerm(termId))) {
+      return [];
     }
 
-
-    return new this(termDumpMap);
-  }
-
-  // Returns a list of the keys in a subject, sorted by classId
-  // Usually takes ~ 5ms and does not instantiate any instances of Class or Subject
-  getClassesInSubject(subject, termId) {
-    if (!this.termDumpMap[termId]) {
-      macros.error("Data lib dosen't have term", termId);
-      return null;
-    }
-
-    const termDump = this.termDumpMap[termId];
-
-    const keys = Object.keys(termDump.classMap);
-
-    const startTime = Date.now();
-
-    const retVal = [];
-    for (const key of keys) {
-      const row = termDump.classMap[key];
-      if (row.subject === subject) {
-        retVal.push(key);
-      }
-    }
-
-    // Sort the classes
-    retVal.sort((a, b) => {
-      return parseInt(termDump.classMap[a].classId, 10) - parseInt(termDump.classMap[b].classId, 10);
+    const searchOutput = await Elastic.search({
+      index: index,
+      size: 10000,
+      body: {
+        query: {
+          match_all: {},
+        },
+      },
     });
+    return searchOutput.body.hits.hits.map((hit) => {
+      return hit._source.class;
+    });
+  },
 
-    // Turn this into a analytics call when that is working
-    macros.log('send', 'timing', subject, 'subject', Date.now() - startTime);
-
-    return retVal;
-  }
-
-  getClassesInTerm(termId) {
-    if (!this.termDumpMap[termId]) {
+  getSectionsInTerm: async (termId) => {
+    const index = `term${termId}`;
+    if (!(await DataLib.hasTerm(termId))) {
       return [];
     }
+    const searchOutput = await Elastic.search({
+      index: index,
+      size: 10000,
+      body: {
+        query: {
+          match_all: {},
+        },
+      },
+    });
+    return searchOutput.body.hits.hits.reduce((arr, hit) => {
+      return arr.concat(hit._source.sections);
+    }, []);
+  },
 
-    return Object.values(this.termDumpMap[termId].classMap);
-  }
-
-  getSectionsInTerm(termId) {
-    if (!this.termDumpMap[termId]) {
-      return [];
-    }
-
-    return Object.values(this.termDumpMap[termId].sectionMap);
-  }
-
-  getSubjects(termId) {
+  getSubjects: (termId) => {
     if (!this.termDumpMap[termId]) {
       macros.error("Data lib dosen't have term", termId);
       return null;
     }
 
     return Object.values(this.termDumpMap[termId].subjectMap);
-  }
+  },
 
-  hasTerm(termId) {
-    return !!this.termDumpMap[termId];
-  }
+  hasTerm: async (termId) => {
+    return Elastic.indices.exists({ index: `term${termId}` });
+  },
 
-  getClassServerDataFromHash(hash) {
-    return this.allClassesMap[hash];
-  }
+  getClassServerDataFromHash: async (hash) => {
+    // It'd be more efficient to use Elastic's GET document API,
+    // but that you can't get by id across indices, so we have to use search endpoint.
+    const searchOutput = await Elastic.search({
+      index: 'term*',
+      body: {
+        query: {
+          bool: {
+            filter: {
+              term: { _id: hash },
+            },
+          },
+        },
+      },
+    });
+    return searchOutput.body.hits.hits[0]._source.class;
+  },
 
-  getSectionServerDataFromHash(hash) {
-    return this.allSectionsMap[hash];
-  }
+  getSectionServerDataFromHash: async (hash) => {
+    const searchOutput = await Elastic.search({
+      index: 'term*',
+      body: {
+        query: {
+          bool: {
+            filter: {
+              term: { _id: hash },
+            },
+          },
+        },
+      },
+    });
+    return searchOutput.body.hits.hits[0]._source.class;
+  },
 
-  setClass(aClass) {
+  setClass: (aClass) => {
     const hash = Keys.getClassHash(aClass);
 
     if (!this.termDumpMap[aClass.termId]) {
@@ -127,10 +109,9 @@ class DataLib {
     this.allClassesMap[hash] = aClass;
 
     this.termDumpMap[aClass.termId].classMap[hash] = aClass;
-  }
+  },
 
-
-  setSection(section) {
+  setSection: (section) => {
     const hash = Keys.getSectionHash(section);
 
     if (!this.termDumpMap[section.termId]) {
@@ -141,7 +122,7 @@ class DataLib {
     this.allSectionsMap[hash] = section;
 
     this.termDumpMap[section.termId].sectionMap[hash] = section;
-  }
-}
+  },
+};
 
 export default DataLib;
