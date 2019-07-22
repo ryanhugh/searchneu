@@ -69,7 +69,7 @@
     "@mapbox/togeojson": "^0.16.0",
     "acorn": "^6.0.4",
     "amplitude": "^3.5.0",
-    "async": "^3.1.0",
+    "async": "^2.1.5",
     "atob": "^2.0.3",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.8.0",
