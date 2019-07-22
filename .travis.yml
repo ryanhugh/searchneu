@@ -4,17 +4,6 @@ node_js:
 script:
 - bash travis_deploy.sh
 cache: yarn
-sudo: required
-deploy:
-  provider: npm
-  skip_cleanup: true
-  email: ryanhughes624@gmail.com
-  api_key:
-    secure: gkZ/9IBArTzq8p/O67EkZQCOtoCmK1mqd0HWEDigyCCM/bHyI7j8DpJn6Y4Fv4LTcyvVEDkP5MfJXa40IADOydOILhyRGYNxjdmhIDIqzLKVMh89MceJi5dgoVKUgaCD5xJnFqDlPu9CBWz7MoFvsjayWH2jO4DsKu/yTdFrWvG9rYConBTRXfELz5LuZx4vaJS+jcvfXDAJk8+pBIOVPIJK1zlzYrYeLFmVqNQsyJAyw7cgUckPLh4UxY8pRRO+5AKia6FtrLneu2LfwV7JVIktgPZmO80ujgMOpceFN+C5QScRveN8qXaujKerMhVVENkupZ/mAbpmXdnXR6DwOxrtKx1rNiSHfVhVvgYATZiivLwqTbfDqx4M2J0fqmuCWivtmBomq+3AdBEGCyDz3/z1CczkINUToWcausIm80x06vxLLXcBKTJP38Bg9tGGo6SmmVQdHa7kksIsLlAeTElMR5zNQOIWYAVPcQgbn4hKiwXz1Pwbv2MXCzd0adT53kEjhr5hAAaCwsKClgR9orLp8Li47Zr4b4LIH14eEtD7a4rrff+fdxDTJQQjWGANlXkD7mW24CCz6LNrJH+iMqoiVEMQ7sNChGJJOe5cC5N3Y4DXbNkvoYhZT05cnEQOifbKejpAbTzM2OyHjc1tfUQQHR1ls8TpYu6ZMK+WjaA=
-  on:
-    tags: false
-    repo: ryanhugh/searchneu
-    branch: prod
 notifications:
   email:
     on_success: change
