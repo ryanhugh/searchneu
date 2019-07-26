@@ -308,7 +308,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   let existingData = await firebaseRef.once('value');
   existingData = existingData.val();
 
-  const aClass = await DataLib.getClassServerDataFromHash(userObject.classHash);
+  const aClass = (await DataLib.getClassServerDataFromHash(userObject.classHash)).class;
 
   // User is signing in from a new device
   if (existingData) {

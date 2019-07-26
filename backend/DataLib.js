@@ -79,49 +79,7 @@ const DataLib = {
         },
       },
     });
-    return searchOutput.body.hits.hits[0]._source.class;
-  },
-
-  getSectionServerDataFromHash: async (hash) => {
-    const searchOutput = await Elastic.search({
-      index: 'term*',
-      body: {
-        query: {
-          bool: {
-            filter: {
-              term: { _id: hash },
-            },
-          },
-        },
-      },
-    });
-    return searchOutput.body.hits.hits[0]._source.class;
-  },
-
-  setClass: (aClass) => {
-    const hash = Keys.getClassHash(aClass);
-
-    if (!this.termDumpMap[aClass.termId]) {
-      macros.error('Cannot set class in non-existent term.');
-      return;
-    }
-
-    this.allClassesMap[hash] = aClass;
-
-    this.termDumpMap[aClass.termId].classMap[hash] = aClass;
-  },
-
-  setSection: (section) => {
-    const hash = Keys.getSectionHash(section);
-
-    if (!this.termDumpMap[section.termId]) {
-      macros.error('Cannot set section in non-existent term.');
-      return;
-    }
-
-    this.allSectionsMap[hash] = section;
-
-    this.termDumpMap[section.termId].sectionMap[hash] = section;
+    return searchOutput.body.hits.hits[0]._source;
   },
 };
 

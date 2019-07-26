@@ -6,6 +6,7 @@
 import _ from 'lodash';
 
 import DataLib from './DataLib';
+import Elastic from './elastic';
 
 import classesScrapers from './scrapers/classes/main';
 
@@ -123,7 +124,7 @@ class Updater {
     const classes = [];
 
     for (const classHash of classHashes) {
-      const aClass = await DataLib.getClassServerDataFromHash(classHash);
+      const aClass = (await DataLib.getClassServerDataFromHash(classHash)).class;
 
       if (!aClass) {
         // TODO: fix, and then re-enable this line
@@ -213,38 +214,7 @@ class Updater {
       updatingTerms[aClass.termId] = true;
     }
 
-    for (const termId of Object.keys(updatingTerms)) {
-      // Copy over every class we didn't just update from the old data.
-      // eslint-disable-next-line no-await-in-loop
-      const oldClasses = await DataLib.getClassesInTerm(termId);
-
-      for (const aClass of oldClasses) {
-        const hash = Keys.getClassHash(aClass);
-
-        // TODO: Change this from classHashes to a hash of the output classes after the re-factor away classUid
-        if (!classHashes.includes(hash)) {
-          output.classes.push(aClass);
-        }
-      }
-
-      const oldSections = await DataLib.getSectionsInTerm(termId);
-
-
-      // THIS WILL COPY OVER EVERY section from the old to the new data, even ones that no longer exist in the new data.
-      // need a way to figure out how to exclude sections that no longer exist in the new data. TODOOOO
-      for (const section of oldSections) {
-        const hash = Keys.getSectionHash(section);
-
-        // TODO: Change this from classHashes to a hash of the output classes after the re-factor away classUid
-        if (!sectionHashes.includes(hash)) {
-          output.sections.push(section);
-        }
-      }
-    }
-
     classesScrapers.runProcessors(output);
-    console.log("Test output", output);
-
 
     // Keep track of which messages to send which users.
     // The key is the facebookMessengerId and the value is a list of messages.
@@ -253,7 +223,7 @@ class Updater {
     for (const aNewClass of output.classes) {
       const hash = Keys.getClassHash(aNewClass);
 
-      const oldClass = await DataLib.getClassServerDataFromHash(hash);
+      const oldClass = (await DataLib.getClassServerDataFromHash(hash)).class;
 
       // Count how many sections are present in the new but not in the old.
       let count = 0;
@@ -299,8 +269,8 @@ class Updater {
 
     for (const newSection of output.sections) {
       const hash = Keys.getSectionHash(newSection);
-
-      const oldSection = await DataLib.getSectionServerDataFromHash(hash);
+      const oldClassData = await DataLib.getClassServerDataFromHash(Keys.getClassHash(newSection));
+      const oldSection = oldClassData.sections.find((s) => { return s.crn === newSection.crn; });
 
       // This may run in the odd chance that that the following 3 things happen:
       // 1. a user signes up for a section.
@@ -340,11 +310,19 @@ class Updater {
     // Update dataLib with the updated termDump
     // If we ever move to a real database, we would want to change this so it only updates the classes that the scrapers found.
     for (const aClass of output.classes) {
-      await DataLib.setClass(aClass);
-    }
-
-    for (const section of output.sections) {
-      await DataLib.setSection(section);
+      const associatedSections = output.sections.filter((s) => { return s.crn; });
+      await Elastic.update({
+        id: Keys.getClassHash(aClass),
+        index: `term${aClass.termId}`,
+        body: {
+          doc: {
+            class: {
+              crns: aClass.crns,
+            },
+            sections: associatedSections,
+          },
+        },
+      });
     }
 
 
