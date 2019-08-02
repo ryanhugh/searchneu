@@ -206,7 +206,7 @@ app.get('/search', wrap(async (req, res) => {
 
 
   const searchOutput = await Elastic.search({
-    index: `term${req.query.termId},employees`,
+    index: 'classes,employees',
     from: minIndex,
     size: maxIndex - minIndex,
     body: {
@@ -224,6 +224,9 @@ app.get('/search', wrap(async (req, res) => {
                 'employee.phone',
               ],
             },
+          },
+          filter: {
+            term: { 'class.termId': req.query.termId },
           },
         },
       },
@@ -308,7 +311,11 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   let existingData = await firebaseRef.once('value');
   existingData = existingData.val();
 
-  const aClass = (await DataLib.getClassServerDataFromHash(userObject.classHash)).class;
+  const aClass = (await Elastic.get({
+    index: 'classes',
+    type: '_doc',
+    id: userObject.classHash,
+  })).body._source.class;
 
   // User is signing in from a new device
   if (existingData) {

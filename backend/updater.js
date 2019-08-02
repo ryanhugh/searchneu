@@ -5,7 +5,6 @@
 
 import _ from 'lodash';
 
-import DataLib from './DataLib';
 import Elastic from './elastic';
 
 import classesScrapers from './scrapers/classes/main';
@@ -117,38 +116,28 @@ class Updater {
     classHashes = _.uniq(classHashes);
     sectionHashes = _.uniq(sectionHashes);
 
-    // Track all section hashes of classes that are being watched. Used for sanity check
-    const sectionHashesOfWatchedClasses = [];
+    macros.log('watching classes ', classHashes);
 
-    // Get the data for these hashes
-    const classes = [];
+    // Get the old data for watched classes
+    const esOldDocs = (await Elastic.mget({
+      index: 'classes',
+      type: '_doc',
+      body: {
+        ids: classHashes,
+      },
+    })).body.docs;
 
-    for (const classHash of classHashes) {
-      const aClass = (await DataLib.getClassServerDataFromHash(classHash)).class;
-
-      if (!aClass) {
-        // TODO: fix, and then re-enable this line
-        // need to make sure outdated classes are not being processed.
-        // https://github.com/ryanhugh/searchneu/issues/83
-        // macros.warn('Unable to fetch class for hash!', classHash);
-        continue;
-      }
-
-      classes.push(aClass);
-
-      if (aClass.crns) { // TODO this can just loop through aClass.sections???
-        for (const crn of aClass.crns) {
-          const sectionHash = Keys.getSectionHash({
-            host: aClass.host,
-            termId: aClass.termId,
-            subject: aClass.subject,
-            classId: aClass.classId,
-            crn: crn,
-          });
-          sectionHashesOfWatchedClasses.push(sectionHash);
-        }
+    const oldWatchedClasses = {};
+    const oldWatchedSections = {};
+    for (const doc of esOldDocs) {
+      oldWatchedClasses[doc._id] = doc._source.class;
+      for (const section of doc._source.sections) {
+        oldWatchedSections[Keys.getSectionHash(section)] = section;
       }
     }
+
+    // Track all section hashes of classes that are being watched. Used for sanity check
+    const sectionHashesOfWatchedClasses = Object.keys(oldWatchedSections);
 
     // Sanity check: Find the sections that are being watched, but are not part of a watched class
     for (const sectionHash of _.difference(sectionHashes, sectionHashesOfWatchedClasses)) {
@@ -156,7 +145,7 @@ class Updater {
     }
 
     // Scrape the latest data
-    const promises = classes.map((aClass) => {
+    const promises = Object.values(oldWatchedClasses).map((aClass) => {
       return ellucianCatalogParser.main(aClass.prettyUrl).then((newClass) => {
         if (!newClass) {
           // TODO: This should be changed into a notification that the class probably no longer exists. Shoudn't unsubscribe people.
@@ -208,12 +197,6 @@ class Updater {
       output.classes = [];
     }
 
-    // Keep track of which terms have classes that we are updating.
-    const updatingTerms = {};
-    for (const aClass of classes) {
-      updatingTerms[aClass.termId] = true;
-    }
-
     classesScrapers.runProcessors(output);
 
     // Keep track of which messages to send which users.
@@ -223,7 +206,7 @@ class Updater {
     for (const aNewClass of output.classes) {
       const hash = Keys.getClassHash(aNewClass);
 
-      const oldClass = (await DataLib.getClassServerDataFromHash(hash)).class;
+      const oldClass = oldWatchedClasses[hash];
 
       // Count how many sections are present in the new but not in the old.
       let count = 0;
@@ -269,8 +252,7 @@ class Updater {
 
     for (const newSection of output.sections) {
       const hash = Keys.getSectionHash(newSection);
-      const oldClassData = await DataLib.getClassServerDataFromHash(Keys.getClassHash(newSection));
-      const oldSection = oldClassData.sections.find((s) => { return s.crn === newSection.crn; });
+      const oldSection = oldWatchedSections[hash];
 
       // This may run in the odd chance that that the following 3 things happen:
       // 1. a user signes up for a section.
@@ -307,23 +289,27 @@ class Updater {
       }
     }
 
-    // Update dataLib with the updated termDump
-    // If we ever move to a real database, we would want to change this so it only updates the classes that the scrapers found.
+    const bulk = [];
     for (const aClass of output.classes) {
-      const associatedSections = output.sections.filter((s) => { return s.crn; });
-      await Elastic.update({
-        id: Keys.getClassHash(aClass),
-        index: `term${aClass.termId}`,
-        body: {
-          doc: {
-            class: {
-              crns: aClass.crns,
-            },
-            sections: associatedSections,
+      const associatedSections = output.sections.filter((s) => { return aClass.crns.includes(s.crn); });
+      // Sort each classes section by crn.
+      // This will keep the sections the same between different scrapings.
+      if (associatedSections.length > 1) {
+        associatedSections.sort((a, b) => {
+          return a.crn > b.crn;
+        });
+      }
+      bulk.push({ update: { _id: Keys.getClassHash(aClass) } });
+      bulk.push({
+        doc: {
+          class: {
+            crns: aClass.crns,
           },
+          sections: associatedSections,
         },
       });
     }
+    await Elastic.bulk({ index: 'classes', body: bulk });
 
 
     // Loop through the messages and send them.
