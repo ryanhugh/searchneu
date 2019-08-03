@@ -209,6 +209,10 @@ app.get('/search', wrap(async (req, res) => {
     from: minIndex,
     size: maxIndex - minIndex,
     body: {
+      sort: [
+        '_score',
+        { 'class.classId': { order: 'asc', unmapped_type: 'keyword' } },
+      ],
       query: {
         bool: {
           must: {
@@ -225,7 +229,12 @@ app.get('/search', wrap(async (req, res) => {
             },
           },
           filter: {
-            term: { 'class.termId': req.query.termId },
+            bool: {
+              should: [
+                { term: { 'class.termId': req.query.termId } },
+                { term: { type: 'employee' } },
+              ],
+            },
           },
         },
       },
