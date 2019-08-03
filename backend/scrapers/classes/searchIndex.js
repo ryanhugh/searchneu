@@ -50,22 +50,24 @@ class SearchIndex {
 
     const bulk = [];
     for (const classHash of Object.keys(classes)) {
-      const clas = classes[classHash];
+      const classAndSections = classes[classHash];
       // Sort each classes section by crn.
       // This will keep the sections the same between different scrapings.
-      if (clas.sections.length > 1) {
-        clas.sections.sort((a, b) => {
+      if (classAndSections.sections.length > 1) {
+        classAndSections.sections.sort((a, b) => {
           return a.crn > b.crn;
         });
       }
 
       // Add a code attribute (CS2500) and tokenize it using word_delimiter
       // This allows "cs2500" and "cs 2500" to both find class.code correctly.
+      const clas = classAndSections.class;
       clas.code = clas.subject + clas.classId;
-      clas.type = 'class';
+
+      classAndSections.type = 'class';
 
       bulk.push({ index: { _id: classHash } });
-      bulk.push(clas);
+      bulk.push(classAndSections);
     }
     await Elastic.resetIndex('classes', mapping);
     macros.log('performing bulk insert to index classes');
