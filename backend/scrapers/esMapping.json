@@ -15,7 +15,7 @@
             "type": "keyword"
           },
           "subject": {
-            "type": "text"
+            "type": "keyword"
           },
           "code": {
             "type": "text",
