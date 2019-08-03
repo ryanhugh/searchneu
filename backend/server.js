@@ -24,7 +24,6 @@ import macros from './macros';
 import notifyer from './notifyer';
 import Updater from './updater';
 import database from './database';
-import DataLib from './DataLib';
 
 // This file manages every endpoint in the backend
 // and calls out to respective files depending on what was called
