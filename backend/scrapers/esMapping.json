@@ -6,20 +6,22 @@
           "name": {
             "type": "text",
             "analyzer": "autocomplete",
-            "search_analyzer": "autocomplete_search"
+            "search_analyzer": "standard"
           },
           "crns": {
             "type": "keyword"
           },
           "classId": {
-            "type": "keyword",
-            "copy_to": "class.code"
+            "type": "text",
+            "analyzer": "course_code",
+            "fields": {
+              "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+              }
+          }
           },
           "subject": {
-            "type": "keyword",
-            "copy_to": "class.code"
-          },
-          "code": {
             "type": "text",
             "analyzer": "course_code"
           },
@@ -72,6 +74,16 @@
           "min_gram": 2,
           "max_gram": 20,
           "token_chars": ["letter", "digit"]
+        }
+      },
+      "filter": {
+        "synonym": {
+          "type": "synonym",
+          "synonyms": [
+            "fundies => Fundamentals of Computer Science 1",
+            "OOD => Object Oriented Design",
+            "PL => Programming Languages"
+          ]
         }
       }
     }

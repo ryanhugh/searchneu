@@ -211,16 +211,18 @@ app.get('/search', wrap(async (req, res) => {
     body: {
       sort: [
         '_score',
-        { 'class.classId': { order: 'asc', unmapped_type: 'keyword' } },
+        { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } },
       ],
       query: {
         bool: {
           must: {
             multi_match: {
               query: req.query.query,
+              type: 'most_fields',
               fields: [
-                'class.name',
-                'class.code^2',
+                'class.name^2',
+                'class.subject^3',
+                //'class.classId^2',
                 'sections.meetings.profs',
                 'employee.name^2',
                 'employee.emails',
