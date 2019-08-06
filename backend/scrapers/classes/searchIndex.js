@@ -59,11 +59,6 @@ class SearchIndex {
         });
       }
 
-      // Add a code attribute (CS2500) and tokenize it using word_delimiter
-      // This allows "cs2500" and "cs 2500" to both find class.code correctly.
-      const clas = classAndSections.class;
-      clas.code = clas.subject + clas.classId;
-
       classAndSections.type = 'class';
 
       bulk.push({ index: { _id: classHash } });

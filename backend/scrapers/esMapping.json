@@ -12,10 +12,12 @@
             "type": "keyword"
           },
           "classId": {
-            "type": "keyword"
+            "type": "keyword",
+            "copy_to": "class.code"
           },
           "subject": {
-            "type": "keyword"
+            "type": "keyword",
+            "copy_to": "class.code"
           },
           "code": {
             "type": "text",
