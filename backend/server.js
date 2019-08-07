@@ -221,9 +221,11 @@ app.get('/search', wrap(async (req, res) => {
               type: 'most_fields',
               fields: [
                 'class.name^2',
+                'class.name.autocomplete',
                 'class.subject^3',
-                //'class.classId^2',
+                'class.classId^2',
                 'sections.meetings.profs',
+                'class.crns',
                 'employee.name^2',
                 'employee.emails',
                 'employee.phone',
