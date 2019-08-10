@@ -11,6 +11,8 @@ At one point, we were going to add support for northeastern to semesterly with t
 https://github.com/noahpresler/semesterly/pull/1041
 https://github.com/ryanhugh/searchneu/blob/a8fc0b442807346523889ac3fe9a3638169a715f/backend/scrapers/classes/processors/semesterly.js
 
+In order to install the code in Semesterly, Search NEU was published to npm here (https://www.npmjs.com/package/searchneu). The deployment code was in .travis.yml and there was some semver code at the bottom of travis_deploy.sh. This code has all be removed. 
+
 
 
 They are in the codebase at commit [0958ad3a2ddf72425f3e18b268e9d2dd6c945f88](https://github.com/ryanhugh/searchneu/commit/0958ad3a2ddf72425f3e18b268e9d2dd6c945f88).
