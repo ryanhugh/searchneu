@@ -70,8 +70,6 @@ module.exports = {
     "no-continue": 0,
     'react/destructuring-assignment': 0,
 
-    "no-underscore-dangle": 0,
-
     // This rule always triggers on Windows...
     "import/no-unresolved": Number(process.env.OS !== 'Windows_NT') * 2,
     "spaced-comment": 0,

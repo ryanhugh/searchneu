@@ -5,7 +5,7 @@
 
 import _ from 'lodash';
 
-import Elastic from './elastic';
+import Elastic, { CLASS_INDEX } from './elastic';
 
 import classesScrapers from './scrapers/classes/main';
 
@@ -119,19 +119,12 @@ class Updater {
     macros.log('watching classes ', classHashes);
 
     // Get the old data for watched classes
-    const esOldDocs = (await Elastic.mget({
-      index: 'classes',
-      type: '_doc',
-      body: {
-        ids: classHashes,
-      },
-    })).body.docs;
+    const esOldDocs = await Elastic.getMapFromIDs(CLASS_INDEX, classHashes);
 
-    const oldWatchedClasses = {};
+    const oldWatchedClasses = _.mapValues(esOldDocs, (doc) => { return doc.class; });
     const oldWatchedSections = {};
-    for (const doc of esOldDocs) {
-      oldWatchedClasses[doc._id] = doc._source.class;
-      for (const section of doc._source.sections) {
+    for (const aClass of Object.values(esOldDocs)) {
+      for (const section of aClass.sections) {
         oldWatchedSections[Keys.getSectionHash(section)] = section;
       }
     }
@@ -289,7 +282,7 @@ class Updater {
       }
     }
 
-    const bulk = [];
+    const classMap = {};
     for (const aClass of output.classes) {
       const associatedSections = output.sections.filter((s) => { return aClass.crns.includes(s.crn); });
       // Sort each classes section by crn.
@@ -299,17 +292,14 @@ class Updater {
           return a.crn > b.crn;
         });
       }
-      bulk.push({ update: { _id: Keys.getClassHash(aClass) } });
-      bulk.push({
-        doc: {
-          class: {
-            crns: aClass.crns,
-          },
-          sections: associatedSections,
+      classMap[Keys.getClassHash(aClass)] = {
+        class: {
+          crns: aClass.crns,
         },
-      });
+        sections: associatedSections,
+      };
     }
-    await Elastic.bulk({ index: 'classes', body: bulk });
+    await Elastic.bulkUpdateFromMap(CLASS_INDEX, classMap);
 
 
     // Loop through the messages and send them.

@@ -6,7 +6,7 @@
 import macros from '../../macros';
 import Keys from '../../../common/Keys';
 import mapping from '../esMapping.json';
-import Elastic from '../../elastic';
+import Elastic, { CLASS_INDEX } from '../../elastic';
 
 // Creates the search index for classes
 
@@ -22,7 +22,14 @@ class SearchIndex {
       classMap[classHash] = {
         class: aClass,
         sections: [],
+        type: 'class',
       };
+    });
+
+    // Sort sections by crn.
+    // This will keep the sections the same between different scrapings.
+    termDump.sections.sort((a, b) => {
+      return a.crn > b.crn;
     });
 
     // Loop through all sections and associate them with the right class
@@ -48,25 +55,9 @@ class SearchIndex {
   async createSearchIndex(termDump) {
     const classes = this.attachSectionsToClasses(termDump);
 
-    const bulk = [];
-    for (const classHash of Object.keys(classes)) {
-      const classAndSections = classes[classHash];
-      // Sort each classes section by crn.
-      // This will keep the sections the same between different scrapings.
-      if (classAndSections.sections.length > 1) {
-        classAndSections.sections.sort((a, b) => {
-          return a.crn > b.crn;
-        });
-      }
-
-      classAndSections.type = 'class';
-
-      bulk.push({ index: { _id: classHash } });
-      bulk.push(classAndSections);
-    }
-    await Elastic.resetIndex('classes', mapping);
+    await Elastic.resetIndex(CLASS_INDEX, mapping);
     macros.log('performing bulk insert to index classes');
-    await Elastic.bulk({ index: 'classes', body: bulk });
+    await Elastic.bulkIndexFromMap(CLASS_INDEX, classes);
     macros.log('indexed classes');
   }
 

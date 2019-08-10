@@ -16,7 +16,7 @@ import moment from 'moment';
 import xhub from 'express-x-hub';
 import atob from 'atob';
 import _ from 'lodash';
-import Elastic from './elastic';
+import Elastic, { CLASS_INDEX } from './elastic';
 
 import Request from './scrapers/request';
 import webpackConfig from './webpack.config.babel';
@@ -203,49 +203,7 @@ app.get('/search', wrap(async (req, res) => {
     return;
   }
 
-
-  const searchOutput = await Elastic.search({
-    index: 'classes,employees',
-    from: minIndex,
-    size: maxIndex - minIndex,
-    body: {
-      sort: [
-        '_score',
-        { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } },
-      ],
-      query: {
-        bool: {
-          must: {
-            multi_match: {
-              query: req.query.query,
-              type: 'most_fields',
-              fields: [
-                'class.name^2',
-                'class.name.autocomplete',
-                'class.subject^3',
-                'class.classId^2',
-                'sections.meetings.profs',
-                'class.crns',
-                'employee.name^2',
-                'employee.emails',
-                'employee.phone',
-              ],
-            },
-          },
-          filter: {
-            bool: {
-              should: [
-                { term: { 'class.termId': req.query.termId } },
-                { term: { type: 'employee' } },
-              ],
-            },
-          },
-        },
-      },
-    },
-  });
-  // eslint-disable-next-line no-underscore-dangle
-  const searchContent = searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; });
+  const { searchContent, took, resultCount } = await Elastic.search(req.query.query, req.query.termId, req.query.minIndex, req.query.maxIndex);
   const midTime = Date.now();
 
   let string;
@@ -256,11 +214,10 @@ app.get('/search', wrap(async (req, res) => {
   }
 
   // Not sure I am logging all the necessary analytics
-  const took = searchOutput.body.took;
   const analytics = {
     searchTime: took,
     stringifyTime: Date.now() - midTime,
-    resultCount: searchOutput.body.hits.total.value,
+    resultCount: resultCount,
   };
 
   macros.logAmplitudeEvent('Backend Search', analytics);
@@ -323,11 +280,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   let existingData = await firebaseRef.once('value');
   existingData = existingData.val();
 
-  const aClass = (await Elastic.get({
-    index: 'classes',
-    type: '_doc',
-    id: userObject.classHash,
-  })).body._source.class;
+  const aClass = (await Elastic.get(CLASS_INDEX, userObject.classHash)).class;
 
   // User is signing in from a new device
   if (existingData) {

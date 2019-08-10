@@ -15,7 +15,7 @@ import ccisFaculty from './ccis';
 import coeFaculty from './coe';
 import csshFaculty from './cssh';
 import camdFaculty from './camd';
-import Elastic from '../../elastic';
+import Elastic, { EMPLOYEE_INDEX } from '../../elastic';
 
 // This file combines the data from the ccis website and the NEU Employees site
 // If there is a match, the data from the ccis site has priority over the data from the employee site.
@@ -381,27 +381,11 @@ class CombineCCISandEmployees {
 
     macros.log(`Changed/Removed ${beforeModifyCount - mergedEmployees.length} person(s) from the employee list.`);
 
-    const bulk = [];
-    mergedEmployees.forEach((row) => {
-      const docToIndex = {};
-      Object.assign(docToIndex, row);
-
-      if (docToIndex.emails) {
-        for (let i = 0; i < docToIndex.emails.length; i++) {
-          // Remove the @northeastern.edu and @neu.edu from the index to prevent indexing unnecessary stuff.
-          if (docToIndex.emails[i].endsWith('northeastern.edu')) {
-            docToIndex.emails[i] = docToIndex.emails[i].slice(0, docToIndex.emails[i].indexOf('@northeastern.edu'));
-          }
-
-          if (docToIndex.emails[i].endsWith('neu.edu')) {
-            docToIndex.emails[i] = docToIndex.emails[i].slice(0, docToIndex.emails[i].indexOf('@neu.edu'));
-          }
-        }
-      }
-      bulk.push({ index:{ _id: docToIndex.id } });
-      bulk.push({ employee: docToIndex, type: 'employee' });
-    });
-    await Elastic.bulk({ index: 'employees', body: bulk });
+    const employeeMap = mergedEmployees.reduce((result, employee) => {
+      result[employee.id] = { employee: employee, type: 'employee' };
+      return result;
+    }, {});
+    await Elastic.bulkIndexFromMap(EMPLOYEE_INDEX, employeeMap);
     return mergedEmployees;
   }
 }
