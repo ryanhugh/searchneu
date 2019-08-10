@@ -4,6 +4,7 @@
  */
 
 import { Client } from '@elastic/elasticsearch';
+import macros from './macros';
 
 const Elastic = new Client({ node: 'http://localhost:9200' });
 
@@ -17,6 +18,7 @@ Elastic.resetIndex = async (indexName, mapping) => {
       body: mapping,
     });
   } catch (error) {
+    macros.error("Elasticsearch: couldn't reset index", error);
     throw new Error(error);
   }
 };
