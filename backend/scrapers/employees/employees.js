@@ -281,8 +281,9 @@ class Employee {
                 person.lastName = lastName;
               }
 
-
-              const idMatch = parsedTable.name[j].match(/.hrefparameter\s+=\s+"id=(\d+)";/i);
+              // The "#anchor_68409676" tags on the page are randomly generated each time the page is loaded,
+              // so use this hrefparameter id instead, which should be more stable.
+              const idMatch = parsedTable.name[j].match(/.hrefparameter\s+=\s+"id=([\d\w%]+)";/i);
               if (!idMatch) {
                 macros.warn('Unable to parse id, using random number', nameWithComma);
                 person.id = String(Math.random());
