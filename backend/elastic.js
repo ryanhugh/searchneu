@@ -5,7 +5,6 @@
  */
 
 import { Client } from '@elastic/elasticsearch';
-import macros from './macros';
 
 const client = new Client({ node: 'http://localhost:9200' });
 export const CLASS_INDEX = 'classes';
@@ -58,6 +57,7 @@ class Elastic {
    * Get document by id
    * @param  {string} indexName Index to get from
    * @param  {string} id        ID to get
+   * @return {Object} document source
    */
   async get(indexName, id) {
     return (await client.get({ index: indexName, type: '_doc', id: id })).body._source;
@@ -67,6 +67,7 @@ class Elastic {
    * Get a hashmap of ids to documents from a list of ids
    * @param  {string} indexName Index to get from
    * @param  {Array}  ids       Array of string ids to get
+   * @return {Object} The map between doc ids and doc source
    */
   async getMapFromIDs(indexName, ids) {
     const got = await client.mget({
@@ -97,16 +98,16 @@ class Elastic {
       body: {
         sort: [
           '_score',
-          { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } },
+          { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } }, // Use lower classId has tiebreaker after relevance
         ],
         query: {
           bool: {
             must: {
               multi_match: {
                 query: query,
-                type: 'most_fields',
+                type: 'most_fields', // More fields match => higher score
                 fields: [
-                  'class.name^2',
+                  'class.name^2', // Boost by 2
                   'class.name.autocomplete',
                   'class.subject^3',
                   'class.classId^2',
