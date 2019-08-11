@@ -169,6 +169,13 @@ app.use((req, res, next) => {
 });
 
 app.get('/search', wrap(async (req, res) => {
+  if (macros.DEV && !await Elastic.isConnected()) {
+    const fromProd = await request.get(`https://searchneu.com${req.originalUrl}`);
+    res.send(fromProd.body);
+    macros.log('In dev mode and Elasticsearch not available. Hitting production search API endpoint');
+    return;
+  }
+
   if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500) {
     macros.log(getTime(), 'Need query.', req.query);
     res.send(JSON.stringify({
@@ -244,6 +251,10 @@ app.get('/webhook/', (req, res) => {
 
 async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   macros.log('Got opt in button click!', b64ref);
+  if (macros.DEV && !await Elastic.isConnected()) {
+    macros.log('In dev mode and Elasticsearch not available. Class watching does not work');
+    return;
+  }
 
   // The frontend send a classHash to follow and a list of sectionHashes to follow.
   let userObject = {};

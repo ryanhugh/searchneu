@@ -11,6 +11,15 @@ export const CLASS_INDEX = 'classes';
 export const EMPLOYEE_INDEX = 'employees';
 
 class Elastic {
+  async isConnected() {
+    try {
+      await client.ping();
+    } catch (err) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * @param  {string} indexName The index to insert into
    * @param  {Object} mapping   The new elasticsearch index mapping(schema)
