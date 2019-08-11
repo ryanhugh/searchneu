@@ -72,7 +72,7 @@
         },
         "synonym": {
           "tokenizer": "standard",
-          "filter": ["synonym"]
+          "filter": ["lowercase", "synonym"]
         }
       },
       "tokenizer": {

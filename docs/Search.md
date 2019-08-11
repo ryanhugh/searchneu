@@ -6,6 +6,13 @@ The search itself has undergone many different iterations since the first protot
 
 Elasticsearch is our primary datastore - the entire corpus of course documents is stored in Elasticsearch and nowhere else. This is not typical. Most architectures store documents in a traditional database (Mongo, Postgress etc) and just store the fields that are searched over in Elasticsearch. Then, when a user searches, they have to search Elasticsearch for matching documents, then also go to Mongo and query for the body of each of those documents. The primary considerations for this architecture are that Elasticsearch is (1) not good at rapidly updating data (2) isn't as resilient as other DBs. For SearchNEU, neither applies to us. (1) Data is updated once a day, except for a few "watched" classes that update every 5 minutes. (2) In the extremely rare case that Elasticsearch drops some documents, we just rescrape! **The course catalog is our back-up solution and single source of truth.**
 
+
+## esMapping.json
+
+The class index has a special mapping to allow for fast autocomplete, synonyms, and optimizations. [Learn more about elasticsearch mappings](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html)
+
+In our case, we disable a bunch of fields that we aren't searching over, to avoid unneccessary indexing. We also setup a special course_code analyzer to make searching for "CS2500" and "CS 2500" work the same. Additionally, we give the name of the course a field for autocomplete, so that `organ` can match `organic chemistry`, and also check for synonyms. [Learn about fields](https://www.elastic.co/guide/en/elasticsearch/reference/current/multi-fields.html)
+
 ## Search Profiling and Debugging
 
 To debug our queries, use [Kibana](https://www.elastic.co/guide/en/kibana/current/introduction.html), a visualization tool made by the Elastic team. It has tons of features, but for testing new queries on our Elasticsearch index, you just need their [console](https://www.elastic.co/guide/en/kibana/current/console-kibana.html). Alternatively, you can send requests to the Elasticsearch REST API directly with a tool like Postman or Curl.
