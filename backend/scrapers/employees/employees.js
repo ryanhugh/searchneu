@@ -33,7 +33,8 @@ const request = new Request('Employees');
 // "name": "Hauck, Heather",
 
 // Id of each employee. Always scraped.
-// "id": "000120097",
+// In Aug, 2019 this id was changed from a decimal to a base64 encoded binary string on NEU's site.
+// "id": "%2B9Yas6J4nmbQ0e8J7Ju54Q%3D%3D",
 
 // Phone number. Some people had them posted and others did not. Sometimes present, sometimes not.
 // The same phone number can be listed as one person's phone number on this data source and a different person on a different data source.
@@ -48,6 +49,13 @@ const request = new Request('Employees');
 
 // Always scraped.
 // "primarydepartment": "DMSB Co-op"
+
+
+// Should be done better here:
+// employees.parseLettersResponse should be stateless, and just return some json from the html it processes
+// and employees.parseLettersResponse should be sync, and not async
+// and we could get rid of domutils too lmao
+
 
 class Employee {
   constructor() {
@@ -283,12 +291,23 @@ class Employee {
 
               // The "#anchor_68409676" tags on the page are randomly generated each time the page is loaded,
               // so use this hrefparameter id instead, which should be more stable.
-              const idMatch = parsedTable.name[j].match(/.hrefparameter\s+=\s+"id=([\d\w%]+)";/i);
+              // This hrefparameter param is a url encoded, base64 string.
+              // We could decode it, but there's just no point.
+              const idMatch = parsedTable.name[j].match(/.hrefparameter\s+=\s+"id=([\d\w%+/]+)";/i);
               if (!idMatch) {
                 macros.warn('Unable to parse id, using random number', nameWithComma);
                 person.id = String(Math.random());
               } else {
-                person.id = idMatch[1];
+                let id = idMatch[1];
+
+                // Trim the id if it is too long. This is just a sanity check.
+                // 35 is just a arbitrary decided number.
+                if (id.length > 35) {
+                  macros.warn('person id over 35 chars?', id);
+                  id = id.slice(0, 35);
+                }
+
+                person.id = id;
               }
 
               let phone = parsedTable.phone[j];
