@@ -20,7 +20,7 @@ export default function (request) {
 
   if (request.url.endsWith('circletest')) {
     return {
-      body: '<a href="https://yahoo.com/1"></a><a href="https://bing.com/2"></a><a href="https://google.com/somecrossdomain"></a>',
+      body: '<a href="https://yahoo.com/1"></a><a href="https://bing.com/2"></a><a href="https://google.com/somecrossdomain"></a><a nope></a>',
       statusCode: 200,
     };
   }
