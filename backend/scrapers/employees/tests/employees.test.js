@@ -5,12 +5,10 @@
 
 import fs from 'fs-extra';
 import path from 'path';
+import atob from 'atob';
 
 import employees from '../employees';
 
-
-
-//"employee results last name startswith be.html"
 
 it('findName should work', () => {
   const output = employees.findName(['a', 'b', 'sr', 'bob']);
@@ -18,18 +16,19 @@ it('findName should work', () => {
 });
 
 
-
-
-
-
-it('should be able to parse a page', async (done) => {
+// Test to make sure parsing of an employees result page stays the same
+it('should be able to parse a page of be', async (done) => {
   const body = await fs.readFile(path.join(__dirname, 'data', 'employees', 'employee results last name startswith be.html'), 'utf8');
 
-  const output = await employees.parseLettersResponse(body, 'be');
+  employees.parseLettersResponse({ body:body }, 'be');
 
-  console.log(output);
+  // As documented in the employees.js file, the decoded string should be 16 bytes.
+  // Idk what those bytes mean, but we can check the length
+  for (const employee of employees.people) {
+    expect(atob(decodeURIComponent(employee.id)).length).toBe(16);
+  }
+
+  expect(employees.people).toMatchSnapshot();
 
   done();
-
-  // expect(output).toMatchSnapshot();
 });
