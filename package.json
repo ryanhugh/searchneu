@@ -68,7 +68,7 @@
     "@babel/register": "^7.0.0",
     "@mapbox/togeojson": "^0.16.0",
     "amplitude": "^4.0.0",
-    "async": "^2.1.5",
+    "async": "^2",
     "atob": "^2.0.3",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.8.0",
@@ -174,7 +174,7 @@
     "ignore-styles": "^5.0.1",
     "node-sass": "^4.9.2",
     "sass-loader": "^7.0.1",
-    "style-loader": "^0.23.1"
+    "style-loader": "^1.0.0"
   },
   "jest": {
     "snapshotSerializers": [
