@@ -99,6 +99,8 @@ export default class DesktopClassPanel extends BaseClassPanel {
     this.setState({
       showNotificationBoxes: true,
     });
+
+      macros.log('clicked, notification boxes should be showing');
   }
 
 

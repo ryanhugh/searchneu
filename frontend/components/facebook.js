@@ -168,7 +168,7 @@ class Facebook {
     } else if (e.event === 'opt_in') {
       macros.log('Opt in was clicked!', e);
 
-	//user.downloadUserData(100);
+	user.downloadUserData(100);
 
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'Sign up clicked',

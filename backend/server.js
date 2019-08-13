@@ -671,7 +671,7 @@ app.post('/subscribeEmail', wrap(async (req, res) => {
 
 
 // finds the user with the login key that's been requested
-// if the user doesn't exist, return null
+// if the user doesn't exist, return
 async function findMatchingUser(requestLoginKey) {
   // Loop over the db
   const users = await database.get('users');
@@ -738,6 +738,8 @@ app.post('/sendUserData', wrap(async (req, res) => {
       error: 'Error.',
     }));
   }
+
+
 
   // send a status of success. Hopefully it went well.
   res.send(JSON.stringify({

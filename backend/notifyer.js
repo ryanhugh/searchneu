@@ -109,18 +109,13 @@ class Notifyer {
     return JSON.parse(response.body);
   }
 
-<<<<<<< HEAD
-  test() {
-    // currently on Eddy with a y's id
-    this.sendFBNotification('2178896222126069', 'test notification');
-=======
 
   test() {
     // currently on whatever your current id is
     const devUserFbId = macros.getEnvVariable('fbMessengerId');
 
     this.sendFBNotification(devUserFbId, 'test notification');
->>>>>>> 852a98ca6aa4105a9d83eb6252bacee748e5bd84
+
   }
 }
 

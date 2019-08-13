@@ -189,15 +189,8 @@ class SignUpForNotifications extends React.Component {
     let content = null;
 
     if (this.state.showMessengerButton) {
-<<<<<<< HEAD
-      if (this.constructor.hasAdblock) {
-        content = <Button basic content='Disable adblock to continue' className='diableAdblockButton' />;
-      } else if (this.state.showFirefoxMessage) {
-        content = <Button basic content='It seems your website blocks trackers, which breaks signing up for Facebook Messenger notifications' disabled className='diableAdblockButton' />;
-=======
       if (facebook.didPluginFail()) {
         content = <Button basic content='Disable adblock to continue' className='diableAdblockButton' disabled />;
->>>>>>> 852a98ca6aa4105a9d83eb6252bacee748e5bd84
       } else {
         content = (
           <div className='facebookButtonContainer'>
