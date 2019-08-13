@@ -77,7 +77,7 @@ class Search {
     const waitedRequest = await request.get(url);
 
     const results = waitedRequest.results;
-    window.amplitude.logEvent('Search Timing', {
+    macros.logAmplitudeEvent.logEvent('Search Timing', {
       query: query.toLowerCase(),
       time: Date.now() - startTime,
       startIndex: existingTermCount,
