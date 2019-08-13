@@ -23,24 +23,24 @@ class Notifyer {
   // Webhook to respond to Facebook messages.
   async sendFBNotification(sender, text) {
     if (sender.length !== 16 || sender.includes(',')) {
-      macros.warn('Invalid sender ID:', sender);
+      macros.warn(`Invalid sender ID:"${sender}"`, sender.length, typeof sender);
       return {
         error: 'true',
       };
     }
+
+    const devUserFbId = macros.getEnvVariable('fbMessengerId');
 
     // If you want to message yourself in dev mode too, just change this.
     // This check is here so we don't accidentally message people with dev data.
-    if (!macros.PROD && !whitelistedSenders.includes(sender)) {
-      macros.log('Refusing to send message to anyone other than Eddy with a y not in prod mode (or Ryan I guess)');
-
-      macros.log('Not sending', sender, text);
+    if (!macros.PROD && sender !== devUserFbId) {
+      macros.log('Not sending fb message in dev mode ', text, sender, 'is not', devUserFbId, typeof text, typeof devUserFbId);
       return {
         error: 'true',
       };
     }
 
-    const token = await macros.getEnvVariable('fbToken');
+    const token = macros.getEnvVariable('fbToken');
 
     if (!token) {
       macros.warn("Don't have fbToken, not sending FB notification to", sender, text);
@@ -91,7 +91,7 @@ class Notifyer {
   // Get some info about the user
   // Docs here: https://developers.facebook.com/docs/messenger-platform/identity/user-profile
   async getUserProfileInfo(sender) {
-    const token = await macros.getEnvVariable('fbToken');
+    const token = macros.getEnvVariable('fbToken');
 
     if (!token) {
       macros.warn("Don't have fbToken, not getting user info for", sender);
@@ -109,9 +109,18 @@ class Notifyer {
     return JSON.parse(response.body);
   }
 
+<<<<<<< HEAD
   test() {
     // currently on Eddy with a y's id
     this.sendFBNotification('2178896222126069', 'test notification');
+=======
+
+  test() {
+    // currently on whatever your current id is
+    const devUserFbId = macros.getEnvVariable('fbMessengerId');
+
+    this.sendFBNotification(devUserFbId, 'test notification');
+>>>>>>> 852a98ca6aa4105a9d83eb6252bacee748e5bd84
   }
 }
 

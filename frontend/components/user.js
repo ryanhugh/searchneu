@@ -5,11 +5,14 @@
 
 import randomstring from 'randomstring';
 
+<<<<<<< HEAD
 import _ from 'lodash';
 import request from './request';
 import macros from './macros';
 import Keys from '../../common/Keys';
 
+=======
+>>>>>>> 852a98ca6aa4105a9d83eb6252bacee748e5bd84
 
 // Manages user data in the frontend
 // Downloads the data from the server when the page first starts
@@ -17,6 +20,7 @@ import Keys from '../../common/Keys';
 // Eventually, this can be used to get the current user data from the server.
 
 class User {
+<<<<<<< HEAD
   constructor() {
     // Promise to keep track of user data.
     this.userDataPromise = null;
@@ -120,6 +124,8 @@ class User {
     macros.log('sending success?');
   }
 
+=======
+>>>>>>> 852a98ca6aa4105a9d83eb6252bacee748e5bd84
   // Revokes the loginKey and user user-specific data
   logOut() {
     delete window.localStorage.loginkey;

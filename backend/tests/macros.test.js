@@ -42,6 +42,20 @@ it('alphabet is 26', () => {
   expect(macros.ALPHABET.length).toBe(26);
 });
 
+it('logging things work', () => {
+  macros.warn();
+  macros.verbose();
+  macros.error('fjdaj');
+});
+
+it('can get env vars', () => {
+  expect(!!macros.getAllEnvVariables()).toBe(true);
+  expect(!!macros.getEnvVariable('this key does not exist')).toBe(false);
+});
+
+it('some other stuff doesnt crash', () => {
+  macros.logAmplitudeEvent('test event', { hi: 4 });
+});
 
 it('should parse a name with spaces', () => {
   expect(macros.parseNameWithSpaces('Bob    Ross')).toEqual({

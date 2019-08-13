@@ -11,40 +11,102 @@ import user from './user';
 // Call through this file if you need anything related to FB API
 // Currently, it manages initialization, the send_to_messenger callback, and getIsLoggedIn
 
+// It also handles dealing with various types of adblock blocking (and breaking) various parts of of FB's api
+// For instance, uBlock origin in Google chrome will allow the initial request to https://connect.facebook.net/en_US/sdk.js (which makes window.FB work),
+//     but blocks a subsequent request to https://www.facebook.com/v2.11/plugins/send_to_messenger.php?... which breaks the send to messenger plugin
+// Firefox's strict browsing mode blocks the initial request to https://connect.facebook.net/en_US/sdk.js, which makes window.FB never load at all.
+// In both of these cases, show the user a popup asking them to disable their adblock for this feature to work.
+
+// This file does not run in tests
+// It is possible to require it directly with jest.requireActual, but then the loadFbApi still runs which you would need to make not run.
+
+const MESSENGER_PLUGIN_STATE = {
+  UNTESTED: 'Untested',
+  FAILED: 'Failed',
+  RENDERED: 'Rendered',
+};
+
 class Facebook {
   constructor() {
-    // If the FB library has already loaded, call the init function.
-    if (window.FB) {
-      this.initFB();
-    } else {
-      // If the FB library has not loaded, put a function on the global state that the FB library will call when it loads
-      window.fbAsyncInit = this.initFB.bind(this);
-    }
+    // The initial request for window.FB is kept track with a promise
+    // Add the FB tracking code to the page.
+    this.fbPromise = this.loadFbApi();
 
-    // Keeps track of whether the plugin has rendered succesfully at least once.
-    // If it has rendered at least once, the user must not have adblock
-    this.successfullyRendered = false;
+    // Keeps track of whether the FB api has ever failed to render or successfully rendered since the page has been loaded.
+    this.messengerRenderState = MESSENGER_PLUGIN_STATE.UNTESTED;
 
+    // Bind callbacks
     this.onSendToMessengerClick = this.onSendToMessengerClick.bind(this);
   }
 
+  // Loads the FB Api.
+  // This is an private method - don't call from outside or else it may load the api twice.
+  // Just use this.fbPromise
+  loadFbApi() {
+    return new Promise((resolve, reject) => {
+      // This code was adapted from Facebook's tracking code
+      // I added an error handler to know if the request failed (adblock, ff strict browsing mode, etc)
+      const id = 'facebook-jssdk';
+      const firstJavascript = window.document.getElementsByTagName('script')[0];
 
-  initFB() {
-    window.FB.init({
-      appId            : '1979224428978082',
-      autoLogAppEvents : false,
-      xfbml            : false,
-      version          : 'v2.11',
+      // If it already exists, don't add it again
+      if (window.document.getElementById(id)) {
+        resolve(window.FB);
+        return;
+      }
+
+      const js = window.document.createElement('script');
+      js.id = id;
+      js.src = 'https://connect.facebook.net/en_US/sdk.js';
+
+      js.addEventListener('error', () => {
+        // Also change the state of the plugin to failed.
+        this.messengerRenderState = MESSENGER_PLUGIN_STATE.FAILED;
+
+        reject();
+      });
+
+      firstJavascript.parentNode.insertBefore(js, firstJavascript);
+
+      // If the FB JS loaded succesfully, it will call window.fbAsyncInit
+      window.fbAsyncInit = () => {
+        window.FB.init({
+          appId            : '1979224428978082',
+          autoLogAppEvents : false,
+          xfbml            : false,
+          version          : 'v2.11',
+        });
+
+
+        window.FB.Event.subscribe('send_to_messenger', this.onSendToMessengerClick);
+
+        // And finally, resolve the promise with window.FB
+        resolve(window.FB);
+      };
     });
-
-
-    window.FB.Event.subscribe('send_to_messenger', this.onSendToMessengerClick);
   }
+
+  getFBPromise() {
+    return this.fbPromise;
+  }
+
+  pluginFailedToRender() {
+    if (this.messengerRenderState === MESSENGER_PLUGIN_STATE.RENDERED) {
+      macros.error("state was rendered but was just told it doesn't work. ");
+    }
+
+    this.messengerRenderState = MESSENGER_PLUGIN_STATE.FAILED;
+  }
+
 
   // Return if the plugin has successfully rendered at least once.
   // This can be used to tell if there any adblock on the page that is blocking the plugin.
   didPluginRender() {
-    return this.successfullyRendered;
+    return this.messengerRenderState === MESSENGER_PLUGIN_STATE.RENDERED;
+  }
+
+  didPluginFail() {
+    return this.messengerRenderState === MESSENGER_PLUGIN_STATE.FAILED;
   }
 
   // sets the given callbakc to "handleClick"
@@ -89,7 +151,12 @@ class Facebook {
   onSendToMessengerClick(e) {
     if (e.event === 'rendered') {
       macros.log('Plugin was rendered');
-      this.successfullyRendered = true;
+
+      if (this.messengerRenderState === MESSENGER_PLUGIN_STATE.FAILED) {
+        macros.error('state was failed but it just worked.');
+      }
+
+      this.messengerRenderState = MESSENGER_PLUGIN_STATE.RENDERED;
     } else if (e.event === 'checkbox') {
       const checkboxState = e.state;
       macros.log(`Checkbox state: ${checkboxState}`);
@@ -101,20 +168,30 @@ class Facebook {
     } else if (e.event === 'opt_in') {
       macros.log('Opt in was clicked!', e);
 
-      user.downloadUserData(100);
+	//user.downloadUserData(100);
 
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'Sign up clicked',
         hash: JSON.parse(atob(e.ref)).classHash,
       });
 
-      if (this.handleClick) {
-        this.handleClick();
+      // In development mode, the fb id of the developer running this code
+      // should be injected into this code with webpack
+      // if is stored in the config.json. (backend macros.getEnvVariable)
+      let fbMessengerId;
+      if (process.env.fbMessengerId) {
+        fbMessengerId = String(process.env.fbMessengerId);
+      } else {
+        // These 0's and the 1's below don't mean anything - they are just filler values.
+        fbMessengerId = '0000000000000000';
       }
 
       // When the Send To Messenger button is clicked in development, the webhook is still sent to prod by Facebook
       // In this case, send the data to the development server directly.
+      // These 1s don't mean anything - they are just filler values.
       if (macros.DEV) {
+        macros.log('Your FB id is:', fbMessengerId, typeof fbMessengerId);
+
         request.post({
           url: '/webhook',
           body: {
@@ -132,7 +209,7 @@ class Facebook {
                     timestamp: Date.now(),
                     sender:
                       {
-                        id: '2178896222126069',
+                        id: fbMessengerId,
                       },
                     optin:
                       {

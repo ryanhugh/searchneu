@@ -524,6 +524,9 @@ class Home extends React.Component {
       // topHeaderStyle.transform = 'translateY(-50%) translateY(230px)';
       topHeaderStyle.transform = 'translateY(-50%) translateY(292px)';
       resultsContainerStyle.transform = `translateY(-${window.innerHeight - 310}px)`;
+
+      // Without this line, there would be a lot of whitespace after the results.
+      resultsContainerStyle.marginBottom = `${310 - window.innerHeight}px`;
       bostonContainerStyle.opacity = 0;
       wantToHelpOpacity = 0;
       hiddenHelpButton = 'getInvolvedTextHidden';

@@ -16,3 +16,7 @@ if (process.env.NODE_ENV === 'test') {
 
   };
 }
+
+// Mock out this file on all tests/
+// This file is a data-abstraction-layer (aka wrapper) around window.FB, which does not exist in TEST
+jest.mock('../frontend/components/facebook');

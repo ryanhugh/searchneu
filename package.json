@@ -77,7 +77,7 @@
     "cheerio": "^0.22.0",
     "classnames": "^2.2.5",
     "compression": "^1.6.2",
-    "cookie": "^0.3.1",
+    "cookie": "^0.4.0",
     "core-js": "^3.0.1",
     "cross-env": "^5.0.0",
     "dnscache": "^1.0.1",
@@ -90,8 +90,8 @@
     "express": "^4.15.2",
     "express-async-wrap": "^1.0.0",
     "express-x-hub": "^1.0.4",
-    "file-loader": "^3.0.1",
-    "firebase-admin": "^7.3.0",
+    "file-loader": "^4.0.0",
+    "firebase-admin": "^8.2.0",
     "forever": "^1.0.0",
     "form-urlencoded": "^3.0.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
@@ -164,8 +164,8 @@
     "@babel/runtime": "^7.0.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
-    "css-loader": "^2.0.2",
-    "eslint": "^5.3.0",
+    "css-loader": "^3.0.0",
+    "eslint": "^6.0.1",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-import": "^2.2.0",
@@ -187,7 +187,7 @@
       "/dist/"
     ],
     "setupFiles": [
-      "./common/rafTestPolyfill.js"
+      "./common/jestSetupFile.js"
     ],
     "moduleNameMapper": {
       "__comment": "The css import needs to be an object that returns a string",
