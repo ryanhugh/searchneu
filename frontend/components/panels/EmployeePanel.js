@@ -169,7 +169,10 @@ export default class EmployeePanel extends React.Component {
             data-tip=''
             role='button'
             tabIndex={ 0 }
-            { ...events }
+            onClick={ events.onClick }
+            onMouseEnter={ events.onMouseEnter }
+            onMouseLeave={ events.onMouseLeave }
+            href={ events.href }
           >
             {email}
           </a>,
@@ -199,7 +202,17 @@ export default class EmployeePanel extends React.Component {
 
 
       contactRows.push(
-        <a key='tel' data-tip='' className='employeePhone' role='button' tabIndex={ 0 } { ...events }>
+        <a
+          key='tel'
+          data-tip=''
+          className='employeePhone'
+          role='button'
+          tabIndex={ 0 }
+          onClick={ events.onClick }
+          onMouseEnter={ events.onMouseEnter }
+          onMouseLeave={ events.onMouseLeave }
+          href={ events.href }
+        >
           {phoneText}
         </a>,
       );

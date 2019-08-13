@@ -65,7 +65,7 @@ class Main {
     }
 
     // Actually add the atributes to this obj
-    rootNode.value = Object.assign({}, rootNode.value, newChildAttr);
+    rootNode.value = { ...rootNode.value, ...newChildAttr };
 
     // Recusion.
     if (rootNode.deps) {
