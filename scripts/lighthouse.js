@@ -2,6 +2,8 @@
 // It would be cool if we could run this over the site in some extended testing mode, but it does require that we fire up a chrome headless 
 // to run. 
 
+// add lighthouse and chrome-launcher to package.json
+
 const lighthouse = require('lighthouse');
 const chromeLauncher = require('chrome-launcher');
 
