@@ -594,7 +594,7 @@ app.post('/webhook/', wrap(async (req, res) => {
         unsubscribeSender(sender);
       } else if (text === 'What is my facebook messenger sender id?') {
         notifyer.sendFBNotification(sender, sender);
-      } else if (text === 'no u') {
+      } else if (text === 'no u' || text === 'no you') {
         notifyer.sendFBNotification(sender, 'no u');
       } else {
         // Don't send anything if the user sends a message.
