@@ -18,7 +18,7 @@ export default {
   devtool: macros.PROD ? 'source-map' : 'cheap-module-eval-source-map',
   mode: macros.PROD ? 'production' : 'development',
   entry: [
-    '@babel/polyfill',
+    'regenerator-runtime/runtime',
     ...macros.DEV ? [
       'react-hot-loader/patch',
       'webpack-hot-middleware/client',

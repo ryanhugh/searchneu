@@ -47,6 +47,12 @@ class Facebook {
     return this.successfullyRendered;
   }
 
+  // sets the given callbakc to "handleClick"
+  handleClickGetter(callback) {
+    this.handleClick = callback;
+  }
+
+
   // This function assumes that 'searchneu.com' is whitelisted in the Facebook Developer console settings
   // https://developers.facebook.com/apps/1979224428978082/settings/basic/
   // Facebook only allows applications to run on one domain at a time
@@ -78,6 +84,8 @@ class Facebook {
     });
   }
 
+
+  // handles button events
   onSendToMessengerClick(e) {
     if (e.event === 'rendered') {
       macros.log('Plugin was rendered');
@@ -93,12 +101,16 @@ class Facebook {
     } else if (e.event === 'opt_in') {
       macros.log('Opt in was clicked!', e);
 
+      user.downloadUserData(100);
 
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'Sign up clicked',
         hash: JSON.parse(atob(e.ref)).classHash,
       });
 
+      if (this.handleClick) {
+        this.handleClick();
+      }
 
       // When the Send To Messenger button is clicked in development, the webhook is still sent to prod by Facebook
       // In this case, send the data to the development server directly.
@@ -120,7 +132,7 @@ class Facebook {
                     timestamp: Date.now(),
                     sender:
                       {
-                        id: '1397905100304615',
+                        id: '2178896222126069',
                       },
                     optin:
                       {

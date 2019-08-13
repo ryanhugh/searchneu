@@ -11,6 +11,7 @@ import macros from '../macros';
 import BaseClassPanel from './BaseClassPanel';
 import DesktopSectionPanel from './DesktopSectionPanel';
 import SignUpForNotifications from '../SignUpForNotifications';
+import user from '../user';
 
 import globe from './globe.svg';
 
@@ -24,9 +25,16 @@ import globe from './globe.svg';
 
 
 export default class DesktopClassPanel extends BaseClassPanel {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+    this.reRenderCheckBox = this.reRenderCheckBox.bind(this);
+  }
+
   static propTypes = {
     aClass: PropTypes.object.isRequired,
   };
+
 
   componentDidUpdate() {
     macros.debounceTooltipRebuild();
@@ -34,6 +42,17 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
   componentDidMount() {
     macros.debounceTooltipRebuild();
+    user.registerCallback(this.reRenderCheckBox);
+  }
+
+  componentWillUnmount() {
+    user.unregisterCallback(this.reRenderCheckBox);
+  }
+
+  reRenderCheckBox() {
+    if (this.state.showNotificationBoxes) {
+      this.setState({ showNotificationBoxes: true });
+    }
   }
 
   // Method to decide whether to show the waitlist or not
@@ -72,6 +91,16 @@ export default class DesktopClassPanel extends BaseClassPanel {
     // If there are plenty of seats left, don't show the waitlist
     return false;
   }
+
+
+  // handles the sign up for notifications button being clicked,
+  // to allow for user to choose which sections to sign up for
+  handleClick() {
+    this.setState({
+      showNotificationBoxes: true,
+    });
+  }
+
 
   render() {
     const aClass = this.props.aClass;
@@ -113,6 +142,9 @@ export default class DesktopClassPanel extends BaseClassPanel {
               <th style={{ display: !showWaitList && 'none' }}>
                 Waitlist seats
               </th>
+              <th style={{ display: !this.state.showNotificationBoxes && 'none' }}>
+        Notifs
+              </th>
               <th style={{ display: !showHonorsColumn && 'none' }}>
                 Honors
               </th>
@@ -131,6 +163,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
                   shouldShowExamColumns={ aClass.sectionsHaveExam() }
                   showHonorsColumn={ showHonorsColumn }
                   section={ section }
+                  showNotificationBoxes={ this.state.showNotificationBoxes }
                 />
               );
             })}
@@ -209,7 +242,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
             {creditsString}
             <div>
-              <SignUpForNotifications aClass={ aClass } />
+              <SignUpForNotifications aClass={ aClass } handleClick={ this.handleClick } />
             </div>
 
           </div>

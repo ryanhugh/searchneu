@@ -17,20 +17,32 @@ import user from './user';
 // (This Sent To Messenger button is not rendered initially because it requires that an iframe is added and 10+ http requests are made for each time it is rendered)
 
 // TODO: Lets make it so clicking on the Send To Messenger button changes this to a third state that just says thanks for signing up!
+// (still needs to be done!)
+
+// All of the actually signing up for sections is now in NotifCheckbox
 
 class SignUpForNotifications extends React.Component {
   static hasAdblock = false;
 
   static propTypes = {
     aClass: PropTypes.object.isRequired,
+    handleClick: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
+
+      // initially, don't want to show the messenger button yet
       showMessengerButton: false,
+
+      // or the adblock message (sometimes, adblock blocks fb messenger button)
       showAdblockMessage: false,
+
+      // if firefox has strict privacy tracking enabled, the page can crash. Instead of
+      // doing that, we make sure we dont' try to render null things.
+      showFirefoxMessage: false,
     };
 
     this.facebookScopeRef = null;
@@ -47,7 +59,16 @@ class SignUpForNotifications extends React.Component {
       return;
     }
 
-    window.FB.XFBML.parse(this.facebookScopeRef);
+    // firefox has a strict no-trackers rule, which FB violates
+    // this is to make sure the site doesn't crash on firefox
+    if (window.FB) {
+      window.FB.XFBML.parse(this.facebookScopeRef);
+    } else {
+      this.setState({ // eslint-disable-line react/no-did-update-set-state
+        showFirefoxMessage: true,
+      });
+      return;
+    }
 
     const iframe = this.facebookScopeRef.querySelector('iframe');
 
@@ -97,15 +118,25 @@ class SignUpForNotifications extends React.Component {
 
   // Updates the state to show the button.
   onSubscribeToggleChange() {
-    macros.logAmplitudeEvent('FB Send to Messenger', {
-      message: 'First button click',
-      hash: this.props.aClass.getHash(),
-    });
+    // if a user exists already, we can show the notification checkboxes too
+    if (user.user) {
+      macros.log('user exists already', user.user);
+      this.props.handleClick();
+      this.setState({ toggleBox: true });
+    } else {
+      macros.logAmplitudeEvent('FB Send to Messenger', {
+        message: 'First button click',
+        hash: this.props.aClass.getHash(),
+      });
 
-    this.setState({
-      showMessengerButton: true,
-    });
+      this.setState({
+        showMessengerButton: true,
+      });
+
+      facebook.handleClickGetter(this.props.handleClick);
+    }
   }
+
 
   // Return the FB button itself.
   getSendToMessengerButton() {
@@ -114,19 +145,20 @@ class SignUpForNotifications extends React.Component {
     const aClass = this.props.aClass;
 
     // Get a list of all the sections that don't have seats remaining
-    const sectionsHashes = [];
+    const sectionHashes = [];
     for (const section of aClass.sections) {
       if (section.seatsRemaining <= 0) {
-        sectionsHashes.push(section.getHash());
+        sectionHashes.push(section.getHash());
       }
     }
 
     // JSON stringify it and then base64 encode the data that we want to pass to the backend.
     // Many characters arn't allowed to be in the ref attribute, including open and closing braces.
     // So base64 enocode it and then decode it on the server. Without the base64 encoding, the button will not render.
+
     const dataRef = btoa(JSON.stringify({
       classHash: aClass.getHash(),
-      sectionHashes: sectionsHashes,
+      sectionHashes: sectionHashes,
       dev: macros.DEV,
       loginKey: loginKey,
     }));
@@ -157,6 +189,8 @@ class SignUpForNotifications extends React.Component {
     if (this.state.showMessengerButton) {
       if (this.constructor.hasAdblock) {
         content = <Button basic content='Disable adblock to continue' className='diableAdblockButton' />;
+      } else if (this.state.showFirefoxMessage) {
+        content = <Button basic content='It seems your website blocks trackers, which breaks signing up for Facebook Messenger notifications' disabled className='diableAdblockButton' />;
       } else {
         content = (
           <div className='facebookButtonContainer'>
@@ -167,6 +201,8 @@ class SignUpForNotifications extends React.Component {
           </div>
         );
       }
+    } else if (this.state.toggleBox) {
+      content = <Button basic disabled content='Toggle the sections you want to be notified for!' className='notificationButton' />;
     } else if (this.props.aClass.sections.length === 0) {
       content = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when sections are added!' className='notificationButton' />;
     } else if (this.props.aClass.isAtLeastOneSectionFull()) {

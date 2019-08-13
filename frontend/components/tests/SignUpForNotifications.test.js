@@ -23,13 +23,13 @@ afterEach(() => {
 });
 
 it('should render', () => {
-  const result = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } />);
+  const result = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } handleClick={ () => { return this.setState({ showNotificationBoxes: true }); } } />);
   expect(result).toMatchSnapshot();
 });
 
 
 it('should render the fb button after the button is clicked', () => {
-  const wrapper = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } />);
+  const wrapper = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } handleClick={ () => { return this.setState({ showNotificationBoxes: true }); } } />);
   const instance = wrapper.instance();
 
   instance.onSubscribeToggleChange();

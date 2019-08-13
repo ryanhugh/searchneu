@@ -4,21 +4,20 @@
  */
 
 import React from 'react';
-
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import mockData from './mockData';
-import MobileSectionPanel from '../MobileSectionPanel';
+import NotifCheckBox from '../NotifCheckBox';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-it('should render a section', () => {
-  const result = shallow(<MobileSectionPanel section={ mockData.cs1210.sections[0] } showNotificationBoxes={ false } />);
+it('render the default notification checkbox', () => {
+  const result = shallow(<NotifCheckBox section={ mockData.cs1210.sections[0] } />);
   expect(result).toMatchSnapshot();
 });
 
-it('should render another section w/ checkboxes', () => {
-  const result = shallow(<MobileSectionPanel section={ mockData.cs1210.sections[1] } showNotificationBoxes />);
+it('render the read only notification checkbox', () => {
+  const result = shallow(<NotifCheckBox section={ mockData.cs1210.sections[1] } />);
   expect(result).toMatchSnapshot();
 });

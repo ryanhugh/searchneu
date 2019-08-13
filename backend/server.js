@@ -184,6 +184,29 @@ app.use((req, res, next) => {
   }
 });
 
+// Shows the entire DB in dev
+app.get('/getDatabaseInDev', wrap(async (req, res) => {
+  if (!macros.DEV) {
+    res.send(JSON.stringify({
+      error: 'no',
+    }));
+    return;
+  }
+
+  const ip = getRemoteIp(req);
+  if (ip !== 'localhost' && ip !== '127.0.0.1') {
+    res.send(JSON.stringify({
+      error: 'no',
+    }));
+    return;
+  }
+
+  const stuff = await database.get('/users');
+  macros.log(stuff);
+
+  res.send(JSON.stringify(stuff, null, 4));
+}));
+
 
 // Used for loading the data required to make the frontend work.
 // This is just the data stored in public and not in cache.
@@ -410,7 +433,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     return;
   }
 
-  if (!userObject.classHash || !userObject.sectionHashes || !userObject.loginKey) {
+  if (!userObject.loginKey || !userObject.classHash || !userObject.sectionHashes) {
     macros.error('Invalid user object from webhook ', userObject);
     return;
   }
@@ -427,9 +450,6 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   let existingData = await firebaseRef.once('value');
   existingData = existingData.val();
 
-  const dataLib = (await promises).dataLib;
-  const aClass = dataLib.getClassServerDataFromHash(userObject.classHash);
-
   // User is signing in from a new device
   if (existingData) {
     // Add this array if it dosen't exist. It should exist
@@ -441,41 +461,30 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
       existingData.watchingSections = [];
     }
 
-    const wasWatchingClass = existingData.watchingClasses.includes(userObject.classHash);
-
     const sectionWasentWatchingBefore = [];
-
     for (const section of userObject.sectionHashes) {
       if (!existingData.watchingSections.includes(section)) {
         sectionWasentWatchingBefore.push(section);
       }
     }
 
-    const classCode = `${aClass.subject} ${aClass.classId}`;
     // Check to see how many of these classes they were already signed up for.
-    if (wasWatchingClass && sectionWasentWatchingBefore.length === 0) {
-      notifyer.sendFBNotification(sender, `You are already signed up to get notifications if any of the sections of ${classCode} have seats that open up.`);
-    } else if (wasWatchingClass && sectionWasentWatchingBefore.length > 0) {
-      notifyer.sendFBNotification(sender, `You are already signed up to get notifications if seats open up in some of the sections in ${classCode} and are now signed up for ${sectionWasentWatchingBefore.length} more sections too!`);
-    } else if (sectionWasentWatchingBefore.length === 0) {
-      notifyer.sendFBNotification(sender, `Successfully signed up for notifications if sections are added to ${classCode}!`);
-    } else {
-      notifyer.sendFBNotification(sender, `Successfully signed up for notifications for ${sectionWasentWatchingBefore.length} sections in ${classCode}!`);
+
+    // only auto enrolls if there's one (or less???) sectionz remaining
+    if (sectionWasentWatchingBefore.length <= 1) {
+      // ok lets add what classes the user saw in the frontend that have no seats available and that they want to sign up for
+      // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
+      // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
+
+      // Only add if it doesn't already exist in the user data.
+      if (!existingData.watchingClasses.includes(userObject.classHash)) {
+        existingData.watchingClasses.push(userObject.classHash);
+      }
+      existingData.watchingSections = _.uniq(existingData.watchingSections.concat(userObject.sectionHashes));
     }
-
-    // ok lets add what classes the user saw in the frontend that have no seats availible and that he wants to sign up for
-    // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
-    // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
-
-    // Only add if it dosen't already exist in the user data.
-    if (!existingData.watchingClasses.includes(userObject.classHash)) {
-      existingData.watchingClasses.push(userObject.classHash);
-    }
-
-    existingData.watchingSections = _.uniq(existingData.watchingSections.concat(userObject.sectionHashes));
 
     // Remove any null or undefined values from the watchingClasses and watchingSections
-    // This can happen if data is manually deleted from the DB, and the data is no longer contineous.
+    // This can happen if data is manually deleted from the DB, and the data is no longer continuous.
     // (eg index 0 is deleted and Google keeps the others at index 1 and index 2, so index 0 just contains undefined)
     if (existingData.watchingClasses.includes(undefined) || existingData.watchingSections.includes(undefined)) {
       macros.log('existing data class hashes or section hashes includes undefined!', existingData.watchingClasses, existingData.watchingSections);
@@ -512,8 +521,8 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     }
 
     const newUser = {
-      watchingSections: userObject.sectionHashes,
-      watchingClasses: [userObject.classHash],
+      watchingSections: [],
+      watchingClasses: [],
       firstName: names.first_name,
       lastName: names.last_name,
       facebookMessengerId: sender,
@@ -525,7 +534,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
 
     // Send the user a notification letting them know everything was successful.
-    notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}! I'll send you another message if a seat opens up in ${aClass.subject} ${aClass.classId}!`);
+    notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}!`);
 
     database.set(`/users/${sender}`, newUser);
   }
@@ -585,6 +594,8 @@ app.post('/webhook/', wrap(async (req, res) => {
         unsubscribeSender(sender);
       } else if (text === 'What is my facebook messenger sender id?') {
         notifyer.sendFBNotification(sender, sender);
+      } else if (text === 'no u' || text === 'no you') {
+        notifyer.sendFBNotification(sender, 'no u');
       } else {
         // Don't send anything if the user sends a message.
         // notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com !");
@@ -692,6 +703,60 @@ async function findMatchingUser(requestLoginKey) {
 
   return null;
 }
+
+// sends data to the database in the backend
+app.post('/sendUserData', wrap(async (req, res) => {
+  // Don't cache this endpoint.
+  res.setHeader('Cache-Control', 'no-cache, no-store');
+
+
+  // if there's no body in the request, well, we'll crash, so let's not
+  if (!req.body || !req.body.loginKey) {
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  // Checks checks checks
+  // Make sure the login key is valid
+  if (typeof req.body.loginKey !== 'string' || req.body.loginKey.length !== 100) {
+    macros.log('Invalid login key', req.body.loginKey);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  const senderId = req.body.senderId;
+
+  // Make sure the sender id is valid
+  if (senderId && (typeof senderId !== 'string' || senderId.length !== 16 || !macros.isNumeric(senderId))) {
+    macros.log('Invalid senderId', req.body, senderId);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+
+  // If the client specified a specific senderId, lookup that specific user.
+  // if not, we have to loop over all the users's to find a matching loginKey
+  if (senderId) {
+    await database.set(`/users/${senderId}`, req.body.info);
+    macros.log('sending done, result is ', await database.get(`/users/${senderId}`));
+  } else {
+    macros.log('Really invalid senderID', req.body, senderId);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+  }
+
+  // send a status of success. Hopefully it went well.
+  res.send(JSON.stringify({
+    status: 'Success',
+  }));
+}));
 
 
 app.post('/getUserData', wrap(async (req, res) => {
