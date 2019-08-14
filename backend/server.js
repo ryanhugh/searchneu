@@ -788,7 +788,7 @@ app.post('/getUserData', wrap(async (req, res) => {
     const user = await database.get(`/users/${senderId}`);
 
     if (!user) {
-      macros.log('Invalid senderId', senderId);
+      macros.log('User with senderId not in database yet', senderId);
       res.send(JSON.stringify({
         error: 'Error.',
       }));

@@ -42,7 +42,8 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
   componentDidMount() {
     macros.debounceTooltipRebuild();
-    user.registerCallback(this.reRenderCheckBox);
+      user.registerCallback(this.reRenderCheckBox);
+      macros.log('callback registered');
   }
 
   componentWillUnmount() {
@@ -100,7 +101,6 @@ export default class DesktopClassPanel extends BaseClassPanel {
       showNotificationBoxes: true,
     });
 
-      macros.log('clicked, notification boxes should be showing');
   }
 
 

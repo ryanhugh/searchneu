@@ -22,6 +22,8 @@ import user from './user';
 // All of the actually signing up for sections is now in NotifCheckbox
 
 class SignUpForNotifications extends React.Component {
+  static hasAdblock = false;
+
   static propTypes = {
     aClass: PropTypes.object.isRequired,
     handleClick: PropTypes.func.isRequired,
@@ -35,10 +37,7 @@ class SignUpForNotifications extends React.Component {
       // initially, don't want to show the messenger button yet
       showMessengerButton: false,
 
-      // Keeps track of whether the adblock message is being shown or not
-      // Sometimes, adblock will block the FB plugin from loading
-      // Firefox strict browsing also blocks this plugin from working
-      // If the plugin failed to load for whatever reason, show this message and ask the user to allow FB plugins
+      // or the adblock message (sometimes, adblock blocks fb messenger button)
       showAdblockMessage: false,
 
       // if firefox has strict privacy tracking enabled, the page can crash. Instead of
@@ -55,21 +54,21 @@ class SignUpForNotifications extends React.Component {
   // This will tell FB's SDK to scan all the child elements of this.facebookScopeRef to look for fb-send-to-messenger buttons.
   // If the user goes to this page and is not logged into Facebook, a send to messenger button will still appear and they
   // will be asked to sign in after clicking it.
-  async componentDidUpdate() {
+  componentDidUpdate() {
     if (!this.facebookScopeRef) {
       return;
     }
 
-    const FB = await facebook.getFBPromise();
-
-    // Check for this.facebookScopeRef again because some rollbar errors were coming in that it was changed to null
-    // while the await above was running
-    // https://rollbar.com/ryanhugh/searchneu/items/373/
-    if (!FB || !this.facebookScopeRef) {
+    // firefox has a strict no-trackers rule, which FB violates
+    // this is to make sure the site doesn't crash on firefox
+    if (window.FB) {
+      window.FB.XFBML.parse(this.facebookScopeRef);
+    } else {
+      this.setState({ // eslint-disable-line react/no-did-update-set-state
+        showFirefoxMessage: true,
+      });
       return;
     }
-
-    FB.XFBML.parse(this.facebookScopeRef);
 
     const iframe = this.facebookScopeRef.querySelector('iframe');
 
@@ -89,7 +88,7 @@ class SignUpForNotifications extends React.Component {
       const classHash = this.props.aClass.getHash();
 
       // If has adblock and haven't shown the warning yet, show the warning.
-      if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !facebook.didPluginRender()) {
+      if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !this.constructor.hasAdblock && !facebook.didPluginRender()) {
         if (macros.isMobile) {
           macros.error('Unable to render on mobile?', classHash);
 
@@ -106,7 +105,7 @@ class SignUpForNotifications extends React.Component {
           this.setState({
             showAdblockMessage: true,
           });
-          facebook.pluginFailedToRender();
+          this.constructor.hasAdblock = true;
         }
       } else {
         macros.logAmplitudeEvent('FB Send to Messenger', {
@@ -118,25 +117,24 @@ class SignUpForNotifications extends React.Component {
   }
 
   // Updates the state to show the button.
-  async onSubscribeToggleChange() {
-    macros.logAmplitudeEvent('FB Send to Messenger', {
-      message: 'First button click',
-      hash: this.props.aClass.getHash(),
-    });
+  onSubscribeToggleChange() {
+    // if a user exists already, we can show the notification checkboxes too
+    if (user.user) {
+      macros.log('user exists already', user.user);
+      this.props.handleClick();
+      this.setState({ toggleBox: true });
+    } else {
+      macros.logAmplitudeEvent('FB Send to Messenger', {
+        message: 'First button click',
+        hash: this.props.aClass.getHash(),
+      });
 
-    // Check the status of the FB plugin
-    // If it failed to load, show the message that asks user to disable adblock
-    const newState = {
-      showMessengerButton: true,
-    };
+      this.setState({
+        showMessengerButton: true,
+      });
 
-    try {
-      await facebook.getFBPromise();
-    } catch (e) {
-      newState.showAdblockMessage = true;
+      facebook.handleClickGetter(this.props.handleClick);
     }
-
-    this.setState(newState);
   }
 
 
@@ -189,8 +187,10 @@ class SignUpForNotifications extends React.Component {
     let content = null;
 
     if (this.state.showMessengerButton) {
-      if (facebook.didPluginFail()) {
-        content = <Button basic content='Disable adblock to continue' className='diableAdblockButton' disabled />;
+      if (this.constructor.hasAdblock) {
+        content = <Button basic content='Disable adblock to continue' className='diableAdblockButton' />;
+      } else if (this.state.showFirefoxMessage) {
+        content = <Button basic content='It seems your website blocks trackers, which breaks signing up for Facebook Messenger notifications' disabled className='diableAdblockButton' />;
       } else {
         content = (
           <div className='facebookButtonContainer'>
@@ -229,9 +229,10 @@ class SignUpForNotifications extends React.Component {
       <div className='sign-up-for-notifications-container'>
         {content}
         <Modal
+          className='adblock-notification-modal-container'
           header='Please disable adblock and sign into Facebook.'
           open={ this.state.showAdblockMessage }
-          content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, you will need to add an exception for this site for this feature to work. You can also try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
+          content="Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled. If you are using Safari, try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
           actions={ actions }
         />
       </div>
