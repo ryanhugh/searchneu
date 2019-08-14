@@ -3,6 +3,7 @@
  * See the license file in the root folder for details.
  */
 
+import URI from 'urijs';
 import macros from '../macros';
 
 // This file mocks out request.js
@@ -172,9 +173,46 @@ let searchExample = {
 
 class MockRequest {
 
+  constructor() {
+
+    // Keeps track of whether to reply to searches for ben
+    this.replyWithDataToBen;
+
+    this.reset();
+  }
+
+
+  // Reset back to defaults
+  reset() {
+    this.replyWithDataToBen = true;
+  }
+
+  // Sets whether this mock should return the data or return an empty array when 
+  // 'ben' is searched for. 
+  // Only effects searches for 'ben'
+  setBenResponse(bool) {
+    this.replyWithDataToBen = bool;
+  }
 
   
   async get(request) {
+
+    console.log(request)
+
+    let urlParsed = new URI(request);
+
+    console.log(urlParsed)
+
+    console.log(urlParsed.path() , urlParsed.query(true).query == 'ben' , !this.replyWithDataToBen)
+
+    if (urlParsed.path() == '/search' && urlParsed.query(true).query == 'ben' && !this.replyWithDataToBen) {
+      return {
+        results: [],
+        "wasSubjectMatch": false
+      }
+    }
+
+
     return searchExample;
   }
 
