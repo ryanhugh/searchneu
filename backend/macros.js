@@ -245,6 +245,11 @@ class Macros extends commonMacros {
   // Any of the times in the args array can be an error, and it will be logs according to rollbar's API
   // shouldExit - exit after logging.
   static async logRollbarError(args, shouldExit) {
+    // Don't log rollbar stuff outside of Prod
+    if (!Macros.PROD) {
+      return;
+    }
+
     const rollbarKey = Macros.getEnvVariable('rollbarPostServerItemToken');
 
     if (!rollbarKey) {

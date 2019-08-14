@@ -52,6 +52,17 @@ module.exports = {
     // Disabling this allows making class methods that do not reference "this", which is helpful for private helper functions. 
     "class-methods-use-this": 0,
 
+    // The default ESLint rule here is to put propTypes below the class,
+    // eg, EmailInput.propTypes = {...}
+    // this rule change enforces that the are kept as static properties in the class.
+    "react/static-property-placement": ["error", "static public field", {
+      propTypes: "static public field",
+    }],
+
+    // The default for airbnb-eslint is to require the state to be above the constructor.
+    // This changes the rule to ensure the state is always initiated in the constructore
+    "react/state-in-constructor": [2, "always"],
+
     // This config disallows if(true) but allows while(true)
     "no-constant-condition": ["error", { "checkLoops": false }],
     "no-cond-assign": ["error", "except-parens"],

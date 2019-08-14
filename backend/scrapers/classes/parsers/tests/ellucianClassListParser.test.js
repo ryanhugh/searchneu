@@ -24,3 +24,10 @@ it('should behave...', async (done) => {
   expect(output[0]).toBe(catalogURL);
   done();
 });
+
+
+it('should skip invalid urls', () => {
+  const output = ellucianClassListParser.parse('<a href="hlfdjalf"></a>', 'http://google.com');
+
+  expect(output.length).toBe(0);
+});
