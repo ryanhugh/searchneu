@@ -5,6 +5,7 @@
 
 jest.mock('../request');
 
+import _ from 'lodash'
 import search from '../search';
 import requestMock from '../__mocks__/request';
 
@@ -15,8 +16,14 @@ import requestmock2 from '../request'
 
 
 // Make sure to reset the mock request module after each test. 
-afterAll(() => {
+afterEach(() => {
   requestmock2.reset();
+  search.clearCache();
+});
+
+beforeEach(() => {
+  requestmock2.reset();
+  search.clearCache();
 });
 
 
@@ -24,22 +31,26 @@ it('should not have any results', async (done) => {
 	requestmock2.setBenResponse(false);
   let results = await search.search('ben', '201850', 4);
 
-  expect(results.length).toBe(0);
+  expect(results.results.length).toBe(0);
   done();
 })
 
 
-it('should do nothing', async (done) => {
+it('should cache the results of a given search', async (done) => {
   let results = await search.search('ben', '201850', 4);
 
-  console.log(results.results.length)
+  expect(results.results.length).toBe(4);
 
+  let firstResults = _.cloneDeep(results.results)
+
+  // Even though we disable the response, this search module should cache it. 
   requestmock2.setBenResponse(false);
 
-  // results = await search.search('ben', '201850', 4);
+  let secondResults = await search.search('ben', '201850', 4);
 
-  // console.log(results.results)
+  expect(secondResults.results).toEqual(firstResults)
 
-  console.log(requestmock2.get, requestmock2)
+  expect(secondResults.results.length).toBe(4);
+
   done()
 });

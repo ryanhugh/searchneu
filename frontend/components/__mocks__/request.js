@@ -197,23 +197,28 @@ class MockRequest {
   
   async get(request) {
 
-    console.log(request)
-
     let urlParsed = new URI(request);
 
-    console.log(urlParsed)
+    let parsedQuery = urlParsed.query(true);
 
-    console.log(urlParsed.path() , urlParsed.query(true).query == 'ben' , !this.replyWithDataToBen)
-
-    if (urlParsed.path() == '/search' && urlParsed.query(true).query == 'ben' && !this.replyWithDataToBen) {
+    if (urlParsed.path() == '/search' && parsedQuery.query == 'ben' && !this.replyWithDataToBen) {
       return {
         results: [],
         "wasSubjectMatch": false
       }
     }
 
+    if (!macros.isNumeric(parsedQuery.minIndex) || !macros.isNumeric(parsedQuery.maxIndex)) {
+      macros.critical("invalid min index or max index");
+    }
 
-    return searchExample;
+
+    let results = { ...searchExample }
+
+    results.results = searchExample.results.slice(parsedQuery.minIndex, parsedQuery.maxIndex)
+
+
+    return results;
   }
 
 

@@ -27,6 +27,13 @@ class Search {
   }
 
 
+  // Clears the cache stored in this module. 
+  // Used for testing.
+  clearCache() {
+    this.cache = {};
+    this.allLoaded = {};
+  }
+
   // Min terms is the minimum number of terms needed.
   // When this function is called for the first time for a given query, it will be 4.
   // Then, on subsequent calls, it will be 14, 24, etc. (if increasing by 10) (set by termCount)
