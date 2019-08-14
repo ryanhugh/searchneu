@@ -52,11 +52,11 @@ class MockXMLHttpRequest {
     this.constructor.instance = this;
   }
 
-  addEventListener(name, fn) {
+  addEventListener() {
 
   }
 
-  setRequestHeader(name, value) {
+  setRequestHeader() {
 
   }
 
