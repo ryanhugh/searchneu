@@ -41,7 +41,7 @@ class Search {
     // Searches are case insensitive.
     query = query.trim().toLowerCase();
 
-    if (!query || query.length === 0) {
+    if (query.length === 0) {
       macros.log('No query given in frontend/search.js. Returning empty array.', query, termCount);
       return { results: [] };
     }
@@ -114,7 +114,11 @@ class Search {
       this.allLoaded[termId + query] = true;
     }
 
-    return this.cache[termId + query];
+    // Slice the array, so that if we modify the cache here it doesn't affect the instance we return.
+    const retVal = { ...this.cache[termId + query] };
+    retVal.results = retVal.results.slice(0);
+
+    return retVal;
   }
 }
 
