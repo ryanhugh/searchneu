@@ -94,9 +94,14 @@ class Request {
 
 
   async getFromInternetWithRetry(config) {
+    let times = 3;
+    if (config.retryTimes) {
+      times = config.retryTimes;
+    }
+
     return new Promise((resolve, reject) => {
       asyncjs.retry({
-        times: 3,
+        times: times,
         interval: 500,
       }, async (callback) => {
         let resp;
