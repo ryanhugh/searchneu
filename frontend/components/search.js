@@ -27,7 +27,7 @@ class Search {
   }
 
 
-  // Clears the cache stored in this module. 
+  // Clears the cache stored in this module.
   // Used for testing.
   clearCache() {
     this.cache = {};

@@ -118,7 +118,6 @@ class Request {
 
 
   async get(config) {
-    console.log("THIS SHOULD NOT RUN")
     if (typeof config === 'string') {
       config = {
         url: config,
