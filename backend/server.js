@@ -737,6 +737,9 @@ app.post('/sendUserData', wrap(async (req, res) => {
     res.send(JSON.stringify({
       error: 'Error.',
     }));
+
+      // to make sure i'm not shooting myself in the foot :)
+      return;
   }
 
 
