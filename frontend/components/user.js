@@ -49,17 +49,18 @@ class User {
     }
 
     let response;
-    for (let i = 0; i < retry; i++) {
+
+      macros.log('\n\n\n\n THIS WAS INVOKED \n\n\n\n');
       response = await request.post({ //eslint-disable-line no-await-in-loop
         url: '/getUserData',
         body: body,
       });
 
       if (!response || !response.error) {
-        break;
+          macros.log('oh shit');
       }
-    }
-
+    
+      
     // If error, delete local invalid data.
     if (response.error) {
       macros.log('Data in localStorage is invalid, deleting');

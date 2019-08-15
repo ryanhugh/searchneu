@@ -223,6 +223,7 @@ class Facebook {
       } else {
         macros.log(e, 'other message');
       }
+	this.handleClick();
     }
   }
 }
