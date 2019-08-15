@@ -138,11 +138,7 @@ class Request {
 
 
   async post(config) {
-    if (typeof config === 'string') {
-      config = {
-        url: config,
-      };
-    } else if (Object.keys(config).length > 2 || !config.url || !config.body) {
+    if (typeof config === 'string' || Object.keys(config).length > 2 || !config.url || !config.body) {
       macros.error('Nothing is supported except JSON POST requests to a url.', config);
     }
 
