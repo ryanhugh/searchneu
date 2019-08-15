@@ -94,9 +94,14 @@ class Request {
 
 
   async getFromInternetWithRetry(config) {
+    let times = 3;
+    if (config.retryTimes) {
+      times = config.retryTimes;
+    }
+
     return new Promise((resolve, reject) => {
       asyncjs.retry({
-        times: 3,
+        times: times,
         interval: 500,
       }, async (callback) => {
         let resp;
@@ -133,11 +138,7 @@ class Request {
 
 
   async post(config) {
-    if (typeof config === 'string') {
-      config = {
-        url: config,
-      };
-    } else if (Object.keys(config).length > 2 || !config.url || !config.body) {
+    if (typeof config === 'string' || Object.keys(config).length > 2 || !config.url || !config.body) {
       macros.error('Nothing is supported except JSON POST requests to a url.', config);
     }
 

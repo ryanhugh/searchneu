@@ -3,6 +3,10 @@
  * See the license file in the root folder for details.
  */
 
+// ESLint added some new rules that require one class per file.
+// That is generally a good idea, perhaps we could change over this file one day.
+/* eslint-disable max-classes-per-file */
+
 import request from 'request-promise-native';
 import URI from 'urijs';
 import asyncjs from 'async';
