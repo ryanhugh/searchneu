@@ -809,10 +809,10 @@ app.use((err, req, res, next) => { //eslint-disable-line no-unused-vars
 
 // If this port is ever changed we would also need to update the port in Facebook's whitelisted_domains
 let port;
-if (macros.DEV) {
+if (macros.PROD || macros.DEV) {
   port = 5000;
-} else {
-  port = 5000;
+} else if(macros.TEST) {
+  port = 6000;
 }
 
 
