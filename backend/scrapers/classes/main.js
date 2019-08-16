@@ -177,15 +177,6 @@ class Main {
 
     const cacheKey = collegeAbbrs.join(',');
 
-    // if this is dev and this data is already scraped, just return the data
-    if (macros.DEV && require.main !== module) {
-      const devData = await cache.get(macros.DEV_DATA_DIR, 'classes', cacheKey);
-      if (devData) {
-        return devData;
-      }
-    }
-
-
     const bannerv8Urls = this.getUrlsFromCollegeAbbrs(collegeAbbrs, differentCollegeUrls);
     if (bannerv8Urls.length > 1) {
       macros.error('Unsure if can do more than one abbr at at time. Exiting. ');

@@ -3,9 +3,11 @@
  * See the license file in the root folder for details.
  */
 
+import path from 'path';
+import fs from 'fs-extra';
 import macros from '../../macros';
 import Keys from '../../../common/Keys';
-import mapping from '../esMapping.json';
+import mapping from './classMapping.json';
 import Elastic, { CLASS_INDEX } from '../../elastic';
 
 // Creates the search index for classes
@@ -71,4 +73,18 @@ class SearchIndex {
   }
 }
 
-export default new SearchIndex();
+const instance = new SearchIndex();
+
+if (require.main === module) {
+  // If called directly, attempt to index the dump in public dir
+  const filePath = path.join(macros.PUBLIC_DIR, 'getTermDump', 'allTerms.json');
+  fs.readJson(filePath)
+    .then((termDump) => {
+      instance.main(termDump);
+    })
+    .catch(() => {
+      macros.error('need to run scrape or scrape_classes before indexing');
+    });
+}
+
+export default instance;

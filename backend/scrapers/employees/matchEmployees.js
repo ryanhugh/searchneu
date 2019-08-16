@@ -15,7 +15,8 @@ import ccisFaculty from './ccis';
 import coeFaculty from './coe';
 import csshFaculty from './cssh';
 import camdFaculty from './camd';
-import Elastic, { EMPLOYEE_INDEX } from '../../elastic';
+
+import searchIndex from './searchIndex';
 
 // This file combines the data from the ccis website and the NEU Employees site
 // If there is a match, the data from the ccis site has priority over the data from the employee site.
@@ -289,21 +290,6 @@ class CombineCCISandEmployees {
       peopleListIndex++;
     }
 
-    // This file is just used for debugging. Used to see which profiles are going to be merged with which other profiles.
-    if (macros.DEV) {
-      const toSave = [];
-
-      mergedPeopleList.forEach((item) => {
-        if (item.matches.length > 1) {
-          toSave.push(item);
-        }
-      });
-
-      await mkdirp(macros.PUBLIC_DIR);
-      await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMatches.json'), JSON.stringify(toSave, null, 4));
-    }
-
-
     let mergedEmployees = [];
 
 
@@ -381,11 +367,14 @@ class CombineCCISandEmployees {
 
     macros.log(`Changed/Removed ${beforeModifyCount - mergedEmployees.length} person(s) from the employee list.`);
 
-    const employeeMap = mergedEmployees.reduce((result, employee) => {
-      result[employee.id] = { employee: employee, type: 'employee' };
-      return result;
-    }, {});
-    await Elastic.bulkIndexFromMap(EMPLOYEE_INDEX, employeeMap);
+    // Turn it into a hashmap instead of a list for the dump
+    const employeeDump = _.keyBy(mergedEmployees, 'id');
+
+    await mkdirp(macros.PUBLIC_DIR);
+    await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeDump.json'), JSON.stringify(employeeDump));
+
+    await searchIndex.main(employeeDump);
+
     return mergedEmployees;
   }
 }
