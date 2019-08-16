@@ -169,6 +169,7 @@ class Facebook {
       macros.log('Opt in was clicked!', e);
 
 	//TODO: this has to be changed to long polling
+	macros.log('called from fb');
 	user.downloadUserData();
 
       macros.logAmplitudeEvent('FB Send to Messenger', {

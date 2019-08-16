@@ -729,7 +729,16 @@ app.post('/sendUserData', wrap(async (req, res) => {
 
   // If the client specified a specific senderId, lookup that specific user.
   // if not, we have to loop over all the users's to find a matching loginKey
-  if (senderId) {
+    if (senderId) {
+	// first confirm the loginkey is legitimate
+	let user = await database.get(`/users/${senderId}`);
+	if (!user.loginKeys.includes(req.body.loginKey)) {
+	    macros.log('loginKey not within the sender\'s entry');
+	    res.send(JSON.stringify({
+		error: 'Error, invalid loginkey on senderId.',
+	    }));
+	    return;
+	}
     await database.set(`/users/${senderId}`, req.body.info);
     macros.log('sending done, result is ', await database.get(`/users/${senderId}`));
   } else {
