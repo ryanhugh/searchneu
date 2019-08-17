@@ -13,7 +13,7 @@ set -v
 # and in parallel the output from all three commands would be squished together. 
 # Might be worth looking into this again if the jobs are slow in the future. 
 
-npm run test
+npm run test --coverage --coverageReporters=text-lcov | ./node_modules/coveralls/bin/coveralls.js
 
 # Make sure everything passes linting
 # Run the commands separately, so if one fails, this script fails
