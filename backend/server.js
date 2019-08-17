@@ -732,7 +732,7 @@ app.post('/sendUserData', wrap(async (req, res) => {
     if (senderId) {
 	// first confirm the loginkey is legitimate
 	let user = await database.get(`/users/${senderId}`);
-	if (!user.loginKeys.includes(req.body.loginKey)) {
+	if (user && !user.loginKeys.includes(req.body.loginKey)) {
 	    macros.log('loginKey not within the sender\'s entry');
 	    res.send(JSON.stringify({
 		error: 'Error, invalid loginkey on senderId.',
@@ -795,9 +795,25 @@ app.post('/getUserData', wrap(async (req, res) => {
   let matchingUser;
 
   // If the client specified a specific senderId, lookup that specific user.
-  // if not, we have to loop over all the users's to find a matching loginKey
-  if (senderId) {
-    const user = await database.get(`/users/${senderId}`);
+    // if not, we have to loop over all the users's to find a matching loginKey
+
+    // long polling needs to start here
+    if (senderId) {
+
+	let user;
+	const startTime = new Date();
+
+	while (!user) {
+	    user = await database.get(`/users/${senderId}`);
+
+	    if (new Date() - startTime > 2000) {
+		res.send(JSON.stringify({
+		    error: 'Looking for user timed out',
+		}));
+		return;
+	    }
+	}
+	macros.log(user);
 
     if (!user) {
       macros.log('User with senderId not in database yet', senderId);
