@@ -6,6 +6,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import { errors } from '@elastic/elasticsearch';
 import _ from 'lodash';
 import macros from '../../macros';
 import mapping from './employeeMapping.json';
@@ -33,10 +34,14 @@ if (require.main === module) {
   const filePath = path.join(macros.PUBLIC_DIR, 'employeeDump.json');
   fs.readJson(filePath)
     .then((employeeDump) => {
-      instance.main(employeeDump);
+      return instance.main(employeeDump);
     })
-    .catch(() => {
-      macros.error('need to run scrape before indexing');
+    .catch((error) => {
+      if (error instanceof errors.ElasticsearchClientError) {
+        macros.error('Elasticsearch error:', error);
+      } else {
+        macros.error('need to run scrape before indexing');
+      }
     });
 }
 
