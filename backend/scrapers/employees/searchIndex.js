@@ -29,20 +29,20 @@ class SearchIndex {
 
 const instance = new SearchIndex();
 
+async function fromFile(filePath) {
+  const exists = await fs.pathExists(filePath);
+  if (!exists) {
+    macros.error('need to run scrape before indexing');
+    return;
+  }
+  const termDump = await fs.readJson(filePath);
+  instance.main(termDump);
+}
+
 if (require.main === module) {
   // If called directly, attempt to index the dump in public dir
   const filePath = path.join(macros.PUBLIC_DIR, 'employeeDump.json');
-  fs.readJson(filePath)
-    .then((employeeDump) => {
-      return instance.main(employeeDump);
-    })
-    .catch((error) => {
-      if (error instanceof errors.ElasticsearchClientError) {
-        macros.error('Elasticsearch error:', error);
-      } else {
-        macros.error('need to run scrape before indexing');
-      }
-    });
+  fromFile(filePath).catch(macros.error);
 }
 
 export default instance;

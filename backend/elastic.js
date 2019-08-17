@@ -5,6 +5,7 @@
  */
 
 import { Client } from '@elastic/elasticsearch';
+import {chunk} from 'lodash';
 
 const client = new Client({ node: 'http://localhost:9200' });
 export const CLASS_INDEX = 'classes';
@@ -40,12 +41,16 @@ class Elastic {
    * @param  {Object} map       A map of document ids to document sources to create
    */
   async bulkIndexFromMap(indexName, map) {
-    const bulk = [];
-    for (const id of Object.keys(map)) {
-      bulk.push({ index: { _id: id } });
-      bulk.push(map[id]);
+    const promises = Promise.resolve();
+    for (const part of chunk(Object.keys(map), 100)) {
+      const bulk = [];
+      for (const id of part) {
+        bulk.push({ index: { _id: id } });
+        bulk.push(map[id]);
+      }
+      promises.then(() => { return client.bulk({ index: indexName, body: bulk }); });
     }
-    await client.bulk({ index: indexName, body: bulk });
+    return promises;
   }
 
   /**
