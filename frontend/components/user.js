@@ -49,17 +49,16 @@ class User {
 
     let response;
 
-      for (let i = 0; i < 100; i++) {
       response = await request.post({ //eslint-disable-line no-await-in-loop
         url: '/getUserData',
         body: body,
       });
 
-	  macros.log('ah', i);	  
+
       if (!response || !response.error) {
-	  break;
+	  macros.log('ocean');
       }
-      }
+     
       
     // If error, delete local invalid data.
     if (response.error) {

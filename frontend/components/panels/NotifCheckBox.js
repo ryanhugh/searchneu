@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Checkbox } from 'semantic-ui-react';
+import { Checkbox, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import user from '../user';
 import Keys from '../../../common/Keys';
@@ -63,7 +63,7 @@ export default class NotifCheckBox extends React.Component {
     // if we have a section, and the section has seats remaining, it doesn't make
     // sense to sig up a user for notifications, so make the Checkbox readonly
     if (this.state.section && this.state.section.seatsRemaining) {
-      return <Checkbox toggle readOnly />;
+	return <Icon size='large' name='info circle' color='grey'/>;
     }
 
     // otherwise, return a checkbox that has the correct state

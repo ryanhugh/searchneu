@@ -813,7 +813,7 @@ app.post('/getUserData', wrap(async (req, res) => {
 		return;
 	    }
 	}
-	macros.log(user);
+	macros.log('naive long polling', user);
 
     if (!user) {
       macros.log('User with senderId not in database yet', senderId);
