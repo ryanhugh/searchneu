@@ -833,8 +833,19 @@ app.post('/getUserData', wrap(async (req, res) => {
     }
 
     matchingUser = user;
-  } else {
-    matchingUser = await findMatchingUser(req.body.loginKey);
+    } else {
+
+	const startTime = new Date();
+	while (!matchingUser) {
+	    matchingUser = await findMatchingUser(req.body.loginKey);
+
+	    if (new Date() - startTime > 2000) {
+		res.send(JSON.stringify({
+		    error: 'Finding matching user based on loginKey timed out',
+		}));
+		return;
+	    }
+	}
     if (!matchingUser) {
       res.send(JSON.stringify({
         error: 'Invalid loginKey.',

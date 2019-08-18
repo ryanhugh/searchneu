@@ -56,8 +56,8 @@ class User {
       });
 
 
-      if (!response || !response.error) {
-	  macros.log('OCEAN');
+      if (!response || response.error) {
+	  macros.log('OCEAN', response);
       }
 
       
