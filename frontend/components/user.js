@@ -49,6 +49,7 @@ class User {
 
     let response;
 
+	  macros.log('data doing the thing is', body);
       response = await request.post({ //eslint-disable-line no-await-in-loop
         url: '/getUserData',
         body: body,
@@ -56,9 +57,9 @@ class User {
 
 
       if (!response || !response.error) {
-	  macros.log('ocean');
+	  macros.log('OCEAN');
       }
-     
+
       
     // If error, delete local invalid data.
     if (response.error) {
@@ -86,6 +87,12 @@ class User {
       return;
     }
 
+      macros.log('sending.... ', this.user);
+      if (!this.user) {
+	  await this.downloadUserData();
+      }
+      macros.log('after...', this.user);
+
 
     const body = {
       loginKey: this.getLoginKey(),
@@ -99,6 +106,7 @@ class User {
       body.senderId = window.localStorage.senderId;
     }
 
+      macros.log('got to sendUserData already for some reason');
     const response = await request.post({
       url: '/sendUserData',
       body: body,
