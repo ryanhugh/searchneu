@@ -78,6 +78,13 @@ The https certificate. https://letsencrypt.org/
 
 The form for recruiting new team members. 
 
+### Coveralls
+
+For code coverage 
+https://coveralls.io/github/ryanhugh/searchneu
+
+
+
 
 
 

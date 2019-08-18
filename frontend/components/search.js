@@ -27,6 +27,13 @@ class Search {
   }
 
 
+  // Clears the cache stored in this module.
+  // Used for testing.
+  clearCache() {
+    this.cache = {};
+    this.allLoaded = {};
+  }
+
   // Min terms is the minimum number of terms needed.
   // When this function is called for the first time for a given query, it will be 4.
   // Then, on subsequent calls, it will be 14, 24, etc. (if increasing by 10) (set by termCount)
@@ -34,7 +41,7 @@ class Search {
     // Searches are case insensitive.
     query = query.trim().toLowerCase();
 
-    if (!query || query.length === 0) {
+    if (query.length === 0) {
       macros.log('No query given in frontend/search.js. Returning empty array.', query, termCount);
       return { results: [] };
     }
@@ -107,7 +114,11 @@ class Search {
       this.allLoaded[termId + query] = true;
     }
 
-    return this.cache[termId + query];
+    // Slice the array, so that if we modify the cache here it doesn't affect the instance we return.
+    const retVal = { ...this.cache[termId + query] };
+    retVal.results = retVal.results.slice(0);
+
+    return retVal;
   }
 }
 
