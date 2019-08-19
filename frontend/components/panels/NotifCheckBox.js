@@ -40,7 +40,9 @@ export default class NotifCheckBox extends React.Component {
   // do opposite.
   // send data to backend
     async doChange() {
-	await user.downloadUserData();
+	if (!user.user) {
+	    await user.downloadUserData();
+	}
     if (this.state.checked) {
       user.removeSection(this.state.section);
       this.setState({ checked: false });

@@ -277,7 +277,8 @@ class User {
 	macros.log('class removed', this.user);
 
 
-    }
+	}
+
 
 }
 
