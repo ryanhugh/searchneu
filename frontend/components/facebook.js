@@ -148,7 +148,7 @@ class Facebook {
 
 
   // handles button events
-  onSendToMessengerClick(e) {
+  async onSendToMessengerClick(e) {
     if (e.event === 'rendered') {
       macros.log('Plugin was rendered');
 
@@ -170,7 +170,7 @@ class Facebook {
 
 	//TODO: this has to be changed to long polling
 	macros.log('called from fb');
-	user.downloadUserData();
+	await user.downloadUserData();
 
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'Sign up clicked',

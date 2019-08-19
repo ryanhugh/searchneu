@@ -39,7 +39,8 @@ export default class NotifCheckBox extends React.Component {
   // if the state is currently checked, uncheck, remove the section from the user's data
   // do opposite.
   // send data to backend
-  doChange() {
+    async doChange() {
+	await user.downloadUserData();
     if (this.state.checked) {
       user.removeSection(this.state.section);
       this.setState({ checked: false });
