@@ -41,14 +41,14 @@ class Elastic {
    * @param  {Object} map       A map of document ids to document sources to create
    */
   async bulkIndexFromMap(indexName, map) {
-    const promises = Promise.resolve();
+    let promises = Promise.resolve();
     for (const part of _.chunk(Object.keys(map), 100)) {
       const bulk = [];
       for (const id of part) {
         bulk.push({ index: { _id: id } });
         bulk.push(map[id]);
       }
-      promises.then(() => { return client.bulk({ index: indexName, body: bulk }); });
+      promises = promises.then(() => { return client.bulk({ index: indexName, body: bulk }); });
     }
     return promises;
   }
