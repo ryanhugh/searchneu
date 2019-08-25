@@ -133,34 +133,6 @@ exports[`should render a section 1`] = `
             wrapSelection={true}
           />
         </div>
-        <div
-          className="atentionContainer"
-          style={
-            Object {
-              "opacity": 1,
-              "visibility": "",
-            }
-          }
-        >
-          <p
-            className="helpFistRow"
-          >
-            We're looking for more team members!
-          </p>
-          <p>
-            Want to help build Search NEU?
-          </p>
-          <p>
-            <a
-              className="getInvolvedText "
-              href="https://ryanhughes5.typeform.com/to/VuIgF8"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Get involved &gt;
-            </a>
-          </p>
-        </div>
       </div>
     </div>
   </div>
