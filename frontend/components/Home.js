@@ -513,8 +513,8 @@ class Home extends React.Component {
     // Don't animate anything on mobile.
     // and set the second state of the animations if there is something in the text box.
     if (!macros.isMobile && this.state.searchQuery.length !== 0) {
-      // topHeaderStyle.transform = 'translateY(-50%) translateY(230px)';
-      topHeaderStyle.transform = 'translateY(-50%) translateY(292px)';
+      topHeaderStyle.transform = 'translateY(-50%) translateY(230px)';
+      // topHeaderStyle.transform = 'translateY(-50%) translateY(292px)';
       resultsContainerStyle.transform = `translateY(-${window.innerHeight - 310}px)`;
 
       // Without this line, there would be a lot of whitespace after the results.
@@ -583,6 +583,9 @@ class Home extends React.Component {
     } else {
       attentionSection = (<EmailInput containerStyle={ actionCenterStyle } />);
     }
+
+    // Actually, don't show anything.
+    attentionSection = null;
 
 
     // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation.
