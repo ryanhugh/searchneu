@@ -430,6 +430,7 @@ class EllucianClassParser extends EllucianBaseParser.EllucianBaseParser {
     };
   }
 
+  /* istanbul ignore next */
   async test() {
     // const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=ENGW&crse_in=3302&schd_in=LEC');
     const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=PSYC&crse_in=1101&schd_in=LEC');

@@ -268,6 +268,7 @@ class EllucianCatalogParser extends EllucianBaseParser.EllucianBaseParser {
     return classWrapper;
   }
 
+  /* istanbul ignore next */
   async test() {
     // const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=FINA&crse_numb_in=6283');
     // const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201810&subj_code_in=ENGW&crse_numb_in=3302');

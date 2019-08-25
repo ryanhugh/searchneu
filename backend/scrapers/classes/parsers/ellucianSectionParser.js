@@ -266,6 +266,7 @@ class EllucianSectionParser extends ellucianBaseParser.EllucianBaseParser {
     return retVal;
   }
 
+  /* istanbul ignore next */
   async test() {
     const output = await this.main('https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=17822');
     macros.log(output);
