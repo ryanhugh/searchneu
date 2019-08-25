@@ -1,4 +1,4 @@
-# Unfinished features/scrapers
+# Unfinished features
 
 These files were created a while ago for some feature but were never finished or haven't been used in a long time. 
 If we ever want to add them back, we can copy them from here.
