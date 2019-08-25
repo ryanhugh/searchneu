@@ -64,3 +64,11 @@ Added the concept of points, and gave people points if they referred people and 
 https://gist.github.com/ryanhugh/d2f33b87f8891fb8f29b8d16433e2498
 
 is a patch to this https://github.com/ryanhugh/searchneu/commit/20984ff4f58172ea0f014f2a876f1af25a5529ce
+
+### Sub logo
+
+Added a sub logo below the Search NEU logo in the top left corner 
+
+https://gist.github.com/ryanhugh/f92052e9274bd6f683e57104d766a7c4
+
+is a patch to https://github.com/ryanhugh/searchneu/commit/c0fc4c6166ba14fc29183bbcf010aa10ab06b476
