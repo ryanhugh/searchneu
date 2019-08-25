@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should parse 5 links from a page 1`] = `
+Array [
+  "https://google.com/1",
+  "https://google.com/2",
+  "https://google.com/3",
+  "https://google.com/4",
+  "https://google.com/5",
+]
+`;

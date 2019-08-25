@@ -1,0 +1,4344 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
+<html>
+
+<head>
+	<link href="css/newStyles.css" media="screen" rel="stylesheet" type="text/css"/>
+    <style>
+	/* "auto" makes the left and right margins center the wrapper */
+	#wrap { 
+		width: 1200px; 
+		margin: 0 auto; 
+	}
+	</style>
+    
+
+
+
+	<script type="text/javascript" src="/wasapp/employeelookup/struts/js/base/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="/wasapp/employeelookup/struts/js/base/jquery.ui.core.min.js"></script>
+  <script type="text/javascript" src="/wasapp/employeelookup/struts/js/plugins/jquery.subscribe.min.js"></script>
+        	<link id="jquery_theme_link" rel="stylesheet" href="/wasapp/employeelookup/struts/themes/blitzer/jquery-ui.css" type="text/css"/>
+
+
+  <script type="text/javascript" src="/wasapp/employeelookup/struts/js/struts2/jquery.struts2.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function () {
+  	jQuery.scriptPath = "/wasapp/employeelookup/struts/";
+	jQuery.struts2_jquery.defaults.indicator="myDefaultIndicator";
+	jQuery.ajaxSettings.traditional = true;
+
+	jQuery.ajaxSetup ({
+		cache: false
+	});
+});
+</script>
+
+    <link rel="stylesheet" href="/wasapp/employeelookup/struts/xhtml/styles.css" type="text/css"/>
+<script src="/wasapp/employeelookup/struts/utils.js" type="text/javascript"></script>
+    <title>Employee Directory</title>
+    <script type="text/javascript">
+  
+ 		function disable(f) {
+  
+    		var button = f.elements['Search'];
+    		var searchBy = document.getElementById('searchBy');
+    		var queryType = document.getElementById('queryType');
+    		var textfield = document.getElementById('textfield');
+    		var departments = document.getElementById('departments');
+    		var searchind = searchBy.selectedIndex;
+  
+    		button.value = 'Processing';
+  
+    		button.disabled = 'true';
+    		
+    		return true;
+  
+    		  
+  
+		} 
+		
+		function toggleFields(obj)
+		{
+			
+			if (obj.selectedIndex==3){
+				document.getElementById('deptText').style.display="block";
+				document.getElementById('textfield').style.display="none";
+				document.getElementById('queryType').style.display="none";
+				document.getElementById('addrText').style.display="none";
+				document.getElementById('numText').style.display="none";
+				document.getElementById('divText').style.display="none";
+				
+			} else if (obj.selectedIndex==2) {
+				document.getElementById('deptText').style.display="none";
+				document.getElementById('textfield').style.display="none";
+				document.getElementById('queryType').style.display="none";
+				document.getElementById('addrText').style.display="block";
+				document.getElementById('numText').style.display="block";
+				document.getElementById('divText').style.display="none";
+			} else if (obj.selectedIndex==4) {
+				document.getElementById('deptText').style.display="none";
+				document.getElementById('textfield').style.display="none";
+				document.getElementById('queryType').style.display="none";
+				document.getElementById('addrText').style.display="none";
+				document.getElementById('numText').style.display="none";
+				document.getElementById('divText').style.display="block";
+			}else {
+				document.getElementById('deptText').style.display="none";
+				document.getElementById('textfield').style.display="block";
+				document.getElementById('queryType').style.display="block";
+				document.getElementById('addrText').style.display="none";
+				document.getElementById('numText').style.display="none";
+				document.getElementById('divText').style.display="none";
+			}
+		}
+		
+		function displayField()
+		{
+			
+			if (document.getElementById('searchBy').value=="Department"){
+				document.getElementById('deptText').style.display="block";
+				document.getElementById('textfield').style.display="none";
+				document.getElementById('queryType').style.display="none";	
+				document.getElementById('addrText').style.display="none";
+				document.getElementById('numText').style.display="none";
+				document.getElementById('divText').style.display="none";
+				
+			} else if (document.getElementById('searchBy').value=="Campus Address"){
+				document.getElementById('deptText').style.display="none";
+				document.getElementById('textfield').style.display="none";
+				document.getElementById('queryType').style.display="none";
+				document.getElementById('addrText').style.display="block";
+				document.getElementById('numText').style.display="block";
+				document.getElementById('divText').style.display="none";
+			} else if (document.getElementById('searchBy').value=="Secondary Division"){
+				document.getElementById('deptText').style.display="none";
+				document.getElementById('textfield').style.display="none";
+				document.getElementById('queryType').style.display="none";
+				document.getElementById('addrText').style.display="none";
+				document.getElementById('numText').style.display="none";
+				document.getElementById('divText').style.display="block";
+			}else {
+				document.getElementById('deptText').style.display="none";
+				document.getElementById('textfield').style.display="block";
+				document.getElementById('queryType').style.display="block";
+				document.getElementById('addrText').style.display="none";
+				document.getElementById('numText').style.display="none";
+				document.getElementById('divText').style.display="none";
+			}
+		}
+		
+	</script>
+    
+</head>
+
+<body onload="displayField()">
+<div id="wrap">
+<div id="header">
+
+<table border="0" cellpadding="0" cellspacing="0" width="481">
+	<tbody>
+	<tr>
+		<!--  <td bgcolor="#C50000" align="right" valign="top"> -->
+		<td align="right" valign="top">
+			<div style="font-family:Verdana,Arial,Helvetica,sans-serif; font-size:10px; font-style:normal; line-height:215%; font-weight:normal; color:#C50000; padding-right:10px">
+			<a href="http://www.northeastern.edu" style="color:#C50000; text-decoration:none" target="_blank">Northeastern Home</a> |
+		    <a href="http://www.northeastern.edu/neuhome/adminlinks/findaz.html" style="color:#C50000; text-decoration:none" target="_blank">
+			Find A-Z</a> | <a href="http://www.northeastern.edu/search/index.html" style="color:#C50000; text-decoration:none" target="_blank">
+			Search</a></div>
+		</td>
+	</tr>
+	</tbody>
+</table>
+<table><tr><td>&nbsp;</td></tr></table>
+<!--  <img src="images/NEU_LOGO.gif" width="760" height="123" alt="myNEU"> -->
+<img src="images/logo.png" width="481" height="46" alt="Northeastern University">
+</div>
+<div id="content">
+
+<ul id="formerrors" class="errorMessage"></ul>
+        
+<form id="form" name="form" onsubmit="disable(this)" action="/wasapp/employeelookup/public/searchEmployees.action" method="post">
+	<table>
+ 	  <tr>
+ 	  <td colspan="7">
+ 	  <table>
+ 	  <tr><td colspan="7"></td></tr>
+ 	  <tr>
+ 	  <td><select name="searchBy" id="searchBy" onchange="toggleFields(this)">
+    <option value="Last Name" selected="selected">Last Name</option>
+    <option value="First Name">First Name</option>
+    <option value="Campus Address">Campus Address</option>
+    <option value="Department">Department</option>
+    <option value="Secondary Division">Secondary Division</option>
+
+
+</select>
+</td>
+ 	  <td><select name="queryType" id="queryType">
+    <option value="begins with" selected="selected">begins with</option>
+    <option value="contains">contains</option>
+    <option value="exactly">exactly</option>
+
+
+</select>
+</td>
+ 	  <td><input type="text" name="searchText" size="35" maxlength="30" value="be" id="textfield"/> <select name="deptText" id="deptText">
+    <option value=""></option>
+    <option value="Accounting Group">Accounting Group</option>
+    <option value="Accounting Office">Accounting Office</option>
+    <option value="Accounts Payable">Accounts Payable</option>
+    <option value="Admissions Recruitment">Admissions Recruitment</option>
+    <option value="Advancement Communications">Advancement Communications</option>
+    <option value="Advancement Events">Advancement Events</option>
+    <option value="Advancement Information Systems">Advancement Information Systems</option>
+    <option value="Advancement Operations ">Advancement Operations </option>
+    <option value="Advancement Services">Advancement Services</option>
+    <option value="African-American Institute">African-American Institute</option>
+    <option value="Alumni Relations and Annual Fund">Alumni Relations and Annual Fund</option>
+    <option value="American Sign Language">American Sign Language</option>
+    <option value="Applied Psychology">Applied Psychology</option>
+    <option value="Architecture">Architecture</option>
+    <option value="Art + Design">Art + Design</option>
+    <option value="Asian American Center">Asian American Center</option>
+    <option value="Athletic Training">Athletic Training</option>
+    <option value="Athletics Administration">Athletics Administration</option>
+    <option value="Athletics Development">Athletics Development</option>
+    <option value="Athletics Facilities">Athletics Facilities</option>
+    <option value="Athletics Marketing + Promotions">Athletics Marketing + Promotions</option>
+    <option value="Audit &amp; Advisory Services">Audit &amp; Advisory Services</option>
+    <option value="BCHS Co-op">BCHS Co-op</option>
+    <option value="BCHS Development">BCHS Development</option>
+    <option value="BCHS Enrollment Mgt + Stud. Service">BCHS Enrollment Mgt + Stud. Service</option>
+    <option value="BCHS Office of the Dean">BCHS Office of the Dean</option>
+    <option value="Barnett Institute">Barnett Institute</option>
+    <option value="Bay Area Regional Campuses">Bay Area Regional Campuses</option>
+    <option value="Behavioral Neuroscience">Behavioral Neuroscience</option>
+    <option value="Biochemistry Program">Biochemistry Program</option>
+    <option value="Bioengineering">Bioengineering</option>
+    <option value="Bioinformatics">Bioinformatics</option>
+    <option value="Biology">Biology</option>
+    <option value="Biotechnology">Biotechnology</option>
+    <option value="Board Of Trustees">Board Of Trustees</option>
+    <option value="Bouve Grad School">Bouve Grad School</option>
+    <option value="Building Services">Building Services</option>
+    <option value="Building Services-Dorms">Building Services-Dorms</option>
+    <option value="Business Services">Business Services</option>
+    <option value="CAMD-Communications">CAMD-Communications</option>
+    <option value="CAMD-Coop">CAMD-Coop</option>
+    <option value="CAMD-Development">CAMD-Development</option>
+    <option value="CAMD-Office of the Dean">CAMD-Office of the Dean</option>
+    <option value="CAMD-Undergraduate Advising">CAMD-Undergraduate Advising</option>
+    <option value="CCHERS">CCHERS</option>
+    <option value="CENSSIS">CENSSIS</option>
+    <option value="COE-Departmental Co-op">COE-Departmental Co-op</option>
+    <option value="COE-Graduate">COE-Graduate</option>
+    <option value="COE-Undergraduate Student Services">COE-Undergraduate Student Services</option>
+    <option value="COS-Coop">COS-Coop</option>
+    <option value="COS-Development">COS-Development</option>
+    <option value="COS-Graduate">COS-Graduate</option>
+    <option value="COS-Office of the Dean">COS-Office of the Dean</option>
+    <option value="COS-Undergraduate Advising">COS-Undergraduate Advising</option>
+    <option value="CPS-Campus Admin. + Operations">CPS-Campus Admin. + Operations</option>
+    <option value="CPS-Graduate Programs">CPS-Graduate Programs</option>
+    <option value="CPS-International Programs">CPS-International Programs</option>
+    <option value="CPS-Leadership Division-PD">CPS-Leadership Division-PD</option>
+    <option value="CPS-Undergraduate Programs">CPS-Undergraduate Programs</option>
+    <option value="CSSH-Coop">CSSH-Coop</option>
+    <option value="CSSH-Office of the Dean">CSSH-Office of the Dean</option>
+    <option value="CSSH-Undergraduate Advising">CSSH-Undergraduate Advising</option>
+    <option value="Campus Planning &amp; Development">Campus Planning &amp; Development</option>
+    <option value="Campus Recreation">Campus Recreation</option>
+    <option value="Career Center">Career Center</option>
+    <option value="Career Services">Career Services</option>
+    <option value="Center For Community Service">Center For Community Service</option>
+    <option value="Center For Drug Discovery">Center For Drug Discovery</option>
+    <option value="Center For The Arts">Center For The Arts</option>
+    <option value="Center for Applied Social Research">Center for Applied Social Research</option>
+    <option value="Center for the Study of Sport In So">Center for the Study of Sport In So</option>
+    <option value="Central Coop Education Services">Central Coop Education Services</option>
+    <option value="Charlotte Regional Campus">Charlotte Regional Campus</option>
+    <option value="Chemical Engineering">Chemical Engineering</option>
+    <option value="Chemistry and Chemical Biology">Chemistry and Chemical Biology</option>
+    <option value="City and Community Affairs">City and Community Affairs</option>
+    <option value="Civil and Environmental Engineering">Civil and Environmental Engineering</option>
+    <option value="College of Professional Studies">College of Professional Studies</option>
+    <option value="Comm Sciences &amp; Disorders">Comm Sciences &amp; Disorders</option>
+    <option value="Communication Studies">Communication Studies</option>
+    <option value="Communication/Web Services">Communication/Web Services</option>
+    <option value="Compliance">Compliance</option>
+    <option value="Corporate + Foundation Advancement">Corporate + Foundation Advancement</option>
+    <option value="Ctr Adv Teach &amp; Learn Through Res">Ctr Adv Teach &amp; Learn Through Res</option>
+    <option value="Ctr. Pharm-Biotech. + Nanomedicine">Ctr. Pharm-Biotech. + Nanomedicine</option>
+    <option value="Cultures,Societies,&amp; Global Studies">Cultures,Societies,&amp; Global Studies</option>
+    <option value="Curriculum and Programs">Curriculum and Programs</option>
+    <option value="DMSB Co-op">DMSB Co-op</option>
+    <option value="DMSB Computer Operations">DMSB Computer Operations</option>
+    <option value="DMSB Development">DMSB Development</option>
+    <option value="DMSB Finance Group">DMSB Finance Group</option>
+    <option value="DMSB Instructional Design Center">DMSB Instructional Design Center</option>
+    <option value="DMSB Office of the Dean">DMSB Office of the Dean</option>
+    <option value="DMSB Online Administration">DMSB Online Administration</option>
+    <option value="DMSB Undergraduate Programs">DMSB Undergraduate Programs</option>
+    <option value="DMSB-Graduate">DMSB-Graduate</option>
+    <option value="Design and Construction">Design and Construction</option>
+    <option value="Development Research">Development Research</option>
+    <option value="Digital Learning">Digital Learning</option>
+    <option value="Digital Technology + Services">Digital Technology + Services</option>
+    <option value="Disability Resource Center">Disability Resource Center</option>
+    <option value="Donor Relations and Communications">Donor Relations and Communications</option>
+    <option value="Economics">Economics</option>
+    <option value="Education">Education</option>
+    <option value="Electrical and Computer Engineering">Electrical and Computer Engineering</option>
+    <option value="Engineering Development">Engineering Development</option>
+    <option value="Engineering Office Of the Dean">Engineering Office Of the Dean</option>
+    <option value="Engineering-Computer Center">Engineering-Computer Center</option>
+    <option value="English">English</option>
+    <option value="Enrollment Management">Enrollment Management</option>
+    <option value="Enrollment Management Contact Centr">Enrollment Management Contact Centr</option>
+    <option value="Enrollment Research &amp; Analytics">Enrollment Research &amp; Analytics</option>
+    <option value="Enrollment Systems">Enrollment Systems</option>
+    <option value="Entrepreneurship and Innovation">Entrepreneurship and Innovation</option>
+    <option value="Environmental Health and Safety">Environmental Health and Safety</option>
+    <option value="External Affairs">External Affairs</option>
+    <option value="Facilities Administration-10">Facilities Administration-10</option>
+    <option value="Facilities Administration-41">Facilities Administration-41</option>
+    <option value="Facilities ResHall-Customer Service">Facilities ResHall-Customer Service</option>
+    <option value="Facilities-Customer Service">Facilities-Customer Service</option>
+    <option value="Facilities-Maintenance + Services">Facilities-Maintenance + Services</option>
+    <option value="Faculty Led Programs">Faculty Led Programs</option>
+    <option value="Faculty Senate">Faculty Senate</option>
+    <option value="Faculty Support">Faculty Support</option>
+    <option value="Finance Office">Finance Office</option>
+    <option value="Financial Aid">Financial Aid</option>
+    <option value="Game Design Program">Game Design Program</option>
+    <option value="General Studies Program">General Studies Program</option>
+    <option value="Gift Planning">Gift Planning</option>
+    <option value="Global Resilience Institute(GRI)">Global Resilience Institute(GRI)</option>
+    <option value="Gordon Inst of Eng Leadership(GIEL)">Gordon Inst of Eng Leadership(GIEL)</option>
+    <option value="Government Relations">Government Relations</option>
+    <option value="Grad School Professional Accounting">Grad School Professional Accounting</option>
+    <option value="Graduate Affairs">Graduate Affairs</option>
+    <option value="Graduate Campus-Charlotte BCHS">Graduate Campus-Charlotte BCHS</option>
+    <option value="Graduate Campus-Charlotte Khoury">Graduate Campus-Charlotte Khoury</option>
+    <option value="Graduate Campus-Seattle COE">Graduate Campus-Seattle COE</option>
+    <option value="Graduate Campus-Seattle CPS">Graduate Campus-Seattle CPS</option>
+    <option value="Graduate Campus-Seattle Khoury">Graduate Campus-Seattle Khoury</option>
+    <option value="Graduate Campus-SiliconValleyKhoury">Graduate Campus-SiliconValleyKhoury</option>
+    <option value="Graduate Campus-Toronto CPS">Graduate Campus-Toronto CPS</option>
+    <option value="Groundskeeping">Groundskeeping</option>
+    <option value="Groundskeeping-Dorms">Groundskeeping-Dorms</option>
+    <option value="HRM/Payroll Service Center">HRM/Payroll Service Center</option>
+    <option value="Health Sciences">Health Sciences</option>
+    <option value="History">History</option>
+    <option value="Human Resources Management">Human Resources Management</option>
+    <option value="Human Services">Human Services</option>
+    <option value="Humanities Center">Humanities Center</option>
+    <option value="Husky Card Office">Husky Card Office</option>
+    <option value="ITS Business Analysis">ITS Business Analysis</option>
+    <option value="ITS Customer Services">ITS Customer Services</option>
+    <option value="ITS Enterprise Application Dev">ITS Enterprise Application Dev</option>
+    <option value="ITS System Services">ITS System Services</option>
+    <option value="ITS-Academic Technology Services">ITS-Academic Technology Services</option>
+    <option value="ITS-Network Services">ITS-Network Services</option>
+    <option value="ITS-Office of Information Security">ITS-Office of Information Security</option>
+    <option value="ITS-Project and Service Management">ITS-Project and Service Management</option>
+    <option value="Individual Giving">Individual Giving</option>
+    <option value="Information Technology Services-VP">Information Technology Services-VP</option>
+    <option value="Institute For Tissue Damage">Institute For Tissue Damage</option>
+    <option value="Institute Hlth Equ Soc Justice Res">Institute Hlth Equ Soc Justice Res</option>
+    <option value="Interdisciplinary Studies-Bouve">Interdisciplinary Studies-Bouve</option>
+    <option value="Internal Consulting">Internal Consulting</option>
+    <option value="International Affairs">International Affairs</option>
+    <option value="International Business and Strategy">International Business and Strategy</option>
+    <option value="International Student Office">International Student Office</option>
+    <option value="International Study Programs">International Study Programs</option>
+    <option value="Jewish Studies">Jewish Studies</option>
+    <option value="Journalism">Journalism</option>
+    <option value="Khoury">Khoury</option>
+    <option value="Khoury-Co-op">Khoury-Co-op</option>
+    <option value="Khoury-Development">Khoury-Development</option>
+    <option value="Khoury-Graduate">Khoury-Graduate</option>
+    <option value="Khoury-Marketing">Khoury-Marketing</option>
+    <option value="Khoury-Systems">Khoury-Systems</option>
+    <option value="Laboratory Animal Medicine">Laboratory Animal Medicine</option>
+    <option value="Latino Cultural Center">Latino Cultural Center</option>
+    <option value="Law and Public Policy">Law and Public Policy</option>
+    <option value="Library-Access Services">Library-Access Services</option>
+    <option value="Library-Archives and Collections">Library-Archives and Collections</option>
+    <option value="Library-Digital Management">Library-Digital Management</option>
+    <option value="Library-Media Center">Library-Media Center</option>
+    <option value="Library-Office Of The Director">Library-Office Of The Director</option>
+    <option value="Library-Research and Instruction">Library-Research and Instruction</option>
+    <option value="Library-Resource &amp; Discovery Srvcs">Library-Resource &amp; Discovery Srvcs</option>
+    <option value="Library-Scholarly Resources Group">Library-Scholarly Resources Group</option>
+    <option value="Library-Systems">Library-Systems</option>
+    <option value="Library-User Services">Library-User Services</option>
+    <option value="Linguistics">Linguistics</option>
+    <option value="Maintenance-Carpenters">Maintenance-Carpenters</option>
+    <option value="Maintenance-Carpenters-Dorms">Maintenance-Carpenters-Dorms</option>
+    <option value="Maintenance-Electrician">Maintenance-Electrician</option>
+    <option value="Maintenance-Electricians-Dorms">Maintenance-Electricians-Dorms</option>
+    <option value="Maintenance-Generator">Maintenance-Generator</option>
+    <option value="Maintenance-HVAC">Maintenance-HVAC</option>
+    <option value="Maintenance-HVAC-Dorms">Maintenance-HVAC-Dorms</option>
+    <option value="Maintenance-Locksmith">Maintenance-Locksmith</option>
+    <option value="Maintenance-Mechanics">Maintenance-Mechanics</option>
+    <option value="Maintenance-Mechanics-Dorms">Maintenance-Mechanics-Dorms</option>
+    <option value="Maintenance-Plumbers-Dorms">Maintenance-Plumbers-Dorms</option>
+    <option value="Maintenance-Sign Shop">Maintenance-Sign Shop</option>
+    <option value="Maintenance-Sign Shop-Dorms">Maintenance-Sign Shop-Dorms</option>
+    <option value="Maintenance-Vehicles">Maintenance-Vehicles</option>
+    <option value="Marine Science Center">Marine Science Center</option>
+    <option value="Marine and Environmental Sciences">Marine and Environmental Sciences</option>
+    <option value="Marketing Group">Marketing Group</option>
+    <option value="Mathematics">Mathematics</option>
+    <option value="Mechanical + Industrial Engineering">Mechanical + Industrial Engineering</option>
+    <option value="Media Studio">Media Studio</option>
+    <option value="Media and Screen Studies">Media and Screen Studies</option>
+    <option value="Men's Baseball">Men's Baseball</option>
+    <option value="Men's Basketball">Men's Basketball</option>
+    <option value="Men's Crew">Men's Crew</option>
+    <option value="Men's Hockey">Men's Hockey</option>
+    <option value="Men's Soccer">Men's Soccer</option>
+    <option value="Mgt and Organizational Development">Mgt and Organizational Development</option>
+    <option value="Music">Music</option>
+    <option value="Network Science Program">Network Science Program</option>
+    <option value="OIDI">OIDI</option>
+    <option value="Off Campus">Off Campus</option>
+    <option value="Off of Fin Plan,Strategy &amp;Analytics">Off of Fin Plan,Strategy &amp;Analytics</option>
+    <option value="Office Of The Provost">Office Of The Provost</option>
+    <option value="Office of Student Loan Collections">Office of Student Loan Collections</option>
+    <option value="Office of the Chancellor">Office of the Chancellor</option>
+    <option value="Office of the General Counsel">Office of the General Counsel</option>
+    <option value="Office of the SVP Finance&amp;Treasurer">Office of the SVP Finance&amp;Treasurer</option>
+    <option value="On-Line MBA">On-Line MBA</option>
+    <option value="Orientation">Orientation</option>
+    <option value="Pharm &amp; Hlth Systems Sciences">Pharm &amp; Hlth Systems Sciences</option>
+    <option value="Pharmaceutical Sciences">Pharmaceutical Sciences</option>
+    <option value="Pharmacy OEE">Pharmacy OEE</option>
+    <option value="Philosophy and Religion">Philosophy and Religion</option>
+    <option value="Physical Therapy">Physical Therapy</option>
+    <option value="Physician Assistant Program">Physician Assistant Program</option>
+    <option value="Physics">Physics</option>
+    <option value="Plant Funds">Plant Funds</option>
+    <option value="Political Science">Political Science</option>
+    <option value="Presidents Office">Presidents Office</option>
+    <option value="Procurement Services">Procurement Services</option>
+    <option value="Provost Research">Provost Research</option>
+    <option value="Psychology">Psychology</option>
+    <option value="Public Affairs">Public Affairs</option>
+    <option value="Public Safety">Public Safety</option>
+    <option value="Regional Campuses">Regional Campuses</option>
+    <option value="Research Administration">Research Administration</option>
+    <option value="Research Computing">Research Computing</option>
+    <option value="Research Finance">Research Finance</option>
+    <option value="Research Innovation">Research Innovation</option>
+    <option value="Research Regulatory Compliance">Research Regulatory Compliance</option>
+    <option value="Residence Hall Administration">Residence Hall Administration</option>
+    <option value="Residence Hall-Programs">Residence Hall-Programs</option>
+    <option value="Residence Security">Residence Security</option>
+    <option value="Residence Services">Residence Services</option>
+    <option value="Residential Life">Residential Life</option>
+    <option value="Residential Life-Director's Office">Residential Life-Director's Office</option>
+    <option value="Risk Services">Risk Services</option>
+    <option value="Rubbish Removal">Rubbish Removal</option>
+    <option value="Rubbish Removal-Dorms">Rubbish Removal-Dorms</option>
+    <option value="Russell Call Childcare Center">Russell Call Childcare Center</option>
+    <option value="Sabo">Sabo</option>
+    <option value="School Of Law-Academic">School Of Law-Academic</option>
+    <option value="School Of Law-Administration">School Of Law-Administration</option>
+    <option value="School Of Nursing">School Of Nursing</option>
+    <option value="School Of Pharmacy">School Of Pharmacy</option>
+    <option value="School for Public Policy/Urban Aff.">School for Public Policy/Urban Aff.</option>
+    <option value="School of Criminology and CJ">School of Criminology and CJ</option>
+    <option value="School of Law-Admissions">School of Law-Admissions</option>
+    <option value="School of Law-Advancement">School of Law-Advancement</option>
+    <option value="School of Law-CCOPA">School of Law-CCOPA</option>
+    <option value="School of Law-Clinics">School of Law-Clinics</option>
+    <option value="School of Law-Library">School of Law-Library</option>
+    <option value="School of Law-Student Services">School of Law-Student Services</option>
+    <option value="Seattle Regional Campus">Seattle Regional Campus</option>
+    <option value="Sociology and Anthropology">Sociology and Anthropology</option>
+    <option value="Spirituality, Dialogue, Service">Spirituality, Dialogue, Service</option>
+    <option value="Sports Information">Sports Information</option>
+    <option value="Sr. VP University Advancement">Sr. VP University Advancement</option>
+    <option value="Stem">Stem</option>
+    <option value="Student Activities">Student Activities</option>
+    <option value="Student Athlete Support Services">Student Athlete Support Services</option>
+    <option value="Student Center Operations">Student Center Operations</option>
+    <option value="Student Conduct">Student Conduct</option>
+    <option value="Summer Conference Program">Summer Conference Program</option>
+    <option value="Supply Chain Information Mgt Group">Supply Chain Information Mgt Group</option>
+    <option value="Theater">Theater</option>
+    <option value="Toronto Regional Campus">Toronto Regional Campus</option>
+    <option value="Track and Field">Track and Field</option>
+    <option value="Transportation">Transportation</option>
+    <option value="Transportation-Dorms">Transportation-Dorms</option>
+    <option value="Treasury">Treasury</option>
+    <option value="Treasury Services">Treasury Services</option>
+    <option value="Undeclared Majors Program">Undeclared Majors Program</option>
+    <option value="Undergraduate Affairs">Undergraduate Affairs</option>
+    <option value="University Communications">University Communications</option>
+    <option value="University Decision Support">University Decision Support</option>
+    <option value="University Health and Counseling">University Health and Counseling</option>
+    <option value="University Honors Program">University Honors Program</option>
+    <option value="University Marketing">University Marketing</option>
+    <option value="University Registrar">University Registrar</option>
+    <option value="University Scholars Program">University Scholars Program</option>
+    <option value="VP Burlington Campus">VP Burlington Campus</option>
+    <option value="VP For Student Affairs">VP For Student Affairs</option>
+    <option value="Vancouver Regional Campus">Vancouver Regional Campus</option>
+    <option value="Women's Basketball">Women's Basketball</option>
+    <option value="Women's Crew">Women's Crew</option>
+    <option value="Women's Field Hockey">Women's Field Hockey</option>
+    <option value="Women's Hockey">Women's Hockey</option>
+    <option value="Women's Soccer">Women's Soccer</option>
+    <option value="Women's Studies">Women's Studies</option>
+    <option value="Women's Swim and Div">Women's Swim and Div</option>
+    <option value="Women's Volleyball">Women's Volleyball</option>
+    <option value="World Language Center">World Language Center</option>
+
+
+</select>
+
+ 	  
+ 	   <select name="addrText" id="addrText">
+<option value=""></option>
+</select>
+<script type='text/javascript'>
+jQuery(document).ready(function () {
+	var options_addrText = {};
+	options_addrText.datatype = "json";
+	options_addrText.type = 'select';
+	options_addrText.emptyoption = true;
+	options_addrText.list = "addrList";
+	options_addrText.jqueryaction = "select";
+	options_addrText.id = "addrText";
+	options_addrText.name = "addrText";
+	options_addrText.onsuc = "reloadsecondlist";
+	options_addrText.oncha = "reloadsecondlist";
+	options_addrText.href = "/wasapp/employeelookup/public/displayCampusBuilding.action";
+	options_addrText.formids = "form";
+  
+
+jQuery.struts2_jquery.bind(jQuery('#addrText'),options_addrText);
+
+ });
+</script></td><td>
+       
+       <select name="numText" id="numText">
+<option value=""></option>
+</select>
+<script type='text/javascript'>
+jQuery(document).ready(function () {
+	var options_numText = {};
+	options_numText.datatype = "json";
+	options_numText.type = 'select';
+	options_numText.emptyoption = true;
+	options_numText.list = "numList";
+	options_numText.jqueryaction = "select";
+	options_numText.id = "numText";
+	options_numText.name = "numText";
+	options_numText.href = "/wasapp/employeelookup/public/displayCampusNumber.action";
+	options_numText.formids = "form";
+	options_numText.reloadtopics = "reloadsecondlist";
+  
+
+jQuery.struts2_jquery.bind(jQuery('#numText'),options_numText);
+
+ });
+</script> 
+       <select name="divText" id="divText">
+    <option value=""></option>
+    <option value="Bouve College Health Sciences">Bouve College Health Sciences</option>
+    <option value="College of Arts, Media and Design">College of Arts, Media and Design</option>
+    <option value="College of Engineering">College of Engineering</option>
+    <option value="College of Science">College of Science</option>
+    <option value="College of Social Sci. + Humanities">College of Social Sci. + Humanities</option>
+    <option value="D'Amore-McKim School of Business">D'Amore-McKim School of Business</option>
+    <option value="Khoury College of Computer Sciences">Khoury College of Computer Sciences</option>
+    <option value="Library">Library</option>
+    <option value="Provost">Provost</option>
+
+
+</select>
+                         
+</td> 
+ 	  <td></td>
+ 	  </tr>
+ 	  </table>
+ 	  </td>
+ 	  </tr>
+ 	  <tr><td colspan="7"></td></tr>
+ 	  <tr>
+ 	  <td colspan="7"><input type="radio" name="facStaff" id="facStaff1" checked="checked" value="1"/><label for="facStaff1">Search for Faculty or Staff</label>
+<input type="radio" name="facStaff" id="facStaff2" value="2"/><label for="facStaff2">Search Only for Faculty</label>
+<input type="radio" name="facStaff" id="facStaff3" value="3"/><label for="facStaff3">Search Only for Staff</label>
+</td>
+ 	  </tr>
+ 	  <tr><td colspan="7"></td></tr>
+ 	  <tr>
+ 	  <td colspan="7"><input type="submit" id="form_Search" name="Search" value="Search" indicator="myDefaultIndicator" notifyTopics="refresh"/>
+<img id="myDefaultIndicator" src="images/ajax-loader.gif" alt="Loading..." style="display:none"/></td>
+ 	  </tr>
+    </table>
+   	  
+</form>
+
+
+
+
+
+</div>
+
+<div
+                   id="result"         
+    
+    
+    
+     src="%{searchResult}" theme="xhtml" autoStart="false">
+<div id="employeeDetailDialog"
+>
+</div>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_employeeDetailDialog = {};
+	options_employeeDetailDialog.height = 425;
+	options_employeeDetailDialog.width = 550;
+	options_employeeDetailDialog.title = "Employee Details";
+	options_employeeDetailDialog.autoOpen = false;
+	options_employeeDetailDialog.modal = true;
+	options_employeeDetailDialog.jqueryaction = "dialog";
+	options_employeeDetailDialog.id = "employeeDetailDialog";
+	options_employeeDetailDialog.href = "#";
+
+jQuery.struts2_jquery.bind(jQuery('#employeeDetailDialog'),options_employeeDetailDialog);
+
+ });  
+</script>
+
+<table width="100%"> <div style="font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; font-style:normal; font-weight:normal; color:#000000">
+<tr><td colspan="9">111 record(s) returned.</td></tr>
+<br/>  
+    
+    	<tr>
+    		<th align="left">Name</th>
+    		<th align="left"></th>
+    		<th align="left">Phone</th>
+    		<th align="left"></th>
+    		<th align="left">Email</th>
+    		<th align="left"></th>
+    		<th align="left">Primary Appointment</th>
+    		<th align="left"></th>
+    		<th align="left">Primary Department</th>
+    		<th align="left"></th>
+    		<th align="left">Secondary Division(s)</th>
+    		<th align="left"></th>
+    		<th align="left">Secondary Department(s)</th>
+    	</tr>
+    
+    	
+    	
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_478437848" href="javascript:void(0)" style="color: #990000;">Beach, Erin</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_478437848 = {};
+	options_anchor_478437848.opendialog = "employeeDetailDialog";
+	options_anchor_478437848.jqueryaction = "anchor";
+	options_anchor_478437848.id = "anchor_478437848";
+	options_anchor_478437848.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_478437848.hrefparameter = "id=ETxq38PZh0gxBUiiDbE%2FPw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_478437848'),options_anchor_478437848);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-3397</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">e.beach@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">IDEAS-Reserves Coordinator</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Library-Access Services</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_139577717" href="javascript:void(0)" style="color: #990000;">Beadle, Terry</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_139577717 = {};
+	options_anchor_139577717.opendialog = "employeeDetailDialog";
+	options_anchor_139577717.jqueryaction = "anchor";
+	options_anchor_139577717.id = "anchor_139577717";
+	options_anchor_139577717.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_139577717.hrefparameter = "id=YFFoCyZ71PQmOmzH0UCj3w%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_139577717'),options_anchor_139577717);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-4894</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">t.beadle@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Sr Academic Instructional Tech</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">ITS-Academic Technology Services</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_321778483" href="javascript:void(0)" style="color: #990000;">Bean, Jim</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_321778483 = {};
+	options_anchor_321778483.opendialog = "employeeDetailDialog";
+	options_anchor_321778483.jqueryaction = "anchor";
+	options_anchor_321778483.id = "anchor_321778483";
+	options_anchor_321778483.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_321778483.hrefparameter = "id=vMn1ibHLq%2FIIBg5dSdYo3Q%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_321778483'),options_anchor_321778483);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">jbean@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Provost &amp; Sr VP Academic Affrs</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Office Of The Provost</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1914499078" href="javascript:void(0)" style="color: #990000;">Beane, Noah</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1914499078 = {};
+	options_anchor_1914499078.opendialog = "employeeDetailDialog";
+	options_anchor_1914499078.jqueryaction = "anchor";
+	options_anchor_1914499078.id = "anchor_1914499078";
+	options_anchor_1914499078.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1914499078.hrefparameter = "id=j1ko%2FzJ0ymdys%2BxL3llGIg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1914499078'),options_anchor_1914499078);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">n.beane@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">NUin International Coordinator</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Office of the Chancellor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_410243379" href="javascript:void(0)" style="color: #990000;">Bears, Jeffrey</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_410243379 = {};
+	options_anchor_410243379.opendialog = "employeeDetailDialog";
+	options_anchor_410243379.jqueryaction = "anchor";
+	options_anchor_410243379.id = "anchor_410243379";
+	options_anchor_410243379.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_410243379.hrefparameter = "id=yBi%2BtidYpDYYqWRcDxTw5Q%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_410243379'),options_anchor_410243379);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">j.bears@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Lecturer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1734773992" href="javascript:void(0)" style="color: #990000;">Beasley, Cathy</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1734773992 = {};
+	options_anchor_1734773992.opendialog = "employeeDetailDialog";
+	options_anchor_1734773992.jqueryaction = "anchor";
+	options_anchor_1734773992.id = "anchor_1734773992";
+	options_anchor_1734773992.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1734773992.hrefparameter = "id=NDiNrTXcOwA8XdHwS3GPdw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1734773992'),options_anchor_1734773992);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-6053</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">ca.beasley@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Procurement Assistant</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Facilities Administration-10</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_935409052" href="javascript:void(0)" style="color: #990000;">Beasley, Christopher</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_935409052 = {};
+	options_anchor_935409052.opendialog = "employeeDetailDialog";
+	options_anchor_935409052.jqueryaction = "anchor";
+	options_anchor_935409052.id = "anchor_935409052";
+	options_anchor_935409052.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_935409052.hrefparameter = "id=SJ6l3F4slKo1C3NUAiuiFw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_935409052'),options_anchor_935409052);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-5675</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">c.beasley@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Associate Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Mathematics</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_836442650" href="javascript:void(0)" style="color: #990000;">Beato, Evelyn</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_836442650 = {};
+	options_anchor_836442650.opendialog = "employeeDetailDialog";
+	options_anchor_836442650.jqueryaction = "anchor";
+	options_anchor_836442650.id = "anchor_836442650";
+	options_anchor_836442650.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_836442650.hrefparameter = "id=5Sz%2B8VfNgbX6%2BxcptdjYxA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_836442650'),options_anchor_836442650);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-2240</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">e.beato@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Executive Assistant</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Office of the SVP Finance&amp;Treasurer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1618274908" href="javascript:void(0)" style="color: #990000;">Beauchamp, Kimberly</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1618274908 = {};
+	options_anchor_1618274908.opendialog = "employeeDetailDialog";
+	options_anchor_1618274908.jqueryaction = "anchor";
+	options_anchor_1618274908.id = "anchor_1618274908";
+	options_anchor_1618274908.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1618274908.hrefparameter = "id=ZcbA%2FIwB7dpMIys0CKPafw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1618274908'),options_anchor_1618274908);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">k.beauchamp@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Writing Specialist</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">CPS-Undergraduate Programs</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1384532904" href="javascript:void(0)" style="color: #990000;">Beauchamp, Nick</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1384532904 = {};
+	options_anchor_1384532904.opendialog = "employeeDetailDialog";
+	options_anchor_1384532904.jqueryaction = "anchor";
+	options_anchor_1384532904.id = "anchor_1384532904";
+	options_anchor_1384532904.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1384532904.hrefparameter = "id=6MIM1yfn%2FdZAAcScDVPHLQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1384532904'),options_anchor_1384532904);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-2796</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">n.beauchamp@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Assistant Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Political Science</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1654922121" href="javascript:void(0)" style="color: #990000;">Beaudet, Mike</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1654922121 = {};
+	options_anchor_1654922121.opendialog = "employeeDetailDialog";
+	options_anchor_1654922121.jqueryaction = "anchor";
+	options_anchor_1654922121.id = "anchor_1654922121";
+	options_anchor_1654922121.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1654922121.hrefparameter = "id=8LMcNfUiJXEw1yQOiCeivg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1654922121'),options_anchor_1654922121);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-4050</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">m.beaudet@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Professor of the Practice</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Journalism</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_308062109" href="javascript:void(0)" style="color: #990000;">Beauregard, Ariane</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_308062109 = {};
+	options_anchor_308062109.opendialog = "employeeDetailDialog";
+	options_anchor_308062109.jqueryaction = "anchor";
+	options_anchor_308062109.id = "anchor_308062109";
+	options_anchor_308062109.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_308062109.hrefparameter = "id=P1QwbRFwGWJU07oK3prlvQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_308062109'),options_anchor_308062109);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Art + Design</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1324843044" href="javascript:void(0)" style="color: #990000;">Beauregard, James</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1324843044 = {};
+	options_anchor_1324843044.opendialog = "employeeDetailDialog";
+	options_anchor_1324843044.jqueryaction = "anchor";
+	options_anchor_1324843044.id = "anchor_1324843044";
+	options_anchor_1324843044.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1324843044.hrefparameter = "id=BSbIFYuXwXUbaF7mMbN%2FNg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1324843044'),options_anchor_1324843044);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617373-3276</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">j.beauregard@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Applied Psychology</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1000201655" href="javascript:void(0)" style="color: #990000;">Bechard, Lori</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1000201655 = {};
+	options_anchor_1000201655.opendialog = "employeeDetailDialog";
+	options_anchor_1000201655.jqueryaction = "anchor";
+	options_anchor_1000201655.id = "anchor_1000201655";
+	options_anchor_1000201655.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1000201655.hrefparameter = "id=ENCM8wPKRLT9%2FLiPZANBSA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1000201655'),options_anchor_1000201655);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">l.bechard@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Lecturer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_2087308283" href="javascript:void(0)" style="color: #990000;">Beck, Jonathan</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_2087308283 = {};
+	options_anchor_2087308283.opendialog = "employeeDetailDialog";
+	options_anchor_2087308283.jqueryaction = "anchor";
+	options_anchor_2087308283.id = "anchor_2087308283";
+	options_anchor_2087308283.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_2087308283.hrefparameter = "id=6trNsNTJFtMg9VVozJuYTw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_2087308283'),options_anchor_2087308283);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">j.beck@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Postdoctoral Research Assoc</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">DMSB Office of the Dean</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_968291116" href="javascript:void(0)" style="color: #990000;">Becker, Arnulf</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_968291116 = {};
+	options_anchor_968291116.opendialog = "employeeDetailDialog";
+	options_anchor_968291116.jqueryaction = "anchor";
+	options_anchor_968291116.id = "anchor_968291116";
+	options_anchor_968291116.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_968291116.hrefparameter = "id=LA1lrMf8I8e5%2F97XwgYF%2FQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_968291116'),options_anchor_968291116);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">a.becker@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">School Of Law-Academic</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1693414764" href="javascript:void(0)" style="color: #990000;">Becker, Jordan</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1693414764 = {};
+	options_anchor_1693414764.opendialog = "employeeDetailDialog";
+	options_anchor_1693414764.jqueryaction = "anchor";
+	options_anchor_1693414764.id = "anchor_1693414764";
+	options_anchor_1693414764.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1693414764.hrefparameter = "id=%2BYUJ36LFEmLN%2B4Gt7%2FDLJQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1693414764'),options_anchor_1693414764);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">j.becker@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Asst Dir Stdt Recruit&amp;Enrllmnt</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Enrollment Management</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1667761160" href="javascript:void(0)" style="color: #990000;">Bedoni, Kellie</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1667761160 = {};
+	options_anchor_1667761160.opendialog = "employeeDetailDialog";
+	options_anchor_1667761160.jqueryaction = "anchor";
+	options_anchor_1667761160.id = "anchor_1667761160";
+	options_anchor_1667761160.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1667761160.hrefparameter = "id=M0N0%2FHiSmfHckvwqSOyOlw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1667761160'),options_anchor_1667761160);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617373-3908</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">k.bedoni@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Physical Therapy</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_779838855" href="javascript:void(0)" style="color: #990000;">Beerits, Laura</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_779838855 = {};
+	options_anchor_779838855.opendialog = "employeeDetailDialog";
+	options_anchor_779838855.jqueryaction = "anchor";
+	options_anchor_779838855.id = "anchor_779838855";
+	options_anchor_779838855.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_779838855.hrefparameter = "id=N70uzWcKcwvmQWiI%2BXsvIw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_779838855'),options_anchor_779838855);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617373000</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">l.beerits@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Assistant Teaching Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">English</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1743798436" href="javascript:void(0)" style="color: #990000;">Beers, Cindy</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1743798436 = {};
+	options_anchor_1743798436.opendialog = "employeeDetailDialog";
+	options_anchor_1743798436.jqueryaction = "anchor";
+	options_anchor_1743798436.id = "anchor_1743798436";
+	options_anchor_1743798436.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1743798436.hrefparameter = "id=DMSpehEm75ME%2BaPVICf9CA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1743798436'),options_anchor_1743798436);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">cy.beers@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Lecturer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_867173678" href="javascript:void(0)" style="color: #990000;">Begley, Gail</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_867173678 = {};
+	options_anchor_867173678.opendialog = "employeeDetailDialog";
+	options_anchor_867173678.jqueryaction = "anchor";
+	options_anchor_867173678.id = "anchor_867173678";
+	options_anchor_867173678.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_867173678.hrefparameter = "id=pviWca0OW%2B8sPgXYFsrdfQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_867173678'),options_anchor_867173678);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-3491</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">g.begley@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Teaching Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Biology</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_176354447" href="javascript:void(0)" style="color: #990000;">Behboudi, Rasoul</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_176354447 = {};
+	options_anchor_176354447.opendialog = "employeeDetailDialog";
+	options_anchor_176354447.jqueryaction = "anchor";
+	options_anchor_176354447.id = "anchor_176354447";
+	options_anchor_176354447.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_176354447.hrefparameter = "id=l5Eo9RM%2Bs9uElqeBv0NOEw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_176354447'),options_anchor_176354447);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">r.behboudi@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Lecturer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_2121473916" href="javascript:void(0)" style="color: #990000;">Behroozi, Mehdi</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_2121473916 = {};
+	options_anchor_2121473916.opendialog = "employeeDetailDialog";
+	options_anchor_2121473916.jqueryaction = "anchor";
+	options_anchor_2121473916.id = "anchor_2121473916";
+	options_anchor_2121473916.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_2121473916.hrefparameter = "id=Isr23ctG5OR5CNpIUYzCPg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_2121473916'),options_anchor_2121473916);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-2740</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">m.behroozi@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Assistant Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Mechanical + Industrial Engineering</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1175135742" href="javascript:void(0)" style="color: #990000;">Beighley, Edward</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1175135742 = {};
+	options_anchor_1175135742.opendialog = "employeeDetailDialog";
+	options_anchor_1175135742.jqueryaction = "anchor";
+	options_anchor_1175135742.id = "anchor_1175135742";
+	options_anchor_1175135742.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1175135742.hrefparameter = "id=dRfspKjSE5YNNjzc9sSdwQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1175135742'),options_anchor_1175135742);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-3368</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">r.beighley@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Associate Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Civil and Environmental Engineering</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_796193259" href="javascript:void(0)" style="color: #990000;">Beirne, Deanna</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_796193259 = {};
+	options_anchor_796193259.opendialog = "employeeDetailDialog";
+	options_anchor_796193259.jqueryaction = "anchor";
+	options_anchor_796193259.id = "anchor_796193259";
+	options_anchor_796193259.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_796193259.hrefparameter = "id=DHJuU8Z2%2BIUW7TG994C6NQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_796193259'),options_anchor_796193259);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-3473</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">d.beirne@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Dir - Res Comp &amp; Tech Trans</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">CENSSIS</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1066861357" href="javascript:void(0)" style="color: #990000;">Bekerian, Linda</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1066861357 = {};
+	options_anchor_1066861357.opendialog = "employeeDetailDialog";
+	options_anchor_1066861357.jqueryaction = "anchor";
+	options_anchor_1066861357.id = "anchor_1066861357";
+	options_anchor_1066861357.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1066861357.hrefparameter = "id=6ES9lFmnLmYa9jX1rWRdRw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1066861357'),options_anchor_1066861357);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-2292</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">l.bekerian@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Assoc Dir-Academic Ceremonies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">University Registrar</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1476229927" href="javascript:void(0)" style="color: #990000;">Bekerian, Nicole</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1476229927 = {};
+	options_anchor_1476229927.opendialog = "employeeDetailDialog";
+	options_anchor_1476229927.jqueryaction = "anchor";
+	options_anchor_1476229927.id = "anchor_1476229927";
+	options_anchor_1476229927.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1476229927.hrefparameter = "id=zK2IyjD0QGk2EB4JPs%2Bt0Q%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1476229927'),options_anchor_1476229927);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-6841</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">n.bekerian@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Asst Dir - Mktg &amp; Event Mgmt</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Khoury-Marketing</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1792076077" href="javascript:void(0)" style="color: #990000;">Bekerian, Richard</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1792076077 = {};
+	options_anchor_1792076077.opendialog = "employeeDetailDialog";
+	options_anchor_1792076077.jqueryaction = "anchor";
+	options_anchor_1792076077.id = "anchor_1792076077";
+	options_anchor_1792076077.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1792076077.hrefparameter = "id=afVBa0gRBOCyPvV98qm%2FNg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1792076077'),options_anchor_1792076077);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617373-8811</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">r.bekerian@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Asst Dir Trans Wrhs &amp; Flt Mgmt</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Facilities Administration-41</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_2006168992" href="javascript:void(0)" style="color: #990000;">Belanger, Diana</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_2006168992 = {};
+	options_anchor_2006168992.opendialog = "employeeDetailDialog";
+	options_anchor_2006168992.jqueryaction = "anchor";
+	options_anchor_2006168992.id = "anchor_2006168992";
+	options_anchor_2006168992.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_2006168992.hrefparameter = "id=771zxwPFc50Uv6YOyWsvcw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_2006168992'),options_anchor_2006168992);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">d.belanger@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Lecturer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1389220995" href="javascript:void(0)" style="color: #990000;">Belcher, Bianca</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1389220995 = {};
+	options_anchor_1389220995.opendialog = "employeeDetailDialog";
+	options_anchor_1389220995.jqueryaction = "anchor";
+	options_anchor_1389220995.id = "anchor_1389220995";
+	options_anchor_1389220995.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1389220995.hrefparameter = "id=gGBUa%2FC3G513eoGLr5Cv7A%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1389220995'),options_anchor_1389220995);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617373-3195</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">b.belcher@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Assistant Clinical Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Physician Assistant Program</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_843067925" href="javascript:void(0)" style="color: #990000;">Belden, Robert</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_843067925 = {};
+	options_anchor_843067925.opendialog = "employeeDetailDialog";
+	options_anchor_843067925.jqueryaction = "anchor";
+	options_anchor_843067925.id = "anchor_843067925";
+	options_anchor_843067925.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_843067925.hrefparameter = "id=u84auxEoK7DkhZvOz14Thg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_843067925'),options_anchor_843067925);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-8621</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">r.belden@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Asst Coach-Women's Volleyball</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Women's Volleyball</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_395684014" href="javascript:void(0)" style="color: #990000;">Belenski, Shae</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_395684014 = {};
+	options_anchor_395684014.opendialog = "employeeDetailDialog";
+	options_anchor_395684014.jqueryaction = "anchor";
+	options_anchor_395684014.id = "anchor_395684014";
+	options_anchor_395684014.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_395684014.hrefparameter = "id=WvmBUo2Pegc37a9RvIP9cw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_395684014'),options_anchor_395684014);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">s.belenski@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">NUin International Coordinator</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Office of the Chancellor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_365274687" href="javascript:void(0)" style="color: #990000;">Beletsky, Leo</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_365274687 = {};
+	options_anchor_365274687.opendialog = "employeeDetailDialog";
+	options_anchor_365274687.jqueryaction = "anchor";
+	options_anchor_365274687.id = "anchor_365274687";
+	options_anchor_365274687.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_365274687.hrefparameter = "id=TmLa92baXNs7P3q%2B93wT6A%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_365274687'),options_anchor_365274687);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-5540</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">l.beletsky@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">School Of Law-Academic</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Bouve College Health Sciences</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Health Sciences</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1823488559" href="javascript:void(0)" style="color: #990000;">Belfiore, Grace</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1823488559 = {};
+	options_anchor_1823488559.opendialog = "employeeDetailDialog";
+	options_anchor_1823488559.jqueryaction = "anchor";
+	options_anchor_1823488559.id = "anchor_1823488559";
+	options_anchor_1823488559.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1823488559.hrefparameter = "id=nKc%2FcrQTXr5FW5gwzvLhAw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1823488559'),options_anchor_1823488559);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">g.belfiore@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Director - NExT</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_2080723399" href="javascript:void(0)" style="color: #990000;">Belizaire, Marjorie</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_2080723399 = {};
+	options_anchor_2080723399.opendialog = "employeeDetailDialog";
+	options_anchor_2080723399.jqueryaction = "anchor";
+	options_anchor_2080723399.id = "anchor_2080723399";
+	options_anchor_2080723399.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_2080723399.hrefparameter = "id=0ib%2FhoztLiSfvudI0UfjcA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_2080723399'),options_anchor_2080723399);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">704/954-8322</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">m.belizaire@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Executive Assistant</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Charlotte Regional Campus</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_748929553" href="javascript:void(0)" style="color: #990000;">Belk, Latwoia</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_748929553 = {};
+	options_anchor_748929553.opendialog = "employeeDetailDialog";
+	options_anchor_748929553.jqueryaction = "anchor";
+	options_anchor_748929553.id = "anchor_748929553";
+	options_anchor_748929553.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_748929553.hrefparameter = "id=qtI5rFkKsVHnIhoJCoWSgg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_748929553'),options_anchor_748929553);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">l.belk@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Academic &amp; Career Advisor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1272186334" href="javascript:void(0)" style="color: #990000;">Bell, Chanda</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1272186334 = {};
+	options_anchor_1272186334.opendialog = "employeeDetailDialog";
+	options_anchor_1272186334.jqueryaction = "anchor";
+	options_anchor_1272186334.id = "anchor_1272186334";
+	options_anchor_1272186334.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1272186334.hrefparameter = "id=rjajZnMzoTLyORuzjBpvzw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1272186334'),options_anchor_1272186334);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">980/224-8467</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">ch.bell@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Part-time Lecturer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">School Of Nursing</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_471446488" href="javascript:void(0)" style="color: #990000;">Bell, James</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_471446488 = {};
+	options_anchor_471446488.opendialog = "employeeDetailDialog";
+	options_anchor_471446488.jqueryaction = "anchor";
+	options_anchor_471446488.id = "anchor_471446488";
+	options_anchor_471446488.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_471446488.hrefparameter = "id=iG9qchbEB6j6r4hWKN3p0A%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_471446488'),options_anchor_471446488);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617373-7683</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">ja.bell@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Service Desk Analyst</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">ITS Customer Services</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1103412183" href="javascript:void(0)" style="color: #990000;">Bell, Kevin</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1103412183 = {};
+	options_anchor_1103412183.opendialog = "employeeDetailDialog";
+	options_anchor_1103412183.jqueryaction = "anchor";
+	options_anchor_1103412183.id = "anchor_1103412183";
+	options_anchor_1103412183.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1103412183.hrefparameter = "id=%2FvIVY7jZneTRlHsMTrevIw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1103412183'),options_anchor_1103412183);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1740218976" href="javascript:void(0)" style="color: #990000;">Bellini, Chiara</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1740218976 = {};
+	options_anchor_1740218976.opendialog = "employeeDetailDialog";
+	options_anchor_1740218976.jqueryaction = "anchor";
+	options_anchor_1740218976.id = "anchor_1740218976";
+	options_anchor_1740218976.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1740218976.hrefparameter = "id=ZWtxWw78YAGcFf36BVwQAQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1740218976'),options_anchor_1740218976);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-7805</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">c.bellini@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Assistant Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Bioengineering</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1686882628" href="javascript:void(0)" style="color: #990000;">Belmonte, Jan</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1686882628 = {};
+	options_anchor_1686882628.opendialog = "employeeDetailDialog";
+	options_anchor_1686882628.jqueryaction = "anchor";
+	options_anchor_1686882628.id = "anchor_1686882628";
+	options_anchor_1686882628.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1686882628.hrefparameter = "id=3JbDnIPRgqWTpBdVfw20kQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1686882628'),options_anchor_1686882628);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-5204</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">j.belmonte@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Executive Assistant</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Khoury</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_468053517" href="javascript:void(0)" style="color: #990000;">Beltz, Lynda</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_468053517 = {};
+	options_anchor_468053517.opendialog = "employeeDetailDialog";
+	options_anchor_468053517.jqueryaction = "anchor";
+	options_anchor_468053517.id = "anchor_468053517";
+	options_anchor_468053517.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_468053517.hrefparameter = "id=pLQRubUr8YZO2mxhgRMv9g%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_468053517'),options_anchor_468053517);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">l.beltz@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Assistant Teaching Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">CPS-Graduate Programs</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_461348577" href="javascript:void(0)" style="color: #990000;">Bemis, Kylie</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_461348577 = {};
+	options_anchor_461348577.opendialog = "employeeDetailDialog";
+	options_anchor_461348577.jqueryaction = "anchor";
+	options_anchor_461348577.id = "anchor_461348577";
+	options_anchor_461348577.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_461348577.hrefparameter = "id=QorqLcZ36SKSjrR6VgWACA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_461348577'),options_anchor_461348577);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-2462</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">k.bemis@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Future Faculty Fellow</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Khoury</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_175039900" href="javascript:void(0)" style="color: #990000;">Ben-Ami, Leah</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_175039900 = {};
+	options_anchor_175039900.opendialog = "employeeDetailDialog";
+	options_anchor_175039900.jqueryaction = "anchor";
+	options_anchor_175039900.id = "anchor_175039900";
+	options_anchor_175039900.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_175039900.hrefparameter = "id=ODnfnBF4EEze1Q6oLoluoA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_175039900'),options_anchor_175039900);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">l.ben-ami@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Lecturer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1698309969" href="javascript:void(0)" style="color: #990000;">Benabbas, Abdelkrim</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1698309969 = {};
+	options_anchor_1698309969.opendialog = "employeeDetailDialog";
+	options_anchor_1698309969.jqueryaction = "anchor";
+	options_anchor_1698309969.id = "anchor_1698309969";
+	options_anchor_1698309969.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1698309969.hrefparameter = "id=bqFGHuQWbGWRi2oNCK6mbA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1698309969'),options_anchor_1698309969);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-5271</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">a.benabbas@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Sr Research Scientist</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Physics</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_413543714" href="javascript:void(0)" style="color: #990000;">Benali, Amine</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_413543714 = {};
+	options_anchor_413543714.opendialog = "employeeDetailDialog";
+	options_anchor_413543714.jqueryaction = "anchor";
+	options_anchor_413543714.id = "anchor_413543714";
+	options_anchor_413543714.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_413543714.hrefparameter = "id=6N87asHdCj7LlIkbqRDryA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_413543714'),options_anchor_413543714);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-2452</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">a.benali@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">DMSB Office of the Dean</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1323161737" href="javascript:void(0)" style="color: #990000;">Benavidez, Aaron</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1323161737 = {};
+	options_anchor_1323161737.opendialog = "employeeDetailDialog";
+	options_anchor_1323161737.jqueryaction = "anchor";
+	options_anchor_1323161737.id = "anchor_1323161737";
+	options_anchor_1323161737.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1323161737.hrefparameter = "id=GnvOfpn3kuX%2FZSwMQRjHYg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1323161737'),options_anchor_1323161737);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">a.benavidez@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">CPS-International Programs</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1444759195" href="javascript:void(0)" style="color: #990000;">Bencherif, Sidi A.</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1444759195 = {};
+	options_anchor_1444759195.opendialog = "employeeDetailDialog";
+	options_anchor_1444759195.jqueryaction = "anchor";
+	options_anchor_1444759195.id = "anchor_1444759195";
+	options_anchor_1444759195.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1444759195.hrefparameter = "id=KlEzeoQlrkjT8VI01dbKCA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1444759195'),options_anchor_1444759195);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-2989</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">s.bencherif@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Assistant Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Chemical Engineering</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_607632537" href="javascript:void(0)" style="color: #990000;">Benda, Jonathan</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_607632537 = {};
+	options_anchor_607632537.opendialog = "employeeDetailDialog";
+	options_anchor_607632537.jqueryaction = "anchor";
+	options_anchor_607632537.id = "anchor_607632537";
+	options_anchor_607632537.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_607632537.hrefparameter = "id=4WW0J8Qd%2BKbRdVC9lsuroA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_607632537'),options_anchor_607632537);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-4540</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">j.benda@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Associate Teaching Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">English</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_250116040" href="javascript:void(0)" style="color: #990000;">Bender, Ryan</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_250116040 = {};
+	options_anchor_250116040.opendialog = "employeeDetailDialog";
+	options_anchor_250116040.jqueryaction = "anchor";
+	options_anchor_250116040.id = "anchor_250116040";
+	options_anchor_250116040.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_250116040.hrefparameter = "id=tuA3hDjwxN6ujJtIBxeHcg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_250116040'),options_anchor_250116040);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-6421</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">r.bender@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Mgr-Digital Univ Solutions&amp;Exp</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">ITS Customer Services</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_970378729" href="javascript:void(0)" style="color: #990000;">Bendix, Kate</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_970378729 = {};
+	options_anchor_970378729.opendialog = "employeeDetailDialog";
+	options_anchor_970378729.jqueryaction = "anchor";
+	options_anchor_970378729.id = "anchor_970378729";
+	options_anchor_970378729.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_970378729.hrefparameter = "id=UWqP07R4PhqHsjouQGkMbA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_970378729'),options_anchor_970378729);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">k.bendix@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Physical Therapy</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_2129822985" href="javascript:void(0)" style="color: #990000;">Benevides, Eric</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_2129822985 = {};
+	options_anchor_2129822985.opendialog = "employeeDetailDialog";
+	options_anchor_2129822985.jqueryaction = "anchor";
+	options_anchor_2129822985.id = "anchor_2129822985";
+	options_anchor_2129822985.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_2129822985.hrefparameter = "id=Adl70JGneC28z7HOyOfhqg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_2129822985'),options_anchor_2129822985);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617373-5067</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">e.benevides@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Business Systems Analyst</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">University Registrar</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1967024061" href="javascript:void(0)" style="color: #990000;">Benites Kaplan, Mary Ann</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1967024061 = {};
+	options_anchor_1967024061.opendialog = "employeeDetailDialog";
+	options_anchor_1967024061.jqueryaction = "anchor";
+	options_anchor_1967024061.id = "anchor_1967024061";
+	options_anchor_1967024061.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1967024061.hrefparameter = "id=3ChTJ9Nljj1UtspsKH%2F8VA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1967024061'),options_anchor_1967024061);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">m.beniteskaplan@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Lecturer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1350989825" href="javascript:void(0)" style="color: #990000;">Benitez, Michael</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1350989825 = {};
+	options_anchor_1350989825.opendialog = "employeeDetailDialog";
+	options_anchor_1350989825.jqueryaction = "anchor";
+	options_anchor_1350989825.id = "anchor_1350989825";
+	options_anchor_1350989825.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1350989825.hrefparameter = "id=qieXwZZ3zpLOOyoT9EO3Zg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1350989825'),options_anchor_1350989825);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-2393</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">m.benitez@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Building Services Supervisor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Building Services</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_165552379" href="javascript:void(0)" style="color: #990000;">Bennett, Craig</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_165552379 = {};
+	options_anchor_165552379.opendialog = "employeeDetailDialog";
+	options_anchor_165552379.jqueryaction = "anchor";
+	options_anchor_165552379.id = "anchor_165552379";
+	options_anchor_165552379.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_165552379.hrefparameter = "id=cb1uL%2Bg5kOlBCt%2F3YEQyMQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_165552379'),options_anchor_165552379);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">cr.bennett@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Lecturer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">CPS-Undergraduate Programs</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_800477603" href="javascript:void(0)" style="color: #990000;">Bennett, Elisabeth</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_800477603 = {};
+	options_anchor_800477603.opendialog = "employeeDetailDialog";
+	options_anchor_800477603.jqueryaction = "anchor";
+	options_anchor_800477603.id = "anchor_800477603";
+	options_anchor_800477603.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_800477603.hrefparameter = "id=LH8xDclPnlMa1O2XWG25yQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_800477603'),options_anchor_800477603);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">el.bennett@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Associate Teaching Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">CPS-Graduate Programs</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_364292732" href="javascript:void(0)" style="color: #990000;">Bennett, Evan</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_364292732 = {};
+	options_anchor_364292732.opendialog = "employeeDetailDialog";
+	options_anchor_364292732.jqueryaction = "anchor";
+	options_anchor_364292732.id = "anchor_364292732";
+	options_anchor_364292732.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_364292732.hrefparameter = "id=yWq7o2h2wxBsJa3Y9vY9Yg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_364292732'),options_anchor_364292732);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-2440</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">e.bennett@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Music</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1234058744" href="javascript:void(0)" style="color: #990000;">Bennett, Lakisha</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1234058744 = {};
+	options_anchor_1234058744.opendialog = "employeeDetailDialog";
+	options_anchor_1234058744.jqueryaction = "anchor";
+	options_anchor_1234058744.id = "anchor_1234058744";
+	options_anchor_1234058744.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1234058744.hrefparameter = "id=ljOGt%2B9nSg%2Fg15c%2FGQ7uFQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1234058744'),options_anchor_1234058744);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">l.bennett@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Prgm Mgr-Clinical Plcmt Office</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">School Of Nursing</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1972426789" href="javascript:void(0)" style="color: #990000;">Bennett, Richard</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1972426789 = {};
+	options_anchor_1972426789.opendialog = "employeeDetailDialog";
+	options_anchor_1972426789.jqueryaction = "anchor";
+	options_anchor_1972426789.id = "anchor_1972426789";
+	options_anchor_1972426789.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1972426789.hrefparameter = "id=dC9ekHwjvpSykX4YbuNpcg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1972426789'),options_anchor_1972426789);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-2343</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">rs.bennett@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Mover Bus Truck Driver</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Transportation-Dorms</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_613899816" href="javascript:void(0)" style="color: #990000;">Benneyan, James</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_613899816 = {};
+	options_anchor_613899816.opendialog = "employeeDetailDialog";
+	options_anchor_613899816.jqueryaction = "anchor";
+	options_anchor_613899816.id = "anchor_613899816";
+	options_anchor_613899816.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_613899816.hrefparameter = "id=lc5ZWmmcL5kpsYit0URkxQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_613899816'),options_anchor_613899816);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-2975</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">j.benneyan@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Mechanical + Industrial Engineering</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1130806956" href="javascript:void(0)" style="color: #990000;">Benson, Beau</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1130806956 = {};
+	options_anchor_1130806956.opendialog = "employeeDetailDialog";
+	options_anchor_1130806956.jqueryaction = "anchor";
+	options_anchor_1130806956.id = "anchor_1130806956";
+	options_anchor_1130806956.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1130806956.hrefparameter = "id=kVXDfsydhIFfYc3ZYD9X1Q%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1130806956'),options_anchor_1130806956);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-5029</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">b.benson@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Sr Assoc Director-Admissions</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Admissions Recruitment</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_736815287" href="javascript:void(0)" style="color: #990000;">Benson, Sarah</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_736815287 = {};
+	options_anchor_736815287.opendialog = "employeeDetailDialog";
+	options_anchor_736815287.jqueryaction = "anchor";
+	options_anchor_736815287.id = "anchor_736815287";
+	options_anchor_736815287.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_736815287.hrefparameter = "id=u1qvE8PjF%2FuqzcT%2Fo3m6tA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_736815287'),options_anchor_736815287);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/824-0054</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">s.benson@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Assoc Dir-Comm &amp; Event Mgmt</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Orientation</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1023305068" href="javascript:void(0)" style="color: #990000;">Bentley, Jennifer</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1023305068 = {};
+	options_anchor_1023305068.opendialog = "employeeDetailDialog";
+	options_anchor_1023305068.jqueryaction = "anchor";
+	options_anchor_1023305068.id = "anchor_1023305068";
+	options_anchor_1023305068.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1023305068.hrefparameter = "id=4pKGvZnGvBy5%2Ftkn%2FaOg5g%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1023305068'),options_anchor_1023305068);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617373-3698</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">j.bentley@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Comm Sciences &amp; Disorders</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_2056798303" href="javascript:void(0)" style="color: #990000;">Benware, Anne</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_2056798303 = {};
+	options_anchor_2056798303.opendialog = "employeeDetailDialog";
+	options_anchor_2056798303.jqueryaction = "anchor";
+	options_anchor_2056798303.id = "anchor_2056798303";
+	options_anchor_2056798303.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_2056798303.hrefparameter = "id=KC4sIMUrUuuypLLYa%2F%2FioQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_2056798303'),options_anchor_2056798303);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-3230</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">a.benware@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Assoc Dir-Event Planning &amp;Mgmt</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">DMSB Office of the Dean</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_78617321" href="javascript:void(0)" style="color: #990000;">Berajawala, Suneil</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_78617321 = {};
+	options_anchor_78617321.opendialog = "employeeDetailDialog";
+	options_anchor_78617321.jqueryaction = "anchor";
+	options_anchor_78617321.id = "anchor_78617321";
+	options_anchor_78617321.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_78617321.hrefparameter = "id=AudNEJ3lwpGATk25EpYnLQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_78617321'),options_anchor_78617321);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">s.berajawala@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">COE-Graduate</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_966799347" href="javascript:void(0)" style="color: #990000;">Berardi, Gregory</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_966799347 = {};
+	options_anchor_966799347.opendialog = "employeeDetailDialog";
+	options_anchor_966799347.jqueryaction = "anchor";
+	options_anchor_966799347.id = "anchor_966799347";
+	options_anchor_966799347.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_966799347.hrefparameter = "id=HL3bYCisL%2FeNuK4PBJzRSw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_966799347'),options_anchor_966799347);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">g.berardi@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">HVAC Systems Technician</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Facilities-Maintenance + Services</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_829742291" href="javascript:void(0)" style="color: #990000;">Berardi, Robert</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_829742291 = {};
+	options_anchor_829742291.opendialog = "employeeDetailDialog";
+	options_anchor_829742291.jqueryaction = "anchor";
+	options_anchor_829742291.id = "anchor_829742291";
+	options_anchor_829742291.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_829742291.hrefparameter = "id=VSyZAhKcw%2BT78j6p9iFU0A%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_829742291'),options_anchor_829742291);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">r.berardi@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Lecturer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1729073713" href="javascript:void(0)" style="color: #990000;">Berent, Iris</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1729073713 = {};
+	options_anchor_1729073713.opendialog = "employeeDetailDialog";
+	options_anchor_1729073713.jqueryaction = "anchor";
+	options_anchor_1729073713.id = "anchor_1729073713";
+	options_anchor_1729073713.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1729073713.hrefparameter = "id=uKAXqbJn6pfB6jDPJiOqWA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1729073713'),options_anchor_1729073713);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-4033</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">i.berent@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Psychology</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1057728682" href="javascript:void(0)" style="color: #990000;">Berg, Alyssa</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1057728682 = {};
+	options_anchor_1057728682.opendialog = "employeeDetailDialog";
+	options_anchor_1057728682.jqueryaction = "anchor";
+	options_anchor_1057728682.id = "anchor_1057728682";
+	options_anchor_1057728682.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1057728682.hrefparameter = "id=5AOTJVjeffPaWE6r3F7Odg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1057728682'),options_anchor_1057728682);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-2696</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">a.fontana@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Intl Safety/Security Mgr</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Public Safety</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_427682266" href="javascript:void(0)" style="color: #990000;">Berg, Bruce</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_427682266 = {};
+	options_anchor_427682266.opendialog = "employeeDetailDialog";
+	options_anchor_427682266.jqueryaction = "anchor";
+	options_anchor_427682266.id = "anchor_427682266";
+	options_anchor_427682266.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_427682266.hrefparameter = "id=kZoxC5ghtZqjV5BIcsZr3Q%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_427682266'),options_anchor_427682266);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-7925</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">b.berg@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Sr Dir Prospect Development</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Development Research</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_9488947" href="javascript:void(0)" style="color: #990000;">Berge, Kate</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_9488947 = {};
+	options_anchor_9488947.opendialog = "employeeDetailDialog";
+	options_anchor_9488947.jqueryaction = "anchor";
+	options_anchor_9488947.id = "anchor_9488947";
+	options_anchor_9488947.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_9488947.hrefparameter = "id=fhENkFHrAmRDviVhHUYB%2Fw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_9488947'),options_anchor_9488947);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-6669</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">k.berge@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Sr Asst Dir NUin Prgm Admin</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">International Study Programs</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_2130071774" href="javascript:void(0)" style="color: #990000;">Bergelson, Sophie</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_2130071774 = {};
+	options_anchor_2130071774.opendialog = "employeeDetailDialog";
+	options_anchor_2130071774.jqueryaction = "anchor";
+	options_anchor_2130071774.id = "anchor_2130071774";
+	options_anchor_2130071774.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_2130071774.hrefparameter = "id=Omgsnh8VEG2lb0KT%2B5vpWQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_2130071774'),options_anchor_2130071774);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-3002</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">s.bergelson@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Program Assistant</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">School of Law-CCOPA</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_2100066000" href="javascript:void(0)" style="color: #990000;">Berger, Nancy</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_2100066000 = {};
+	options_anchor_2100066000.opendialog = "employeeDetailDialog";
+	options_anchor_2100066000.jqueryaction = "anchor";
+	options_anchor_2100066000.id = "anchor_2100066000";
+	options_anchor_2100066000.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_2100066000.hrefparameter = "id=47Vf9ys%2FiOV7GSVxqYfz7w%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_2100066000'),options_anchor_2100066000);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-4234</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">n.berger@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Treasury Specialist</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Treasury Services</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1664616021" href="javascript:void(0)" style="color: #990000;">Bergeron, Elizabeth</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1664616021 = {};
+	options_anchor_1664616021.opendialog = "employeeDetailDialog";
+	options_anchor_1664616021.jqueryaction = "anchor";
+	options_anchor_1664616021.id = "anchor_1664616021";
+	options_anchor_1664616021.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1664616021.hrefparameter = "id=cak5r77AJC1CxMTQCpkvLQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1664616021'),options_anchor_1664616021);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">b.elizabeth@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Lecturer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_634212959" href="javascript:void(0)" style="color: #990000;">Bergersen, Courtney</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_634212959 = {};
+	options_anchor_634212959.opendialog = "employeeDetailDialog";
+	options_anchor_634212959.jqueryaction = "anchor";
+	options_anchor_634212959.id = "anchor_634212959";
+	options_anchor_634212959.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_634212959.hrefparameter = "id=oIGs90j8ZiNc%2FSX2XYil6w%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_634212959'),options_anchor_634212959);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-4951</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">c.bergersen@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Lecturer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_724941281" href="javascript:void(0)" style="color: #990000;">Bergersen, Jack</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_724941281 = {};
+	options_anchor_724941281.opendialog = "employeeDetailDialog";
+	options_anchor_724941281.jqueryaction = "anchor";
+	options_anchor_724941281.id = "anchor_724941281";
+	options_anchor_724941281.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_724941281.hrefparameter = "id=rCxqb3ZD54NHqAZ7FcD9xA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_724941281'),options_anchor_724941281);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">j.bergersen@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Lecturer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_340455578" href="javascript:void(0)" style="color: #990000;">Berggren, Lynne</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_340455578 = {};
+	options_anchor_340455578.opendialog = "employeeDetailDialog";
+	options_anchor_340455578.jqueryaction = "anchor";
+	options_anchor_340455578.id = "anchor_340455578";
+	options_anchor_340455578.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_340455578.hrefparameter = "id=i2anb9yPBVJelM1PVnYB7w%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_340455578'),options_anchor_340455578);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-3190</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">l.berggren@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Information Systems Specialist</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Financial Aid</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_317917837" href="javascript:void(0)" style="color: #990000;">Bergschneider, Tricia</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_317917837 = {};
+	options_anchor_317917837.opendialog = "employeeDetailDialog";
+	options_anchor_317917837.jqueryaction = "anchor";
+	options_anchor_317917837.id = "anchor_317917837";
+	options_anchor_317917837.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_317917837.hrefparameter = "id=FgN%2BK0lrY%2FA60lMd8s0%2BFQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_317917837'),options_anchor_317917837);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">p.bergschneider@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">School Of Nursing</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1685822644" href="javascript:void(0)" style="color: #990000;">Bergstrom, Steve</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1685822644 = {};
+	options_anchor_1685822644.opendialog = "employeeDetailDialog";
+	options_anchor_1685822644.jqueryaction = "anchor";
+	options_anchor_1685822644.id = "anchor_1685822644";
+	options_anchor_1685822644.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1685822644.hrefparameter = "id=3qkjWPq7F536JL5s%2B%2FYRmA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1685822644'),options_anchor_1685822644);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-3260</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">c.bergstrom@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">DMSB Office of the Dean</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1848558457" href="javascript:void(0)" style="color: #990000;">Berin, Samuel</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1848558457 = {};
+	options_anchor_1848558457.opendialog = "employeeDetailDialog";
+	options_anchor_1848558457.jqueryaction = "anchor";
+	options_anchor_1848558457.id = "anchor_1848558457";
+	options_anchor_1848558457.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1848558457.hrefparameter = "id=YnWuAoqprYdFaUMpcvGTbA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1848558457'),options_anchor_1848558457);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-4536</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">s.berin@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Research Technician</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Physical Therapy</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_148404727" href="javascript:void(0)" style="color: #990000;">Berkey, Becca</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_148404727 = {};
+	options_anchor_148404727.opendialog = "employeeDetailDialog";
+	options_anchor_148404727.jqueryaction = "anchor";
+	options_anchor_148404727.id = "anchor_148404727";
+	options_anchor_148404727.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_148404727.hrefparameter = "id=8PRGRA%2Bs6fIuY6fbyur3YA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_148404727'),options_anchor_148404727);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-5840</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">r.berkey@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Director</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">City and Community Affairs</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_139374846" href="javascript:void(0)" style="color: #990000;">Berleus, Alexandra</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_139374846 = {};
+	options_anchor_139374846.opendialog = "employeeDetailDialog";
+	options_anchor_139374846.jqueryaction = "anchor";
+	options_anchor_139374846.id = "anchor_139374846";
+	options_anchor_139374846.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_139374846.hrefparameter = "id=cWK4bRrO3rkQ2KymP78gGA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_139374846'),options_anchor_139374846);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-8481</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">al.berleus@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Assoc Dir-Marketing &amp; Comms</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Engineering Office Of the Dean</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1845055689" href="javascript:void(0)" style="color: #990000;">Berman, Lindsay</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1845055689 = {};
+	options_anchor_1845055689.opendialog = "employeeDetailDialog";
+	options_anchor_1845055689.jqueryaction = "anchor";
+	options_anchor_1845055689.id = "anchor_1845055689";
+	options_anchor_1845055689.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1845055689.hrefparameter = "id=xStB%2BDeCujW7bzoR3w2Olg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1845055689'),options_anchor_1845055689);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617373-4772</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">l.berman@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Asst Coach-Women's Ice Hockey</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Women's Hockey</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_591320881" href="javascript:void(0)" style="color: #990000;">Berman, Mark</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_591320881 = {};
+	options_anchor_591320881.opendialog = "employeeDetailDialog";
+	options_anchor_591320881.jqueryaction = "anchor";
+	options_anchor_591320881.id = "anchor_591320881";
+	options_anchor_591320881.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_591320881.hrefparameter = "id=YtCW7NdGTppYqaKAj5IYYg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_591320881'),options_anchor_591320881);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-2452</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">ma.berman@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">DMSB Office of the Dean</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1724657281" href="javascript:void(0)" style="color: #990000;">Bernadin, Adler</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1724657281 = {};
+	options_anchor_1724657281.opendialog = "employeeDetailDialog";
+	options_anchor_1724657281.jqueryaction = "anchor";
+	options_anchor_1724657281.id = "anchor_1724657281";
+	options_anchor_1724657281.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1724657281.hrefparameter = "id=O4OwK43g42SL%2B4fV5x57bw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1724657281'),options_anchor_1724657281);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-76804</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">a.bernadin@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Director-Work Management</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Facilities Administration-10</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_587430927" href="javascript:void(0)" style="color: #990000;">Bernal, Dionisio</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_587430927 = {};
+	options_anchor_587430927.opendialog = "employeeDetailDialog";
+	options_anchor_587430927.jqueryaction = "anchor";
+	options_anchor_587430927.id = "anchor_587430927";
+	options_anchor_587430927.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_587430927.hrefparameter = "id=aKB7RAKxEZKaD8FypMJIUQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_587430927'),options_anchor_587430927);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-4417</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">d.bernal@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Civil and Environmental Engineering</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_502836886" href="javascript:void(0)" style="color: #990000;">Bernal Mor, Elena</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_502836886 = {};
+	options_anchor_502836886.opendialog = "employeeDetailDialog";
+	options_anchor_502836886.jqueryaction = "anchor";
+	options_anchor_502836886.id = "anchor_502836886";
+	options_anchor_502836886.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_502836886.hrefparameter = "id=umsp9VsiY4tNL2LRwON%2FIg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_502836886'),options_anchor_502836886);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">e.bernalmor@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Electrical and Computer Engineering</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1497930614" href="javascript:void(0)" style="color: #990000;">Bernardin, Kelsey</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1497930614 = {};
+	options_anchor_1497930614.opendialog = "employeeDetailDialog";
+	options_anchor_1497930614.jqueryaction = "anchor";
+	options_anchor_1497930614.id = "anchor_1497930614";
+	options_anchor_1497930614.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1497930614.hrefparameter = "id=FkMKfiyJLnhPFZBZxoPUPw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1497930614'),options_anchor_1497930614);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617373-3908</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">k.bernardin@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Physical Therapy</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_199719069" href="javascript:void(0)" style="color: #990000;">Bernatchez, Genevieve</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_199719069 = {};
+	options_anchor_199719069.opendialog = "employeeDetailDialog";
+	options_anchor_199719069.jqueryaction = "anchor";
+	options_anchor_199719069.id = "anchor_199719069";
+	options_anchor_199719069.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_199719069.hrefparameter = "id=1xDOwtSDvs2e9KjTmA75fw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_199719069'),options_anchor_199719069);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_375805350" href="javascript:void(0)" style="color: #990000;">Bernazzani, Michelle</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_375805350 = {};
+	options_anchor_375805350.opendialog = "employeeDetailDialog";
+	options_anchor_375805350.jqueryaction = "anchor";
+	options_anchor_375805350.id = "anchor_375805350";
+	options_anchor_375805350.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_375805350.hrefparameter = "id=z%2FJF4hOncI%2FG24ARpliw%2Fg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_375805350'),options_anchor_375805350);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">m.bernazzani@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Sr Asst Dir - Mktg &amp; Comms</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Enrollment Management</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1489392831" href="javascript:void(0)" style="color: #990000;">Bernfeld, Mark</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1489392831 = {};
+	options_anchor_1489392831.opendialog = "employeeDetailDialog";
+	options_anchor_1489392831.jqueryaction = "anchor";
+	options_anchor_1489392831.id = "anchor_1489392831";
+	options_anchor_1489392831.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1489392831.hrefparameter = "id=M2NH5aGdbXT3NsMSV7XtWw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1489392831'),options_anchor_1489392831);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-3616</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">m.bernfeld@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Professor of the Practice</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">DMSB Finance Group</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_2001068181" href="javascript:void(0)" style="color: #990000;">Bernhard, Peg</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_2001068181 = {};
+	options_anchor_2001068181.opendialog = "employeeDetailDialog";
+	options_anchor_2001068181.jqueryaction = "anchor";
+	options_anchor_2001068181.id = "anchor_2001068181";
+	options_anchor_2001068181.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_2001068181.hrefparameter = "id=0rkYzlVBVADqtauHrcU2RQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_2001068181'),options_anchor_2001068181);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">980/224-8467</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">m.bernhard@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Associate Dean-Campus Admin</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Charlotte Regional Campus</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1151975349" href="javascript:void(0)" style="color: #990000;">Bernstein, Eugene</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1151975349 = {};
+	options_anchor_1151975349.opendialog = "employeeDetailDialog";
+	options_anchor_1151975349.jqueryaction = "anchor";
+	options_anchor_1151975349.id = "anchor_1151975349";
+	options_anchor_1151975349.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1151975349.hrefparameter = "id=wn0tjEoRlo%2FTE8Dfr%2B0TvA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1151975349'),options_anchor_1151975349);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-3220</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">e.bernstein@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Associate Teaching Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Pharmaceutical Sciences</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1349055797" href="javascript:void(0)" style="color: #990000;">Bernstein, Jon</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1349055797 = {};
+	options_anchor_1349055797.opendialog = "employeeDetailDialog";
+	options_anchor_1349055797.jqueryaction = "anchor";
+	options_anchor_1349055797.id = "anchor_1349055797";
+	options_anchor_1349055797.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1349055797.hrefparameter = "id=ZZXMPxrFWUGV17DzXDqhGw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1349055797'),options_anchor_1349055797);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-6927</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">j.bernstein@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Sr Dir-College Enrollment Mgmt</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">CAMD-Office of the Dean</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_2045633371" href="javascript:void(0)" style="color: #990000;">Bernstein, Larry</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_2045633371 = {};
+	options_anchor_2045633371.opendialog = "employeeDetailDialog";
+	options_anchor_2045633371.jqueryaction = "anchor";
+	options_anchor_2045633371.id = "anchor_2045633371";
+	options_anchor_2045633371.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_2045633371.hrefparameter = "id=%2B9Yas6J4nmbQ0e8J7Ju54Q%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_2045633371'),options_anchor_2045633371);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-5956</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">l.bernstein@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Sr Research Associate</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">University Decision Support</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1362994644" href="javascript:void(0)" style="color: #990000;">Bernstein, Toby</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1362994644 = {};
+	options_anchor_1362994644.opendialog = "employeeDetailDialog";
+	options_anchor_1362994644.jqueryaction = "anchor";
+	options_anchor_1362994644.id = "anchor_1362994644";
+	options_anchor_1362994644.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1362994644.hrefparameter = "id=ePOKoIbu9GdJq5ZD%2B35LfQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1362994644'),options_anchor_1362994644);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-4791</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">t.bernstein@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Assistant Head-Print/NonPrint</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Library-Resource &amp; Discovery Srvcs</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1875425612" href="javascript:void(0)" style="color: #990000;">Berry, Kristen</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1875425612 = {};
+	options_anchor_1875425612.opendialog = "employeeDetailDialog";
+	options_anchor_1875425612.jqueryaction = "anchor";
+	options_anchor_1875425612.id = "anchor_1875425612";
+	options_anchor_1875425612.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1875425612.hrefparameter = "id=Tai%2FSnim61G61e1H1GcDWg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1875425612'),options_anchor_1875425612);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_491958457" href="javascript:void(0)" style="color: #990000;">Bersey, Nicole</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_491958457 = {};
+	options_anchor_491958457.opendialog = "employeeDetailDialog";
+	options_anchor_491958457.jqueryaction = "anchor";
+	options_anchor_491958457.id = "anchor_491958457";
+	options_anchor_491958457.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_491958457.hrefparameter = "id=%2FSFDzv3NLRpdrWb%2B%2FVI0Zg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_491958457'),options_anchor_491958457);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">n.bersey@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Academic Advisor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">COS-Undergraduate Advising</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_738391927" href="javascript:void(0)" style="color: #990000;">Berthelette, Brandon</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_738391927 = {};
+	options_anchor_738391927.opendialog = "employeeDetailDialog";
+	options_anchor_738391927.jqueryaction = "anchor";
+	options_anchor_738391927.id = "anchor_738391927";
+	options_anchor_738391927.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_738391927.hrefparameter = "id=Uqx7h3mJ4uxOBQNfjDgAjw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_738391927'),options_anchor_738391927);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">b.berthelette@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Plumbing/Mechanical Foreperson</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Maintenance-Mechanics</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_870304274" href="javascript:void(0)" style="color: #990000;">Bertman, Jackie</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_870304274 = {};
+	options_anchor_870304274.opendialog = "employeeDetailDialog";
+	options_anchor_870304274.jqueryaction = "anchor";
+	options_anchor_870304274.id = "anchor_870304274";
+	options_anchor_870304274.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_870304274.hrefparameter = "id=eI4rRxg7CzKeeHeGzt5COQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_870304274'),options_anchor_870304274);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">j.bertman@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Asst Dir-Global Stdnt Success</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">CPS-International Programs</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_150613520" href="javascript:void(0)" style="color: #990000;">Bertrand, Chase</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_150613520 = {};
+	options_anchor_150613520.opendialog = "employeeDetailDialog";
+	options_anchor_150613520.jqueryaction = "anchor";
+	options_anchor_150613520.id = "anchor_150613520";
+	options_anchor_150613520.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_150613520.hrefparameter = "id=tuWHqJtEjnbIrjXzOfAi8A%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_150613520'),options_anchor_150613520);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">c.bertrand@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Marketing Automation Manager</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Enrollment Management</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1579253099" href="javascript:void(0)" style="color: #990000;">Bertsch, Benjamin</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1579253099 = {};
+	options_anchor_1579253099.opendialog = "employeeDetailDialog";
+	options_anchor_1579253099.jqueryaction = "anchor";
+	options_anchor_1579253099.id = "anchor_1579253099";
+	options_anchor_1579253099.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1579253099.hrefparameter = "id=TJXSurAPdZm%2B9tMa%2Biq7BQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1579253099'),options_anchor_1579253099);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617373-3169</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">b.bertsch@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Video &amp; Multimedia Producer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">University Communications</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_857879505" href="javascript:void(0)" style="color: #990000;">Berwaldt, Deborah</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_857879505 = {};
+	options_anchor_857879505.opendialog = "employeeDetailDialog";
+	options_anchor_857879505.jqueryaction = "anchor";
+	options_anchor_857879505.id = "anchor_857879505";
+	options_anchor_857879505.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_857879505.hrefparameter = "id=i7g0BX7ADFBCuP%2FpwSKBgA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_857879505'),options_anchor_857879505);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">d.berwaldt@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Sr Project Manager</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Office of the Chancellor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_606290998" href="javascript:void(0)" style="color: #990000;">Beshimov, Baktybek</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_606290998 = {};
+	options_anchor_606290998.opendialog = "employeeDetailDialog";
+	options_anchor_606290998.jqueryaction = "anchor";
+	options_anchor_606290998.id = "anchor_606290998";
+	options_anchor_606290998.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_606290998.hrefparameter = "id=Ob%2BV1gsDbHcTDMh5z%2BHRyQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_606290998'),options_anchor_606290998);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">b.beshimov@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Professor of the Practice</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">CPS-Graduate Programs</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1678864376" href="javascript:void(0)" style="color: #990000;">Bess, Delante</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1678864376 = {};
+	options_anchor_1678864376.opendialog = "employeeDetailDialog";
+	options_anchor_1678864376.jqueryaction = "anchor";
+	options_anchor_1678864376.id = "anchor_1678864376";
+	options_anchor_1678864376.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1678864376.hrefparameter = "id=Kt1gBK8UQnJXDajtlGDezw%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1678864376'),options_anchor_1678864376);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">d.bess@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Sr. SNOW Administrator/Devlpr</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">ITS Business Analysis</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_67197911" href="javascript:void(0)" style="color: #990000;">Bessell, Ian</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_67197911 = {};
+	options_anchor_67197911.opendialog = "employeeDetailDialog";
+	options_anchor_67197911.jqueryaction = "anchor";
+	options_anchor_67197911.id = "anchor_67197911";
+	options_anchor_67197911.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_67197911.hrefparameter = "id=axPydyncFAwsR%2B5Vz9vtcg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_67197911'),options_anchor_67197911);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">i.bessell@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Lecturer</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">College of Professional Studies</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1608961487" href="javascript:void(0)" style="color: #990000;">Best, Maraya</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1608961487 = {};
+	options_anchor_1608961487.opendialog = "employeeDetailDialog";
+	options_anchor_1608961487.jqueryaction = "anchor";
+	options_anchor_1608961487.id = "anchor_1608961487";
+	options_anchor_1608961487.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1608961487.hrefparameter = "id=NtcobdiLkk%2B36YjjYRGZtg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1608961487'),options_anchor_1608961487);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-3307</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">m.best@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Kohn Memorial Fellowship</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">School of Law-CCOPA</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1118717900" href="javascript:void(0)" style="color: #990000;">Betsold, Allison</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1118717900 = {};
+	options_anchor_1118717900.opendialog = "employeeDetailDialog";
+	options_anchor_1118717900.jqueryaction = "anchor";
+	options_anchor_1118717900.id = "anchor_1118717900";
+	options_anchor_1118717900.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1118717900.hrefparameter = "id=U%2F0UiLT2lW%2BL44vrg8kWZg%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1118717900'),options_anchor_1118717900);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">a.cockshaw@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Assistant Director-Bands</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Music</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_256077069" href="javascript:void(0)" style="color: #990000;">Bettinson, Craig</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_256077069 = {};
+	options_anchor_256077069.opendialog = "employeeDetailDialog";
+	options_anchor_256077069.jqueryaction = "anchor";
+	options_anchor_256077069.id = "anchor_256077069";
+	options_anchor_256077069.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_256077069.hrefparameter = "id=IvhsVWAXhyrINJG5Bo%2FiXA%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_256077069'),options_anchor_256077069);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-4261</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">cr.bettinson@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Asst Coop Coord&amp;Dir-Coop Ed</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">CAMD-Coop</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1879626112" href="javascript:void(0)" style="color: #990000;">Beuning, Penny</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1879626112 = {};
+	options_anchor_1879626112.opendialog = "employeeDetailDialog";
+	options_anchor_1879626112.jqueryaction = "anchor";
+	options_anchor_1879626112.id = "anchor_1879626112";
+	options_anchor_1879626112.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1879626112.hrefparameter = "id=ZSCiNSwbhmY7m3yfg6F6gQ%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1879626112'),options_anchor_1879626112);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">617/373-2865</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">p.beuning@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Chemistry and Chemical Biology</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+    	
+        <tr>
+            <td style="width:15%" class="nowrap">
+		       		 <a id="anchor_1841675931" href="javascript:void(0)" style="color: #990000;">Bex, Peter</a>
+<script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_anchor_1841675931 = {};
+	options_anchor_1841675931.opendialog = "employeeDetailDialog";
+	options_anchor_1841675931.jqueryaction = "anchor";
+	options_anchor_1841675931.id = "anchor_1841675931";
+	options_anchor_1841675931.href = "/wasapp/employeelookup/public/displayEmployeeDetails.action";
+	options_anchor_1841675931.hrefparameter = "id=Inzs7A4XEny1GWioJX4A6g%3D%3D";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_1841675931'),options_anchor_1841675931);
+
+ });  
+</script></td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">p.bex@northeastern.edu</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Professor</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Psychology</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+            <td class="nowrap">&nbsp;&nbsp;</td>
+            <td class="nowrap">Not Available</td>
+                   
+            </td>
+        </tr>  		
+	 
+	 </div>
+    </table>
+    </div><script type='text/javascript'>
+jQuery(document).ready(function () { 
+	var options_result = {};
+	options_result.jqueryaction = "container";
+	options_result.id = "result";
+	options_result.href = "#";
+	options_result.formids = "form";
+	options_result.reloadtopics = "refresh";
+  
+
+jQuery.struts2_jquery.bind(jQuery('#result'),options_result);
+
+ });  
+</script>
+
+    <br/>
+    <br/>
+
+<div id="footer">
+<div style="font-family:Verdana,Arial,Helvetica,sans-serif; font-size:10px; font-style:normal; font-weight:normal; padding-right:10px">
+<table>
+	<tr>
+		<td><a href="/wasapp/employeelookup/public/About.jsp" style="color: #990000;">About the Employee Directory</a></td>
+		<td></td>
+		<td><a href="/wasapp/employeelookup/public/Terms.jsp" style="color: #990000;">Terms and Conditions of Use</a></td>
+		<td></td>
+		<td><a href="/wasapp/employeelookup/public/UseEmployeeDir.jsp" style="color: #990000;">How to Use the Employee Directory</a></td>
+	</tr>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>
