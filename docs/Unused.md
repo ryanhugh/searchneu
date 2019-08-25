@@ -56,3 +56,11 @@ run yarn add ics when this file is used again
 This file is for this feature https://github.com/ryanhugh/searchneu/issues/61
 
 https://github.com/ryanhugh/searchneu/blob/0958ad3a2ddf72425f3e18b268e9d2dd6c945f88/backend/calendar.js
+
+
+### Spread
+
+Added the concept of points, and gave people points if they referred people and points gave people priority when getting notifications for classes. Idea abandonded a while ago, and not much work was ever done on this. 
+https://gist.github.com/ryanhugh/d2f33b87f8891fb8f29b8d16433e2498
+
+is a patch to this https://github.com/ryanhugh/searchneu/commit/20984ff4f58172ea0f014f2a876f1af25a5529ce
