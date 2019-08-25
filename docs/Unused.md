@@ -67,7 +67,7 @@ is a patch to this https://github.com/ryanhugh/searchneu/commit/20984ff4f58172ea
 
 ### Sub logo
 
-Added a sub logo below the Search NEU logo in the top left corner 
+Added a sub logo below the Search NEU logo in the top left corner and to the logo in the middle of the screen. 
 
 https://gist.github.com/ryanhugh/f92052e9274bd6f683e57104d766a7c4
 
