@@ -156,8 +156,8 @@ app.use((req, res, next) => {
   } else if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === 'https') {
     next();
 
-    // This is development mode
-  } else if (macros.DEV) {
+    // This is not prod
+  } else if (!macros.PROD) {
     next();
 
     // This is prod and still on http, redirect to https.
@@ -811,7 +811,7 @@ app.use((err, req, res, next) => { //eslint-disable-line no-unused-vars
 let port;
 if (macros.PROD || macros.DEV) {
   port = 5000;
-} else if(macros.TEST) {
+} else if (macros.TEST) {
   port = 6000;
 }
 
@@ -843,3 +843,6 @@ app.listen(port, '0.0.0.0', (err) => {
 
   macros.log(`Listening on port ${port}.`);
 });
+
+
+export default app;
