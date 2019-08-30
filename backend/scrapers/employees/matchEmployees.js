@@ -13,7 +13,6 @@ import path from 'path';
 import macros from '../../macros';
 import neuEmployees from './employees';
 import ccisFaculty from './ccis';
-import coeFaculty from './coe';
 import csshFaculty from './cssh';
 import camdFaculty from './camd';
 
