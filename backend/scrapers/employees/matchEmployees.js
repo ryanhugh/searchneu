@@ -13,7 +13,6 @@ import path from 'path';
 import macros from '../../macros';
 import neuEmployees from './employees';
 import ccisFaculty from './ccis';
-import coeFaculty from './coe';
 import csshFaculty from './cssh';
 import camdFaculty from './camd';
 
@@ -104,7 +103,7 @@ class CombineCCISandEmployees {
 
 
   async main(peopleLists) {
-    peopleLists = await Promise.all([neuEmployees.main(), ccisFaculty.main(), coeFaculty.main(), csshFaculty.main(), camdFaculty.main()]);
+    peopleLists = await Promise.all([neuEmployees.main(), ccisFaculty.main(), csshFaculty.main(), camdFaculty.main()]);
 
     const mergedPeopleList = [];
 

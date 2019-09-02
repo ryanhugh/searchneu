@@ -1,4 +1,4 @@
-# Unfinished features/scrapers
+# Unfinished features
 
 These files were created a while ago for some feature but were never finished or haven't been used in a long time. 
 If we ever want to add them back, we can copy them from here.
@@ -10,6 +10,8 @@ At one point, we were going to add support for northeastern to semesterly with t
 
 https://github.com/noahpresler/semesterly/pull/1041
 https://github.com/ryanhugh/searchneu/blob/a8fc0b442807346523889ac3fe9a3638169a715f/backend/scrapers/classes/processors/semesterly.js
+
+In order to install the code in Semesterly, Search NEU was published to npm here (https://www.npmjs.com/package/searchneu). The deployment code was in .travis.yml and there was some semver code at the bottom of travis_deploy.sh. This code has all be removed. 
 
 
 
@@ -54,3 +56,19 @@ run yarn add ics when this file is used again
 This file is for this feature https://github.com/ryanhugh/searchneu/issues/61
 
 https://github.com/ryanhugh/searchneu/blob/0958ad3a2ddf72425f3e18b268e9d2dd6c945f88/backend/calendar.js
+
+
+### Spread
+
+Added the concept of points, and gave people points if they referred people and points gave people priority when getting notifications for classes. Idea abandonded a while ago, and not much work was ever done on this. 
+https://gist.github.com/ryanhugh/d2f33b87f8891fb8f29b8d16433e2498
+
+is a patch to this https://github.com/ryanhugh/searchneu/commit/20984ff4f58172ea0f014f2a876f1af25a5529ce
+
+### Sub logo
+
+Added a sub logo below the Search NEU logo in the top left corner and to the logo in the middle of the screen. 
+
+https://gist.github.com/ryanhugh/f92052e9274bd6f683e57104d766a7c4
+
+is a patch to https://github.com/ryanhugh/searchneu/commit/c0fc4c6166ba14fc29183bbcf010aa10ab06b476

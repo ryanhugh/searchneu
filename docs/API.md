@@ -17,11 +17,9 @@ https://searchneu.com/data/v2/employees.json
 
 If you have any questions or are interested in using the API let me know! I'd be happy to help and/or change some things around so it is easier to use. 
 
-Search NEU is also published as a NPM module [here!](https://www.npmjs.com/package/searchneu). This module includes all the scrapers behind Search NEU. Use this module instead of hitting the API if you want to only depend on the code behind Search NEU and don't want to rely on the site itself being up. 
-
 ### The search endpoint
 
-If you want to, you can also hit the search endpoint directly. All the calls to the search endpoint are HTTP GET requests. Please don't send more than 100 requests to the search endpoint per hour. For example:
+If you want to, you can also hit the search endpoint directly. All the calls to the search endpoint are HTTP GET requests. Please don't send more than 100 requests to the search endpoint per hour unless you've gotten permission from us. For example:
 
 ```
 https://searchneu.com/search?query=cs&termId=201810&minIndex=0&maxIndex=5
