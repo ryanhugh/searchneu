@@ -71,14 +71,16 @@ class Bannerv9Parser {
     });
 
     const terms = toKeep.map(term => {
-      renameKey(term, 'code', 'termId');
-      renameKey(term, 'description', 'text');
+      this.renameKey(term, 'code', 'termId');
+      this.renameKey(term, 'description', 'text');
       term.host = 'neu.edu';
-      const subCollege = determineSubCollegeName(term.text);
-      if (subCollege === 'undergraduate')
+      const subCollege = this.determineSubCollegeName(term.text);
+      if (subCollege === 'undergraduate') {
         term.text = term.text.replace(/ (Semester|Quarter)/, '');
-      else
+      }
+      else {
         term.subCollegeName = subCollege;
+      }
       return term;
     });
 
@@ -105,8 +107,9 @@ class Bannerv9Parser {
 
     terms.forEach(term => {
       const subjectResponse = subjectsRequests.shift();
-      if (subjectResponse.statusCode !== 200)
+      if (subjectResponse.statusCode !== 200) {
         macros.error('Problem with request for subjects' + subjectResponse.request.uri.href);
+      }
       subjectResponse.body.forEach(subjectData => {
         allSubjects.push({
           subject: subjectData.code,
@@ -245,30 +248,32 @@ class Bannerv9Parser {
     const output = await this.main('https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?offset=1&max=200&searchTerm=');
     macros.log(output);
   }
-}
 
-// mutates the object directly
-// renameKey({old: 5}, 'old', 'name') -> {name: 5}
-function renameKey(obj, old, name) {
-  obj[name] = obj[old];
-  delete obj[old];
-}
 
-/**
- * "Spring 2019 Semester" -> "undergraduate"
- * "Spring 2019 Law Quarter" -> "LAW"
- * "Spring 2019 CPS Quarter" -> "CPS"
- *
- * @param termDesc
- * @returns {string}
- */
-function determineSubCollegeName(termDesc) {
-  if (termDesc.includes('CPS'))
-    return 'CPS';
-  else if (termDesc.includes('Law'))
-    return 'LAW';
-  else
+  // mutates the object directly
+  // renameKey({old: 5}, 'old', 'name') -> {name: 5}
+  renameKey(obj, old, name) {
+    obj[name] = obj[old];
+    delete obj[old];
+  }
+
+  /**
+   * "Spring 2019 Semester" -> "undergraduate"
+   * "Spring 2019 Law Quarter" -> "LAW"
+   * "Spring 2019 CPS Quarter" -> "CPS"
+   *
+   * @param termDesc
+   * @returns {string}
+   */
+  determineSubCollegeName(termDesc) {
+    if (termDesc.includes('CPS')) {
+      return 'CPS';
+    }
+    if (termDesc.includes('Law')) {
+      return 'LAW';
+    }
     return 'undergraduate';
+  }
 }
 
 Bannerv9Parser.prototype.Bannerv9Parser = Bannerv9Parser;

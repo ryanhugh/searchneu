@@ -82,7 +82,7 @@ function mmddyyyyToDaysSinceEpoch(mmddyyyy) {
    * moment is in GMT, epoch is in UTC, apparently those are the same.
    * 864,000 seconds per day
    */
-  return parseInt(moment(mmddyyyy, 'MM/DD/YYYY').unix() / 86400);
+  return parseInt(moment(mmddyyyy, 'MM/DD/YYYY').unix() / 86400, 10);
 }
 
 
