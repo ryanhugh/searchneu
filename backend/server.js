@@ -22,7 +22,7 @@ import Request from './scrapers/request';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 import notifyer from './notifyer';
-import Updater from './updater';
+// import Updater from './updater';
 import database from './database';
 
 // This file manages every endpoint in the backend
