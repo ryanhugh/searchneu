@@ -6,11 +6,10 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import { errors } from '@elastic/elasticsearch';
 import _ from 'lodash';
 import macros from '../../macros';
 import mapping from './employeeMapping.json';
-import Elastic, { EMPLOYEE_INDEX } from '../../elastic';
+import elastic from '../../elastic';
 
 // Creates the search index for employees
 
@@ -20,9 +19,9 @@ class SearchIndex {
     const employeeMap = _.mapValues(employeeDump, (employee) => {
       return { employee: employee, type: 'employee' };
     });
-    await Elastic.resetIndex(EMPLOYEE_INDEX, mapping);
+    await elastic.resetIndex(elastic.EMPLOYEE_INDEX, mapping);
     macros.log('performing bulk insert to index employees');
-    await Elastic.bulkIndexFromMap(EMPLOYEE_INDEX, employeeMap);
+    await elastic.bulkIndexFromMap(elastic.EMPLOYEE_INDEX, employeeMap);
     macros.log('indexed employees');
   }
 }

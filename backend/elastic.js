@@ -8,10 +8,14 @@ import { Client } from '@elastic/elasticsearch';
 import _ from 'lodash';
 
 const client = new Client({ node: 'http://localhost:9200' });
-export const CLASS_INDEX = 'classes';
-export const EMPLOYEE_INDEX = 'employees';
 
 class Elastic {
+  constructor() {
+    // Because we export an instance of this class, put the constance on the instance.
+    this.CLASS_INDEX = 'classes';
+    this.EMPLOYEE_INDEX = 'employees';
+  }
+
   async isConnected() {
     try {
       await client.ping();
@@ -106,7 +110,7 @@ class Elastic {
    */
   async search(query, termId, min, max) {
     const searchOutput = await client.search({
-      index: `${EMPLOYEE_INDEX},${CLASS_INDEX}`,
+      index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
       from: min,
       size: max - min,
       body: {

@@ -5,7 +5,7 @@
 
 import _ from 'lodash';
 
-import Elastic, { CLASS_INDEX } from './elastic';
+import elastic from './elastic';
 
 import classesScrapers from './scrapers/classes/main';
 
@@ -119,7 +119,7 @@ class Updater {
     macros.log('watching classes ', classHashes);
 
     // Get the old data for watched classes
-    const esOldDocs = await Elastic.getMapFromIDs(CLASS_INDEX, classHashes);
+    const esOldDocs = await elastic.getMapFromIDs(elastic.CLASS_INDEX, classHashes);
 
     const oldWatchedClasses = _.mapValues(esOldDocs, (doc) => { return doc.class; });
     const oldWatchedSections = {};
@@ -299,7 +299,7 @@ class Updater {
         sections: associatedSections,
       };
     }
-    await Elastic.bulkUpdateFromMap(CLASS_INDEX, classMap);
+    await elastic.bulkUpdateFromMap(elastic.CLASS_INDEX, classMap);
 
 
     // Loop through the messages and send them.

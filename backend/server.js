@@ -16,7 +16,7 @@ import moment from 'moment';
 import xhub from 'express-x-hub';
 import atob from 'atob';
 import _ from 'lodash';
-import Elastic, { CLASS_INDEX } from './elastic';
+import elastic from './elastic';
 
 import Request from './scrapers/request';
 import webpackConfig from './webpack.config.babel';
@@ -169,7 +169,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/search', wrap(async (req, res) => {
-  if (macros.DEV && !await Elastic.isConnected()) {
+  if (macros.DEV && !await elastic.isConnected()) {
     const fromProd = await request.get(`https://searchneu.com${req.originalUrl}`);
     res.send(fromProd.body);
     macros.log('In dev mode and Elasticsearch not available. Hitting production search API endpoint');
@@ -210,7 +210,7 @@ app.get('/search', wrap(async (req, res) => {
     return;
   }
 
-  const { searchContent, took, resultCount } = await Elastic.search(req.query.query, req.query.termId, req.query.minIndex, req.query.maxIndex);
+  const { searchContent, took, resultCount } = await elastic.search(req.query.query, req.query.termId, req.query.minIndex, req.query.maxIndex);
   const midTime = Date.now();
 
   let string;
@@ -251,7 +251,7 @@ app.get('/webhook/', (req, res) => {
 
 async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   macros.log('Got opt in button click!', b64ref);
-  if (macros.DEV && !await Elastic.isConnected()) {
+  if (macros.DEV && !await elastic.isConnected()) {
     macros.log('In dev mode and Elasticsearch not available. Class watching does not work');
     return;
   }
@@ -291,7 +291,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   let existingData = await firebaseRef.once('value');
   existingData = existingData.val();
 
-  const aClass = (await Elastic.get(CLASS_INDEX, userObject.classHash)).class;
+  const aClass = (await elastic.get(elastic.CLASS_INDEX, userObject.classHash)).class;
 
   // User is signing in from a new device
   if (existingData) {
