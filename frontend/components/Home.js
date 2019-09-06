@@ -55,7 +55,15 @@ const OLD_TERMS = [
 // The lastest term - Fall 2019
 const LATEST_TERM = '202010';
 
-const SHOW_SUBMIT_EMAIL = false;
+const ATTENTION_SECTION = {
+  email: 'email',
+  getInvolved: 'getInvolved',
+  none: 'none',
+};
+
+const attentionSectionMode = ATTENTION_SECTION.none;
+
+// const SHOW_SUBMIT_EMAIL = false;
 
 
 // Home page component
@@ -513,8 +521,13 @@ class Home extends React.Component {
     // Don't animate anything on mobile.
     // and set the second state of the animations if there is something in the text box.
     if (!macros.isMobile && this.state.searchQuery.length !== 0) {
-      // topHeaderStyle.transform = 'translateY(-50%) translateY(230px)';
-      topHeaderStyle.transform = 'translateY(-50%) translateY(292px)';
+      // If the attension section is not active, translate less.
+      if (attentionSectionMode === ATTENTION_SECTION.none) {
+        topHeaderStyle.transform = 'translateY(-50%) translateY(230px)';
+      } else {
+        topHeaderStyle.transform = 'translateY(-50%) translateY(292px)';
+      }
+
       resultsContainerStyle.transform = `translateY(-${window.innerHeight - 310}px)`;
 
       // Without this line, there would be a lot of whitespace after the results.
@@ -561,10 +574,10 @@ class Home extends React.Component {
     ];
 
 
-    let attentionSection;
+    let attentionSection = null;
     const actionCenterStyle = { opacity: wantToHelpOpacity, visibility:(wantToHelpOpacity === 0) ? 'hidden' : '' };
 
-    if (!SHOW_SUBMIT_EMAIL) {
+    if (attentionSectionMode === ATTENTION_SECTION.getInvolved) {
       attentionSection = (
         <div style={ actionCenterStyle } className='atentionContainer'>
           <p className='helpFistRow'>
@@ -580,7 +593,7 @@ class Home extends React.Component {
           </p>
         </div>
       );
-    } else {
+    } else if (attentionSectionMode === ATTENTION_SECTION.email) {
       attentionSection = (<EmailInput containerStyle={ actionCenterStyle } />);
     }
 
