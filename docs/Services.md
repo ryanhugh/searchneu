@@ -41,6 +41,10 @@ Used to keep track of user sessions over time, and some other stuff.
   
 Used to get very detailed insights of what users do on the site. Great for fixing small bugs and making optimizations. Sometimes it is on, other times it is turned off. 
 
+### Datadog
+
+Used to monitor some system metrics. We could use it for other metrics too. It looks like it can do everything Amplitude can do and more (including alerts and much finer granularity - which we could use for monitoring scraping).
+
 ### Facebook
 
 Manages the Search NEU Facebook bot. http://m.me/searchneu Also the Search NEU page. http://fb.com/searchneu
@@ -82,6 +86,10 @@ The form for recruiting new team members.
 
 For code coverage 
 https://coveralls.io/github/ryanhugh/searchneu
+
+
+
+Things that we could add:
 
 
 

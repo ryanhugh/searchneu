@@ -92,19 +92,21 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
   # if renewal is successful, restart nginx
   # Hooks will only be run if a certificate is due for renewal and the deploy-hook will only run if renewal is successful.
   # https://certbot.eff.org/docs/using.html#pre-and-post-validation-hooks
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'sudo certbot renew --deploy-hook "sudo service nginx restart"'
+  ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'sudo certbot renew --deploy-hook "sudo service nginx restart"'
 
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git reset --hard'
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git pull'
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git checkout prod'
+  ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'cd searchneu; git reset --hard'
+  ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'cd searchneu; git pull'
+  ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'cd searchneu; git checkout prod'
 
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; mkdir -p public'
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; mkdir -p dist'
+  ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'cd searchneu; mkdir -p public'
+  ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'cd searchneu; mkdir -p dist'
 
-  scp -o StrictHostKeyChecking=no -r public/* ubuntu@34.225.112.42:~/searchneu/public
-  scp -o StrictHostKeyChecking=no -r dist/* ubuntu@34.225.112.42:~/searchneu/dist
+  scp -o StrictHostKeyChecking=no -r public/* ubuntu@3.214.162.230:~/searchneu/public
+  scp -o StrictHostKeyChecking=no -r dist/* ubuntu@3.214.162.230:~/searchneu/dist
 
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; yarn; npm run start_prod'
+  # Take down the server while the re-index is running so users's don't get invalid or incomplete data.
+  # Taking down the server isn't idea, but its better than caches (both on our side and the user's side) getting invalid or incomplete data.
+  ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'cd searchneu; npm run stop_prod; yarn; npm run index; npm run start_prod'
 
   # Tell Rollbar about the deploy
   ACCESS_TOKEN=$ROLLBAR_TOKEN

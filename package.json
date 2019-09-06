@@ -6,6 +6,7 @@
     "start": "./node_modules/.bin/cross-env NODE_ENV=dev babel-node backend/server.js",
     "scrape": "babel-node --max_old_space_size=12000 backend/scrapers/main.js",
     "scrape_classes": "babel-node --max_old_space_size=12000 backend/scrapers/classes/main.js",
+    "index": "babel-node backend/scrapers/classes/searchIndex.js; babel-node backend/scrapers/employees/searchIndex.js",
     "script": "cd $INIT_CWD; babel-node --root-mode upward --ignore \".this_does_not_exit\"",
     "inspect": "cd $INIT_CWD;echo 'Open chrome://inspect in chrome and hit the node button';npm run -s script -- --inspect-brk",
     "-linting-": "--------linting--------",
@@ -21,10 +22,11 @@
     "coverage": "./node_modules/jest-cli/bin/jest.js --coverage",
     "-building-": "--------building--------",
     "build_frontend": "mkdir -p public; cp frontend/static/* public/; ./node_modules/.bin/cross-env NODE_ENV=prod babel-node ./node_modules/webpack/bin/webpack.js --config ./backend/webpack.config.babel.js --colors",
-    "build_backend": "mkdir -p dist; mkdir -p dist/backend; ./node_modules/@babel/cli/bin/babel.js backend -d dist/backend; ./node_modules/@babel/cli/bin/babel.js common -d dist/common",
+    "build_backend": "mkdir -p dist; mkdir -p dist/backend; ./node_modules/@babel/cli/bin/babel.js backend -d dist/backend --copy-files; ./node_modules/@babel/cli/bin/babel.js common -d dist/common",
     "build": "npm run -s build_backend; npm run -s build_frontend",
     "-deployment-": "--------deployment--------",
-    "start_prod": "./node_modules/forever/bin/forever stopall; NODE_ENV=prod ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start dist/backend/startup.js"
+    "stop_prod": "./node_modules/forever/bin/forever stopall",
+    "start_prod": "npm run -s stop_prod; NODE_ENV=prod ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start dist/backend/startup.js"
   },
   "repository": {
     "type": "git",
@@ -66,6 +68,7 @@
   "dependencies": {
     "@babel/plugin-transform-arrow-functions": "^7.2.0",
     "@babel/register": "^7.0.0",
+    "@elastic/elasticsearch": "^7.0.0-rc.2",
     "amplitude": "^4.0.0",
     "async": "^2",
     "atob": "^2.0.3",
@@ -81,7 +84,6 @@
     "cross-env": "^5.0.0",
     "dnscache": "^1.0.1",
     "domutils": "^1.6.2",
-    "elasticlunr": "^0.9.5",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
     "enzyme-to-json": "^3.3.5",
