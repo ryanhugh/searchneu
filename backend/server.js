@@ -39,7 +39,8 @@ const app = express();
 const fbAppSecret = macros.getEnvVariable('fbAppSecret');
 
 // Start updater interval
-Updater.create();
+// TODO: FIX!!!!!!
+// Updater.create();
 
 // Verify that the webhooks are coming from facebook
 // This needs to be above bodyParser for some reason
