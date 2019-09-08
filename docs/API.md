@@ -9,8 +9,8 @@ All the data used on the site is available to download! There are two different 
 Usage of this API must follows the same license of the rest of this codebase. See the LICENSE file for more info.
 
 ### Class data links
-https://searchneu.com/data/v2/getTermDump/neu.edu/201810.json (Fall 2017)  
-https://searchneu.com/data/v2/getTermDump/neu.edu/201830.json (Spring 2018)  
+https://searchneu.com/data/v2/getTermDump/neu.edu/201930.json (Spring 2019)  
+https://searchneu.com/data/v2/getTermDump/neu.edu/202010.json (Fall 2019)  
 
 ### Employee data link
 https://searchneu.com/data/v2/employees.json
