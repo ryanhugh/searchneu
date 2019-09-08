@@ -593,8 +593,11 @@ app.post('/submitFeedback', wrap(async (req, res) => {
   // In order to send Ryan a FB message with this ID you would need the secret key for the Search NEU page
   const response = await notifyer.sendFBNotification('1397905100304615', message);
 
-  if (response.error) {
-    macros.log(response.error);
+  // Also send a message to Da-Jin
+  const response2 = await notifyer.sendFBNotification('2289421987761573', message);
+
+  if (response.error || response2.error) {
+    macros.log(response.error, response2.error);
     res.send(JSON.stringify({
       error: 'Error.',
     }));
