@@ -113,8 +113,8 @@ class Updater {
     }
 
     // Remove duplicates. This will occur if multiple people are watching the same class.
-    classHashes = _.uniq(classHashes);
-    sectionHashes = _.uniq(sectionHashes);
+    classHashes = _(classHashes).uniq().compact();
+    sectionHashes = _(sectionHashes).uniq().compact();
 
     macros.log('watching classes ', classHashes);
 
