@@ -96,7 +96,9 @@ class Elastic {
       },
     });
     return got.body.docs.reduce((result, doc) => {
-      result[doc._id] = doc._source;
+      if (doc.found) {
+        result[doc._id] = doc._source;
+      }
       return result;
     }, {});
   }
