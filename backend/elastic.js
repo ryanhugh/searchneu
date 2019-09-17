@@ -121,33 +121,33 @@ class Elastic {
         query: {
           function_score: {
             query: {
-		          bool: {
-		            must: {
-		              multi_match: {
-		                query: query,
-		                type: 'most_fields', // More fields match => higher score
-		                fields: [
-		                  'class.name^2', // Boost by 2
-		                  'class.name.autocomplete',
-		                  'class.subject^3',
-		                  'class.classId^2',
-		                  'sections.meetings.profs',
-		                  'class.crns',
-		                  'employee.name^2',
-		                  'employee.emails',
-		                  'employee.phone',
-		                ],
-		              },
-		            },
-		            filter: {
-		              bool: {
-		                should: [
-		                  { term: { 'class.termId': termId } },
-		                  { term: { type: 'employee' } },
-		                ],
-		              },
-		            },
-		          },
+              bool: {
+                must: {
+                  multi_match: {
+                    query: query,
+                    type: 'most_fields', // More fields match => higher score
+                    fields: [
+                      'class.name^2', // Boost by 2
+                      'class.name.autocomplete',
+                      'class.subject^3',
+                      'class.classId^2',
+                      'sections.meetings.profs',
+                      'class.crns',
+                      'employee.name^2',
+                      'employee.emails',
+                      'employee.phone',
+                    ],
+                  },
+                },
+                filter: {
+                  bool: {
+                    should: [
+                      { term: { 'class.termId': termId } },
+                      { term: { type: 'employee' } },
+                    ],
+                  },
+                },
+              },
             },
             functions: [
               {
