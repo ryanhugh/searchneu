@@ -15,7 +15,6 @@ import ccisFaculty from './ccis';
 import csshFaculty from './cssh';
 import camdFaculty from './camd';
 
-import searchIndex from './searchIndex';
 
 // This file combines the data from the ccis website and the NEU Employees site
 // If there is a match, the data from the ccis site has priority over the data from the employee site.
@@ -374,8 +373,6 @@ class CombineCCISandEmployees {
     const employeeDump = _.keyBy(mergedEmployees, 'id');
 
     await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeDump.json'), JSON.stringify(employeeDump));
-
-    await searchIndex.main(employeeDump);
 
     return mergedEmployees;
   }
