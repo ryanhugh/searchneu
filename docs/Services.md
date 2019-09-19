@@ -4,7 +4,7 @@ Search NEU uses the folling 3rd party services. The site depends on most of thes
 
 ### Amazon AWS
 
-For running the server on an EC2 instance. Costs $10 a month for 1CPU 1GB ram server. 
+For running the server on an EC2 instance. Costs $20 a month for 1CPU 2GB ram server (t2.small). 
 
 ### Amplitude
 
@@ -91,14 +91,6 @@ The form for recruiting new team members.
 
 For code coverage 
 https://coveralls.io/github/ryanhugh/searchneu
-
-
-
-Things that we could add:
-
-
-
-
 
 
 
