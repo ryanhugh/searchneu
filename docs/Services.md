@@ -36,10 +36,15 @@ Right now (5/29/19), the following graphs are on Amplitude:
  ### Google Analytics
  
 Used to keep track of user sessions over time, and some other stuff. 
+
+### Google Search Console
+
+Used to keep track of the sites performance in Google search results. Can tell you which queries brought up searchneu.com, and which position searchneu.com was. 
+https://search.google.com/search-console
   
- ### Fullstory
+### Fullstory
   
-Used to get very detailed insights of what users do on the site. Great for fixing small bugs and making optimizations. Sometimes it is on, other times it is turned off. 
+Used to get very detailed insights of what users do on the site. Great for fixing small bugs and making optimizations. We exceed the monthly free limit in just a few days, so it is often disabled (either due ot limit exceeded or just manually disabled).
 
 ### Datadog
 
