@@ -59,6 +59,8 @@ Used to monitor some system metrics. We could use it for other metrics too. It l
 
 Manages the Search NEU Facebook bot. http://m.me/searchneu Also the Search NEU page. http://fb.com/searchneu
 
+Note that Facebook authentication is tied to people's personal Facebook accounts, and not emails. Also the roles for managing the Facebook page (https://www.facebook.com/searchneu/settings/?tab=admin_roles) and the app (https://developers.facebook.com/apps/1979224428978082/roles/roles/) are totally separate. 
+
 ### Firebase
 
 Stores data about users. If you sign up for notifications for when seats open up, your data (who you are, what classes you are watching) is stored in firebase. 
