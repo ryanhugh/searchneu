@@ -41,6 +41,11 @@ Used to keep track of user sessions over time, and some other stuff.
 
 Used to keep track of the sites performance in Google search results. Can tell you which queries brought up searchneu.com, and which position searchneu.com was. 
 https://search.google.com/search-console
+
+### Bing Search Console
+
+Its like Google search but without the Google part. Do people actually use it? ...not sure. I can say I did make an account on here a while ago...
+https://www.bing.com/webmaster/home/dashboard/?url=https://searchneu.com/
   
 ### Fullstory
   
@@ -77,7 +82,7 @@ Manages errors in the frontend and the backend. Will send off emails if things b
 
 ### Github
 
-For the code. 
+What's Github? never heard of it.. 🤔
 
 ### Lets Encrypt
 
