@@ -152,7 +152,7 @@ class Elastic {
             functions: [
               {
                 filter: { 
-                  terms: { 'class.scheduleType.keyword': [ 'Lab', 'Recitation/Discussion', 'Seminar' ] },
+                  terms: { 'class.scheduleType.keyword': ['Lab', 'Recitation/Discussion', 'Seminar'] },
                 },
                 weight: 0.1,
               },
