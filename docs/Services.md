@@ -70,6 +70,8 @@ Stores data about users. If you sign up for notifications for when seats open up
 Runs CI for the site. Also, the scrapers run on Travis once per day and re-scrape everything. 
 https://travis-ci.org/ryanhugh/searchneu/builds
 
+Authentication for Travis CI mirrors your authentication on this Github repo - if you have push access to this repo you should be able to start/cancel/restart jobs on Travis, etc
+
 ### Gandi
 
 The domain. https://www.gandi.net/en
