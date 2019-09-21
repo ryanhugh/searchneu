@@ -4,7 +4,6 @@
  */
 
 import mkdirp from 'mkdirp-promise';
-import elasticlunr from 'elasticlunr';
 import _ from 'lodash';
 import objectHash from 'object-hash';
 import fs from 'fs-extra';
@@ -15,6 +14,7 @@ import neuEmployees from './employees';
 import ccisFaculty from './ccis';
 import csshFaculty from './cssh';
 import camdFaculty from './camd';
+
 
 // This file combines the data from the ccis website and the NEU Employees site
 // If there is a match, the data from the ccis site has priority over the data from the employee site.
@@ -288,21 +288,6 @@ class CombineCCISandEmployees {
       peopleListIndex++;
     }
 
-    // This file is just used for debugging. Used to see which profiles are going to be merged with which other profiles.
-    if (macros.DEV) {
-      const toSave = [];
-
-      mergedPeopleList.forEach((item) => {
-        if (item.matches.length > 1) {
-          toSave.push(item);
-        }
-      });
-
-      await mkdirp(macros.PUBLIC_DIR);
-      await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMatches.json'), JSON.stringify(toSave, null, 4));
-    }
-
-
     let mergedEmployees = [];
 
 
@@ -380,75 +365,14 @@ class CombineCCISandEmployees {
 
     macros.log(`Changed/Removed ${beforeModifyCount - mergedEmployees.length} person(s) from the employee list.`);
 
-
-    // Save the file
+    // Save the array to disk for the employees API.
     await mkdirp(macros.PUBLIC_DIR);
     await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employees.json'), JSON.stringify(mergedEmployees, null, 4));
 
+    // Turn it into a hashmap instead of a list for the dump
+    const employeeDump = _.keyBy(mergedEmployees, 'id');
 
-    // Create a map so the frontend is faster
-    const employeeMap = {};
-    mergedEmployees.forEach((person) => {
-      if (!person.id) {
-        macros.error('Error, need id to make map!', person);
-      }
-      if (employeeMap[person.id]) {
-        macros.error('Error, duplicate id!', person.id);
-      }
-      employeeMap[person.id] = person;
-    });
-
-
-    // And save that too
-    await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeMap.json'), JSON.stringify(employeeMap));
-
-
-    // Make a search index
-    const index = elasticlunr();
-    index.saveDocument(false);
-
-    index.setRef('id');
-    index.addField('name');
-    index.addField('phone');
-    index.addField('emails');
-
-    // Enable in search.js if this is enabled again.
-    // index.addField('officeRoom');
-    index.addField('primaryRole');
-    index.addField('primaryDepartment');
-    index.saveDocument(false);
-
-    mergedEmployees.forEach((row) => {
-      const docToIndex = {};
-      Object.assign(docToIndex, row);
-
-      // If their middle name is one character (not including symbols), don't add it to the search index.
-      // This prevents profs like Stacy C. Marsella from coming up when you type in [C]
-      // First, remove the first and last names and toLowerCase()
-      // Remove the middle name from the name to index if the middle name (not including symbols) is 1 or 0 characters.
-      docToIndex.name = macros.stripMiddleName(row.name, true, row.firstName, row.lastName);
-
-      if (docToIndex.emails) {
-        for (let i = 0; i < docToIndex.emails.length; i++) {
-          // Remove the @northeastern.edu and @neu.edu from the index to prevent indexing unnecessary stuff.
-          if (docToIndex.emails[i].endsWith('northeastern.edu')) {
-            docToIndex.emails[i] = docToIndex.emails[i].slice(0, docToIndex.emails[i].indexOf('@northeastern.edu'));
-          }
-
-          if (docToIndex.emails[i].endsWith('neu.edu')) {
-            docToIndex.emails[i] = docToIndex.emails[i].slice(0, docToIndex.emails[i].indexOf('@neu.edu'));
-          }
-        }
-
-        docToIndex.emails = docToIndex.emails.join(' ');
-      }
-
-      index.addDoc(docToIndex);
-    });
-
-
-    await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeesSearchIndex.json'), JSON.stringify(index.toJSON()));
-    macros.log('wrote employee json files');
+    await fs.writeFile(path.join(macros.PUBLIC_DIR, 'employeeDump.json'), JSON.stringify(employeeDump));
 
     return mergedEmployees;
   }

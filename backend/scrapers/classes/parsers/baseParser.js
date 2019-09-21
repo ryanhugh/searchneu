@@ -219,6 +219,16 @@ class BaseParser {
     return null;
   }
 
+  // gets the class type. This is one of:
+  // Lecture, Seminar, Lab, Recitation/Discussion, Off-Campus Instruction, Individual Instruction
+  parseScheduleType(text) {
+    let scheduleType = text.match(/(Schedule Types: )(.*)/i);
+    if (scheduleType) {
+      scheduleType = scheduleType[2].trim();
+    }
+    return scheduleType;
+  }
+
   // gets the course Attributes. If course attributes don't exist, return null
   // String -> [Maybe String]
   parseCourseAttr(text) {
