@@ -28,7 +28,7 @@ class SearchResultsParser {
    * https://jennydaman.gitlab.io/nubanned/dark.html#studentregistrationssb-search-get
    * @returns an object that conforms to the SearchNEU backend mergedOutput.sections structure
    */
-  async allSectionDetails(searchResultsFromXE) {
+  async requestAllSectionDetails(searchResultsFromXE) {
     const crn = searchResultsFromXE.courseReferenceNumber;
     const termId = searchResultsFromXE.term;
 
@@ -282,7 +282,7 @@ class SearchResultsParser {
       subject: 'MATH',
       classId: '1341',
     };
-    const data = await this.allSectionDetails(math1341);
+    const data = await this.requestAllSectionDetails(math1341);
     macros.log(data);
     return data.honors === false && data.online === true;
   }

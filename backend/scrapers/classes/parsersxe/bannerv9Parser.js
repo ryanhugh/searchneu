@@ -3,7 +3,6 @@
  * See the license file in the root folder for details.
  *
  * WIP
- * TODO: PIPELINE
  */
 
 import moment from 'moment';
@@ -13,7 +12,7 @@ import cache from '../../cache';
 import macros from '../../../macros';
 import Request from '../../request';
 import EllucianTermsParser from '../parsers/ellucianTermsParser';
-import allSectionDetails from './searchResultsParser';
+import SearchResultsParser from './searchResultsParser';
 
 const request = new Request('bannerv9Parser');
 
@@ -39,10 +38,10 @@ class Bannerv9Parser {
   // }
 
   // This method that
-  async main(url) {
+  async main(termsUrl) {
     // Possibly load from DEV
     if (macros.DEV && require.main !== module) {
-      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, url);
+      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, termsUrl);
       if (devData) {
         return devData;
       }
@@ -54,11 +53,11 @@ class Bannerv9Parser {
     // If you need to deal with cookies, check out scrapers/employees/employee.js
     // which gets a cookie from one page before any other requests will work
     // If you need more advanced cookie management or cookie jar stuff we could build that out somehow
-    let resp = await request.get({
-      url: url,
+    let bannerTerms = await request.get({
+      url: termsUrl,
       json: true,
     });
-    resp = resp.body;
+    bannerTerms = bannerTerms.body;
 
 
     // ========================================
@@ -66,68 +65,44 @@ class Bannerv9Parser {
     // ========================================
 
 
-    const toKeep = resp.filter((term) => {
+    let termsToKeep = bannerTerms.filter((term) => {
       return EllucianTermsParser.isValidTerm(term.code, term.description);
     });
 
-    const terms = toKeep.map(term => {
-      this.renameKey(term, 'code', 'termId');
-      this.renameKey(term, 'description', 'text');
-      term.host = 'neu.edu';
-      const subCollege = this.determineSubCollegeName(term.text);
-      if (subCollege === 'undergraduate') {
-        term.text = term.text.replace(/ (Semester|Quarter)/, '');
-      }
-      else {
-        term.subCollegeName = subCollege;
-      }
-      return term;
-    });
+    termsToKeep = termsToKeep.slice(0, 3); // DEBUG to save time
+
+    const sneuTerms = this.serializeTermsList(termsToKeep);
 
     let subjectsRequests = [];
-    let allSectionsData = [];
+    let sectionsDataPerEveryTerm = [];
 
-    toKeep.forEach((term) => {
-      const MAX = 200;
-      const subjectUrl = `https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/get_subject?searchTerm=&term=${term.termId}&offset=1&max=${MAX}`;
-      const subjectRequest = request.get({
-        url: subjectUrl,
-        json: true,
-      });
-      subjectsRequests.push(subjectRequest);
-      allSectionsData.push(this.getSectionsFromTerm(term.termId));
+    termsToKeep.forEach((term) => {
+      sectionsDataPerEveryTerm.push(this.requestsSectionsForTerm(term.termId));
+      subjectsRequests.push(this.requestSubject(term.termId));
     });
+
     subjectsRequests = await Promise.all(subjectsRequests);
-    allSectionsData = await Promise.all(allSectionsData);
+    sectionsDataPerEveryTerm = await Promise.all(sectionsDataPerEveryTerm);
 
     // TODO go through every section, add into one array, add unique classes to uniqueClasses
     const allSubjects = [];
-    const allSections = [];
+    let allSections = [];
     const uniqueClasses = [];
 
-    terms.forEach(term => {
+    sneuTerms.forEach((term) => {
       const subjectResponse = subjectsRequests.shift();
-      if (subjectResponse.statusCode !== 200) {
-        macros.error('Problem with request for subjects' + subjectResponse.request.uri.href);
-      }
-      subjectResponse.body.forEach(subjectData => {
-        allSubjects.push({
-          subject: subjectData.code,
-          text: subjectData.description,
-          termId: term.termId,
-          host: term.host,
-        });
-      });
+      allSubjects.concat(this.serializeSubjectListRequest(subjectResponse, term));
     });
 
-    allSectionsData.forEach(allSectionsFromTerm => {
-      allSectionsFromTerm.forEach(searchResultsFromXE => {
+    sectionsDataPerEveryTerm.forEach((allSectionsFromTerm) => {
+      allSectionsFromTerm.forEach((searchResultsFromXE) => {
         // searchResultsFromXE is this JSON object
         // https://jennydaman.gitlab.io/nubanned/dark.html#studentregistrationssb-search-get
-        allSections.push(allSectionDetails(searchResultsFromXE));
+        allSections.push(SearchResultsParser.requestAllSectionDetails(searchResultsFromXE));
       });
     });
 
+    allSections = await Promise.all(allSections);
 
     // TOD: Run any other parsers you want to run
     // All of the other existing parsers run 0 or 1 other parsers, but you can run any number
@@ -145,28 +120,48 @@ class Bannerv9Parser {
           url: 'neu.edu',
         },
       ],
-      terms: terms,
+      terms: sneuTerms,
       subjects: allSubjects,
       classes: uniqueClasses,
       sections: allSections,
     };
-    // macros.log(mergedOutput);
-
+    macros.log(mergedOutput);
     // Possibly save the mergedOutput to disk so we don't have to run all this again
     if (macros.DEV && require.main !== module) {
-      await cache.set(macros.DEV_DATA_DIR, this.constructor.name, url, mergedOutput);
+      await cache.set(macros.DEV_DATA_DIR, this.constructor.name, termsUrl, mergedOutput);
       // Don't log anything because there would just be too much logging.
     }
 
     return 'end of bannerv9Parser';
   }
 
+  // Just a convient test method, if you want to
+  async test() {
+    const output = await this.main('https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?offset=1&max=200&searchTerm=');
+    macros.log(output);
+  }
+
+  serializeTermsList(termsFromBanner) {
+    return termsFromBanner.map((term) => {
+      this.renameKey(term, 'code', 'termId');
+      this.renameKey(term, 'description', 'text');
+      term.host = 'neu.edu';
+      const subCollege = this.determineSubCollegeName(term.text);
+      if (subCollege === 'undergraduate') {
+        term.text = term.text.replace(/ (Semester|Quarter)/, '');
+      } else {
+        term.subCollegeName = subCollege;
+      }
+      return term;
+    });
+  }
+
   /**
    * Gets information about all the sections from the given term code.
    * @param termCode
-   * @returns {Promise<Array>}
+   * @return {Promise<Array>}
    */
-  async getSectionsFromTerm(termCode) {
+  async requestsSectionsForTerm(termCode) {
     // first, get the cookies
     // https://jennydaman.gitlab.io/nubanned/dark.html#studentregistrationssb-clickcontinue-post
     const clickContinue = await request.post({
@@ -181,7 +176,9 @@ class Bannerv9Parser {
       cache: false,
     });
 
-    if (clickContinue.body.regAllowed === false) macros.error(`failed to get cookies (from clickContinue) for the term ${termCode}`, clickContinue);
+    if (clickContinue.body.regAllowed === false) {
+      macros.error(`failed to get cookies (from clickContinue) for the term ${termCode}`, clickContinue);
+    }
 
     const cookiejar = request.jar();
     clickContinue.headers['set-cookie'].forEach((cookie) => {
@@ -237,16 +234,35 @@ class Bannerv9Parser {
     sectionsPool = await Promise.all(sectionsPool);
     let allSections = [];
     sectionsPool.forEach((chunk) => {
-      if (chunk.body.success === false) macros.error(`one of the searchResults requests for ${termCode} was unsuccessful`, chunk);
+      if (chunk.body.success === false) {
+        macros.error(`one of the searchResults requests for ${termCode} was unsuccessful`, chunk);
+      }
       allSections = allSections.concat(chunk.body.data);
     });
     return allSections;
   }
 
-  // Just a convient test method, if you want to
-  async test() {
-    const output = await this.main('https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?offset=1&max=200&searchTerm=');
-    macros.log(output);
+
+  requestSubject(termId) {
+    const MAX = 200;
+    const URL = 'https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/get_subject';
+    const subjectUrl = `${URL}?searchTerm=&term=${termId}&offset=1&max=${MAX}`;
+    return request.get({
+      url: subjectUrl,
+      json: true,
+    });
+  }
+
+  serializeSubjectListRequest(subjectResponse, term) {
+    if (subjectResponse.statusCode !== 200) {
+      macros.error(`Problem with request for subjects ${subjectResponse.request.uri.href}`);
+    }
+    return subjectResponse.body.map((subjectData) => ({
+      subject: subjectData.code,
+      text: subjectData.description,
+      termId: term.termId,
+      host: term.host,
+    }));
   }
 
 
