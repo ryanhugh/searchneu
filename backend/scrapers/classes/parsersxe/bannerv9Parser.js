@@ -60,10 +60,10 @@ class Bannerv9Parser {
     // my code starts here
     // ========================================
 
-    const termsToKeep = bannerTerms.filter((term) => {
+    let termsToKeep = bannerTerms.filter((term) => {
       return EllucianTermsParser.isValidTerm(term.code, term.description);
     });
-    // termsToKeep = termsToKeep.slice(0, 3); // DEBUG to save time
+    //termsToKeep = termsToKeep.slice(0, 3); // DEBUG to save time
 
     const sneuTerms = this.serializeTermsList(termsToKeep);
 
@@ -98,7 +98,8 @@ class Bannerv9Parser {
 
     // let outputFromOtherParsers = await someOtherParser.main(urlOrSomeData);
 
-    const uniqueClasses = await this.collapseSameCourses(allSections);
+    const subjectAbbreviationTable = SearchResultsParser.createSubjectsAbbreviationTable(allSubjects);
+    const uniqueClasses = await this.collapseSameCourses(allSections, subjectAbbreviationTable);
     allSections.forEach(details => SearchResultsParser.stripSectionDetails(details));
 
     const mergedOutput = {
@@ -261,7 +262,7 @@ class Bannerv9Parser {
    * with a list of offered CRNs corresponding to each separate section.
    * @param sections large array of objects that came from SearchResultsParser.mostDetails(s)
    */
-  async collapseSameCourses(sections) {
+  async collapseSameCourses(sections, subjectAbbreviationTable) {
     const table = {};
     let promisedDescriptions = [];
     const promisedHashes = [];
@@ -272,7 +273,7 @@ class Bannerv9Parser {
       if (!table[details.hash]) {
         table[details.hash] = true;
         promisedHashes.push(details.hash);
-        promisedDescriptions.push(SearchResultsParser.copySectionAsClass(details));
+        promisedDescriptions.push(SearchResultsParser.copySectionAsClass(details, subjectAbbreviationTable));
       }
     });
 
