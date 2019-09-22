@@ -76,10 +76,10 @@ class Bannerv9Parser {
     subjectsRequests = await Promise.all(subjectsRequests);
     sectionsDataPerEveryTerm = await Promise.all(sectionsDataPerEveryTerm);
 
-    const allSubjects = [];
+    let allSubjects = [];
     sneuTerms.forEach((term) => {
       const subjectResponse = subjectsRequests.shift();
-      allSubjects.concat(this.processSubjectListResponse(subjectResponse, term));
+      allSubjects = allSubjects.concat(this.processSubjectListResponse(subjectResponse, term));
     });
 
     const detailsRequests = [];
