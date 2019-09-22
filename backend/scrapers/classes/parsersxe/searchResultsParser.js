@@ -24,6 +24,10 @@ class NotFoundError extends Error {
 
 class SearchResultsParser {
   /**
+   * Gets a custom object containing details of a specified section.
+   * The result should be further processed,
+   * first by copySectionAsClass(s) and finally to stripSectionDetails(s)
+   *
    * @param sectionSearchResultsFromXE the resulting data from
    * https://jennydaman.gitlab.io/nubanned/dark.html#studentregistrationssb-search-get
    * @returns many details about the specified section:
@@ -69,7 +73,7 @@ class SearchResultsParser {
    *   termId: 202010,
    * }
    */
-  async requestMostDetails(sectionSearchResultsFromXE) {
+  async mostDetails(sectionSearchResultsFromXE) {
     const crn = sectionSearchResultsFromXE.courseReferenceNumber;
     const termId = sectionSearchResultsFromXE.term;
 
@@ -97,17 +101,17 @@ class SearchResultsParser {
       // this.getClassDetails(termId, crn) returns the long subject name (e.g. "Mathematics")
       // so it needs to be replaced with the abbreviation (e.g. "MATH")
       subject: searchResultsFromXE.subject,
+      host: 'neu.edu', // WARNING: not appending /cps OR /law
       // WARNING: this object is missing the key subCollegeName
     };
   }
 
   /**
-   * Mutates the result from requestMostDetails(s) to conform to the
+   * Mutates the result from mostDetails(s) to conform to the
    * SearchNEU mergedOutput.sections object
-   * @param sectionDetails
+   * @param sectionDetails the result from mostDetails(s)
    */
   stripSectionDetails(sectionDetails) {
-    sectionDetails.host = 'neu.edu';
     sectionDetails.url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched'
       + `?term_in=${sectionDetails.termId}&crn_in=${sectionDetails.crn}`;
     sectionDetails.honors = this.containsHonors(sectionDetails.classAttributes);
@@ -116,6 +120,39 @@ class SearchResultsParser {
     delete sectionDetails.maxCredits;
     delete sectionDetails.minCredits;
     return sectionDetails;
+  }
+
+  /**
+   * Deep copy on values from the result of mostDetails(s) to create
+   * a new object which conforms to the SearchNEU mergedOutput.classes object.
+   * Makes requests to get the course description, prereqs, and coreqs.
+   *
+   * the crns array is initialized to be empty (provided crn is not copied over)
+   *
+   * @param details the result from mostDetails(s)
+   */
+  async copySectionAsClass(details) {
+    const description = await this.getDescription(details.termId, details.crn);
+    return {
+      crns: [],
+      classAttributes: details.classAttributes,
+      // TODO
+      prereqs: null,
+      coreqs: null,
+      desc: description,
+      classId: details.classId,
+      prettyUrl: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?'
+        + `cat_term_in=${details.termId}&subj_code_in=${details.subject}&crse_numb_in=${details.classId}`,
+      name: details.name,
+      url: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?'
+        + `term_in=${details.termId}&subj_in=${details.subject}&crse_in=${details.classId}&schd_in=%`,
+      lastUpdateTime: details.lastUpdateTime,
+      maxCredits: details.maxCredits,
+      minCredits: details.minCredits,
+      termId: details.termId,
+      host: details.host,
+      subject: details.subject,
+    };
   }
 
   containsHonors(attributesList) {
@@ -166,7 +203,11 @@ class SearchResultsParser {
       json: true,
     });
     // object so that it can be spread in the calling function above
-    return { meetings: parseMeetings(data.body) };
+    return {meetings: parseMeetings(data.body)};
+  }
+
+  getDescription(termId, crn) {
+    return this.searchResultsPostRequest('getCourseDescription', termId, crn).then(d => d.body.trim());
   }
 
 
@@ -300,10 +341,10 @@ class SearchResultsParser {
   serializeHonors(rawAttributes) {
     for (const attr of rawAttributes) {
       if (attr.toLowerCase().includes('honors')) {
-        return { honors: true };
+        return {honors: true};
       }
     }
-    return { honors: false };
+    return {honors: false};
   }
 
   serializeAttributes(req) {
@@ -312,7 +353,7 @@ class SearchResultsParser {
     $('.attribute-text').each((i, element) => {
       list[i] = $(element).text().trim();
     });
-    return { classAttributes: list };
+    return {classAttributes: list};
   }
 
   async test() {
@@ -322,8 +363,9 @@ class SearchResultsParser {
       subject: 'MATH',
       classId: '1341',
     };
-    const data = await this.requestMostDetails(math1341);
-    macros.log(this.stripSectionDetails(data));
+    const data = await this.mostDetails(math1341);
+    // macros.log(this.stripSectionDetails(data));
+    macros.log(await this.copySectionAsClass(data));
     return false;
   }
 }

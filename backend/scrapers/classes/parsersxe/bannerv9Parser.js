@@ -2,11 +2,9 @@
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
  *
- * WIP
+ * Author: Jennings Zhang <jz@nuhacks.io>
  */
 
-import moment from 'moment';
-import cheerio from 'cheerio';
 
 import cache from '../../cache';
 import macros from '../../../macros';
@@ -64,45 +62,37 @@ class Bannerv9Parser {
     // my code starts here
     // ========================================
 
-
-    let termsToKeep = bannerTerms.filter((term) => {
+    const termsToKeep = bannerTerms.filter((term) => {
       return EllucianTermsParser.isValidTerm(term.code, term.description);
     });
-
-    termsToKeep = termsToKeep.slice(0, 3); // DEBUG to save time
+    // termsToKeep = termsToKeep.slice(0, 3); // DEBUG to save time
 
     const sneuTerms = this.serializeTermsList(termsToKeep);
 
     let subjectsRequests = [];
     let sectionsDataPerEveryTerm = [];
-
     termsToKeep.forEach((term) => {
       sectionsDataPerEveryTerm.push(this.requestsSectionsForTerm(term.termId));
       subjectsRequests.push(this.requestSubject(term.termId));
     });
-
     subjectsRequests = await Promise.all(subjectsRequests);
     sectionsDataPerEveryTerm = await Promise.all(sectionsDataPerEveryTerm);
 
-    // TODO go through every section, add into one array, add unique classes to uniqueClasses
     const allSubjects = [];
-    let allSections = [];
-    const uniqueClasses = [];
-
     sneuTerms.forEach((term) => {
       const subjectResponse = subjectsRequests.shift();
       allSubjects.concat(this.serializeSubjectListRequest(subjectResponse, term));
     });
 
+    const detailsRequests = [];
     sectionsDataPerEveryTerm.forEach((allSectionsFromTerm) => {
       allSectionsFromTerm.forEach((searchResultsFromXE) => {
-        // searchResultsFromXE is this JSON object
+        // searchResultsFromXE is JSON object from here
         // https://jennydaman.gitlab.io/nubanned/dark.html#studentregistrationssb-search-get
-        allSections.push(SearchResultsParser.requestMostDetails(searchResultsFromXE));
+        detailsRequests.push(SearchResultsParser.mostDetails(searchResultsFromXE));
       });
     });
-
-    allSections = await Promise.all(allSections);
+    const allSections = await Promise.all(detailsRequests);
 
     // TOD: Run any other parsers you want to run
     // All of the other existing parsers run 0 or 1 other parsers, but you can run any number
@@ -110,10 +100,9 @@ class Bannerv9Parser {
 
     // let outputFromOtherParsers = await someOtherParser.main(urlOrSomeData);
 
-    // TODO: merge the data from outputFromOtherParsers with the output from this parser.
-
+    const uniqueClasses = await this.collapseCourses(allSections);
     allSections.forEach(details => SearchResultsParser.stripSectionDetails(details));
-    // every class from every term
+
     const mergedOutput = {
       colleges: [
         {
@@ -127,14 +116,14 @@ class Bannerv9Parser {
       classes: uniqueClasses,
       sections: allSections,
     };
-    macros.log(mergedOutput.sections);
+
     // Possibly save the mergedOutput to disk so we don't have to run all this again
     if (macros.DEV && require.main !== module) {
       await cache.set(macros.DEV_DATA_DIR, this.constructor.name, termsUrl, mergedOutput);
       // Don't log anything because there would just be too much logging.
     }
 
-    return 'end of bannerv9Parser';
+    return mergedOutput;
   }
 
   // Just a convient test method, if you want to
@@ -142,6 +131,7 @@ class Bannerv9Parser {
     const output = await this.main('https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?offset=1&max=200&searchTerm=');
     macros.log(output);
   }
+
 
   serializeTermsList(termsFromBanner) {
     return termsFromBanner.map((term) => {
@@ -268,8 +258,54 @@ class Bannerv9Parser {
   }
 
 
-  // mutates the object directly
-  // renameKey({old: 5}, 'old', 'name') -> {name: 5}
+  /**
+   * Loops over the details for all sections, creating a new array of every unique class
+   * with a list of offered CRNs corresponding to each separate section.
+   * @param sections large array of objects that came from SearchResultsParser.mostDetails(s)
+   */
+  async collapseCourses(sections) {
+    const table = {};
+    let promisedDescriptions = [];
+    const promisedHashes = [];
+
+    // first, get the description once for every unique class
+    sections.forEach(details => {
+      details.hash = this.hash(details);
+      if (!table[details.hash]) {
+        table[details.hash] = true;
+        promisedHashes.push(details.hash);
+        promisedDescriptions.push(SearchResultsParser.copySectionAsClass(details));
+      }
+    });
+
+    promisedDescriptions = await Promise.all(promisedDescriptions);
+    for (let i = 0; i < promisedHashes.length; i++) {
+      table[promisedHashes[i]] = promisedDescriptions[i];
+    }
+
+    sections.forEach(details => {
+      table[details.hash].crns.push(details.crn);
+    });
+
+    return Object.values(table);
+  }
+
+  /**
+   * {termId: "202010", subject: "BIOL", classId: "3405"} => "202010BIOL3405"
+   * @param details
+   * @return {string}
+   */
+  hash(details) {
+    return details.termId + details.subject + details.classId;
+  }
+
+  /**
+   * mutates the object directly
+   * renameKey({old: 5}, 'old', 'name') -> {name: 5}
+   * @param obj
+   * @param old
+   * @param name
+   */
   renameKey(obj, old, name) {
     obj[name] = obj[old];
     delete obj[old];
