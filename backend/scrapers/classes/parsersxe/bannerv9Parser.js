@@ -1,8 +1,6 @@
 /*
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
- *
- * Author: Jennings Zhang <jz@nuhacks.io>
  */
 
 
@@ -81,7 +79,7 @@ class Bannerv9Parser {
     const allSubjects = [];
     sneuTerms.forEach((term) => {
       const subjectResponse = subjectsRequests.shift();
-      allSubjects.concat(this.serializeSubjectListRequest(subjectResponse, term));
+      allSubjects.concat(this.processSubjectListResponse(subjectResponse, term));
     });
 
     const detailsRequests = [];
@@ -100,7 +98,7 @@ class Bannerv9Parser {
 
     // let outputFromOtherParsers = await someOtherParser.main(urlOrSomeData);
 
-    const uniqueClasses = await this.collapseCourses(allSections);
+    const uniqueClasses = await this.collapseSameCourses(allSections);
     allSections.forEach(details => SearchResultsParser.stripSectionDetails(details));
 
     const mergedOutput = {
@@ -245,7 +243,7 @@ class Bannerv9Parser {
     });
   }
 
-  serializeSubjectListRequest(subjectResponse, term) {
+  processSubjectListResponse(subjectResponse, term) {
     if (subjectResponse.statusCode !== 200) {
       macros.error(`Problem with request for subjects ${subjectResponse.request.uri.href}`);
     }
@@ -263,7 +261,7 @@ class Bannerv9Parser {
    * with a list of offered CRNs corresponding to each separate section.
    * @param sections large array of objects that came from SearchResultsParser.mostDetails(s)
    */
-  async collapseCourses(sections) {
+  async collapseSameCourses(sections) {
     const table = {};
     let promisedDescriptions = [];
     const promisedHashes = [];
