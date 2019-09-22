@@ -24,50 +24,107 @@ class NotFoundError extends Error {
 
 class SearchResultsParser {
   /**
-   * @param searchResultsFromXE the resulting data from
+   * @param sectionSearchResultsFromXE the resulting data from
    * https://jennydaman.gitlab.io/nubanned/dark.html#studentregistrationssb-search-get
-   * @returns an object that conforms to the SearchNEU backend mergedOutput.sections structure
+   * @returns many details about the specified section:
+   * {
+   *   seatsCapacity: 19,
+   *   seatsRemaining: 1,
+   *   waitCapacity: 0,
+   *   waitRemaining: 0,
+   *   online: false,
+   *   subject: 'Mathematics',
+   *   classId: '1341',
+   *   name: 'Calculus 1for Sci/Engr (HON)',
+   *   maxCredits: 4,
+   *   minCredits: 4,
+   *   classAttributes: [
+   *     'Honors  GNHN', 'NUpath Formal/Quant Reasoning  NCFQ',
+   *     'NU Core Math/Anly Think Lvl 1  NCM1', 'UG College of Science  UBSC'
+   *   ],
+   *   meetings: [
+   *     {
+   *       startDate: 18143,
+   *       endDate: 18234,
+   *       profs: [ 'James Hudon' ],
+   *       where: 'Hastings Suite 106',
+   *       type: 'Class',
+   *       times: {
+   *         '1': { start: 48900, end: 52800 },
+   *         '3': { start: 48900, end: 52800 },
+   *         '4': { start: 48900, end: 52800 }
+   *       }
+   *     },
+   *     {
+   *       startDate: 18242,
+   *       endDate: 18242,
+   *       profs: [ 'James Hudon' ],
+   *       where: 'TBA',
+   *       type: 'Final Exam',
+   *       times: { '4': { start: 37800, end: 45000 } }
+   *     }
+   *   ],
+   *   crn: 10653,
+   *   lastUpdateTime: 1569121298844,
+   *   termId: 202010,
+   * }
    */
-  async requestAllSectionDetails(searchResultsFromXE) {
-    const crn = searchResultsFromXE.courseReferenceNumber;
-    const termId = searchResultsFromXE.term;
+  async requestMostDetails(sectionSearchResultsFromXE) {
+    const crn = sectionSearchResultsFromXE.courseReferenceNumber;
+    const termId = sectionSearchResultsFromXE.term;
 
     const reqs = await Promise.all([
       this.getSeats(termId, crn),
-      this.getOnline(termId, crn),
-      this.getHonors(termId, crn),
+      this.getClassDetails(termId, crn),
+      this.getSectionAttributes(termId, crn),
       this.getMeetingTimes(termId, crn),
     ]);
 
-    return this.serializeSectionDetails(reqs, searchResultsFromXE);
+    return this.spreadPromisedObjects(reqs, sectionSearchResultsFromXE);
   }
 
-  serializeSectionDetails(resolvedPromiseArray, searchResultsFromXE) {
+  spreadPromisedObjects(resolvedPromiseArray, searchResultsFromXE) {
     const someDetails = {};
     resolvedPromiseArray.forEach((detailsObject) => {
       Object.assign(someDetails, detailsObject);
     });
     const crn = searchResultsFromXE.courseReferenceNumber;
     return {
-      // object spread on someDetails gives these keys:
-      // seatsCapacity: 30,
-      // seatsRemaining: 2,
-      // waitCapacity: 99,
-      // waitRemaining: 99,
-      // online: false,
-      // honors: false,
-      // meetings: [...],
       ...someDetails,
-      url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched'
-        + `?term_in=${searchResultsFromXE.term}&crn_in=${crn}`,
-      crn: crn,
       lastUpdateTime: Date.now(),
+      crn: crn,
       termId: searchResultsFromXE.term,
-      host: 'neu.edu',
-      // WARNING: this object is missing the key subCollegeName
+      // this.getClassDetails(termId, crn) returns the long subject name (e.g. "Mathematics")
+      // so it needs to be replaced with the abbreviation (e.g. "MATH")
       subject: searchResultsFromXE.subject,
-      classId: searchResultsFromXE.courseNumber,
+      // WARNING: this object is missing the key subCollegeName
     };
+  }
+
+  /**
+   * Mutates the result from requestMostDetails(s) to conform to the
+   * SearchNEU mergedOutput.sections object
+   * @param sectionDetails
+   */
+  stripSectionDetails(sectionDetails) {
+    sectionDetails.host = 'neu.edu';
+    sectionDetails.url = 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched'
+      + `?term_in=${sectionDetails.termId}&crn_in=${sectionDetails.crn}`;
+    sectionDetails.honors = this.containsHonors(sectionDetails.classAttributes);
+    delete sectionDetails.classAttributes;
+    delete sectionDetails.name;
+    delete sectionDetails.maxCredits;
+    delete sectionDetails.minCredits;
+    return sectionDetails;
+  }
+
+  containsHonors(attributesList) {
+    for (const attribute of attributesList) {
+      if (attribute.toLowerCase().includes('honors')) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -79,30 +136,11 @@ class SearchResultsParser {
   }
 
   /**
-   * calls getClassDetails to find out if the class is online
-   * @param termId
-   * @param crn
-   * @return {online: true|false}
-   */
-  async getOnline(termId, crn) {
-    return { online: (await this.getClassDetails(termId, crn)).online };
-  }
-
-  /**
    * https://jennydaman.gitlab.io/nubanned/dark.html#searchresults-class-details-post
    */
   async getClassDetails(termId, crn) {
     const req = await this.searchResultsPostRequest('getClassDetails', termId, crn);
     return this.serializeClassDetails(req);
-  }
-
-  /**
-   * calls getSectionAttributes to determine if it's an honors class (ew)
-   * @return {{honors: boolean}}
-   */
-  async getHonors(termId, crn) {
-    const rawAttributes = await this.getSectionAttributes(termId, crn);
-    return this.serializeHonors(rawAttributes);
   }
 
   /**
@@ -199,10 +237,12 @@ class SearchResultsParser {
     const credits = parseInt(this.extractTextFromDom(dom, 'Credit Hours:'), 10);
     return {
       online: this.extractTextFromDom(dom, 'Campus: ') === 'Online',
-      campus: this.extractTextFromDom(dom, 'Campus: '), // eg. 'Boston'
-      scheduleType: this.extractTextFromDom(dom, 'Schedule Type: '), // eg. 'Lab' or 'Lecture'
-      instructionalMethod: this.extractTextFromDom(dom, 'Instructional Method: '), // eg. 'Traditional' or 'Online'
-      sectionNumber: $('#sectionNumber').text(), // eg. '02'
+      // THESE ARE NOT USED BY SEARCHNEU
+      // create a Github issue to incorporate this information in the front end
+      // campus: this.extractTextFromDom(dom, 'Campus: '), // eg. 'Boston'
+      // scheduleType: this.extractTextFromDom(dom, 'Schedule Type: '), // eg. 'Lab' or 'Lecture'
+      // instructionalMethod: this.extractTextFromDom(dom, 'Instructional Method: '), // eg. 'Traditional' or 'Online'
+      // sectionNumber: $('#sectionNumber').text(), // eg. '02'
       subject: $('#subject').text(), // eg. 'Physics'
       classId: $('#courseNumber').text(), // eg. '1147'
       name: $('#courseTitle').text(), // eg. 'Physics for Life Sciences 2',
@@ -269,10 +309,10 @@ class SearchResultsParser {
   serializeAttributes(req) {
     const $ = cheerio.load(req.body);
     const list = [];
-    $('span').each((i) => { // don't need second param, element
-      list[i] = $(this).text().trim();
+    $('.attribute-text').each((i, element) => {
+      list[i] = $(element).text().trim();
     });
-    return list;
+    return { classAttributes: list };
   }
 
   async test() {
@@ -282,9 +322,9 @@ class SearchResultsParser {
       subject: 'MATH',
       classId: '1341',
     };
-    const data = await this.requestAllSectionDetails(math1341);
-    macros.log(data);
-    return data.honors === false && data.online === true;
+    const data = await this.requestMostDetails(math1341);
+    macros.log(this.stripSectionDetails(data));
+    return false;
   }
 }
 

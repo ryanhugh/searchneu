@@ -98,7 +98,7 @@ class Bannerv9Parser {
       allSectionsFromTerm.forEach((searchResultsFromXE) => {
         // searchResultsFromXE is this JSON object
         // https://jennydaman.gitlab.io/nubanned/dark.html#studentregistrationssb-search-get
-        allSections.push(SearchResultsParser.requestAllSectionDetails(searchResultsFromXE));
+        allSections.push(SearchResultsParser.requestMostDetails(searchResultsFromXE));
       });
     });
 
@@ -111,6 +111,8 @@ class Bannerv9Parser {
     // let outputFromOtherParsers = await someOtherParser.main(urlOrSomeData);
 
     // TODO: merge the data from outputFromOtherParsers with the output from this parser.
+
+    allSections.forEach(details => SearchResultsParser.stripSectionDetails(details));
     // every class from every term
     const mergedOutput = {
       colleges: [
@@ -125,7 +127,7 @@ class Bannerv9Parser {
       classes: uniqueClasses,
       sections: allSections,
     };
-    macros.log(mergedOutput);
+    macros.log(mergedOutput.sections);
     // Possibly save the mergedOutput to disk so we don't have to run all this again
     if (macros.DEV && require.main !== module) {
       await cache.set(macros.DEV_DATA_DIR, this.constructor.name, termsUrl, mergedOutput);
