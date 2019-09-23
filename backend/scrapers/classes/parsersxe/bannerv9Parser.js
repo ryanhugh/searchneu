@@ -35,6 +35,7 @@ class Bannerv9Parser {
 
   // This method that
   async main(termsUrl) {
+
     // Possibly load from DEV
     if (macros.DEV && require.main !== module) {
       const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, termsUrl);
@@ -60,10 +61,10 @@ class Bannerv9Parser {
     // my code starts here
     // ========================================
 
-    let termsToKeep = bannerTerms.filter((term) => {
+    const termsToKeep = bannerTerms.filter((term) => {
       return EllucianTermsParser.isValidTerm(term.code, term.description);
     });
-    //termsToKeep = termsToKeep.slice(0, 3); // DEBUG to save time
+    // termsToKeep = termsToKeep.slice(3, 6); // DEBUG to save time
 
     const sneuTerms = this.serializeTermsList(termsToKeep);
 
@@ -100,6 +101,8 @@ class Bannerv9Parser {
 
     const subjectAbbreviationTable = SearchResultsParser.createSubjectsAbbreviationTable(allSubjects);
     const uniqueClasses = await this.collapseSameCourses(allSections, subjectAbbreviationTable);
+    // TODO prune obsolete prerequisites (classes that don't exist)
+    // eg BIOL 3405 lists BIOL 1103, BIOL 2297, and ENVR 2290 however these classes are no longer offered
     allSections.forEach(details => SearchResultsParser.stripSectionDetails(details));
 
     const mergedOutput = {
@@ -121,16 +124,8 @@ class Bannerv9Parser {
       await cache.set(macros.DEV_DATA_DIR, this.constructor.name, termsUrl, mergedOutput);
       // Don't log anything because there would just be too much logging.
     }
-
     return mergedOutput;
   }
-
-  // Just a convient test method, if you want to
-  async test() {
-    const output = await this.main('https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?offset=1&max=200&searchTerm=');
-    macros.log(output);
-  }
-
 
   serializeTermsList(termsFromBanner) {
     return termsFromBanner.map((term) => {
@@ -326,6 +321,12 @@ class Bannerv9Parser {
       return 'LAW';
     }
     return 'undergraduate';
+  }
+
+  // Just a convient test method, if you want to
+  async test() {
+    const output = await this.main('https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?offset=1&max=200&searchTerm=');
+    macros.log(output);
   }
 }
 

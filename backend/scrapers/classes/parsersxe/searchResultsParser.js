@@ -133,14 +133,12 @@ class SearchResultsParser {
    */
   async copySectionAsClass(details, subjectAbbreviationTable) {
     const description = await this.getDescription(details.termId, details.crn);
-    const prereqs = await this.getPrereqs(details.termId, details.crn);
+    const prereqs = await this.getPrereqs(details.termId, details.crn, subjectAbbreviationTable);
     const coreqs = await this.getCoreqs(details.termId, details.crn, subjectAbbreviationTable);
-    return {
+    const classDetails = {
       crns: [],
       classAttributes: details.classAttributes,
-      // TODO
-      prereqs: prereqs,
-      coreqs: coreqs,
+
       desc: description,
       classId: details.classId,
       prettyUrl: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?'
@@ -155,6 +153,13 @@ class SearchResultsParser {
       host: details.host,
       subject: details.subject,
     };
+    if (prereqs) {
+      classDetails.prereqs = prereqs;
+    }
+    if (coreqs) {
+      classDetails.coreqs = coreqs;
+    }
+    return classDetails;
   }
 
   containsHonors(attributesList) {
@@ -218,9 +223,9 @@ class SearchResultsParser {
     return this.serializeCoreqs(req, subjectAbbreviationTable);
   }
 
-  async getPrereqs(termId, crn) {
+  async getPrereqs(termId, crn, subjectAbbreviationTable) {
     const req = await this.searchResultsPostRequest('getSectionPrerequisites', termId, crn);
-    return this.serializePrereqs(req);
+    return this.serializePrereqs(req, subjectAbbreviationTable);
   }
 
 
@@ -359,28 +364,118 @@ class SearchResultsParser {
   serializeCoreqs(req, subjectAbbreviationTable) {
     const $ = cheerio.load(req.body);
     const numberOfColumns = $('thead > tr').children().length;
-    if (numberOfColumns !== 3) {
-      macros.error('Unexpected number of columns in HTML table.'
-        + `thead > tr has ${numberOfColumns} children.`
-        + `\nPOST ${req.request.path}`
-        + `\n${req.request.body}`);
+    if (numberOfColumns < 3) {
+      return false;
     }
-    const coreqs = [];
+    /*
+     * some classes have 5 columns instead of 3.
+     *
+     * example with 3: CS 2500
+     * POST https://nubanner.neu.edu/StudentRegistrationSsb/ssb/searchResults/getCorequisites
+     * term=202010&courseReferenceNumber=10461
+     *
+     * example with 5: HLTH 1201
+     * POST https://nubanner.neu.edu/StudentRegistrationSsb/ssb/searchResults/getCorequisites
+     * term=202010&courseReferenceNumber=11939
+     */
+    let subjectIndex = 0;
+    let courseNumberIndex = 1;
+    if (numberOfColumns === 5) {
+      subjectIndex = 1;
+      courseNumberIndex = 2;
+    }
+    const array = [];
     $('tbody tr').each((rowNumber, element) => {
       const row = $(element).children();
-      coreqs.push({
-        subject: subjectAbbreviationTable[$(row[0]).text()],
-        classId: $(row[1]).text(),
-        // title: $(row[2]).text()
-      });
+      const subjectAbbreviation = this.subjectLookup($(row[subjectIndex]).text(), subjectAbbreviationTable);
+      if (subjectAbbreviation) {
+        array.push({
+          subject: subjectAbbreviation,
+          classId: $(row[courseNumberIndex]).text(),
+        });
+      } else {
+        macros.warn("Coreqs: don't know what to do\n"
+          + req.body
+          + `\nPOST ${req.request.path}`
+          + `\n${req.request.body}`);
+      }
     });
     return {
       type: 'and',
-      values: coreqs,
+      values: array,
     };
   }
 
+  // TODO parenthesized prerequisites
+  // look at requisiteparser.js
+  serializePrereqs(req, subjectAbbreviationTable) {
+    const $ = cheerio.load(req.body);
+    if ($('thead > tr').children().length < 9) {
+      return false;
+    }
+    const array = [];
+    let type = 'and';
+
+    $('tbody tr').each((rowNumber, element) => {
+      const row = $(element).children();
+      const ao = $(row[0]).text();
+      if (ao) {
+        type = ao.toLowerCase();
+      }
+
+      const leftParen = $(row[1]).text();
+      if (leftParen) {
+        macros.warn('Parenthesized prerequisites not yet supported.'
+          + `\nPOST ${req.request.path}`
+          + `\n${req.request.body}`);
+        array.push(false);
+        return;
+      }
+
+      // "Graduate Admissions REQ"
+      const graduateAdmissions = $(row[2]).text();
+      if (graduateAdmissions) {
+        const gradReq = $(row[3]).text();
+        array.push(`${graduateAdmissions} ${gradReq}`);
+      } else {
+        const subjectAbbreviation = this.subjectLookup($(row[4]).text(), subjectAbbreviationTable);
+        if (subjectAbbreviation) {
+          array.push({
+            subject: subjectAbbreviation,
+            classId: $(row[5]).text(),
+            // level: $(row[6]).text(),
+            // grade: $(row[7]).text(),
+          });
+        } else {
+          const rightParen = $(row[8]).text();
+          if (!rightParen) {
+            macros.warn("Prereqs: don't know what to do\n"
+              + req.body
+              + `\nPOST ${req.request.path}`
+              + `\n${req.request.body}`);
+          }
+          array.push(false);
+        }
+      }
+    });
+    return {
+      type: type,
+      values: array,
+    };
+  }
+
+  subjectLookup(description, subjectAbbreviationTable) {
+    const code = subjectAbbreviationTable[description];
+    if (code) {
+      return code;
+    }
+    return false;
+  }
+
   /**
+   * NUBanner displays prerequisites and corequisites by the subject long name, which
+   * needs to be looked up and matched to the abbreviated subject codes.
+   *
    * @param subjects
    * [
    *   {subject: "CHEM", text: "Chemistry &amp; Chemical Biology"},
@@ -389,43 +484,40 @@ class SearchResultsParser {
    * ]
    * @returns
    * {
-   *   "Chemistry &amp; Chemical Biology": "CHEM",
-   *   "Ecology, Evolutn &amp; Marine Biol": "EEMB",
+   *   "Chemistry & Chemical Biology": "CHEM",
+   *   "Ecology, Evolutn & Marine Biol": "EEMB",
    *   ...
    * }
    */
   createSubjectsAbbreviationTable(subjects) {
     const table = {};
     subjects.forEach(subject => {
-      if (table[subject.text]) {
-        if (table[subject.text] !== subject.subject) {
+      // replace HTML escape sequence with correct symbol
+      // eg '&amp;' --> '&'
+      const description = cheerio.load(subject.text).text();
+      if (table[description]) {
+        if (table[description] !== subject.subject) {
           macros.warn('Description has more than one subject code.'
             + `\nDescription: "${subject.text}`
             + `\nCodes: "${table[subject.text]}" and "${subject.subject}"`);
         }
       } else {
-        table[subject.text] = subject.subject;
+        table[description] = subject.subject;
       }
     });
     return table;
   }
 
   async test() {
-    // const math1341 = {
-    //   courseReferenceNumber: 10653,
-    //   term: 202010,
-    //   subject: 'MATH',
-    //   classId: '1341',
-    // };
-    //const data = await this.mostDetails(math1341);
-    // macros.log(this.stripSectionDetails(data));
-    //macros.log(await this.copySectionAsClass(data));
-    const subjectAbbreviationTable = {"Law":"LAW","Accounting - CPS":"ACC","Analytics - CPS":"ALY","Biotechnology - CPS":"BTC","Commerce &amp; Economic Dev - CPS":"CED","Communicatn Studies - CPS":"CMN","Construction Mangmnt - CPS":"CMG","Criminal Justice - CPS":"CJS","Digital Media - CPS":"DGM","Education - CPS":"EDU","English as Scnd Lang - CPS":"ESL","Enterprise Artfcal Intellgnce":"EAI","Finance - CPS":"FIN","Geographic Info Sys - CPS":"GIS","Global Studies - CPS":"GST","Health Management - CPS":"HMG","Homeland Security - CPS":"HLS","Hospitality Administratn - CPS":"HPA","Human Resources Mgmt - CPS":"HRM","Human Services - CPS":"HSV","Humanities - CPS":"HUM","Information Tech - CPS":"ITC","Interdiscpln Studies - CPS":"INT","Law &amp; Policy - CPS":"LWP","Leadership Studies - CPS":"LDR","Nonprofit Management - CPS":"NPM","Nutrition - CPS":"NTR","Physical Therapy - CPS":"PTH","Project Management - CPS":"PJM","Public Relations - CPS":"PBR","Regulatory Affairs - CPS":"RGA","Regulatory Affairs Food - CPS":"RFA","Remote Sensing - CPS":"RMS","Respiratory Therapy - CPS":"RPT","Strategic Intel/Analysis - CPS":"SIA","Technical Communic - CPS":"TCC","Adv Manufacturing System - CPS":"AVM","Anthropology - CPS":"ANT","Art - CPS":"ART","Biology":"BIOL","Biology - CPS":"BIO","Biotechnology":"BIOT","Chemistry - CPS":"CHM","Computer Engineerng Tech - CPS":"CET","Economics - CPS":"ECN","Electrical Engineer Tech - CPS":"EET","English - CPS":"ENG","Environmental Science - CPS":"ESC","General Engineering Tech - CPS":"GET","Health Science - CPS":"HSC","History - CPS":"HST","Liberal Studies - CPS":"LST","Management - CPS":"MGT","Marketing - CPS":"MKT","Mathematics - CPS":"MTH","Mechanical Engineer Tech - CPS":"MET","Philosophy - CPS":"PHL","Physics - CPS":"PHY","Political Science - CPS":"POL","Psychology - CPS":"PSY","Sociology - CPS":"SOC","Legal Studies":"LS","Accounting":"ACCT","African Studies":"AFRS","African-American Studies":"AFAM","American Sign Language":"AMSL","Anthropology":"ANTH","Arabic":"ARAB","Architecture":"ARCH","Army ROTC":"ARMY","Art - Design":"ARTG","Art - Fundamentals":"ARTF","Art - General":"ARTE","Art - History":"ARTH","Art - Media Arts":"ARTD","Art - Studio":"ARTS","Arts Admin &amp; Cultural Entrep":"AACE","Asian Studies":"ASNS","Behavioral Neuroscience":"BNSC","Biochemistry":"BIOC","Bioengineering":"BIOE","Bioinformatics":"BINF","Business Administration":"BUSN","Cardiopulmonary &amp; Exercise Sci":"EXSC","Chemical Engineering":"CHME","Chemistry &amp; Chemical Biology":"CHEM","Chinese":"CHNS","Civil &amp; Environmental Engineer":"CIVE","Communication Studies":"COMM","Communicatn Studies - CPS Spec":"CMMN","Computer Science":"CS","Computer Systems Engineering":"CSYE","Coop/Exper Ed - Arts/Med/Dsgn":"EEAM","Coop/Exper Ed - Science":"EESC","Coop/Exper Ed - Soc Sci/Hum":"EESH","Cooperative Education":"COOP","Counseling and Applied Ed Psyc":"CAEP","Criminal Justice":"CRIM","Culture":"CLTR","Cybersecurity":"CY","Data Analytics":"DA","Data Science":"DS","Deaf Studies":"DEAF","Earth &amp; Environmental Sciences":"ENVR","Ecology, Evolutn &amp; Marine Biol":"EEMB","Economics":"ECON","Economics - CPS Spec":"ECNM","Education":"EDUC","Electrical and Comp Engineerng":"EECE","Energy Systems":"ENSY","Engineering Cooperative Ed":"ENCP","Engineering Interdisciplinary":"ENGR","Engineering Leadership":"ENLR","Engineering Management":"EMGT","English":"ENGL","English Writing":"ENGW","English as Scnd Lng - CPS Spec":"ESLG","Entrepreneurship &amp; Innovation":"ENTR","Entrepreneurship Technological":"TECE","Environmental Studies":"ENVS","Finance &amp; Insurance":"FINA","First-Year Seminar":"FSEM","French":"FRNH","Game Design":"GAME","Game Science and Design":"GSND","General Engineering":"GE","General Studies":"GENS","German":"GRMN","Global Studies - CPS Spec":"GBST","Health Informatics":"HINF","Health Sci - Interdisciplinary":"HLTH","Health Science":"HSCI","Hebrew":"HBRW","History":"HIST","Honors Program":"HONR","Human Resources Management":"HRMG","Human Services":"HUSV","Industrial Engineering":"IE","Information Assurance":"IA","Information Science":"IS","Information Systems Program":"INFO","Interdisc Studies - Arts/Media":"INAM","Interdisc Studies - Provost":"INPR","Interdisc Studies - Science":"INSC","Interdisc Studies - Soc Sc/Hum":"INSH","International Affairs":"INTL","International Business":"INTB","Interpreting":"INTP","Italian":"ITLN","Japanese":"JPNS","Jewish Studies":"JWSS","Journalism":"JRNL","Landscape Architecture":"LARC","Latin Am &amp; Carib Studies":"LACS","Law (for Non-Law School Stu)":"LW","Law and Public Policy":"LPSC","Level Bootcamp":"XLVL","Linguistics":"LING","Management":"MGMT","Management Information Systems":"MISM","Management Science":"MGSC","Managerial Economics":"MECN","Marine Studies":"MARS","Marketing":"MKTG","Materials Engineering":"MATL","Mathematics":"MATH","Mathematics - CPS Spec":"MATM","Mech &amp; Industrial Engineering":"MEIE","Mechanical Engineering":"ME","Media and Screen Studies":"MSCR","Music":"MUSC","Music Industry":"MUSI","Music Technology":"MUST","Nanomedicine":"NNMD","Network Science":"NETS","Nursing":"NRSG","Operations Research":"OR","Organizational Behavior":"ORGB","PhD Experiential Leadership":"PHDL","Pharmaceutical Science":"PHSC","Pharmaceutics":"PMST","Pharmacy Practice":"PHMD","Philosophy":"PHIL","Philosophy - CPS Spec":"PHLS","Physical Therapy":"PT","Physician Assistant":"PA","Physics":"PHYS","Political Science":"POLS","Political Science - CPS Spec":"PLSC","Portuguese":"PORT","Psychology":"PSYC","Pub Policy and Urban Affairs":"PPUA","Public Health":"PHTH","Russian":"RSSN","School of Museum of Fine Arts":"SMFA","Sociology":"SOCL","Sociology - CPS Spec":"SCLY","Spanish":"SPNS","Speech-Lang Path &amp; Audiology":"SLPA","Strategy":"STRT","Study Abroad":"ABRD","Study Abroad - Business":"ABRB","Study Abroad - CPS Spec":"ABRC","Study Abroad - Science":"ABRS","Study USA":"ABRU","Supply Chain Management":"SCHM","Sustainable Building Systems":"SBSY","Sustainable Urban Environments":"SUEN","Telecommunication Systems":"TELE","Theatre":"THTR","Women&#39;s/Gender/Sexualty Stdies":"WMNS","Specialty Study - Arts/Media":"SSAM","Cooperative Educatn - CPS":"COP","Modern Languages - CPS":"LNG","Pharmacy-Med Chem - CPS":"PMC","Physical Education - CPS":"PHE","Prof Devlpmnt Progs - CPS":"PDP","English - CPS Spec":"ENGH","History - CPS Spec":"HSTY","Music - CPS Spec":"MSIC","Management Info Sys - CPS":"MIS","Career Development - CPS":"CDV","Music - CPS":"MUS","Culture - Literature":"LITR","Interdscpln Studies - CPS Spec":"INPS","Music Performance - NEC":"MPNC","Pharmacology":"PMCL"};
-
-    const crn = 10306;
-    const termId = 202010;
-    const data = await this.getCoreqs(termId, crn, subjectAbbreviationTable);
-    macros.log(data);
+    const math1341 = {
+      courseReferenceNumber: 10653,
+      term: 202010,
+      subject: 'MATH',
+      classId: '1341',
+    };
+    const data = await this.mostDetails(math1341);
+    macros.log(this.stripSectionDetails(data));
+    macros.log(await this.copySectionAsClass(data));
     return false;
   }
 }

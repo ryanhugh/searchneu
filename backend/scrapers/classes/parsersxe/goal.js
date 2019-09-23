@@ -98,6 +98,64 @@ const mergedOutput = {
       host: 'neu.edu',
       subject: 'PHYS',
     },
+    {
+      crns: [],
+      classAttributes: [
+        'GS College of Science',
+      ],
+      desc: 'Discusses the synthesis and analysis of polymer materials. Covers mechanisms and kinetics of condensation/chain-growth polymerization reactions and strategies leading to well-defined polymer architectures and compositions, including living polymerizations (free radical, cationic, anionic), catalytic approaches, and postpolymerization functionalization. Discusses correlation of chemical composition and structure to physical properties and applications. 3.000 Lecture hours',
+      classId: '5610',
+      prettyUrl: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=201960&subj_code_in=CHEM&crse_numb_in=5610',
+      name: 'Polymer Chemistry',
+      url: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201960&subj_in=CHEM&crse_in=5610&schd_in=%',
+      lastUpdateTime: 1554252001040,
+      maxCredits: 3,
+      minCredits: 3,
+      prereqs: {
+        type: 'or',
+        values: [
+          {
+            type: 'and',
+            values: [
+              {
+                type: 'or',
+                values: [
+                  {
+                    classId: '2317',
+                    subject: 'CHEM',
+                  },
+                  {
+                    classId: '2313',
+                    subject: 'CHEM',
+                  },
+                ],
+              },
+              {
+                type: 'or',
+                values: [
+                  {
+                    classId: '3401',
+                    subject: 'CHEM',
+                  },
+                  {
+                    classId: '3421',
+                    subject: 'CHEM',
+                  },
+                  {
+                    classId: '3431',
+                    subject: 'CHEM',
+                  },
+                ],
+              },
+            ],
+          },
+          'Graduate Admission REQ',
+        ],
+      },
+      termId: '201960',
+      host: 'neu.edu',
+      subject: 'CHEM',
+    },
   ],
   sections: [
     {
