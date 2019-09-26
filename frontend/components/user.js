@@ -49,7 +49,7 @@ class User {
 
     let response;
 
-	  macros.log('data doing the thing is', body);
+      macros.log('data doing the thing is', body);
       response = await request.post({ //eslint-disable-line no-await-in-loop
         url: '/getUserData',
         body: body,

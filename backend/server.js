@@ -456,7 +456,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     // Check to see how many of these classes they were already signed up for.
 
     // only auto enrolls if there's one (or less???) sectionz remaining
-    if (sectionWasentWatchingBefore.length <= 1) {
+/*    if (sectionWasentWatchingBefore.length <= 1) {
       // ok lets add what classes the user saw in the frontend that have no seats available and that they want to sign up for
       // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
       // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
@@ -467,7 +467,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
       }
       existingData.watchingSections = _.uniq(existingData.watchingSections.concat(userObject.sectionHashes));
     }
-
+*/
     // Remove any null or undefined values from the watchingClasses and watchingSections
     // This can happen if data is manually deleted from the DB, and the data is no longer continuous.
     // (eg index 0 is deleted and Google keeps the others at index 1 and index 2, so index 0 just contains undefined)

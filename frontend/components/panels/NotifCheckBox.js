@@ -8,6 +8,7 @@ import { Checkbox, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import user from '../user';
 import Keys from '../../../common/Keys';
+import macros from '../macros';
 
 // This file renders the checkboxes that control which sections a user signs up for
 // notifications.
@@ -36,6 +37,13 @@ export default class NotifCheckBox extends React.Component {
     this.doChange = this.doChange.bind(this);
   }
 
+    async componentDidMount() {
+	if (user.user == null) {
+	  await  user.downloadUserData();
+	  
+	}
+    }
+
   // if the state is currently checked, uncheck, remove the section from the user's data
   // do opposite.
   // send data to backend
@@ -56,7 +64,9 @@ export default class NotifCheckBox extends React.Component {
 
   // renders the proper checkbox. If there are still seats, then make it read
   // only, otherwise, set up callback on onChange
-  render() {
+    render() {
+
+
     // one last check to ensure the state is correct... since sometimes the user isn't
     // in place by the time rendering has started.
     if (this.state.checked !== user.hasSectionAlready(Keys.getSectionHash(this.state.section))) {
