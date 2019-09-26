@@ -22,6 +22,13 @@ If you are interested in helping make this site awesome that is fantastic! There
 
 Feel free to reach out if you have any questions! hey@searchneu.com
 
+Shout out to the following folks for contributing!
+
+ - [Da-Jin Chu](https://github.com/dajinchu)
+ - [Edward Li](https://github.com/NEUDitao)
+ - [Edward Shen](https://github.com/edward-shen)
+ - [Sean Hughes](https://github.com/seanhugh)
+
 ### API 🎉👍
 
 All the data on Search NEU is available to download! For more details see [the documentation](https://github.com/ryanhugh/searchneu/blob/master/docs/API.md). 

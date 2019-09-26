@@ -19,6 +19,15 @@ import Class from './classModels/Class';
 
 // Home page component
 class ResultsLoader extends React.Component {
+  // Keep a cache of class objects that are already instantiated.
+  // Don't need something similar for employees because there is no object that takes a couple ms to instantiate.
+  static loadedClassObjects = {};
+
+  static propTypes = {
+    results: PropTypes.array.isRequired,
+    loadMore: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
@@ -140,15 +149,6 @@ class ResultsLoader extends React.Component {
     );
   }
 }
-
-// Keep a cache of class objects that are already instantiated.
-// Don't need something similar for employees because there is no object that takes a couple ms to instantiate.
-ResultsLoader.loadedClassObjects = {};
-
-ResultsLoader.propTypes = {
-  results: PropTypes.array.isRequired,
-  loadMore: PropTypes.func.isRequired,
-};
 
 
 export default ResultsLoader;
