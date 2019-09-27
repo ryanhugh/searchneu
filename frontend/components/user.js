@@ -31,7 +31,7 @@ class User {
   // Downloads the user data from the server.
   // Send the loginKey and the facebookMessengerId (if we have it).
   // Save the facebookMessengerId when the server responds (the server can respond to this request a lot faster when given the facebookMessengerId).
-  async downloadUserData(retry = 7) {
+  async downloadUserData() {
     // User has not logged in before, don't bother making the request
     if (!this.hasLoggedInBefore()) {
       return;
@@ -63,9 +63,7 @@ class User {
 
     // If error, delete local invalid data.
     if (response.error) {
-	  if (retry > 0) {
-	      this.downloadUserData(retry - 1);
-	  }
+
 	  const d = new Date();
 	  macros.log('Data in localStorage is invalid, deleting', d.toUTCString());
       this.logOut();

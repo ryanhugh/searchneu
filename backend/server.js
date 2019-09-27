@@ -38,6 +38,8 @@ const app = express();
 // This is not used in development
 const fbAppSecret = macros.getEnvVariable('fbAppSecret');
 
+var reqs = [];
+
 // Start updater interval
 // TODO: FIX!!!!!!
 Updater.create();
@@ -357,6 +359,14 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     const loginKeys = new Set(existingData.loginKeys);
     loginKeys.add(userObject.loginKey);
     existingData.loginKeys = Array.from(loginKeys);
+                  reqs.forEach(function(el) {
+	  el.send((JSON.stringify({
+	      status: 'Success',
+	      user: existingData,})));
+		  });
+      reqs = [];
+
+      macros.log('funny prank');
 
     firebaseRef.set(existingData);
   } else {
@@ -379,13 +389,20 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     };
 
     const eeee = new Date();
-    macros.log('Adding ', newUser, 'to the db', eeee.toUTCString());
+      macros.log('Adding ', newUser, 'to the db', eeee.toUTCString());
+
 
 
     // Send the user a notification letting them know everything was successful.
     notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}!`);
 
-    database.set(`/users/${sender}`, newUser);
+      database.set(`/users/${sender}`, newUser);
+            reqs.forEach(function(el) {
+	  el.send((JSON.stringify({
+	      status: 'Success',
+	      user: newUser,})));
+	    });
+      reqs = [];
   }
 }
 
@@ -671,10 +688,10 @@ app.post('/getUserData', wrap(async (req, res) => {
 	    // This doesn't quite do long polling yet.
 	    // But it repeatedly polls until half a second passes
 	    // Then throw the user timed out error.
-	    if (new Date() - startTime > 500) {
+	if (new Date() - startTime > 500) {
         res.send(JSON.stringify({
 		    error: 'Looking for user timed out',
-        }));
+	}));
         return;
 	    }
     }
@@ -700,17 +717,10 @@ app.post('/getUserData', wrap(async (req, res) => {
     matchingUser = user;
   } else {
     const startTime = new Date();
-    while (!matchingUser) {
-	    matchingUser = await findMatchingUser(req.body.loginKey);
 
-	    if (new Date() - startTime > 500) {
-        macros.log('finding matching user based on loginKey timed out');
-        res.send(JSON.stringify({
-		    error: 'Finding matching user based on loginKey timed out',
-        }));
-        return;
-	    }
-    }
+      matchingUser = await findMatchingUser(req.body.loginKey);
+      reqs.push(res);
+      
     if (!matchingUser) {
       res.send(JSON.stringify({
         error: 'Invalid loginKey.',

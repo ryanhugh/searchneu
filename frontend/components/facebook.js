@@ -170,7 +170,7 @@ class Facebook {
 
       //TODO: this has to be changed to long polling
       macros.log('called from fb');
-      await user.downloadUserData();
+      user.downloadUserData();
 
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'Sign up clicked',
