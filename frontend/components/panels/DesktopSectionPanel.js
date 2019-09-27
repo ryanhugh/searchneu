@@ -133,20 +133,23 @@ export default class DesktopSectionPanel extends React.Component {
       }
     }
 
-      const honorsCheck = this.props.section.honors ? <Icon name='check' /> : <Icon name='x' />;
+    const honorsCheck = this.props.section.honors ? <Icon name='check' /> : <Icon name='x' />;
 
-      let notifBox;
+    let notifBox;
 
-      if (this.props.section.seatsRemaining == 0) {
-	      notifBox = <div data-tip='Sign up for notifications for this section' className='inlineBlock'>
-              <NotifCheckBox seats={ this.props.section.seatsRemaining } section={ this.props.section } />
-              </div>
-      } else {
-	  notifBox = <div data-tip='There are still seats remaining for this section' className='inlineBlock'>
-              <NotifCheckBox seats={ this.props.section.seatsRemaining } section={ this.props.section } />
-              </div>
-
-      }
+    if (this.props.section.seatsRemaining == 0) {
+	      notifBox = (
+  <div data-tip='Sign up for notifications for this section' className='inlineBlock'>
+    <NotifCheckBox seats={ this.props.section.seatsRemaining } section={ this.props.section } />
+  </div>
+      );
+    } else {
+	  notifBox = (
+  <div data-tip='There are still seats remaining for this section' className='inlineBlock'>
+    <NotifCheckBox seats={ this.props.section.seatsRemaining } section={ this.props.section } />
+  </div>
+      );
+    }
 
 
     return (
@@ -179,7 +182,7 @@ export default class DesktopSectionPanel extends React.Component {
 
 
         <td style={{ display: !this.props.showNotificationBoxes && 'none' }}>
-	    <center>{notifBox}</center>
+          <center>{notifBox}</center>
         </td>
 
         <td>

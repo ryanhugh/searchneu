@@ -31,7 +31,7 @@ class User {
   // Downloads the user data from the server.
   // Send the loginKey and the facebookMessengerId (if we have it).
   // Save the facebookMessengerId when the server responds (the server can respond to this request a lot faster when given the facebookMessengerId).
-  async downloadUserData(retry=7) {
+  async downloadUserData(retry = 7) {
     // User has not logged in before, don't bother making the request
     if (!this.hasLoggedInBefore()) {
       return;
@@ -49,24 +49,24 @@ class User {
 
     let response;
 
-      macros.log('data doing the thing is', body);
-      response = await request.post({ //eslint-disable-line no-await-in-loop
-        url: '/getUserData',
-        body: body,
-      });
+    macros.log('data doing the thing is', body);
+    response = await request.post({ //eslint-disable-line no-await-in-loop
+      url: '/getUserData',
+      body: body,
+    });
 
 
-//      if (!response || response.error) {
+    //      if (!response || response.error) {
 	  macros.log('OCEAN', response);
-  //    }
+    //    }
 
-      
+
     // If error, delete local invalid data.
-      if (response.error) {
+    if (response.error) {
 	  if (retry > 0) {
 	      this.downloadUserData(retry - 1);
 	  }
-	  let d = new Date();
+	  const d = new Date();
 	  macros.log('Data in localStorage is invalid, deleting', d.toUTCString());
       this.logOut();
       return;
@@ -81,7 +81,7 @@ class User {
       callback();
     }
 
-      macros.log('got user data', this.user);
+    macros.log('got user data', this.user);
   }
 
   // sends the new user data to the backend.
@@ -91,11 +91,11 @@ class User {
       return;
     }
 
-      macros.log('sending.... ', this.user);
-      if (!this.user) {
+    macros.log('sending.... ', this.user);
+    if (!this.user) {
 	  await this.downloadUserData();
-      }
-      macros.log('after...', this.user);
+    }
+    macros.log('after...', this.user);
 
 
     const body = {
@@ -110,7 +110,7 @@ class User {
       body.senderId = window.localStorage.senderId;
     }
 
-      macros.log('got to sendUserData already for some reason');
+    macros.log('got to sendUserData already for some reason');
     const response = await request.post({
       url: '/sendUserData',
       body: body,
@@ -240,50 +240,42 @@ class User {
     _.pull(this.callBack, theCallback);
   }
 
-    // adds a class to a user
-    addClass(theClass) {
-
-	if (!this.user) {
+  // adds a class to a user
+  addClass(theClass) {
+    if (!this.user) {
 	    macros.error('no user for addition?');
 	    return;
-	}
-
-	const classHash = Keys.getClassHash(theClass);
-
-	if (this.user.watchingClasses.includes(theClass)) {
-	    macros.error('user already watching class?', theClass, this.user);
-	    return;
-	}
-
-	this.user.watchingClasses.push(Keys.getClassHash(theClass));
-
-	macros.log('class registered', this.user);
-
-
     }
 
-        removeClass(theClass) {
+    const classHash = Keys.getClassHash(theClass);
 
-	if (!this.user) {
+    if (this.user.watchingClasses.includes(theClass)) {
+	    macros.error('user already watching class?', theClass, this.user);
+	    return;
+    }
+
+    this.user.watchingClasses.push(Keys.getClassHash(theClass));
+
+    macros.log('class registered', this.user);
+  }
+
+  removeClass(theClass) {
+    if (!this.user) {
 	    macros.error('no user for addition?');
 	    return;
-	}
+    }
 
-	const classHash = Keys.getClassHash(theClass);
+    const classHash = Keys.getClassHash(theClass);
 
-	if (!this.user.watchingClasses.includes(theClass)) {
+    if (!this.user.watchingClasses.includes(theClass)) {
 	    macros.error('user isn\'t watching class?', theClass, this.user);
 	    return;
-	}
+    }
 
 	    _.pull(this.user.watchingClasses, Keys.getClassHash(theClass));
 
-	macros.log('class removed', this.user);
-
-
-	}
-
-
+    macros.log('class removed', this.user);
+  }
 }
 
 

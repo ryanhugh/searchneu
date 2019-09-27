@@ -251,8 +251,8 @@ app.get('/webhook/', (req, res) => {
 });
 
 async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
-    let d = new Date();
-    macros.log('Got opt in button click!', b64ref, d.toUTCString());
+  const d = new Date();
+  macros.log('Got opt in button click!', b64ref, d.toUTCString());
   if (macros.DEV && !await elastic.isConnected()) {
     macros.log('In dev mode and Elasticsearch not available. Class watching does not work. To fix this, make sure Elasticsearch is running on your computer and then run "yarn scrape" and "yarn index"');
     return;
@@ -288,15 +288,15 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
   macros.log('User Object is', userObject);
 
-    const firebaseRef = await database.getRef(`/users/${sender}`);
-    macros.log(firebaseRef);
+  const firebaseRef = await database.getRef(`/users/${sender}`);
+  macros.log(firebaseRef);
 
   let existingData = await firebaseRef.once('value');
-    existingData = existingData.val();
-    macros.log(existingData);
+  existingData = existingData.val();
+  macros.log(existingData);
 
-    const aClass = (await elastic.get(elastic.CLASS_INDEX, userObject.classHash)).class;
-    macros.log(aClass);
+  const aClass = (await elastic.get(elastic.CLASS_INDEX, userObject.classHash)).class;
+  macros.log(aClass);
 
   // User is signing in from a new device
   if (existingData) {
@@ -319,7 +319,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     // Check to see how many of these classes they were already signed up for.
 
     // only auto enrolls if there's one (or less???) sectionz remaining
-/*    if (sectionWasentWatchingBefore.length <= 1) {
+    /*    if (sectionWasentWatchingBefore.length <= 1) {
       // ok lets add what classes the user saw in the frontend that have no seats available and that they want to sign up for
       // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
       // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
@@ -378,8 +378,8 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
       loginKeys: [userObject.loginKey],
     };
 
-      var eeee = new Date();
-      macros.log('Adding ', newUser, 'to the db', eeee.toUTCString());
+    const eeee = new Date();
+    macros.log('Adding ', newUser, 'to the db', eeee.toUTCString());
 
 
     // Send the user a notification letting them know everything was successful.
@@ -593,16 +593,16 @@ app.post('/sendUserData', wrap(async (req, res) => {
 
   // If the client specified a specific senderId, lookup that specific user.
   // if not, we have to loop over all the users's to find a matching loginKey
-    if (senderId) {
-	// first confirm the loginkey is legitimate
-	let user = await database.get(`/users/${senderId}`);
-	if (user && !user.loginKeys.includes(req.body.loginKey)) {
+  if (senderId) {
+    // first confirm the loginkey is legitimate
+    const user = await database.get(`/users/${senderId}`);
+    if (user && !user.loginKeys.includes(req.body.loginKey)) {
 	    macros.log('loginKey not within the sender\'s entry');
 	    res.send(JSON.stringify({
-		error: 'Error, invalid loginkey on senderId.',
+        error: 'Error, invalid loginkey on senderId.',
 	    }));
 	    return;
-	}
+    }
     await database.set(`/users/${senderId}`, req.body.info);
     macros.log('sending done, result is ', await database.get(`/users/${senderId}`));
   } else {
@@ -611,10 +611,9 @@ app.post('/sendUserData', wrap(async (req, res) => {
       error: 'Error.',
     }));
 
-      // to make sure i'm not shooting myself in the foot :)
-      return;
+    // to make sure i'm not shooting myself in the foot :)
+    return;
   }
-
 
 
   // send a status of success. Hopefully it went well.
@@ -659,28 +658,27 @@ app.post('/getUserData', wrap(async (req, res) => {
   let matchingUser;
 
   // If the client specified a specific senderId, lookup that specific user.
-    // if not, we have to loop over all the users's to find a matching loginKey
+  // if not, we have to loop over all the users's to find a matching loginKey
 
-    // long polling needs to start here
-    if (senderId) {
+  // long polling needs to start here
+  if (senderId) {
+    let user;
+    const startTime = new Date();
 
-	let user;
-	const startTime = new Date();
-
-	while (!user) {
+    while (!user) {
 	    user = await database.get(`/users/${senderId}`);
 
 	    // This doesn't quite do long polling yet.
 	    // But it repeatedly polls until half a second passes
-	    // Then throw the user timed out error. 
+	    // Then throw the user timed out error.
 	    if (new Date() - startTime > 500) {
-		res.send(JSON.stringify({
+        res.send(JSON.stringify({
 		    error: 'Looking for user timed out',
-		}));
-		return;
+        }));
+        return;
 	    }
-	}
-	macros.log('naive long polling', user);
+    }
+    macros.log('naive long polling', user);
 
     if (!user) {
       macros.log('User with senderId not in database yet', senderId);
@@ -700,20 +698,19 @@ app.post('/getUserData', wrap(async (req, res) => {
     }
 
     matchingUser = user;
-    } else {
-
-	const startTime = new Date();
-	while (!matchingUser) {
+  } else {
+    const startTime = new Date();
+    while (!matchingUser) {
 	    matchingUser = await findMatchingUser(req.body.loginKey);
 
 	    if (new Date() - startTime > 500) {
-		macros.log('finding matching user based on loginKey timed out');
-		res.send(JSON.stringify({
+        macros.log('finding matching user based on loginKey timed out');
+        res.send(JSON.stringify({
 		    error: 'Finding matching user based on loginKey timed out',
-		}));
-		return;
+        }));
+        return;
 	    }
-	}
+    }
     if (!matchingUser) {
       res.send(JSON.stringify({
         error: 'Invalid loginKey.',

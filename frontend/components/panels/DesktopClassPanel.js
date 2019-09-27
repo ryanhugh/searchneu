@@ -42,8 +42,8 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
   componentDidMount() {
     macros.debounceTooltipRebuild();
-      user.registerCallback(this.reRenderCheckBox);
-      macros.log('callback registered');
+    user.registerCallback(this.reRenderCheckBox);
+    macros.log('callback registered');
   }
 
   componentWillUnmount() {
@@ -96,16 +96,14 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
   // handles the sign up for notifications button being clicked,
   // to allow for user to choose which sections to sign up for
-    async handleClick() {
-
+  async handleClick() {
     this.setState({
       showNotificationBoxes: true,
     });
 
-      if (!this.props.aClass.sections || this.props.aClass.sections.length <= 0) {
+    if (!this.props.aClass.sections || this.props.aClass.sections.length <= 0) {
 	  user.addClass(this.props.aClass);
-      }
-
+    }
   }
 
 

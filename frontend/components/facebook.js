@@ -168,9 +168,9 @@ class Facebook {
     } else if (e.event === 'opt_in') {
       macros.log('Opt in was clicked!', e);
 
-	//TODO: this has to be changed to long polling
-	macros.log('called from fb');
-	await user.downloadUserData();
+      //TODO: this has to be changed to long polling
+      macros.log('called from fb');
+      await user.downloadUserData();
 
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'Sign up clicked',
@@ -224,10 +224,10 @@ class Facebook {
       } else {
         macros.log(e, 'other message');
       }
-	// THE PROBLEM RIGHT NOW IS THE USER IS BEING CREATED AFTER THE CALLS TO DOWNLOAD THE USER
-	// ARE BEING MADE
+      // THE PROBLEM RIGHT NOW IS THE USER IS BEING CREATED AFTER THE CALLS TO DOWNLOAD THE USER
+      // ARE BEING MADE
 
-	this.handleClick();
+      this.handleClick();
     }
   }
 }

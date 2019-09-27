@@ -37,20 +37,18 @@ export default class NotifCheckBox extends React.Component {
     this.doChange = this.doChange.bind(this);
   }
 
-    async componentDidMount() {
+  async componentDidMount() {
 
 
-	  
-
-    }
+  }
 
   // if the state is currently checked, uncheck, remove the section from the user's data
   // do opposite.
   // send data to backend
-    async doChange() {
-	if (!user.user) {
+  async doChange() {
+    if (!user.user) {
 	    await user.downloadUserData();
-	}
+    }
     if (this.state.checked) {
       user.removeSection(this.state.section);
       this.setState({ checked: false });
@@ -64,9 +62,7 @@ export default class NotifCheckBox extends React.Component {
 
   // renders the proper checkbox. If there are still seats, then make it read
   // only, otherwise, set up callback on onChange
-    render() {
-
-
+  render() {
     // one last check to ensure the state is correct... since sometimes the user isn't
     // in place by the time rendering has started.
     if (this.state.checked !== user.hasSectionAlready(Keys.getSectionHash(this.state.section))) {
@@ -76,7 +72,7 @@ export default class NotifCheckBox extends React.Component {
     // if we have a section, and the section has seats remaining, it doesn't make
     // sense to sig up a user for notifications, so make the Checkbox readonly
     if (this.state.section && this.state.section.seatsRemaining) {
-	return <Icon size='large' name='info circle' color='grey'/>;
+      return <Icon size='large' name='info circle' color='grey' />;
     }
 
     // otherwise, return a checkbox that has the correct state
