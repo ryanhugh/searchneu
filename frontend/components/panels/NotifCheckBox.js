@@ -38,10 +38,10 @@ export default class NotifCheckBox extends React.Component {
   }
 
     async componentDidMount() {
-	if (user.user == null) {
-	  await  user.downloadUserData();
+
+
 	  
-	}
+
     }
 
   // if the state is currently checked, uncheck, remove the section from the user's data

@@ -9,25 +9,21 @@ import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import wrap from 'express-async-wrap';
-import fs from 'fs-extra';
 import compress from 'compression';
 import rollbar from 'rollbar';
 import bodyParser from 'body-parser';
-import mkdirp from 'mkdirp-promise';
 import moment from 'moment';
 import xhub from 'express-x-hub';
-import elasticlunr from 'elasticlunr';
 import atob from 'atob';
 import _ from 'lodash';
+import elastic from './elastic';
 
 import Request from './scrapers/request';
-import search from './search';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 import notifyer from './notifyer';
 import Updater from './updater';
 import database from './database';
-import DataLib from './DataLib';
 
 // This file manages every endpoint in the backend
 // and calls out to respective files depending on what was called
@@ -41,6 +37,10 @@ const app = express();
 // This way, only facebook can make calls to the /webhook endpoint
 // This is not used in development
 const fbAppSecret = macros.getEnvVariable('fbAppSecret');
+
+// Start updater interval
+// TODO: FIX!!!!!!
+Updater.create();
 
 // Verify that the webhooks are coming from facebook
 // This needs to be above bodyParser for some reason
@@ -169,152 +169,14 @@ app.use((req, res, next) => {
   }
 });
 
-// Shows the entire DB in dev
-app.get('/getDatabaseInDev', wrap(async (req, res) => {
-  if (!macros.DEV) {
-    res.send(JSON.stringify({
-      error: 'no',
-    }));
-    return;
-  }
-
-  const ip = getRemoteIp(req);
-  if (ip !== 'localhost' && ip !== '127.0.0.1') {
-    res.send(JSON.stringify({
-      error: 'no',
-    }));
-    return;
-  }
-
-  const stuff = await database.get('/users');
-  macros.log(stuff);
-
-  res.send(JSON.stringify(stuff, null, 4));
-}));
-
-
-// Used for loading the data required to make the frontend work.
-// This is just the data stored in public and not in cache.
-// Tries to load from a local file and if that fails loads from https://searchneu.com
-// And caches that locally.
-async function getFrontendData(file) {
-  const localPath = path.join(macros.PUBLIC_DIR, file);
-  const exists = await fs.exists(localPath);
-
-  // Exists locally, great
-  if (exists) {
-    const body = await fs.readFile(localPath);
-    return JSON.parse(body);
-  }
-
-  macros.log('Downloading ', file, ' from searchneu.com becaues it does not exist locally.');
-
-  // Download from https://searchneu.com
-  // Note this goes through the local request cache
-  let resp;
-  try {
-    resp = await request.get(`https://searchneu.com/data/v${macros.schemaVersion}/${file}`);
-  } catch (e) {
-    macros.error('Unable to load frontend data from locally or from searchneu.com!', file, e);
-    return null;
-  }
-
-  await mkdirp(path.dirname(localPath));
-
-  let data;
-
-  try {
-    data = JSON.parse(resp.body);
-  } catch (e) {
-    macros.log('Could not download term', file, 'from server!');
-    macros.log('Probably going to crash');
-    return null;
-  }
-
-  // Save that locally
-  await fs.writeFile(localPath, resp.body);
-
-  return data;
-}
-
-
-async function loadPromises() {
-  const termDumpPromise = getFrontendData('getTermDump/neu.edu/202010.json');
-  const searchIndexPromise = getFrontendData('getSearchIndex/neu.edu/202010.json');
-
-  const spring2019DataPromise = getFrontendData('getTermDump/neu.edu/201930.json');
-  const spring2019SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201930.json');
-
-  const summer1DataPromise = getFrontendData('getTermDump/neu.edu/201940.json');
-  const summer1SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201940.json');
-
-  const summer2DataPromise = getFrontendData('getTermDump/neu.edu/201960.json');
-  const summer2SearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201960.json');
-
-  const summerFullDataPromise = getFrontendData('getTermDump/neu.edu/201950.json');
-  const summerFullSearchIndexPromise = getFrontendData('getSearchIndex/neu.edu/201950.json');
-
-  const employeeMapPromise = getFrontendData('employeeMap.json');
-  const employeesSearchIndexPromise = getFrontendData('employeesSearchIndex.json');
-
-  try {
-    const fallData = await termDumpPromise;
-    const fallSearchIndex = await searchIndexPromise;
-
-    const springData = await spring2019DataPromise;
-    const springSearchIndex = await spring2019SearchIndexPromise;
-
-    const employeeMap = await employeeMapPromise;
-    const employeesSearchIndex = await employeesSearchIndexPromise;
-
-    const summer1Data = await summer1DataPromise;
-    const summer1SearchIndex = await summer1SearchIndexPromise;
-    const summer2Data = await summer2DataPromise;
-    const summer2SearchIndex = await summer2SearchIndexPromise;
-
-    const summerFullData = await summerFullDataPromise;
-    const summerFullSearchIndex = await summerFullSearchIndexPromise;
-
-
-    if (!fallData || !springData || !fallSearchIndex || !springSearchIndex || !employeeMap || !employeesSearchIndex || !summer1Data || !summer1SearchIndex || !summer2Data || !summer2SearchIndex) {
-      macros.log("Couldn't download a file.", !!fallData, !!springData, !!fallSearchIndex, !!springSearchIndex, !!employeeMap, !!employeesSearchIndex, !!summer1Data, !!summer1SearchIndex, !!summer2Data, !!summer2SearchIndex);
-      return null;
-    }
-
-    const dataLib = DataLib.loadData({
-      202010: fallData,
-      201930: springData,
-      201940: summer1Data,
-      201960: summer2Data,
-      201950: summerFullData,
-    });
-
-    const searchIndexies = {
-      202010: elasticlunr.Index.load(fallSearchIndex),
-      201930: elasticlunr.Index.load(springSearchIndex),
-      201940: elasticlunr.Index.load(summer1SearchIndex),
-      201960: elasticlunr.Index.load(summer2SearchIndex),
-      201950: elasticlunr.Index.load(summerFullSearchIndex),
-    };
-
-    Updater.create(dataLib);
-
-    return {
-      search: search.create(employeeMap, elasticlunr.Index.load(employeesSearchIndex), dataLib, searchIndexies),
-      dataLib: dataLib,
-      searchIndexies: searchIndexies,
-    };
-  } catch (e) {
-    macros.error('Error:', e);
-    macros.error('Not starting search backend.');
-    return null;
-  }
-}
-
-// Load the index as soon as the app starts.
-const promises = loadPromises();
-
 app.get('/search', wrap(async (req, res) => {
+  if (macros.DEV && !await elastic.isConnected()) {
+    const fromProd = await request.get(`https://searchneu.com${req.originalUrl}`);
+    res.send(fromProd.body);
+    macros.log('In dev mode and Elasticsearch not available. Hitting production search API endpoint');
+    return;
+  }
+
   if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500) {
     macros.log(getTime(), 'Need query.', req.query);
     res.send(JSON.stringify({
@@ -349,35 +211,26 @@ app.get('/search', wrap(async (req, res) => {
     return;
   }
 
-
-  const index = (await promises).search;
-
-  if (!index) {
-    // Don't cache errors.
-    res.setHeader('Cache-Control', 'no-cache, no-store');
-    res.send('Could not start backend. No data found.');
-    return;
-  }
-
-  const startTime = Date.now();
-  const searchOutput = index.search(req.query.query, req.query.termId, minIndex, maxIndex);
+  const { searchContent, took, resultCount } = await elastic.search(req.query.query, req.query.termId, req.query.minIndex, req.query.maxIndex);
   const midTime = Date.now();
 
   let string;
   if (req.query.apiVersion === '2') {
-    string = JSON.stringify(searchOutput.resultsObject);
+    string = JSON.stringify({ results: searchContent });
   } else {
-    string = JSON.stringify(searchOutput.resultsObject.results);
+    string = JSON.stringify(searchContent);
   }
 
-  const analytics = searchOutput.analytics;
-
-  analytics.searchTime = midTime - startTime;
-  analytics.stringifyTime = Date.now() - midTime;
+  // Not sure I am logging all the necessary analytics
+  const analytics = {
+    searchTime: took,
+    stringifyTime: Date.now() - midTime,
+    resultCount: resultCount,
+  };
 
   macros.logAmplitudeEvent('Backend Search', analytics);
 
-  macros.log(getTime(), getIpPath(req), 'Search for', req.query.query, 'from', minIndex, 'to', maxIndex, 'took', midTime - startTime, 'ms and stringify took', Date.now() - midTime, 'with', analytics.resultCount, 'results');
+  macros.log(getTime(), getIpPath(req), 'Search for', req.query.query, 'from', minIndex, 'to', maxIndex, 'took', took, 'ms and stringify took', Date.now() - midTime, 'with', analytics.resultCount, 'results');
 
   // Set the header for application/json and send the data.
   res.setHeader('Content-Type', 'application/json; charset=UTF-8');
@@ -398,7 +251,12 @@ app.get('/webhook/', (req, res) => {
 });
 
 async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
-  macros.log('Got opt in button click!', b64ref);
+    let d = new Date();
+    macros.log('Got opt in button click!', b64ref, d.toUTCString());
+  if (macros.DEV && !await elastic.isConnected()) {
+    macros.log('In dev mode and Elasticsearch not available. Class watching does not work. To fix this, make sure Elasticsearch is running on your computer and then run "yarn scrape" and "yarn index"');
+    return;
+  }
 
   // The frontend send a classHash to follow and a list of sectionHashes to follow.
   let userObject = {};
@@ -430,10 +288,15 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
   macros.log('User Object is', userObject);
 
-  const firebaseRef = await database.getRef(`/users/${sender}`);
+    const firebaseRef = await database.getRef(`/users/${sender}`);
+    macros.log(firebaseRef);
 
   let existingData = await firebaseRef.once('value');
-  existingData = existingData.val();
+    existingData = existingData.val();
+    macros.log(existingData);
+
+    const aClass = (await elastic.get(elastic.CLASS_INDEX, userObject.classHash)).class;
+    macros.log(aClass);
 
   // User is signing in from a new device
   if (existingData) {
@@ -515,7 +378,8 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
       loginKeys: [userObject.loginKey],
     };
 
-    macros.log('Adding ', newUser, 'to the db');
+      var eeee = new Date();
+      macros.log('Adding ', newUser, 'to the db', eeee.toUTCString());
 
 
     // Send the user a notification letting them know everything was successful.
@@ -806,7 +670,10 @@ app.post('/getUserData', wrap(async (req, res) => {
 	while (!user) {
 	    user = await database.get(`/users/${senderId}`);
 
-	    if (new Date() - startTime > 2000) {
+	    // This doesn't quite do long polling yet.
+	    // But it repeatedly polls until half a second passes
+	    // Then throw the user timed out error. 
+	    if (new Date() - startTime > 500) {
 		res.send(JSON.stringify({
 		    error: 'Looking for user timed out',
 		}));
@@ -839,7 +706,8 @@ app.post('/getUserData', wrap(async (req, res) => {
 	while (!matchingUser) {
 	    matchingUser = await findMatchingUser(req.body.loginKey);
 
-	    if (new Date() - startTime > 2000) {
+	    if (new Date() - startTime > 500) {
+		macros.log('finding matching user based on loginKey timed out');
 		res.send(JSON.stringify({
 		    error: 'Finding matching user based on loginKey timed out',
 		}));
@@ -915,8 +783,11 @@ app.post('/submitFeedback', wrap(async (req, res) => {
   // In order to send Ryan a FB message with this ID you would need the secret key for the Search NEU page
   const response = await notifyer.sendFBNotification('1397905100304615', message);
 
-  if (response.error) {
-    macros.log(response.error);
+  // Also send a message to Da-Jin
+  const response2 = await notifyer.sendFBNotification('2289421987761573', message);
+
+  if (response.error || response2.error) {
+    macros.log(response.error, response2.error);
     res.send(JSON.stringify({
       error: 'Error.',
     }));

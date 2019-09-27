@@ -102,6 +102,10 @@ class TermDump {
         return fs.writeFile(path.join(folderPath, `${value.termId}.json`), JSON.stringify(value));
       }));
     }
+    const outerFolderPath = path.join(macros.PUBLIC_DIR, 'getTermDump');
+    promises.push(mkdirp(outerFolderPath).then(() => {
+      return fs.writeFile(path.join(outerFolderPath, 'allTerms.json'), JSON.stringify(termDump));
+    }));
     return Promise.all(promises);
   }
 }

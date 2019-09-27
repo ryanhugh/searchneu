@@ -1,0 +1,103 @@
+{
+  "mappings": {
+    "properties": {
+      "class": {
+        "properties": {
+          "name": {
+            "type": "text",
+            "analyzer": "synonym",
+            "fields": {
+              "autocomplete": {
+                "type": "text",
+                "analyzer": "autocomplete",
+                "search_analyzer": "standard"
+              }
+            }
+          },
+          "crns": {
+            "type": "keyword"
+          },
+          "classId": {
+            "type": "text",
+            "analyzer": "course_code",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "subject": {
+            "type": "text",
+            "analyzer": "course_code"
+          },
+          "prereqs": {
+            "type": "object",
+            "enabled": false
+          },
+          "coreqs": {
+            "type": "object",
+            "enabled": false
+          },
+          "optPrereqsFor": {
+            "type": "object",
+            "enabled": false
+          },
+          "prereqsFor": {
+            "type": "object",
+            "enabled": false
+          }
+        }
+      },
+      "sections": {
+        "type": "object",
+        "properties": {
+          "meetings": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  },
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "autocomplete": {
+          "tokenizer": "autocomplete",
+          "filter": ["lowercase"]
+        },
+        "course_code": {
+          "tokenizer": "standard",
+          "filter": ["lowercase", "word_delimiter"]
+        },
+        "synonym": {
+          "tokenizer": "standard",
+          "filter": ["lowercase", "synonym"]
+        }
+      },
+      "tokenizer": {
+        "autocomplete": {
+          "type": "edge_ngram",
+          "min_gram": 2,
+          "max_gram": 20,
+          "token_chars": ["letter", "digit"]
+        }
+      },
+      "filter": {
+        "synonym": {
+          "type": "synonym",
+          "synonyms": [
+            "fundies => Fundamentals of Computer Science",
+            "OOD => Object Oriented Design",
+            "PL => Programming Languages",
+            "ML => Machine Learning",
+            "AI => Artificial Intelligence",
+            "NLP => Natural Language Processing",
+              "orgo => Organic Chemistry",
+	      "swd => Software Development"
+          ]
+        }
+      }
+    }
+  }
+}

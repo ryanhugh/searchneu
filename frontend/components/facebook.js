@@ -224,6 +224,9 @@ class Facebook {
       } else {
         macros.log(e, 'other message');
       }
+	// THE PROBLEM RIGHT NOW IS THE USER IS BEING CREATED AFTER THE CALLS TO DOWNLOAD THE USER
+	// ARE BEING MADE
+
 	this.handleClick();
     }
   }

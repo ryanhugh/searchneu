@@ -13,7 +13,8 @@ set -v
 # and in parallel the output from all three commands would be squished together. 
 # Might be worth looking into this again if the jobs are slow in the future. 
 
-npm run test
+# We can't use npm run test directly because it adds some output, which messes up coveralls
+./node_modules/jest-cli/bin/jest.js --coverage --coverageReporters=text-lcov | ./node_modules/coveralls/bin/coveralls.js
 
 # Make sure everything passes linting
 # Run the commands separately, so if one fails, this script fails
@@ -91,19 +92,27 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
   # if renewal is successful, restart nginx
   # Hooks will only be run if a certificate is due for renewal and the deploy-hook will only run if renewal is successful.
   # https://certbot.eff.org/docs/using.html#pre-and-post-validation-hooks
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'sudo certbot renew --deploy-hook "sudo service nginx restart"'
+  ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'sudo certbot renew --deploy-hook "sudo service nginx restart"'
 
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git reset --hard'
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git pull'
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; git checkout prod'
+  ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'cd searchneu; git reset --hard'
+  ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'cd searchneu; git pull'
+  ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'cd searchneu; git checkout prod'
 
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; mkdir -p public'
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; mkdir -p dist'
+  ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'cd searchneu; mkdir -p public'
+  ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'cd searchneu; mkdir -p dist'
 
-  scp -o StrictHostKeyChecking=no -r public/* ubuntu@34.225.112.42:~/searchneu/public
-  scp -o StrictHostKeyChecking=no -r dist/* ubuntu@34.225.112.42:~/searchneu/dist
+  scp -o StrictHostKeyChecking=no -r public/* ubuntu@3.214.162.230:~/searchneu/public
+  scp -o StrictHostKeyChecking=no -r dist/* ubuntu@3.214.162.230:~/searchneu/dist
 
-  ssh -o StrictHostKeyChecking=no ubuntu@34.225.112.42 'cd searchneu; yarn; npm run start_prod'
+  if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
+    # If this is a cron job, we need to take down the server while the re-index is running so users's don't get invalid or incomplete data.
+    # Taking down the server isn't idea, but its better than caches (both on our side and the user's side) getting invalid or incomplete data.
+    ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'cd searchneu; npm run stop_prod; yarn; npm run index; npm run start_prod'
+  else
+    # If this is not a cron job, we don't have to take down the server for a few seconds.
+    # Install any new packages while it is running, and then reboot the server.
+    ssh -o StrictHostKeyChecking=no ubuntu@3.214.162.230 'cd searchneu; yarn; npm run start_prod'
+  fi
 
   # Tell Rollbar about the deploy
   ACCESS_TOKEN=$ROLLBAR_TOKEN

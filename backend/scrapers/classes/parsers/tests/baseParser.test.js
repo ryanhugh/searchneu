@@ -154,6 +154,14 @@ const text = '\n'
 + '\n'
 + '\n';
 
+it('gets schedule type', () => {
+  let parsedScheduleType = baseParser.parseScheduleType(text);
+  expect(parsedScheduleType).toBe('Research Project');
+
+  parsedScheduleType = baseParser.parseScheduleType('Welcome to SearchNEU!');
+  expect(parsedScheduleType).toBeNull();
+});
+
 it('credit test', () => {
   let creditsParsed = baseParser.parseCredits(text);
   expect(creditsParsed.minCredits).toBe(1);

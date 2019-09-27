@@ -19,6 +19,10 @@ const request = new Request('COE');
 
 // http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=A
 
+// As of 8/29/19, COE has a new website, and this file will need to be re-written.
+// This was removed from matchEmployees.js, but when its re-written just add it back.
+// https://github.com/ryanhugh/searchneu/issues/95
+
 class COE {
   scrapeDetailpage(body) {
     const obj = {};
