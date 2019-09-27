@@ -17,7 +17,9 @@ const request = new Request('notifyer', {
 
 // Only send to these sender IDs in DEV mode.
 // If a message is sent to a different sender id in DEV mode, it is logged and ignored.
-const whitelistedSenders = ['2178896222126069', '1397905100304615'];
+
+// apparently no longer used?
+//const whitelistedSenders = ['2178896222126069', '1397905100304615'];
 
 class Notifyer {
   // Webhook to respond to Facebook messages.

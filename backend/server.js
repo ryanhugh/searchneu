@@ -360,11 +360,11 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     loginKeys.add(userObject.loginKey);
     existingData.loginKeys = Array.from(loginKeys);
     reqs.forEach((el) => {
-	  el.send((JSON.stringify({
-	      status: 'Success',
-	      user: existingData,
+      el.send((JSON.stringify({
+        status: 'Success',
+        user: existingData,
       })));
-		  });
+    });
     reqs = [];
 
     macros.log('funny prank');
@@ -398,11 +398,11 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
     database.set(`/users/${sender}`, newUser);
     reqs.forEach((el) => {
-	  el.send((JSON.stringify({
-	      status: 'Success',
-	      user: newUser,
+      el.send((JSON.stringify({
+        status: 'Success',
+        user: newUser,
       })));
-	    });
+    });
     reqs = [];
   }
 }
@@ -615,11 +615,11 @@ app.post('/sendUserData', wrap(async (req, res) => {
     // first confirm the loginkey is legitimate
     const user = await database.get(`/users/${senderId}`);
     if (user && !user.loginKeys.includes(req.body.loginKey)) {
-	    macros.log('loginKey not within the sender\'s entry');
-	    res.send(JSON.stringify({
+      macros.log('loginKey not within the sender\'s entry');
+      res.send(JSON.stringify({
         error: 'Error, invalid loginkey on senderId.',
-	    }));
-	    return;
+      }));
+      return;
     }
     await database.set(`/users/${senderId}`, req.body.info);
     macros.log('sending done, result is ', await database.get(`/users/${senderId}`));
@@ -680,23 +680,12 @@ app.post('/getUserData', wrap(async (req, res) => {
 
   // long polling needs to start here
   if (senderId) {
-    let user;
-    const startTime = new Date();
+    const user = await database.get(`/users/${senderId}`);
 
-    while (!user) {
-	    user = await database.get(`/users/${senderId}`);
-
-	    // This doesn't quite do long polling yet.
-	    // But it repeatedly polls until half a second passes
-	    // Then throw the user timed out error.
-      if (new Date() - startTime > 500) {
-        res.send(JSON.stringify({
-		    error: 'Looking for user timed out',
-        }));
-        return;
-	    }
+    if (!user) {
+      reqs.push(res);
+      return;
     }
-    macros.log('naive long polling', user);
 
     if (!user) {
       macros.log('User with senderId not in database yet', senderId);
@@ -717,13 +706,11 @@ app.post('/getUserData', wrap(async (req, res) => {
 
     matchingUser = user;
   } else {
-    const startTime = new Date();
-
     matchingUser = await findMatchingUser(req.body.loginKey);
 
     if (!matchingUser) {
-	reqs.push(res);
-	return;
+      reqs.push(res);
+      return;
     }
   }
 

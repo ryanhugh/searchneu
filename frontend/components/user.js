@@ -47,24 +47,22 @@ class User {
       body.senderId = window.localStorage.senderId;
     }
 
-    let response;
-
     macros.log('data doing the thing is', body);
-    response = await request.post({ //eslint-disable-line no-await-in-loop
+    const response = await request.post({ //eslint-disable-line no-await-in-loop
       url: '/getUserData',
       body: body,
     });
 
 
     //      if (!response || response.error) {
-	  macros.log('OCEAN', response);
+    macros.log('OCEAN', response);
     //    }
 
 
     // If error, delete local invalid data.
     if (response.error) {
-	  const d = new Date();
-	  macros.log('Data in localStorage is invalid, deleting', d.toUTCString());
+      const d = new Date();
+      macros.log('Data in localStorage is invalid, deleting', d.toUTCString());
       this.logOut();
       return;
     }
@@ -90,7 +88,7 @@ class User {
 
     macros.log('sending.... ', this.user);
     if (!this.user) {
-	  await this.downloadUserData();
+      await this.downloadUserData();
     }
     macros.log('after...', this.user);
 
@@ -240,15 +238,13 @@ class User {
   // adds a class to a user
   addClass(theClass) {
     if (!this.user) {
-	    macros.error('no user for addition?');
-	    return;
+      macros.error('no user for addition?');
+      return;
     }
 
-    const classHash = Keys.getClassHash(theClass);
-
     if (this.user.watchingClasses.includes(theClass)) {
-	    macros.error('user already watching class?', theClass, this.user);
-	    return;
+      macros.error('user already watching class?', theClass, this.user);
+      return;
     }
 
     this.user.watchingClasses.push(Keys.getClassHash(theClass));
@@ -258,18 +254,16 @@ class User {
 
   removeClass(theClass) {
     if (!this.user) {
-	    macros.error('no user for addition?');
-	    return;
+      macros.error('no user for addition?');
+      return;
     }
-
-    const classHash = Keys.getClassHash(theClass);
 
     if (!this.user.watchingClasses.includes(theClass)) {
-	    macros.error('user isn\'t watching class?', theClass, this.user);
-	    return;
+      macros.error('user isn\'t watching class?', theClass, this.user);
+      return;
     }
 
-	    _.pull(this.user.watchingClasses, Keys.getClassHash(theClass));
+    _.pull(this.user.watchingClasses, Keys.getClassHash(theClass));
 
     macros.log('class removed', this.user);
   }
