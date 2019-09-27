@@ -63,7 +63,6 @@ class User {
 
     // If error, delete local invalid data.
     if (response.error) {
-
 	  const d = new Date();
 	  macros.log('Data in localStorage is invalid, deleting', d.toUTCString());
       this.logOut();

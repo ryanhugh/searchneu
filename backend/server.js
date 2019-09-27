@@ -38,7 +38,7 @@ const app = express();
 // This is not used in development
 const fbAppSecret = macros.getEnvVariable('fbAppSecret');
 
-var reqs = [];
+let reqs = [];
 
 // Start updater interval
 // TODO: FIX!!!!!!
@@ -359,14 +359,15 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     const loginKeys = new Set(existingData.loginKeys);
     loginKeys.add(userObject.loginKey);
     existingData.loginKeys = Array.from(loginKeys);
-                  reqs.forEach(function(el) {
+    reqs.forEach((el) => {
 	  el.send((JSON.stringify({
 	      status: 'Success',
-	      user: existingData,})));
+	      user: existingData,
+      })));
 		  });
-      reqs = [];
+    reqs = [];
 
-      macros.log('funny prank');
+    macros.log('funny prank');
 
     firebaseRef.set(existingData);
   } else {
@@ -389,20 +390,20 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     };
 
     const eeee = new Date();
-      macros.log('Adding ', newUser, 'to the db', eeee.toUTCString());
-
+    macros.log('Adding ', newUser, 'to the db', eeee.toUTCString());
 
 
     // Send the user a notification letting them know everything was successful.
     notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}!`);
 
-      database.set(`/users/${sender}`, newUser);
-            reqs.forEach(function(el) {
+    database.set(`/users/${sender}`, newUser);
+    reqs.forEach((el) => {
 	  el.send((JSON.stringify({
 	      status: 'Success',
-	      user: newUser,})));
+	      user: newUser,
+      })));
 	    });
-      reqs = [];
+    reqs = [];
   }
 }
 
@@ -688,10 +689,10 @@ app.post('/getUserData', wrap(async (req, res) => {
 	    // This doesn't quite do long polling yet.
 	    // But it repeatedly polls until half a second passes
 	    // Then throw the user timed out error.
-	if (new Date() - startTime > 500) {
+      if (new Date() - startTime > 500) {
         res.send(JSON.stringify({
 		    error: 'Looking for user timed out',
-	}));
+        }));
         return;
 	    }
     }
@@ -718,14 +719,11 @@ app.post('/getUserData', wrap(async (req, res) => {
   } else {
     const startTime = new Date();
 
-      matchingUser = await findMatchingUser(req.body.loginKey);
-      reqs.push(res);
-      
+    matchingUser = await findMatchingUser(req.body.loginKey);
+
     if (!matchingUser) {
-      res.send(JSON.stringify({
-        error: 'Invalid loginKey.',
-      }));
-      return;
+	reqs.push(res);
+	return;
     }
   }
 
