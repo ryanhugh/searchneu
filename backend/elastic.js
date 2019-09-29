@@ -34,6 +34,7 @@ class Elastic {
    * @param  {Object} mapping   The new elasticsearch index mapping(schema)
    */
   async resetIndex(indexName, mapping) {
+    
     // Clear out the index.
     await client.indices.delete({ index: indexName }).catch(() => {});
     // Put in the new classes mapping (elasticsearch doesn't let you change mapping of existing index)
@@ -244,6 +245,13 @@ class Elastic {
                 ],
               },
             },
+          },
+        },
+        suggest: {
+          text: query,
+          phrase_suggester: {
+            field: "name.suggestions",
+            size: 1,
           },
         },
       },

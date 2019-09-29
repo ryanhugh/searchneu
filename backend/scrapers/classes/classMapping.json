@@ -11,6 +11,10 @@
                 "type": "text",
                 "analyzer": "autocomplete",
                 "search_analyzer": "standard"
+              },
+              "suggestions": {
+                "type": "text",
+                "analyzer": "did_you_mean"
               }
             }
           },
@@ -24,6 +28,10 @@
               "keyword": {
                 "type": "keyword",
                 "ignore_above": 256
+              },
+              "suggestions": {
+                "type": "text",
+                "analyzer": "did_you_mean"
               }
             }
           },
@@ -79,6 +87,10 @@
         "synonym": {
           "tokenizer": "standard",
           "filter": ["lowercase", "synonym"]
+        },
+        "did_you_mean": {
+          "tokenizer": "standard",
+          "filter": ["lowercase", "word_delimiter", "shingles"]
         }
       },
       "tokenizer": {
@@ -102,6 +114,10 @@
             "orgo => Organic Chemistry",
             "swd => Software Development"
           ]
+        },
+        "shingles": {
+          "type": "shingle", 
+          "min_shingle_size": 1
         }
       }
     }
