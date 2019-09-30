@@ -394,7 +394,9 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
 
     // Send the user a notification letting them know everything was successful.
-    notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}!`);
+    notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}! 
+
+You will be notified for any section of a class you toggle back on searchneu. You will also be notified if sections open up for a class you toggle. If the class you signed up for notifications for doesn't have any sections, you've already been signed up for notifications on the class.`);
 
     database.set(`/users/${sender}`, newUser);
     reqs.forEach((el) => {
