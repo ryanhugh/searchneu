@@ -123,7 +123,6 @@ class Home extends React.Component {
 
       // Keep track of whether the help modal is open or not.
       helpModalOpen: false,
-
     };
 
     // Timer used to debounce search queries

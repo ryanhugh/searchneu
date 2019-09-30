@@ -37,12 +37,11 @@ class SignUpForNotifications extends React.Component {
       // initially, don't want to show the messenger button yet
       showMessengerButton: false,
 
-      // or the adblock message (sometimes, adblock blocks fb messenger button)
+      // Keeps track of whether the adblock message is being shown or not
+      // Sometimes, adblock will block the FB plugin from loading
+      // Firefox strict browsing also blocks this plugin from working
+      // If the plugin failed to load for whatever reason, show this message and ask the user to allow FB plugins
       showAdblockMessage: false,
-
-      // if firefox has strict privacy tracking enabled, the page can crash. Instead of
-      // doing that, we make sure we dont' try to render null things.
-      showFirefoxMessage: false,
     };
 
     this.facebookScopeRef = null;
@@ -54,21 +53,22 @@ class SignUpForNotifications extends React.Component {
   // This will tell FB's SDK to scan all the child elements of this.facebookScopeRef to look for fb-send-to-messenger buttons.
   // If the user goes to this page and is not logged into Facebook, a send to messenger button will still appear and they
   // will be asked to sign in after clicking it.
-  componentDidUpdate() {
+  async componentDidUpdate() {
     if (!this.facebookScopeRef) {
       return;
     }
 
-    // firefox has a strict no-trackers rule, which FB violates
-    // this is to make sure the site doesn't crash on firefox
-    if (window.FB) {
-      window.FB.XFBML.parse(this.facebookScopeRef);
-    } else {
-      this.setState({ // eslint-disable-line react/no-did-update-set-state
-        showFirefoxMessage: true,
-      });
+
+    const FB = await facebook.getFBPromise();
+
+    // Check for this.facebookScopeRef again because some rollbar errors were coming in that it was changed to null
+    // while the await above was running
+    // https://rollbar.com/ryanhugh/searchneu/items/373/
+    if (!FB || !this.facebookScopeRef) {
       return;
     }
+
+    FB.XFBML.parse(this.facebookScopeRef);
 
     const iframe = this.facebookScopeRef.querySelector('iframe');
 
@@ -105,7 +105,7 @@ class SignUpForNotifications extends React.Component {
           this.setState({
             showAdblockMessage: true,
           });
-          this.constructor.hasAdblock = true;
+          facebook.pluginFailedToRender();
         }
       } else {
         macros.logAmplitudeEvent('FB Send to Messenger', {
@@ -117,7 +117,7 @@ class SignUpForNotifications extends React.Component {
   }
 
   // Updates the state to show the button.
-  onSubscribeToggleChange() {
+  async onSubscribeToggleChange() {
     // if a user exists already, we can show the notification checkboxes too
     if (user.user) {
       macros.log('user exists already', user.user);
@@ -129,9 +129,21 @@ class SignUpForNotifications extends React.Component {
         hash: this.props.aClass.getHash(),
       });
 
-      this.setState({
+      // Check the status of the FB plugin
+      // If it failed to load, show the message that asks user to disable adblock
+      const newState = {
         showMessengerButton: true,
-      });
+      };
+
+      try {
+        await facebook.getFBPromise();
+      } catch (e) {
+        newState.showAdblockMessage = true;
+      }
+
+      this.setState(
+        newState,
+      );
 
       facebook.handleClickGetter(this.props.handleClick);
     }
