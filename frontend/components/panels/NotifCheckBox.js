@@ -66,10 +66,11 @@ export default class NotifCheckBox extends React.Component {
     // if we have a section, and the section has seats remaining, it doesn't make
     // sense to sig up a user for notifications, so make the Checkbox readonly
     if (this.state.section && this.state.section.seatsRemaining) {
-      return <Icon size='large' name='info circle' color='grey' />;
+	return <div style={{color: '#d3d3d3'}}><Icon name='info circle' className='myIcon'/></div>;
     }
 
     // otherwise, return a checkbox that has the correct state
     return <Checkbox toggle checked={ this.state.checked } onChange={ this.doChange } />;
   }
 }
+
