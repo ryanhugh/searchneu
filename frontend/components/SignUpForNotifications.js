@@ -68,7 +68,6 @@ class SignUpForNotifications extends React.Component {
       return;
     }
 
-
     const FB = await facebook.getFBPromise();
 
     // Check for this.facebookScopeRef again because some rollbar errors were coming in that it was changed to null
@@ -98,7 +97,7 @@ class SignUpForNotifications extends React.Component {
       const classHash = this.props.aClass.getHash();
 
       // If has adblock and haven't shown the warning yet, show the warning.
-      if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !this.constructor.hasAdblock && !facebook.didPluginRender()) {
+      if (ele.offsetHeight === 0 && ele.offsetWidth === 0 && !facebook.didPluginRender()) {
         if (macros.isMobile) {
           macros.error('Unable to render on mobile?', classHash);
 
@@ -151,14 +150,11 @@ class SignUpForNotifications extends React.Component {
         newState.showAdblockMessage = true;
       }
 
-      this.setState(
-        newState,
-      );
+      this.setState(newState);
 
       facebook.handleClickGetter(this.props.handleClick);
     }
   }
-
 
   // Return the FB button itself.
   getSendToMessengerButton() {
@@ -209,10 +205,15 @@ class SignUpForNotifications extends React.Component {
     let content = null;
 
     if (this.state.showMessengerButton) {
-      if (this.constructor.hasAdblock) {
-        content = <Button basic content='Disable adblock to continue' className='diableAdblockButton' />;
-      } else if (this.state.showFirefoxMessage) {
-        content = <Button basic content='It seems your website blocks trackers, which breaks signing up for Facebook Messenger notifications' disabled className='diableAdblockButton' />;
+      if (facebook.didPluginFail()) {
+        content = (
+          <Button
+            basic
+            content='Disable adblock to continue'
+            className='diableAdblockButton'
+            disabled
+          />
+        );
       } else {
         content = (
           <div className='facebookButtonContainer'>
@@ -258,7 +259,7 @@ class SignUpForNotifications extends React.Component {
           className='adblock-notification-modal-container'
           header='Please disable adblock and sign into Facebook.'
           open={ this.state.showAdblockMessage }
-          content="Please open a new tab and ensure you are signed into Facebook. Also, make sure to disable any ad blocking extentions because this feature does not work when adblock is enabled. If you are using Safari, try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
+          content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, you will need to add an exception for this site for this feature to work. You will also have to uninstall Facebook Container for Firefox, if you have that installed. You can also try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
           actions={ actions }
         />
       </div>

@@ -23,7 +23,6 @@ import globe from './globe.svg';
 // Don't do `this.state = {...}`, because the state is already setup in the parent react component
 // instead just do this.state.something = 5;
 
-
 export default class DesktopClassPanel extends BaseClassPanel {
   constructor(props) {
     super(props);
@@ -34,7 +33,6 @@ export default class DesktopClassPanel extends BaseClassPanel {
   static propTypes = {
     aClass: PropTypes.object.isRequired,
   };
-
 
   componentDidUpdate() {
     macros.debounceTooltipRebuild();

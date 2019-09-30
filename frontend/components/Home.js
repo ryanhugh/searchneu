@@ -8,7 +8,6 @@ import ReactTooltip from 'react-tooltip';
 import cx from 'classnames/bind';
 import { Dropdown } from 'semantic-ui-react';
 
-
 import 'semantic-ui-css/semantic.min.css';
 import '../css/base.scss';
 
@@ -156,7 +155,6 @@ class Home extends React.Component {
     this.closeHelpModal = this.closeHelpModal.bind(this);
     this.openHelpModal = this.openHelpModal.bind(this);
 
-
     // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
 
@@ -179,7 +177,7 @@ class Home extends React.Component {
     }
 
     if (this.state.searchQuery) {
-      macros.log('Going to serach for', this.state.searchQuery, this.state.selectedTermId);
+      macros.log('Going to search for', this.state.searchQuery, this.state.selectedTermId);
       this.search(this.state.searchQuery, this.state.selectedTermId);
     }
   }
@@ -440,7 +438,6 @@ class Home extends React.Component {
     }
   }
 
-
   render() {
     let resultsElement = null;
 
@@ -458,7 +455,6 @@ class Home extends React.Component {
         meme: true,
         memes: true,
       };
-
 
       if (memeMatches[this.state.searchQuery.toLowerCase().trim()]) {
         resultsElement = (

@@ -38,6 +38,9 @@ const app = express();
 // This is not used in development
 const fbAppSecret = macros.getEnvVariable('fbAppSecret');
 
+
+// All of the requests/responses that haven't been pushed yet. Added here when
+// requests come in for data that isn't quite in the backend yet
 let reqs = [];
 
 // Start updater interval
@@ -253,8 +256,8 @@ app.get('/webhook/', (req, res) => {
 });
 
 async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
-  const d = new Date();
-  macros.log('Got opt in button click!', b64ref, d.toUTCString());
+  macros.log('Got opt in button click!', b64ref);
+
   if (macros.DEV && !await elastic.isConnected()) {
     macros.log('In dev mode and Elasticsearch not available. Class watching does not work. To fix this, make sure Elasticsearch is running on your computer and then run "yarn scrape" and "yarn index"');
     return;
@@ -291,14 +294,9 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   macros.log('User Object is', userObject);
 
   const firebaseRef = await database.getRef(`/users/${sender}`);
-  macros.log(firebaseRef);
 
   let existingData = await firebaseRef.once('value');
   existingData = existingData.val();
-  macros.log(existingData);
-
-  const aClass = (await elastic.get(elastic.CLASS_INDEX, userObject.classHash)).class;
-  macros.log(aClass);
 
   // User is signing in from a new device
   if (existingData) {
@@ -311,26 +309,6 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
       existingData.watchingSections = [];
     }
 
-    const sectionWasentWatchingBefore = [];
-    for (const section of userObject.sectionHashes) {
-      if (!existingData.watchingSections.includes(section)) {
-        sectionWasentWatchingBefore.push(section);
-      }
-    }
-
-    // Check to see how many of these classes they were already signed up for.
-
-    if (sectionWasentWatchingBefore.length <= 1) {
-      // ok lets add what classes the user saw in the frontend that have no seats available and that they want to sign up for
-      // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
-      // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
-
-      // Only add if it doesn't already exist in the user data.
-      if (!existingData.watchingClasses.includes(userObject.classHash)) {
-        existingData.watchingClasses.push(userObject.classHash);
-      }
-      existingData.watchingSections = _.uniq(existingData.watchingSections.concat(userObject.sectionHashes));
-    }
 
     // Remove any null or undefined values from the watchingClasses and watchingSections
     // This can happen if data is manually deleted from the DB, and the data is no longer continuous.
@@ -366,8 +344,6 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     });
     reqs = [];
 
-    macros.log('funny prank');
-
     firebaseRef.set(existingData);
   } else {
     let names = await notifyer.getUserProfileInfo(sender);
@@ -388,9 +364,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
       loginKeys: [userObject.loginKey],
     };
 
-    const eeee = new Date();
-    macros.log('Adding ', newUser, 'to the db', eeee.toUTCString());
-
+    macros.log('Adding ', newUser, 'to the db');
 
     // Send the user a notification letting them know everything was successful.
     notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}! 

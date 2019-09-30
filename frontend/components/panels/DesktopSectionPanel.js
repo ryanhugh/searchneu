@@ -21,7 +21,6 @@ export default class DesktopSectionPanel extends React.Component {
     showNotificationBoxes: false,
   };
 
-
   // the required properties which just control what should be rendered or not
   // For example, a class could have no final exam, or wait list... etc.
   static propTypes = {
@@ -31,7 +30,6 @@ export default class DesktopSectionPanel extends React.Component {
     section: PropTypes.object.isRequired,
     showNotificationBoxes: PropTypes.bool,
   };
-
 
   // just creates a state object
   constructor(props) {
@@ -137,7 +135,6 @@ export default class DesktopSectionPanel extends React.Component {
 
     const notifBox = (<NotifCheckBox section={ this.props.section } />);
 
-
     return (
       <tr key={ this.props.section.getHash() }>
         <td>
@@ -161,11 +158,9 @@ export default class DesktopSectionPanel extends React.Component {
           </div>
         </td>
 
-
         <td style={{ display: !this.props.showHonorsColumn && 'none' }}>
           {honorsCheck}
         </td>
-
 
         <td style={{ display: !this.props.showNotificationBoxes && 'none' }}>
           <center>{notifBox}</center>
