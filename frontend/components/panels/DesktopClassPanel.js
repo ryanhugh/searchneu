@@ -146,11 +146,11 @@ export default class DesktopClassPanel extends BaseClassPanel {
               <th style={{ display: !showWaitList && 'none' }}>
                 Waitlist seats
               </th>
-              <th style={{ display: !this.state.showNotificationBoxes && 'none' }}>
-        Notifs
-              </th>
               <th style={{ display: !showHonorsColumn && 'none' }}>
                 Honors
+          </th>
+	                    <th style={{ display: !this.state.showNotificationBoxes && 'none' }}>
+        Notifs
               </th>
               <th> Link </th>
             </tr>
@@ -165,9 +165,10 @@ export default class DesktopClassPanel extends BaseClassPanel {
                   key={ section.crn }
                   showWaitList={ showWaitList }
                   shouldShowExamColumns={ aClass.sectionsHaveExam() }
+		  showNotificationBoxes={ this.state.showNotificationBoxes }
                   showHonorsColumn={ showHonorsColumn }
                   section={ section }
-                  showNotificationBoxes={ this.state.showNotificationBoxes }
+
                 />
               );
             })}
