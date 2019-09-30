@@ -60,7 +60,7 @@ export default class NotifCheckBox extends React.Component {
     macros.log(this.props.section);
     this.state.checked = user.hasSectionAlready(Keys.getSectionHash(this.props.section));
     // no sections, no toggle sense
-    if (this.props.section && this.props.section.seatsRemaining) {
+    if (this.props.section && this.props.section.seatsRemaining > 5) {
       return <div style={{ color: '#d3d3d3' }} data-tip='There are still seats remaining for this section' className='inlineBlock'><Icon name='info circle' className='myIcon' /></div>;
     }
 

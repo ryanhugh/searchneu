@@ -109,11 +109,10 @@ class Facebook {
     return this.messengerRenderState === MESSENGER_PLUGIN_STATE.FAILED;
   }
 
-  // sets the given callbakc to "handleClick"
+  // sets the given callback to "handleClick"
   handleClickGetter(callback) {
     this.handleClick = callback;
   }
-
 
   // This function assumes that 'searchneu.com' is whitelisted in the Facebook Developer console settings
   // https://developers.facebook.com/apps/1979224428978082/settings/basic/
@@ -146,7 +145,6 @@ class Facebook {
     });
   }
 
-
   // handles button events
   async onSendToMessengerClick(e) {
     if (e.event === 'rendered') {
@@ -168,8 +166,6 @@ class Facebook {
     } else if (e.event === 'opt_in') {
       macros.log('Opt in was clicked!', e);
 
-      //TODO: this has to be changed to long polling
-      macros.log('called from fb');
       user.downloadUserData();
 
       macros.logAmplitudeEvent('FB Send to Messenger', {
@@ -224,8 +220,6 @@ class Facebook {
       } else {
         macros.log(e, 'other message');
       }
-      // THE PROBLEM RIGHT NOW IS THE USER IS BEING CREATED AFTER THE CALLS TO DOWNLOAD THE USER
-      // ARE BEING MADE
 
       this.handleClick();
     }

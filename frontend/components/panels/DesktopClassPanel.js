@@ -23,7 +23,6 @@ import globe from './globe.svg';
 // Don't do `this.state = {...}`, because the state is already setup in the parent react component
 // instead just do this.state.something = 5;
 
-
 export default class DesktopClassPanel extends BaseClassPanel {
   constructor(props) {
     super(props);
@@ -34,7 +33,6 @@ export default class DesktopClassPanel extends BaseClassPanel {
   static propTypes = {
     aClass: PropTypes.object.isRequired,
   };
-
 
   componentDidUpdate() {
     macros.debounceTooltipRebuild();
@@ -148,11 +146,11 @@ export default class DesktopClassPanel extends BaseClassPanel {
               <th style={{ display: !showWaitList && 'none' }}>
                 Waitlist seats
               </th>
-              <th style={{ display: !this.state.showNotificationBoxes && 'none' }}>
-        Notifs
-              </th>
               <th style={{ display: !showHonorsColumn && 'none' }}>
                 Honors
+          </th>
+	                    <th style={{ display: !this.state.showNotificationBoxes && 'none' }}>
+        Notifs
               </th>
               <th> Link </th>
             </tr>
@@ -167,9 +165,10 @@ export default class DesktopClassPanel extends BaseClassPanel {
                   key={ section.crn }
                   showWaitList={ showWaitList }
                   shouldShowExamColumns={ aClass.sectionsHaveExam() }
+		  showNotificationBoxes={ this.state.showNotificationBoxes }
                   showHonorsColumn={ showHonorsColumn }
                   section={ section }
-                  showNotificationBoxes={ this.state.showNotificationBoxes }
+
                 />
               );
             })}

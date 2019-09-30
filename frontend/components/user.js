@@ -47,17 +47,11 @@ class User {
       body.senderId = window.localStorage.senderId;
     }
 
-    macros.log('data doing the thing is', body);
+    macros.log('data going to the backend is', body);
     const response = await request.post({ //eslint-disable-line no-await-in-loop
       url: '/getUserData',
       body: body,
     });
-
-
-    //      if (!response || response.error) {
-    macros.log('OCEAN', response);
-    //    }
-
 
     // If error, delete local invalid data.
     if (response.error) {
@@ -90,8 +84,6 @@ class User {
     if (!this.user) {
       await this.downloadUserData();
     }
-    macros.log('after...', this.user);
-
 
     const body = {
       loginKey: this.getLoginKey(),
@@ -105,12 +97,10 @@ class User {
       body.senderId = window.localStorage.senderId;
     }
 
-    macros.log('got to sendUserData already for some reason');
     const response = await request.post({
       url: '/sendUserData',
       body: body,
     });
-
 
     // If error, log it
     if (response.error) {
@@ -123,7 +113,7 @@ class User {
       callback();
     }
 
-    macros.log('sending success?');
+    macros.log('sending success');
   }
 
   // Revokes the loginKey and user user-specific data
