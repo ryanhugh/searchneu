@@ -1,19 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render the default notification checkbox 1`] = `
-<Checkbox
-  checked={false}
-  onChange={[Function]}
-  toggle={true}
-  type="checkbox"
-/>
+<div
+  className="inlineBlock"
+  data-tip="Sign up for notifications for this section"
+>
+  <Checkbox
+    checked={false}
+    onChange={[Function]}
+    toggle={true}
+    type="checkbox"
+  />
+</div>
 `;
 
 exports[`render the read only notification checkbox 1`] = `
-<Checkbox
-  checked={false}
-  onChange={[Function]}
-  toggle={true}
-  type="checkbox"
-/>
+<div
+  className="inlineBlock"
+  data-tip="Sign up for notifications for this section"
+>
+  <Checkbox
+    checked={false}
+    onChange={[Function]}
+    toggle={true}
+    type="checkbox"
+  />
+</div>
 `;

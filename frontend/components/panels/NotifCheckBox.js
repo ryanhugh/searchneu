@@ -27,11 +27,7 @@ export default class NotifCheckBox extends React.Component {
     this.state = {
       // has a user already signed up for notifications on a section?
       checked: user.hasSectionAlready(Keys.getSectionHash(this.props.section)),
-
-      // the section for a class that this NotifCheckBox is for
-      section: this.props.section,
     };
-
 
     this.doChange = this.doChange.bind(this);
   }
@@ -44,10 +40,10 @@ export default class NotifCheckBox extends React.Component {
       await user.downloadUserData();
     }
     if (this.state.checked) {
-      user.removeSection(this.state.section);
+      user.removeSection(this.props.section);
       this.setState({ checked: false });
     } else {
-      user.enrollSection(this.state.section);
+      user.enrollSection(this.props.section);
       this.setState({ checked: true });
     }
     user.sendUserData();
@@ -57,20 +53,16 @@ export default class NotifCheckBox extends React.Component {
   // renders the proper checkbox. If there are still seats, then make it read
   // only, otherwise, set up callback on onChange
   render() {
-    // one last check to ensure the state is correct... since sometimes the user isn't
-    // in place by the time rendering has started.
-    if (this.state.checked !== user.hasSectionAlready(Keys.getSectionHash(this.state.section))) {
-      this.state.checked = !this.state.checked;
-    }
-
-    // if we have a section, and the section has seats remaining, it doesn't make
-    // sense to sig up a user for notifications, so make the Checkbox readonly
-    if (this.state.section && this.state.section.seatsRemaining) {
-	return <div style={{color: '#d3d3d3'}}><Icon name='info circle' className='myIcon'/></div>;
+    // no sections, no toggle sense
+    if (this.props.section && this.props.section.seatsRemaining) {
+      return <div style={{ color: '#d3d3d3' }} data-tip='There are still seats remaining for this section' className='inlineBlock'><Icon name='info circle' className='myIcon' /></div>;
     }
 
     // otherwise, return a checkbox that has the correct state
-    return <Checkbox toggle checked={ this.state.checked } onChange={ this.doChange } />;
+    return (
+      <div data-tip='Sign up for notifications for this section' className='inlineBlock'>
+        <Checkbox toggle checked={ this.state.checked } onChange={ this.doChange } />
+      </div>
+    );
   }
 }
-
