@@ -634,7 +634,7 @@ app.post('/sendUserData', wrap(async (req, res) => {
     return;
   }
   macros.log(req.body);
-  notifyer.sendFBNotification(senderId, 'You\'ve added another section/class to the list of things you\'re watching');
+  notifyer.sendFBNotification(senderId, 'You\'ve updated the sections/classes to the list of things you\'re watching');
 
   // send a status of success. Hopefully it went well.
   res.send(JSON.stringify({

@@ -8,6 +8,7 @@ import { Checkbox, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import user from '../user';
 import Keys from '../../../common/Keys';
+import macros from '../macros';
 
 // This file renders the checkboxes that control which sections a user signs up for
 // notifications.
@@ -53,6 +54,11 @@ export default class NotifCheckBox extends React.Component {
   // renders the proper checkbox. If there are still seats, then make it read
   // only, otherwise, set up callback on onChange
   render() {
+    // one last check to ensure the state is correct... since sometimes the user isn't
+    // in place by the time rendering has started.
+
+    macros.log(this.props.section);
+    this.state.checked = user.hasSectionAlready(Keys.getSectionHash(this.props.section));
     // no sections, no toggle sense
     if (this.props.section && this.props.section.seatsRemaining) {
       return <div style={{ color: '#d3d3d3' }} data-tip='There are still seats remaining for this section' className='inlineBlock'><Icon name='info circle' className='myIcon' /></div>;
