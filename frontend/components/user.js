@@ -160,6 +160,14 @@ class User {
     return false;
   }
 
+  // checks if the user already has the class in it
+  hasClassAlready(classHash) {
+    if (this.user) {
+      return this.user.watchingClasses.includes(classHash);
+    }
+    return false;
+  }
+
   // removes a section from a user, as well as the class if no more sections are tracked
   // in that class
   removeSection(section) {

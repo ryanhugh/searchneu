@@ -49,6 +49,16 @@ class SignUpForNotifications extends React.Component {
     this.closeModal = this.closeModal.bind(this);
   }
 
+
+  // if there is a user, and they already have signed up for some sections of
+  // the class looking at, Boxes should already be toggled.
+  async componentDidMount() {
+    if (user.hasClassAlready(this.props.aClass.getHash())) {
+      this.props.handleClick();
+      this.setState({ toggleBox: true });
+    }
+  }
+
   // After the button is added to the DOM, we need to tell FB's SDK that it was added to the code and should be processed.
   // This will tell FB's SDK to scan all the child elements of this.facebookScopeRef to look for fb-send-to-messenger buttons.
   // If the user goes to this page and is not logged into Facebook, a send to messenger button will still appear and they
