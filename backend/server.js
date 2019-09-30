@@ -320,7 +320,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
     // Check to see how many of these classes they were already signed up for.
 
-        if (sectionWasentWatchingBefore.length <= 1) {
+    if (sectionWasentWatchingBefore.length <= 1) {
       // ok lets add what classes the user saw in the frontend that have no seats available and that they want to sign up for
       // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
       // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
@@ -633,8 +633,8 @@ app.post('/sendUserData', wrap(async (req, res) => {
     // to make sure i'm not shooting myself in the foot :)
     return;
   }
-    macros.log(req.body);
-  notifyer.sendFBNotification(senderId, `You've added another section to the list of things you're watching`);
+  macros.log(req.body);
+  notifyer.sendFBNotification(senderId, 'You\'ve added another section/class to the list of things you\'re watching');
 
   // send a status of success. Hopefully it went well.
   res.send(JSON.stringify({

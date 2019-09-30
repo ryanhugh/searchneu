@@ -173,7 +173,6 @@ class User {
 
     if (this.user.watchingSections.includes(sectionHash)) {
       _.pull(this.user.watchingSections, sectionHash);
-      // this.user.watchingSections.splice(this.user.watchingSections.indexOf(sectionHash), 1);
 
       const classHash = Keys.getClassHash({
         host: section.host,
@@ -189,7 +188,6 @@ class User {
 
       if (!acc) {
         _.pull(this.user.watchingClasses, classHash);
-        // this.user.watchingClasses.splice(this.user.watchingClasses.indexOf(classHash), 1);
       }
     } else {
       macros.error("removed section that doesn't exist on user?", section, this.user);

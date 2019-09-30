@@ -214,7 +214,11 @@ class SignUpForNotifications extends React.Component {
         );
       }
     } else if (this.state.toggleBox) {
-      content = <Button basic disabled content='Toggle the sections you want to be notified for!' className='notificationButton' />;
+      if (this.props.aClass.sections.length === 0) {
+        content = <Button basic disabled content="You're now signed up for notifications on this class" className='notificationButton' />;
+      } else {
+        content = <Button basic disabled content='Toggle the sections you want to be notified for!' className='notificationButton' />;
+      }
     } else if (this.props.aClass.sections.length === 0) {
       content = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when sections are added!' className='notificationButton' />;
     } else if (this.props.aClass.isAtLeastOneSectionFull()) {
