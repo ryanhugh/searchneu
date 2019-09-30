@@ -128,6 +128,7 @@ class Elastic {
                   multi_match: {
                     query: query,
                     type: 'most_fields', // More fields match => higher score
+                    fuzziness: 'AUTO',
                     fields: [
                       'class.name^2', // Boost by 2
                       'class.name.autocomplete',
