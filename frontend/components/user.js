@@ -73,8 +73,9 @@ class User {
     macros.log('got user data', this.user);
   }
 
-  // sends the new user data to the backend.
-  async sendUserData() {
+  // String -> Object
+  // Sets up a body to send data to the backend
+  async setupSendingData(data) {
     // User has not logged in before, don't bother making the request
     if (!this.hasLoggedInBefore()) {
       return;
@@ -89,7 +90,7 @@ class User {
       loginKey: this.getLoginKey(),
     };
 
-    body.info = this.user;
+    body.info = data;
 
     // If we have sender id, send that up too
     // (will make the server respond faster)
@@ -97,11 +98,14 @@ class User {
       body.senderId = window.localStorage.senderId;
     }
 
-    const response = await request.post({
-      url: '/sendUserData',
-      body: body,
-    });
+      return body;
 
+
+  }
+
+    // Response ->
+    // Handles post-request operations, mostly calling callbacks
+    async afterSendingData(response) {
     // If error, log it
     if (response.error) {
       macros.log('something went wrong sending data');
@@ -114,7 +118,7 @@ class User {
     }
 
     macros.log('sending success');
-  }
+    }
 
   // Revokes the loginKey and user user-specific data
   logOut() {
@@ -160,7 +164,7 @@ class User {
 
   // removes a section from a user, as well as the class if no more sections are tracked
   // in that class
-  removeSection(section) {
+  async removeSection(section) {
     if (!this.user) {
       macros.error('no user for removal?');
       return;
@@ -187,13 +191,24 @@ class User {
       if (!acc) {
         _.pull(this.user.watchingClasses, classHash);
       }
+
+	const body = await this.setupSendingData(sectionHash);
+	body.classHash = classHash;
+	
+	const response = await request.post({
+      url: '/removeSection',
+	    body: body,
+	});
+
+	this.afterSendingData(response);
+
     } else {
       macros.error("removed section that doesn't exist on user?", section, this.user);
     }
   }
 
   // enrolls a user in a section of a class
-  enrollSection(section) {
+  async enrollSection(section) {
     if (!this.user) {
       macros.error('no user for addition?');
       return;
@@ -215,10 +230,24 @@ class User {
     });
 
     if (!this.user.watchingClasses.includes(classHash)) {
-      this.user.watchingClasses.push(classHash);
+	await this.addClass({host: section.host,
+			     termId: section.termId,
+			     subject: section.subject,
+			     classId: section.classId});
     }
 
-    macros.log('user has been enrolled in section', this.user);
+      macros.log('user has been enrolled in section', this.user);
+
+
+      // now send the data
+      	const body = await this.setupSendingData(sectionHash);
+	
+	const response = await request.post({
+      url: '/addSection',
+      body: body,
+	});
+
+      this.afterSendingData(response);
   }
 
   // registers a callback to go on the list of callbacks for a user.
@@ -232,7 +261,7 @@ class User {
   }
 
   // adds a class to a user
-  addClass(theClass) {
+  async addClass(theClass) {
     if (!this.user) {
       macros.error('no user for addition?');
       return;
@@ -243,7 +272,16 @@ class User {
       return;
     }
 
-    this.user.watchingClasses.push(Keys.getClassHash(theClass));
+      this.user.watchingClasses.push(Keys.getClassHash(theClass));
+
+      const body = await this.setupSendingData(Keys.getClassHash(theClass));
+
+	const response = await request.post({
+	    url:'/addClass',
+	    body: body,
+	});
+
+      this.afterSendingData(response);
 
     macros.log('class registered', this.user);
   }

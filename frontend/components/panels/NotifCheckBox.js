@@ -42,12 +42,12 @@ export default class NotifCheckBox extends React.Component {
     }
     if (this.state.checked) {
       user.removeSection(this.props.section);
-      this.setState({ checked: false });
+	this.setState({ checked: false });
     } else {
       user.enrollSection(this.props.section);
       this.setState({ checked: true });
     }
-    user.sendUserData();
+
   }
 
 
@@ -56,8 +56,6 @@ export default class NotifCheckBox extends React.Component {
   render() {
     // one last check to ensure the state is correct... since sometimes the user isn't
     // in place by the time rendering has started.
-
-    macros.log(this.props.section);
     this.state.checked = user.hasSectionAlready(Keys.getSectionHash(this.props.section));
     // no sections, no toggle sense
     if (this.props.section && this.props.section.seatsRemaining > 5) {

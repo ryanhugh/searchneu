@@ -22,7 +22,6 @@ import user from './user';
 // All of the actually signing up for sections is now in NotifCheckbox
 
 class SignUpForNotifications extends React.Component {
-  static hasAdblock = false;
 
   static propTypes = {
     aClass: PropTypes.object.isRequired,

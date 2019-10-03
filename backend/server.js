@@ -548,8 +548,77 @@ async function findMatchingUser(requestLoginKey) {
   return null;
 }
 
+app.post('/addSection', wrap(async(req, res) => {
+
+    const userObject = await sendUserHelper(req, res);
+
+    userObject.watchingSections.push(req.body.info);
+
+    await database.set(`/users/${req.body.senderId}`, userObject);
+    macros.log('sending done.');
+
+    notifyer.sendFBNotification(req.body.senderId, 'You\'ve updated the sections/classes to the list of things you\'re watching');
+
+    macros.log(database.get(`/user/${req.body.senderId}`));
+
+  // send a status of success. Hopefully it went well.
+  res.send(JSON.stringify({
+    status: 'Success',
+  }));
+
+
+}));
+
+app.post('/removeSection', wrap(async(req, res) => {
+    const userObject = await sendUserHelper(req, res);
+
+    macros.log(userObject);
+    _.pull(userObject.watchingSections, req.body.info);
+
+    let acc = false;
+    for (let i = 0; i < userObject.watchingSections.length; i++) {
+	acc = acc || userObject.watchingSections[i].includes(req.body.classHash);
+    }
+
+    if (!acc) {
+	_.pull(userObject.watchingClasses, req.body.classHash);
+    }
+
+    
+    macros.log(userObject);
+    
+    await database.set(`/users/${req.body.senderId}`, userObject);
+    macros.log('sending done.');
+
+    
+    macros.log(database.get(`/user/${req.body.senderId}`));
+    // send a status of success. Hopefully it went well.
+    res.send(JSON.stringify({
+	status: 'Success',
+    }));
+
+    
+}));
+
+app.post('/addClass', wrap(async(req, res) => {
+    
+    const userObject = await sendUserHelper(req, res);
+    userObject.watchingClasses.push(req.body.info);
+
+    await database.set(`/users/${req.body.senderId}`, userObject);
+    macros.log('sending done.');
+
+    macros.log(database.get(`/user/${req.body.senderId}`));
+
+    // send a status of success. Hopefully it went well.
+    res.send(JSON.stringify({
+	status: 'Success',
+    }));
+
+}));
+
 // sends data to the database in the backend
-app.post('/sendUserData', wrap(async (req, res) => {
+async function sendUserHelper(req, res) {
   // Don't cache this endpoint.
   res.setHeader('Cache-Control', 'no-cache, no-store');
 
@@ -588,7 +657,7 @@ app.post('/sendUserData', wrap(async (req, res) => {
   // if not, we have to loop over all the users's to find a matching loginKey
   if (senderId) {
     // first confirm the loginkey is legitimate
-    const user = await database.get(`/users/${senderId}`);
+      const user = await database.get(`/users/${senderId}`);
     if (user && !user.loginKeys.includes(req.body.loginKey)) {
       macros.log('loginKey not within the sender\'s entry');
       res.send(JSON.stringify({
@@ -596,8 +665,7 @@ app.post('/sendUserData', wrap(async (req, res) => {
       }));
       return;
     }
-    await database.set(`/users/${senderId}`, req.body.info);
-    macros.log('sending done, result is ', await database.get(`/users/${senderId}`));
+      return user;
   } else {
     macros.log('Really invalid senderID', req.body, senderId);
     res.send(JSON.stringify({
@@ -607,14 +675,7 @@ app.post('/sendUserData', wrap(async (req, res) => {
     // to make sure i'm not shooting myself in the foot :)
     return;
   }
-  macros.log(req.body);
-  notifyer.sendFBNotification(senderId, 'You\'ve updated the sections/classes to the list of things you\'re watching');
-
-  // send a status of success. Hopefully it went well.
-  res.send(JSON.stringify({
-    status: 'Success',
-  }));
-}));
+}
 
 
 app.post('/getUserData', wrap(async (req, res) => {
