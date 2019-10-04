@@ -41,7 +41,8 @@ const fbAppSecret = macros.getEnvVariable('fbAppSecret');
 
 // All of the requests/responses that haven't been pushed yet. Added here when
 // requests come in for data that isn't quite in the backend yet
-let reqs = [];
+// saved as a loginKey: res pair
+const reqs = {};
 
 // Start updater interval
 // TODO: FIX!!!!!!
@@ -336,13 +337,14 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     const loginKeys = new Set(existingData.loginKeys);
     loginKeys.add(userObject.loginKey);
     existingData.loginKeys = Array.from(loginKeys);
-    reqs.forEach((el) => {
-      el.send((JSON.stringify({
-        status: 'Success',
-        user: existingData,
-      })));
-    });
-    reqs = [];
+
+    macros.log('neal young', reqs, userObject.loginKey, reqs[userObject.loginKey]);
+    reqs[userObject.loginKey].send((JSON.stringify({
+      status: 'Success',
+      user: existingData,
+    })));
+
+    delete reqs[userObject.loginKey];
 
     firebaseRef.set(existingData);
   } else {
@@ -372,13 +374,13 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 Toggle the sliders back on https://searchneu.com/ to sign up for notifications!`);
 
     database.set(`/users/${sender}`, newUser);
-    reqs.forEach((el) => {
-      el.send((JSON.stringify({
-        status: 'Success',
-        user: newUser,
-      })));
-    });
-    reqs = [];
+    macros.log('neal young', reqs, userObject.loginKey, reqs[userObject.loginKey]);
+    reqs[userObject.loginKey].send((JSON.stringify({
+      status: 'Success',
+      user: newUser,
+    })));
+
+    delete reqs[userObject.loginKey];
   }
 }
 
@@ -688,7 +690,7 @@ app.post('/getUserData', wrap(async (req, res) => {
   // Don't cache this endpoint.
   res.setHeader('Cache-Control', 'no-cache, no-store');
 
-  if (!req.body || !req.body.loginKey) {
+  if (!req.body || !req.body.loginKey || (!req.body.sectionInfo && !req.body.classInfo)) {
     res.send(JSON.stringify({
       error: 'Error.',
     }));
@@ -704,6 +706,7 @@ app.post('/getUserData', wrap(async (req, res) => {
     }));
     return;
   }
+
 
   const senderId = req.body.senderId;
 
@@ -726,7 +729,12 @@ app.post('/getUserData', wrap(async (req, res) => {
     const user = await database.get(`/users/${senderId}`);
 
     if (!user) {
-      reqs.push(res);
+      if (reqs[req.body.loginKey]) {
+        reqs[req.body.loginKey].send(JSON.stringify({
+          error: 'Error, multiple requests from same user in quick succession',
+        }));
+      }
+      reqs[req.body.loginKey] = [res, new Date()];
       return;
     }
 
@@ -752,7 +760,12 @@ app.post('/getUserData', wrap(async (req, res) => {
     matchingUser = await findMatchingUser(req.body.loginKey);
 
     if (!matchingUser) {
-      reqs.push(res);
+      if (reqs[req.body.loginKey]) {
+        reqs[req.body.loginKey].send(JSON.stringify({
+          error: 'Error, multiple requests from same user in quick succession',
+        }));
+      }
+      reqs[req.body.loginKey] = [res, new Date()];
       return;
     }
   }
@@ -832,6 +845,24 @@ app.post('/submitFeedback', wrap(async (req, res) => {
     }));
   }
 }));
+
+
+// cleans up old requests that've gone by the wayside,
+function cleanOldReqs() {
+  const keyz = Object.keys(reqs);
+  macros.log('cleaning up old reqs');
+
+  for (let i = 0; i < keyz.length; i++) {
+    if (new Date() - reqs[keyz[i]][1] > 10000) {
+      delete reqs[keyz[i]];
+      macros.log('cleaned out loginKey req', keyz[i]);
+    }
+  }
+}
+
+
+setInterval(cleanOldReqs, 5000);
+
 
 // This variable is also used far below to serve static files from ram in dev
 let middleware;
