@@ -78,7 +78,7 @@ class User {
   async setupSendingData(data) {
     // User has not logged in before, don't bother making the request
     if (!this.hasLoggedInBefore()) {
-      return;
+      return null;
     }
 
     macros.log('sending.... ', this.user);
@@ -98,14 +98,12 @@ class User {
       body.senderId = window.localStorage.senderId;
     }
 
-      return body;
-
-
+    return body;
   }
 
-    // Response ->
-    // Handles post-request operations, mostly calling callbacks
-    async afterSendingData(response) {
+  // Response ->
+  // Handles post-request operations, mostly calling callbacks
+  async afterSendingData(response) {
     // If error, log it
     if (response.error) {
       macros.log('something went wrong sending data');
@@ -118,7 +116,7 @@ class User {
     }
 
     macros.log('sending success');
-    }
+  }
 
   // Revokes the loginKey and user user-specific data
   logOut() {
@@ -176,12 +174,14 @@ class User {
     if (this.user.watchingSections.includes(sectionHash)) {
       _.pull(this.user.watchingSections, sectionHash);
 
-      const classHash = Keys.getClassHash({
+
+      const classInfo = {
         host: section.host,
         termId: section.termId,
         subject: section.subject,
         classId: section.classId,
-      });
+      };
+      const classHash = Keys.getClassHash(classInfo);
 
       let acc = false;
       for (let i = 0; i < this.user.watchingSections.length; i++) {
@@ -192,16 +192,17 @@ class User {
         _.pull(this.user.watchingClasses, classHash);
       }
 
-	const body = await this.setupSendingData(sectionHash);
-	body.classHash = classHash;
-	
-	const response = await request.post({
-      url: '/removeSection',
-	    body: body,
-	});
+      const body = await this.setupSendingData(sectionHash);
+      body.classHash = classHash;
+      body.sectionInfo = section;
+      body.classInfo = classInfo;
 
-	this.afterSendingData(response);
+      const response = await request.post({
+        url: '/removeSection',
+        body: body,
+      });
 
+      this.afterSendingData(response);
     } else {
       macros.error("removed section that doesn't exist on user?", section, this.user);
     }
@@ -230,24 +231,27 @@ class User {
     });
 
     if (!this.user.watchingClasses.includes(classHash)) {
-	await this.addClass({host: section.host,
-			     termId: section.termId,
-			     subject: section.subject,
-			     classId: section.classId});
+      await this.addClass({
+        host: section.host,
+        termId: section.termId,
+        subject: section.subject,
+        classId: section.classId,
+      });
     }
 
-      macros.log('user has been enrolled in section', this.user);
+    macros.log('user has been enrolled in section', this.user);
 
 
-      // now send the data
-      	const body = await this.setupSendingData(sectionHash);
-	
-	const response = await request.post({
+    // now send the data
+    const body = await this.setupSendingData(sectionHash);
+    body.sectionInfo = section;
+
+    const response = await request.post({
       url: '/addSection',
       body: body,
-	});
+    });
 
-      this.afterSendingData(response);
+    this.afterSendingData(response);
   }
 
   // registers a callback to go on the list of callbacks for a user.
@@ -272,16 +276,17 @@ class User {
       return;
     }
 
-      this.user.watchingClasses.push(Keys.getClassHash(theClass));
+    this.user.watchingClasses.push(Keys.getClassHash(theClass));
 
-      const body = await this.setupSendingData(Keys.getClassHash(theClass));
+    const body = await this.setupSendingData(Keys.getClassHash(theClass));
+    body.classInfo = theClass;
 
-	const response = await request.post({
-	    url:'/addClass',
-	    body: body,
-	});
+    const response = await request.post({
+      url:'/addClass',
+      body: body,
+    });
 
-      this.afterSendingData(response);
+    this.afterSendingData(response);
 
     macros.log('class registered', this.user);
   }

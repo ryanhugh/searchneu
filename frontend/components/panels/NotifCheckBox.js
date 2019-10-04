@@ -8,7 +8,6 @@ import { Checkbox, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import user from '../user';
 import Keys from '../../../common/Keys';
-import macros from '../macros';
 
 // This file renders the checkboxes that control which sections a user signs up for
 // notifications.
@@ -42,12 +41,11 @@ export default class NotifCheckBox extends React.Component {
     }
     if (this.state.checked) {
       user.removeSection(this.props.section);
-	this.setState({ checked: false });
+      this.setState({ checked: false });
     } else {
       user.enrollSection(this.props.section);
       this.setState({ checked: true });
     }
-
   }
 
 

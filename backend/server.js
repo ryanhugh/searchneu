@@ -369,7 +369,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     // Send the user a notification letting them know everything was successful.
     notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}! 
 
-You will be notified for any section of a class you toggle back on searchneu. You will also be notified if sections open up for a class you toggle. If the class you signed up for notifications for doesn't have any sections, you've already been signed up for notifications on the class.`);
+Toggle the sliders back on https://searchneu.com/ to sign up for notifications!`);
 
     database.set(`/users/${sender}`, newUser);
     reqs.forEach((el) => {
@@ -548,74 +548,6 @@ async function findMatchingUser(requestLoginKey) {
   return null;
 }
 
-app.post('/addSection', wrap(async(req, res) => {
-
-    const userObject = await sendUserHelper(req, res);
-
-    userObject.watchingSections.push(req.body.info);
-
-    await database.set(`/users/${req.body.senderId}`, userObject);
-    macros.log('sending done.');
-
-    notifyer.sendFBNotification(req.body.senderId, 'You\'ve updated the sections/classes to the list of things you\'re watching');
-
-    macros.log(database.get(`/user/${req.body.senderId}`));
-
-  // send a status of success. Hopefully it went well.
-  res.send(JSON.stringify({
-    status: 'Success',
-  }));
-
-
-}));
-
-app.post('/removeSection', wrap(async(req, res) => {
-    const userObject = await sendUserHelper(req, res);
-
-    macros.log(userObject);
-    _.pull(userObject.watchingSections, req.body.info);
-
-    let acc = false;
-    for (let i = 0; i < userObject.watchingSections.length; i++) {
-	acc = acc || userObject.watchingSections[i].includes(req.body.classHash);
-    }
-
-    if (!acc) {
-	_.pull(userObject.watchingClasses, req.body.classHash);
-    }
-
-    
-    macros.log(userObject);
-    
-    await database.set(`/users/${req.body.senderId}`, userObject);
-    macros.log('sending done.');
-
-    
-    macros.log(database.get(`/user/${req.body.senderId}`));
-    // send a status of success. Hopefully it went well.
-    res.send(JSON.stringify({
-	status: 'Success',
-    }));
-
-    
-}));
-
-app.post('/addClass', wrap(async(req, res) => {
-    
-    const userObject = await sendUserHelper(req, res);
-    userObject.watchingClasses.push(req.body.info);
-
-    await database.set(`/users/${req.body.senderId}`, userObject);
-    macros.log('sending done.');
-
-    macros.log(database.get(`/user/${req.body.senderId}`));
-
-    // send a status of success. Hopefully it went well.
-    res.send(JSON.stringify({
-	status: 'Success',
-    }));
-
-}));
 
 // sends data to the database in the backend
 async function sendUserHelper(req, res) {
@@ -628,7 +560,7 @@ async function sendUserHelper(req, res) {
     res.send(JSON.stringify({
       error: 'Error.',
     }));
-    return;
+    return null;
   }
 
   // Checks checks checks
@@ -638,7 +570,7 @@ async function sendUserHelper(req, res) {
     res.send(JSON.stringify({
       error: 'Error.',
     }));
-    return;
+    return null;
   }
 
   const senderId = req.body.senderId;
@@ -649,7 +581,7 @@ async function sendUserHelper(req, res) {
     res.send(JSON.stringify({
       error: 'Error.',
     }));
-    return;
+    return null;
   }
 
 
@@ -657,25 +589,99 @@ async function sendUserHelper(req, res) {
   // if not, we have to loop over all the users's to find a matching loginKey
   if (senderId) {
     // first confirm the loginkey is legitimate
-      const user = await database.get(`/users/${senderId}`);
+    const user = await database.get(`/users/${senderId}`);
     if (user && !user.loginKeys.includes(req.body.loginKey)) {
       macros.log('loginKey not within the sender\'s entry');
       res.send(JSON.stringify({
         error: 'Error, invalid loginkey on senderId.',
       }));
-      return;
+      return null;
     }
-      return user;
-  } else {
-    macros.log('Really invalid senderID', req.body, senderId);
-    res.send(JSON.stringify({
-      error: 'Error.',
-    }));
-
-    // to make sure i'm not shooting myself in the foot :)
-    return;
+    return user;
   }
+  macros.log('Really invalid senderID', req.body, senderId);
+  res.send(JSON.stringify({
+    error: 'Error.',
+  }));
+  return null;
+  // to make sure i'm not shooting myself in the foot :)
 }
+
+
+app.post('/addSection', wrap(async (req, res) => {
+  const userObject = await sendUserHelper(req, res);
+
+  userObject.watchingSections.push(req.body.info);
+
+  await database.set(`/users/${req.body.senderId}`, userObject);
+  macros.log('sending done.');
+
+  const sectionInfo = req.body.sectionInfo;
+
+  notifyer.sendFBNotification(req.body.senderId, `Thanks for signing up for a section in ${sectionInfo.subject} ${sectionInfo.classId} (CRN: ${sectionInfo.crn}). Check it out at https://searchneu.com/${sectionInfo.termId}/${sectionInfo.subject}${sectionInfo.classId} !`);
+
+  macros.log(database.get(`/user/${req.body.senderId}`));
+
+  // send a status of success. Hopefully it went well.
+  res.send(JSON.stringify({
+    status: 'Success',
+  }));
+}));
+
+app.post('/removeSection', wrap(async (req, res) => {
+  const userObject = await sendUserHelper(req, res);
+
+  macros.log(userObject);
+  _.pull(userObject.watchingSections, req.body.info);
+
+  let acc = false;
+  for (let i = 0; i < userObject.watchingSections.length; i++) {
+    acc = acc || userObject.watchingSections[i].includes(req.body.classHash);
+  }
+
+  if (!acc) {
+    _.pull(userObject.watchingClasses, req.body.classHash);
+  }
+
+  const sectionInfo = req.body.sectionInfo;
+
+
+  macros.log(userObject);
+
+  await database.set(`/users/${req.body.senderId}`, userObject);
+  macros.log('sending done.');
+
+  notifyer.sendFBNotification(req.body.senderId, `You have unsubscribed from notifications for a section of ${sectionInfo.subject} ${sectionInfo.classId} (CRN: ${sectionInfo.crn}).`);
+
+  if (!acc) {
+    notifyer.sendFBNotification(req.body.senderId, `You have unsubscribed from notifications for the class ${sectionInfo.subject} ${sectionInfo.classId}`);
+  }
+
+
+  macros.log(database.get(`/user/${req.body.senderId}`));
+  // send a status of success. Hopefully it went well.
+  res.send(JSON.stringify({
+    status: 'Success',
+  }));
+}));
+
+app.post('/addClass', wrap(async (req, res) => {
+  const userObject = await sendUserHelper(req, res);
+  userObject.watchingClasses.push(req.body.info);
+
+  await database.set(`/users/${req.body.senderId}`, userObject);
+  macros.log('sending done.');
+
+  const classInfo = req.body.classInfo;
+
+
+  notifyer.sendFBNotification(req.body.senderId, `You have subscribed to notifications for the class ${classInfo.subject} ${classInfo.classId}`);
+
+  // send a status of success. Hopefully it went well.
+  res.send(JSON.stringify({
+    status: 'Success',
+  }));
+}));
 
 
 app.post('/getUserData', wrap(async (req, res) => {
