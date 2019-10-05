@@ -1,8 +1,6 @@
 import elastic from '../backend/elastic';
 import Keys from '../common/Keys';
 
-// assumptions: elasticsearch running locally with prod data indexed
-
 function getFirstClassResult(results) {
   return results.searchContent[0]["class"];
 }
@@ -34,7 +32,3 @@ describe('elastic', () => {
     expect(Keys.getClassHash(firstResult)).toBe('neu.edu/202010/CS/2500');
   });
 });
-
-// other tests I want:
-// check two aliases, maybe more than that
-// that's probably fine honestly

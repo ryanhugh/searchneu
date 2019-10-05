@@ -75,7 +75,7 @@ class SearchIndex {
 
 const instance = new SearchIndex();
 
-export async function fromFile(filePath) {
+async function fromFile(filePath) {
   const exists = await fs.pathExists(filePath);
   if (!exists) {
     macros.error('need to run scrape or scrape_classes before indexing');
