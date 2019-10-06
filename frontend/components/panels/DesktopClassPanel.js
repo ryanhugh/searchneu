@@ -150,7 +150,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
                 Honors
               </th>
               <th style={{ display: !this.state.showNotificationBoxes && 'none' }}>
-        Notifs
+                Notifs
               </th>
               <th> Link </th>
             </tr>
