@@ -6,7 +6,11 @@
 
 import { Client } from '@elastic/elasticsearch';
 import _ from 'lodash';
+<<<<<<< HEAD
 import macros from './macros';
+=======
+const util = require('util');
+>>>>>>> make a separate query
 
 const URL = macros.getEnvVariable('elasticURL') || 'http://localhost:9200';
 const client = new Client({ node: URL });
@@ -247,11 +251,19 @@ class Elastic {
             },
           },
         },
+      },
+    });
+
+    const suggestOutput = await client.search({
+      index: `${this.CLASS_INDEX}`,
+      body: {
         suggest: {
           text: query,
-          phrase_suggester: {
-            field: "name.suggestions",
-            size: 1,
+          simple_phrase: {
+            phrase: {
+              field: "class.name.suggestions",
+              size: 1,
+            },
           },
         },
       },
@@ -261,6 +273,7 @@ class Elastic {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
       resultCount: searchOutput.body.hits.total.value,
       took: searchOutput.body.took,
+      val: suggestOutput.body.suggest,
     };
   }
 }
