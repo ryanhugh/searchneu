@@ -19,7 +19,7 @@ describe('elastic', () => {
   it('returns a professor if name requested', async () => {
     let results = await elastic.search('mislove', '202010', 0, 1);
     let firstResult = results.searchContent[0]["employee"];
-    expect(firstResult.name).toBe('Alan Mislove');
+    expect(firstResult.emails).toContain('a.mislove@northeastern.edu');
   });
 
   it('does not place labs and recitations as top results', async () => {
