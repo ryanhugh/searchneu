@@ -41,7 +41,8 @@ const fbAppSecret = macros.getEnvVariable('fbAppSecret');
 
 // All of the requests/responses that haven't been pushed yet. Added here when
 // requests come in for data that isn't quite in the backend yet
-// saved as a loginKey: res pair
+// saved as loginKey: {res, timeStamp}.
+// reqs are cleared after 10 seconds
 const reqs = {};
 
 // Start updater interval
@@ -336,18 +337,18 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
     const loginKeys = new Set(existingData.loginKeys);
     loginKeys.add(userObject.loginKey);
-    existingData.loginKeys = Array.from(loginKeys);
-
-    if (reqs[userObject.loginKey]) {
-      reqs[userObject.loginKey].send((JSON.stringify({
+      existingData.loginKeys = Array.from(loginKeys);
+      if (reqs[userObject.loginKey]) {
+    reqs[userObject.loginKey].res.send((JSON.stringify({
         status: 'Success',
         user: existingData,
-      })));
+    })));
 
-      delete reqs[userObject.loginKey];
-    }
+	  delete reqs[userObject.loginKey];
+      }
 
-    firebaseRef.set(existingData);
+      firebaseRef.set(existingData);
+      return;
   } else {
     let names = await notifyer.getUserProfileInfo(sender);
     if (!names || !names.first_name) {
@@ -374,15 +375,16 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
 Toggle the sliders back on https://searchneu.com/ to sign up for notifications!`);
 
-    database.set(`/users/${sender}`, newUser);
-    if (reqs[userObject.loginKey]) {
-      reqs[userObject.loginKey].send((JSON.stringify({
+      database.set(`/users/${sender}`, newUser);
+      if (reqs[userObject.loginKey]) {
+    reqs[userObject.loginKey].res.send((JSON.stringify({
         status: 'Success',
         user: newUser,
-      })));
+    })));
 
-      delete reqs[userObject.loginKey];
-    }
+	  delete reqs[userObject.loginKey];
+      }
+      return;
   }
 }
 
@@ -683,7 +685,7 @@ app.post('/getUserData', wrap(async (req, res) => {
   // Don't cache this endpoint.
   res.setHeader('Cache-Control', 'no-cache, no-store');
 
-  if (!req.body || !req.body.loginKey || (!req.body.sectionInfo && !req.body.classInfo)) {
+  if (!req.body || !req.body.loginKey) {
     res.send(JSON.stringify({
       error: 'Error.',
     }));
@@ -721,13 +723,17 @@ app.post('/getUserData', wrap(async (req, res) => {
   if (senderId) {
     const user = await database.get(`/users/${senderId}`);
 
-    if (!user) {
-      if (reqs[req.body.loginKey]) {
-        reqs[req.body.loginKey].send(JSON.stringify({
-          error: 'Error, multiple requests from same user in quick succession',
-        }));
-      }
-      reqs[req.body.loginKey] = [res, new Date()];
+      if (!user) {
+	  if (reqs[req.body.loginKey]) {
+	      reqs[req.body.loginKey].res.send(JSON.stringify({
+		  error: 'Error, multiple requests from the same user in quick succession',
+	      }));
+	  }
+	  reqs[req.body.loginKey] =
+	      {
+		  res: res,
+		  timeStamp: new Date()
+	      }
       return;
     }
 
@@ -752,13 +758,17 @@ app.post('/getUserData', wrap(async (req, res) => {
   } else {
     matchingUser = await findMatchingUser(req.body.loginKey);
 
-    if (!matchingUser) {
-      if (reqs[req.body.loginKey]) {
-        reqs[req.body.loginKey].send(JSON.stringify({
-          error: 'Error, multiple requests from same user in quick succession',
-        }));
-      }
-      reqs[req.body.loginKey] = [res, new Date()];
+      if (!matchingUser) {
+	  	  if (reqs[req.body.loginKey]) {
+	      reqs[req.body.loginKey].res.send(JSON.stringify({
+		  error: 'Error, multiple requests from the same user in quick succession',
+	      }));
+	  }
+
+	reqs[req.body.loginKey] = {
+	    res: res,
+	    timeStamp: new Date()
+	}
       return;
     }
   }
@@ -839,14 +849,16 @@ app.post('/submitFeedback', wrap(async (req, res) => {
   }
 }));
 
-
 // cleans up old requests that've gone by the wayside,
 function cleanOldReqs() {
   const keyz = Object.keys(reqs);
   macros.log('cleaning up old reqs');
 
   for (let i = 0; i < keyz.length; i++) {
-    if (new Date() - reqs[keyz[i]][1] > 10000) {
+      if (new Date() - reqs[keyz[i]].timeStamp > 10000) {
+	  reqs[keyz[i]].res.send(JSON.stringify({
+	      error: 'Request timed out',
+	  }));
       delete reqs[keyz[i]];
       macros.log('cleaned out loginKey req', keyz[i]);
     }
