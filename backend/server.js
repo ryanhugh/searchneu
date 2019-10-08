@@ -283,7 +283,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   }
 
   if (!userObject.classHash || !userObject.sectionHashes || !userObject.loginKey) {
-      macros.error('Invalid user object from webhook ', userObject);
+    macros.error('Invalid user object from webhook ', userObject);
     return;
   }
 
