@@ -338,13 +338,14 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     loginKeys.add(userObject.loginKey);
     existingData.loginKeys = Array.from(loginKeys);
 
-    macros.log('neal young', reqs, userObject.loginKey, reqs[userObject.loginKey]);
-    reqs[userObject.loginKey].send((JSON.stringify({
-      status: 'Success',
-      user: existingData,
-    })));
+    if (reqs[userObject.loginKey]) {
+      reqs[userObject.loginKey].send((JSON.stringify({
+        status: 'Success',
+        user: existingData,
+      })));
 
-    delete reqs[userObject.loginKey];
+      delete reqs[userObject.loginKey];
+    }
 
     firebaseRef.set(existingData);
   } else {
@@ -374,13 +375,14 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 Toggle the sliders back on https://searchneu.com/ to sign up for notifications!`);
 
     database.set(`/users/${sender}`, newUser);
-    macros.log('neal young', reqs, userObject.loginKey, reqs[userObject.loginKey]);
-    reqs[userObject.loginKey].send((JSON.stringify({
-      status: 'Success',
-      user: newUser,
-    })));
+    if (reqs[userObject.loginKey]) {
+      reqs[userObject.loginKey].send((JSON.stringify({
+        status: 'Success',
+        user: newUser,
+      })));
 
-    delete reqs[userObject.loginKey];
+      delete reqs[userObject.loginKey];
+    }
   }
 }
 
@@ -552,7 +554,7 @@ async function findMatchingUser(requestLoginKey) {
 
 
 // sends data to the database in the backend
-async function sendUserHelper(req, res) {
+async function verifyRequestAndGetDbUser(req, res) {
   // Don't cache this endpoint.
   res.setHeader('Cache-Control', 'no-cache, no-store');
 
@@ -611,18 +613,16 @@ async function sendUserHelper(req, res) {
 
 
 app.post('/addSection', wrap(async (req, res) => {
-  const userObject = await sendUserHelper(req, res);
+  const userObject = await verifyRequestAndGetDbUser(req, res);
 
   userObject.watchingSections.push(req.body.info);
 
   await database.set(`/users/${req.body.senderId}`, userObject);
-  macros.log('sending done.');
+  macros.log('sending done, section added.');
 
   const sectionInfo = req.body.sectionInfo;
 
-  notifyer.sendFBNotification(req.body.senderId, `Thanks for signing up for a section in ${sectionInfo.subject} ${sectionInfo.classId} (CRN: ${sectionInfo.crn}). Check it out at https://searchneu.com/${sectionInfo.termId}/${sectionInfo.subject}${sectionInfo.classId} !`);
-
-  macros.log(database.get(`/user/${req.body.senderId}`));
+  notifyer.sendFBNotification(req.body.senderId, `Thanks for signing up for a section in ${sectionInfo.subject} ${sectionInfo.classId} (CRN: ${sectionInfo.crn})!`);
 
   // send a status of success. Hopefully it went well.
   res.send(JSON.stringify({
@@ -631,9 +631,8 @@ app.post('/addSection', wrap(async (req, res) => {
 }));
 
 app.post('/removeSection', wrap(async (req, res) => {
-  const userObject = await sendUserHelper(req, res);
+  const userObject = await verifyRequestAndGetDbUser(req, res);
 
-  macros.log(userObject);
   _.pull(userObject.watchingSections, req.body.info);
 
   let acc = false;
@@ -647,35 +646,29 @@ app.post('/removeSection', wrap(async (req, res) => {
 
   const sectionInfo = req.body.sectionInfo;
 
-
-  macros.log(userObject);
-
   await database.set(`/users/${req.body.senderId}`, userObject);
-  macros.log('sending done.');
+  macros.log('sending done, section removed.');
 
   notifyer.sendFBNotification(req.body.senderId, `You have unsubscribed from notifications for a section of ${sectionInfo.subject} ${sectionInfo.classId} (CRN: ${sectionInfo.crn}).`);
 
   if (!acc) {
     notifyer.sendFBNotification(req.body.senderId, `You have unsubscribed from notifications for the class ${sectionInfo.subject} ${sectionInfo.classId}`);
   }
-
-
-  macros.log(database.get(`/user/${req.body.senderId}`));
   // send a status of success. Hopefully it went well.
   res.send(JSON.stringify({
     status: 'Success',
   }));
 }));
 
+
 app.post('/addClass', wrap(async (req, res) => {
-  const userObject = await sendUserHelper(req, res);
+  const userObject = await verifyRequestAndGetDbUser(req, res);
   userObject.watchingClasses.push(req.body.info);
 
   await database.set(`/users/${req.body.senderId}`, userObject);
-  macros.log('sending done.');
+  macros.log('sending done, class added.');
 
   const classInfo = req.body.classInfo;
-
 
   notifyer.sendFBNotification(req.body.senderId, `You have subscribed to notifications for the class ${classInfo.subject} ${classInfo.classId}`);
 
