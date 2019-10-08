@@ -337,18 +337,17 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
     const loginKeys = new Set(existingData.loginKeys);
     loginKeys.add(userObject.loginKey);
-      existingData.loginKeys = Array.from(loginKeys);
-      if (reqs[userObject.loginKey]) {
-    reqs[userObject.loginKey].res.send((JSON.stringify({
+    existingData.loginKeys = Array.from(loginKeys);
+    if (reqs[userObject.loginKey]) {
+      reqs[userObject.loginKey].res.send((JSON.stringify({
         status: 'Success',
         user: existingData,
-    })));
+      })));
 
-	  delete reqs[userObject.loginKey];
-      }
+      delete reqs[userObject.loginKey];
+    }
 
-      firebaseRef.set(existingData);
-      return;
+    firebaseRef.set(existingData);
   } else {
     let names = await notifyer.getUserProfileInfo(sender);
     if (!names || !names.first_name) {
@@ -375,16 +374,15 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
 Toggle the sliders back on https://searchneu.com/ to sign up for notifications!`);
 
-      database.set(`/users/${sender}`, newUser);
-      if (reqs[userObject.loginKey]) {
-    reqs[userObject.loginKey].res.send((JSON.stringify({
+    database.set(`/users/${sender}`, newUser);
+    if (reqs[userObject.loginKey]) {
+      reqs[userObject.loginKey].res.send((JSON.stringify({
         status: 'Success',
         user: newUser,
-    })));
+      })));
 
-	  delete reqs[userObject.loginKey];
-      }
-      return;
+      delete reqs[userObject.loginKey];
+    }
   }
 }
 
@@ -723,17 +721,16 @@ app.post('/getUserData', wrap(async (req, res) => {
   if (senderId) {
     const user = await database.get(`/users/${senderId}`);
 
-      if (!user) {
-	  if (reqs[req.body.loginKey]) {
-	      reqs[req.body.loginKey].res.send(JSON.stringify({
-		  error: 'Error, multiple requests from the same user in quick succession',
-	      }));
-	  }
-	  reqs[req.body.loginKey] =
-	      {
-		  res: res,
-		  timeStamp: new Date()
-	      }
+    if (!user) {
+      if (reqs[req.body.loginKey]) {
+        reqs[req.body.loginKey].res.send(JSON.stringify({
+          error: 'Error, multiple requests from the same user in quick succession',
+        }));
+      }
+      reqs[req.body.loginKey] = {
+        res: res,
+        timeStamp: new Date(),
+      };
       return;
     }
 
@@ -758,17 +755,17 @@ app.post('/getUserData', wrap(async (req, res) => {
   } else {
     matchingUser = await findMatchingUser(req.body.loginKey);
 
-      if (!matchingUser) {
-	  	  if (reqs[req.body.loginKey]) {
-	      reqs[req.body.loginKey].res.send(JSON.stringify({
-		  error: 'Error, multiple requests from the same user in quick succession',
-	      }));
-	  }
+    if (!matchingUser) {
+      if (reqs[req.body.loginKey]) {
+        reqs[req.body.loginKey].res.send(JSON.stringify({
+          error: 'Error, multiple requests from the same user in quick succession',
+        }));
+      }
 
-	reqs[req.body.loginKey] = {
-	    res: res,
-	    timeStamp: new Date()
-	}
+      reqs[req.body.loginKey] = {
+        res: res,
+        timeStamp: new Date(),
+      };
       return;
     }
   }
@@ -855,10 +852,10 @@ function cleanOldReqs() {
   macros.log('cleaning up old reqs');
 
   for (let i = 0; i < keyz.length; i++) {
-      if (new Date() - reqs[keyz[i]].timeStamp > 10000) {
-	  reqs[keyz[i]].res.send(JSON.stringify({
-	      error: 'Request timed out',
-	  }));
+    if (new Date() - reqs[keyz[i]].timeStamp > 10000) {
+      reqs[keyz[i]].res.send(JSON.stringify({
+        error: 'Request timed out',
+      }));
       delete reqs[keyz[i]];
       macros.log('cleaned out loginKey req', keyz[i]);
     }
