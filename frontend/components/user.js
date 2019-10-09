@@ -120,7 +120,7 @@ class User {
 
   // Revokes the loginKey and user user-specific data
   logOut() {
-    delete window.localStorage.loginkey;
+    delete window.localStorage.loginKey;
     delete window.localStorage.senderId;
   }
 
@@ -230,6 +230,11 @@ class User {
       classId: section.classId,
     });
 
+
+    const testthing = Keys.getClassHash(section); // this should match ^^ that
+    debugger;
+
+
     if (!this.user.watchingClasses.includes(classHash)) {
       await this.addClass({
         host: section.host,
@@ -237,6 +242,7 @@ class User {
         subject: section.subject,
         classId: section.classId,
       });
+      debugger;
     }
 
     macros.log('user has been enrolled in section', this.user);
