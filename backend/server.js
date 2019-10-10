@@ -265,8 +265,6 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     return;
   }
 
-  const aClass = (await elastic.get(elastic.CLASS_INDEX, userObject.classHash)).class;
-
   // The frontend send a classHash to follow and a list of sectionHashes to follow.
   let userObject = {};
   try {
@@ -302,9 +300,11 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   let existingData = await firebaseRef.once('value');
   existingData = existingData.val();
 
+  const aClass = (await elastic.get(elastic.CLASS_INDEX, userObject.classHash)).class;
+
   // User is signing in from a new device
   if (existingData) {
-    macros.log("User found in db", existingData);
+    macros.log('User found in db', existingData);
     // Add this array if it dosen't exist. It should exist
     if (!existingData.watchingClasses) {
       existingData.watchingClasses = [];
@@ -327,17 +327,22 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     const classCode = `${aClass.subject} ${aClass.classId}`;
     // Check to see how many of these classes they were already signed up for.
     if (wasWatchingClass && sectionWasentWatchingBefore.length === 0) {
-      notifyer.sendFBNotification(sender, `You are already signed up to get notifications if any of the sections of ${classCode} have seats that open up.`);
+      notifyer.sendFBNotification(sender, `You are already signed up to get notifications if any of the sections of ${classCode} have seats that open up. Toggle the sliders back on https://searchneu.com to adjust notifications!`);
     } else if (wasWatchingClass && sectionWasentWatchingBefore.length > 0) {
+      // This should never run, because
+      // 1) This flow only runs for classes with 0 or 1 sections
+      // 2) It isn't possible to sign up for notification for a class but no sections in the class for classes that have sections
+      // 3) Given that, the user must be signed up for the only section in the class too.
+      // 4) And if there is only 1 section, there can't be any more sections to sign up for
+      macros.warn('User signed up for more sections through the webhook?', userObject, existingData);
       notifyer.sendFBNotification(sender, `You are already signed up to get notifications if seats open up in some of the sections in ${classCode} and are now signed up for ${sectionWasentWatchingBefore.length} more sections too!`);
     } else if (sectionWasentWatchingBefore.length === 0) {
       notifyer.sendFBNotification(sender, `Successfully signed up for notifications if sections are added to ${classCode}!`);
     } else {
-      notifyer.sendFBNotification(sender, `Successfully signed up for notifications for ${sectionWasentWatchingBefore.length} sections in ${classCode}!`);
+      // Same here
+      macros.warn('User signed up for more sections through the webhook?', userObject, existingData);
+      notifyer.sendFBNotification(sender, `Successfully signed up for notifications for ${sectionWasentWatchingBefore.length} sections in ${classCode}. Toggle the sliders back on https://searchneu.com to adjust notifications!`);
     }
-
-    // Should we add those comments back?
-
 
     // Only add if it dosen't already exist in the user data.
     if (!existingData.watchingClasses.includes(userObject.classHash)) {
@@ -373,16 +378,15 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     loginKeys.add(userObject.loginKey);
     existingData.loginKeys = Array.from(loginKeys);
     if (reqs[userObject.loginKey]) {
-      macros.log("In webhook, responding to matching f request")
+      macros.log('In webhook, responding to matching f request');
       reqs[userObject.loginKey].res.send((JSON.stringify({
         status: 'Success',
         user: existingData,
       })));
 
       delete reqs[userObject.loginKey];
-    }
-    else {
-      macros.log('in webhook, did not finding matching f request ')
+    } else {
+      macros.log('in webhook, did not finding matching f request ');
     }
 
     firebaseRef.set(existingData);
@@ -408,22 +412,26 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     macros.log('Adding ', newUser, 'to the db');
 
     // Send the user a notification letting them know everything was successful.
-    notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}! 
-
-Toggle the sliders back on https://searchneu.com/ to sign up for notifications!`);
+    const classCode = `${aClass.subject} ${aClass.classId}`;
+    if (userObject.sectionHashes.length === 0) {
+      // Don't mention the sliders here because there are only sliders if there are sections.
+      notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}. Successfully signed up for notifications if sections are added to ${classCode}!`);
+    } else {
+      // Mention the sliders because there are sections.
+      notifyer.sendFBNotification(sender, `Successfully signed up for notifications for ${userObject.sectionHashes.length} sections in ${classCode}. Toggle the sliders back on https://searchneu.com to adjust notifications!`);
+    }
 
     database.set(`/users/${sender}`, newUser);
     if (reqs[userObject.loginKey]) {
-      macros.log("In webhook, responding to matching f request")
+      macros.log('In webhook, responding to matching f request');
       reqs[userObject.loginKey].res.send((JSON.stringify({
         status: 'Success',
         user: newUser,
       })));
 
       delete reqs[userObject.loginKey];
-    }
-    else {
-      macros.log('in webhook, did not finding matching f request ')
+    } else {
+      macros.log('in webhook, did not finding matching f request ');
     }
   }
 }
@@ -584,6 +592,10 @@ async function findMatchingUser(requestLoginKey) {
 
   // Loop over all the users
   for (const user of users) {
+    if (!user.loginKeys) {
+      continue;
+    }
+
     for (const loginKey of user.loginKeys) {
       if (requestLoginKey === loginKey) {
         return user;

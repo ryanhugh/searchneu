@@ -163,16 +163,16 @@ class SignUpForNotifications extends React.Component {
     // Get a list of all the sections that don't have seats remaining
     const sectionHashes = [];
 
-    // Only sign up the user for all the sections automatically 
-    // if there are 0 or 1 sections in the class. 
+    // Only sign up the user for all the sections automatically
+    // if there are 0 or 1 sections in the class.
     if (aClass.sections.length <= 1) {
       for (const section of aClass.sections) {
         if (section.seatsRemaining <= 0) {
           sectionHashes.push(section.getHash());
         }
-      }  
+      }
     }
-    
+
 
     // JSON stringify it and then base64 encode the data that we want to pass to the backend.
     // Many characters arn't allowed to be in the ref attribute, including open and closing braces.

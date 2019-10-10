@@ -167,7 +167,7 @@ class Facebook {
       macros.log('Opt in was clicked!', e);
 
       // User is now authenticated with Facebook.
-      // Download any potential user data from the backend. 
+      // Download any potential user data from the backend.
       user.downloadUserData();
 
       macros.logAmplitudeEvent('FB Send to Messenger', {
