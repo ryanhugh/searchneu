@@ -42,6 +42,7 @@ const fbAppSecret = macros.getEnvVariable('fbAppSecret');
 // All of the requests/responses that haven't been pushed yet. Added here when
 // requests come in for data that isn't quite in the backend yet
 // saved as loginKey: {res, timeStamp}.
+// Timestamp is the output of Date.now().
 // reqs are cleared after 10 seconds
 const reqs = {};
 
@@ -677,7 +678,7 @@ app.post('/addSection', wrap(async (req, res) => {
   userObject.watchingSections.push(req.body.info);
 
   await database.set(`/users/${req.body.senderId}`, userObject);
-  macros.log('sending done, section added.');
+  macros.log('sending done, section added. User:', userObject);
 
   const sectionInfo = req.body.sectionInfo;
 
@@ -702,14 +703,15 @@ app.post('/removeSection', wrap(async (req, res) => {
 
   _.pull(userObject.watchingSections, req.body.info);
 
-  let acc = false;
-  for (let i = 0; i < userObject.watchingSections.length; i++) {
-    acc = acc || userObject.watchingSections[i].includes(req.body.classHash);
-  }
+  // I think its better to let the client make this decision that the class needs to be removed if the section is nuked.
+  // let acc = false;
+  // for (let i = 0; i < userObject.watchingSections.length; i++) {
+  //   acc = acc || userObject.watchingSections[i].includes(req.body.classHash);
+  // }
 
-  if (!acc) {
-    _.pull(userObject.watchingClasses, req.body.classHash);
-  }
+  // if (!acc) {
+  //   _.pull(userObject.watchingClasses, req.body.classHash);
+  // }
 
   const sectionInfo = req.body.sectionInfo;
 
@@ -718,9 +720,9 @@ app.post('/removeSection', wrap(async (req, res) => {
 
   notifyer.sendFBNotification(req.body.senderId, `You have unsubscribed from notifications for a section of ${sectionInfo.subject} ${sectionInfo.classId} (CRN: ${sectionInfo.crn}).`);
 
-  if (!acc) {
-    notifyer.sendFBNotification(req.body.senderId, `You have unsubscribed from notifications for the class ${sectionInfo.subject} ${sectionInfo.classId}`);
-  }
+  // if (!acc) {
+  //   notifyer.sendFBNotification(req.body.senderId, `You have unsubscribed from notifications for the class ${sectionInfo.subject} ${sectionInfo.classId}`);
+  // }
   // send a status of success. Hopefully it went well.
   res.send(JSON.stringify({
     status: 'Success',
@@ -749,7 +751,7 @@ app.post('/addClass', wrap(async (req, res) => {
   userObject.watchingClasses.push(req.body.info);
 
   await database.set(`/users/${req.body.senderId}`, userObject);
-  macros.log('sending done, class added.');
+  macros.log('sending done, class added. User is now:', userObject);
 
   const classInfo = req.body.classInfo;
 
@@ -812,7 +814,7 @@ app.post('/getUserData', wrap(async (req, res) => {
       }
       reqs[req.body.loginKey] = {
         res: res,
-        timeStamp: new Date(),
+        timeStamp: Date.now(),
       };
       return;
     }
@@ -847,7 +849,7 @@ app.post('/getUserData', wrap(async (req, res) => {
 
       reqs[req.body.loginKey] = {
         res: res,
-        timeStamp: new Date(),
+        timeStamp: Date.now(),
       };
       return;
     }
@@ -931,16 +933,18 @@ app.post('/submitFeedback', wrap(async (req, res) => {
 
 // cleans up old requests that've gone by the wayside,
 function cleanOldReqs() {
-  const keyz = Object.keys(reqs);
   macros.log('cleaning up old reqs');
 
-  for (let i = 0; i < keyz.length; i++) {
-    if (new Date() - reqs[keyz[i]].timeStamp > 10000) {
-      reqs[keyz[i]].res.send(JSON.stringify({
+  const now = Date.now();
+
+  for (const key of Object.keys(reqs)) {
+    // Purge all entries over 10s old
+    if (now - reqs[key].timeStamp > 10000) {
+      reqs[key].res.send(JSON.stringify({
         error: 'Request timed out',
       }));
-      delete reqs[keyz[i]];
-      macros.log('cleaned out loginKey req', keyz[i]);
+      delete reqs[key];
+      macros.log('cleaned out loginKey req', key);
     }
   }
 }

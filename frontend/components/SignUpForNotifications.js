@@ -33,13 +33,20 @@ class SignUpForNotifications extends React.Component {
     this.state = {
 
       // initially, don't want to show the messenger button yet
+      // This has priority over the showCompletedMessage state.
+      // TODO: change these two booleans to an enum with three (four?) states. (click to sign up, messenger buttton, completed, (+ adblock?))
       showMessengerButton: false,
 
-      // Keeps track of whether the adblock message is being shown or not
+      // Whether to show the completed message.
+      // If the class has sections, the completed message says toggle sections you want to be signed up for
+      // and if it doesn't, it says you've signed up for notifications on the class.
+      showCompletedMessage: false,
+
+      // Keeps track of whether the adblock modal is being shown or not
       // Sometimes, adblock will block the FB plugin from loading
       // Firefox strict browsing also blocks this plugin from working
       // If the plugin failed to load for whatever reason, show this message and ask the user to allow FB plugins
-      showAdblockMessage: false,
+      showAdblockModal: false,
     };
 
     this.facebookScopeRef = null;
@@ -53,7 +60,7 @@ class SignUpForNotifications extends React.Component {
   async componentDidMount() {
     if (user.hasClassAlready(this.props.aClass.getHash())) {
       this.props.handleClick();
-      this.setState({ toggleBox: true });
+      this.setState({ showCompletedMessage: true });
     }
   }
 
@@ -110,7 +117,7 @@ class SignUpForNotifications extends React.Component {
           });
 
           this.setState({
-            showAdblockMessage: true,
+            showAdblockModal: true,
           });
           facebook.pluginFailedToRender();
         }
@@ -129,7 +136,7 @@ class SignUpForNotifications extends React.Component {
     if (user.user) {
       macros.log('user exists already', user.user);
       this.props.handleClick();
-      this.setState({ toggleBox: true });
+      this.setState({ showCompletedMessage: true });
     } else {
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'First button click',
@@ -145,7 +152,7 @@ class SignUpForNotifications extends React.Component {
       try {
         await facebook.getFBPromise();
       } catch (e) {
-        newState.showAdblockMessage = true;
+        newState.showAdblockModal = true;
       }
 
       this.setState(newState);
@@ -201,7 +208,7 @@ class SignUpForNotifications extends React.Component {
 
   closeModal() {
     this.setState({
-      showAdblockMessage: false,
+      showAdblockModal: false,
     });
   }
 
@@ -228,7 +235,7 @@ class SignUpForNotifications extends React.Component {
           </div>
         );
       }
-    } else if (this.state.toggleBox) {
+    } else if (this.state.showCompletedMessage) {
       if (this.props.aClass.sections.length === 0) {
         content = <Button basic disabled content="You're now signed up for notifications on this class" className='notificationButton' />;
       } else {
@@ -262,7 +269,7 @@ class SignUpForNotifications extends React.Component {
         <Modal
           className='adblock-notification-modal-container'
           header='Please disable adblock and sign into Facebook.'
-          open={ this.state.showAdblockMessage }
+          open={ this.state.showAdblockModal }
           content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, you will need to add an exception for this site for this feature to work. You will also have to uninstall Facebook Container for Firefox, if you have that installed. You can also try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
           actions={ actions }
         />

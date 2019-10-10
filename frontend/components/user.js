@@ -223,26 +223,10 @@ class User {
 
     this.user.watchingSections.push(Keys.getSectionHash(section));
 
-    const classHash = Keys.getClassHash({
-      host: section.host,
-      termId: section.termId,
-      subject: section.subject,
-      classId: section.classId,
-    });
-
-
-    const testthing = Keys.getClassHash(section); // this should match ^^ that
-    debugger;
-
+    const classHash = Keys.getClassHash(section);
 
     if (!this.user.watchingClasses.includes(classHash)) {
-      await this.addClass({
-        host: section.host,
-        termId: section.termId,
-        subject: section.subject,
-        classId: section.classId,
-      });
-      debugger;
+      await this.addClass(section);
     }
 
     macros.log('user has been enrolled in section', this.user);
