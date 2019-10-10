@@ -633,8 +633,8 @@ async function verifyRequestAndGetDbUser(req, res) {
 
   const senderId = req.body.senderId;
 
-  // Make sure the sender id is valid
-  if (senderId && (typeof senderId !== 'string' || senderId.length !== 16 || !macros.isNumeric(senderId))) {
+  // Ensure sender id exists and is valid.
+  if (!senderId || (typeof senderId !== 'string' || senderId.length !== 16 || !macros.isNumeric(senderId))) {
     macros.log('Invalid senderId', req.body, senderId);
     res.send(JSON.stringify({
       error: 'Error.',
@@ -642,32 +642,37 @@ async function verifyRequestAndGetDbUser(req, res) {
     return null;
   }
 
-
-  // If the client specified a specific senderId, lookup that specific user.
-  // if not, we have to loop over all the users's to find a matching loginKey
-  if (senderId) {
-    // first confirm the loginkey is legitimate
-    const user = await database.get(`/users/${senderId}`);
-    if (user && !user.loginKeys.includes(req.body.loginKey)) {
-      macros.log('loginKey not within the sender\'s entry');
-      res.send(JSON.stringify({
-        error: 'Error, invalid loginkey on senderId.',
-      }));
-      return null;
-    }
-    return user;
+  // first confirm the loginkey is legitimate
+  const user = await database.get(`/users/${senderId}`);
+  if (!user || !user.loginKeys.includes(req.body.loginKey)) {
+    macros.log(`Didn't find valid user from client request: ${user}`);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return null;
   }
-  macros.log('Really invalid senderID', req.body, senderId);
-  res.send(JSON.stringify({
-    error: 'Error.',
-  }));
-  return null;
-  // to make sure i'm not shooting myself in the foot :)
+
+  return user;
 }
 
 
 app.post('/addSection', wrap(async (req, res) => {
   const userObject = await verifyRequestAndGetDbUser(req, res);
+
+  if (!req.body.info || typeof req.body.info !== 'string') {
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  // Early exit if user is already watching this section.
+  if (userObject.watchingSections.includes(req.body.info)) {
+    res.send(JSON.stringify({
+      status: 'Success',
+    }));
+    return;
+  }
 
   userObject.watchingSections.push(req.body.info);
 
@@ -686,6 +691,14 @@ app.post('/addSection', wrap(async (req, res) => {
 
 app.post('/removeSection', wrap(async (req, res) => {
   const userObject = await verifyRequestAndGetDbUser(req, res);
+
+  // Early exit if user is not watching this section.
+  if (!userObject.watchingSections.includes(req.body.info)) {
+    res.send(JSON.stringify({
+      status: 'Success',
+    }));
+    return;
+  }
 
   _.pull(userObject.watchingSections, req.body.info);
 
@@ -717,6 +730,22 @@ app.post('/removeSection', wrap(async (req, res) => {
 
 app.post('/addClass', wrap(async (req, res) => {
   const userObject = await verifyRequestAndGetDbUser(req, res);
+
+  if (!req.body.info || typeof req.body.info !== 'string') {
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  // Early exit if user is already watching this section.
+  if (userObject.watchingClasses.includes(req.body.info)) {
+    res.send(JSON.stringify({
+      status: 'Success',
+    }));
+    return;
+  }
+
   userObject.watchingClasses.push(req.body.info);
 
   await database.set(`/users/${req.body.senderId}`, userObject);
@@ -757,7 +786,7 @@ app.post('/getUserData', wrap(async (req, res) => {
 
   const senderId = req.body.senderId;
 
-  // Make sure the sender id is valid
+  // If the sender is given, make sure it is valid
   if (senderId && (typeof senderId !== 'string' || senderId.length !== 16 || !macros.isNumeric(senderId))) {
     macros.log('Invalid senderId', req.body, senderId);
     res.send(JSON.stringify({
