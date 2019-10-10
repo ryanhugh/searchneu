@@ -21,6 +21,9 @@ class User {
     // Promise to keep track of user data.
     this.userDataPromise = null;
 
+    // Keep track of the user object.
+    this.user = null;
+
     // downloads the user data immediately
     this.downloadUserData();
 
@@ -48,15 +51,14 @@ class User {
     }
 
     macros.log('data going to the backend is', body);
-    const response = await request.post({ //eslint-disable-line no-await-in-loop
+    const response = await request.post({
       url: '/getUserData',
       body: body,
     });
 
     // If error, delete local invalid data.
     if (response.error) {
-      const d = new Date();
-      macros.log('Data in localStorage is invalid, deleting', d.toUTCString());
+      macros.log('Data in localStorage is invalid, deleting');
       this.logOut();
       return;
     }
@@ -99,23 +101,6 @@ class User {
     }
 
     return body;
-  }
-
-  // Response ->
-  // Handles post-request operations, mostly calling callbacks
-  async afterSendingData(response) {
-    // If error, log it
-    if (response.error) {
-      macros.log('something went wrong sending data');
-      return;
-    }
-
-    // calls callbacks to ensure the frontend is updated
-    for (const callback of this.callBack) {
-      callback();
-    }
-
-    macros.log('sending success');
   }
 
   // Revokes the loginKey and user user-specific data
@@ -197,12 +182,10 @@ class User {
       body.sectionInfo = section;
       body.classInfo = classInfo;
 
-      const response = await request.post({
+      await request.post({
         url: '/removeSection',
         body: body,
       });
-
-      this.afterSendingData(response);
     } else {
       macros.error("removed section that doesn't exist on user?", section, this.user);
     }
@@ -236,12 +219,10 @@ class User {
     const body = await this.setupSendingData(sectionHash);
     body.sectionInfo = section;
 
-    const response = await request.post({
+    await request.post({
       url: '/addSection',
       body: body,
     });
-
-    this.afterSendingData(response);
   }
 
   // registers a callback to go on the list of callbacks for a user.
@@ -271,12 +252,10 @@ class User {
     const body = await this.setupSendingData(Keys.getClassHash(theClass));
     body.classInfo = theClass;
 
-    const response = await request.post({
+    await request.post({
       url:'/addClass',
       body: body,
     });
-
-    this.afterSendingData(response);
 
     macros.log('class registered', this.user);
   }

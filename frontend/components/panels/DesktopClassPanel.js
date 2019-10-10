@@ -101,7 +101,6 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
     if (!this.props.aClass.sections || this.props.aClass.sections.length <= 0) {
       user.addClass(this.props.aClass);
-      user.sendUserData(); // FIX THIS
     }
   }
 
