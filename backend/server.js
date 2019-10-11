@@ -43,8 +43,15 @@ const fbAppSecret = macros.getEnvVariable('fbAppSecret');
 // requests come in for data that isn't quite in the backend yet
 // saved as loginKey: {res, timeStamp}.
 // Timestamp is the output of Date.now().
-// reqs are cleared after 10 seconds
-const reqs = {};
+// getUserDataReqs are cleared after 10 seconds
+const getUserDataReqs = {};
+
+// The minimum amount of time user data reqs are held fore before
+// they are elgible for cleanup.
+const MAX_HOLD_TIME_FOR_GET_USER_DATA_REQS = 10000;
+
+// The interval id that fires when user data reqs are awaiting cleanup.
+let getUserDataInterval = null;
 
 // Start updater interval
 // TODO: FIX!!!!!!
@@ -378,14 +385,14 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     const loginKeys = new Set(existingData.loginKeys);
     loginKeys.add(userObject.loginKey);
     existingData.loginKeys = Array.from(loginKeys);
-    if (reqs[userObject.loginKey]) {
+    if (getUserDataReqs[userObject.loginKey]) {
       macros.log('In webhook, responding to matching f request');
-      reqs[userObject.loginKey].res.send((JSON.stringify({
+      getUserDataReqs[userObject.loginKey].res.send((JSON.stringify({
         status: 'Success',
         user: existingData,
       })));
 
-      delete reqs[userObject.loginKey];
+      delete getUserDataReqs[userObject.loginKey];
     } else {
       macros.log('in webhook, did not finding matching f request ');
     }
@@ -423,14 +430,14 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     }
 
     database.set(`/users/${sender}`, newUser);
-    if (reqs[userObject.loginKey]) {
+    if (getUserDataReqs[userObject.loginKey]) {
       macros.log('In webhook, responding to matching f request');
-      reqs[userObject.loginKey].res.send((JSON.stringify({
+      getUserDataReqs[userObject.loginKey].res.send((JSON.stringify({
         status: 'Success',
         user: newUser,
       })));
 
-      delete reqs[userObject.loginKey];
+      delete getUserDataReqs[userObject.loginKey];
     } else {
       macros.log('in webhook, did not finding matching f request ');
     }
@@ -764,6 +771,47 @@ app.post('/addClass', wrap(async (req, res) => {
 }));
 
 
+// cleans up old requests that are more than 10 seconds old.
+function cleanOldGetUserDataReqs() {
+  macros.log('cleaning up old getUserDataReqs');
+
+  const now = Date.now();
+
+  for (const loginKey of Object.keys(getUserDataReqs)) {
+    // Purge all entries over 10s old
+    if (now - getUserDataReqs[loginKey].timeStamp > MAX_HOLD_TIME_FOR_GET_USER_DATA_REQS) {
+      getUserDataReqs[loginKey].res.send(JSON.stringify({
+        error: 'Request timed out',
+      }));
+
+      delete getUserDataReqs[loginKey];
+      macros.log('cleaned out loginKey req', loginKey);
+    }
+  }
+
+  // If they are all gone, stop the interval
+  if (Object.keys(getUserDataReqs).length === 0) {
+    clearInterval(getUserDataInterval);
+  }
+}
+
+
+function addToUserDataReqs(loginKey, res) {
+  if (getUserDataReqs[loginKey]) {
+    getUserDataReqs[loginKey].res.send(JSON.stringify({
+      error: 'Error, multiple requests from the same user in quick succession',
+    }));
+  }
+  getUserDataReqs[loginKey] = {
+    res: res,
+    timeStamp: Date.now(),
+  };
+
+  // Start the interval
+  getUserDataInterval = setInterval(cleanOldGetUserDataReqs, 5000);
+}
+
+
 app.post('/getUserData', wrap(async (req, res) => {
   // Don't cache this endpoint.
   res.setHeader('Cache-Control', 'no-cache, no-store');
@@ -807,15 +855,7 @@ app.post('/getUserData', wrap(async (req, res) => {
     const user = await database.get(`/users/${senderId}`);
 
     if (!user) {
-      if (reqs[req.body.loginKey]) {
-        reqs[req.body.loginKey].res.send(JSON.stringify({
-          error: 'Error, multiple requests from the same user in quick succession',
-        }));
-      }
-      reqs[req.body.loginKey] = {
-        res: res,
-        timeStamp: Date.now(),
-      };
+      addToUserDataReqs(req.body.loginKey, res);
       return;
     }
 
@@ -841,16 +881,7 @@ app.post('/getUserData', wrap(async (req, res) => {
     matchingUser = await findMatchingUser(req.body.loginKey);
 
     if (!matchingUser) {
-      if (reqs[req.body.loginKey]) {
-        reqs[req.body.loginKey].res.send(JSON.stringify({
-          error: 'Error, multiple requests from the same user in quick succession',
-        }));
-      }
-
-      reqs[req.body.loginKey] = {
-        res: res,
-        timeStamp: Date.now(),
-      };
+      addToUserDataReqs(req.body.loginKey, res);
       return;
     }
   }
@@ -930,28 +961,6 @@ app.post('/submitFeedback', wrap(async (req, res) => {
     }));
   }
 }));
-
-// cleans up old requests that've gone by the wayside,
-function cleanOldReqs() {
-  macros.log('cleaning up old reqs');
-
-  const now = Date.now();
-
-  for (const key of Object.keys(reqs)) {
-    // Purge all entries over 10s old
-    if (now - reqs[key].timeStamp > 10000) {
-      reqs[key].res.send(JSON.stringify({
-        error: 'Request timed out',
-      }));
-      delete reqs[key];
-      macros.log('cleaned out loginKey req', key);
-    }
-  }
-}
-
-
-setInterval(cleanOldReqs, 5000);
-
 
 // This variable is also used far below to serve static files from ram in dev
 let middleware;
