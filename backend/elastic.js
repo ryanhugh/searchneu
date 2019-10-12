@@ -6,11 +6,8 @@
 
 import { Client } from '@elastic/elasticsearch';
 import _ from 'lodash';
-<<<<<<< HEAD
 import macros from './macros';
-=======
 const util = require('util');
->>>>>>> make a separate query
 
 const URL = macros.getEnvVariable('elasticURL') || 'http://localhost:9200';
 const client = new Client({ node: URL });
@@ -223,7 +220,7 @@ class Elastic {
     }
 
     const searchOutput = await client.search({
-      index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
+      index: `${this.CLASS_INDEX}`,
       from: min,
       size: max - min,
       body: {
@@ -251,29 +248,79 @@ class Elastic {
             },
           },
         },
-      },
-    });
-
-    const suggestOutput = await client.search({
-      index: `${this.CLASS_INDEX}`,
-      body: {
         suggest: {
           text: query,
-          simple_phrase: {
+          complex_phrase: {
             phrase: {
               field: "class.name.suggestions",
-              size: 1,
+              confidence: 1.0,
+              collate: {
+                query: {
+                  source: {
+                    match: {
+                      "{{field_name}}": "{{suggestion}}",
+                    },
+                  },
+                },
+                params: { field_name: "class.name" },
+                prune: true,
+              },
+              direct_generator: [
+                {
+                  field: 'class.name.suggestions',
+                  suggest_mode: 'always',
+                },
+              ],
             },
           },
         },
       },
     });
 
+    /*
+    const suggestOutput = await client.search({
+      index: `${this.CLASS_INDEX}`,
+      body: {
+        suggest: {
+          text: query,
+          complex_phrase: {
+            phrase: {
+              field: "class.name.suggestions",
+              confidence: 0,
+              collate: {
+                query: {
+                  source: {
+                    match: {
+                      "{{field_name}}": "{{suggestion}}",
+                    },
+                  },
+                },
+                params: { field_name: "class.name" },
+                prune: true,
+              },
+              direct_generator: [
+                {
+                  field: 'class.name.suggestions',
+                  suggest_mode: 'always',
+                },
+              ],
+            },
+          },
+        },
+      },
+    });
+
+<<<<<<< HEAD
+=======
+    console.log(util.inspect(suggestOutput, false, null, true));
+    */
+    console.log(util.inspect(searchOutput.body.suggest, false, null, true));
+
+>>>>>>> raise confidence
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
       resultCount: searchOutput.body.hits.total.value,
       took: searchOutput.body.took,
-      val: suggestOutput.body.suggest,
     };
   }
 }
