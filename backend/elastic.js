@@ -248,6 +248,7 @@ class Elastic {
             },
           },
         },
+        /*
         suggest: {
           text: query,
           complex_phrase: {
@@ -274,6 +275,7 @@ class Elastic {
             },
           },
         },
+        */
       },
     });
 
