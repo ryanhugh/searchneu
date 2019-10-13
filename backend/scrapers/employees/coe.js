@@ -241,13 +241,17 @@ class COE {
       method: 'GET',
       url: 'https://coe.northeastern.edu/faculty-staff-directory/?display=all'
     }, (err, res, body) => {
-
-      if (err) return console.error(err);
-
+      if (err)
+        return console.error(err);
       let $ = cheerio.load(body);
+      console.log($('.grid--4 > div').get().length);
 
-      console.log($('.grid--4 > div').get().length)
+      people = $('.grid--4 > div').get().map((person) => {
+        // Function for each person
+      });
     });
+
+
 
 //     macros.ALPHABET.split('').forEach((letter) => {
 //       /**
@@ -257,7 +261,7 @@ class COE {
 
 //       promise.then((resp) => {
 //         const peopleFromLetter = this.scrapeLetter(resp.body);
-//         people = people.concat(peopleFromLetter);c
+//         people = people.concat(peopleFromLetter);
 //       });
 
 //       promises.push(promise);
