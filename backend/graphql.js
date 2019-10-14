@@ -1,27 +1,30 @@
-const { ApolloServer, gql } = require('apollo-server');
-const GraphQLJSON = require('graphql-type-json');
-const { filter, find } = require('lodash');
+import { ApolloServer, gql } from 'apollo-server';
+import GraphQLJSON from 'graphql-type-json';
+
+import elastic from './elastic';
+import Keys from '../common/Keys';
 
 const typeDefs = gql`
   scalar JSON
 
   type Class {
-    name: String
-    subject: String
-    classId: Int
+    name: String!
+    subject: String!
+    classId: Int!
 
     occurrence(termId: Int!): ClassOccurrence
     latestOccurrence: ClassOccurrence
-    allOccurrences: [ClassOccurrence]
+    allOccurrences: [ClassOccurrence]!
   }
 
   type ClassOccurrence {
-    name: String
+    name: String!
+    subject: String!
+    classId: Int!
+    termId: Int!
+
     desc: String
-    subject: String
-    classId: Int
-    termId: Int
-    prereq: JSON
+    prereqs: JSON
   }
 
   type Query {
@@ -29,39 +32,30 @@ const typeDefs = gql`
   }
 `;
 
-const classes = [
-  {
-    name: 'Fundies',
-    desc: 'Blah blah blah',
-    subject: 'CS',
-    classId: 2500,
-    termId: 201930,
-  },
-  {
-    name: 'Fundies',
-    desc: 'blub blub blub',
-    subject: 'CS',
-    classId: 2500,
-    termId: 201830,
-  },
-  {
-    name: 'OOD',
-    desc: 'OOOOOOOOOOOOOOOOOOOOOO',
-    subject: 'CS',
-    classId: 3500,
-  },
-];
+const getClassOccurence = async (host, subject, classId, termId) => {
+  try {
+    const id = Keys.getClassHash({
+      host: host, subject: subject, classId: classId, termId: termId,
+    });
+    const s = await elastic.get(elastic.CLASS_INDEX, id);
+    return s.class;
+  } catch (err) {
+    if (err.statusCode === 404) {
+      return null;
+    }
+    throw err;
+  }
+};
 
 const resolvers = {
   JSON: GraphQLJSON,
   Query: {
-    class: (parent, args) => { return find(classes, args); },
-    // classOccurrence: (parent, args) => { return find(classes, args); },
+    class: (parent, args) => { return elastic.getLatestClassOccurrence('neu.edu', args.subject, args.classId); },
   },
   Class: {
-    latestOccurrence: (clas) => { return find(classes, { classId: clas.classId }); },
-    allOccurrences: (clas) => { return filter(classes, { classId: clas.classId }); },
-    occurence: (clas, args) => { return find(classes, { classId: clas.classId, termId: args.termId }); },
+    latestOccurrence: (clas) => { return elastic.getLatestClassOccurrence('neu.edu', clas.subject, clas.classId); },
+    allOccurrences: (clas) => { return elastic.getAllClassOccurrences('neu.edu', clas.subject, clas.classId); },
+    occurrence: (clas, args) => { return getClassOccurence('neu.edu', clas.subject, clas.classId, args.termId.toString()); },
   },
 };
 

@@ -29,7 +29,13 @@
           },
           "subject": {
             "type": "text",
-            "analyzer": "course_code"
+            "analyzer": "course_code",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
           },
           "prereqs": {
             "type": "object",
