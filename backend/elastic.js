@@ -6,8 +6,10 @@
 
 import { Client } from '@elastic/elasticsearch';
 import _ from 'lodash';
+import macros from './macros';
 
-const client = new Client({ node: 'http://localhost:9200' });
+const URL = macros.getEnvVariable('elasticURL') || 'http://localhost:9200';
+const client = new Client({ node: URL });
 
 class Elastic {
   constructor() {
