@@ -208,16 +208,17 @@ class User {
 
     const classHash = Keys.getClassHash(section);
 
-    if (!this.user.watchingClasses.includes(classHash)) {
-      await this.addClass(section);
-    }
-
-    macros.log('user has been enrolled in section', this.user);
-
 
     // now send the data
     const body = await this.setupSendingData(sectionHash);
     body.sectionInfo = section;
+
+
+    if (!this.user.watchingClasses.includes(classHash)) {
+      this.addClass(section);
+    }
+
+    macros.log('user has been enrolled in section', this.user);
 
     await request.post({
       url: '/addSection',
