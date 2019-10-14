@@ -1,36 +1,5 @@
-import { ApolloServer, gql } from 'apollo-server';
-import GraphQLJSON from 'graphql-type-json';
-
-import elastic from './elastic';
-import Keys from '../common/Keys';
-
-const typeDefs = gql`
-  scalar JSON
-
-  type Class {
-    name: String!
-    subject: String!
-    classId: Int!
-
-    occurrence(termId: Int!): ClassOccurrence
-    latestOccurrence: ClassOccurrence
-    allOccurrences: [ClassOccurrence]!
-  }
-
-  type ClassOccurrence {
-    name: String!
-    subject: String!
-    classId: Int!
-    termId: Int!
-
-    desc: String
-    prereqs: JSON
-  }
-
-  type Query {
-    class(subject: String!, classId: Int!): Class
-  }
-`;
+import elastic from '../../elastic';
+import Keys from '../../../common/Keys';
 
 const getClassOccurence = async (host, subject, classId, termId) => {
   try {
@@ -48,7 +17,6 @@ const getClassOccurence = async (host, subject, classId, termId) => {
 };
 
 const resolvers = {
-  JSON: GraphQLJSON,
   Query: {
     class: (parent, args) => { return elastic.getLatestClassOccurrence('neu.edu', args.subject, args.classId); },
   },
@@ -59,7 +27,4 @@ const resolvers = {
   },
 };
 
-const server = new ApolloServer({ typeDefs: typeDefs, resolvers: resolvers });
-server.listen().then(({ url }) => {
-  console.log(`ready at ${url}`);
-});
+export default resolvers;
