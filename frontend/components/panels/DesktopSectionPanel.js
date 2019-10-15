@@ -56,7 +56,8 @@ export default class DesktopSectionPanel extends React.Component {
 
   // When the user state changes inside user.js, force a re-render to update this component. 
   handleUserStateChange() {
-    this.forceUpdate();
+    this.forceUpdate(); // ACTUALLY DONT DO THIS, i think now it would be better to have a small local state
+    // which will prevent updating when other class panels update
   }
 
 
