@@ -25,7 +25,7 @@ export default class NotifCheckBox extends React.Component {
     super(props);
 
     this.state = {
-      // has a user already signed up for notifications on a section?
+      // Whether a user already signed up for notifications on this section.
       checked: user.hasSectionAlready(Keys.getSectionHash(this.props.section)),
     };
 

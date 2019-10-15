@@ -111,7 +111,8 @@ class Facebook {
 
   // sets the given callback to "handleClick"
   handleClickGetter(callback) {
-    this.handleClick = callback;
+    this.handleClick = callback; 
+    // THIS NEEDS TO CHANGE  --- this is called from signupfornotifications.js which has many instances, which when called here will override the others
   }
 
   // This function assumes that 'searchneu.com' is whitelisted in the Facebook Developer console settings

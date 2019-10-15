@@ -99,6 +99,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
       showNotificationBoxes: true,
     });
 
+    // AND THIS will run on page load too, the way this is currenlty coded
     if (!this.props.aClass.sections || this.props.aClass.sections.length <= 0) { // THIS CODE SHOULD NOT BE HERE if it is neccesary, move it to somewhere it will run on mobile too. 
       user.addClass(this.props.aClass);
     }

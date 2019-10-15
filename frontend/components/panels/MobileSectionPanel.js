@@ -173,7 +173,7 @@ export default class MobileSectionPanel extends React.Component {
             </tr>
             {waitlistRow}
             <tr style={{ display: !this.props.showNotificationBoxes && 'none' }}>
-              <td className='firstColumn'>Enable Notifications</td>
+              <td className='firstColumn'>Notifs</td>
               <td className='secondColumn'>
                 <NotifCheckBox section={ this.props.section } />
               </td>

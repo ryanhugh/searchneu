@@ -27,8 +27,10 @@ class User {
     // downloads the user data immediately
     this.downloadUserData();
 
-    // holds all of the callbacks necessary for the fuuttuurree
-    this.callBack = [];
+    // Allow other classes to listen to changes in the user object. 
+    // These changes can be downloaded new user data from the server
+    // or when enrollSection or addClass are called. 
+    this.userStateChangedHandlers = [];
   }
 
   // Downloads the user data from the server.
@@ -209,7 +211,7 @@ class User {
     const classHash = Keys.getClassHash(section);
 
 
-    // now send the data
+    // Make sure the user state has settled before adding more data
     const body = await this.setupSendingData(sectionHash);
     body.sectionInfo = section;
 
@@ -237,7 +239,9 @@ class User {
   }
 
   // adds a class to a user
-  async addClass(theClass) {
+  // enable dontUpdateBackend to just keep the change in this file and to call event handlers, but don't update the backend
+  // this is used when another piece of code updates the backend some way, and we don't want to send two requests to the backend here. 
+  async addClass(theClass, dontUpdateBackend = false) {
     if (!this.user) {
       macros.error('no user for addition?');
       return;
@@ -250,13 +254,20 @@ class User {
 
     this.user.watchingClasses.push(Keys.getClassHash(theClass));
 
-    const body = await this.setupSendingData(Keys.getClassHash(theClass));
-    body.classInfo = theClass;
+    if (!dontUpdateBackend) {
+      const body = await this.setupSendingData(Keys.getClassHash(theClass));
+      body.classInfo = theClass;
 
-    await request.post({
-      url:'/addClass',
-      body: body,
-    });
+      await request.post({
+        url:'/addClass',
+        body: body,
+      });
+    }
+
+    // TODO: call the event handlers here. 
+    // When facebook.js calls this with dontUpdateBackend = true, 
+    // the base class panel will be listening and will use this update to display the toggles. 
+
 
     macros.log('class registered', this.user);
   }

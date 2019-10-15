@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 
 import RequisiteBranch from '../classModels/RequisiteBranch';
 import macros from '../macros';
+import user from '../user';
 
 class BaseClassPanel extends React.Component {
   static propTypes = {
@@ -36,6 +37,9 @@ class BaseClassPanel extends React.Component {
       optPrereqsForPage: 0,
       renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
       unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
+
+      // Whether the user has already signed up for notifications on this class. 
+      showNotificationBoxes: user.hasClassAlready(Keys.getSectionHash(this.props.aClass)), // MAKE THIS GET UPDATES FROM USER TOO. rename hasClassAlready. 
     };
 
     this.onShowMoreClick = this.onShowMoreClick.bind(this);

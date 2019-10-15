@@ -10,6 +10,7 @@ import NotifCheckBox from './NotifCheckBox';
 
 import LocationLinks from './LocationLinks';
 import WeekdayBoxes from './WeekdayBoxes';
+import user from '../user';
 
 import globe from './globe.svg';
 
@@ -17,9 +18,9 @@ import globe from './globe.svg';
   This class renders the sections for a class on the Desktop version
 */
 export default class DesktopSectionPanel extends React.Component {
-  static defaultProps = {
-    showNotificationBoxes: false,
-  };
+  // static defaultProps = {
+  //   showNotificationBoxes: false,
+  // };
 
   // the required properties which just control what should be rendered or not
   // For example, a class could have no final exam, or wait list... etc.
@@ -28,13 +29,13 @@ export default class DesktopSectionPanel extends React.Component {
     showWaitList: PropTypes.bool.isRequired,
     showHonorsColumn: PropTypes.bool.isRequired,
     section: PropTypes.object.isRequired,
-    showNotificationBoxes: PropTypes.bool,
+    // showNotificationBoxes: PropTypes.bool, // CHANGE! this should have a isRequired on it 
   };
 
-  // just creates a state object
   constructor(props) {
     super(props);
-    this.state = {};
+    
+    this.handleUserStateChange = this.handleUserStateChange.bind(this);
   }
 
   // Create the 4:35 - 5:40 pm string.
@@ -51,6 +52,11 @@ export default class DesktopSectionPanel extends React.Component {
       }
     });
     return times.join(', ');
+  }
+
+  // When the user state changes inside user.js, force a re-render to update this component. 
+  handleUserStateChange() {
+    this.forceUpdate();
   }
 
 
@@ -135,6 +141,9 @@ export default class DesktopSectionPanel extends React.Component {
 
     const notifBox = (<NotifCheckBox section={ this.props.section } />);
 
+    // Show the notification toggles if the user is watching this class. 
+    let showNotificationBoxes = user.hasClassAlready(Keys.getClassHash(this.props.section));
+
     return (
       <tr key={ this.props.section.getHash() }>
         <td>
@@ -162,7 +171,7 @@ export default class DesktopSectionPanel extends React.Component {
           {honorsCheck}
         </td>
 
-        <td style={{ display: !this.props.showNotificationBoxes && 'none' }}>
+        <td style={{ display: !showNotificationBoxes && 'none' }}>
           <center>{notifBox}</center>
         </td>
 

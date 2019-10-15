@@ -57,7 +57,7 @@ class SignUpForNotifications extends React.Component {
 
   // if there is a user, and they already have signed up for some sections of
   // the class looking at, Boxes should already be toggled.
-  async componentDidMount() {
+  componentDidMount() {
     if (user.hasClassAlready(this.props.aClass.getHash())) {
       this.props.handleClick();
       this.setState({ showCompletedMessage: true });
