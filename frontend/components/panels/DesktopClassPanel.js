@@ -11,7 +11,7 @@ import macros from '../macros';
 import BaseClassPanel from './BaseClassPanel';
 import DesktopSectionPanel from './DesktopSectionPanel';
 import SignUpForNotifications from '../SignUpForNotifications';
-import user from '../user';
+// import user from '../user';
 
 import globe from './globe.svg';
 
@@ -38,14 +38,12 @@ export default class DesktopClassPanel extends BaseClassPanel {
   }
 
   componentDidMount() {
-
     // componentDidMount is implemented in BaseClassPanel
-    // Make sure to run that code too. 
-    super();
+    // Make sure to run that code too.
+    super.componentDidMount();
 
     macros.debounceTooltipRebuild();
   }
-
 
 
   // reRenderCheckBox() {
@@ -95,14 +93,14 @@ export default class DesktopClassPanel extends BaseClassPanel {
   // handles the sign up for notifications button being clicked,
   // to allow for user to choose which sections to sign up for
   // async handleClick() {
-    // this.setState({
-    //   showNotificationColumn: true,
-    // });
+  // this.setState({
+  //   showNotificationColumn: true,
+  // });
 
-    // AND THIS will run on page load too, the way this is currenlty coded
-    // if (!this.props.aClass.sections || this.props.aClass.sections.length <= 0) { // THIS CODE SHOULD NOT BE HERE if it is neccesary, move it to somewhere it will run on mobile too. 
-    //   user.addClass(this.props.aClass);
-    // }
+  // AND THIS will run on page load too, the way this is currenlty coded
+  // if (!this.props.aClass.sections || this.props.aClass.sections.length <= 0) { // THIS CODE SHOULD NOT BE HERE if it is neccesary, move it to somewhere it will run on mobile too.
+  //   user.addClass(this.props.aClass);
+  // }
   // }
 
 

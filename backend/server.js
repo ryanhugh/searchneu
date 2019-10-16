@@ -653,7 +653,7 @@ async function verifyRequestAndGetDbUser(req, res) {
   // first confirm the loginkey is legitimate
   const user = await database.get(`/users/${senderId}`);
   if (!user || !user.loginKeys.includes(req.body.loginKey)) {
-    macros.log(`Didn't find valid user from client request: ${user}`);
+    macros.log(`Didn't find valid user from client request: ${JSON.stringify(user)}`, req.body.loginKey);
     res.send(JSON.stringify({
       error: 'Error.',
     }));
@@ -665,31 +665,70 @@ async function verifyRequestAndGetDbUser(req, res) {
 
 
 app.post('/addSection', wrap(async (req, res) => {
-  const userObject = await verifyRequestAndGetDbUser(req, res);
-
-  if (!req.body.info || typeof req.body.info !== 'string') {
+  if (!req.body.sectionHash || typeof req.body.sectionHash !== 'string') {
     res.send(JSON.stringify({
       error: 'Error.',
     }));
     return;
   }
 
+  if (!req.body.subject || typeof req.body.subject !== 'string') {
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  if (!req.body.classId || typeof req.body.classId !== 'string') {
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  if (!req.body.crn || typeof req.body.crn !== 'string') {
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  const userObject = await verifyRequestAndGetDbUser(req, res);
+
+  if (!userObject) {
+    console.log("Invalid request", req.body)
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  // if (!userObject.watchingSections) {
+  //   userObject.watchingSections = []
+  // }
+
   // Early exit if user is already watching this section.
-  if (userObject.watchingSections.includes(req.body.info)) {
+  if (userObject.watchingSections.includes(req.body.sectionHash)) {
     res.send(JSON.stringify({
       status: 'Success',
     }));
     return;
   }
 
-  userObject.watchingSections.push(req.body.info);
+  userObject.watchingSections.push(req.body.sectionHash);
 
   await database.set(`/users/${req.body.senderId}`, userObject);
   macros.log('sending done, section added. User:', userObject);
 
-  const sectionInfo = req.body.sectionInfo;
+  // const sectionInfo = req.body.sectionInfo;
 
-  notifyer.sendFBNotification(req.body.senderId, `Thanks for signing up for a section in ${sectionInfo.subject} ${sectionInfo.classId} (CRN: ${sectionInfo.crn})!`);
+  // const aClass = (await elastic.get(elastic.CLASS_INDEX, req.body..classHash)).class;
+
+  // console.log(aClass, aClass.sections)
+
+
+
+  notifyer.sendFBNotification(req.body.senderId, `Thanks for signing up for a section in ${req.body.subject} ${req.body.classId} (CRN: ${req.body.crn})!`);
 
   // send a status of success. Hopefully it went well.
   res.send(JSON.stringify({

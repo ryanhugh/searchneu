@@ -6,6 +6,7 @@
 import request from './request';
 import macros from './macros';
 import user from './user';
+// import classCache from './classCache';
 
 // This file is a wrapper around Facebook's API.
 // Call through this file if you need anything related to FB API
@@ -111,7 +112,7 @@ class Facebook {
 
   // sets the given callback to "handleClick"
   // handleClickGetter(callback) {
-  //   this.handleClick = callback; 
+  //   this.handleClick = callback;
   //   // THIS NEEDS TO CHANGE  --- this is called from signupfornotifications.js which has many instances, which when called here will override the others
   // }
 
@@ -167,15 +168,22 @@ class Facebook {
     } else if (e.event === 'opt_in') {
       macros.log('Opt in was clicked!', e);
 
-      let user = JSON.parse(atob(e.ref));
 
       // User is now authenticated with Facebook.
       // Download any potential user data from the backend.
       user.downloadUserData();
 
+      const userData = JSON.parse(atob(e.ref));
+
+      // let aClass = classCache.getClassInstance(user.classHash);
+
+      // console.log("User is adding", aClass);
+
+      // user.addClass(aClass, false)
+
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'Sign up clicked',
-        hash: user.classHash,
+        hash: userData.classHash,
       });
 
       // In development mode, the fb id of the developer running this code

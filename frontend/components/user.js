@@ -14,37 +14,34 @@ import Keys from '../../common/Keys';
 // Manages user data in the frontend
 // Downloads the data from the server when the page first starts
 
-// Eventually, this can be used to get the current user data from the server.
-
 class User {
   constructor() {
-
     // Keep track of the user object.
     this.user = null;
 
     // Promise to keep track of user data downloading status.
     this.userDataPromise = null;
 
-    // Download the user data as soon as the page loads 
+    // Download the user data as soon as the page loads
     this.downloadUserData();
 
-    // Allow other classes to listen to changes in the user object. 
-    // Any time the user object is called, these handlers are called. 
+    // Allow other classes to listen to changes in the user object.
+    // Any time the user object is called, these handlers are called.
     this.userStateChangedHandlers = [];
   }
 
-  // Register a handler for user updates. 
+  // Register a handler for user updates.
   registerUserChangeHandler(handler) {
     this.userStateChangedHandlers.push(handler);
   }
 
-  // Unregister a handler for user updates. 
+  // Unregister a handler for user updates.
   unregisterUserChangeHandler(handler) {
-    _.pull(this.userStateChangedHandlers, handler)
+    _.pull(this.userStateChangedHandlers, handler);
   }
 
-  // Calls all the userStateChangedHandlers. 
-  // Internal only. 
+  // Calls all the userStateChangedHandlers.
+  // Internal only.
   callUserChangeHandlers() {
     for (const handler of this.userStateChangedHandlers) {
       handler(this.user);
@@ -94,13 +91,12 @@ class User {
       this.callUserChangeHandlers();
 
       macros.log('got user data', this.user);
-    })
-
+    });
   }
 
   // String -> Object
   // Sets up a body to send data to the backend
-  async setupSendingData(data) { // RENAME
+  setupSendingData(data) { // RENAME
     // User has not logged in before, don't bother making the request
     // if (!this.hasLoggedInBefore()) {
     //   return null;
@@ -108,20 +104,22 @@ class User {
 
     // macros.log('sending.... ', this.user);
     // if (!this.user) {
-    //   await this.downloadUserData(); // DONT CALL THIS HERE!! 
+    //   await this.downloadUserData(); // DONT CALL THIS HERE!!
     // }
 
-    // Wait for the user state to settle before running. 
-    await this.userDataPromise;
+    // Wait for the user state to settle before running.
+    // await this.userDataPromise;
 
     // If after settling, the user is invalid, exit early
-    if (!this.user || !this.hasLoggedInBefore()) {
-      return null;
-    }
+    // if (!this.user || !this.hasLoggedInBefore()) {
+    //   return null;
+    // }
 
     const body = {
       loginKey: this.getLoginKey(),
       info: data,
+      classId: data.classId,
+      subject: data.subject,
     };
 
     // If we have sender id, send that up too
@@ -130,19 +128,22 @@ class User {
       body.senderId = window.localStorage.senderId;
     }
 
+    if (data.crn) {
+      body.crn = data.crn
+    }
+
     return body;
   }
 
   // Revokes the loginKey and user user-specific data
   logOut() {
-
     // Clear the authentication tokens and user id.
     // These will be regenerated when the user signs back in.
     delete window.localStorage.loginKey;
     delete window.localStorage.senderId;
 
-    // Also clear the local user data. 
-    // If the user signs in again, this user info will be restored. 
+    // Also clear the local user data.
+    // If the user signs in again, this user info will be restored.
     this.user = null;
 
     this.callUserChangeHandlers();
@@ -187,59 +188,68 @@ class User {
   // removes a section from a user, as well as the class if no more sections are tracked
   // in that class
   async removeSection(section) {
-    if (!this.user) {
-      macros.error('no user for removal?');
+    // Make sure the user state is settled.
+    await this.userDataPromise;
+
+    if (!this.user || !this.hasLoggedInBefore()) {
+      macros.error('Remove section called with no valid user.', this.user, this.hasLoggedInBefore());
       return;
     }
 
-
     const sectionHash = Keys.getSectionHash(section);
 
-    if (this.user.watchingSections.includes(sectionHash)) {
-      _.pull(this.user.watchingSections, sectionHash);
-
-
-      const classInfo = {
-        host: section.host,
-        termId: section.termId,
-        subject: section.subject,
-        classId: section.classId,
-      };
-      const classHash = Keys.getClassHash(classInfo);
-
-
-      // TOFIX! if you unbusbscribe from the last section, unsub from the class too? 
-
-
-      // let acc = false;
-      // for (let i = 0; i < this.user.watchingSections.length; i++) {
-      //   acc = acc || this.user.watchingSections[i].includes(classHash);
-      // }
-
-      // if (!acc) {
-      //   _.pull(this.user.watchingClasses, classHash);
-      // }
-
-      const body = await this.setupSendingData(sectionHash); // FIX!! we need to wait for the initial user data to finish downloading before running these calls. this needs to run before the !user.user in this function
-      // body.classHash = classHash;
-      // body.sectionInfo = section; // FIX!! the only thing we should be sending to the server is the key. no more. 
-      // body.classInfo = classInfo;
-
-      await request.post({
-        url: '/removeSection',
-        info: Keys.getSectionHash(section),
-      });
-
-      this.callUserChangeHandlers();
-    } else {
+    if (!this.user.watchingSections.includes(sectionHash)) {
       macros.error("removed section that doesn't exist on user?", section, this.user);
+      return;
     }
+
+    _.pull(this.user.watchingSections, sectionHash);
+
+
+    // TOFIX! if you unbusbscribe from the last section, unsub from the class too?
+
+
+    // const classInfo = {
+    //   host: section.host,
+    //   termId: section.termId,
+    //   subject: section.subject,
+    //   classId: section.classId,
+    // };
+    // const classHash = Keys.getClassHash(classInfo);
+
+
+    // let acc = false;
+    // for (let i = 0; i < this.user.watchingSections.length; i++) {
+    //   acc = acc || this.user.watchingSections[i].includes(classHash);
+    // }
+
+    // if (!acc) {
+    //   _.pull(this.user.watchingClasses, classHash);
+    // }
+
+    const body = this.setupSendingData(sectionHash); // FIX!! we need to wait for the initial user data to finish downloading before running these calls. this needs to run before the !user.user in this function
+    // body.classHash = classHash;
+    // body.sectionInfo = section; // FIX!! the only thing we should be sending to the server is the key. no more.
+    // body.classInfo = classInfo;
+
+    await request.post({
+      url: '/removeSection',
+      body: body,
+    });
+
+
+    this.callUserChangeHandlers();
   }
 
   // enrolls a user in a section of a class
-  async enrollSection(section) {
-    if (!this.user) {
-      macros.error('no user for addition?');
+  // enable updateBackend to update the backend along with updating the state here.
+  // this is used when another piece of code updates the backend some way, and we don't want to send two requests to the backend here.
+  async enrollSection(section, updateBackend = true) {
+    // Make sure the user state is settled.
+    await this.userDataPromise;
+
+    if (!this.user || !this.hasLoggedInBefore()) {
+      macros.error('Add section called with no valid user.', this.user, this.hasLoggedInBefore());
       return;
     }
 
@@ -247,23 +257,28 @@ class User {
 
     if (this.user.watchingSections.includes(sectionHash)) {
       macros.error('user already watching section?', section, this.user);
+      return;
     }
 
-    this.user.watchingSections.push(Keys.getSectionHash(section));
+    this.user.watchingSections.push(sectionHash);
 
     const classHash = Keys.getClassHash(section);
 
+    const body = {
+      loginKey: this.getLoginKey(),
+      senderId: window.localStorage.senderId,
+      sectionHash: sectionHash,
+      classId: section.classId,
+      subject: section.subject,
+      crn: section.crn
+    };
 
-    // Make sure the user state has settled before adding more data
-    const body = await this.setupSendingData(sectionHash);
-    body.sectionInfo = section;
-
-
+    // TODO: think this through. Best way to keep track of adding/removing sections affecting class sub?
     if (!this.user.watchingClasses.includes(classHash)) {
       this.addClass(section);
     }
 
-    macros.log('user has been enrolled in section', this.user);
+    macros.log('Adding section to user', this.user, sectionHash, body);
 
     await request.post({
       url: '/addSection',
@@ -273,26 +288,19 @@ class User {
     this.callUserChangeHandlers();
   }
 
-  // registers a callback to go on the list of callbacks for a user.
-  registerCallback(theCallback) {
-    this.callBack.push(theCallback);
-  }
-
-  // gets rid of said callback, and all other variants of it.
-  unregisterCallback(theCallback) {
-    _.pull(this.callBack, theCallback);
-  }
-
   // adds a class to a user
-  // enable dontUpdateBackend to just keep the change in this file and to call event handlers, but don't update the backend
-  // this is used when another piece of code updates the backend some way, and we don't want to send two requests to the backend here. 
-  async addClass(classHash, dontUpdateBackend = false) {
-    if (!this.user) {
-      macros.error('no user for addition?');
+  // enable updateBackend to update the backend along with updating the state here.
+  // this is used when another piece of code updates the backend some way, and we don't want to send two requests to the backend here.
+  async addClass(classHash, updateBackend = true) {
+    // Make sure the user state is settled.
+    await this.userDataPromise;
+
+    if (!this.user || !this.hasLoggedInBefore()) {
+      macros.error('Add class called with no valid user.', this.user, this.hasLoggedInBefore());
       return;
     }
 
-    // let classHash = Keys.getClassHash(theClass)
+    let classHash = Keys.getClassHash(theClass)
 
     if (this.user.watchingClasses.includes(classHash)) {
       macros.error('user already watching class?', classHash, this.user);
@@ -301,8 +309,18 @@ class User {
 
     this.user.watchingClasses.push(classHash);
 
-    if (!dontUpdateBackend) {
-      const body = await this.setupSendingData(classHash);
+    if (updateBackend) {
+      const body = this.setupSendingData(classHash);
+
+      const body = {
+        loginKey: this.getLoginKey(),
+        senderId: window.localStorage.senderId,
+        classHash: classHash,
+        classId: aClass.classId,
+        subject: aClass.subject,
+        crn: aClass.crn
+      };
+
       // body.info = classHash;
 
       await request.post({
@@ -311,9 +329,9 @@ class User {
       });
     }
 
-    // TODO: call the event handlers here. 
-    // When facebook.js calls this with dontUpdateBackend = true, 
-    // the base class panel will be listening and will use this update to display the toggles. 
+    // TODO: call the event handlers here.
+    // When facebook.js calls this with updateBackend = false,
+    // the base class panel will be listening and will use this update to display the toggles.
     this.callUserChangeHandlers();
 
     macros.log('class registered', this.user);

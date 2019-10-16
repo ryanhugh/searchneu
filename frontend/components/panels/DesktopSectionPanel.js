@@ -10,7 +10,7 @@ import NotifCheckBox from './NotifCheckBox';
 
 import LocationLinks from './LocationLinks';
 import WeekdayBoxes from './WeekdayBoxes';
-import user from '../user';
+// import user from '../user';
 
 import globe from './globe.svg';
 
@@ -18,7 +18,6 @@ import globe from './globe.svg';
   This class renders the sections for a class on the Desktop version
 */
 export default class DesktopSectionPanel extends React.Component {
-
   // the required properties which just control what should be rendered or not
   // For example, a class could have no final exam, or wait list... etc.
   static propTypes = {
@@ -153,7 +152,7 @@ export default class DesktopSectionPanel extends React.Component {
           {honorsCheck}
         </td>
 
-        <td style={{ display: !this.state.showNotificationSwitches && 'none' }}>
+        <td style={{ display: !this.props.showNotificationSwitches && 'none' }}>
           <center>{notifBox}</center>
         </td>
 

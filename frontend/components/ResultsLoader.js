@@ -11,6 +11,7 @@ import macros from './macros';
 import EmployeePanel from './panels/EmployeePanel';
 import DesktopClassPanel from './panels/DesktopClassPanel';
 import MobileClassPanel from './panels/MobileClassPanel';
+import classCache from './classCache';
 
 import Class from './classModels/Class';
 
@@ -21,7 +22,7 @@ import Class from './classModels/Class';
 class ResultsLoader extends React.Component {
   // Keep a cache of class objects that are already instantiated.
   // Don't need something similar for employees because there is no object that takes a couple ms to instantiate.
-  static loadedClassObjects = {};
+  // static loadedClassObjects = {};
 
   static propTypes = {
     results: PropTypes.array.isRequired,
@@ -44,6 +45,12 @@ class ResultsLoader extends React.Component {
 
     this.handleInfiniteLoad = this.handleInfiniteLoad.bind(this);
   }
+
+  // Gets a instance of a class from the class hash from the cache.
+  // Returns null if the classHash is not in the cache.
+  // static getClassInstance(classHash) {
+  //   return this.loadedClassObjects[classHash];
+  // }
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleInfiniteLoad);
@@ -90,12 +97,13 @@ class ResultsLoader extends React.Component {
       if (result.type === 'class') {
         let aClass;
         const hash = Keys.getClassHash(result.class);
-        if (this.constructor.loadedClassObjects[hash]) {
-          aClass = this.constructor.loadedClassObjects[hash];
+        const possibleInstance = classCache.getClassInstance(hash);
+        if (possibleInstance) {
+          aClass = possibleInstance;
         } else {
           aClass = Class.create(result.class);
           aClass.loadSectionsFromServerList(result.sections);
-          this.constructor.loadedClassObjects[hash] = aClass;
+          classCache.setClassInstance(hash, aClass);
         }
 
         newObjects.push({

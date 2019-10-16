@@ -35,7 +35,7 @@ export default class NotifCheckBox extends React.Component {
 
 
   componentDidMount() {
-    // Register a handler to get updates if user changes. 
+    // Register a handler to get updates if user changes.
     user.registerUserChangeHandler(this.onUserUpdate);
   }
 
@@ -43,17 +43,16 @@ export default class NotifCheckBox extends React.Component {
     user.unregisterUserChangeHandler(this.onUserUpdate);
   }
 
-  // If user changes and those user changes mean that we should 
-  // change this.state.checked, make that change. 
-  // Internal only. 
+  // If user changes and those user changes mean that we should
+  // change this.state.checked, make that change.
+  // Internal only.
   onUserUpdate() {
-
-    // Show the notification toggles if the user is watching this class. 
-    let checked = user.hasSectionAlready(Keys.getSectionHash(this.props.section));
+    // Show the notification toggles if the user is watching this class.
+    const checked = user.hasSectionAlready(Keys.getSectionHash(this.props.section));
     if (checked !== this.state.checked) {
       this.setState({
-        checked: checked
-      })
+        checked: checked,
+      });
     }
   }
 
@@ -76,8 +75,7 @@ export default class NotifCheckBox extends React.Component {
   render() {
     // one last check to ensure the state is correct... since sometimes the user isn't
     // in place by the time rendering has started.
-    // this.state.checked = user.hasSectionAlready(Keys.getSectionHash(this.props.section)); // TODO FIX! 1) don't assign to this.state 2) use a callback to check if the state has changed. 
-
+    // this.state.checked = user.hasSectionAlready(Keys.getSectionHash(this.props.section)); // TODO FIX! 1) don't assign to this.state 2) use a callback to check if the state has changed.
 
 
     // no sections, no toggle sense
