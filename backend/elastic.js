@@ -248,10 +248,15 @@ class Elastic {
             },
           },
         },
-        /*
+      },
+    });
+
+    const suggestOutput = await client.search({
+      index: `${this.CLASS_INDEX}`,
+      body: {
         suggest: {
           text: query,
-          complex_phrase: {
+          name_suggest: {
             phrase: {
               field: "class.name.suggestions",
               confidence: 1.0,
@@ -268,27 +273,16 @@ class Elastic {
               },
               direct_generator: [
                 {
-                  field: 'class.name.suggestions',
-                  suggest_mode: 'always',
+                  field: "class.name.suggestions",
+                  prefix_length: 2,
                 },
               ],
             },
           },
-        },
-        */
-      },
-    });
-
-    /*
-    const suggestOutput = await client.search({
-      index: `${this.CLASS_INDEX}`,
-      body: {
-        suggest: {
-          text: query,
-          complex_phrase: {
+          subject_suggest: {
             phrase: {
-              field: "class.name.suggestions",
-              confidence: 0,
+              field: "class.subject.suggestions",
+              confidence: 1.0,
               collate: {
                 query: {
                   source: {
@@ -297,28 +291,25 @@ class Elastic {
                     },
                   },
                 },
-                params: { field_name: "class.name" },
+                params: { field_name: "class.subject" },
                 prune: true,
               },
               direct_generator: [
                 {
-                  field: 'class.name.suggestions',
-                  suggest_mode: 'always',
+                  field: "class.subject.suggestions",
+                  min_word_length: 2,
                 },
               ],
             },
+            // term: {
+            //   field: "class.subject",
+            //   min_word_length: 2,
+            // },
           },
         },
       },
     });
 
-<<<<<<< HEAD
-=======
-    console.log(util.inspect(suggestOutput, false, null, true));
-    */
-    console.log(util.inspect(searchOutput.body.suggest, false, null, true));
-
->>>>>>> raise confidence
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
       resultCount: searchOutput.body.hits.total.value,

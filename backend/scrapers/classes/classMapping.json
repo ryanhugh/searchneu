@@ -28,10 +28,6 @@
               "keyword": {
                 "type": "keyword",
                 "ignore_above": 256
-              },
-              "suggestions": {
-                "type": "text",
-                "analyzer": "did_you_mean"
               }
             }
           },
