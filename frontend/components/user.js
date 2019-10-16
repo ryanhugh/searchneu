@@ -268,14 +268,16 @@ class User {
       loginKey: this.getLoginKey(),
       senderId: window.localStorage.senderId,
       sectionHash: sectionHash,
-      classId: section.classId,
-      subject: section.subject,
-      crn: section.crn
+      notifData: {
+        classId: section.classId,
+        subject: section.subject,
+        crn: section.crn
+      }
     };
 
     // TODO: think this through. Best way to keep track of adding/removing sections affecting class sub?
     if (!this.user.watchingClasses.includes(classHash)) {
-      this.addClass(section);
+      this.addClass(section); // TODO - FIX! 
     }
 
     macros.log('Adding section to user', this.user, sectionHash, body);
@@ -291,7 +293,7 @@ class User {
   // adds a class to a user
   // enable updateBackend to update the backend along with updating the state here.
   // this is used when another piece of code updates the backend some way, and we don't want to send two requests to the backend here.
-  async addClass(classHash, updateBackend = true) {
+  async addClass(aClass, updateBackend = true) {
     // Make sure the user state is settled.
     await this.userDataPromise;
 
@@ -300,7 +302,7 @@ class User {
       return;
     }
 
-    let classHash = Keys.getClassHash(theClass)
+    let classHash = Keys.getClassHash(aClass)
 
     if (this.user.watchingClasses.includes(classHash)) {
       macros.error('user already watching class?', classHash, this.user);
@@ -310,7 +312,7 @@ class User {
     this.user.watchingClasses.push(classHash);
 
     if (updateBackend) {
-      const body = this.setupSendingData(classHash);
+      // const body = this.setupSendingData(classHash);
 
       const body = {
         loginKey: this.getLoginKey(),

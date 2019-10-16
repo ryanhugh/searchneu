@@ -672,27 +672,6 @@ app.post('/addSection', wrap(async (req, res) => {
     return;
   }
 
-  if (!req.body.subject || typeof req.body.subject !== 'string') {
-    res.send(JSON.stringify({
-      error: 'Error.',
-    }));
-    return;
-  }
-
-  if (!req.body.classId || typeof req.body.classId !== 'string') {
-    res.send(JSON.stringify({
-      error: 'Error.',
-    }));
-    return;
-  }
-
-  if (!req.body.crn || typeof req.body.crn !== 'string') {
-    res.send(JSON.stringify({
-      error: 'Error.',
-    }));
-    return;
-  }
-
   const userObject = await verifyRequestAndGetDbUser(req, res);
 
   if (!userObject) {
@@ -727,10 +706,39 @@ app.post('/addSection', wrap(async (req, res) => {
   // console.log(aClass, aClass.sections)
 
 
+  // If the request also contains the notif data, we can send a notification to the user. 
+  // TODO: If it ever becomes possible to look up a section in elastic by sectionHash, we can have this
+  // api only accept sectionHash and just look this info up in the DB. 
+  let notifData = req.body.notifData
 
-  notifyer.sendFBNotification(req.body.senderId, `Thanks for signing up for a section in ${req.body.subject} ${req.body.classId} (CRN: ${req.body.crn})!`);
+  if (notifData) {
+    if (!notifData.subject || typeof notifData.subject !== 'string') {
+      res.send(JSON.stringify({
+        error: 'Error.',
+      }));
+      return;
+    }
 
-  // send a status of success. Hopefully it went well.
+    if (!notifData.classId || typeof notifData.classId !== 'string') {
+      res.send(JSON.stringify({
+        error: 'Error.',
+      }));
+      return;
+    }
+
+    if (!notifData.crn || typeof notifData.crn !== 'string') {
+      res.send(JSON.stringify({
+        error: 'Error.',
+      }));
+      return;
+    }
+
+
+    notifyer.sendFBNotification(req.body.senderId, `Thanks for signing up for a section in ${notifData.subject} ${notifData.classId} (CRN: ${notifData.crn})!`);
+  }
+
+
+  // Send a status of success. 
   res.send(JSON.stringify({
     status: 'Success',
   }));
