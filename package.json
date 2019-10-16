@@ -71,6 +71,7 @@
     "@elastic/elasticsearch": "^7.0.0-rc.2",
     "amplitude": "^4.0.0",
     "apollo-server": "^2.9.5",
+    "apollo-server-testing": "^2.9.6",
     "async": "^2",
     "atob": "^2.0.3",
     "babel-core": "^7.0.0-bridge.0",
