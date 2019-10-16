@@ -24,7 +24,6 @@ import user from './user';
 class SignUpForNotifications extends React.Component {
   static propTypes = {
     aClass: PropTypes.object.isRequired,
-    handleClick: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -59,7 +58,6 @@ class SignUpForNotifications extends React.Component {
   // the class looking at, Boxes should already be toggled.
   componentDidMount() {
     if (user.hasClassAlready(this.props.aClass.getHash())) {
-      this.props.handleClick();
       this.setState({ showCompletedMessage: true });
     }
   }
@@ -135,7 +133,6 @@ class SignUpForNotifications extends React.Component {
     // if a user exists already, we can show the notification checkboxes too
     if (user.user) {
       macros.log('user exists already', user.user);
-      this.props.handleClick();
       this.setState({ showCompletedMessage: true });
     } else {
       macros.logAmplitudeEvent('FB Send to Messenger', {
@@ -157,7 +154,7 @@ class SignUpForNotifications extends React.Component {
 
       this.setState(newState);
 
-      facebook.handleClickGetter(this.props.handleClick);
+      // facebook.handleClickGetter();
     }
   }
 

@@ -29,13 +29,38 @@ export default class NotifCheckBox extends React.Component {
       checked: user.hasSectionAlready(Keys.getSectionHash(this.props.section)),
     };
 
-    this.doChange = this.doChange.bind(this);
+    this.onCheckboxClick = this.onCheckboxClick.bind(this);
+    this.onUserUpdate = this.onUserUpdate.bind(this);
+  }
+
+
+  componentDidMount() {
+    // Register a handler to get updates if user changes. 
+    user.registerUserChangeHandler(this.onUserUpdate);
+  }
+
+  componentWillUnmount() {
+    user.unregisterUserChangeHandler(this.onUserUpdate);
+  }
+
+  // If user changes and those user changes mean that we should 
+  // change this.state.checked, make that change. 
+  // Internal only. 
+  onUserUpdate() {
+
+    // Show the notification toggles if the user is watching this class. 
+    let checked = user.hasSectionAlready(Keys.getSectionHash(this.props.section));
+    if (checked !== this.state.checked) {
+      this.setState({
+        checked: checked
+      })
+    }
   }
 
   // if the state is currently checked, uncheck, remove the section from the user's data
   // do opposite.
   // send data to backend
-  async doChange() {
+  async onCheckboxClick() {
     if (this.state.checked) {
       user.removeSection(this.props.section);
       this.setState({ checked: false });
@@ -51,7 +76,10 @@ export default class NotifCheckBox extends React.Component {
   render() {
     // one last check to ensure the state is correct... since sometimes the user isn't
     // in place by the time rendering has started.
-    this.state.checked = user.hasSectionAlready(Keys.getSectionHash(this.props.section));
+    // this.state.checked = user.hasSectionAlready(Keys.getSectionHash(this.props.section)); // TODO FIX! 1) don't assign to this.state 2) use a callback to check if the state has changed. 
+
+
+
     // no sections, no toggle sense
     if (this.props.section && this.props.section.seatsRemaining > 5) {
       return <div style={{ color: '#d3d3d3' }} data-tip='There are still seats remaining for this section' className='inlineBlock'><Icon name='info circle' className='myIcon' /></div>;
@@ -60,7 +88,7 @@ export default class NotifCheckBox extends React.Component {
     // otherwise, return a checkbox that has the correct state
     return (
       <div data-tip='Sign up for notifications for this section' className='inlineBlock'>
-        <Checkbox toggle checked={ this.state.checked } onChange={ this.doChange } />
+        <Checkbox toggle checked={ this.state.checked } onChange={ this.onCheckboxClick } />
       </div>
     );
   }

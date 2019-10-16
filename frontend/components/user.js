@@ -18,19 +18,37 @@ import Keys from '../../common/Keys';
 
 class User {
   constructor() {
-    // Promise to keep track of user data.
-    this.userDataPromise = null;
 
     // Keep track of the user object.
     this.user = null;
 
-    // downloads the user data immediately
+    // Promise to keep track of user data downloading status.
+    this.userDataPromise = null;
+
+    // Download the user data as soon as the page loads 
     this.downloadUserData();
 
     // Allow other classes to listen to changes in the user object. 
-    // These changes can be downloaded new user data from the server
-    // or when enrollSection or addClass are called. 
+    // Any time the user object is called, these handlers are called. 
     this.userStateChangedHandlers = [];
+  }
+
+  // Register a handler for user updates. 
+  registerUserChangeHandler(handler) {
+    this.userStateChangedHandlers.push(handler);
+  }
+
+  // Unregister a handler for user updates. 
+  unregisterUserChangeHandler(handler) {
+    _.pull(this.userStateChangedHandlers, handler)
+  }
+
+  // Calls all the userStateChangedHandlers. 
+  // Internal only. 
+  callUserChangeHandlers() {
+    for (const handler of this.userStateChangedHandlers) {
+      handler(this.user);
+    }
   }
 
   // Downloads the user data from the server.
@@ -53,48 +71,58 @@ class User {
     }
 
     macros.log('data going to the backend is', body);
-    const response = await request.post({
+
+    // Keep track of the status of this call, so future calls that
+    // modify the user and update the backend
+    // can wait for this to finish before running.
+    this.userDataPromise = request.post({
       url: '/getUserData',
       body: body,
-    });
+    }).then((response) => {
+      // If error, delete local invalid data.
+      if (response.error) {
+        macros.log('Data in localStorage is invalid, deleting');
+        this.logOut();
+        return;
+      }
 
-    // If error, delete local invalid data.
-    if (response.error) {
-      macros.log('Data in localStorage is invalid, deleting');
-      this.logOut();
-      return;
-    }
+      this.user = response.user;
 
-    this.user = response.user;
+      // Keep track of the sender id too.
+      window.localStorage.senderId = response.user.facebookMessengerId;
 
-    // Keep track of the sender id too.
-    window.localStorage.senderId = response.user.facebookMessengerId;
+      this.callUserChangeHandlers();
 
-    for (const callback of this.callBack) {
-      callback();
-    }
+      macros.log('got user data', this.user);
+    })
 
-    macros.log('got user data', this.user);
   }
 
   // String -> Object
   // Sets up a body to send data to the backend
-  async setupSendingData(data) {
+  async setupSendingData(data) { // RENAME
     // User has not logged in before, don't bother making the request
-    if (!this.hasLoggedInBefore()) {
-      return null;
-    }
+    // if (!this.hasLoggedInBefore()) {
+    //   return null;
+    // }
 
-    macros.log('sending.... ', this.user);
-    if (!this.user) {
-      await this.downloadUserData();
+    // macros.log('sending.... ', this.user);
+    // if (!this.user) {
+    //   await this.downloadUserData(); // DONT CALL THIS HERE!! 
+    // }
+
+    // Wait for the user state to settle before running. 
+    await this.userDataPromise;
+
+    // If after settling, the user is invalid, exit early
+    if (!this.user || !this.hasLoggedInBefore()) {
+      return null;
     }
 
     const body = {
       loginKey: this.getLoginKey(),
+      info: data,
     };
-
-    body.info = data;
 
     // If we have sender id, send that up too
     // (will make the server respond faster)
@@ -107,8 +135,17 @@ class User {
 
   // Revokes the loginKey and user user-specific data
   logOut() {
+
+    // Clear the authentication tokens and user id.
+    // These will be regenerated when the user signs back in.
     delete window.localStorage.loginKey;
     delete window.localStorage.senderId;
+
+    // Also clear the local user data. 
+    // If the user signs in again, this user info will be restored. 
+    this.user = null;
+
+    this.callUserChangeHandlers();
   }
 
   // Return if the user has logged in before.
@@ -170,24 +207,30 @@ class User {
       };
       const classHash = Keys.getClassHash(classInfo);
 
-      let acc = false;
-      for (let i = 0; i < this.user.watchingSections.length; i++) {
-        acc = acc || this.user.watchingSections[i].includes(classHash);
-      }
 
-      if (!acc) {
-        _.pull(this.user.watchingClasses, classHash);
-      }
+      // TOFIX! if you unbusbscribe from the last section, unsub from the class too? 
 
-      const body = await this.setupSendingData(sectionHash);
-      body.classHash = classHash;
-      body.sectionInfo = section;
-      body.classInfo = classInfo;
+
+      // let acc = false;
+      // for (let i = 0; i < this.user.watchingSections.length; i++) {
+      //   acc = acc || this.user.watchingSections[i].includes(classHash);
+      // }
+
+      // if (!acc) {
+      //   _.pull(this.user.watchingClasses, classHash);
+      // }
+
+      const body = await this.setupSendingData(sectionHash); // FIX!! we need to wait for the initial user data to finish downloading before running these calls. this needs to run before the !user.user in this function
+      // body.classHash = classHash;
+      // body.sectionInfo = section; // FIX!! the only thing we should be sending to the server is the key. no more. 
+      // body.classInfo = classInfo;
 
       await request.post({
         url: '/removeSection',
-        body: body,
+        info: Keys.getSectionHash(section),
       });
+
+      this.callUserChangeHandlers();
     } else {
       macros.error("removed section that doesn't exist on user?", section, this.user);
     }
@@ -226,6 +269,8 @@ class User {
       url: '/addSection',
       body: body,
     });
+
+    this.callUserChangeHandlers();
   }
 
   // registers a callback to go on the list of callbacks for a user.
@@ -241,22 +286,24 @@ class User {
   // adds a class to a user
   // enable dontUpdateBackend to just keep the change in this file and to call event handlers, but don't update the backend
   // this is used when another piece of code updates the backend some way, and we don't want to send two requests to the backend here. 
-  async addClass(theClass, dontUpdateBackend = false) {
+  async addClass(classHash, dontUpdateBackend = false) {
     if (!this.user) {
       macros.error('no user for addition?');
       return;
     }
 
-    if (this.user.watchingClasses.includes(theClass)) {
-      macros.error('user already watching class?', theClass, this.user);
+    // let classHash = Keys.getClassHash(theClass)
+
+    if (this.user.watchingClasses.includes(classHash)) {
+      macros.error('user already watching class?', classHash, this.user);
       return;
     }
 
-    this.user.watchingClasses.push(Keys.getClassHash(theClass));
+    this.user.watchingClasses.push(classHash);
 
     if (!dontUpdateBackend) {
-      const body = await this.setupSendingData(Keys.getClassHash(theClass));
-      body.classInfo = theClass;
+      const body = await this.setupSendingData(classHash);
+      // body.info = classHash;
 
       await request.post({
         url:'/addClass',
@@ -267,25 +314,9 @@ class User {
     // TODO: call the event handlers here. 
     // When facebook.js calls this with dontUpdateBackend = true, 
     // the base class panel will be listening and will use this update to display the toggles. 
-
+    this.callUserChangeHandlers();
 
     macros.log('class registered', this.user);
-  }
-
-  removeClass(theClass) {
-    if (!this.user) {
-      macros.error('no user for addition?');
-      return;
-    }
-
-    if (!this.user.watchingClasses.includes(theClass)) {
-      macros.error('user isn\'t watching class?', theClass, this.user);
-      return;
-    }
-
-    _.pull(this.user.watchingClasses, Keys.getClassHash(theClass));
-
-    macros.log('class removed', this.user);
   }
 }
 

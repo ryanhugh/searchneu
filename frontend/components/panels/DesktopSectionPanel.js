@@ -18,9 +18,6 @@ import globe from './globe.svg';
   This class renders the sections for a class on the Desktop version
 */
 export default class DesktopSectionPanel extends React.Component {
-  // static defaultProps = {
-  //   showNotificationBoxes: false,
-  // };
 
   // the required properties which just control what should be rendered or not
   // For example, a class could have no final exam, or wait list... etc.
@@ -29,14 +26,8 @@ export default class DesktopSectionPanel extends React.Component {
     showWaitList: PropTypes.bool.isRequired,
     showHonorsColumn: PropTypes.bool.isRequired,
     section: PropTypes.object.isRequired,
-    // showNotificationBoxes: PropTypes.bool, // CHANGE! this should have a isRequired on it 
+    showNotificationSwitches: PropTypes.bool.isRequired,
   };
-
-  constructor(props) {
-    super(props);
-    
-    this.handleUserStateChange = this.handleUserStateChange.bind(this);
-  }
 
   // Create the 4:35 - 5:40 pm string.
   // This was copied from mobile section panel.js
@@ -53,13 +44,6 @@ export default class DesktopSectionPanel extends React.Component {
     });
     return times.join(', ');
   }
-
-  // When the user state changes inside user.js, force a re-render to update this component. 
-  handleUserStateChange() {
-    this.forceUpdate(); // ACTUALLY DONT DO THIS, i think now it would be better to have a small local state
-    // which will prevent updating when other class panels update
-  }
-
 
   render() {
     // Instead of calculating a lot of these individually and putting them together in the return call
@@ -142,9 +126,6 @@ export default class DesktopSectionPanel extends React.Component {
 
     const notifBox = (<NotifCheckBox section={ this.props.section } />);
 
-    // Show the notification toggles if the user is watching this class. 
-    let showNotificationBoxes = user.hasClassAlready(Keys.getClassHash(this.props.section));
-
     return (
       <tr key={ this.props.section.getHash() }>
         <td>
@@ -172,7 +153,7 @@ export default class DesktopSectionPanel extends React.Component {
           {honorsCheck}
         </td>
 
-        <td style={{ display: !showNotificationBoxes && 'none' }}>
+        <td style={{ display: !this.state.showNotificationSwitches && 'none' }}>
           <center>{notifBox}</center>
         </td>
 

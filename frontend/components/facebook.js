@@ -110,10 +110,10 @@ class Facebook {
   }
 
   // sets the given callback to "handleClick"
-  handleClickGetter(callback) {
-    this.handleClick = callback; 
-    // THIS NEEDS TO CHANGE  --- this is called from signupfornotifications.js which has many instances, which when called here will override the others
-  }
+  // handleClickGetter(callback) {
+  //   this.handleClick = callback; 
+  //   // THIS NEEDS TO CHANGE  --- this is called from signupfornotifications.js which has many instances, which when called here will override the others
+  // }
 
   // This function assumes that 'searchneu.com' is whitelisted in the Facebook Developer console settings
   // https://developers.facebook.com/apps/1979224428978082/settings/basic/
@@ -167,13 +167,15 @@ class Facebook {
     } else if (e.event === 'opt_in') {
       macros.log('Opt in was clicked!', e);
 
+      let user = JSON.parse(atob(e.ref));
+
       // User is now authenticated with Facebook.
       // Download any potential user data from the backend.
       user.downloadUserData();
 
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'Sign up clicked',
-        hash: JSON.parse(atob(e.ref)).classHash,
+        hash: user.classHash,
       });
 
       // In development mode, the fb id of the developer running this code
@@ -223,8 +225,6 @@ class Facebook {
       } else {
         macros.log(e, 'other message');
       }
-
-      this.handleClick();
     }
   }
 }

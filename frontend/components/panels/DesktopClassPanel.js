@@ -26,8 +26,7 @@ import globe from './globe.svg';
 export default class DesktopClassPanel extends BaseClassPanel {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.reRenderCheckBox = this.reRenderCheckBox.bind(this);
+    this.onUserUpdate = this.onUserUpdate.bind(this);
   }
 
   static propTypes = {
@@ -39,20 +38,21 @@ export default class DesktopClassPanel extends BaseClassPanel {
   }
 
   componentDidMount() {
+
+    // componentDidMount is implemented in BaseClassPanel
+    // Make sure to run that code too. 
+    super();
+
     macros.debounceTooltipRebuild();
-    user.registerCallback(this.reRenderCheckBox);
-    macros.log('callback registered');
   }
 
-  componentWillUnmount() {
-    user.unregisterCallback(this.reRenderCheckBox);
-  }
 
-  reRenderCheckBox() {
-    if (this.state.showNotificationBoxes) {
-      this.setState({ showNotificationBoxes: true });
-    }
-  }
+
+  // reRenderCheckBox() {
+  //   if (this.state.showNotificationColumn) {
+  //     this.setState({ showNotificationColumn: true });
+  //   }
+  // }
 
   // Method to decide whether to show the waitlist or not
   // This logic is different than it is on mobile (because of formatting differences)
@@ -94,16 +94,16 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
   // handles the sign up for notifications button being clicked,
   // to allow for user to choose which sections to sign up for
-  async handleClick() {
-    this.setState({
-      showNotificationBoxes: true,
-    });
+  // async handleClick() {
+    // this.setState({
+    //   showNotificationColumn: true,
+    // });
 
     // AND THIS will run on page load too, the way this is currenlty coded
-    if (!this.props.aClass.sections || this.props.aClass.sections.length <= 0) { // THIS CODE SHOULD NOT BE HERE if it is neccesary, move it to somewhere it will run on mobile too. 
-      user.addClass(this.props.aClass);
-    }
-  }
+    // if (!this.props.aClass.sections || this.props.aClass.sections.length <= 0) { // THIS CODE SHOULD NOT BE HERE if it is neccesary, move it to somewhere it will run on mobile too. 
+    //   user.addClass(this.props.aClass);
+    // }
+  // }
 
 
   render() {
@@ -149,7 +149,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
               <th style={{ display: !showHonorsColumn && 'none' }}>
                 Honors
               </th>
-              <th style={{ display: !this.state.showNotificationBoxes && 'none' }}>
+              <th style={{ display: !this.state.showNotificationSwitches && 'none' }}>
                 Notifs
               </th>
               <th> Link </th>
@@ -165,10 +165,9 @@ export default class DesktopClassPanel extends BaseClassPanel {
                   key={ section.crn }
                   showWaitList={ showWaitList }
                   shouldShowExamColumns={ aClass.sectionsHaveExam() }
-                  showNotificationBoxes={ this.state.showNotificationBoxes }
+                  showNotificationSwitches={ this.state.showNotificationSwitches }
                   showHonorsColumn={ showHonorsColumn }
                   section={ section }
-
                 />
               );
             })}
@@ -247,7 +246,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
             {creditsString}
             <div>
-              <SignUpForNotifications aClass={ aClass } handleClick={ this.handleClick } />
+              <SignUpForNotifications aClass={ aClass } />
             </div>
 
           </div>

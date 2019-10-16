@@ -37,10 +37,6 @@ class MockFacebook {
     return true;
   }
 
-  handleClickGetter() {
-  }
-
-
   getIsLoggedIn() {
     return Promise.resolve(false);
   }

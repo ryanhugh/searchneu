@@ -39,10 +39,11 @@ class BaseClassPanel extends React.Component {
       unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
 
       // Whether the user has already signed up for notifications on this class. 
-      showNotificationBoxes: user.hasClassAlready(Keys.getSectionHash(this.props.aClass)), // MAKE THIS GET UPDATES FROM USER TOO. rename hasClassAlready. 
+      showNotificationSwitches: user.hasClassAlready(Keys.getSectionHash(this.props.aClass)), // MAKE THIS GET UPDATES FROM USER TOO. rename hasClassAlready. 
     };
 
     this.onShowMoreClick = this.onShowMoreClick.bind(this);
+    this.onUserUpdate = this.onUserUpdate.bind(this);
   }
 
   onShowMoreClick() {
@@ -61,6 +62,30 @@ class BaseClassPanel extends React.Component {
         unrenderedSections: unrendered.slice(showAmount, unrendered.length),
       };
     });
+  }
+
+  componentDidMount() {
+
+    // Register a handler to get updates if user changes. 
+    user.registerUserChangeHandler(this.onUserUpdate);
+  }
+
+  componentWillUnmount() {
+    user.unregisterUserChangeHandler(this.onUserUpdate);
+  }
+
+  // If user changes and those user changes mean that we should 
+  // change this.state.showNotificationSwitches, make that change. 
+  // Internal only. 
+  onUserUpdate() {
+
+    // Show the notification toggles if the user is watching this class. 
+    let showNotificationSwitches = user.hasClassAlready(Keys.getClassHash(this.props.aClass));
+    if (showNotificationSwitches !== this.state.showNotificationSwitches) {
+      this.setState({
+        showNotificationSwitches: showNotificationSwitches
+      })
+    }
   }
 
   // Prevents page reload and fires off new search without reloading.

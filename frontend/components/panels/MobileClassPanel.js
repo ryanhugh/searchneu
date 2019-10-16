@@ -32,15 +32,9 @@ class MobileClassPanel extends BaseClassPanel {
     // NOTE: this.state is setup (this.state = {...}) in the parent class BaseClassPanel,
     // so all we need to do here is another field.
     this.state.showMoreThanTitle = false;
-    this.handleClick = this.handleClick.bind(this);
-    this.state.showNotificationBoxes = false;
+    this.onUserUpdate = this.onUserUpdate.bind(this);
   }
 
-  handleClick() {
-    this.setState({
-      showNotificationBoxes: true,
-    });
-  }
 
   getClassBody() {
     const aClass = this.props.aClass;
@@ -89,7 +83,7 @@ class MobileClassPanel extends BaseClassPanel {
             </Collapsible>
             {feeString}
 
-            <SignUpForNotifications aClass={ aClass } handleClick={ this.handleClick } />
+            <SignUpForNotifications aClass={ aClass } />
           </div>
         </span>
       );
@@ -142,7 +136,7 @@ class MobileClassPanel extends BaseClassPanel {
 
     if (aClass.sections && aClass.sections.length > 0) {
       sectionTable = this.state.renderedSections.map((section) => {
-        return <MobileSectionPanel key={ section.getHash() } section={ section } showNotificationBoxes={ this.state.showNotificationBoxes } />;
+        return <MobileSectionPanel key={ section.getHash() } section={ section } showNotificationSwitches={ this.state.showNotificationSwitches } />;
       });
     }
 
