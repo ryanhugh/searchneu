@@ -177,7 +177,7 @@ class Home extends React.Component {
     }
 
     if (this.state.searchQuery) {
-      macros.log('Going to serach for', this.state.searchQuery, this.state.selectedTermId);
+      macros.log('Going to search for', this.state.searchQuery, this.state.selectedTermId);
       this.search(this.state.searchQuery, this.state.selectedTermId);
     }
   }

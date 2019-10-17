@@ -140,7 +140,8 @@ class Facebook {
     });
   }
 
-  onSendToMessengerClick(e) {
+  // handles button events
+  async onSendToMessengerClick(e) {
     if (e.event === 'rendered') {
       macros.log('Plugin was rendered');
 
@@ -159,6 +160,10 @@ class Facebook {
       macros.log('Plugin was hidden');
     } else if (e.event === 'opt_in') {
       macros.log('Opt in was clicked!', e);
+
+      // User is now authenticated with Facebook.
+      // Download any potential user data from the backend.
+      user.downloadUserData();
 
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'Sign up clicked',

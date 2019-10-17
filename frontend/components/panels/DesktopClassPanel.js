@@ -22,8 +22,12 @@ import globe from './globe.svg';
 // Don't do `this.state = {...}`, because the state is already setup in the parent react component
 // instead just do this.state.something = 5;
 
-
 export default class DesktopClassPanel extends BaseClassPanel {
+  constructor(props) {
+    super(props);
+    this.onUserUpdate = this.onUserUpdate.bind(this);
+  }
+
   static propTypes = {
     aClass: PropTypes.object.isRequired,
   };
@@ -33,6 +37,10 @@ export default class DesktopClassPanel extends BaseClassPanel {
   }
 
   componentDidMount() {
+    // componentDidMount is implemented in BaseClassPanel
+    // Make sure to run that code too.
+    super.componentDidMount();
+
     macros.debounceTooltipRebuild();
   }
 
@@ -116,6 +124,9 @@ export default class DesktopClassPanel extends BaseClassPanel {
               <th style={{ display: !showHonorsColumn && 'none' }}>
                 Honors
               </th>
+              <th style={{ display: !this.state.userIsWatchingClass && 'none' }}>
+                Notifs
+              </th>
               <th> Link </th>
             </tr>
           </thead>
@@ -129,6 +140,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
                   key={ section.crn }
                   showWaitList={ showWaitList }
                   shouldShowExamColumns={ aClass.sectionsHaveExam() }
+                  showNotificationSwitches={ this.state.userIsWatchingClass }
                   showHonorsColumn={ showHonorsColumn }
                   section={ section }
                 />
@@ -209,7 +221,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
             {creditsString}
             <div>
-              <SignUpForNotifications aClass={ aClass } />
+              <SignUpForNotifications aClass={ aClass } userIsWatchingClass={ this.state.userIsWatchingClass } />
             </div>
 
           </div>

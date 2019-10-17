@@ -134,7 +134,7 @@ class MobileClassPanel extends BaseClassPanel {
 
     if (aClass.sections && aClass.sections.length > 0) {
       sectionTable = this.state.renderedSections.map((section) => {
-        return <MobileSectionPanel key={ section.getHash() } section={ section } />;
+        return <MobileSectionPanel key={ section.getHash() } section={ section } showNotificationSwitches={ this.state.userIsWatchingClass } />;
       });
     }
 

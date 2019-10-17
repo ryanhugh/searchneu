@@ -13,7 +13,7 @@ const client = new Client({ node: URL });
 
 class Elastic {
   constructor() {
-    // Because we export an instance of this class, put the constance on the instance.
+    // Because we export an instance of this class, put the constants on the instance.
     this.CLASS_INDEX = 'classes';
     this.EMPLOYEE_INDEX = 'employees';
   }
