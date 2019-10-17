@@ -43,7 +43,7 @@ const fbAppSecret = macros.getEnvVariable('fbAppSecret');
 // requests come in for data that isn't quite in the backend yet
 // saved as loginKey: {res, timeStamp}.
 // Timestamp is the output of Date.now().
-// getUserDataReqs are cleared after 10 seconds
+// getUserDataReqs are cleared after 3 seconds
 const getUserDataReqs = {};
 
 // The minimum amount of time in milliseconds user data reqs are held before
@@ -635,18 +635,19 @@ async function verifyRequestAndGetDbUser(req, res) {
   const senderId = req.body.senderId;
 
   // Ensure sender id exists and is valid.
-  if (!senderId || (typeof senderId !== 'string' || senderId.length !== 16 || !macros.isNumeric(senderId))) {
+  if (!senderId || typeof senderId !== 'string' || senderId.length !== 16 || !macros.isNumeric(senderId)) {
     macros.log('Invalid senderId', req.body, senderId);
     return null;
   }
 
-  // first confirm the loginkey is legitimate
+  // Get the user from the db.
   const user = await database.get(`/users/${senderId}`);
   if (!user) {
     macros.log(`Didn't find valid user from client request: ${JSON.stringify(user)}`, req.body.loginKey);
     return null;
   }
 
+  // Verify the loginkey
   if (!user.loginKeys.includes(req.body.loginKey)) {
     macros.log(`Login Key's didn't match: ${JSON.stringify(user.loginKeys, null, 4)}`, req.body.loginKey);
     return null;
