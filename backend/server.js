@@ -933,15 +933,12 @@ app.post('/getUserData', wrap(async (req, res) => {
   // If the client specified a specific senderId, lookup that specific user.
   // if not, we have to loop over all the users's to find a matching loginKey
 
-  // long polling needs to start here
   if (senderId) {
     const user = await database.get(`/users/${senderId}`);
 
-    if (!user) {
-      addToUserDataReqs(req.body.loginKey, res);
-      return;
-    }
-
+    // Don't do long polling when the the sender id is given
+    // and the user doesn't exist in the db because
+    // the only time this would happen is if the data was cleared out of the db.
     if (!user) {
       macros.log('User with senderId not in database yet', senderId);
       res.send(JSON.stringify({
@@ -964,6 +961,7 @@ app.post('/getUserData', wrap(async (req, res) => {
     matchingUser = await findMatchingUser(req.body.loginKey);
 
     if (!matchingUser) {
+      // Hang onto the request for a bit in case the webhook comes in shortly.
       addToUserDataReqs(req.body.loginKey, res);
       return;
     }
