@@ -221,7 +221,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
             {creditsString}
             <div>
-              <SignUpForNotifications aClass={ aClass } />
+              <SignUpForNotifications aClass={ aClass } userIsWatchingClass={ this.state.showNotificationSwitches } />
             </div>
 
           </div>

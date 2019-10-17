@@ -317,6 +317,7 @@ exports[`should render some stuff 1`] = `
               "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=201810&subj_in=CS&crse_in=1210&schd_in=%",
             }
           }
+          userIsWatchingClass={false}
         />
       </div>
     </div>

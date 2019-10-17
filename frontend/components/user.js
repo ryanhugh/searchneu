@@ -225,8 +225,7 @@ class User {
     };
 
     if (!this.user.watchingClasses.includes(classHash)) {
-
-      // TODO: This is a bit ugly. 
+      // TODO: This is a bit ugly.
       // Sections don't have references to their parent class right now
       // so there is no easy solution here
       this.addClass({

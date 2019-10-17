@@ -14,16 +14,17 @@ import user from './user';
 // This file is responsible for the Sign Up for notifications flow.
 // First, this will render a button that will say something along the lines of "Get notified when...!"
 // Then, if that button is clicked, the Facebook Send To Messenger button will be rendered.
-// (This Sent To Messenger button is not rendered initially because it requires that an iframe is added and 10+ http requests are made for each time it is rendered)
-
-// TODO: Lets make it so clicking on the Send To Messenger button changes this to a third state that just says thanks for signing up!
-// (still needs to be done!)
+// (This Send To Messenger button is not rendered initially because it requires that an iframe is added and 10+ http requests are made for each time it is rendered)
 
 // All of the actually signing up for sections is now in NotifCheckbox
 
 class SignUpForNotifications extends React.Component {
   static propTypes = {
     aClass: PropTypes.object.isRequired,
+
+    // This determins whether to show the final completed message, or any other state.
+    // If this is true, all other state fields are ignored and the final message is shown.
+    userIsWatchingClass: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -31,15 +32,8 @@ class SignUpForNotifications extends React.Component {
 
     this.state = {
 
-      // initially, don't want to show the messenger button yet
-      // This has priority over the showCompletedMessage state.
-      // TODO: change these two booleans to an enum with three (four?) states. (click to sign up, messenger buttton, completed, (+ adblock?))
+      // Whether to show the Facebook messenger button or not.
       showMessengerButton: false,
-
-      // Whether to show the completed message.
-      // If the class has sections, the completed message says toggle sections you want to be signed up for
-      // and if it doesn't, it says you've signed up for notifications on the class.
-      showCompletedMessage: false,
 
       // Keeps track of whether the adblock modal is being shown or not
       // Sometimes, adblock will block the FB plugin from loading
@@ -51,15 +45,6 @@ class SignUpForNotifications extends React.Component {
     this.facebookScopeRef = null;
     this.onSubscribeToggleChange = this.onSubscribeToggleChange.bind(this);
     this.closeModal = this.closeModal.bind(this);
-  }
-
-
-  // if there is a user, and they already have signed up for some sections of
-  // the class looking at, Boxes should already be toggled.
-  componentDidMount() {
-    if (user.isWatchingClass(this.props.aClass.getHash())) {
-      this.setState({ showCompletedMessage: true });
-    }
   }
 
   // After the button is added to the DOM, we need to tell FB's SDK that it was added to the code and should be processed.
@@ -133,7 +118,6 @@ class SignUpForNotifications extends React.Component {
     // if a user exists already, we can show the notification checkboxes too
     if (user.user) {
       macros.log('user exists already', user.user);
-      this.setState({ showCompletedMessage: true });
       user.addClass(this.props.aClass);
     } else {
       macros.logAmplitudeEvent('FB Send to Messenger', {
@@ -211,7 +195,13 @@ class SignUpForNotifications extends React.Component {
   render() {
     let content = null;
 
-    if (this.state.showMessengerButton) {
+    if (this.props.userIsWatchingClass) {
+      if (this.props.aClass.sections.length === 0) {
+        content = <Button basic disabled content="You're now signed up for notifications on this class" className='notificationButton' />;
+      } else {
+        content = <Button basic disabled content='Toggle the sections you want to be notified for!' className='notificationButton' />;
+      }
+    } else if (this.state.showMessengerButton) {
       if (facebook.didPluginFail()) {
         content = (
           <Button
@@ -230,12 +220,6 @@ class SignUpForNotifications extends React.Component {
             {this.getSendToMessengerButton()}
           </div>
         );
-      }
-    } else if (this.state.showCompletedMessage) {
-      if (this.props.aClass.sections.length === 0) {
-        content = <Button basic disabled content="You're now signed up for notifications on this class" className='notificationButton' />;
-      } else {
-        content = <Button basic disabled content='Toggle the sections you want to be notified for!' className='notificationButton' />;
       }
     } else if (this.props.aClass.sections.length === 0) {
       content = <Button basic onClick={ this.onSubscribeToggleChange } content='Get notified when sections are added!' className='notificationButton' />;

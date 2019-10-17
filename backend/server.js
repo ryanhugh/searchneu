@@ -856,7 +856,7 @@ function cleanOldGetUserDataReqs() {
   const now = Date.now();
 
   for (const loginKey of Object.keys(getUserDataReqs)) {
-    // Purge all entries over 10s old
+    // Purge all entries over 3s old
     if (now - getUserDataReqs[loginKey].timeStamp > MAX_HOLD_TIME_FOR_GET_USER_DATA_REQS) {
       getUserDataReqs[loginKey].res.send(JSON.stringify({
         error: 'Request timed out',
@@ -969,10 +969,12 @@ app.post('/getUserData', wrap(async (req, res) => {
     }
   }
 
-  res.send(JSON.stringify({
-    status: 'Success',
-    user: matchingUser,
-  }));
+  setTimeout(() => {
+    res.send(JSON.stringify({
+      status: 'Success',
+      user: matchingUser,
+    }));
+  }, 5000);
 }));
 
 // Rate-limit submissions on a per-IP basis

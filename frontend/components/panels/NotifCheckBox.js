@@ -73,7 +73,7 @@ export default class NotifCheckBox extends React.Component {
   // renders the proper checkbox. If there are still seats, then make it read
   // only, otherwise, set up callback on onChange
   render() {
-    // Don't show the toggle if this section has over 5 remaining seats. 
+    // Don't show the toggle if this section has over 5 remaining seats.
     if (this.props.section.seatsRemaining > 5) {
       return <div style={{ color: '#d3d3d3' }} data-tip='There are still seats remaining for this section' className='inlineBlock'><Icon name='info circle' className='myIcon' /></div>;
     }
