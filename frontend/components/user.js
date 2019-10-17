@@ -143,7 +143,7 @@ class User {
   }
 
   // checks if the user already has the class in it
-  hasClassAlready(classHash) {
+  isWatchingClass(classHash) {
     if (this.user) {
       return this.user.watchingClasses.includes(classHash);
     }
