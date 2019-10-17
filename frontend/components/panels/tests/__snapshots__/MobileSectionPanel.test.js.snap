@@ -395,7 +395,7 @@ exports[`should render another section w/ checkboxes 1`] = `
       <tr
         style={
           Object {
-            "display": "none",
+            "display": false,
           }
         }
       >

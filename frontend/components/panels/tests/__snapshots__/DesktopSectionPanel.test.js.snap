@@ -274,7 +274,7 @@ exports[`should render a section w/ notif check boxes 1`] = `
   <td
     style={
       Object {
-        "display": "none",
+        "display": false,
       }
     }
   >

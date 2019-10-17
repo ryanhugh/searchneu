@@ -14,11 +14,11 @@ import MobileSectionPanel from '../MobileSectionPanel';
 Enzyme.configure({ adapter: new Adapter() });
 
 it('should render a section', () => {
-  const result = shallow(<MobileSectionPanel section={ mockData.cs1210.sections[0] } showNotificationBoxes={ false } />);
+  const result = shallow(<MobileSectionPanel section={ mockData.cs1210.sections[0] } showNotificationSwitches={ false } />);
   expect(result).toMatchSnapshot();
 });
 
 it('should render another section w/ checkboxes', () => {
-  const result = shallow(<MobileSectionPanel section={ mockData.cs1210.sections[1] } showNotificationBoxes />);
+  const result = shallow(<MobileSectionPanel section={ mockData.cs1210.sections[1] } showNotificationSwitches />);
   expect(result).toMatchSnapshot();
 });
