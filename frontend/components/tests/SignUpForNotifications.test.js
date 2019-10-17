@@ -24,7 +24,7 @@ afterEach(() => {
 });
 
 it('should render', () => {
-  const result = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } handleClick={ () => { return this.setState({ showNotificationBoxes: true }); } } />);
+  const result = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } />);
   expect(result).toMatchSnapshot();
 });
 

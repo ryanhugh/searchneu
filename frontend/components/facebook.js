@@ -109,12 +109,6 @@ class Facebook {
     return this.messengerRenderState === MESSENGER_PLUGIN_STATE.FAILED;
   }
 
-  // sets the given callback to "handleClick"
-  // handleClickGetter(callback) {
-  //   this.handleClick = callback;
-  //   // THIS NEEDS TO CHANGE  --- this is called from signupfornotifications.js which has many instances, which when called here will override the others
-  // }
-
   // This function assumes that 'searchneu.com' is whitelisted in the Facebook Developer console settings
   // https://developers.facebook.com/apps/1979224428978082/settings/basic/
   // Facebook only allows applications to run on one domain at a time

@@ -35,7 +35,6 @@ class MobileClassPanel extends BaseClassPanel {
     this.onUserUpdate = this.onUserUpdate.bind(this);
   }
 
-
   getClassBody() {
     const aClass = this.props.aClass;
 

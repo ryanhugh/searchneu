@@ -100,48 +100,7 @@ class User {
     });
   }
 
-  // String -> Object
-  // Sets up a body to send data to the backend
-  setupSendingData(data) { // RENAME
-    // User has not logged in before, don't bother making the request
-    // if (!this.hasLoggedInBefore()) {
-    //   return null;
-    // }
-
-    // macros.log('sending.... ', this.user);
-    // if (!this.user) {
-    //   await this.downloadUserData(); // DONT CALL THIS HERE!!
-    // }
-
-    // Wait for the user state to settle before running.
-    // await this.userDataPromise;
-
-    // If after settling, the user is invalid, exit early
-    // if (!this.user || !this.hasLoggedInBefore()) {
-    //   return null;
-    // }
-
-    const body = {
-      loginKey: this.getLoginKey(),
-      info: data,
-      classId: data.classId,
-      subject: data.subject,
-    };
-
-    // If we have sender id, send that up too
-    // (will make the server respond faster)
-    if (window.localStorage.senderId) {
-      body.senderId = window.localStorage.senderId;
-    }
-
-    if (data.crn) {
-      body.crn = data.crn;
-    }
-
-    return body;
-  }
-
-  // Revokes the loginKey and user user-specific data
+  // Revokes the loginKey and all other user-specific data
   logOut() {
     // Clear the authentication tokens and user id.
     // These will be regenerated when the user signs back in.
@@ -176,7 +135,7 @@ class User {
   }
 
   // checks if the user already has the section in it
-  hasSectionAlready(sectionHash) {
+  isWatchingSection(sectionHash) {
     if (this.user) {
       return this.user.watchingSections.includes(sectionHash);
     }
@@ -211,34 +170,6 @@ class User {
 
     _.pull(this.user.watchingSections, sectionHash);
 
-
-    // TOFIX! if you unbusbscribe from the last section, unsub from the class too?
-
-
-    // const classInfo = {
-    //   host: section.host,
-    //   termId: section.termId,
-    //   subject: section.subject,
-    //   classId: section.classId,
-    // };
-    // const classHash = Keys.getClassHash(classInfo);
-
-
-    // let acc = false;
-    // for (let i = 0; i < this.user.watchingSections.length; i++) {
-    //   acc = acc || this.user.watchingSections[i].includes(classHash);
-    // }
-
-    // if (!acc) {
-    //   _.pull(this.user.watchingClasses, classHash);
-    // }
-
-    // const body = this.setupSendingData(sectionHash); // FIX!! we need to wait for the initial user data to finish downloading before running these calls. this needs to run before the !user.user in this function
-    // body.classHash = classHash;
-    // body.sectionInfo = section; // FIX!! the only thing we should be sending to the server is the key. no more.
-    // body.classInfo = classInfo;
-
-
     const body = {
       loginKey: this.getLoginKey(),
       senderId: window.localStorage.senderId,
@@ -262,7 +193,7 @@ class User {
   // enrolls a user in a section of a class
   // enable updateBackend to update the backend along with updating the state here.
   // this is used when another piece of code updates the backend some way, and we don't want to send two requests to the backend here.
-  async enrollSection(section) {
+  async addSection(section) {
     // Make sure the user state is settled.
     await this.userDataPromise;
 
@@ -293,9 +224,17 @@ class User {
       },
     };
 
-    // TODO: think this through. Best way to keep track of adding/removing sections affecting class sub?
     if (!this.user.watchingClasses.includes(classHash)) {
-      this.addClass(section); // TODO - FIX!
+
+      // TODO: This is a bit ugly. 
+      // Sections don't have references to their parent class right now
+      // so there is no easy solution here
+      this.addClass({
+        host: section.host,
+        termId: section.termId,
+        subject: section.subject,
+        classId: section.classId,
+      });
     }
 
     macros.log('Adding section to user', this.user, sectionHash, body);
@@ -329,9 +268,6 @@ class User {
 
     this.user.watchingClasses.push(classHash);
 
-    // if (updateBackend) {
-    // const body = this.setupSendingData(classHash);
-
     const body = {
       loginKey: this.getLoginKey(),
       senderId: window.localStorage.senderId,
@@ -342,18 +278,14 @@ class User {
       },
     };
 
-    // body.info = classHash;
-
     await request.post({
       url:'/addClass',
       body: body,
     });
-    // }
-
 
     // If this class only has 1 section, sign the user for it automatically.
-    if (aClass.sections.length === 1 && !this.hasSectionAlready(aClass.sections[0])) {
-      this.enrollSection(aClass.sections[0]);
+    if (aClass.sections && aClass.sections.length === 1 && !this.isWatchingSection(aClass.sections[0])) {
+      this.addSection(aClass.sections[0]);
     }
 
     this.callUserChangeHandlers();

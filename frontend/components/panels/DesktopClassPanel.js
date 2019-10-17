@@ -11,7 +11,6 @@ import macros from '../macros';
 import BaseClassPanel from './BaseClassPanel';
 import DesktopSectionPanel from './DesktopSectionPanel';
 import SignUpForNotifications from '../SignUpForNotifications';
-// import user from '../user';
 
 import globe from './globe.svg';
 
@@ -44,13 +43,6 @@ export default class DesktopClassPanel extends BaseClassPanel {
 
     macros.debounceTooltipRebuild();
   }
-
-
-  // reRenderCheckBox() {
-  //   if (this.state.showNotificationColumn) {
-  //     this.setState({ showNotificationColumn: true });
-  //   }
-  // }
 
   // Method to decide whether to show the waitlist or not
   // This logic is different than it is on mobile (because of formatting differences)
@@ -88,21 +80,6 @@ export default class DesktopClassPanel extends BaseClassPanel {
     // If there are plenty of seats left, don't show the waitlist
     return false;
   }
-
-
-  // handles the sign up for notifications button being clicked,
-  // to allow for user to choose which sections to sign up for
-  // async handleClick() {
-  // this.setState({
-  //   showNotificationColumn: true,
-  // });
-
-  // AND THIS will run on page load too, the way this is currenlty coded
-  // if (!this.props.aClass.sections || this.props.aClass.sections.length <= 0) { // THIS CODE SHOULD NOT BE HERE if it is neccesary, move it to somewhere it will run on mobile too.
-  //   user.addClass(this.props.aClass);
-  // }
-  // }
-
 
   render() {
     const aClass = this.props.aClass;

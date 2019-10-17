@@ -10,7 +10,6 @@ import NotifCheckBox from './NotifCheckBox';
 
 import LocationLinks from './LocationLinks';
 import WeekdayBoxes from './WeekdayBoxes';
-// import user from '../user';
 
 import globe from './globe.svg';
 
