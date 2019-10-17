@@ -134,7 +134,7 @@ class Elastic {
                     fields: [
                       'class.name^2', // Boost by 2
                       'class.name.autocomplete',
-                      'class.subject^4',
+                      'class.subject^5',
                       'class.classId^3',
                       'sections.meetings.profs',
                       'class.crns',
@@ -159,7 +159,7 @@ class Elastic {
                 filter: {
                   terms: { 'class.scheduleType.keyword': ['Lab', 'Recitation/Discussion', 'Seminar'] },
                 },
-                weight: 0.4,
+                weight: 0.5,
               },
             ],
           },
