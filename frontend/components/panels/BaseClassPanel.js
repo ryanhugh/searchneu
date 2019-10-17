@@ -40,7 +40,7 @@ class BaseClassPanel extends React.Component {
       unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
 
       // Whether the user has already signed up for notifications on this class.
-      showNotificationSwitches: user.isWatchingClass(Keys.getClassHash(this.props.aClass)),
+      userIsWatchingClass: user.isWatchingClass(Keys.getClassHash(this.props.aClass)),
     };
 
     this.onShowMoreClick = this.onShowMoreClick.bind(this);
@@ -57,14 +57,14 @@ class BaseClassPanel extends React.Component {
   }
 
   // If user changes and those user changes mean that we should
-  // change this.state.showNotificationSwitches, make that change.
+  // change this.state.userIsWatchingClass, make that change.
   // Internal only.
   onUserUpdate() {
     // Show the notification toggles if the user is watching this class.
-    const showNotificationSwitches = user.isWatchingClass(Keys.getClassHash(this.props.aClass));
-    if (showNotificationSwitches !== this.state.showNotificationSwitches) {
+    const userIsWatchingClass = user.isWatchingClass(Keys.getClassHash(this.props.aClass));
+    if (userIsWatchingClass !== this.state.userIsWatchingClass) {
       this.setState({
-        showNotificationSwitches: showNotificationSwitches,
+        userIsWatchingClass: userIsWatchingClass,
       });
     }
   }

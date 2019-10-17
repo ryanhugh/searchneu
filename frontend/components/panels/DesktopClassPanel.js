@@ -124,7 +124,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
               <th style={{ display: !showHonorsColumn && 'none' }}>
                 Honors
               </th>
-              <th style={{ display: !this.state.showNotificationSwitches && 'none' }}>
+              <th style={{ display: !this.state.userIsWatchingClass && 'none' }}>
                 Notifs
               </th>
               <th> Link </th>
@@ -140,7 +140,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
                   key={ section.crn }
                   showWaitList={ showWaitList }
                   shouldShowExamColumns={ aClass.sectionsHaveExam() }
-                  showNotificationSwitches={ this.state.showNotificationSwitches }
+                  showNotificationSwitches={ this.state.userIsWatchingClass }
                   showHonorsColumn={ showHonorsColumn }
                   section={ section }
                 />
@@ -221,7 +221,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <div data-tip='Check neu.edu for possible updates'> Updated {aClass.getLastUpdateString()}</div>
             {creditsString}
             <div>
-              <SignUpForNotifications aClass={ aClass } userIsWatchingClass={ this.state.showNotificationSwitches } />
+              <SignUpForNotifications aClass={ aClass } userIsWatchingClass={ this.state.userIsWatchingClass } />
             </div>
 
           </div>
