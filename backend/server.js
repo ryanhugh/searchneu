@@ -969,12 +969,10 @@ app.post('/getUserData', wrap(async (req, res) => {
     }
   }
 
-  setTimeout(() => {
-    res.send(JSON.stringify({
-      status: 'Success',
-      user: matchingUser,
-    }));
-  }, 5000);
+  res.send(JSON.stringify({
+    status: 'Success',
+    user: matchingUser,
+  }));
 }));
 
 // Rate-limit submissions on a per-IP basis
