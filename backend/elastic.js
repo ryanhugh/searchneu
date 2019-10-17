@@ -113,6 +113,25 @@ class Elastic {
    * @param  {integer} max    The index of last document to retreive
    */
   async search(query, termId, min, max) {
+    // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
+    let courseCodePattern = /^(\s)*\w\w(\w?)(\w?)(\s)*(\d\d\d\d)?(\s)*$/i;
+    let fields = [
+      'class.name^2', // Boost by 2
+      'class.name.autocomplete',
+      'class.subject^4',
+      'class.classId^3',
+      'sections.meetings.profs',
+      'class.crns',
+      'employee.name^2',
+      'employee.emails',
+      'employee.phone',
+    ];
+
+    if (courseCodePattern.test(query)) {
+      // after the first result, all of the following results should be of the same subject, e.g. it's weird to get ENGL2500 as the second or third result for CS2500
+      fields = ['class.subject^10', 'class.classId'];
+    }
+
     const searchOutput = await client.search({
       index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
       from: min,
@@ -123,49 +142,28 @@ class Elastic {
           { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } }, // Use lower classId has tiebreaker after relevance
         ],
         query: {
-          function_score: {
-            query: {
-              bool: {
-                must: {
-                  multi_match: {
-                    query: query,
-                    type: 'most_fields', // More fields match => higher score
-                    fuzziness: 'AUTO',
-                    fields: [
-                      'class.name^2', // Boost by 2
-                      'class.name.autocomplete',
-                      'class.subject^5',
-                      'class.classId^3',
-                      'sections.meetings.profs',
-                      'class.crns',
-                      'employee.name^2',
-                      'employee.emails',
-                      'employee.phone',
-                    ],
-                  },
-                },
-                filter: {
-                  bool: {
-                    should: [
-                      { term: { 'class.termId': termId } },
-                      { term: { type: 'employee' } },
-                    ],
-                  },
-                },
+          bool: {
+            must: {
+              multi_match: {
+                query: query,
+                type: 'most_fields', // More fields match => higher score
+                fuzziness: 'AUTO',
+                fields: fields,
               },
             },
-            functions: [
-              {
-                filter: {
-                  terms: { 'class.scheduleType.keyword': ['Lab', 'Recitation/Discussion', 'Seminar'] },
-                },
-                weight: 0.5,
+            filter: {
+              bool: {
+                should: [
+                  { term: { 'class.termId': termId } },
+                  { term: { type: 'employee' } },
+                ],
               },
-            ],
+            },
           },
         },
       },
     });
+
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
       resultCount: searchOutput.body.hits.total.value,
