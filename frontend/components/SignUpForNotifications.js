@@ -118,7 +118,15 @@ class SignUpForNotifications extends React.Component {
     // if a user exists already, we can show the notification checkboxes too
     if (user.user) {
       macros.log('user exists already', user.user);
-      user.addClass(this.props.aClass);
+
+      const aClass = this.props.aClass;
+
+      user.addClass(aClass);
+
+      // If this class only has 1 section, sign the user for it automatically.
+      if (aClass.sections && aClass.sections.length === 1 && aClass.sections[0].seatsRemaining <= 0) {
+        user.addSection(aClass.sections[0]);
+      }
     } else {
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'First button click',
@@ -150,16 +158,11 @@ class SignUpForNotifications extends React.Component {
     // Get a list of all the sections that don't have seats remaining
     const sectionHashes = [];
 
-    // Only sign up the user for all the sections automatically
-    // if there are 0 or 1 sections in the class.
-    if (aClass.sections.length <= 1) {
-      for (const section of aClass.sections) {
-        if (section.seatsRemaining <= 0) {
-          sectionHashes.push(section.getHash());
-        }
-      }
+    // If there is exactly one section in the class and the seats are all taken
+    // automatically sign the user up for it.
+    if (aClass.sections.length === 1 && aClass.sections[0].seatsRemaining <= 0) {
+      sectionHashes.push(aClass.sections[0].getHash());
     }
-
 
     // JSON stringify it and then base64 encode the data that we want to pass to the backend.
     // Many characters arn't allowed to be in the ref attribute, including open and closing braces.

@@ -194,6 +194,12 @@ class User {
   // enable updateBackend to update the backend along with updating the state here.
   // this is used when another piece of code updates the backend some way, and we don't want to send two requests to the backend here.
   async addSection(section) {
+    // Don't let the user sign up for sections that have over 5 seats open.
+    if (section.seatsRemaining > 5) {
+      macros.error('Not signing up for section that has over 5 seats open.');
+      return;
+    }
+
     // Make sure the user state is settled.
     await this.userDataPromise;
 
@@ -281,11 +287,6 @@ class User {
       url:'/addClass',
       body: body,
     });
-
-    // If this class only has 1 section, sign the user for it automatically.
-    if (aClass.sections && aClass.sections.length === 1 && !this.isWatchingSection(aClass.sections[0])) {
-      this.addSection(aClass.sections[0]);
-    }
 
     this.callUserChangeHandlers();
 
