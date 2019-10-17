@@ -24,19 +24,19 @@ afterEach(() => {
 });
 
 it('should render', () => {
-  const result = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } userIsWatchingClass = {false} />);
+  const result = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } userIsWatchingClass={ false } />);
   expect(result).toMatchSnapshot();
 });
 
 
 it('should render', () => {
-  const result = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } userIsWatchingClass = {true} />);
+  const result = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } userIsWatchingClass />);
   expect(result).toMatchSnapshot();
 });
 
 
 it('should render the fb button after the button is clicked', async (done) => {
-  const wrapper = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } userIsWatchingClass = {false} />);
+  const wrapper = shallow(<SignUpForNotifications aClass={ mockData.cs1210 } userIsWatchingClass={ false } />);
   const instance = wrapper.instance();
 
   await instance.onSubscribeToggleChange();
