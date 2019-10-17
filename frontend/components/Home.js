@@ -485,9 +485,6 @@ class Home extends React.Component {
         );
       } else if (!this.state.waitingOnEnter) {
         let subjectInfoRow = null;
-
-        // if they did a search on a subject's name, then it'll show the classes
-        /// in that subject, and clarify by showing "showing all classes in "x"
         if (this.state.subjectName) {
           subjectInfoRow = (<div className='subjectContaineRow'>Showing all {this.state.subjectCount} {this.state.subjectName} classes.</div>);
         }

@@ -32,7 +32,6 @@ class MobileClassPanel extends BaseClassPanel {
     // NOTE: this.state is setup (this.state = {...}) in the parent class BaseClassPanel,
     // so all we need to do here is another field.
     this.state.showMoreThanTitle = false;
-    this.onUserUpdate = this.onUserUpdate.bind(this);
   }
 
   getClassBody() {
