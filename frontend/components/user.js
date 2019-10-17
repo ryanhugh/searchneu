@@ -83,6 +83,12 @@ class User {
         return;
       }
 
+      // Check to see if we got a user back.
+      if (!response.user) {
+        macros.warn("Download user data request didn't get a user back."); // TODO: should we try again here?
+        return;
+      }
+
       this.user = response.user;
 
       // Keep track of the sender id too.
@@ -129,7 +135,7 @@ class User {
     }
 
     if (data.crn) {
-      body.crn = data.crn
+      body.crn = data.crn;
     }
 
     return body;
@@ -227,10 +233,22 @@ class User {
     //   _.pull(this.user.watchingClasses, classHash);
     // }
 
-    const body = this.setupSendingData(sectionHash); // FIX!! we need to wait for the initial user data to finish downloading before running these calls. this needs to run before the !user.user in this function
+    // const body = this.setupSendingData(sectionHash); // FIX!! we need to wait for the initial user data to finish downloading before running these calls. this needs to run before the !user.user in this function
     // body.classHash = classHash;
     // body.sectionInfo = section; // FIX!! the only thing we should be sending to the server is the key. no more.
     // body.classInfo = classInfo;
+
+
+    const body = {
+      loginKey: this.getLoginKey(),
+      senderId: window.localStorage.senderId,
+      sectionHash: sectionHash,
+      notifData: {
+        classId: section.classId,
+        subject: section.subject,
+        crn: section.crn,
+      },
+    };
 
     await request.post({
       url: '/removeSection',
@@ -244,7 +262,7 @@ class User {
   // enrolls a user in a section of a class
   // enable updateBackend to update the backend along with updating the state here.
   // this is used when another piece of code updates the backend some way, and we don't want to send two requests to the backend here.
-  async enrollSection(section, updateBackend = true) {
+  async enrollSection(section) {
     // Make sure the user state is settled.
     await this.userDataPromise;
 
@@ -271,13 +289,13 @@ class User {
       notifData: {
         classId: section.classId,
         subject: section.subject,
-        crn: section.crn
-      }
+        crn: section.crn,
+      },
     };
 
     // TODO: think this through. Best way to keep track of adding/removing sections affecting class sub?
     if (!this.user.watchingClasses.includes(classHash)) {
-      this.addClass(section); // TODO - FIX! 
+      this.addClass(section); // TODO - FIX!
     }
 
     macros.log('Adding section to user', this.user, sectionHash, body);
@@ -293,7 +311,7 @@ class User {
   // adds a class to a user
   // enable updateBackend to update the backend along with updating the state here.
   // this is used when another piece of code updates the backend some way, and we don't want to send two requests to the backend here.
-  async addClass(aClass, updateBackend = true) {
+  async addClass(aClass) {
     // Make sure the user state is settled.
     await this.userDataPromise;
 
@@ -302,7 +320,7 @@ class User {
       return;
     }
 
-    let classHash = Keys.getClassHash(aClass)
+    const classHash = Keys.getClassHash(aClass);
 
     if (this.user.watchingClasses.includes(classHash)) {
       macros.error('user already watching class?', classHash, this.user);
@@ -311,29 +329,33 @@ class User {
 
     this.user.watchingClasses.push(classHash);
 
-    if (updateBackend) {
-      // const body = this.setupSendingData(classHash);
+    // if (updateBackend) {
+    // const body = this.setupSendingData(classHash);
 
-      const body = {
-        loginKey: this.getLoginKey(),
-        senderId: window.localStorage.senderId,
-        classHash: classHash,
+    const body = {
+      loginKey: this.getLoginKey(),
+      senderId: window.localStorage.senderId,
+      classHash: classHash,
+      notifData: {
         classId: aClass.classId,
         subject: aClass.subject,
-        crn: aClass.crn
-      };
+      },
+    };
 
-      // body.info = classHash;
+    // body.info = classHash;
 
-      await request.post({
-        url:'/addClass',
-        body: body,
-      });
+    await request.post({
+      url:'/addClass',
+      body: body,
+    });
+    // }
+
+
+    // If this class only has 1 section, sign the user for it automatically.
+    if (aClass.sections.length === 1 && !this.hasSectionAlready(aClass.sections[0])) {
+      this.enrollSection(aClass.sections[0]);
     }
 
-    // TODO: call the event handlers here.
-    // When facebook.js calls this with updateBackend = false,
-    // the base class panel will be listening and will use this update to display the toggles.
     this.callUserChangeHandlers();
 
     macros.log('class registered', this.user);

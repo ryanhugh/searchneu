@@ -134,6 +134,7 @@ class SignUpForNotifications extends React.Component {
     if (user.user) {
       macros.log('user exists already', user.user);
       this.setState({ showCompletedMessage: true });
+      user.addClass(this.props.aClass);
     } else {
       macros.logAmplitudeEvent('FB Send to Messenger', {
         message: 'First button click',

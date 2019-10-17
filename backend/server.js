@@ -46,16 +46,15 @@ const fbAppSecret = macros.getEnvVariable('fbAppSecret');
 // getUserDataReqs are cleared after 10 seconds
 const getUserDataReqs = {};
 
-// The minimum amount of time user data reqs are held fore before
+// The minimum amount of time in milliseconds user data reqs are held before
 // they are elgible for cleanup.
-const MAX_HOLD_TIME_FOR_GET_USER_DATA_REQS = 10000;
+const MAX_HOLD_TIME_FOR_GET_USER_DATA_REQS = 3000;
 
 // The interval id that fires when user data reqs are awaiting cleanup.
 let getUserDataInterval = null;
 
 // Start updater interval
-// TODO: FIX!!!!!!
-// Updater.create();
+Updater.create();
 
 // Verify that the webhooks are coming from facebook
 // This needs to be above bodyParser for some reason
@@ -623,9 +622,6 @@ async function verifyRequestAndGetDbUser(req, res) {
 
   // if there's no body in the request, well, we'll crash, so let's not
   if (!req.body || !req.body.loginKey) {
-    res.send(JSON.stringify({
-      error: 'Error.',
-    }));
     return null;
   }
 
@@ -633,9 +629,6 @@ async function verifyRequestAndGetDbUser(req, res) {
   // Make sure the login key is valid
   if (typeof req.body.loginKey !== 'string' || req.body.loginKey.length !== 100) {
     macros.log('Invalid login key', req.body.loginKey);
-    res.send(JSON.stringify({
-      error: 'Error.',
-    }));
     return null;
   }
 
@@ -644,19 +637,18 @@ async function verifyRequestAndGetDbUser(req, res) {
   // Ensure sender id exists and is valid.
   if (!senderId || (typeof senderId !== 'string' || senderId.length !== 16 || !macros.isNumeric(senderId))) {
     macros.log('Invalid senderId', req.body, senderId);
-    res.send(JSON.stringify({
-      error: 'Error.',
-    }));
     return null;
   }
 
   // first confirm the loginkey is legitimate
   const user = await database.get(`/users/${senderId}`);
-  if (!user || !user.loginKeys.includes(req.body.loginKey)) {
+  if (!user) {
     macros.log(`Didn't find valid user from client request: ${JSON.stringify(user)}`, req.body.loginKey);
-    res.send(JSON.stringify({
-      error: 'Error.',
-    }));
+    return null;
+  }
+
+  if (!user.loginKeys.includes(req.body.loginKey)) {
+    macros.log(`Login Key's didn't match: ${JSON.stringify(user.loginKeys, null, 4)}`, req.body.loginKey);
     return null;
   }
 
@@ -675,60 +667,52 @@ app.post('/addSection', wrap(async (req, res) => {
   const userObject = await verifyRequestAndGetDbUser(req, res);
 
   if (!userObject) {
-    console.log("Invalid request", req.body)
+    macros.log('Invalid request', req.body);
     res.send(JSON.stringify({
       error: 'Error.',
     }));
     return;
   }
 
-  // if (!userObject.watchingSections) {
-  //   userObject.watchingSections = []
-  // }
+  const sectionHash = req.body.sectionHash;
 
   // Early exit if user is already watching this section.
-  if (userObject.watchingSections.includes(req.body.sectionHash)) {
+  if (userObject.watchingSections.includes(sectionHash)) {
+    macros.log('User was already watching section', userObject);
     res.send(JSON.stringify({
       status: 'Success',
     }));
     return;
   }
 
-  userObject.watchingSections.push(req.body.sectionHash);
+  userObject.watchingSections.push(sectionHash);
 
   await database.set(`/users/${req.body.senderId}`, userObject);
   macros.log('sending done, section added. User:', userObject);
 
-  // const sectionInfo = req.body.sectionInfo;
-
-  // const aClass = (await elastic.get(elastic.CLASS_INDEX, req.body..classHash)).class;
-
-  // console.log(aClass, aClass.sections)
-
-
-  // If the request also contains the notif data, we can send a notification to the user. 
+  // If the request also contains the notif data, we can send a notification to the user.
   // TODO: If it ever becomes possible to look up a section in elastic by sectionHash, we can have this
-  // api only accept sectionHash and just look this info up in the DB. 
-  let notifData = req.body.notifData
+  // api only accept sectionHash and just look this info up in the DB.
+  const notifData = req.body.notifData;
 
   if (notifData) {
     if (!notifData.subject || typeof notifData.subject !== 'string') {
       res.send(JSON.stringify({
-        error: 'Error.',
+        warning: 'Unable to send notification.',
       }));
       return;
     }
 
     if (!notifData.classId || typeof notifData.classId !== 'string') {
       res.send(JSON.stringify({
-        error: 'Error.',
+        warning: 'Unable to send notification.',
       }));
       return;
     }
 
     if (!notifData.crn || typeof notifData.crn !== 'string') {
       res.send(JSON.stringify({
-        error: 'Error.',
+        warning: 'Unable to send notification.',
       }));
       return;
     }
@@ -738,7 +722,7 @@ app.post('/addSection', wrap(async (req, res) => {
   }
 
 
-  // Send a status of success. 
+  // Send a status of success.
   res.send(JSON.stringify({
     status: 'Success',
   }));
@@ -747,37 +731,57 @@ app.post('/addSection', wrap(async (req, res) => {
 app.post('/removeSection', wrap(async (req, res) => {
   const userObject = await verifyRequestAndGetDbUser(req, res);
 
+  if (!userObject) {
+    macros.log('Invalid request', req.body);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  const sectionHash = req.body.sectionHash;
+
   // Early exit if user is not watching this section.
-  if (!userObject.watchingSections.includes(req.body.info)) {
+  if (!userObject.watchingSections.includes(sectionHash)) {
     res.send(JSON.stringify({
       status: 'Success',
     }));
     return;
   }
 
-  _.pull(userObject.watchingSections, req.body.info);
-
-  // I think its better to let the client make this decision that the class needs to be removed if the section is nuked.
-  // let acc = false;
-  // for (let i = 0; i < userObject.watchingSections.length; i++) {
-  //   acc = acc || userObject.watchingSections[i].includes(req.body.classHash);
-  // }
-
-  // if (!acc) {
-  //   _.pull(userObject.watchingClasses, req.body.classHash);
-  // }
-
-  const sectionInfo = req.body.sectionInfo;
+  _.pull(userObject.watchingSections, sectionHash);
 
   await database.set(`/users/${req.body.senderId}`, userObject);
   macros.log('sending done, section removed.');
 
-  notifyer.sendFBNotification(req.body.senderId, `You have unsubscribed from notifications for a section of ${sectionInfo.subject} ${sectionInfo.classId} (CRN: ${sectionInfo.crn}).`);
 
-  // if (!acc) {
-  //   notifyer.sendFBNotification(req.body.senderId, `You have unsubscribed from notifications for the class ${sectionInfo.subject} ${sectionInfo.classId}`);
-  // }
-  // send a status of success. Hopefully it went well.
+  const notifData = req.body.notifData;
+
+  if (notifData) {
+    if (!notifData.subject || typeof notifData.subject !== 'string') {
+      res.send(JSON.stringify({
+        warning: 'Unable to send notification.',
+      }));
+      return;
+    }
+
+    if (!notifData.classId || typeof notifData.classId !== 'string') {
+      res.send(JSON.stringify({
+        warning: 'Unable to send notification.',
+      }));
+      return;
+    }
+
+    if (!notifData.crn || typeof notifData.crn !== 'string') {
+      res.send(JSON.stringify({
+        warning: 'Unable to send notification.',
+      }));
+      return;
+    }
+
+    notifyer.sendFBNotification(req.body.senderId, `You have unsubscribed from notifications for a section of ${notifData.subject} ${notifData.classId} (CRN: ${notifData.crn}).`);
+  }
+
   res.send(JSON.stringify({
     status: 'Success',
   }));
@@ -787,7 +791,17 @@ app.post('/removeSection', wrap(async (req, res) => {
 app.post('/addClass', wrap(async (req, res) => {
   const userObject = await verifyRequestAndGetDbUser(req, res);
 
-  if (!req.body.info || typeof req.body.info !== 'string') {
+  if (!userObject) {
+    macros.log('Invalid request', req.body);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  const classHash = req.body.classHash;
+
+  if (!classHash || typeof classHash !== 'string') {
     res.send(JSON.stringify({
       error: 'Error.',
     }));
@@ -795,21 +809,37 @@ app.post('/addClass', wrap(async (req, res) => {
   }
 
   // Early exit if user is already watching this section.
-  if (userObject.watchingClasses.includes(req.body.info)) {
+  if (userObject.watchingClasses.includes(classHash)) {
     res.send(JSON.stringify({
       status: 'Success',
     }));
     return;
   }
 
-  userObject.watchingClasses.push(req.body.info);
+  userObject.watchingClasses.push(classHash);
 
   await database.set(`/users/${req.body.senderId}`, userObject);
   macros.log('sending done, class added. User is now:', userObject);
 
-  const classInfo = req.body.classInfo;
+  const notifData = req.body.notifData;
 
-  notifyer.sendFBNotification(req.body.senderId, `You have subscribed to notifications for the class ${classInfo.subject} ${classInfo.classId}`);
+  if (notifData) {
+    if (!notifData.subject || typeof notifData.subject !== 'string') {
+      res.send(JSON.stringify({
+        warning: 'Unable to send notification.',
+      }));
+      return;
+    }
+
+    if (!notifData.classId || typeof notifData.classId !== 'string') {
+      res.send(JSON.stringify({
+        warning: 'Unable to send notification.',
+      }));
+      return;
+    }
+
+    notifyer.sendFBNotification(req.body.senderId, `You have subscribed to notifications for the class ${notifData.subject} ${notifData.classId}`);
+  }
 
   // send a status of success. Hopefully it went well.
   res.send(JSON.stringify({
@@ -820,7 +850,7 @@ app.post('/addClass', wrap(async (req, res) => {
 
 // cleans up old requests that are more than 10 seconds old.
 function cleanOldGetUserDataReqs() {
-  macros.log('cleaning up old getUserDataReqs');
+  macros.log('cleaning up old getUserDataReqs', Object.keys(getUserDataReqs));
 
   const now = Date.now();
 
@@ -839,14 +869,17 @@ function cleanOldGetUserDataReqs() {
   // If they are all gone, stop the interval
   if (Object.keys(getUserDataReqs).length === 0) {
     clearInterval(getUserDataInterval);
+    getUserDataInterval = null;
   }
 }
 
 
 function addToUserDataReqs(loginKey, res) {
   if (getUserDataReqs[loginKey]) {
+    // Respond with a warning instead of an error
+    // because we don't need the frontend to invalidate the loginKey and sender id if this happens.
     getUserDataReqs[loginKey].res.send(JSON.stringify({
-      error: 'Error, multiple requests from the same user in quick succession',
+      warning: 'Warning, multiple requests from the same user in quick succession',
     }));
   }
   getUserDataReqs[loginKey] = {
@@ -854,8 +887,10 @@ function addToUserDataReqs(loginKey, res) {
     timeStamp: Date.now(),
   };
 
-  // Start the interval
-  getUserDataInterval = setInterval(cleanOldGetUserDataReqs, 5000);
+  // Start the interval if it isn't already running
+  if (!getUserDataInterval) {
+    getUserDataInterval = setInterval(cleanOldGetUserDataReqs, MAX_HOLD_TIME_FOR_GET_USER_DATA_REQS / 4);
+  }
 }
 
 
