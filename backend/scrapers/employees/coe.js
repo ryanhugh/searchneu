@@ -24,126 +24,8 @@ const request = require('request');
 // https://github.com/ryanhugh/searchneu/issues/95
 
 class COE {
-//   scrapeDetailpage(body) {
-//     const obj = {};
-
-//     const $ = cheerio.load(body);
-
-//     // Full resolution image.
-//     obj.profilePic = $('#faculty-profile > div.upper-content > div > div.left-content > a').attr('href');
-
-//     // Linkedin link.
-//     const linkedin = $('div.field-name-field-nucoe-social-link-url > div > div > a.linkedin').attr('href');
-//     if (linkedin) {
-//       obj.linkedin = linkedin;
-//     }
-
-//     const googleScholarLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.googlescholar').attr('href');
-
-//     const userId = macros.parseGoogleScolarLink(googleScholarLink);
-//     if (userId) {
-//       obj.googleScholarId = userId;
-//     }
-
-//     const youtubeLink = $('div.field-name-field-nucoe-social-link-url > div > div > a.youtube').attr('href');
-//     if (youtubeLink) {
-//       obj.youtubeLink = youtubeLink;
-//     }
-
-//     // Example of person who has multiple roles in departments.
-//     // http://www.che.neu.edu/people/ebong-eno
-
-//     // Position and department
-//     const roles = $('div.field-collection-container > div.faculty-roles > div.faculty-roles__role');
-//     const positions = [];
-//     for (let i = 0; i < roles.length; i++) {
-//       const rolesChildren = roles[i].children;
-//       if (rolesChildren.length === 0) {
-//         macros.log('Roles has no children', obj);
-//         continue;
-//       }
-
-//       if (rolesChildren[0].data === undefined) {
-//         macros.log("Skipping role because it didn't have role and department", obj);
-//         continue;
-//       }
-
-//       let role = rolesChildren[0].data.trim();
-//       const department = $('a', $(roles[i])).text();
-
-//       if (role.endsWith(',')) {
-//         role = role.slice(0, role.length - 1);
-//       }
-
-//       positions.push({
-//         role: role,
-//         department: department,
-//       });
-//     }
-
-//     if (positions.length > 0) {
-//       obj.primaryRole = positions[0].role;
-//       obj.primaryDepartment = positions[0].department;
-
-//       // Hold off on keeping the positions for now.
-//       // Need to ensure it is the same schema as CCIS (which does not have department for each role).
-//       // obj.positions = positions;
-//     }
-
-//     // Address
-//     let officeSplit = $('div.faculty-profile__address').text().trim();
-//     officeSplit = officeSplit.replace(/[\n\r]+\s*/gi, '\n').split('\n');
-
-//     obj.officeRoom = officeSplit[0];
-//     obj.officeStreetAddress = officeSplit[1];
-
-//     // Might be more than one of these, need to check .text() for each one
-//     // if text matches Faculty Website then get href
-//     // also need to do head checks or get checks to make sure their site is up
-//     const links = $('div.field-name-field-faculty-links a');
-//     const otherLinks = [];
-//     for (let i = 0; i < links.length; i++) {
-//       const href = $(links[i]).attr('href');
-//       const text = $(links[i]).text();
-
-//       const compareText = text.toLowerCase();
-//       if (compareText === 'faculty website' || compareText === 'faculty website & cv') {
-//         obj.personalSite = href;
-//       } else if (href.includes('scholar.google.com')) {
-//         // If it is a link to Google Scholar, parse it.
-//         // If already parsed a google scholar link for this person, log a warning and ignore this one.
-//         const otherGoogleId = macros.parseGoogleScolarLink(href);
-//         if (!obj.googleScholarId) {
-//           obj.googleScholarId = userId;
-//         } else if (obj.googleScholarId !== otherGoogleId) {
-//           macros.log('Employee had 2 google id links pointing to different IDs, ignoring the second one.', obj.url, obj.googleScholarId, otherGoogleId);
-//         }
-//       } else {
-//         otherLinks.push({
-//           link: href,
-//           text: text,
-//         });
-//       }
-//     }
-
-//     if (otherLinks.length > 0) {
-//       obj.otherLinks = otherLinks;
-//     }
-
-//     return obj;
-//   }
 
 
-//   scrapeLetter(body) {
-//     const $ = cheerio.load(body);
-//     /**
-//      * CHANGE - Link to divs of people
-//      */
-//     const peopleElements = $('div.canvas > main#main-content > div.main.container--clear > div.people-listing > div.list > #div.grid--4  > div');
-
-//     console.log(peopleElements.length);
-
-//     const people = [];
 //     for (let i = 0; i < peopleElements.length; i++) {
 //       const personElement = peopleElements[i];
 
@@ -243,31 +125,56 @@ class COE {
     }, (err, res, body) => {
       if (err)
         return console.error(err);
+
       let $ = cheerio.load(body);
-      console.log($('.grid--4 > div').get().length);
+      //This call should return 558 (number of employees in COE)
+      //console.log($('.grid--4 > div').get().length);
+      
+      /**
+       * CURRENT SITUATION - Returns each name correctly, but info is all over the place
+       *  - How to deal with div.caption not being the same (sometimes just title, sometimes also interests)
+       *  - Correctly manage some people don't have an associated phone #
+       */
+
+      let personNum = 0;
 
       people = $('.grid--4 > div').get().map((person) => {
-        // Function for each person
+        const obj = {};
+        let name = $('div > div > h2 > a').get(personNum).children[0].data;
+        if (name) {
+          obj.name = name;
+        }
+        else {
+          macros.log('Could not parse name');
+        }
+        let title = $('div > div > div.caption').get(0).children[0].data.trim();
+        if (title) {
+          obj.title = title;
+        }
+        else {
+          macros.log('Could not parse title');
+        }
+        let email = macros.standardizeEmail($('ul.caption > li > a').get(personNum).children[0].data);
+        if (email) {
+          obj.email = email;
+        }
+        else {
+          macros.log('Could not parse email');
+        }
+        let phone = macros.standardizePhone($('ul.caption > li').get(personNum).children[0].data);
+        if (phone) {
+          obj.phone = phone;
+        }
+        else {
+          macros.log('Could not parse phone');
+        }
+        console.log(obj);
+        personNum++;
       });
-    });
+    })
 
+    console.log(people.length);
 
-
-//     macros.ALPHABET.split('').forEach((letter) => {
-//       /**
-//        * CHANGED - Updated URL to current COE link
-//        */
-//       const promise = request.get(`https://coe.northeastern.edu/faculty-staff-directory/?alpha=${letter}`);
-
-//       promise.then((resp) => {
-//         const peopleFromLetter = this.scrapeLetter(resp.body);
-//         people = people.concat(peopleFromLetter);
-//       });
-
-//       promises.push(promise);
-//     });
-
-//     await Promise.all(promises);
 
 
 //     const detailPeopleList = await Promise.all(people.map(async (person) => {
