@@ -105,6 +105,22 @@ class Elastic {
     }, {});
   }
 
+  async getSubjectsFromClasses() {
+    const subjects = await client.search({
+      index: `${this.CLASS_INDEX}`,
+      body: {
+        aggs: {
+          subjects: {
+            terms: {
+              field: "subject.keyword",
+            },
+          },
+        },
+      },
+    });
+    console.log(subjects.body.aggregations.subjects);
+  }
+
   /**
    * Search for classes and employees
    * @param  {string}  query  The search to query for
@@ -114,7 +130,8 @@ class Elastic {
    */
   async search(query, termId, min, max) {
     // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
-    let courseCodePattern = /^(\s)*\w\w(\w?)(\w?)(\s)*(\d\d\d\d)?(\s)*$/i;
+    let courseCodePattern = /^\s*\w{2,4}\s*\d{4}?\s*$/i
+      // /^(\s)*\w\w(\w?)(\w?)(\s)*(\d\d\d\d)?(\s)*$/i;
     let fields = [
       'class.name^2', // Boost by 2
       'class.name.autocomplete',
@@ -163,6 +180,8 @@ class Elastic {
         },
       },
     });
+
+    this.getSubjectsFromClasses();
 
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
