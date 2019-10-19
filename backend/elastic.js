@@ -124,7 +124,8 @@ class Elastic {
         },
       },
     });
-    return subjects.body.aggregations.subjects.subjects.buckets;
+    return _.map(subjects.body.aggregations.subjects.subjects.buckets, 'key');
+    // subjects.body.aggregations.subjects.subjects.buckets;
   }
 
   /**
