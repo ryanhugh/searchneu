@@ -136,8 +136,7 @@ class Elastic {
    */
   async search(query, termId, min, max) {
     // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
-    let courseCodePattern = /^\s*\w{2,4}\s*\d{4}?\s*$/i
-      // /^(\s)*\w\w(\w?)(\w?)(\s)*(\d\d\d\d)?(\s)*$/i;
+    let courseCodePattern = /^\s*[a-zA-Z]{2,4}\s*\d{4}?\s*$/i
     let fields = [
       'class.name^2', // Boost by 2
       'class.name.autocomplete',
