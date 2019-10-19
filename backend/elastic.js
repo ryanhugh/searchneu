@@ -111,14 +111,20 @@ class Elastic {
       body: {
         aggs: {
           subjects: {
-            terms: {
-              field: "subject.keyword",
+            global: {},
+            aggs: {
+              subjects: {
+                terms: {
+                  field: "class.subject.keyword",
+                  size: 10000 // anything that will get everything
+                },
+              },
             },
           },
         },
       },
     });
-    console.log(subjects.body.aggregations.subjects);
+    return subjects.body.aggregations.subjects.subjects.buckets;
   }
 
   /**
@@ -180,8 +186,6 @@ class Elastic {
         },
       },
     });
-
-    this.getSubjectsFromClasses();
 
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
