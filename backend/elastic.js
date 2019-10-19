@@ -16,6 +16,8 @@ class Elastic {
     // Because we export an instance of this class, put the constance on the instance.
     this.CLASS_INDEX = 'classes';
     this.EMPLOYEE_INDEX = 'employees';
+    // keep internal track of the available subjects
+    this.subjects = null;
   }
 
   async isConnected() {
@@ -105,6 +107,9 @@ class Elastic {
     }, {});
   }
 
+  /**
+   * Get all subjects for classes in the index
+   */
   async getSubjectsFromClasses() {
     const subjects = await client.search({
       index: `${this.CLASS_INDEX}`,
@@ -124,8 +129,7 @@ class Elastic {
         },
       },
     });
-    return _.map(subjects.body.aggregations.subjects.subjects.buckets, 'key');
-    // subjects.body.aggregations.subjects.subjects.buckets;
+    return _.map(subjects.body.aggregations.subjects.subjects.buckets, (subject) => subject.key.toLowerCase());
   }
 
   /**
@@ -136,8 +140,10 @@ class Elastic {
    * @param  {integer} max    The index of last document to retreive
    */
   async search(query, termId, min, max) {
+    this.subjects = this.subjects || new Set(await this.getSubjectsFromClasses());
+
     // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
-    let courseCodePattern = /^\s*[a-zA-Z]{2,4}\s*\d{4}?\s*$/i
+    let courseCodePattern = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i
     let fields = [
       'class.name^2', // Boost by 2
       'class.name.autocomplete',
@@ -150,7 +156,8 @@ class Elastic {
       'employee.phone',
     ];
 
-    if (courseCodePattern.test(query)) {
+    const patternResults = query.match(courseCodePattern);
+    if (patternResults && this.subjects.has(patternResults[1])) {
       // after the first result, all of the following results should be of the same subject, e.g. it's weird to get ENGL2500 as the second or third result for CS2500
       fields = ['class.subject^10', 'class.classId'];
     }
