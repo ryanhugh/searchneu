@@ -40,6 +40,7 @@ class COE {
         return console.error(err);
 
       let $ = cheerio.load(body);
+
       //This call should return 558 (number of employees in COE)
       //console.log($('.grid--4 > div').get().length);
       
@@ -49,10 +50,11 @@ class COE {
        *  - Correctly manage some people don't have an associated phone #
        */
 
-      let personNum = 0;
+      var personNum = 0;
 
       people = $('.grid--4 > div').get().map((person) => {
         const obj = {};
+        
         let name = $('div > div > h2 > a').get(personNum).children[0].data;
         if (name) {
           obj.name = name;
@@ -60,7 +62,7 @@ class COE {
         else {
           macros.log('Could not parse name');
         }
-        let title = $('div > div > div.caption').get(0).children[0].data.trim();
+        let title = $('div > div > div.caption').get(personNum).children[0].data.trim();
         if (title) {
           obj.title = title;
         }
