@@ -16,97 +16,10 @@ const request = require('request');
 // Could parse a lot more from each page
 // Phone numbers with extentions are not parsed http://www.civ.neu.edu/people/patterson-mark
 
-
-// http://www.coe.neu.edu/connect/directory?field_faculty_type_value=faculty&letter=A
-
-// As of 8/29/19, COE has a new website, and this file will need to be re-written.
 // This was removed from matchEmployees.js, but when its re-written just add it back.
 // https://github.com/ryanhugh/searchneu/issues/95
 
 class COE {
-
-
-//     for (let i = 0; i < peopleElements.length; i++) {
-//       const personElement = peopleElements[i];
-
-//       const $personElement = $(personElement);
-
-//       const obj = {};
-
-//       // thumbnail image of them
-//       /**
-//        * CHANGE - img part
-//        */
-//       obj.picThumbnail = $('div > div > img', $personElement).attr('src');
-
-//       // link to their page
-//       /**
-//        * CHANGED -  h2 instead of h4
-//        */
-//       obj.url = $('h2 > a', $personElement).attr('href');
-//       if (!obj.url) {
-//         macros.log('Error, could not parse url for', obj);
-//       }
-
-//       console.log("URL" + obj.url);
-
-//       // name of prof
-//       obj.name = $('h2 > a', $personElement).text().trim();
-
-//       // Parse the first name and the last name from the given name
-//       const { firstName, lastName } = macros.parseNameWithSpaces(obj.name);
-
-//       if (firstName && lastName) {
-//         obj.firstName = firstName;
-//         obj.lastName = lastName;
-//       }
-
-//       // interests
-//       /**
-//        * CHANGED
-//        */
-//       obj.interests = $('div.caption', $personElement).text().trim();
-
-//       // Parse email
-//       /**
-//        * CHANGED
-//        */
-//       let email = $('ul > li > a', $personElement).attr('href');
-//       email = macros.standardizeEmail(email);
-
-//       if (email) {
-//         obj.emails = [email];
-//       } else {
-//         macros.log('Could not parse email');
-//       }
-
-
-//       // Phone
-//       /**
-//        * CHANGED
-//        */
-//       let phone = $('li', $personElement).text();
-
-//       phone = macros.standardizePhone(phone);
-
-//       if (phone) {
-//         obj.phone = phone;
-//       }
-
-
-//       ['picThumbnail', 'url', 'name', 'interests', 'emails', 'phone'].forEach((attr) => {
-//         if (!obj[attr]) {
-//           macros.log('obj missing ', attr, obj.name);
-//         }
-//       });
-
-//       people.push(obj);
-//     }
-
-//     console.log(people);
-
-//     return people;
-//   }
 
   async main() {
     if (macros.DEV && require.main !== module) {
