@@ -9,16 +9,7 @@ Object {
           "termId": 201930,
         },
         Object {
-          "termId": 201940,
-        },
-        Object {
-          "termId": 201950,
-        },
-        Object {
-          "termId": 201960,
-        },
-        Object {
-          "termId": 202010,
+          "termId": 201830,
         },
       ],
       "name": "Fundamentals of Computer Science 1",
@@ -39,7 +30,7 @@ Object {
   "data": Object {
     "class": Object {
       "latestOccurrence": Object {
-        "termId": 201930,
+        "termId": 201830,
       },
       "name": "Fundamentals of Computer Science 1",
     },

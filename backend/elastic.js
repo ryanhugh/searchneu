@@ -54,7 +54,7 @@ class Elastic {
         bulk.push({ index: { _id: id } });
         bulk.push(map[id]);
       }
-      promises = promises.then(() => { return client.bulk({ index: indexName, body: bulk }); });
+      promises = promises.then(() => { return client.bulk({ index: indexName, refresh: 'wait_for', body: bulk }); });
     }
     return promises;
   }
