@@ -31,4 +31,31 @@ describe('elastic', () => {
     let firstResult = getFirstClassResult(await elastic.search('fundies', '202010', 0, 1));
     expect(Keys.getClassHash(firstResult)).toBe('neu.edu/202010/CS/2500');
   });
+
+  [['cs', '2500'], ['cs', '2501', 'thtr', '1000'].forEach((item, index, array) => {
+    it(`always analyzes course code  ${item.join(' ')} the same way regardless of string`, async () => {
+      let canonicalResult = getFirstClassResult(await elastic.search(item.join(' '), '202010', 0, 1));
+
+      let firstResult = getFirstClassResult(await elastic.search(item.join(''), '202010', 0, 1));
+      expect(Keys.getClassHash(firstResult)).toBe(Keys.getClassHash(canonicalResult));
+ 
+      let secondResult = getFirstClassResult(await elastic.search(item.join(' ').toUpperCase(), '202010', 0, 1));
+      expect(Keys.getClassHash(secondResult)).toBe(Keys.getClassHash(canonicalResult));
+
+      let thirdResult = getFirstClassResult(await elastic.search(item.join('').toUpperCase(), '202010', 0, 1));
+      expect(Keys.getClassHash(thirdResult)).toBe(Keys.getClassHash(canonicalResult));
+    });
+  });
 });
+
+/*
+ * tests I need:
+ * 1. test blank?
+ * 2. test bogus?
+ * 3. test typos?
+ * 4. test that course codes work as expected, so:
+ *    --> spaces don't change anything
+ *    --> capitalization doesn't change anything
+ *    --> all the following results are of the same subject type not the same classId
+ * 5. typing in niche things like emails and whatnot always fetch the right thing
+ */
