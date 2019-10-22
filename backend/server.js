@@ -24,6 +24,7 @@ import macros from './macros';
 import notifyer from './notifyer';
 import Updater from './updater';
 import database from './database';
+import graphql from './graphql';
 
 // This file manages every endpoint in the backend
 // and calls out to respective files depending on what was called
@@ -182,6 +183,8 @@ app.use((req, res, next) => {
     res.redirect(`https://${req.get('host')}${req.originalUrl}`);
   }
 });
+
+graphql.applyMiddleware({ app: app });
 
 app.get('/search', wrap(async (req, res) => {
   if (macros.DEV && !await elastic.isConnected()) {

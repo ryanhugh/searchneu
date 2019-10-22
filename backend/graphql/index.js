@@ -1,4 +1,4 @@
-import { ApolloServer, gql } from 'apollo-server';
+import { ApolloServer, gql } from 'apollo-server-express';
 import GraphQLJSON from 'graphql-type-json';
 import macros from '../macros';
 
