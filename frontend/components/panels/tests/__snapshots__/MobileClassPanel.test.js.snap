@@ -92,6 +92,7 @@ exports[`should render some stuff 1`] = `
           "waitRemaining": 0,
         }
       }
+      showNotificationSwitches={false}
     />
     <div
       className="more-sections-button"

@@ -21,7 +21,7 @@ Each file in this directory is responsible for sraping an individual page of Ban
 
 
 #### Really cool note about the class scrapers 
-Thousands of colleges use the same registration system that Northeastern uses to keep track of classes (Banner). Because of this, these scrapers will work for any one of these colleges. For instance, Brown, Bucknell, GW, Swarthmore, Purdue, Drexel, Temple, Villanova, etc, can all easily be scraped with these scrapers. Many of these colleges' URLs are listed in [differentCollegeUrls.js](https://github.com/ryanhugh/searchneu/blob/master/backend/scrapers/classes/differentCollegeUrls.js).
+Thousands of colleges use the same registration system that Northeastern uses to keep track of classes (Banner). Because of this, these scrapers will work for any one of these colleges. For instance, Brown, Bucknell, GW, Swarthmore, Purdue, Drexel, Temple, Villanova, etc, can all easily be scraped with these scrapers. Many of these colleges' URLs are listed in [differentCollegeUrls.js](https://github.com/sandboxnu/searchneu/blob/master/backend/scrapers/classes/differentCollegeUrls.js).
 
 
 First, differentCollegeUrls.js is loaded. This file contains a list of URLs that ellucianTermsParser can process on different colleges. Ex:

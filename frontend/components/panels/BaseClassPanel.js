@@ -6,8 +6,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Keys from '../../../common/Keys';
 import RequisiteBranch from '../classModels/RequisiteBranch';
 import macros from '../macros';
+import user from '../user';
 
 class BaseClassPanel extends React.Component {
   static propTypes = {
@@ -36,9 +38,35 @@ class BaseClassPanel extends React.Component {
       optPrereqsForPage: 0,
       renderedSections: this.props.aClass.sections.slice(0, sectionsShownByDefault),
       unrenderedSections: this.props.aClass.sections.slice(sectionsShownByDefault),
+
+      // Whether the user has already signed up for notifications on this class.
+      userIsWatchingClass: user.isWatchingClass(Keys.getClassHash(this.props.aClass)),
     };
 
     this.onShowMoreClick = this.onShowMoreClick.bind(this);
+    this.onUserUpdate = this.onUserUpdate.bind(this);
+  }
+
+  componentDidMount() {
+    // Register a handler to get updates if user changes.
+    user.registerUserChangeHandler(this.onUserUpdate);
+  }
+
+  componentWillUnmount() {
+    user.unregisterUserChangeHandler(this.onUserUpdate);
+  }
+
+  // If user changes and those user changes mean that we should
+  // change this.state.userIsWatchingClass, make that change.
+  // Internal only.
+  onUserUpdate() {
+    // Show the notification toggles if the user is watching this class.
+    const userIsWatchingClass = user.isWatchingClass(Keys.getClassHash(this.props.aClass));
+    if (userIsWatchingClass !== this.state.userIsWatchingClass) {
+      this.setState({
+        userIsWatchingClass: userIsWatchingClass,
+      });
+    }
   }
 
   onShowMoreClick() {
