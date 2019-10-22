@@ -698,7 +698,7 @@ class Home extends React.Component {
               <a target='_blank' rel='noopener noreferrer' href='http://github.com/ryanhugh'>
                 Ryan Hughes
               </a>
-              &nbsp;and maintained by&nbsp; 
+              &nbsp;and maintained by&nbsp;
               <a target='_blank' rel='noopener noreferrer' href='http://github.com/sandboxnu'>
                 Sandbox
               </a>
