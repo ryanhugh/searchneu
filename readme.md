@@ -10,28 +10,29 @@
 </p>
 
 <p align="center">
-  Check out the site documentation: <a href="https://github.com/ryanhugh/searchneu/blob/master/docs/Readme.md">https://github.com/ryanhugh/searchneu/blob/master/docs/Readme.md</a>
+  Check out the site documentation: <a href="https://github.com/sandboxnu/searchneu/blob/master/docs/Readme.md">https://github.com/sandboxnu/searchneu/blob/master/docs/Readme.md</a>
 
 </p>
 
 ----
-Search NEU lets anyone easily search over classes, professors, and subjects at Northeastern. All the data on the site is scraped from different parts of Northeastern's websites and updated daily. The scrapers themselves run on Travis-CI and the site is hosted on Amazon Web services. The backend is programmed in Nodejs and the frontend is in React/Webpack. Check out [the documentation](https://github.com/ryanhugh/searchneu/blob/master/docs/Readme.md) for more details. 
+Search NEU lets anyone easily search over classes, professors, and subjects at Northeastern. All the data on the site is scraped from different parts of Northeastern's websites and updated daily. The scrapers themselves run on Travis-CI and the site is hosted on Amazon Web services. The backend is programmed in Nodejs and the frontend is in React/Webpack. Check out [the documentation](https://github.com/sandboxnu/searchneu/blob/master/docs/Readme.md) for more details. 
 
 ### Contributing 🎉🎉🎉
-If you are interested in helping make this site awesome that is fantastic! There are TONS of different things that you could help with including the programming itself, the design of the site, marketing, promotion, etc. You don't have to have any Computer Science experience to help out! More details [here](https://github.com/ryanhugh/searchneu/blob/master/docs/Contributing.md). 
+If you are interested in helping make this site awesome that is fantastic! There are TONS of different things that you could help with including the programming itself, the design of the site, marketing, promotion, etc. You don't have to have any Computer Science experience to help out! More details [here](https://github.com/sandboxnu/searchneu/blob/master/docs/Contributing.md). 
 
 Feel free to reach out if you have any questions! hey@searchneu.com
 
+Search NEU was originally built by [Ryan Hughes](https://github.com/ryanhugh). This fork has become the mainline and is maintained by Sandbox, Northeastern's student-led software consultancy.
+
 Shout out to the following folks for contributing!
 
- - [Da-Jin Chu](https://github.com/dajinchu)
  - [Edward Li](https://github.com/NEUDitao)
  - [Edward Shen](https://github.com/edward-shen)
  - [Sean Hughes](https://github.com/seanhugh)
 
 ### API 🎉👍
 
-All the data on Search NEU is available to download! For more details see [the documentation](https://github.com/ryanhugh/searchneu/blob/master/docs/API.md). 
+All the data on Search NEU is available to download! For more details see [the documentation](https://github.com/sandboxnu/searchneu/blob/master/docs/API.md). 
 
 
 ### License

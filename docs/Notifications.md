@@ -17,7 +17,7 @@ Just as a warning, this is a more complex than it needs to be. We could refactor
 
 ## Back to the frontend 
 
--  Back in the frontend, [User.js](https://github.com/ryanhugh/searchneu/blob/master/frontend/components/user.js) is told through `downloadUserData` that the user is now watching these classes. Some other components (such as the Class Panels and SignUpForNotifications.js) have handler methods registered with User.js that are now called. The site's UI is now updated to reflect the user is now logged in.  
+-  Back in the frontend, [User.js](https://github.com/sandboxnu/searchneu/blob/master/frontend/components/user.js) is told through `downloadUserData` that the user is now watching these classes. Some other components (such as the Class Panels and SignUpForNotifications.js) have handler methods registered with User.js that are now called. The site's UI is now updated to reflect the user is now logged in.  
 
 ## Second flow - Adding more notifications
 - When the user clicks another `Sign up for notifications` button again, User.js is called to make a request with the **loginKey** to the backend with the class they signed up for.
@@ -30,6 +30,6 @@ This flow requires that we have two separate flows, one for the first request an
 
 ## Updater.js
 
-Once the data is in Firebase it will be picked up by [the updater](https://github.com/ryanhugh/searchneu/blob/master/backend/updater.js). The updater runs once every 5 minutes. It first pulls all the user information from Firebase, and then re-scrapes every class that anyone is watching. Then, it sends out notifications and updates elasticsearch with the updated seat information. 
+Once the data is in Firebase it will be picked up by [the updater](https://github.com/sandboxnu/searchneu/blob/master/backend/updater.js). The updater runs once every 5 minutes. It first pulls all the user information from Firebase, and then re-scrapes every class that anyone is watching. Then, it sends out notifications and updates elasticsearch with the updated seat information. 
 
 
