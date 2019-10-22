@@ -13,7 +13,7 @@ import user from './user';
 
 // It also handles dealing with various types of adblock blocking (and breaking) various parts of of FB's api
 // For instance, uBlock origin in Google chrome will allow the initial request to https://connect.facebook.net/en_US/sdk.js (which makes window.FB work),
-//     but blocks a subsequent request to https://www.facebook.com/v2.11/plugins/send_to_messenger.php?... which breaks the send to messenger plugin
+//     but blocks a subsequent request to https://www.facebook.com/v4.0/plugins/send_to_messenger.php?... which breaks the send to messenger plugin
 // Firefox's strict browsing mode blocks the initial request to https://connect.facebook.net/en_US/sdk.js, which makes window.FB never load at all.
 // In both of these cases, show the user a popup asking them to disable their adblock for this feature to work.
 
@@ -74,7 +74,7 @@ class Facebook {
           appId            : '1979224428978082',
           autoLogAppEvents : false,
           xfbml            : false,
-          version          : 'v2.11',
+          version          : 'v4.0',
         });
 
 
