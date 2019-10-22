@@ -140,7 +140,9 @@ class Elastic {
    * @param  {integer} max    The index of last document to retreive
    */
   async search(query, termId, min, max) {
-    this.subjects = this.subjects || new Set(await this.getSubjectsFromClasses());
+    if (!this.subjects) {
+      this.subjects = new Set(await this.getSubjectsFromClasses());
+    }
 
     // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
     let courseCodePattern = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i
@@ -157,7 +159,7 @@ class Elastic {
     ];
 
     const patternResults = query.match(courseCodePattern);
-    if (patternResults && this.subjects.has(patternResults[1])) {
+    if (patternResults && this.subjects.has(patternResults[1].toLowerCase())) {
       // after the first result, all of the following results should be of the same subject, e.g. it's weird to get ENGL2500 as the second or third result for CS2500
       fields = ['class.subject^10', 'class.classId'];
     }

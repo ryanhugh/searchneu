@@ -32,13 +32,14 @@ describe('elastic', () => {
     expect(Keys.getClassHash(firstResult)).toBe('neu.edu/202010/CS/2500');
   });
 
-  [['cs', '2500'], ['cs', '2501', 'thtr', '1000'].forEach((item, index, array) => {
+  [['cs', '2500'], ['cs', '2501'], ['thtr', '1000']].forEach((item, index, array) => {
     it(`always analyzes course code  ${item.join(' ')} the same way regardless of string`, async () => {
       let canonicalResult = getFirstClassResult(await elastic.search(item.join(' '), '202010', 0, 1));
 
       let firstResult = getFirstClassResult(await elastic.search(item.join(''), '202010', 0, 1));
       expect(Keys.getClassHash(firstResult)).toBe(Keys.getClassHash(canonicalResult));
  
+      console.log(item.join(' ').toUpperCase());
       let secondResult = getFirstClassResult(await elastic.search(item.join(' ').toUpperCase(), '202010', 0, 1));
       expect(Keys.getClassHash(secondResult)).toBe(Keys.getClassHash(canonicalResult));
 
