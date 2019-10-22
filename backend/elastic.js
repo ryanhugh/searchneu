@@ -120,8 +120,8 @@ class Elastic {
             aggs: {
               subjects: {
                 terms: {
-                  field: "class.subject.keyword",
-                  size: 10000 // anything that will get everything
+                  field: 'class.subject.keyword',
+                  size: 10000, // anything that will get everything
                 },
               },
             },
@@ -129,7 +129,7 @@ class Elastic {
         },
       },
     });
-    return _.map(subjects.body.aggregations.subjects.subjects.buckets, (subject) => subject.key.toLowerCase());
+    return _.map(subjects.body.aggregations.subjects.subjects.buckets, (subject) => { return subject.key.toLowerCase(); });
   }
 
   /**
@@ -145,7 +145,7 @@ class Elastic {
     }
 
     // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
-    let courseCodePattern = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i
+    const courseCodePattern = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i;
     let fields = [
       'class.name^2', // Boost by 2
       'class.name.autocomplete',
