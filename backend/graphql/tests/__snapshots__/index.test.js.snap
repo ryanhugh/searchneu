@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`gets all occurrences 1`] = `
+Object {
+  "data": Object {
+    "class": Object {
+      "allOccurrences": Array [
+        Object {
+          "termId": 201930,
+        },
+        Object {
+          "termId": 201830,
+        },
+      ],
+      "name": "Fundamentals of Computer Science 1",
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`gets latest occurrence 1`] = `
+Object {
+  "data": Object {
+    "class": Object {
+      "latestOccurrence": Object {
+        "termId": 201830,
+      },
+      "name": "Fundamentals of Computer Science 1",
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`gets specific occurrence 1`] = `
+Object {
+  "data": Object {
+    "class": Object {
+      "name": "Fundamentals of Computer Science 1",
+      "occurrence": Object {
+        "termId": 201930,
+      },
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`gets the name of class from subject and classId 1`] = `
+Object {
+  "data": Object {
+    "class": Object {
+      "name": "Fundamentals of Computer Science 1",
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
