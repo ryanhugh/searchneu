@@ -60,7 +60,6 @@ it('gets latest occurrence', async () => {
       }
     `,
   });
-  console.log(JSON.stringify(res));
   expect(res).toMatchSnapshot();
 });
 
