@@ -1,12 +1,11 @@
 
+# API (GraphQL)
 
-# API
+There is a GraphQL library at `searchneu.com/graphql`. Get the [GraphQL Playground](https://github.com/prisma-labs/graphql-playground) app, or use the hosted web version. Just point it to our API, and it'll show the schema, docs, and let you interact.
+
+## API (Deprecated)
 
 All the data used on the site is available to download! There are two different endpoints - one for downloading all the class data and another for downloading all the employee data. The data is updated [daily on Travis](https://travis-ci.org/ryanhugh/searchneu/builds). There are no endpoints for downloading a specific class or employee, you have to download everything or nothing.  Note that the class url contains the termId of the semester of data you want to download (201810 = Fall 2017, 201830 = Spring 2018). To get the latest term IDs, go to https://searchneu.com, hit the dropdown and look at the nav bar. You can also go to Northeastern's website and look at the URL.
-
-#### AGPL 3 Licensed
-
-Usage of this API must follows the same license of the rest of this codebase. See the LICENSE file for more info.
 
 ### Class data links
 https://searchneu.com/data/v2/getTermDump/neu.edu/201930.json (Spring 2019)  
@@ -16,6 +15,10 @@ https://searchneu.com/data/v2/getTermDump/neu.edu/202010.json (Fall 2019)
 https://searchneu.com/data/v2/employees.json
 
 If you have any questions or are interested in using the API let me know! I'd be happy to help and/or change some things around so it is easier to use. 
+
+#### AGPL 3 Licensed
+
+Usage of this API must follows the same license of the rest of this codebase. See the LICENSE file for more info.
 
 ### The search endpoint
 

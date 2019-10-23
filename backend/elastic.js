@@ -56,7 +56,7 @@ class Elastic {
         bulk.push({ index: { _id: id } });
         bulk.push(map[id]);
       }
-      promises = promises.then(() => { return client.bulk({ index: indexName, body: bulk }); });
+      promises = promises.then(() => { return client.bulk({ index: indexName, refresh: 'wait_for', body: bulk }); });
     }
     return promises;
   }
@@ -108,6 +108,59 @@ class Elastic {
   }
 
   /**
+   * Get all occurrences of a class
+   * @param {string} host     Host to search in
+   * @param {string} subject  Subject (department) to search in
+   * @param {integer} classId Class ID code to find
+   */
+  async getAllClassOccurrences(host, subject, classId) {
+    const got = await client.search({
+      index: this.CLASS_INDEX,
+      body: {
+        size: 10,
+        query: {
+          bool: {
+            filter: [
+              { term: { 'class.host.keyword': host } },
+              { term: { 'class.subject.keyword': subject } },
+              { term: { 'class.classId.keyword': classId } },
+            ],
+          },
+        },
+      },
+    });
+    const hits = got.body.hits.hits.map((c) => { return c._source.class; });
+    return hits;
+  }
+
+  /**
+   * Get the latest occurrence of a class
+   * @param {string} host     Host to search in
+   * @param {string} subject  Subject (department) to search in
+   * @param {integer} classId Class ID code to find
+   */
+  async getLatestClassOccurrence(host, subject, classId) {
+    const got = await client.search({
+      index: this.CLASS_INDEX,
+      body: {
+        sort: 'class.termId.keyword',
+        size: 1,
+        query: {
+          bool: {
+            filter: [
+              { term: { 'class.host.keyword': host } },
+              { term: { 'class.subject.keyword': subject } },
+              { term: { 'class.classId.keyword': classId } },
+            ],
+          },
+        },
+      },
+    });
+    const hit = got.body.hits.hits[0];
+    return hit ? hit._source.class : null;
+  }
+
+  /*
    * Get all subjects for classes in the index
    */
   async getSubjectsFromClasses() {
