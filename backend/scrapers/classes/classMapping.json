@@ -38,6 +38,10 @@
               "keyword": {
                 "type": "keyword",
                 "ignore_above": 4
+              },
+              "suggestions": {
+                "type": "text",
+                "analyzer": "did_you_mean"
               }
             }
           },
