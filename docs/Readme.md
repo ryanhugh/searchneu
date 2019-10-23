@@ -15,6 +15,7 @@ Table of Contents
    * [Scrapers](Scrapers.md)  
    * [Search](Search.md)  
    * [Frontend](Frontend.md)  
+   * [Notifications](Notifications.md)  
 * [Unused](Unused.md)     
    
 If you have any questions about the site or the documentation feel free to reach out! hey@searchneu.com
