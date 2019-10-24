@@ -9,6 +9,7 @@ const typeDef = gql`
 
     desc: String
     prereqs: JSON
+    coreqs: JSON
   }
 `;
 
