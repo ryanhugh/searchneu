@@ -17,7 +17,6 @@ import search from './search';
 import FeedbackModal from './FeedbackModal';
 import macros from './macros';
 import ResultsLoader from './ResultsLoader';
-import EmailInput from './EmailInput';
 import logo from './images/logo.svg';
 import boston from './images/boston.svg';
 
@@ -579,9 +578,9 @@ class Home extends React.Component {
 
     if (attentionSectionMode === ATTENTION_SECTION.getInvolved) {
       attentionSection = (
-        <div style={ actionCenterStyle } className='atentionContainer'>
+        <div style={ actionCenterStyle } className='atentioATTENTIONnContainer'>
           <p className='helpFistRow'>
-              We&apos;re looking for more team members!
+              We&apos;reATTENTION looking for more team members!
           </p>
           <p>
               Want to help build Search NEU?
@@ -593,11 +592,8 @@ class Home extends React.Component {
           </p>
         </div>
       );
-    } else if (attentionSectionMode === ATTENTION_SECTION.email) {
-      attentionSection = (<EmailInput containerStyle={ actionCenterStyle } />);
     }
-
-
+    
     // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation.
     // Actually it only removes the extra whitespace on chrome. Need to come up with a better solution for other browsers.
     return (
