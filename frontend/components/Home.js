@@ -23,7 +23,7 @@ import boston from './images/boston.svg';
 // This file is the main starting point for the frontend
 // It calls into a bunch of different files
 // It calls into search.js and forward the results to resultsLoader
-// It also calls into EmailInput and FeedbackModal, if needed
+// It also calls into FeedbackModal, if needed
 // And displays the SplashPage
 
 // Terms that used to be scraped at one point, but are no longer scraped.
@@ -578,9 +578,9 @@ class Home extends React.Component {
 
     if (attentionSectionMode === ATTENTION_SECTION.getInvolved) {
       attentionSection = (
-        <div style={ actionCenterStyle } className='atentioATTENTIONnContainer'>
+        <div style={ actionCenterStyle } className='atentionContainer'>
           <p className='helpFistRow'>
-              We&apos;reATTENTION looking for more team members!
+              We&apos;re looking for more team members!
           </p>
           <p>
               Want to help build Search NEU?
@@ -593,7 +593,7 @@ class Home extends React.Component {
         </div>
       );
     }
-    
+
     // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation.
     // Actually it only removes the extra whitespace on chrome. Need to come up with a better solution for other browsers.
     return (
