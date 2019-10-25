@@ -34,6 +34,40 @@ exports[`should render 1`] = `
 </div>
 `;
 
+exports[`should render 2`] = `
+<div
+  className="sign-up-for-notifications-container"
+>
+  <Button
+    as="button"
+    basic={true}
+    className="notificationButton"
+    content="Toggle the sections you want to be notified for!"
+    disabled={true}
+  />
+  <Modal
+    actions={
+      Array [
+        Object {
+          "content": "Ok",
+          "key": "done",
+          "onClick": [Function],
+          "positive": true,
+        },
+      ]
+    }
+    centered={true}
+    closeOnDimmerClick={true}
+    closeOnDocumentClick={false}
+    content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, you will need to add an exception for this site for this feature to work. You will also have to uninstall Facebook Container for Firefox, if you have that installed. You can also try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
+    dimmer={true}
+    eventPool="Modal"
+    header="Please disable adblock and sign into Facebook."
+    open={false}
+  />
+</div>
+`;
+
 exports[`should render the fb button after the button is clicked 1`] = `
 <div
   className="sign-up-for-notifications-container"

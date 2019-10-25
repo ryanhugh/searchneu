@@ -6,18 +6,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
+import NotifCheckBox from './NotifCheckBox';
 
 import LocationLinks from './LocationLinks';
 import WeekdayBoxes from './WeekdayBoxes';
 
 import globe from './globe.svg';
 
+/*
+  This class renders the sections for a class on the Desktop version
+*/
 export default class DesktopSectionPanel extends React.Component {
+  // the required properties which just control what should be rendered or not
+  // For example, a class could have no final exam, or wait list... etc.
   static propTypes = {
     shouldShowExamColumns: PropTypes.bool.isRequired,
     showWaitList: PropTypes.bool.isRequired,
     showHonorsColumn: PropTypes.bool.isRequired,
     section: PropTypes.object.isRequired,
+    showNotificationSwitches: PropTypes.bool.isRequired,
   };
 
   // Create the 4:35 - 5:40 pm string.
@@ -35,7 +42,6 @@ export default class DesktopSectionPanel extends React.Component {
     });
     return times.join(', ');
   }
-
 
   render() {
     // Instead of calculating a lot of these individually and putting them together in the return call
@@ -116,6 +122,7 @@ export default class DesktopSectionPanel extends React.Component {
 
     const honorsCheck = this.props.section.honors ? <Icon name='check' /> : <Icon name='x' />;
 
+    const notifBox = (<NotifCheckBox section={ this.props.section } />);
 
     return (
       <tr key={ this.props.section.getHash() }>
@@ -142,6 +149,10 @@ export default class DesktopSectionPanel extends React.Component {
 
         <td style={{ display: !this.props.showHonorsColumn && 'none' }}>
           {honorsCheck}
+        </td>
+
+        <td style={{ display: !this.props.showNotificationSwitches && 'none' }}>
+          <center>{notifBox}</center>
         </td>
 
         <td>

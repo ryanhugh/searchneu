@@ -24,6 +24,7 @@ import macros from './macros';
 import notifyer from './notifyer';
 import Updater from './updater';
 import database from './database';
+import graphql from './graphql';
 
 // This file manages every endpoint in the backend
 // and calls out to respective files depending on what was called
@@ -38,8 +39,22 @@ const app = express();
 // This is not used in development
 const fbAppSecret = macros.getEnvVariable('fbAppSecret');
 
+
+// All of the requests/responses that haven't been pushed yet. Added here when
+// requests come in for data that isn't quite in the backend yet
+// saved as loginKey: {res, timeStamp}.
+// Timestamp is the output of Date.now().
+// getUserDataReqs are cleared after 3 seconds
+const getUserDataReqs = {};
+
+// The minimum amount of time in milliseconds user data reqs are held before
+// they are elgible for cleanup.
+const MAX_HOLD_TIME_FOR_GET_USER_DATA_REQS = 3000;
+
+// The interval id that fires when user data reqs are awaiting cleanup.
+let getUserDataInterval = null;
+
 // Start updater interval
-// TODO: FIX!!!!!!
 Updater.create();
 
 // Verify that the webhooks are coming from facebook
@@ -169,6 +184,8 @@ app.use((req, res, next) => {
   }
 });
 
+graphql.applyMiddleware({ app: app });
+
 app.get('/search', wrap(async (req, res) => {
   if (macros.DEV && !await elastic.isConnected()) {
     const fromProd = await request.get(`https://searchneu.com${req.originalUrl}`);
@@ -252,8 +269,9 @@ app.get('/webhook/', (req, res) => {
 
 async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   macros.log('Got opt in button click!', b64ref);
+
   if (macros.DEV && !await elastic.isConnected()) {
-    macros.log('In dev mode and Elasticsearch not available. Class watching does not work');
+    macros.log('In dev mode and Elasticsearch not available. Class watching does not work. To fix this, make sure Elasticsearch is running on your computer and then run "yarn scrape" and "yarn index"');
     return;
   }
 
@@ -285,7 +303,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     return;
   }
 
-  macros.log('User Object is', userObject);
+  macros.log('Got webhook - received ', userObject);
 
   const firebaseRef = await database.getRef(`/users/${sender}`);
 
@@ -296,6 +314,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
   // User is signing in from a new device
   if (existingData) {
+    macros.log('User found in db', existingData);
     // Add this array if it dosen't exist. It should exist
     if (!existingData.watchingClasses) {
       existingData.watchingClasses = [];
@@ -318,18 +337,22 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     const classCode = `${aClass.subject} ${aClass.classId}`;
     // Check to see how many of these classes they were already signed up for.
     if (wasWatchingClass && sectionWasentWatchingBefore.length === 0) {
-      notifyer.sendFBNotification(sender, `You are already signed up to get notifications if any of the sections of ${classCode} have seats that open up.`);
+      notifyer.sendFBNotification(sender, `You are already signed up to get notifications if any of the sections of ${classCode} have seats that open up. Toggle the sliders back on https://searchneu.com to adjust notifications!`);
     } else if (wasWatchingClass && sectionWasentWatchingBefore.length > 0) {
+      // This should never run, because
+      // 1) This flow only runs for classes with 0 or 1 sections
+      // 2) It isn't possible to sign up for notification for a class but no sections in the class for classes that have sections
+      // 3) Given that, the user must be signed up for the only section in the class too.
+      // 4) And if there is only 1 section, there can't be any more sections to sign up for
+      macros.warn('User signed up for more sections through the webhook?', userObject, existingData);
       notifyer.sendFBNotification(sender, `You are already signed up to get notifications if seats open up in some of the sections in ${classCode} and are now signed up for ${sectionWasentWatchingBefore.length} more sections too!`);
     } else if (sectionWasentWatchingBefore.length === 0) {
       notifyer.sendFBNotification(sender, `Successfully signed up for notifications if sections are added to ${classCode}!`);
     } else {
-      notifyer.sendFBNotification(sender, `Successfully signed up for notifications for ${sectionWasentWatchingBefore.length} sections in ${classCode}!`);
+      // Same here
+      macros.warn('User signed up for more sections through the webhook?', userObject, existingData);
+      notifyer.sendFBNotification(sender, `Successfully signed up for notifications for ${sectionWasentWatchingBefore.length} sections in ${classCode}. Toggle the sliders back on https://searchneu.com to adjust notifications!`);
     }
-
-    // ok lets add what classes the user saw in the frontend that have no seats availible and that he wants to sign up for
-    // so pretty much the same as courspro - the class hash and the section hashes - but just for the sections that the user sees that are empty
-    // so if a new section is added then a notification will be send off that it was added but the user will not be signed up for it
 
     // Only add if it dosen't already exist in the user data.
     if (!existingData.watchingClasses.includes(userObject.classHash)) {
@@ -339,7 +362,7 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     existingData.watchingSections = _.uniq(existingData.watchingSections.concat(userObject.sectionHashes));
 
     // Remove any null or undefined values from the watchingClasses and watchingSections
-    // This can happen if data is manually deleted from the DB, and the data is no longer contineous.
+    // This can happen if data is manually deleted from the DB, and the data is no longer continuous.
     // (eg index 0 is deleted and Google keeps the others at index 1 and index 2, so index 0 just contains undefined)
     if (existingData.watchingClasses.includes(undefined) || existingData.watchingSections.includes(undefined)) {
       macros.log('existing data class hashes or section hashes includes undefined!', existingData.watchingClasses, existingData.watchingSections);
@@ -364,6 +387,17 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
     const loginKeys = new Set(existingData.loginKeys);
     loginKeys.add(userObject.loginKey);
     existingData.loginKeys = Array.from(loginKeys);
+    if (getUserDataReqs[userObject.loginKey]) {
+      macros.log('In webhook, responding to matching f request');
+      getUserDataReqs[userObject.loginKey].res.send((JSON.stringify({
+        status: 'Success',
+        user: existingData,
+      })));
+
+      delete getUserDataReqs[userObject.loginKey];
+    } else {
+      macros.log('in webhook, did not finding matching f request ');
+    }
 
     firebaseRef.set(existingData);
   } else {
@@ -387,11 +421,28 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
 
     macros.log('Adding ', newUser, 'to the db');
 
-
     // Send the user a notification letting them know everything was successful.
-    notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}! I'll send you another message if a seat opens up in ${aClass.subject} ${aClass.classId}!`);
+    const classCode = `${aClass.subject} ${aClass.classId}`;
+    if (userObject.sectionHashes.length === 0) {
+      // Don't mention the sliders here because there are only sliders if there are sections.
+      notifyer.sendFBNotification(sender, `Thanks for signing up for notifications ${names.first_name}. Successfully signed up for notifications if sections are added to ${classCode}!`);
+    } else {
+      // Mention the sliders because there are sections.
+      notifyer.sendFBNotification(sender, `Successfully signed up for notifications for ${userObject.sectionHashes.length} sections in ${classCode}. Toggle the sliders back on https://searchneu.com to adjust notifications!`);
+    }
 
     database.set(`/users/${sender}`, newUser);
+    if (getUserDataReqs[userObject.loginKey]) {
+      macros.log('In webhook, responding to matching f request');
+      getUserDataReqs[userObject.loginKey].res.send((JSON.stringify({
+        status: 'Success',
+        user: newUser,
+      })));
+
+      delete getUserDataReqs[userObject.loginKey];
+    } else {
+      macros.log('in webhook, did not finding matching f request ');
+    }
   }
 }
 
@@ -449,6 +500,8 @@ app.post('/webhook/', wrap(async (req, res) => {
         unsubscribeSender(sender);
       } else if (text === 'What is my facebook messenger sender id?') {
         notifyer.sendFBNotification(sender, sender);
+      } else if (text === 'no u' || text === 'no you') {
+        notifyer.sendFBNotification(sender, 'no u');
       } else {
         // Don't send anything if the user sends a message.
         // notifyer.sendFBNotification(sender, "Yo! 👋😃😆 I'm the Search NEU bot. I will notify you when seats open up in classes that are full. Sign up on https://searchneu.com !");
@@ -470,6 +523,462 @@ app.post('/webhook/', wrap(async (req, res) => {
   res.sendStatus(200);
 }));
 
+<<<<<<< HEAD
+=======
+app.post('/subscribeEmail', wrap(async (req, res) => {
+  // Don't cache this endpoint.
+  res.setHeader('Cache-Control', 'no-cache, no-store');
+
+  if (!req.body || !req.body.email) {
+    macros.log('invalid email ingored:', req.body);
+    res.send(JSON.stringify({
+      error: 'nope.',
+    }));
+    return;
+  }
+
+  if (macros.occurrences(req.body.email, '@', true) !== 1) {
+    macros.log('invalid email ingored:', req.body);
+    res.send(JSON.stringify({
+      error: 'nope.',
+    }));
+    return;
+  }
+
+  macros.logAmplitudeEvent('Backend Email Submit', { email: req.body.email });
+  macros.log(req.body.email, 'subscribing');
+
+  // Regardless of what happens from here out, we want to tell the user this was successful.
+  // So tell them now to prevent some delay.
+  res.send(JSON.stringify({
+    status: 'success',
+  }));
+
+  const body = {
+    email_address: req.body.email,
+    status: 'subscribed',
+  };
+
+  const mailChimpKey = macros.getEnvVariable('mailChimpKey');
+
+  if (mailChimpKey) {
+    if (macros.PROD) {
+      macros.log('Submitting email', req.body.email, 'to mail chimp.');
+
+      // The first part of the url comes from the API key.
+      let response;
+
+      try {
+        response = await request.post({
+          url: 'https://us16.api.mailchimp.com/3.0/lists/31a64acc18/members/',
+          headers: {
+            Authorization: `Basic: ${mailChimpKey}`,
+          },
+          body: JSON.stringify(body),
+        });
+      } catch (e) {
+        macros.log('Failed to submit email', req.body.email);
+
+        // Don't tell the frontend this email has already been submitted.
+        return;
+      }
+
+      macros.log(response.body);
+    } else {
+      macros.log('Not submitting ', req.body.email, 'to mailchimp because not in PROD');
+    }
+  } else {
+    macros.log("Not submitting to mailchip, don't have mailchimp key.");
+  }
+}));
+
+
+// finds the user with the login key that's been requested
+// if the user doesn't exist, return
+async function findMatchingUser(requestLoginKey) {
+  // Loop over the db
+  const users = await database.get('users');
+  if (!users) {
+    return null;
+  }
+
+  // Loop over all the users
+  for (const user of users) {
+    if (!user.loginKeys) {
+      continue;
+    }
+
+    for (const loginKey of user.loginKeys) {
+      if (requestLoginKey === loginKey) {
+        return user;
+      }
+    }
+  }
+
+  return null;
+}
+
+
+// sends data to the database in the backend
+async function verifyRequestAndGetDbUser(req, res) {
+  // Don't cache this endpoint.
+  res.setHeader('Cache-Control', 'no-cache, no-store');
+
+
+  // if there's no body in the request, well, we'll crash, so let's not
+  if (!req.body || !req.body.loginKey) {
+    return null;
+  }
+
+  // Checks checks checks
+  // Make sure the login key is valid
+  if (typeof req.body.loginKey !== 'string' || req.body.loginKey.length !== 100) {
+    macros.log('Invalid login key', req.body.loginKey);
+    return null;
+  }
+
+  const senderId = req.body.senderId;
+
+  // Ensure sender id exists and is valid.
+  if (!senderId || typeof senderId !== 'string' || senderId.length !== 16 || !macros.isNumeric(senderId)) {
+    macros.log('Invalid senderId', req.body, senderId);
+    return null;
+  }
+
+  // Get the user from the db.
+  const user = await database.get(`/users/${senderId}`);
+  if (!user) {
+    macros.log(`Didn't find valid user from client request: ${JSON.stringify(user)}`, req.body.loginKey);
+    return null;
+  }
+
+  // Verify the loginkey
+  if (!user.loginKeys.includes(req.body.loginKey)) {
+    macros.log(`Login Key's didn't match: ${JSON.stringify(user.loginKeys, null, 4)}`, req.body.loginKey);
+    return null;
+  }
+
+  return user;
+}
+
+
+app.post('/addSection', wrap(async (req, res) => {
+  if (!req.body.sectionHash || typeof req.body.sectionHash !== 'string') {
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  const userObject = await verifyRequestAndGetDbUser(req, res);
+
+  if (!userObject) {
+    macros.log('Invalid request', req.body);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  const sectionHash = req.body.sectionHash;
+
+  // Early exit if user is already watching this section.
+  if (userObject.watchingSections.includes(sectionHash)) {
+    macros.log('User was already watching section', userObject);
+    res.send(JSON.stringify({
+      status: 'Success',
+    }));
+    return;
+  }
+
+  userObject.watchingSections.push(sectionHash);
+
+  await database.set(`/users/${req.body.senderId}`, userObject);
+  macros.log('sending done, section added. User:', userObject);
+
+  // If the request also contains the notif data, we can send a notification to the user.
+  // TODO: If it ever becomes possible to look up a section in elastic by sectionHash, we can have this
+  // api only accept sectionHash and just look this info up in the DB.
+  const notifData = req.body.notifData;
+
+  if (notifData) {
+    if (!notifData.subject || typeof notifData.subject !== 'string') {
+      res.send(JSON.stringify({
+        warning: 'Unable to send notification.',
+      }));
+      return;
+    }
+
+    if (!notifData.classId || typeof notifData.classId !== 'string') {
+      res.send(JSON.stringify({
+        warning: 'Unable to send notification.',
+      }));
+      return;
+    }
+
+    if (!notifData.crn || typeof notifData.crn !== 'string') {
+      res.send(JSON.stringify({
+        warning: 'Unable to send notification.',
+      }));
+      return;
+    }
+
+
+    notifyer.sendFBNotification(req.body.senderId, `Thanks for signing up for a section in ${notifData.subject} ${notifData.classId} (CRN: ${notifData.crn})!`);
+  }
+
+
+  // Send a status of success.
+  res.send(JSON.stringify({
+    status: 'Success',
+  }));
+}));
+
+app.post('/removeSection', wrap(async (req, res) => {
+  const userObject = await verifyRequestAndGetDbUser(req, res);
+
+  if (!userObject) {
+    macros.log('Invalid request', req.body);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  const sectionHash = req.body.sectionHash;
+
+  // Early exit if user is not watching this section.
+  if (!userObject.watchingSections.includes(sectionHash)) {
+    res.send(JSON.stringify({
+      status: 'Success',
+    }));
+    return;
+  }
+
+  _.pull(userObject.watchingSections, sectionHash);
+
+  await database.set(`/users/${req.body.senderId}`, userObject);
+  macros.log('sending done, section removed.');
+
+
+  const notifData = req.body.notifData;
+
+  if (notifData) {
+    if (!notifData.subject || typeof notifData.subject !== 'string') {
+      res.send(JSON.stringify({
+        warning: 'Unable to send notification.',
+      }));
+      return;
+    }
+
+    if (!notifData.classId || typeof notifData.classId !== 'string') {
+      res.send(JSON.stringify({
+        warning: 'Unable to send notification.',
+      }));
+      return;
+    }
+
+    if (!notifData.crn || typeof notifData.crn !== 'string') {
+      res.send(JSON.stringify({
+        warning: 'Unable to send notification.',
+      }));
+      return;
+    }
+
+    notifyer.sendFBNotification(req.body.senderId, `You have unsubscribed from notifications for a section of ${notifData.subject} ${notifData.classId} (CRN: ${notifData.crn}).`);
+  }
+
+  res.send(JSON.stringify({
+    status: 'Success',
+  }));
+}));
+
+
+app.post('/addClass', wrap(async (req, res) => {
+  const userObject = await verifyRequestAndGetDbUser(req, res);
+
+  if (!userObject) {
+    macros.log('Invalid request', req.body);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  const classHash = req.body.classHash;
+
+  if (!classHash || typeof classHash !== 'string') {
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  // Early exit if user is already watching this section.
+  if (userObject.watchingClasses.includes(classHash)) {
+    res.send(JSON.stringify({
+      status: 'Success',
+    }));
+    return;
+  }
+
+  userObject.watchingClasses.push(classHash);
+
+  await database.set(`/users/${req.body.senderId}`, userObject);
+  macros.log('sending done, class added. User is now:', userObject);
+
+  const notifData = req.body.notifData;
+
+  if (notifData) {
+    if (!notifData.subject || typeof notifData.subject !== 'string') {
+      res.send(JSON.stringify({
+        warning: 'Unable to send notification.',
+      }));
+      return;
+    }
+
+    if (!notifData.classId || typeof notifData.classId !== 'string') {
+      res.send(JSON.stringify({
+        warning: 'Unable to send notification.',
+      }));
+      return;
+    }
+
+    notifyer.sendFBNotification(req.body.senderId, `You have subscribed to notifications for the class ${notifData.subject} ${notifData.classId}`);
+  }
+
+  // send a status of success. Hopefully it went well.
+  res.send(JSON.stringify({
+    status: 'Success',
+  }));
+}));
+
+
+// cleans up old requests that are more than 10 seconds old.
+function cleanOldGetUserDataReqs() {
+  macros.log('cleaning up old getUserDataReqs', Object.keys(getUserDataReqs));
+
+  const now = Date.now();
+
+  for (const loginKey of Object.keys(getUserDataReqs)) {
+    // Purge all entries over 3s old
+    if (now - getUserDataReqs[loginKey].timeStamp > MAX_HOLD_TIME_FOR_GET_USER_DATA_REQS) {
+      getUserDataReqs[loginKey].res.send(JSON.stringify({
+        error: 'Request timed out',
+      }));
+
+      delete getUserDataReqs[loginKey];
+      macros.log('cleaned out loginKey req', loginKey);
+    }
+  }
+
+  // If they are all gone, stop the interval
+  if (Object.keys(getUserDataReqs).length === 0) {
+    clearInterval(getUserDataInterval);
+    getUserDataInterval = null;
+  }
+}
+
+
+function addToUserDataReqs(loginKey, res) {
+  if (getUserDataReqs[loginKey]) {
+    // Respond with a warning instead of an error
+    // because we don't need the frontend to invalidate the loginKey and sender id if this happens.
+    getUserDataReqs[loginKey].res.send(JSON.stringify({
+      warning: 'Warning, multiple requests from the same user in quick succession',
+    }));
+  }
+  getUserDataReqs[loginKey] = {
+    res: res,
+    timeStamp: Date.now(),
+  };
+
+  // Start the interval if it isn't already running
+  if (!getUserDataInterval) {
+    getUserDataInterval = setInterval(cleanOldGetUserDataReqs, MAX_HOLD_TIME_FOR_GET_USER_DATA_REQS / 4);
+  }
+}
+
+
+app.post('/getUserData', wrap(async (req, res) => {
+  // Don't cache this endpoint.
+  res.setHeader('Cache-Control', 'no-cache, no-store');
+
+  if (!req.body || !req.body.loginKey) {
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  // Checks checks checks
+  // Make sure the login key is valid
+  if (typeof req.body.loginKey !== 'string' || req.body.loginKey.length !== 100) {
+    macros.log('Invalid login key', req.body.loginKey);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+
+  const senderId = req.body.senderId;
+
+  // If the sender is given, make sure it is valid
+  if (senderId && (typeof senderId !== 'string' || senderId.length !== 16 || !macros.isNumeric(senderId))) {
+    macros.log('Invalid senderId', req.body, senderId);
+    res.send(JSON.stringify({
+      error: 'Error.',
+    }));
+    return;
+  }
+
+  let matchingUser;
+
+  // If the client specified a specific senderId, lookup that specific user.
+  // if not, we have to loop over all the users's to find a matching loginKey
+
+  if (senderId) {
+    const user = await database.get(`/users/${senderId}`);
+
+    // Don't do long polling when the the sender id is given
+    // and the user doesn't exist in the db because
+    // the only time this would happen is if the data was cleared out of the db.
+    if (!user) {
+      macros.log('User with senderId not in database yet', senderId);
+      res.send(JSON.stringify({
+        error: 'Error.',
+      }));
+      return;
+    }
+
+    // Ensure that a loginKey matches
+    if (!user.loginKeys.includes(req.body.loginKey)) {
+      macros.log('Invalid loginKey', senderId, req.body.loginKey, user);
+      res.send(JSON.stringify({
+        error: 'Error.',
+      }));
+      return;
+    }
+
+    matchingUser = user;
+  } else {
+    matchingUser = await findMatchingUser(req.body.loginKey);
+
+    if (!matchingUser) {
+      // Hang onto the request for a bit in case the webhook comes in shortly.
+      addToUserDataReqs(req.body.loginKey, res);
+      return;
+    }
+  }
+
+  res.send(JSON.stringify({
+    status: 'Success',
+    user: matchingUser,
+  }));
+}));
+
+>>>>>>> master
 // Rate-limit submissions on a per-IP basis
 let rateLimit = {};
 let lastHour = 0;

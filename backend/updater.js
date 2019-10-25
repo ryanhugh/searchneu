@@ -116,7 +116,7 @@ class Updater {
     classHashes = _(classHashes).uniq().compact();
     sectionHashes = _(sectionHashes).uniq().compact();
 
-    macros.log('watching classes ', classHashes);
+    macros.log('watching classes ', classHashes.size());
 
     // Get the old data for watched classes
     const esOldDocs = await elastic.getMapFromIDs(elastic.CLASS_INDEX, classHashes);

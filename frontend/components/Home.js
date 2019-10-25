@@ -176,7 +176,7 @@ class Home extends React.Component {
     }
 
     if (this.state.searchQuery) {
-      macros.log('Going to serach for', this.state.searchQuery, this.state.selectedTermId);
+      macros.log('Going to search for', this.state.searchQuery, this.state.selectedTermId);
       this.search(this.state.searchQuery, this.state.selectedTermId);
     }
   }
@@ -599,7 +599,7 @@ class Home extends React.Component {
     return (
       <div className={ containerClassnames }>
 
-        <a target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu' className='githubCornerContainer'>
+        <a target='_blank' rel='noopener noreferrer' href='https://github.com/sandboxnu/searchneu' className='githubCornerContainer'>
           {/* eslint-disable max-len */}
           <svg width='80' height='80' viewBox='0 0 250 250'>
             <path d='M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z' />
@@ -681,7 +681,7 @@ class Home extends React.Component {
 
             <div className='footer ui basic center aligned segment'>
               See an issue or want to add to this website? Fork it or create an issue on
-              <a target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu'>
+              <a target='_blank' rel='noopener noreferrer' href='https://github.com/sandboxnu/searchneu'>
                 &nbsp;GitHub
               </a>
               .
@@ -690,16 +690,16 @@ class Home extends React.Component {
             <div className='ui divider' />
 
             <div className='footer ui basic center aligned segment credits'>
-              Made with coffee&nbsp;
-              <i className='coffee circular small icon' />
-              by&nbsp;
+              Invented by&nbsp;
               <a target='_blank' rel='noopener noreferrer' href='http://github.com/ryanhugh'>
                 Ryan Hughes
               </a>
-              &nbsp;and love&nbsp;
-              <i className='heart circular small icon' />
-              from some awesome&nbsp;
-              <a target='_blank' rel='noopener noreferrer' href='https://github.com/ryanhugh/searchneu/graphs/contributors'>
+              &nbsp;and maintained by&nbsp;
+              <a target='_blank' rel='noopener noreferrer' href='http://github.com/sandboxnu'>
+                Sandbox
+              </a>
+              &nbsp;and some awesome&nbsp;
+              <a target='_blank' rel='noopener noreferrer' href='https://github.com/sandboxnu/searchneu/graphs/contributors'>
                 Contributors
               </a>
               .

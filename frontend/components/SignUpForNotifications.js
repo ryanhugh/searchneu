@@ -14,26 +14,32 @@ import user from './user';
 // This file is responsible for the Sign Up for notifications flow.
 // First, this will render a button that will say something along the lines of "Get notified when...!"
 // Then, if that button is clicked, the Facebook Send To Messenger button will be rendered.
-// (This Sent To Messenger button is not rendered initially because it requires that an iframe is added and 10+ http requests are made for each time it is rendered)
+// (This Send To Messenger button is not rendered initially because it requires that an iframe is added and 10+ http requests are made for each time it is rendered)
 
-// TODO: Lets make it so clicking on the Send To Messenger button changes this to a third state that just says thanks for signing up!
+// All of the actually signing up for sections is now in NotifCheckbox
 
 class SignUpForNotifications extends React.Component {
   static propTypes = {
     aClass: PropTypes.object.isRequired,
+
+    // This determins whether to show the final completed message, or any other state.
+    // If this is true, all other state fields are ignored and the final message is shown.
+    userIsWatchingClass: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
+
+      // Whether to show the Facebook messenger button or not.
       showMessengerButton: false,
 
-      // Keeps track of whether the adblock message is being shown or not
+      // Keeps track of whether the adblock modal is being shown or not
       // Sometimes, adblock will block the FB plugin from loading
       // Firefox strict browsing also blocks this plugin from working
       // If the plugin failed to load for whatever reason, show this message and ask the user to allow FB plugins
-      showAdblockMessage: false,
+      showAdblockModal: false,
     };
 
     this.facebookScopeRef = null;
@@ -94,7 +100,7 @@ class SignUpForNotifications extends React.Component {
           });
 
           this.setState({
-            showAdblockMessage: true,
+            showAdblockModal: true,
           });
           facebook.pluginFailedToRender();
         }
@@ -109,24 +115,38 @@ class SignUpForNotifications extends React.Component {
 
   // Updates the state to show the button.
   async onSubscribeToggleChange() {
-    macros.logAmplitudeEvent('FB Send to Messenger', {
-      message: 'First button click',
-      hash: this.props.aClass.getHash(),
-    });
+    // if a user exists already, we can show the notification checkboxes too
+    if (user.user) {
+      macros.log('user exists already', user.user);
 
-    // Check the status of the FB plugin
-    // If it failed to load, show the message that asks user to disable adblock
-    const newState = {
-      showMessengerButton: true,
-    };
+      const aClass = this.props.aClass;
 
-    try {
-      await facebook.getFBPromise();
-    } catch (e) {
-      newState.showAdblockMessage = true;
+      user.addClass(aClass);
+
+      // If this class only has 1 section, sign the user for it automatically.
+      if (aClass.sections && aClass.sections.length === 1 && aClass.sections[0].seatsRemaining <= 0) {
+        user.addSection(aClass.sections[0]);
+      }
+    } else {
+      macros.logAmplitudeEvent('FB Send to Messenger', {
+        message: 'First button click',
+        hash: this.props.aClass.getHash(),
+      });
+
+      // Check the status of the FB plugin
+      // If it failed to load, show the message that asks user to disable adblock
+      const newState = {
+        showMessengerButton: true,
+      };
+
+      try {
+        await facebook.getFBPromise();
+      } catch (e) {
+        newState.showAdblockModal = true;
+      }
+
+      this.setState(newState);
     }
-
-    this.setState(newState);
   }
 
   // Return the FB button itself.
@@ -136,19 +156,21 @@ class SignUpForNotifications extends React.Component {
     const aClass = this.props.aClass;
 
     // Get a list of all the sections that don't have seats remaining
-    const sectionsHashes = [];
-    for (const section of aClass.sections) {
-      if (section.seatsRemaining <= 0) {
-        sectionsHashes.push(section.getHash());
-      }
+    const sectionHashes = [];
+
+    // If there is exactly one section in the class and the seats are all taken
+    // automatically sign the user up for it.
+    if (aClass.sections.length === 1 && aClass.sections[0].seatsRemaining <= 0) {
+      sectionHashes.push(aClass.sections[0].getHash());
     }
 
     // JSON stringify it and then base64 encode the data that we want to pass to the backend.
     // Many characters arn't allowed to be in the ref attribute, including open and closing braces.
     // So base64 enocode it and then decode it on the server. Without the base64 encoding, the button will not render.
+
     const dataRef = btoa(JSON.stringify({
       classHash: aClass.getHash(),
-      sectionHashes: sectionsHashes,
+      sectionHashes: sectionHashes,
       dev: macros.DEV,
       loginKey: loginKey,
     }));
@@ -169,16 +191,29 @@ class SignUpForNotifications extends React.Component {
 
   closeModal() {
     this.setState({
-      showAdblockMessage: false,
+      showAdblockModal: false,
     });
   }
 
   render() {
     let content = null;
 
-    if (this.state.showMessengerButton) {
+    if (this.props.userIsWatchingClass) {
+      if (this.props.aClass.sections.length === 0) {
+        content = <Button basic disabled content="You're now signed up for notifications on this class" className='notificationButton' />;
+      } else {
+        content = <Button basic disabled content='Toggle the sections you want to be notified for!' className='notificationButton' />;
+      }
+    } else if (this.state.showMessengerButton) {
       if (facebook.didPluginFail()) {
-        content = <Button basic content='Disable adblock to continue' className='diableAdblockButton' disabled />;
+        content = (
+          <Button
+            basic
+            content='Disable adblock to continue'
+            className='diableAdblockButton'
+            disabled
+          />
+        );
       } else {
         content = (
           <div className='facebookButtonContainer'>
@@ -216,7 +251,7 @@ class SignUpForNotifications extends React.Component {
         {content}
         <Modal
           header='Please disable adblock and sign into Facebook.'
-          open={ this.state.showAdblockMessage }
+          open={ this.state.showAdblockModal }
           content="Please disable any ad blocking extentions for this site because this feature does not work when adblock is enabled. If you are using Firefox in strict blocking mode, you will need to add an exception for this site for this feature to work. You will also have to uninstall Facebook Container for Firefox, if you have that installed. You can also try using a different browser. If you can't get it working send me a message at ryanhughes624@gmail.com."
           actions={ actions }
         />
