@@ -55,7 +55,6 @@ const OLD_TERMS = [
 const LATEST_TERM = '202010';
 
 const ATTENTION_SECTION = {
-  email: 'email',
   getInvolved: 'getInvolved',
   none: 'none',
 };
