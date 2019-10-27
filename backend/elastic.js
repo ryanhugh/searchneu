@@ -7,7 +7,6 @@
 import { Client } from '@elastic/elasticsearch';
 import _ from 'lodash';
 import macros from './macros';
-const util = require('util');
 
 const URL = macros.getEnvVariable('elasticURL') || 'http://localhost:9200';
 const client = new Client({ node: URL });
@@ -35,7 +34,6 @@ class Elastic {
    * @param  {Object} mapping   The new elasticsearch index mapping(schema)
    */
   async resetIndex(indexName, mapping) {
-    
     // Clear out the index.
     await client.indices.delete({ index: indexName }).catch(() => {});
     // Put in the new classes mapping (elasticsearch doesn't let you change mapping of existing index)
@@ -213,10 +211,50 @@ class Elastic {
       'employee.phone',
     ];
 
+    let suggester = {
+      phrase: {
+        field: 'class.name.suggestions',
+        confidence: 1.0,
+        collate: {
+          query: {
+            source: {
+              match: {
+                '{{field_name}}': '{{suggestion}}',
+              },
+            },
+          },
+          params: { field_name: 'class.name' },
+          prune: true,
+        },
+        direct_generator: [
+          {
+            field: 'class.name.suggestions',
+            prefix_length: 2,
+          },
+        ],
+      },
+    };
+
     const patternResults = query.match(courseCodePattern);
-    if (patternResults && this.subjects.has(patternResults[1].toLowerCase())) {
+    const validSubject = this.subjects.has(patternResults[1].toLowerCase());
+    if (patternResults && validSubject) {
       // after the first result, all of the following results should be of the same subject, e.g. it's weird to get ENGL2500 as the second or third result for CS2500
       fields = ['class.subject^10', 'class.classId'];
+      suggester = {
+        term: {
+          field: 'class.classId',
+          min_word_length: 2,
+        },
+      };
+    }
+
+    if (patternResults && !validSubject) {
+      suggester = {
+        term: {
+          field: 'class.subject',
+          min_word_length: 2,
+        },
+      };
     }
 
     const searchOutput = await client.search({
@@ -256,59 +294,12 @@ class Elastic {
       body: {
         suggest: {
           text: query,
-          name_suggest: {
-            phrase: {
-              field: "class.name.suggestions",
-              confidence: 1.0,
-              collate: {
-                query: {
-                  source: {
-                    match: {
-                      "{{field_name}}": "{{suggestion}}",
-                    },
-                  },
-                },
-                params: { field_name: "class.name" },
-                prune: true,
-              },
-              direct_generator: [
-                {
-                  field: "class.name.suggestions",
-                  prefix_length: 2,
-                },
-              ],
-            },
-          },
-          subject_suggest: {
-            phrase: {
-              field: "class.subject.suggestions",
-              confidence: 1.0,
-              collate: {
-                query: {
-                  source: {
-                    match: {
-                      "{{field_name}}": "{{suggestion}}",
-                    },
-                  },
-                },
-                params: { field_name: "class.subject" },
-                prune: true,
-              },
-              direct_generator: [
-                {
-                  field: "class.subject.suggestions",
-                  min_word_length: 2,
-                },
-              ],
-            },
-            // term: {
-            //   field: "class.subject",
-            //   min_word_length: 2,
-            // },
-          },
+          valSuggest: suggester,
         },
       },
     });
+
+    console.log(suggestOutput.valSuggest);
 
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
