@@ -17,14 +17,13 @@ import search from './search';
 import FeedbackModal from './FeedbackModal';
 import macros from './macros';
 import ResultsLoader from './ResultsLoader';
-import EmailInput from './EmailInput';
 import logo from './images/logo.svg';
 import boston from './images/boston.svg';
 
 // This file is the main starting point for the frontend
 // It calls into a bunch of different files
 // It calls into search.js and forward the results to resultsLoader
-// It also calls into EmailInput and FeedbackModal, if needed
+// It also calls into FeedbackModal, if needed
 // And displays the SplashPage
 
 // Terms that used to be scraped at one point, but are no longer scraped.
@@ -56,7 +55,6 @@ const OLD_TERMS = [
 const LATEST_TERM = '202010';
 
 const ATTENTION_SECTION = {
-  email: 'email',
   getInvolved: 'getInvolved',
   none: 'none',
 };
@@ -592,10 +590,7 @@ class Home extends React.Component {
           </p>
         </div>
       );
-    } else if (attentionSectionMode === ATTENTION_SECTION.email) {
-      attentionSection = (<EmailInput containerStyle={ actionCenterStyle } />);
     }
-
 
     // Not totally sure why, but this height: 100% removes the extra whitespace at the bottom of the page caused by the upward translate animation.
     // Actually it only removes the extra whitespace on chrome. Need to come up with a better solution for other browsers.

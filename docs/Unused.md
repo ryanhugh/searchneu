@@ -57,6 +57,11 @@ This file is for this feature https://github.com/ryanhugh/searchneu/issues/61
 
 https://github.com/ryanhugh/searchneu/blob/0958ad3a2ddf72425f3e18b268e9d2dd6c945f88/backend/calendar.js
 
+### mail.js
+There used to be a mailchimp component, and if you want to bring it back, find it at
+
+https://github.com/NEUDitao/searchneu/blob/1f40a88bc1ac8cd11f268e6658f9ac6a7da24ad3/blob/mailchimp.js
+
 
 ### Spread
 
