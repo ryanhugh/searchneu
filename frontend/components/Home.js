@@ -61,7 +61,7 @@ const ATTENTION_SECTION = {
   none: 'none',
 };
 
-const attentionSectionMode = ATTENTION_SECTION.none;
+const attentionSectionMode = ATTENTION_SECTION.getInvolved;
 
 // const SHOW_SUBMIT_EMAIL = false;
 
@@ -580,14 +580,13 @@ class Home extends React.Component {
     if (attentionSectionMode === ATTENTION_SECTION.getInvolved) {
       attentionSection = (
         <div style={ actionCenterStyle } className='atentionContainer'>
-          <p className='helpFistRow'>
-              We&apos;re looking for more team members!
+          <p className='helpFistRow' />
+            Search NEU is built by Sandbox
+          <p>
+            Want to work with us?
           </p>
           <p>
-              Want to help build Search NEU?
-          </p>
-          <p>
-            <a href='https://ryanhughes5.typeform.com/to/VuIgF8' target='_blank' rel='noopener noreferrer' className={ `getInvolvedText ${hiddenHelpButton}` }>
+            <a href='https://www.sandboxneu.com/apply' target='_blank' rel='noopener noreferrer' className={ `getInvolvedText ${hiddenHelpButton}` }>
               Get involved &gt;
             </a>
           </p>
@@ -694,19 +693,19 @@ class Home extends React.Component {
             <div className='ui divider' />
 
             <div className='footer ui basic center aligned segment credits'>
-              Invented by&nbsp;
+              A&nbsp;
+              <a target='_blank' rel='noopener noreferrer' href='https://www.sandboxneu.com'>
+                Sandbox
+              </a>
+              &nbsp;Project (founded by&nbsp;
               <a target='_blank' rel='noopener noreferrer' href='http://github.com/ryanhugh'>
                 Ryan Hughes
               </a>
-              &nbsp;and maintained by&nbsp;
-              <a target='_blank' rel='noopener noreferrer' href='http://github.com/sandboxnu'>
-                Sandbox
-              </a>
-              &nbsp;and some awesome&nbsp;
+              , with some awesome&nbsp;
               <a target='_blank' rel='noopener noreferrer' href='https://github.com/sandboxnu/searchneu/graphs/contributors'>
-                Contributors
+                contributors
               </a>
-              .
+              )
             </div>
             <div className='footer ui basic center aligned segment affiliation'>
               Search NEU is built for students by students & is not affiliated with NEU.
