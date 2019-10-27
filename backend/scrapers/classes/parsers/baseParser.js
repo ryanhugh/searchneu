@@ -464,7 +464,7 @@ class BaseParser {
     if (num === 1) {
       return '';
     }
-    return 'cs2500.json';
+    return 's';
   }
 }
 
