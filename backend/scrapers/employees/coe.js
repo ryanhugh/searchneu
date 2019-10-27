@@ -8,8 +8,6 @@ import cheerio from 'cheerio';
 import Request from '../request';
 import cache from '../cache';
 import macros from '../../macros';
-import { Divider } from 'semantic-ui-react';
-import { Exception } from 'handlebars';
 
 const request = new Request('COE');
 
@@ -23,20 +21,17 @@ const request = new Request('COE');
 // https://github.com/ryanhugh/searchneu/issues/95
 
 class COE {
-
-  parsePeopleList(resp){
+  parsePeopleList(resp) {
     let $ = cheerio.load(resp.body);
 
-    let people = $('.grid--4 > div > div').get().map((person) => {
-
+    const people = $('.grid--4 > div > div').get().map((person) => {
       $ = cheerio.load(person);
       const obj = {};
-      
-      let name = $('h2 > a').get(0).children[0].data;
+
+      const name = $('h2 > a').get(0).children[0].data;
       if (name) {
         obj.name = name;
-      }
-      else {
+      } else {
         macros.log('Could not parse name');
       }
 
@@ -49,11 +44,10 @@ class COE {
         obj.lastName = lastName;
       }
 
-      let link = $('h2 > a').get(0).attribs.href;
+      const link = $('h2 > a').get(0).attribs.href;
       if (link) {
         obj.link = link;
-      }
-      else {
+      } else {
         macros.log('Could not parse link');
       }
 
@@ -61,50 +55,47 @@ class COE {
       title = title.replace(/,$/i, '');
       if (title) {
         obj.title = title;
-      }
-      else {
+      } else {
         macros.log('Could not parse title');
       }
-      let email = macros.standardizeEmail($('ul.caption > li > a').get(0).children[0].data);
+      const email = macros.standardizeEmail($('ul.caption > li > a').get(0).children[0].data);
       if (email) {
         obj.email = email;
-      }
-      else {
+      } else {
         macros.log('Could not parse email');
       }
-      let phone = $('ul.caption > li').get(1).children[0];
+      const phone = $('ul.caption > li').get(1).children[0];
       if (phone) {
         obj.phone = macros.standardizePhone(phone.data);
-      }
-      else {
+      } else {
         macros.log('Could not parse phone');
       }
-      
+
       return obj;
     });
 
     return people;
   }
 
-  async main() {
-    if (macros.DEV && require.main !== module) {
-      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, 'main');
-      if (devData) {
-        return devData;
-      }
-    }
+  async main() {
+    if (macros.DEV && require.main !== module) {
+      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, 'main');
+      if (devData) {
+        return devData;
+      }
+    }
 
-    const resp  = await request.get('https://coe.northeastern.edu/faculty-staff-directory/?display=all');
+    const resp = await request.get('https://coe.northeastern.edu/faculty-staff-directory/?display=all');
     //console.log(JSON.stringify(resp));
     const peopleObjects = this.parsePeopleList(resp);
 
-    if (macros.DEV) {
-        await cache.set(macros.DEV_DATA_DIR, this.constructor.name, 'main', peopleObjects);
-        macros.log(peopleObjects.length, 'coe people saved!');
+    if (macros.DEV) {
+      await cache.set(macros.DEV_DATA_DIR, this.constructor.name, 'main', peopleObjects);
+      macros.log(peopleObjects.length, 'coe people saved!');
     }
 
-    macros.log("done");
-    return peopleObjects;
+    macros.log('done');
+    return peopleObjects;
   }
 }
 
@@ -112,6 +103,5 @@ const instance = new COE();
 export default instance;
 
 if (require.main === module) {
-  instance.main();
+  instance.main();
 }
-

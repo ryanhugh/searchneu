@@ -10,7 +10,7 @@ import coe from '../coe';
 
 it('should parse all', async (done) => {
   const data = await fs.readFile(path.join(__dirname, 'data', 'coe', 'display-all.json'));
-  
+
   const resp = JSON.parse(data);
   const retVal = coe.parsePeopleList(resp);
 
