@@ -5,21 +5,86 @@
 
 import cheerio from 'cheerio';
 
+import Request from '../request';
 import cache from '../cache';
 import macros from '../../macros';
 import { Divider } from 'semantic-ui-react';
+import { Exception } from 'handlebars';
 
-const request = require('request');
+const request = new Request('COE');
 
 // TODO
 
 // Could parse a lot more from each page
 // Phone numbers with extentions are not parsed http://www.civ.neu.edu/people/patterson-mark
 
+
 // This was removed from matchEmployees.js, but when its re-written just add it back.
 // https://github.com/ryanhugh/searchneu/issues/95
 
 class COE {
+
+  parsePeopleList(resp){
+    let $ = cheerio.load(resp.body);
+
+    let people = $('.grid--4 > div > div').get().map((person) => {
+
+      $ = cheerio.load(person);
+      const obj = {};
+      
+      let name = $('h2 > a').get(0).children[0].data;
+      if (name) {
+        obj.name = name;
+      }
+      else {
+        macros.log('Could not parse name');
+      }
+
+      //console.log(name);
+
+      const { firstName, lastName } = macros.parseNameWithSpaces(obj.name);
+
+      if (firstName && lastName) {
+        obj.firstName = firstName;
+        obj.lastName = lastName;
+      }
+
+      let link = $('h2 > a').get(0).attribs.href;
+      if (link) {
+        obj.link = link;
+      }
+      else {
+        macros.log('Could not parse link');
+      }
+
+      let title = $('div.caption').get(0).children[0].data.trim();
+      title = title.replace(/,$/i, '');
+      if (title) {
+        obj.title = title;
+      }
+      else {
+        macros.log('Could not parse title');
+      }
+      let email = macros.standardizeEmail($('ul.caption > li > a').get(0).children[0].data);
+      if (email) {
+        obj.email = email;
+      }
+      else {
+        macros.log('Could not parse email');
+      }
+      let phone = $('ul.caption > li').get(1).children[0];
+      if (phone) {
+        obj.phone = macros.standardizePhone(phone.data);
+      }
+      else {
+        macros.log('Could not parse phone');
+      }
+      
+      return obj;
+    });
+
+    return people;
+  }
 
   async main() {
     if (macros.DEV && require.main !== module) {
@@ -29,90 +94,19 @@ class COE {
       }
     }
 
-    //const promises = [];
-    let people = [];
-
-    request({
-      method: 'GET',
-      url: 'https://coe.northeastern.edu/faculty-staff-directory/?display=all'
-    }, (err, res, body) => {
-      if (err)
-        return console.error(err);
-
-      let $ = cheerio.load(body);
-
-      //This call should return 558 (number of employees in COE)
-      //console.log($('.grid--4 > div').get().length);
-      
-      /**
-       * CURRENT SITUATION - Returns each name correctly, but info is all over the place
-       *  - How to deal with div.caption not being the same (sometimes just title, sometimes also interests)
-       *  - Correctly manage some people don't have an associated phone #
-       */
-
-      var personNum = 0;
-
-      people = $('.grid--4 > div').get().map((person) => {
-        const obj = {};
-        
-        let name = $('div > div > h2 > a').get(personNum).children[0].data;
-        if (name) {
-          obj.name = name;
-        }
-        else {
-          macros.log('Could not parse name');
-        }
-        let title = $('div > div > div.caption').get(personNum).children[0].data.trim();
-        if (title) {
-          obj.title = title;
-        }
-        else {
-          macros.log('Could not parse title');
-        }
-        let email = macros.standardizeEmail($('ul.caption > li > a').get(personNum).children[0].data);
-        if (email) {
-          obj.email = email;
-        }
-        else {
-          macros.log('Could not parse email');
-        }
-        let phone = macros.standardizePhone($('ul.caption > li').get(personNum).children[0].data);
-        if (phone) {
-          obj.phone = phone;
-        }
-        else {
-          macros.log('Could not parse phone');
-        }
-        console.log(obj);
-        personNum++;
-      });
-    })
-
-    console.log(people.length);
-
-
-
-//     const detailPeopleList = await Promise.all(people.map(async (person) => {
-//       const resp = await request.get(person.url);
-
-//       // Get more details for this person and save it with the same object.
-//       const moreDetails = this.scrapeDetailpage(resp.body);
-//       const retVal = {};
-//       Object.assign(retVal, person, moreDetails);
-//       return retVal;
-//     }));
-
-    //macros.log(detailPeopleList.length);
+    const resp  = await request.get('https://coe.northeastern.edu/faculty-staff-directory/?display=all');
+    //console.log(JSON.stringify(resp));
+    const peopleObjects = this.parsePeopleList(resp);
 
     if (macros.DEV) {
-      await cache.set(macros.DEV_DATA_DIR, this.constructor.name, 'main', people);
-      macros.log(people.length, 'coe people saved!');
-    }
+        await cache.set(macros.DEV_DATA_DIR, this.constructor.name, 'main', peopleObjects);
+        macros.log(peopleObjects.length, 'coe people saved!');
+    }
 
-    return people;
-  }
+    macros.log("done");
+    return peopleObjects;
+  }
 }
-
 
 const instance = new COE();
 export default instance;
