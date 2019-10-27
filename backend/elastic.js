@@ -236,7 +236,8 @@ class Elastic {
     };
 
     const patternResults = query.match(courseCodePattern);
-    const validSubject = this.subjects.has(patternResults[1].toLowerCase());
+
+    const validSubject = patternResults ? this.subjects.has(patternResults[1].toLowerCase()) : null;
     if (patternResults && validSubject) {
       // after the first result, all of the following results should be of the same subject, e.g. it's weird to get ENGL2500 as the second or third result for CS2500
       fields = ['class.subject^10', 'class.classId'];
@@ -299,7 +300,8 @@ class Elastic {
       },
     });
 
-    console.log(suggestOutput.valSuggest);
+    console.log(suggestOutput.body.suggest.valSuggest[1].options);
+    // console.log(suggestOutput.body.suggest.valSuggest[0].options);
 
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
