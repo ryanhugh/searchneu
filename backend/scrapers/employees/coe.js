@@ -1,26 +1,25 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3.
- * See the license file in the root folder for details.
- */
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
 
-import cheerio from 'cheerio';
+import cheerio from 'cheerio';
 
 import Request from '../request';
-import cache from '../cache';
-import macros from '../../macros';
+import cache from '../cache';
+import macros from '../../macros';
 
 const request = new Request('COE');
 
-// TODO
+// TODO
+// Could parse a lot more from each page
+// Phone numbers with extentions are not parsed http://www.civ.neu.edu/people/patterson-mark
 
-// Could parse a lot more from each page
-// Phone numbers with extentions are not parsed http://www.civ.neu.edu/people/patterson-mark
 
+// This was removed from matchEmployees.js, but when its re-written just add it back.
+// https://github.com/ryanhugh/searchneu/issues/95
 
-// This was removed from matchEmployees.js, but when its re-written just add it back.
-// https://github.com/ryanhugh/searchneu/issues/95
-
-class COE {
+class COE {
   parsePeopleList(resp) {
     let $ = cheerio.load(resp.body);
 
@@ -77,11 +76,11 @@ class COE {
     return people;
   }
 
-  async main() {
-    if (macros.DEV && require.main !== module) {
-      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, 'main');
-      if (devData) {
-        return devData;
+  async main() {
+    if (macros.DEV && require.main !== module) {
+      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, 'main');
+      if (devData) {
+        return devData;
       }
     }
 
@@ -89,19 +88,19 @@ class COE {
     //console.log(JSON.stringify(resp));
     const peopleObjects = this.parsePeopleList(resp);
 
-    if (macros.DEV) {
-      await cache.set(macros.DEV_DATA_DIR, this.constructor.name, 'main', peopleObjects);
-      macros.log(peopleObjects.length, 'coe people saved!');
+    if (macros.DEV) {
+      await cache.set(macros.DEV_DATA_DIR, this.constructor.name, 'main', peopleObjects);
+      macros.log(peopleObjects.length, 'coe people saved!');
     }
 
     macros.log('done');
-    return peopleObjects;
+    return peopleObjects;
   }
 }
 
-const instance = new COE();
-export default instance;
+const instance = new COE();
+export default instance;
 
-if (require.main === module) {
+if (require.main === module) {
   instance.main();
 }
