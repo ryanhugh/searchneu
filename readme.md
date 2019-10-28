@@ -1,5 +1,5 @@
 <h2 align="center">
-  Sandbox now leads this project, check out that repo <a href="https://github.com/ryanhugh/searchneu/edit/master/readme.md">here!</a></h2>
+  Sandbox now leads this project, check out that repo <a href="https://github.com/sandboxnu/searchneu">here!</a></h2>
 </p>
 <br/>
 <p align="center">
