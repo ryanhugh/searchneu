@@ -1,3 +1,6 @@
+<h2 align="center">
+  Sandbox now leads this project, check out that repo <a href="https://github.com/ryanhugh/searchneu/edit/master/readme.md">here!</a></h2>
+</p>
 <br/>
 <p align="center">
   <a href="https://searchneu.com/">
@@ -22,17 +25,9 @@ If you are interested in helping make this site awesome that is fantastic! There
 
 Feel free to reach out if you have any questions! hey@searchneu.com
 
-Shout out to the following folks for contributing!
-
- - [Da-Jin Chu](https://github.com/dajinchu)
- - [Edward Li](https://github.com/NEUDitao)
- - [Edward Shen](https://github.com/edward-shen)
- - [Sean Hughes](https://github.com/seanhugh)
-
 ### API 🎉👍
 
 All the data on Search NEU is available to download! For more details see [the documentation](https://github.com/ryanhugh/searchneu/blob/master/docs/API.md). 
-
 
 ### License
 
