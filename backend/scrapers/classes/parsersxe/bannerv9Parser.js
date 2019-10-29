@@ -49,12 +49,10 @@ class Bannerv9Parser {
     // If you need to deal with cookies, check out scrapers/employees/employee.js
     // which gets a cookie from one page before any other requests will work
     // If you need more advanced cookie management or cookie jar stuff we could build that out somehow
-    let bannerTerms = await request.get({
+    const bannerTerms = await request.get({
       url: termsUrl,
       json: true,
     });
-    bannerTerms = bannerTerms.body;
-
 
     // ========================================
     // my code starts here
@@ -65,7 +63,7 @@ class Bannerv9Parser {
      * memory than default allocation by node.js
      * performance: 60-90 seconds per term
      */
-    const termsToKeep = bannerTerms.filter((term) => {
+    const termsToKeep = bannerTerms.body.filter((term) => {
       return EllucianTermsParser.isValidTerm(term.code, term.description);
     });
     // termsToKeep = termsToKeep.slice(0, 2); // DEBUG to save time
