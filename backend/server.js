@@ -1,7 +1,7 @@
 /*
- * This file is part of Search NEU and licensed under AGPL3.
- * See the license file in the root folder for details.
- */
+* This file is part of Search NEU and licensed under AGPL3.
+* See the license file in the root folder for details.
+*/
 
 import path from 'path';
 import express from 'express';
@@ -304,7 +304,6 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   }
 
   macros.log('Got webhook - received ', userObject);
-
   const firebaseRef = await database.getRef(`/users/${sender}`);
 
   let existingData = await firebaseRef.once('value');
@@ -534,15 +533,14 @@ async function findMatchingUser(requestLoginKey) {
   }
 
   // Loop over all the users
-  for (const user of users) {
+  for (const user of Object.values(users)) {
     if (!user.loginKeys) {
       continue;
     }
 
-    for (const loginKey of user.loginKeys) {
-      if (requestLoginKey === loginKey) {
-        return user;
-      }
+
+    if (user.loginKeys.includes(requestLoginKey)) {
+      return user;
     }
   }
 
@@ -893,6 +891,13 @@ app.post('/getUserData', wrap(async (req, res) => {
     }
 
     matchingUser = user;
+    if (!matchingUser.watchingSections) {
+      matchingUser.watchingSections = [];
+    }
+
+    if (!matchingUser.watchingClasses) {
+      matchingUser.watchingClasses = [];
+    }
   } else {
     matchingUser = await findMatchingUser(req.body.loginKey);
 

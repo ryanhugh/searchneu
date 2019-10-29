@@ -16,6 +16,7 @@ import MockFirebaseRef from './MockFirebaseRef';
 class Database {
   constructor() {
     if (macros.PROD) {
+      this.db = this.loadDatabase();
       // The firebase DB
       this.db = this.loadDatabase();
     } else {
