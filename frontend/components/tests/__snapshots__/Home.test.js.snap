@@ -133,6 +133,33 @@ exports[`should render a section 1`] = `
             wrapSelection={true}
           />
         </div>
+        <div
+          className="atentionContainer"
+          style={
+            Object {
+              "opacity": 1,
+              "visibility": "",
+            }
+          }
+        >
+          <p
+            className="helpFistRow"
+          />
+          Search NEU is built by Sandbox
+          <p>
+            Want to work with us?
+          </p>
+          <p>
+            <a
+              className="getInvolvedText "
+              href="https://www.sandboxneu.com/apply"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Get involved &gt;
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -172,7 +199,15 @@ exports[`should render a section 1`] = `
       <div
         className="footer ui basic center aligned segment credits"
       >
-        Invented by 
+        A 
+        <a
+          href="https://www.sandboxneu.com"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Sandbox
+        </a>
+         Project (founded by 
         <a
           href="http://github.com/ryanhugh"
           rel="noopener noreferrer"
@@ -180,23 +215,15 @@ exports[`should render a section 1`] = `
         >
           Ryan Hughes
         </a>
-         and maintained by 
-        <a
-          href="http://github.com/sandboxnu"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Sandbox
-        </a>
-         and some awesome 
+        , with some awesome 
         <a
           href="https://github.com/sandboxnu/searchneu/graphs/contributors"
           rel="noopener noreferrer"
           target="_blank"
         >
-          Contributors
+          contributors
         </a>
-        .
+        )
       </div>
       <div
         className="footer ui basic center aligned segment affiliation"
