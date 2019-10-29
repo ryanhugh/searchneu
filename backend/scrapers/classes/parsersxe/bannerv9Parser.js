@@ -35,7 +35,6 @@ class Bannerv9Parser {
 
   // This method that
   async main(termsUrl) {
-
     // Possibly load from DEV
     if (macros.DEV && require.main !== module) {
       const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, termsUrl);
@@ -61,10 +60,15 @@ class Bannerv9Parser {
     // my code starts here
     // ========================================
 
+    /*
+     * notice: parsing many (like 23) terms might use more
+     * memory than default allocation by node.js
+     * performance: 60-90 seconds per term
+     */
     const termsToKeep = bannerTerms.filter((term) => {
       return EllucianTermsParser.isValidTerm(term.code, term.description);
     });
-    // termsToKeep = termsToKeep.slice(3, 6); // DEBUG to save time
+    // termsToKeep = termsToKeep.slice(0, 2); // DEBUG to save time
 
     const sneuTerms = this.serializeTermsList(termsToKeep);
 
@@ -103,7 +107,7 @@ class Bannerv9Parser {
     const uniqueClasses = await this.collapseSameCourses(allSections, subjectAbbreviationTable);
     // TODO prune obsolete prerequisites (classes that don't exist)
     // eg BIOL 3405 lists BIOL 1103, BIOL 2297, and ENVR 2290 however these classes are no longer offered
-    allSections.forEach(details => SearchResultsParser.stripSectionDetails(details));
+    allSections.forEach((details) => { return SearchResultsParser.stripSectionDetails(details); });
 
     const mergedOutput = {
       colleges: [
@@ -243,12 +247,14 @@ class Bannerv9Parser {
     if (subjectResponse.statusCode !== 200) {
       macros.error(`Problem with request for subjects ${subjectResponse.request.uri.href}`);
     }
-    return subjectResponse.body.map((subjectData) => ({
-      subject: subjectData.code,
-      text: subjectData.description,
-      termId: term.termId,
-      host: term.host,
-    }));
+    return subjectResponse.body.map((subjectData) => {
+      return {
+        subject: subjectData.code,
+        text: subjectData.description,
+        termId: term.termId,
+        host: term.host,
+      };
+    });
   }
 
 
@@ -263,7 +269,7 @@ class Bannerv9Parser {
     const promisedHashes = [];
 
     // first, get the description once for every unique class
-    sections.forEach(details => {
+    sections.forEach((details) => {
       details.hash = this.hash(details);
       if (!table[details.hash]) {
         table[details.hash] = true;
@@ -277,7 +283,7 @@ class Bannerv9Parser {
       table[promisedHashes[i]] = promisedDescriptions[i];
     }
 
-    sections.forEach(details => {
+    sections.forEach((details) => {
       table[details.hash].crns.push(details.crn);
     });
 
