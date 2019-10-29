@@ -136,7 +136,7 @@ class User {
 
   // checks if the user already has the section in it
   isWatchingSection(sectionHash) {
-    if (this.user) {
+    if (this.user && this.user.watchingSections) {
       return this.user.watchingSections.includes(sectionHash);
     }
     return false;
@@ -144,7 +144,7 @@ class User {
 
   // checks if the user already has the class in it
   isWatchingClass(classHash) {
-    if (this.user) {
+    if (this.user && this.user.watchingClasses) {
       return this.user.watchingClasses.includes(classHash);
     }
     return false;
