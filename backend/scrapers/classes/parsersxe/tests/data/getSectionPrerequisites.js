@@ -449,7 +449,7 @@ export default {
     request: {
       url: 'https://nubanner.neu.edu/StudentRegistrationSsb/ssb/searchResults/getSectionPrerequisites',
       body: 'term=202010&courseReferenceNumber=12057',
-    }
+    },
     body: '\n' +
       '<h3>Catalog Prerequisites</h3>\n' +
       '\n' +
