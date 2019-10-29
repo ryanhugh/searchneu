@@ -28,9 +28,8 @@
     "stop_prod": "./node_modules/forever/bin/forever stopall",
     "start_prod": "npm run -s stop_prod; NODE_ENV=prod ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start dist/backend/startup.js",
     "-jennings-": "--------jennings--------",
-    "dev": "yarn run clean && yarn script backend/scrapers/classes/parsersxe/bannerv9Parser.js",
-    "profile": "yarn run clean && yarn run build_backend && mkdir cache && time node --heap-prof --heap-prof-dir=cache --max_old_space_size=12000 dist/backend/scrapers/classes/parsersxe/startup.js",
-    "clean": "rm -rv ./cache || echo 'cache/ not found'"
+    "dev": "rm -rv ./cache; yarn script backend/scrapers/classes/parsersxe/bannerv9Parser.js",
+    "profile": "yarn run build_backend && mkdir -p cache && time env NODE_ENV=prod node --heap-prof --heap-prof-dir=cache --max_old_space_size=12000 dist/backend/scrapers/classes/parsersxe/startup.js"
   },
   "repository": {
     "type": "git",
