@@ -68,7 +68,7 @@ class Bannerv9Parser {
     });
     // termsToKeep = termsToKeep.slice(0, 2); // DEBUG to save time
 
-    const sneuTerms = this.serializeTermsList(termsToKeep);
+    const serializedTerms = this.serializeTermsList(termsToKeep);
 
     let subjectsRequests = [];
     let sectionsDataPerEveryTerm = [];
@@ -80,7 +80,7 @@ class Bannerv9Parser {
     sectionsDataPerEveryTerm = await Promise.all(sectionsDataPerEveryTerm);
 
     let allSubjects = [];
-    sneuTerms.forEach((term) => {
+    serializedTerms.forEach((term) => {
       const subjectResponse = subjectsRequests.shift();
       allSubjects = allSubjects.concat(this.processSubjectListResponse(subjectResponse, term));
     });
@@ -115,7 +115,7 @@ class Bannerv9Parser {
           url: 'neu.edu',
         },
       ],
-      terms: sneuTerms,
+      terms: serializedTerms,
       subjects: allSubjects,
       classes: uniqueClasses,
       sections: allSections,
@@ -191,7 +191,9 @@ class Bannerv9Parser {
       json: true,
     });
 
-    if (totalCount.body.success === false) macros.error(`could not get sections from ${termCode}`, totalCount);
+    if (totalCount.body.success === false) {
+      macros.error(`could not get sections from ${termCode}`, totalCount);
+    }
 
     totalCount = totalCount.body.totalCount;
     const COURSES_PER_REQUEST = 500;
@@ -329,7 +331,9 @@ class Bannerv9Parser {
 
   // Just a convient test method, if you want to
   async test() {
-    const output = await this.main('https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?offset=1&max=200&searchTerm=');
+    const numTerms = 10;
+    const url = `https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?offset=1&max=${numTerms}&searchTerm=`;
+    const output = await this.main(url);
     macros.log(output);
   }
 }
