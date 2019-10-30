@@ -140,8 +140,8 @@ class Home extends React.Component {
     this.hideSearchResultsTimeout = null;
 
     //this.onClick = this.onClick.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.loadMore = this.loadMore.bind(this);
+    //this.onKeyDown = this.onKeyDown.bind(this);
+    //this.loadMore = this.loadMore.bind(this);
     this.onPopState = this.onPopState.bind(this);
     this.onDOMEventSearch = this.onDOMEventSearch.bind(this);
     this.onInputFocus = this.onInputFocus.bind(this);
@@ -300,6 +300,12 @@ class Home extends React.Component {
     });
   }
 
+
+  // Called from ResultsLoader to load more
+  loadMore = () => {
+    this.search(this.state.searchQuery, this.state.selectedTermId, this.state.results.length + 10);
+  }
+
   // Parse termId and query from the url. The url might just be a search and it might be a search term and a termId
   parseUrl() {
     const pathname = decodeURIComponent(macros.replaceAll(window.location.pathname.slice(1), '+', ' '));
@@ -360,11 +366,6 @@ class Home extends React.Component {
       macros.logAmplitudeEvent('Homepage visit');
       window.ga('send', 'pageview', '/');
     }
-  }
-
-  // Called from ResultsLoader to load more
-  loadMore() {
-    this.search(this.state.searchQuery, this.state.selectedTermId, this.state.results.length + 10);
   }
 
   async search(searchQuery, selectedTermId, termCount = 5) {
