@@ -169,9 +169,9 @@ class Bannerv9Parser {
     }
 
     const cookiejar = request.jar();
-    clickContinue.headers['set-cookie'].forEach((cookie) => {
-      return cookiejar.setCookie(cookie, 'https://nubanner.neu.edu/StudentRegistrationSsb/');
-    });
+    for (const cookie of clickContinue.headers['set-cookie']) {
+      cookiejar.setCookie(cookie, 'https://nubanner.neu.edu/StudentRegistrationSsb/');
+    }
 
     // second, get the total number of sections in this semester
     let totalCount = await request.get({
