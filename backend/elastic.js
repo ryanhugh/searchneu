@@ -197,6 +197,8 @@ class Elastic {
       this.subjects = new Set(await this.getSubjectsFromClasses());
     }
 
+    let suggestion = "";
+
     // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
     const courseCodePattern = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i;
     let fields = [
@@ -273,7 +275,6 @@ class Elastic {
               multi_match: {
                 query: query,
                 type: 'most_fields', // More fields match => higher score
-                fuzziness: 'AUTO',
                 fields: fields,
               },
             },
@@ -300,8 +301,7 @@ class Elastic {
       },
     });
 
-    console.log(suggestOutput.body.suggest.valSuggest[1].options);
-    // console.log(suggestOutput.body.suggest.valSuggest[0].options);
+    console.log(suggestOutput.body.suggest.valSuggest.options);
 
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
