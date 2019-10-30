@@ -52,7 +52,7 @@ const OLD_TERMS = [
 ];
 
 // The lastest term - Fall 2019
-const LATEST_TERM = '202010';
+const LATEST_TERM = '202030';
 
 const ATTENTION_SECTION = {
   getInvolved: 'getInvolved',
@@ -549,6 +549,10 @@ class Home extends React.Component {
 
 
     const termDropDownOptions = [
+      {
+        text: 'Spring 2020',
+        value: '202030',
+      },
       {
         text: 'Fall 2019',
         value: '202010',
