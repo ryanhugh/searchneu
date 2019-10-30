@@ -334,7 +334,8 @@ class Bannerv9Parser {
     const numTerms = 10;
     const url = `https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?offset=1&max=${numTerms}&searchTerm=`;
     const output = await this.main(url);
-    macros.log(output);
+    // eslint-disable-next-line global-require
+    require('fs').writeFileSync('parsersxe.json', JSON.stringify(output, null, 4));
   }
 }
 
