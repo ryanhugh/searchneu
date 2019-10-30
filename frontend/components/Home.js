@@ -139,7 +139,7 @@ class Home extends React.Component {
     // Timer used for hidding the search results after an interval
     this.hideSearchResultsTimeout = null;
 
-    this.onClick = this.onClick.bind(this);
+    //this.onClick = this.onClick.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.loadMore = this.loadMore.bind(this);
     this.onPopState = this.onPopState.bind(this);
@@ -252,7 +252,7 @@ class Home extends React.Component {
     this.logSearch(searchQuery);
   }
 
-  onClick(event) {
+  onClick = (event) => {
     if (macros.isMobile) {
       this.setState({
         results: [],
@@ -269,7 +269,7 @@ class Home extends React.Component {
     this.searchFromUserAction(event);
   }
 
-  onKeyDown(event) {
+  onKeyDown = (event) => {
     if (event.key !== 'Enter') {
       return;
     }
