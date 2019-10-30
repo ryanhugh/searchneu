@@ -104,10 +104,10 @@ const DAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 
  */
 function days(meetingTime) {
   const times = {};
-  const info = {
+  const info = [{
     start: hhmmToSeconds(meetingTime.beginTime),
     end: hhmmToSeconds(meetingTime.endTime)
-  };
+  }];
 
   for (let i = 0; i < DAYS.length; i++) {
     if (meetingTime[DAYS[i]]) {
