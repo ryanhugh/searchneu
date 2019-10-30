@@ -7,12 +7,14 @@ import macros from '../../../macros';
 import ellucianRequisitesParser from '../parsers/ellucianRequisitesParser';
 import BaseProcessor from './baseProcessor';
 import Keys from '../../../../common/Keys';
+import { compact } from 'lodash';
 
 // This file process the prereqs on each class and ensures that they point to other, valid classes.
 // If they point to a class that does not exist, they are marked as missing.
 
 class MarkMissingPrereqs extends BaseProcessor.BaseProcessor {
   updatePrereqs(prereqs, host, termId, keyToRows) {
+    prereqs.values = compact(prereqs.values)
     for (let i = prereqs.values.length - 1; i >= 0; i--) {
       const prereqEntry = prereqs.values[i];
 
