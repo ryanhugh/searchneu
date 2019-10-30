@@ -8,6 +8,8 @@
  * This module provides a JavaScript interface to scraping the searchResults endpoint of NUBanner.
  * https://jennydaman.gitlab.io/nubanned/dark.html#searchresults
  */
+
+// eslint-disable-next-line max-classes-per-file
 import cheerio from 'cheerio';
 import macros from '../../../macros';
 import Request from '../../request';
@@ -203,14 +205,61 @@ class SearchResultsParser {
    * Makes the request to .../getFacultyMeetingTimes and passes the data to meetingParser.js
    * @return {Promise<{meetings: *}>}
    */
-  async getMeetingTimes(termId, crn) {
-    const data = await request.get({
-      url: 'https://nubanner.neu.edu/StudentRegistrationSsb/ssb/searchResults'
-        + `/getFacultyMeetingTimes?term=${termId}&courseReferenceNumber=${crn}`,
-      json: true,
+  getMeetingTimes(termId, crn) {
+    return new Promise((resolve, reject) => {
+      const finish = result => {
+        resolve({ meetings: parseMeetings(result) });
+      };
+      const requestConfig = {
+        url: 'https://nubanner.neu.edu/StudentRegistrationSsb/ssb/searchResults'
+          + `/getFacultyMeetingTimes?term=${termId}&courseReferenceNumber=${crn}`,
+        json: true,
+        followRedirect: false,
+      };
+      request.get(requestConfig).then(data => this.retryMeetingTimes(data, requestConfig, 0, finish));
     });
-    // object so that it can be spread in the calling function above
-    return {meetings: parseMeetings(data.body)};
+  }
+
+  /**
+   * the GET request to getFacultyMeetingTimes has a rare chance it fails,
+   * so we need to try again after waiting a bit.
+   * see https://jennydaman.gitlab.io/nubanned/dark.html#searchresults-meeting-times
+   *
+   * Resolves the callback with the meeting time data
+   * if the previous request was successful.
+   * Otherwise, we try again after a 1-6 second delay up to 5 times
+   * before giving up and invoking the callback with null.
+   * A random delay _might_ help to "spread out" the request timings,
+   * so that the server gets a break from us.
+   */
+  retryMeetingTimes(previousResponse, requestConfig, tries, callback) {
+    if (previousResponse.statusCode === 200 && previousResponse.body.fmt) {
+      callback(previousResponse.body);
+      return;
+    }
+    if (tries > 5) {
+      macros.error(`5 failed attempts to get meeting info from\nurl: ${requestConfig.url}`
+        + `\nlast response: ${JSON.stringify(previousResponse, null, 4)}`);
+      callback(null);
+      return;
+    }
+    const delay = 1 + Math.round(Math.random() * 500);
+    if (previousResponse.statusCode === 302) {
+      macros.warn('getFacultyMeetingTimes did a spontaneous 302 redirect to login page, '
+        + `trying again in ${delay} seconds.`);
+    } else {
+      //eslint-disable-next-line prefer-template
+      macros.warn('getFacultyMeetingTimes resulted with an unknown status code: '
+        + previousResponse.statusCode
+        + `\nurl: ${requestConfig.url}`
+        + `\nresponse:\n${previousResponse}`
+        + `\ntrying again in ${delay} seconds.`);
+    }
+
+    setTimeout(() => {
+      previousResponse = request.get(requestConfig);
+      this.retryMeetingTimes(previousResponse, requestConfig, tries + 1, callback);
+    }, delay);
   }
 
   getDescription(termId, crn) {
