@@ -142,16 +142,16 @@ class Home extends React.Component {
     //this.onClick = this.onClick.bind(this);
     //this.onKeyDown = this.onKeyDown.bind(this);
     //this.loadMore = this.loadMore.bind(this);
-    this.onPopState = this.onPopState.bind(this);
-    this.onDOMEventSearch = this.onDOMEventSearch.bind(this);
-    this.onInputFocus = this.onInputFocus.bind(this);
-    this.onSearchDebounced = this.onSearchDebounced.bind(this);
-    this.onLogoClick = this.onLogoClick.bind(this);
-    this.onTermdropdownChange = this.onTermdropdownChange.bind(this);
-    this.openForm = this.openForm.bind(this);
-    this.closeForm = this.closeForm.bind(this);
-    this.closeHelpModal = this.closeHelpModal.bind(this);
-    this.openHelpModal = this.openHelpModal.bind(this);
+    //this.onPopState = this.onPopState.bind(this);
+    //this.onDOMEventSearch = this.onDOMEventSearch.bind(this);
+    //this.onInputFocus = this.onInputFocus.bind(this);
+    //this.onSearchDebounced = this.onSearchDebounced.bind(this);
+    //this.onLogoClick = this.onLogoClick.bind(this);
+    //this.onTermdropdownChange = this.onTermdropdownChange.bind(this);
+    //this.openForm = this.openForm.bind(this);
+    //this.closeForm = this.closeForm.bind(this);
+    //this.closeHelpModal = this.closeHelpModal.bind(this);
+    //this.openHelpModal = this.openHelpModal.bind(this);
 
     // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
@@ -192,7 +192,7 @@ class Home extends React.Component {
   }
 
   // Runs when the user clicks back or forward in their browser.
-  onPopState() {
+  onPopState = () => {
     const parsedUrl = this.parseUrl();
 
     let newSelectedTermId = this.state.selectedTermId;
@@ -208,7 +208,7 @@ class Home extends React.Component {
     }
   }
 
-  onDOMEventSearch(event) {
+  onDOMEventSearch = (event) => {
     const query = event.detail;
 
     // Update the text box.
@@ -225,7 +225,7 @@ class Home extends React.Component {
     this.search(query, this.state.selectedTermId);
   }
 
-  onInputFocus() {
+  onInputFocus = () => {
     if (macros.isMobile) {
       this.setState({
         results: [],
@@ -234,17 +234,19 @@ class Home extends React.Component {
     }
   }
 
-  onLogoClick() {
+  onLogoClick = () => {
     if (this.inputElement) {
       this.inputElement.value = '';
     }
+    //Resets url
+    this.onSearchDebounced('');
 
     this.search('', this.state.selectedTermId);
   }
 
   // On mobile, this is called whenever the user clicks enter.
   // On desktop, this is called 500ms after they user stops typing.
-  onSearchDebounced(searchQuery) {
+  onSearchDebounced = (searchQuery) => {
     searchQuery = searchQuery.trim();
 
     this.updateUrl(this.state.selectedTermId, searchQuery);
@@ -307,7 +309,7 @@ class Home extends React.Component {
   }
 
   // Parse termId and query from the url. The url might just be a search and it might be a search term and a termId
-  parseUrl() {
+  parseUrl = () => {
     const pathname = decodeURIComponent(macros.replaceAll(window.location.pathname.slice(1), '+', ' '));
     const retVal = {};
 
@@ -333,19 +335,19 @@ class Home extends React.Component {
     return retVal;
   }
 
-  closeForm() {
+  closeForm = () => {
     this.setState({ feedbackModalOpen: false });
   }
 
-  openForm() {
+  openForm = () => {
     this.setState({ feedbackModalOpen: true });
   }
 
-  closeHelpModal() {
+  closeHelpModal = () => {
     this.setState({ helpModalOpen: false });
   }
 
-  openHelpModal() {
+  openHelpModal = () => {
     this.setState({ helpModalOpen: true });
   }
 
