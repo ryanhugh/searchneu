@@ -274,7 +274,7 @@ class Home extends React.Component {
     this.searchFromUserAction(event);
   }
 
-  onTermdropdownChange(event, data) {
+  onTermdropdownChange = (event, data) => {
     localStorage.selectedTermId = data.value;
 
     this.updateUrl(data.value, this.state.searchQuery);
