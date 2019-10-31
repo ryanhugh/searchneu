@@ -32,7 +32,7 @@ class FeedbackModal extends React.Component {
   // because it is set to true when clicking the buttons to open this Modal in Home.js
   // and is set to false through actions in this component.
   static propTypes = {
-    closeForm: PropTypes.func.isRequired,
+    toggleForm: PropTypes.func.isRequired,
     feedbackModalOpen: PropTypes.bool.isRequired,
     isFeedback: PropTypes.bool,
     isHelpOut: PropTypes.bool,
@@ -98,7 +98,7 @@ class FeedbackModal extends React.Component {
       });
     }, 2000);
 
-    this.props.closeForm();
+    this.props.toggleForm();
   }
 
   onTextAreaChange(event) {
@@ -160,7 +160,7 @@ class FeedbackModal extends React.Component {
             );
           }}
         </Transition>
-        <Modal open={ this.props.feedbackModalOpen } onClose={ this.props.closeForm } size='small' className='feedback-modal-container'>
+        <Modal open={ this.props.feedbackModalOpen } onClose={ this.props.toggleForm } size='small' className='feedback-modal-container'>
           <Header icon='mail' content={ header } />
           <Modal.Content className='formModalContent'>
             <Form>
@@ -172,7 +172,7 @@ class FeedbackModal extends React.Component {
             </Form>
           </Modal.Content>
           <Modal.Actions>
-            <Button basic color='red' onClick={ this.props.closeForm }>
+            <Button basic color='red' onClick={ this.props.toggleForm }>
               <Icon name='remove' />
                 Cancel
             </Button>

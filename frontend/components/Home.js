@@ -139,20 +139,6 @@ class Home extends React.Component {
     // Timer used for hidding the search results after an interval
     this.hideSearchResultsTimeout = null;
 
-    //this.onClick = this.onClick.bind(this);
-    //this.onKeyDown = this.onKeyDown.bind(this);
-    //this.loadMore = this.loadMore.bind(this);
-    //this.onPopState = this.onPopState.bind(this);
-    //this.onDOMEventSearch = this.onDOMEventSearch.bind(this);
-    //this.onInputFocus = this.onInputFocus.bind(this);
-    //this.onSearchDebounced = this.onSearchDebounced.bind(this);
-    //this.onLogoClick = this.onLogoClick.bind(this);
-    //this.onTermdropdownChange = this.onTermdropdownChange.bind(this);
-    //this.openForm = this.openForm.bind(this);
-    //this.closeForm = this.closeForm.bind(this);
-    //this.closeHelpModal = this.closeHelpModal.bind(this);
-    //this.openHelpModal = this.openHelpModal.bind(this);
-
     // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
 
@@ -335,21 +321,19 @@ class Home extends React.Component {
     return retVal;
   }
 
-  closeForm = () => {
-    this.setState({ feedbackModalOpen: false });
+
+  toggleForm = () => {
+    this.setState((prevState) => ({
+      feedbackModalOpen: !prevState.feedbackModalOpen,
+    }));
   }
 
-  openForm = () => {
-    this.setState({ feedbackModalOpen: true });
+  toggleHelpModal = () => {
+    this.setState((prevState) => ({
+      helpModalOpen: !prevState.helpModalOpen,
+    }));
   }
 
-  closeHelpModal = () => {
-    this.setState({ helpModalOpen: false });
-  }
-
-  openHelpModal = () => {
-    this.setState({ helpModalOpen: true });
-  }
 
   logSearch(searchQuery) {
     searchQuery = searchQuery.trim();
@@ -714,15 +698,15 @@ class Home extends React.Component {
               Search NEU is built for students by students & is not affiliated with NEU.
             </div>
             <div className='footer ui basic center aligned segment contact'>
-              <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
+              <a role='button' tabIndex={ 0 } onClick={ this.toggleForm }>
                 Feedback
               </a>
               &nbsp;•&nbsp;
-              <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
+              <a role='button' tabIndex={ 0 } onClick={ this.toggleForm }>
                 Report a bug
               </a>
               &nbsp;•&nbsp;
-              <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
+              <a role='button' tabIndex={ 0 } onClick={ this.toggleForm }>
                 Contact
               </a>
             </div>
@@ -730,9 +714,9 @@ class Home extends React.Component {
           </div>
         </div>
 
-        <FeedbackModal isFeedback closeForm={ this.closeForm } feedbackModalOpen={ this.state.feedbackModalOpen } />
+        <FeedbackModal isFeedback toggleForm={ this.toggleForm } feedbackModalOpen={ this.state.feedbackModalOpen } />
 
-        <FeedbackModal isHelpOut closeForm={ this.closeHelpModal } feedbackModalOpen={ this.state.helpModalOpen } />
+        <FeedbackModal isHelpOut toggleForm={ this.toggleHelpModal } feedbackModalOpen={ this.state.helpModalOpen } />
 
         <ReactTooltip effect='solid' className='listIconTooltip' />
       </div>
