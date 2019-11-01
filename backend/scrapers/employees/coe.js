@@ -30,11 +30,7 @@ class COE {
       const name = $('h2 > a').get(0).children[0].data;
       if (name) {
         obj.name = name;
-      } else {
-        macros.log('Could not parse name');
       }
-
-      //console.log(name);
 
       const { firstName, lastName } = macros.parseNameWithSpaces(obj.name);
 
@@ -46,45 +42,39 @@ class COE {
       const link = $('h2 > a').get(0).attribs.href;
       if (link) {
         obj.link = link;
-      } else {
-        macros.log('Could not parse link');
       }
 
       let title = $('div.caption').get(0).children[0].data.trim();
       title = title.replace(/,$/i, '');
       if (title) {
         obj.title = title;
-      } else {
-        macros.log('Could not parse title');
       }
 
       const interests = $('div.caption').get(1);
       if (interests) {
         obj.interests = interests.children[0].data;
-      } else {
-        macros.log('Could not parse interests');
       }
 
       const email = macros.standardizeEmail($('ul.caption > li > a').get(0).children[0].data);
       if (email) {
         obj.email = email;
-      } else {
-        macros.log('Could not parse email');
       }
 
       const phone = $('ul.caption > li').get(1).children[0];
       if (phone) {
         obj.phone = macros.standardizePhone(phone.data);
-      } else {
-        macros.log('Could not parse phone');
       }
 
       const pic = $('img').get(0).attribs;
       if (pic) {
         obj.pic = pic;
-      } else {
-        macros.log('Could not parse image');
       }
+
+      ['name', 'link', 'title', 'interests', 'email', 'phone', 'pic'].forEach((attrName) => {
+        if (!obj[attrName]) {
+          macros.log('Could not parse', attrName, 'for', obj.name ? obj.name : 'someone with no name');
+        }
+      });
 
       return obj;
     });
