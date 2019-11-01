@@ -8,7 +8,6 @@ import cheerio from 'cheerio';
 import Request from '../request';
 import cache from '../cache';
 import macros from '../../macros';
-import { Exception } from 'handlebars';
 
 const request = new Request('COE');
 
@@ -59,8 +58,8 @@ class COE {
         macros.log('Could not parse title');
       }
 
-      let interests = $('div.caption').get(1);
-      if(interests){
+      const interests = $('div.caption').get(1);
+      if (interests) {
         obj.interests = interests.children[0].data;
       } else {
         macros.log('Could not parse interests');
@@ -81,7 +80,7 @@ class COE {
       }
 
       const pic = $('img').get(0).attribs;
-      if(pic) {
+      if (pic) {
         obj.pic = pic;
       } else {
         macros.log('Could not parse image');
