@@ -461,6 +461,7 @@ class Home extends React.Component {
           </div>
         );
       } else if (this.state.results.length === 0 && this.state.searchQuery.length > 0 && !this.state.waitingOnEnter) {
+        macros.logAmplitudeEvent('Frontend Search No Results', { query: searchQuery.toLowerCase(), sessionCount: this.searchCount });
         resultsElement = (
           <div className='noResultsContainer'>
             <h3>

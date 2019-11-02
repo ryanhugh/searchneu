@@ -247,11 +247,6 @@ app.get('/search', wrap(async (req, res) => {
 
   macros.logAmplitudeEvent('Backend Search', analytics);
 
-  if (resultCount === 0 && req.query.minIndex === 0) {
-    macros.logAmplitudeEvent('Backend No Search Results', analytics);
-  }
-
-
   macros.log(getTime(), getIpPath(req), 'Search for', req.query.query, 'from', minIndex, 'to', maxIndex, 'took', took, 'ms and stringify took', Date.now() - midTime, 'with', analytics.resultCount, 'results');
 
   // Set the header for application/json and send the data.
