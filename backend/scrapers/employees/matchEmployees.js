@@ -14,6 +14,7 @@ import neuEmployees from './employees';
 import ccisFaculty from './ccis';
 import csshFaculty from './cssh';
 import camdFaculty from './camd';
+import coeFaculty from './coe';
 
 
 // This file combines the data from the ccis website and the NEU Employees site
@@ -103,7 +104,7 @@ class CombineCCISandEmployees {
 
 
   async main(peopleLists) {
-    peopleLists = await Promise.all([neuEmployees.main(), ccisFaculty.main(), csshFaculty.main(), camdFaculty.main()]);
+    peopleLists = await Promise.all([neuEmployees.main(), ccisFaculty.main(), csshFaculty.main(), camdFaculty.main(), coeFaculty.main()]);
 
     const mergedPeopleList = [];
 
