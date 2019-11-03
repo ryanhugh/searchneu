@@ -18,12 +18,21 @@ class CourseCodeEngine {
       },
     };
 
-    const results = elastic.search(query, termId, min, max, searchFields);
-    const suggestResults = elastic.suggest(suggester);
+    const searchResults = elastic.search(query, termId, min, max, searchFields);
+    const suggestion = elastic.suggest(suggester);
 
-    return {
-      **results,
+    const results = {
+      ...results,
       suggestion: this.suggestString(suggestResults);
     };
+
+    return {
+      ...results,
+      suggestion: this.suggestString(suggestResults);
+    };
+  }
+
+  function suggestString(suggestResults) {
+    
   }
 }

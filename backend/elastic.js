@@ -301,7 +301,7 @@ class Elastic {
       },
     });
 
-    console.log(suggestOutput.body.suggest.valSuggest.options);
+    console.log(suggestOutput);
 
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
