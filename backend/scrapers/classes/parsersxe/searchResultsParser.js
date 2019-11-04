@@ -348,7 +348,7 @@ class SearchResultsParser {
       // THESE ARE NOT USED BY SEARCHNEU
       // create a Github issue to incorporate this information in the front end
       // campus: this.extractTextFromDom(dom, 'Campus: '), // eg. 'Boston'
-      // scheduleType: this.extractTextFromDom(dom, 'Schedule Type: '), // eg. 'Lab' or 'Lecture'
+      scheduleType: this.extractTextFromDom(dom, 'Schedule Type: '), // eg. 'Lab' or 'Lecture'
       // instructionalMethod: this.extractTextFromDom(dom, 'Instructional Method: '), // eg. 'Traditional' or 'Online'
       // sectionNumber: $('#sectionNumber').text(), // eg. '02'
       subject: $('#subject').text(), // eg. 'Physics'
