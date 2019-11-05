@@ -19,4 +19,12 @@ describe('parseTable', () => {
     const parsedTable = util.parseTable(rawTable);
     expect(parsedTable).toMatchSnapshot();
   });
+
+  it('uniquifies the head', async () => {
+    const body = await fs.readFile(path.join(__dirname, 'data', 'util', '3.html'), 'utf8');
+
+    const rawTable = cheerio.load(body)('table');
+    const parsedTable = util.parseTable(rawTable);
+    expect(parsedTable).toMatchSnapshot();
+  });
 });

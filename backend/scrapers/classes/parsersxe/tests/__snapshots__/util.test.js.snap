@@ -29,3 +29,18 @@ Array [
   },
 ]
 `;
+
+exports[`parseTable uniquifies the head 1`] = `
+Array [
+  Object {
+    "days": undefined,
+    "time": "Class",
+    "time1": "11:00 am - 11:50 am",
+  },
+  Object {
+    "days": "MW",
+    "time": "Class",
+    "time1": "",
+  },
+]
+`;

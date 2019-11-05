@@ -7,6 +7,23 @@ function validCell(el) {
 }
 
 /**
+ * Modify a string to avoid collisions with set
+ * @param {[String]} set array to avoid collisions with
+ * @param {String} value String to uniquify
+ * appends a number to end of the string such that it doesn't collide
+ */
+function uniquify(set, value) {
+  if (set.includes(value)) {
+    let append = 1;
+    while (set.includes(value + append)) {
+      append++;
+    }
+    return value + append;
+  }
+  return value;
+}
+
+/**
  * Parse a table using it's head (or first row) as keys
  * @param {Cheerio} table Cheerio object of table
  * @returns A list of {key: value} where key comes from header
@@ -27,10 +44,13 @@ function parseTable(table) {
   //the headers
   const heads = rows[0].children
     .filter(validCell)
-    .map((element) => {
-      return $(element).text().trim().toLowerCase()
+    .reduce((acc, element) => {
+      const head = $(element).text().trim().toLowerCase()
         .replace(/\s/gi, '');
-    });
+      const uniqueHead = uniquify(acc, head);
+      acc.push(uniqueHead);
+      return acc;
+    }, []);
 
   //add the other rows
   const ret = [];
