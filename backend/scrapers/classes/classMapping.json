@@ -29,7 +29,13 @@
           },
           "subject": {
             "type": "text",
-            "analyzer": "course_code"
+            "analyzer": "course_code",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 4
+              }
+            }
           },
           "prereqs": {
             "type": "object",
@@ -93,7 +99,8 @@
             "ML => Machine Learning",
             "AI => Artificial Intelligence",
             "NLP => Natural Language Processing",
-            "orgo => Organic Chemistry"
+            "orgo => Organic Chemistry",
+            "swd => Software Development"
           ]
         }
       }

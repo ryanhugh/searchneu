@@ -6,14 +6,18 @@
 
 import { Client } from '@elastic/elasticsearch';
 import _ from 'lodash';
+import macros from './macros';
 
-const client = new Client({ node: 'http://localhost:9200' });
+const URL = macros.getEnvVariable('elasticURL') || 'http://localhost:9200';
+const client = new Client({ node: URL });
 
 class Elastic {
   constructor() {
-    // Because we export an instance of this class, put the constance on the instance.
+    // Because we export an instance of this class, put the constants on the instance.
     this.CLASS_INDEX = 'classes';
     this.EMPLOYEE_INDEX = 'employees';
+    // keep internal track of the available subjects
+    this.subjects = null;
   }
 
   async isConnected() {
@@ -52,7 +56,7 @@ class Elastic {
         bulk.push({ index: { _id: id } });
         bulk.push(map[id]);
       }
-      promises = promises.then(() => { return client.bulk({ index: indexName, body: bulk }); });
+      promises = promises.then(() => { return client.bulk({ index: indexName, refresh: 'wait_for', body: bulk }); });
     }
     return promises;
   }
@@ -104,6 +108,84 @@ class Elastic {
   }
 
   /**
+   * Get all occurrences of a class
+   * @param {string} host     Host to search in
+   * @param {string} subject  Subject (department) to search in
+   * @param {integer} classId Class ID code to find
+   */
+  async getAllClassOccurrences(host, subject, classId) {
+    const got = await client.search({
+      index: this.CLASS_INDEX,
+      body: {
+        size: 10,
+        query: {
+          bool: {
+            filter: [
+              { term: { 'class.host.keyword': host } },
+              { term: { 'class.subject.keyword': subject } },
+              { term: { 'class.classId.keyword': classId } },
+            ],
+          },
+        },
+      },
+    });
+    const hits = got.body.hits.hits.map((c) => { return c._source.class; });
+    return hits;
+  }
+
+  /**
+   * Get the latest occurrence of a class
+   * @param {string} host     Host to search in
+   * @param {string} subject  Subject (department) to search in
+   * @param {integer} classId Class ID code to find
+   */
+  async getLatestClassOccurrence(host, subject, classId) {
+    const got = await client.search({
+      index: this.CLASS_INDEX,
+      body: {
+        sort: 'class.termId.keyword',
+        size: 1,
+        query: {
+          bool: {
+            filter: [
+              { term: { 'class.host.keyword': host } },
+              { term: { 'class.subject.keyword': subject } },
+              { term: { 'class.classId.keyword': classId } },
+            ],
+          },
+        },
+      },
+    });
+    const hit = got.body.hits.hits[0];
+    return hit ? hit._source.class : null;
+  }
+
+  /*
+   * Get all subjects for classes in the index
+   */
+  async getSubjectsFromClasses() {
+    const subjects = await client.search({
+      index: `${this.CLASS_INDEX}`,
+      body: {
+        aggs: {
+          subjects: {
+            global: {},
+            aggs: {
+              subjects: {
+                terms: {
+                  field: 'class.subject.keyword',
+                  size: 10000, // anything that will get everything
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    return _.map(subjects.body.aggregations.subjects.subjects.buckets, (subject) => { return subject.key.toLowerCase(); });
+  }
+
+  /**
    * Search for classes and employees
    * @param  {string}  query  The search to query for
    * @param  {string}  termId The termId to look within
@@ -111,6 +193,30 @@ class Elastic {
    * @param  {integer} max    The index of last document to retreive
    */
   async search(query, termId, min, max) {
+    if (!this.subjects) {
+      this.subjects = new Set(await this.getSubjectsFromClasses());
+    }
+
+    // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
+    const courseCodePattern = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i;
+    let fields = [
+      'class.name^2', // Boost by 2
+      'class.name.autocomplete',
+      'class.subject^4',
+      'class.classId^3',
+      'sections.meetings.profs',
+      'class.crns',
+      'employee.name^2',
+      'employee.emails',
+      'employee.phone',
+    ];
+
+    const patternResults = query.match(courseCodePattern);
+    if (patternResults && this.subjects.has(patternResults[1].toLowerCase())) {
+      // after the first result, all of the following results should be of the same subject, e.g. it's weird to get ENGL2500 as the second or third result for CS2500
+      fields = ['class.subject^10', 'class.classId'];
+    }
+
     const searchOutput = await client.search({
       index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
       from: min,
@@ -121,48 +227,28 @@ class Elastic {
           { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } }, // Use lower classId has tiebreaker after relevance
         ],
         query: {
-          function_score: {
-            query: {
-              bool: {
-                must: {
-                  multi_match: {
-                    query: query,
-                    type: 'most_fields', // More fields match => higher score
-                    fields: [
-                      'class.name^2', // Boost by 2
-                      'class.name.autocomplete',
-                      'class.subject^4',
-                      'class.classId^3',
-                      'sections.meetings.profs',
-                      'class.crns',
-                      'employee.name^2',
-                      'employee.emails',
-                      'employee.phone',
-                    ],
-                  },
-                },
-                filter: {
-                  bool: {
-                    should: [
-                      { term: { 'class.termId': termId } },
-                      { term: { type: 'employee' } },
-                    ],
-                  },
-                },
+          bool: {
+            must: {
+              multi_match: {
+                query: query,
+                type: 'most_fields', // More fields match => higher score
+                fuzziness: 'AUTO',
+                fields: fields,
               },
             },
-            functions: [
-              {
-                filter: {
-                  terms: { 'class.scheduleType.keyword': ['Lab', 'Recitation/Discussion', 'Seminar'] },
-                },
-                weight: 0.4,
+            filter: {
+              bool: {
+                should: [
+                  { term: { 'class.termId': termId } },
+                  { term: { type: 'employee' } },
+                ],
               },
-            ],
+            },
           },
         },
       },
     });
+
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
       resultCount: searchOutput.body.hits.total.value,

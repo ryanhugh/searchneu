@@ -6,6 +6,7 @@
     "start": "./node_modules/.bin/cross-env NODE_ENV=dev babel-node backend/server.js",
     "scrape": "babel-node --max_old_space_size=12000 backend/scrapers/main.js",
     "scrape_classes": "babel-node --max_old_space_size=12000 backend/scrapers/classes/main.js",
+    "fetch": "./scripts/load_data.sh",
     "index": "babel-node backend/scrapers/classes/searchIndex.js; babel-node backend/scrapers/employees/searchIndex.js",
     "script": "cd $INIT_CWD; babel-node --root-mode upward --ignore \".this_does_not_exit\"",
     "inspect": "cd $INIT_CWD;echo 'Open chrome://inspect in chrome and hit the node button';npm run -s script -- --inspect-brk",
@@ -18,7 +19,8 @@
     "lint": "npm run -s lintjs;npm run -s lintstyle",
     "fix": "npm run -s fixjs;npm run -s fixstyle",
     "-testing-": "--------testing--------",
-    "test": "./node_modules/jest-cli/bin/jest.js",
+    "test": "./node_modules/jest-cli/bin/jest.js --testPathIgnorePatterns='regtest'",
+    "regtest": "jest regtests",
     "coverage": "./node_modules/jest-cli/bin/jest.js --coverage",
     "-building-": "--------building--------",
     "build_frontend": "mkdir -p public; cp frontend/static/* public/; ./node_modules/.bin/cross-env NODE_ENV=prod babel-node ./node_modules/webpack/bin/webpack.js --config ./backend/webpack.config.babel.js --colors",
@@ -33,7 +35,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryanhugh/searchneu.git"
+    "url": "https://github.com/sandboxnu/searchneu.git"
   },
   "babel": {
     "presets": [
@@ -73,6 +75,9 @@
     "@babel/register": "^7.0.0",
     "@elastic/elasticsearch": "^7.0.0-rc.2",
     "amplitude": "^4.0.0",
+    "apollo-server": "^2.9.5",
+    "apollo-server-express": "^2.9.7",
+    "apollo-server-testing": "^2.9.6",
     "async": "^2",
     "atob": "^2.0.3",
     "babel-core": "^7.0.0-bridge.0",
@@ -100,6 +105,7 @@
     "form-urlencoded": "^4.0.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "fs-extra": "^8.0.0",
+    "graphql-type-json": "^0.3.0",
     "he": "^1.1.1",
     "html-webpack-plugin": "^3.0.6",
     "htmlparser2": "^3",
