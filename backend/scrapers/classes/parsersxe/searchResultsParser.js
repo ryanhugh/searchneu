@@ -14,6 +14,7 @@ import cheerio from 'cheerio';
 import macros from '../../../macros';
 import Request from '../../request';
 import parseMeetings from './meetingParser';
+import util from './util';
 
 const request = new Request('searchResultsParser');
 
@@ -207,7 +208,7 @@ class SearchResultsParser {
    */
   getMeetingTimes(termId, crn) {
     return new Promise((resolve, reject) => {
-      const finish = result => {
+      const finish = (result) => {
         resolve({ meetings: parseMeetings(result) });
       };
       const requestConfig = {
@@ -216,7 +217,7 @@ class SearchResultsParser {
         json: true,
         followRedirect: false,
       };
-      request.get(requestConfig).then(data => this.retryMeetingTimes(data, requestConfig, 0, finish));
+      request.get(requestConfig).then((data) => { return this.retryMeetingTimes(data, requestConfig, 0, finish); });
     });
   }
 
@@ -264,7 +265,7 @@ class SearchResultsParser {
 
   getDescription(termId, crn) {
     const reqPromise = this.searchResultsPostRequest('getCourseDescription', termId, crn);
-    return reqPromise.then(d => d.body.trim());
+    return reqPromise.then((d) => { return d.body.trim(); });
   }
 
   async getCoreqs(termId, crn, subjectAbbreviationTable) {
@@ -407,15 +408,13 @@ class SearchResultsParser {
     $('.attribute-text').each((i, element) => {
       list[i] = $(element).text().trim();
     });
-    return {classAttributes: list};
+    return { classAttributes: list };
   }
 
   serializeCoreqs(req, subjectAbbreviationTable) {
     const $ = cheerio.load(req.body);
-    const numberOfColumns = $('thead > tr').children().length;
-    if (numberOfColumns < 3) {
-      return false;
-    }
+    const table = $('table');
+    const rows = util.parseTable(table);
     /*
      * some classes have 5 columns instead of 3.
      *
@@ -427,31 +426,26 @@ class SearchResultsParser {
      * POST https://nubanner.neu.edu/StudentRegistrationSsb/ssb/searchResults/getCorequisites
      * term=202010&courseReferenceNumber=11939
      */
-    let subjectIndex = 0;
-    let courseNumberIndex = 1;
-    if (numberOfColumns === 5) {
-      subjectIndex = 1;
-      courseNumberIndex = 2;
-    }
-    const array = [];
-    $('tbody tr').each((rowNumber, element) => {
-      const row = $(element).children();
-      const subjectAbbreviation = this.subjectLookup($(row[subjectIndex]).text(), subjectAbbreviationTable);
+    const coreqs = [];
+    rows.forEach((row) => {
+      const { subject, coursenumber } = row;
+      const subjectAbbreviation = this.subjectLookup(subject, subjectAbbreviationTable);
       if (subjectAbbreviation) {
-        array.push({
+        coreqs.push({
           subject: subjectAbbreviation,
-          classId: $(row[courseNumberIndex]).text(),
+          classId: coursenumber,
         });
       } else {
-        macros.warn("Coreqs: don't know what to do\n"
-          + req.body
-          + `\nPOST ${req.request.path}`
-          + `\n${req.request.body}`);
+        macros.warn(`Coreqs: can't find abbreviation for "${subject}" from POST ${req.request.path}`);
       }
     });
+
+    if (rows.length === 0) {
+      return false;
+    }
     return {
       type: 'and',
-      values: array,
+      values: coreqs,
     };
   }
 
@@ -459,58 +453,60 @@ class SearchResultsParser {
   // look at requisiteparser.js
   serializePrereqs(req, subjectAbbreviationTable) {
     const $ = cheerio.load(req.body);
-    if ($('thead > tr').children().length < 9) {
+    const allRows = util.parseTable($('table'));
+
+    if (allRows.length === 0) {
       return false;
     }
-    const array = [];
-    let type = 'and';
 
-    $('tbody tr').each((rowNumber, element) => {
-      const row = $(element).children();
-      const ao = $(row[0]).text();
-      if (ao) {
-        type = ao.toLowerCase();
-      }
+    const klas = this;
+    let rowIndex = 0;
+    function parsePrereqs() {
+      const parsed = [];
+      let boolean = 'and';
+      while (rowIndex < allRows.length) {
+        const row = allRows[rowIndex];
+        const leftParen = row[''];
+        const rightParen = row['1'];
+        const subjectAbbreviation = klas.subjectLookup(row.subject, subjectAbbreviationTable);
+        const isGradReq = row.test === 'Graduate Admission';
+        const isContentPresent = (row.subject && row.coursenumber) || (row.test && row.score);
 
-      const leftParen = $(row[1]).text();
-      if (leftParen) {
-        macros.warn('Parenthesized prerequisites not yet supported.'
-          + `\nPOST ${req.request.path}`
-          + `\n${req.request.body}`);
-        array.push(false);
-        return;
-      }
+        if (row['and/or']) {
+          boolean = row['and/or'].toLowerCase();
+        }
 
-      // "Graduate Admissions REQ"
-      const graduateAdmissions = $(row[2]).text();
-      if (graduateAdmissions) {
-        const gradReq = $(row[3]).text();
-        array.push(`${graduateAdmissions} ${gradReq}`);
-      } else {
-        const subjectAbbreviation = this.subjectLookup($(row[4]).text(), subjectAbbreviationTable);
-        if (subjectAbbreviation) {
-          array.push({
-            subject: subjectAbbreviation,
-            classId: $(row[5]).text(),
-            // level: $(row[6]).text(),
-            // grade: $(row[7]).text(),
-          });
-        } else {
-          const rightParen = $(row[8]).text();
-          if (!rightParen) {
-            macros.warn("Prereqs: don't know what to do\n"
-              + req.body
-              + `\nPOST ${req.request.path}`
-              + `\n${req.request.body}`);
+        const curr = isGradReq
+          ? `${row.test} ${row.score}`
+          : ({ classId: row.coursenumber, subject: subjectAbbreviation });
+
+        rowIndex++;
+        if (leftParen) {
+          // recur, but then also stick current into the array result of the recur
+          const recur = parsePrereqs();
+          if (isContentPresent) {
+            recur.values.unshift(curr); //push to front
           }
-          array.push(false);
+          parsed.push(recur);
+        } else if (isContentPresent) {
+          // Not left paren, so just push onto current array
+          parsed.push(curr);
+        }
+
+        if (rightParen) {
+          // right paren means this section is done, so early return
+          return {
+            type: boolean,
+            values: parsed,
+          };
         }
       }
-    });
-    return {
-      type: type,
-      values: array,
-    };
+      return {
+        type: boolean,
+        values: parsed,
+      };
+    }
+    return parsePrereqs();
   }
 
   subjectLookup(description, subjectAbbreviationTable) {
@@ -540,7 +536,7 @@ class SearchResultsParser {
    */
   createSubjectsAbbreviationTable(subjects) {
     const table = {};
-    subjects.forEach(subject => {
+    subjects.forEach((subject) => {
       // replace HTML escape sequence with correct symbol
       // eg '&amp;' --> '&'
       const description = cheerio.load(subject.text).text();

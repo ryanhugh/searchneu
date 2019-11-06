@@ -29,16 +29,16 @@ function uniquify(set, value) {
  * @returns A list of {key: value} where key comes from header
  */
 function parseTable(table) {
-  if (table[0].name !== 'table') {
+  if (table.length !== 1 || table[0].name !== 'table') {
     macros.error('parse table was not given a table..');
-    return null;
+    return [];
   }
 
   //includes both header rows and body rows
   const rows = $('tr', table).get();
   if (rows.length === 0) {
     macros.error('zero rows???');
-    return null;
+    return [];
   }
 
   //the headers

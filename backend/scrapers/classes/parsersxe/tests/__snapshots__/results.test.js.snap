@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should handle nested parenthesized prerequisites or "Graduate Admissions REQ" 1`] = `
+Object {
+  "type": "or",
+  "values": Array [
+    Object {
+      "type": "and",
+      "values": Array [
+        Object {
+          "classId": "1342",
+          "subject": "MATH",
+        },
+        Object {
+          "type": "or",
+          "values": Array [
+            Object {
+              "classId": "1151",
+              "subject": "PHYS",
+            },
+            Object {
+              "classId": "1161",
+              "subject": "PHYS",
+            },
+          ],
+        },
+      ],
+    },
+    Object {
+      "type": "and",
+      "values": Array [
+        Object {
+          "classId": "1141",
+          "subject": "PHYS",
+        },
+        Object {
+          "classId": "1241",
+          "subject": "MATH",
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`should handle nested parenthesized prerequisites or "Graduate Admissions REQ" 2`] = `
+Object {
+  "type": "or",
+  "values": Array [
+    Object {
+      "type": "and",
+      "values": Array [
+        Object {
+          "classId": "1119",
+          "subject": "BIOL",
+        },
+        Object {
+          "classId": "1121",
+          "subject": "BIOL",
+        },
+        Object {
+          "type": "or",
+          "values": Array [
+            Object {
+              "classId": "1101",
+              "subject": "CHEM",
+            },
+            Object {
+              "classId": "1211",
+              "subject": "CHEM",
+            },
+          ],
+        },
+      ],
+    },
+    "Graduate Admission REQ",
+  ],
+}
+`;
