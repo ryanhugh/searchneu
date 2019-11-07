@@ -8,12 +8,12 @@ class CourseCodeEngine {
   // and if you have it, find the first 2-4 chars here,
   // and test it against the list, making the decision at that point
   function search(query, subject, termId, min, max) {
-    const suggestField = SearchEngine.subjects.has(subject.toLowerCase()) ? 'classId' : 'subject';
+    const suggestField = SearchEngine.subjects.has(subject.toLowerCase()) ? 'class.classId' : 'class.subject';
 
     const searchFields = ['class.subject^10', 'class.classId'];
     const suggester = {
       term: {
-        field: 'class.classId',
+        field: suggestField,
         min_word_length: 2,
       },
     };
@@ -33,6 +33,5 @@ class CourseCodeEngine {
   }
 
   function suggestString(suggestResults) {
-    
   }
 }
