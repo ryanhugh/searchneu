@@ -10,6 +10,7 @@ class CourseCodeEngine {
   function search(query, subject, termId, min, max) {
     const suggestField = SearchEngine.subjects.has(subject.toLowerCase()) ? 'class.classId' : 'class.subject';
 
+    // after the first result, all of the following results should be of the same subject, e.g. it's weird to get ENGL2500 as the second or third result for CS2500
     const searchFields = ['class.subject^10', 'class.classId'];
     const suggester = {
       term: {
@@ -19,19 +20,18 @@ class CourseCodeEngine {
     };
 
     const searchResults = elastic.search(query, termId, min, max, searchFields);
-    const suggestion = elastic.suggest(suggester);
-
-    const results = {
-      ...results,
-      suggestion: this.suggestString(suggestResults);
-    };
+    const suggestion = this.suggestString(elastic.suggest(suggester));
 
     return {
       ...results,
-      suggestion: this.suggestString(suggestResults);
+      suggestion: suggestion
     };
   }
 
+  // maybe you should name your suggester every time?
   function suggestString(suggestResults) {
+    return suggestResults.body.suggest.valSuggest.map(result => {
+      result.options ? result.options[0] : result.text
+    }).join('');
   }
 }

@@ -6,6 +6,7 @@ import BaseEngine from './baseEngine';
 class SearchEngine {
   constructor() {
     this.subjects = elastic.getSubjectsFromClasses();
+    // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
     this.courseCodePattern = /^\s*([a-zA-Z]{2,4}\s*(\d{4})?\s*$/i;
   }
 

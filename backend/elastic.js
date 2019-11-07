@@ -164,7 +164,10 @@ class Elastic {
    * Get all subjects for classes in the index
    */
   async getSubjectsFromClasses() {
-    const subjects = await client.search({
+    if (this.subjects) {
+      return this.subjects;
+    }
+    const subjectAgg = await client.search({
       index: `${this.CLASS_INDEX}`,
       body: {
         aggs: {
@@ -182,7 +185,9 @@ class Elastic {
         },
       },
     });
-    return _.map(subjects.body.aggregations.subjects.subjects.buckets, (subject) => { return subject.key.toLowerCase(); });
+    this.subjects = new Set(_.map(subjectAgg.body.aggregations.subjects.subjects.buckets, (subject) => { return subject.key.toLowerCase(); }));
+
+    return this.subjects;
   }
 
   /**
@@ -192,74 +197,7 @@ class Elastic {
    * @param  {integer} min    The index of first document to retreive
    * @param  {integer} max    The index of last document to retreive
    */
-  async search(query, termId, min, max) {
-    if (!this.subjects) {
-      this.subjects = new Set(await this.getSubjectsFromClasses());
-    }
-
-    let suggestion = "";
-
-    // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
-    const courseCodePattern = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i;
-    let fields = [
-      'class.name^2', // Boost by 2
-      'class.name.autocomplete',
-      'class.subject^4',
-      'class.classId^3',
-      'sections.meetings.profs',
-      'class.crns',
-      'employee.name^2',
-      'employee.emails',
-      'employee.phone',
-    ];
-
-    let suggester = {
-      phrase: {
-        field: 'class.name.suggestions',
-        confidence: 1.0,
-        collate: {
-          query: {
-            source: {
-              match: {
-                '{{field_name}}': '{{suggestion}}',
-              },
-            },
-          },
-          params: { field_name: 'class.name' },
-          prune: true,
-        },
-        direct_generator: [
-          {
-            field: 'class.name.suggestions',
-            prefix_length: 2,
-          },
-        ],
-      },
-    };
-
-    const patternResults = query.match(courseCodePattern);
-
-    const validSubject = patternResults ? this.subjects.has(patternResults[1].toLowerCase()) : null;
-    if (patternResults && validSubject) {
-      // after the first result, all of the following results should be of the same subject, e.g. it's weird to get ENGL2500 as the second or third result for CS2500
-      fields = ['class.subject^10', 'class.classId'];
-      suggester = {
-        term: {
-          field: 'class.classId',
-          min_word_length: 2,
-        },
-      };
-    }
-
-    if (patternResults && !validSubject) {
-      suggester = {
-        term: {
-          field: 'class.subject',
-          min_word_length: 2,
-        },
-      };
-    }
-
+  async search(query, termId, min, max, searchFields) {
     const searchOutput = await client.search({
       index: `${this.CLASS_INDEX}`,
       from: min,
@@ -275,7 +213,7 @@ class Elastic {
               multi_match: {
                 query: query,
                 type: 'most_fields', // More fields match => higher score
-                fields: fields,
+                fields: searchFields,
               },
             },
             filter: {
@@ -291,7 +229,19 @@ class Elastic {
       },
     });
 
-    const suggestOutput = await client.search({
+    return {
+      searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
+      resultCount: searchOutput.body.hits.total.value,
+      took: searchOutput.body.took,
+    };
+  }
+
+  // option: define multiple suggest types, like term and phrase
+  // other options include
+  // being able to specify which index you're hitting
+  // being able to specify other things idk
+  async suggest(suggester) {
+    return await client.search({
       index: `${this.CLASS_INDEX}`,
       body: {
         suggest: {
@@ -300,14 +250,6 @@ class Elastic {
         },
       },
     });
-
-    console.log(suggestOutput);
-
-    return {
-      searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
-      resultCount: searchOutput.body.hits.total.value,
-      took: searchOutput.body.took,
-    };
   }
 }
 
