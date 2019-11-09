@@ -167,6 +167,7 @@ class Elastic {
     if (this.subjects) {
       return this.subjects;
     }
+
     const subjectAgg = await client.search({
       index: `${this.CLASS_INDEX}`,
       body: {
@@ -240,7 +241,7 @@ class Elastic {
   // other options include
   // being able to specify which index you're hitting
   // being able to specify other things idk
-  async suggest(suggester) {
+  async suggest(query, suggester) {
     return await client.search({
       index: `${this.CLASS_INDEX}`,
       body: {

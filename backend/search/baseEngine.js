@@ -1,10 +1,14 @@
 import elastic from '../elastic';
 import searchEngine from './searchEngine';
 
-class baseEngine {
+class BaseEngine {
   constructor() {}
 
-  function search(query, termId, min, max) {
+  async rightEngine(query) {
+    return true;
+  }
+
+  async search(query, termId, min, max) {
     const searchFields = [
       'class.name^2', // Boost by 2
       'class.name.autocomplete',
@@ -42,7 +46,7 @@ class baseEngine {
     };
 
     const searchResults = elastic.search(query, termId, min, max, searchFields);
-    const suggestion = this.suggestString(elastic.suggest(suggester));
+    const suggestion = this.suggestString(elastic.suggest(query, suggester));
 
     return {
       ...results,
@@ -50,8 +54,11 @@ class baseEngine {
     };
   }
 
-  function suggestString(suggestResults) {
+  async suggestString(suggestResults) {
     // how do you deal with out-of-bounds errors?
     return suggestResults.body.suggest.valSuggest.options[0];
   }
 }
+
+const instance = new BaseEngine();
+export default instance;

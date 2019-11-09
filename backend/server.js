@@ -17,6 +17,7 @@ import xhub from 'express-x-hub';
 import atob from 'atob';
 import _ from 'lodash';
 import elastic from './elastic';
+import searchEngine from './search/searchEngine.js';
 
 import Request from './scrapers/request';
 import webpackConfig from './webpack.config.babel';
@@ -228,7 +229,7 @@ app.get('/search', wrap(async (req, res) => {
     return;
   }
 
-  const { searchContent, took, resultCount } = await elastic.search(req.query.query, req.query.termId, req.query.minIndex, req.query.maxIndex);
+  const { searchContent, took, resultCount } = await searchEngine.search(req.query.query, req.query.termId, req.query.minIndex, req.query.maxIndex);
   const midTime = Date.now();
 
   let string;
