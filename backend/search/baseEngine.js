@@ -45,8 +45,8 @@ class BaseEngine {
       },
     };
 
-    const searchResults = elastic.search(query, termId, min, max, searchFields);
-    const suggestion = this.suggestString(elastic.suggest(query, suggester));
+    const searchResults = await elastic.search(query, termId, min, max, searchFields);
+    const suggestion = this.suggestString(await elastic.suggest(query, suggester));
 
     return {
       ...results,
