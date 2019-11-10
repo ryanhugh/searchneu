@@ -1,17 +1,26 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Majors', {
+    return queryInterface.createTable('MajorData', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      majorId: {
+        type: Sequelize.STRING
+      },
       catalogYear: {
         type: Sequelize.STRING
       },
-      data: {
+      majorName: {
+        type: Sequelize.STRING
+      },
+      major: {
+        type: Sequelize.JSON
+      },
+      planOfStudy: {
         type: Sequelize.JSON
       },
       createdAt: {
@@ -25,6 +34,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Majors');
+    return queryInterface.dropTable('MajorData');
   }
 };
