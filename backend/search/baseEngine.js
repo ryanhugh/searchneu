@@ -4,7 +4,7 @@ import searchEngine from './searchEngine';
 class BaseEngine {
   constructor() {}
 
-  async rightEngine(query) {
+  rightEngine(query) {
     return true;
   }
 
@@ -49,14 +49,14 @@ class BaseEngine {
     const suggestion = this.suggestString(await elastic.suggest(query, suggester));
 
     return {
-      ...results,
+      ...searchResults,
       suggestion: suggestion
     };
   }
 
-  async suggestString(suggestResults) {
-    // how do you deal with out-of-bounds errors?
-    return suggestResults.body.suggest.valSuggest.options[0];
+  suggestString(suggestResults) {
+    const options = suggestResults.body.suggest.valSuggest.options;
+    return (options ? options[0] : "");
   }
 }
 

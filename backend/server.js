@@ -229,7 +229,7 @@ app.get('/search', wrap(async (req, res) => {
     return;
   }
 
-  const { searchContent, took, resultCount } = await searchEngine.search(req.query.query, req.query.termId, req.query.minIndex, req.query.maxIndex);
+  const { searchContent, took, resultCount, suggestion } = await searchEngine.search(req.query.query, req.query.termId, req.query.minIndex, req.query.maxIndex);
   const midTime = Date.now();
 
   let string;

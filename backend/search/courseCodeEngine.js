@@ -3,16 +3,13 @@ import elastic from '../elastic';
 class CourseCodeEngine {
   constructor() {
     // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
-    this.courseCodePattern = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i;
+    this.courseCodePattern = /^\s*([a-zA-Z]{2,4})\s*(\d{0,4})\s*$/i;
   }
 
-  async rightEngine(query) {
+  rightEngine(query) {
     return this.courseCodePattern.test(query);
   }
 
-  // one plan would be to just test for course code pattern,
-  // and if you have it, find the first 2-4 chars here,
-  // and test it against the list, making the decision at that point
   async search(query, termId, min, max) {
     const patternResults = query.match(this.courseCodePattern);
 
@@ -31,6 +28,11 @@ class CourseCodeEngine {
     const searchResults = await elastic.search(query, termId, min, max, searchFields);
     const suggestion = this.suggestString(await elastic.suggest(query, suggester));
 
+    const returnVal = {
+      ...searchResults,
+      suggestion: suggestion
+    };
+
     return {
       ...searchResults,
       suggestion: suggestion
@@ -38,9 +40,9 @@ class CourseCodeEngine {
   }
 
   // maybe you should name your suggester every time?
-  async suggestString(suggestResults) {
-    return suggestResults.body.suggest.valSuggest.map(result => {
-      result.options ? result.options[0] : result.text
+  suggestString(suggestResults) {
+    return suggestResults.body.suggest.valSuggest.map((result) => {
+      return (result.options.length !== 0 ? result.options[0].text : result.text);
     }).join('');
   }
 }
