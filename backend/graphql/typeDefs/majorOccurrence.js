@@ -7,7 +7,7 @@ const typeDef = gql`
     catalogYear: Int!
 
     requirements: JSON
-    plansofstudy: JSON
+    plansOfStudy: JSON
   }
 `;
 
