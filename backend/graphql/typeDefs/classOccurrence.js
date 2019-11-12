@@ -10,6 +10,8 @@ const typeDef = gql`
     desc: String
     prereqs: JSON
     coreqs: JSON
+    maxCredits: Int
+    minCredits: Int
   }
 `;
 
