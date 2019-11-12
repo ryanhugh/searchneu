@@ -11,6 +11,7 @@ class CourseCodeEngine {
   }
 
   async search(query, termId, min, max) {
+    console.log('we enter the course code search here');
     const patternResults = query.match(this.courseCodePattern);
 
     const subjects = await elastic.getSubjectsFromClasses();
@@ -18,20 +19,11 @@ class CourseCodeEngine {
 
     // after the first result, all of the following results should be of the same subject, e.g. it's weird to get ENGL2500 as the second or third result for CS2500
     const searchFields = ['class.subject^10', 'class.classId'];
-    const suggester = {
-      term: {
-        field: suggestField,
-        min_word_length: 2,
-      },
-    };
 
     const searchResults = await elastic.search(query, termId, min, max, searchFields);
-    const suggestion = this.suggestString(await elastic.suggest(query, suggester));
-
-    const returnVal = {
-      ...searchResults,
-      suggestion: suggestion
-    };
+    console.log('course code search made');
+    const suggestion = this.suggestString(await elastic.termSuggest(query, suggestField));
+    console.log('course code suggestion found');
 
     return {
       ...searchResults,
@@ -39,9 +31,8 @@ class CourseCodeEngine {
     };
   }
 
-  // maybe you should name your suggester every time?
   suggestString(suggestResults) {
-    return suggestResults.body.suggest.valSuggest.map((result) => {
+    return suggestResults.map((result) => {
       return (result.options.length !== 0 ? result.options[0].text : result.text);
     }).join('');
   }

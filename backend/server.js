@@ -231,6 +231,8 @@ app.get('/search', wrap(async (req, res) => {
 
   const { searchContent, took, resultCount, suggestion } = await searchEngine.search(req.query.query, req.query.termId, req.query.minIndex, req.query.maxIndex);
   const midTime = Date.now();
+  console.log(suggestion);
+  console.log('if there was going to be a suggestion, it just got printed');
 
   let string;
   if (req.query.apiVersion === '2') {

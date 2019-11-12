@@ -237,20 +237,59 @@ class Elastic {
     };
   }
 
-  // option: define multiple suggest types, like term and phrase
-  // other options include
-  // being able to specify which index you're hitting
-  // being able to specify other things idk
-  async suggest(query, suggester) {
-    return await client.search({
+  async termSuggest(query, field) {
+    const results = await client.search({
+      index: `${this.CLASS_INDEX}`,
+      body: {
+        text: query,
+        termSuggest: {
+          term: {
+            field: field,
+            min_word_length: 2,
+          },
+        },
+      },
+    });
+
+    return results.body.suggest.termSuggest;
+  }
+
+  // there MUST be an index on searchField.suggestion for this to work.
+  async phraseSuggest(query, searchField) {
+    const suggestField = `${searchField}.suggestions`;
+    const results = await client.search({
       index: `${this.CLASS_INDEX}`,
       body: {
         suggest: {
           text: query,
-          valSuggest: suggester,
+          phraseSuggest: {
+            phrase: {
+              field: suggestField,
+              confidence: 1.0, // only return suggestions which score better than the search itself does
+              collate: {
+                query: {
+                  source: {
+                    match: {
+                      '{{field_name}}': '{{suggestion}}', // only return results that appear in the index
+                    },
+                  },
+                },
+                params: { field_name: searchField },
+                prune: true,
+              },
+              direct_generator: [ // for adding rules and configuring how suggestions are generated
+                {
+                  field: suggestField,
+                  prefix_length: 2, // the first two characters of the query and the suggestion must match exactly
+                },
+              ],
+            },
+          },
         },
       },
     });
+
+    return results.body.suggest.phraseSuggest; 
   }
 }
 

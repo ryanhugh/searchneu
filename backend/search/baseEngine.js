@@ -21,32 +21,8 @@ class BaseEngine {
       'employee.phone',
     ];
 
-    const suggester = {
-      phrase: {
-        field: 'class.name.suggestions',
-        confidence: 1.0,
-        collate: {
-          query: {
-            source: {
-              match: {
-                '{{field_name}}': '{{suggestion}}',
-              },
-            },
-          },
-          params: { field_name: 'class.name' },
-          prune: true,
-        },
-        direct_generator: [
-          {
-            field: 'class.name.suggestions',
-            prefix_length: 2,
-          },
-        ],
-      },
-    };
-
     const searchResults = await elastic.search(query, termId, min, max, searchFields);
-    const suggestion = this.suggestString(await elastic.suggest(query, suggester));
+    const suggestion = this.suggestString(await elastic.phraseSuggest(query, 'class.name'));
 
     return {
       ...searchResults,
@@ -55,8 +31,7 @@ class BaseEngine {
   }
 
   suggestString(suggestResults) {
-    const options = suggestResults.body.suggest.valSuggest.options;
-    return (options ? options[0] : "");
+    return (suggestResults[0] && suggestResults[0].options.length > 0 ? suggestResults[0].options[0].text : "");
   }
 }
 
