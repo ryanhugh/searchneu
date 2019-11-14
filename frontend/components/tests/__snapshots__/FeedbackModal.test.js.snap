@@ -28,7 +28,6 @@ exports[`should render form is closed 1`] = `
     closeOnDocumentClick={false}
     dimmer={true}
     eventPool="Modal"
-    onClose={[Function]}
     open={false}
     size="small"
   >
@@ -62,7 +61,6 @@ exports[`should render form is closed 1`] = `
         as="button"
         basic={true}
         color="red"
-        onClick={[Function]}
       >
         <Icon
           as="i"
@@ -116,7 +114,6 @@ exports[`should render the form 1`] = `
     closeOnDocumentClick={false}
     dimmer={true}
     eventPool="Modal"
-    onClose={[Function]}
     open={true}
     size="small"
   >
@@ -150,7 +147,6 @@ exports[`should render the form 1`] = `
         as="button"
         basic={true}
         color="red"
-        onClick={[Function]}
       >
         <Icon
           as="i"
