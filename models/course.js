@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     coreqs: DataTypes.JSON,
     prereqsFor: DataTypes.JSON,
     optPrereqsFor: DataTypes.JSON,
-    classAttributes: Sequelize.ARRAY(Sequelize.STRING)
+    classAttributes: DataTypes.ARRAY(DataTypes.STRING)
   }, {});
   Course.associate = function(models) {
     // associations can be defined here
