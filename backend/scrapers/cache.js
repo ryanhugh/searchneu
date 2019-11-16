@@ -205,11 +205,9 @@ class Cache {
 
     // Clone the object so that the object that is going to be saved now is modified before the file is saved,
     // the value that was given to this function is saved and not some other value
-    if (!optimizeForSpeed) {
-      const startTime = Date.now();
-      value = _.cloneDeep(value);
-      this.totalTimeSpendCloning += Date.now() - startTime;
-    }
+    const startTime = Date.now();
+    value = _.cloneDeep(value);
+    this.totalTimeSpendCloning += Date.now() - startTime;
 
     dataMap[key] = value;
 
