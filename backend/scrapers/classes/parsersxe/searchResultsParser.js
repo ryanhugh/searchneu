@@ -14,6 +14,7 @@ import cheerio from 'cheerio';
 import macros from '../../../macros';
 import Request from '../../request';
 import parseMeetings from './meetingParser';
+import he from 'he';
 import util from './util';
 
 const request = new Request('searchResultsParser');
@@ -265,7 +266,8 @@ class SearchResultsParser {
 
   getDescription(termId, crn) {
     const reqPromise = this.searchResultsPostRequest('getCourseDescription', termId, crn);
-    return reqPromise.then((d) => { return d.body.trim(); });
+    // Double decode the description, because banner double encodes the description :(
+    return reqPromise.then((d) => { return he.decode(he.decode(d.body.trim())); });
   }
 
   async getCoreqs(termId, crn, subjectAbbreviationTable) {
@@ -440,24 +442,15 @@ class SearchResultsParser {
       }
     });
 
-    if (rows.length === 0) {
-      return false;
-    }
     return {
       type: 'and',
       values: coreqs,
     };
   }
 
-  // TODO parenthesized prerequisites
-  // look at requisiteparser.js
   serializePrereqs(req, subjectAbbreviationTable) {
     const $ = cheerio.load(req.body);
     const allRows = util.parseTable($('table'));
-
-    if (allRows.length === 0) {
-      return false;
-    }
 
     const klas = this;
     let rowIndex = 0;
@@ -469,15 +462,17 @@ class SearchResultsParser {
         const leftParen = row[''];
         const rightParen = row['1'];
         const subjectAbbreviation = klas.subjectLookup(row.subject, subjectAbbreviationTable);
-        const isGradReq = row.test === 'Graduate Admission';
-        const isContentPresent = (row.subject && row.coursenumber) || (row.test && row.score);
+        const isContentPresent = (row.subject && row.coursenumber && subjectAbbreviation) || (row.test && row.score);
 
         if (row['and/or']) {
           boolean = row['and/or'].toLowerCase();
         }
 
-        const curr = isGradReq
-          ? `${row.test} ${row.score}`
+        if (!subjectAbbreviation) {
+          macros.error(`Prereqs: can't find abbreviation for "${row.subject}" from POST ${req.request.path}`);
+        }
+        const curr = row.test
+          ? row.test
           : ({ classId: row.coursenumber, subject: subjectAbbreviation });
 
         rowIndex++;

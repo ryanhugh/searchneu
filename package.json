@@ -106,7 +106,7 @@
     "friendly-errors-webpack-plugin": "^1.7.0",
     "fs-extra": "^8.0.0",
     "graphql-type-json": "^0.3.0",
-    "he": "^1.1.1",
+    "he": "^1.2.0",
     "html-webpack-plugin": "^3.0.6",
     "htmlparser2": "^3",
     "identity-obj-proxy": "^3.0.0",
