@@ -1,5 +1,5 @@
-// import magic things
-const MajorData = null;
+import db from '../../../models/index';
+const MajorData = db.MajorData;
 
 const getLatestMajorOccurrence = async (majorId) => {
   return MajorData.findAll({
@@ -24,3 +24,5 @@ const resolvers = {
     latestOccurrence: (major) => { return getLatestMajorOccurrence(major.majorId); }
   }
 };
+
+export default resolvers;
