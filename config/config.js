@@ -1,4 +1,4 @@
-import macros from '../backend/macros';
+// import macros from '../backend/macros';
 
 module.exports = {
   development: {
@@ -16,10 +16,10 @@ module.exports = {
     dialect: 'postgres',
   },
   production: {
-    username: macros.getEnvVariable('DB_USERNAME'),
-    password: macros.getEnvVariable('DB_PASSWORD'),
-    database: macros.getEnvVariable('DB_NAME'),
-    host: macros.getEnvVariable('DB_HOST'),
+    username: null, // macros.getEnvVariable('DB_USERNAME'),
+    password: null, // macros.getEnvVariable('DB_PASSWORD'),
+    database: 'searchneu_prod', // macros.getEnvVariable('DB_NAME'),
+    host: '127.0.0.1', // macros.getEnvVariable('DB_HOST'),
     dialect: 'postgres',
   },
 };
