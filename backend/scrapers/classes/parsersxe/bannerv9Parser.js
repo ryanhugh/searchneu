@@ -9,54 +9,16 @@ import macros from '../../../macros';
 import Request from '../../request';
 import EllucianTermsParser from '../parsers/ellucianTermsParser';
 import SearchResultsParser from './searchResultsParser';
+import Keys from '../../../../common/Keys';
 
 const request = new Request('bannerv9Parser');
 
 class Bannerv9Parser {
-  // parse(body, url) {
-  //   macros.log(moment, cheerio, body, url);
-  //
-  //   // TODO: write
-  //   // body is the response from https://nubanner.neu.edu/StudentRegistrationSsb/ssb/registration
-  //   // This method should be synchronous, which makes it much easier to test and develop
-  //   // the body paremeter is the body of the response of the page
-  //   // if you need other response information too (like Set-Cookie headers we can get that stuff too)
-  //   // this method doesn't have to use the url parameter
-  //   // The only places I tend to use it is for logging - if something breakes I log the url so I can see what url broke stuff
-  //   // but if it works the url paremeter isn't used.
-  //   // use cheerio to parse out the data you want (
-  //   // including urls (or any data, really) that you want to pass to other parsers
-  //   // In some of the existing processors I send the url and some parameters for a post request to make to that url
-  //   // at the end of this method just return everything you want to keep from parsing the body
-  //   // and just return everything
-  //   // Check out the other parsers for examples
-  //   return {};
-  // }
-
-  // This method that
   async main(termsUrl) {
-    // Possibly load from DEV
-    if (macros.DEV && require.main !== module) {
-      const devData = await cache.get(macros.DEV_DATA_DIR, this.constructor.name, termsUrl);
-      if (devData) {
-        return devData;
-      }
-    }
-
-    // Request the url
-    // If you want to spider a site, you can use LinkSpider.js
-
-    // If you need to deal with cookies, check out scrapers/employees/employee.js
-    // which gets a cookie from one page before any other requests will work
-    // If you need more advanced cookie management or cookie jar stuff we could build that out somehow
     const bannerTerms = await request.get({
       url: termsUrl,
       json: true,
     });
-
-    // ========================================
-    // my code starts here
-    // ========================================
 
     /*
      * notice: parsing many (like 23) terms might use more
@@ -103,8 +65,6 @@ class Bannerv9Parser {
 
     const subjectAbbreviationTable = SearchResultsParser.createSubjectsAbbreviationTable(allSubjects);
     const uniqueClasses = await this.collapseSameCourses(allSections, subjectAbbreviationTable);
-    // TODO prune obsolete prerequisites (classes that don't exist)
-    // eg BIOL 3405 lists BIOL 1103, BIOL 2297, and ENVR 2290 however these classes are no longer offered
     allSections.forEach((details) => { return SearchResultsParser.stripSectionDetails(details); });
 
     const mergedOutput = {
@@ -270,7 +230,7 @@ class Bannerv9Parser {
 
     // first, get the description once for every unique class
     sections.forEach((details) => {
-      details.hash = this.hash(details);
+      details.hash = Keys.getClassHash(details);
       if (!table[details.hash]) {
         table[details.hash] = true;
         promisedHashes.push(details.hash);
@@ -288,15 +248,6 @@ class Bannerv9Parser {
     });
 
     return Object.values(table);
-  }
-
-  /**
-   * {termId: "202010", subject: "BIOL", classId: "3405"} => "202010BIOL3405"
-   * @param details
-   * @return {string}
-   */
-  hash(details) {
-    return details.termId + details.subject + details.classId;
   }
 
   /**
