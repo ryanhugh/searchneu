@@ -17,10 +17,10 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      major: {
+      requirements: {
         type: Sequelize.JSON
       },
-      planOfStudy: {
+      plansOfStudy: {
         type: Sequelize.JSON
       },
       createdAt: {

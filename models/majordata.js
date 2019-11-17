@@ -4,8 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     majorId: DataTypes.STRING,
     catalogYear: DataTypes.INTEGER,
     name: DataTypes.STRING,
-    major: DataTypes.JSON,
-    planOfStudy: DataTypes.JSON
+    requirements: DataTypes.JSON,
+    plansOfStudy: DataTypes.JSON
   }, {});
   MajorData.associate = function(models) {
     // associations can be defined here
