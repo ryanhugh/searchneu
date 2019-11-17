@@ -55,12 +55,12 @@ function parseTable(table) {
   const ret = [];
 
   rows.slice(1).forEach((row) => {
-    if (row.children.length >= heads.length) {
-      macros.log('warning, table row is longer than head, ignoring some content', heads, row.text());
-    }
     const values = row.children
       .filter(validCell)
       .map((el) => { return $(el).text(); });
+    if (values.length >= heads.length) {
+      macros.log('warning, table row is longer than head, ignoring some content', heads, $(row).text());
+    }
 
     ret.push(_.zipObject(heads, values));
   });
