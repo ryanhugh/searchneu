@@ -142,7 +142,6 @@ class SearchResultsParser {
     const classDetails = {
       crns: [],
       classAttributes: details.classAttributes,
-
       desc: description,
       classId: details.classId,
       prettyUrl: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?'
@@ -370,8 +369,8 @@ class SearchResultsParser {
    */
   extractSeatsFromDom(domArray, key) {
     key = key.trim();
-    for (let i = 0; i < domArray.length; i++) {
-      const ele = cheerio(domArray[i]);
+    for (const dom of domArray) {
+      const ele = cheerio(dom);
       if (ele.text().trim() === key) { // or should I use string.prototype.includes()?
         return parseInt(ele.next().text().trim(), 10);
       }
@@ -387,8 +386,8 @@ class SearchResultsParser {
    */
   extractTextFromDom(domArray, key) {
     key = key.trim();
-    for (let i = 0; i < domArray.length - 2; i++) {
-      const ele = cheerio(domArray[i]);
+    for (const [i, dom] of domArray.entries()) {
+      const ele = cheerio(dom);
       if (ele.text().trim() === key) {
         const textNode = domArray[i + 1];
         // these error checks shouldn't even happen, calling toString() below just in case
