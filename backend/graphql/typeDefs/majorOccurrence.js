@@ -3,7 +3,7 @@ import { gql } from 'apollo-server';
 const typeDef = gql`
   type MajorOccurrence {
     name: String!
-    majorId: Int!
+    majorId: String!
     catalogYear: Int!
 
     requirements: JSON

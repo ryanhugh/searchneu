@@ -3,8 +3,8 @@ import db from '../../../models/index';
 const MajorData = db.MajorData;
 
 const getLatestMajorOccurrence = async (majorId) => {
-  return MajorData.findAll({
-    where: { majorId: args.majorId },
+  return MajorData.findOne({
+    where: { majorId: majorId },
     order: [['catalogYear', 'DESC']],
     limit: 1,
   });
@@ -16,9 +16,8 @@ const resolvers = {
   },
   Major: {
     occurrence: (major, args) => {
-      return MajorData.findAll({
-        where: { majorId: major.majorId, catalogYear: String(args.year) },
-        order: [['catalogYear', 'DESC']],
+      return MajorData.findOne({
+        where: { majorId: major.majorId, catalogYear: args.year },
         limit: 1,
       });
     },

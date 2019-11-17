@@ -4,8 +4,12 @@ import macros from '../macros';
 
 import classResolvers from './resolvers/class';
 import classTypeDef from './typeDefs/class';
-
 import classOccurrenceTypeDef from './typeDefs/classOccurrence';
+
+import majorResolvers from '.resolvers/major';
+import majorTypeDef from './typeDefs/major';
+import majorOccurrenceTypeDef from './typeDefs/majorOccurrence';
+
 
 // Enable JSON custom type
 const JSONResolvers = {
@@ -24,8 +28,8 @@ const baseQuery = gql`
 `;
 
 const server = new ApolloServer({
-  typeDefs: [baseQuery, classTypeDef, classOccurrenceTypeDef],
-  resolvers: [JSONResolvers, classResolvers],
+  typeDefs: [baseQuery, classTypeDef, classOccurrenceTypeDef, majorTypeDef, majorOccurrenceTypeDef],
+  resolvers: [JSONResolvers, classResolvers, majorResolvers],
 });
 
 if (require.main === module) {
