@@ -12,9 +12,9 @@ module.exports = {
         type: Sequelize.STRING
       },
       catalogYear: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
-      majorName: {
+      name: {
         type: Sequelize.STRING
       },
       major: {

@@ -1,7 +1,7 @@
 // import macros from '../backend/macros';
 
 module.exports = {
-  development: {
+  dev: {
     username: null,
     password: null,
     database: 'searchneu_dev',
