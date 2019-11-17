@@ -6,7 +6,7 @@ import classResolvers from './resolvers/class';
 import classTypeDef from './typeDefs/class';
 import classOccurrenceTypeDef from './typeDefs/classOccurrence';
 
-import majorResolvers from '.resolvers/major';
+import majorResolvers from './resolvers/major';
 import majorTypeDef from './typeDefs/major';
 import majorOccurrenceTypeDef from './typeDefs/majorOccurrence';
 
