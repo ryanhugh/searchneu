@@ -40,8 +40,12 @@ it('should parse prerequisites', () => {
 });
 
 it("shouldn't break if there are no prerequisites/corequisites", () => {
-  expect(SearchResultsParser.serializeCoreqs(CoreqExamples.biol3405)).toBeFalsy();
-  expect(SearchResultsParser.serializePrereqs(PrereqExamples.cs2500)).toBeFalsy();
+  const empty = {
+    type: 'and',
+    values: [],
+  };
+  expect(SearchResultsParser.serializeCoreqs(CoreqExamples.biol3405)).toEqual(empty);
+  expect(SearchResultsParser.serializePrereqs(PrereqExamples.cs2500)).toEqual(empty);
 });
 
 
@@ -51,7 +55,7 @@ it('should add "Graduate Admissions REQ" as a string', () => {
     type: 'or',
     values: [
       { subject: 'BIOL', classId: '2301' },
-      'Graduate Admission REQ',
+      'Graduate Admission',
     ],
   };
   expect(prereqs).toEqual(actual);
@@ -82,7 +86,7 @@ it('should handle parenthesized prerequisites', () => {
           },
         ],
       },
-      'Graduate Admission REQ'],
+      'Graduate Admission'],
   };
   expect(prereqs).toEqual(actual);
 });
