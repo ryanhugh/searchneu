@@ -30,7 +30,6 @@ function uniquify(set, value) {
  */
 function parseTable(table) {
   if (table.length !== 1 || table[0].name !== 'table') {
-    macros.error('parse table was not given a table..');
     return [];
   }
 
@@ -57,7 +56,7 @@ function parseTable(table) {
 
   rows.slice(1).forEach((row) => {
     if (row.children.length >= heads.length) {
-      macros.log('warning, table row is longer than head, ignoring some content', heads, row);
+      macros.log('warning, table row is longer than head, ignoring some content', heads, row.text());
     }
     const values = row.children
       .filter(validCell)
