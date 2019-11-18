@@ -11,10 +11,10 @@
 
 // eslint-disable-next-line max-classes-per-file
 import cheerio from 'cheerio';
+import he from 'he';
 import macros from '../../../macros';
 import Request from '../../request';
 import parseMeetings from './meetingParser';
-import he from 'he';
 import util from './util';
 
 const request = new Request('searchResultsParser');
