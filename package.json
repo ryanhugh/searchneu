@@ -10,6 +10,7 @@
     "index": "babel-node backend/scrapers/classes/searchIndex.js; babel-node backend/scrapers/employees/searchIndex.js",
     "script": "cd $INIT_CWD; babel-node --root-mode upward --ignore \".this_does_not_exit\"",
     "inspect": "cd $INIT_CWD;echo 'Open chrome://inspect in chrome and hit the node button';npm run -s script -- --inspect-brk",
+    "profile": "yarn run build_backend && mkdir -p cache && time env NODE_ENV=prod node --heap-prof --heap-prof-dir=cache --max_old_space_size=12000 dist/backend/scrapers/classes/parsersxe/startup.js",
     "-linting-": "--------linting--------",
     "lintjs": "node ./node_modules/eslint/bin/eslint.js backend/ common/ frontend/",
     "fixjs": "node ./node_modules/eslint/bin/eslint.js backend/ common/ frontend/ --fix",
@@ -28,10 +29,7 @@
     "build": "npm run -s build_backend; npm run -s build_frontend",
     "-deployment-": "--------deployment--------",
     "stop_prod": "./node_modules/forever/bin/forever stopall",
-    "start_prod": "npm run -s stop_prod; NODE_ENV=prod ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start dist/backend/startup.js",
-    "-jennings-": "--------jennings--------",
-    "parsersxe": "rm -rv ./cache; yarn script --max_old_space_size=4096 backend/scrapers/classes/parsersxe/bannerv9Parser.js",
-    "profile": "yarn run build_backend && mkdir -p cache && time env NODE_ENV=prod node --heap-prof --heap-prof-dir=cache --max_old_space_size=12000 dist/backend/scrapers/classes/parsersxe/startup.js"
+    "start_prod": "npm run -s stop_prod; NODE_ENV=prod ./node_modules/forever/bin/forever -a -l forever.log -o log.log -e error.log start dist/backend/startup.js"
   },
   "repository": {
     "type": "git",
