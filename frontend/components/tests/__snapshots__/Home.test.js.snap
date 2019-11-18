@@ -93,7 +93,7 @@ exports[`should render a section 1`] = `
             closeOnBlur={true}
             closeOnEscape={true}
             deburr={false}
-            defaultValue="202010"
+            defaultValue="202030"
             fluid={true}
             icon="dropdown"
             minCharacters={1}
@@ -102,6 +102,10 @@ exports[`should render a section 1`] = `
             openOnFocus={true}
             options={
               Array [
+                Object {
+                  "text": "Spring 2020",
+                  "value": "202030",
+                },
                 Object {
                   "text": "Fall 2019",
                   "value": "202010",

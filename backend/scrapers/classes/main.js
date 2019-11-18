@@ -19,9 +19,7 @@ import simplifyProfList from './processors/simplifyProfList';
 import addPreRequisiteFor from './processors/addPreRequisiteFor';
 
 // Parsers
-import collegeNamesParser from './parsers/collegeNamesParser';
-import ellucianTermsParser from './parsers/ellucianTermsParser';
-import bannerv9Parser from './parsers/bannerv9Parser';
+import bannerv9Parser from './parsersxe/bannerv9Parser';
 
 
 // This is the main entry point for scraping classes
@@ -188,63 +186,11 @@ class Main {
       return null;
     }
 
-
-    const bannerv8Url = bannerv8Urls[0];
     const bannerv9Url = bannerv9Urls[0];
 
+    const bannerv9ParserOutput = await bannerv9Parser.main(bannerv9Url);
 
-    // Find the name of the college (neu.edu -> Northeastern University)
-    const host = macros.getBaseHost(bannerv8Url);
-    const collegeNamePromise = collegeNamesParser.main(host);
-
-    // Change this when we want to enable the new v9 parser.
-    let bannerv9ParserOutputPromise;
-    if (false) { // eslint-disable-line no-constant-condition
-      bannerv9ParserOutputPromise = bannerv9Parser.main(bannerv9Url);
-    } else {
-      bannerv9ParserOutputPromise = Promise.resolve({});
-    }
-
-
-    const parsersOutput = await ellucianTermsParser.main(bannerv8Url);
-
-    const bannerv9ParserOutput = await bannerv9ParserOutputPromise;
-
-    const rootNode = {
-      type: 'ignore',
-      value: {},
-      deps: [{
-        type: 'ignore',
-        value: {},
-        deps: parsersOutput,
-      },
-
-      // Add the data that was calculated here
-      // Don't put this as a parent of the rest of the processors
-      // so the host: data from here is not copied to the children
-      {
-        type: 'colleges',
-        value: {
-          host: host,
-          title: await collegeNamePromise,
-          url: host,
-        },
-        deps: [],
-      }],
-    };
-
-    const restructuredData = this.restructureData(rootNode);
-
-
-    // bannerv9ParserOutput and parsersOutput should be the same.
-    if (_.isEqual(bannerv9ParserOutput, restructuredData)) {
-      macros.log('Parsers output not the same');
-    } else {
-      macros.log('Parsers output is the same!');
-    }
-
-
-    const dump = this.runProcessors(restructuredData);
+    const dump = this.runProcessors(bannerv9ParserOutput);
 
     await termDump.main(dump);
 

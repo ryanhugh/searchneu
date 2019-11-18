@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseTable ignores columns too wide and blank cells 1`] = `
+Array [
+  Object {
+    "days": undefined,
+    "time": "11:00 am - 11:50 am",
+    "type": "Class",
+  },
+  Object {
+    "days": "MW",
+    "time": "",
+    "type": "Class",
+  },
+]
+`;
+
+exports[`parseTable pulls out right data 1`] = `
+Array [
+  Object {
+    "days": "MWF",
+    "time": "11:00 am - 11:50 am",
+    "type": "Class",
+  },
+  Object {
+    "days": "MW",
+    "time": "12:00 pm - 1:50 pm",
+    "type": "Class",
+  },
+]
+`;
+
+exports[`parseTable uniquifies the head 1`] = `
+Array [
+  Object {
+    "days": undefined,
+    "time": "Class",
+    "time1": "11:00 am - 11:50 am",
+  },
+  Object {
+    "days": "MW",
+    "time": "Class",
+    "time1": "",
+  },
+]
+`;

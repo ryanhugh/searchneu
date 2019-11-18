@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`meetingParser.js 1`] = `
+Array [
+  Object {
+    "endDate": 18067,
+    "profs": Array [
+      "Domenic Corey",
+      "Robert Connolly",
+      "Todd Hodgkiss",
+      "Cassandra Johnson",
+      "Christopher Laffey",
+      "Matthew Williams",
+    ],
+    "startDate": 18022,
+    "times": Object {
+      "2": Array [
+        Object {
+          "end": 48000,
+          "start": 35400,
+        },
+      ],
+      "4": Array [
+        Object {
+          "end": 48000,
+          "start": 35400,
+        },
+      ],
+      "5": Array [
+        Object {
+          "end": 48000,
+          "start": 35400,
+        },
+      ],
+    },
+    "type": "Class",
+    "where": "Forsyth Building 242",
+  },
+  Object {
+    "endDate": 18072,
+    "profs": Array [
+      "Domenic Corey",
+      "Robert Connolly",
+      "Todd Hodgkiss",
+      "Cassandra Johnson",
+      "Christopher Laffey",
+      "Matthew Williams",
+    ],
+    "startDate": 18022,
+    "times": Object {
+      "1": Array [
+        Object {
+          "end": 52200,
+          "start": 36000,
+        },
+      ],
+      "3": Array [
+        Object {
+          "end": 52200,
+          "start": 36000,
+        },
+      ],
+    },
+    "type": "Lab",
+    "where": "Behrakis Health Sciences Cntr 420",
+  },
+  Object {
+    "endDate": 18072,
+    "profs": Array [
+      "Domenic Corey",
+      "Robert Connolly",
+      "Todd Hodgkiss",
+      "Cassandra Johnson",
+      "Christopher Laffey",
+      "Matthew Williams",
+    ],
+    "startDate": 18072,
+    "times": Object {
+      "2": Array [
+        Object {
+          "end": 63000,
+          "start": 55800,
+        },
+      ],
+    },
+    "type": "Final Exam",
+    "where": "Cargill Hall 094",
+  },
+]
+`;
