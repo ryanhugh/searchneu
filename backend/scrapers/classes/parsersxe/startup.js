@@ -11,16 +11,17 @@ const maxTerms = 200;
 
 require('@babel/register');
 require('regenerator-runtime/runtime');
+
 console.log(`[${new Date()}]\tstarting parsersxe/startup.js`);
 require('./bannerv9Parser.js').default.main(`https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?offset=1&max=${maxTerms}&searchTerm=`)
   .then(saveFile)
-  .catch(exception => saveFile(exception.toString()))
-  .finally(() => console.log(`[${new Date()}]\t~finally done~`));
+  .catch((exception) => { return saveFile(exception.toString()); })
+  .finally(() => { return console.log(`[${new Date()}]\t~finally done~`); });
 
 function saveFile(obj) {
   const fname = 'cache/result.json';
   require('fs')
     .writeFileSync(fname,
       JSON.stringify(obj, null, 4));
-  console.log('saved to file: ' + fname);
+  console.log(`saved to file: ${fname}`);
 }

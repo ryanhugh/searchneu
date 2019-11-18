@@ -23,12 +23,12 @@ function meetings(xeResponse) {
   if (Array.isArray(xeResponse.fmt)) {
     xeResponse = xeResponse.fmt;
   }
-  return xeResponse.map(m => {
+  return xeResponse.map((m) => {
     const meetingTime = m.meetingTime;
     return {
       startDate: mmddyyyyToDaysSinceEpoch(meetingTime.startDate),
       endDate: mmddyyyyToDaysSinceEpoch(meetingTime.endDate),
-      profs: m.faculty.map((o) => profName(o)),
+      profs: m.faculty.map((o) => { return profName(o); }),
       where: meetingTime.buildingDescription ? `${meetingTime.buildingDescription} ${meetingTime.room}` : 'TBA',
       type: meetingTime.meetingTypeDescription,
       times: days(meetingTime),
@@ -51,7 +51,7 @@ function profName(xeData) {
   if (typeof xeData !== 'string') {
     macros.error('parameter should be a string');
   }
-  return xeData.split(',').map(s => s.trim()).reverse().join(' ');
+  return xeData.split(',').map((s) => { return s.trim(); }).reverse().join(' ');
 }
 
 
@@ -106,7 +106,7 @@ function days(meetingTime) {
   const times = {};
   const info = [{
     start: hhmmToSeconds(meetingTime.beginTime),
-    end: hhmmToSeconds(meetingTime.endTime)
+    end: hhmmToSeconds(meetingTime.endTime),
   }];
 
   for (let i = 0; i < DAYS.length; i++) {
