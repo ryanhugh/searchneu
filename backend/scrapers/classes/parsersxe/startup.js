@@ -2,7 +2,7 @@
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
  */
-
+/* eslint-disable */
 // entrypoint for using the node binary itself to run bannerv9Parser.js
 // so we can use --heap-prof
 // use NODE_ENV=prod because caching messes up everything

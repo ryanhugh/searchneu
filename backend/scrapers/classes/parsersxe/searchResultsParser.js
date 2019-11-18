@@ -207,7 +207,7 @@ class SearchResultsParser {
    * @return {Promise<{meetings: *}>}
    */
   getMeetingTimes(termId, crn) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const finish = (result) => {
         resolve({ meetings: parseMeetings(result) });
       };

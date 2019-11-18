@@ -19,8 +19,6 @@ import simplifyProfList from './processors/simplifyProfList';
 import addPreRequisiteFor from './processors/addPreRequisiteFor';
 
 // Parsers
-import collegeNamesParser from './parsers/collegeNamesParser';
-import ellucianTermsParser from './parsers/ellucianTermsParser';
 import bannerv9Parser from './parsersxe/bannerv9Parser';
 
 

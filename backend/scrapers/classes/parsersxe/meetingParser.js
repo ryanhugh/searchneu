@@ -11,32 +11,6 @@
 import moment from 'moment';
 import macros from '../../../macros';
 
-
-/**
- * @param facultyMeetingTimes the output from
- * https://jennydaman.gitlab.io/nubanned/dark.html#searchresults-meeting-times-get
- * @return {*}
- * see https://github.com/jennydaman/searchneu/blob/1f86ac0a199cd1b59620beea8d58dddd9b7f0308/backend/tests/dataxe/getFacultyMeetingTimes/htlh2200.searchneu.json
- * for an example.
- */
-function meetings(xeResponse) {
-  if (Array.isArray(xeResponse.fmt)) {
-    xeResponse = xeResponse.fmt;
-  }
-  return xeResponse.map((m) => {
-    const meetingTime = m.meetingTime;
-    return {
-      startDate: mmddyyyyToDaysSinceEpoch(meetingTime.startDate),
-      endDate: mmddyyyyToDaysSinceEpoch(meetingTime.endDate),
-      profs: m.faculty.map((o) => { return profName(o); }),
-      where: meetingTime.buildingDescription ? `${meetingTime.buildingDescription} ${meetingTime.room}` : 'TBA',
-      type: meetingTime.meetingTypeDescription,
-      times: days(meetingTime),
-    };
-  });
-}
-
-
 /**
  * "LastName, FirstName" --> "FirstName LastName"
  * @param xeData should be an element of the fmt.faculty array as returned from
@@ -67,8 +41,8 @@ function hhmmToSeconds(hhmm) {
   if (hhmm.length !== 4) {
     macros.error(`Length of hhmm time string "${hhmm}" is not 4`);
   }
-  const hours = parseInt(hhmm.substring(0, 2));
-  const minutes = parseInt(hhmm.substring(2));
+  const hours = parseInt(hhmm.substring(0, 2), 10);
+  const minutes = parseInt(hhmm.substring(2), 10);
   return hours * 3600 + minutes * 60;
 }
 
@@ -115,6 +89,30 @@ function days(meetingTime) {
     }
   }
   return times;
+}
+
+/**
+ * @param facultyMeetingTimes the output from
+ * https://jennydaman.gitlab.io/nubanned/dark.html#searchresults-meeting-times-get
+ * @return {*}
+ * see https://github.com/jennydaman/searchneu/blob/1f86ac0a199cd1b59620beea8d58dddd9b7f0308/backend/tests/dataxe/getFacultyMeetingTimes/htlh2200.searchneu.json
+ * for an example.
+ */
+function meetings(xeResponse) {
+  if (Array.isArray(xeResponse.fmt)) {
+    xeResponse = xeResponse.fmt;
+  }
+  return xeResponse.map((m) => {
+    const meetingTime = m.meetingTime;
+    return {
+      startDate: mmddyyyyToDaysSinceEpoch(meetingTime.startDate),
+      endDate: mmddyyyyToDaysSinceEpoch(meetingTime.endDate),
+      profs: m.faculty.map((o) => { return profName(o); }),
+      where: meetingTime.buildingDescription ? `${meetingTime.buildingDescription} ${meetingTime.room}` : 'TBA',
+      type: meetingTime.meetingTypeDescription,
+      times: days(meetingTime),
+    };
+  });
 }
 
 export default meetings;
