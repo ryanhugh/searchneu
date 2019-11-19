@@ -77,3 +77,49 @@ Object {
   ],
 }
 `;
+
+exports[`should handle parenthesized prerequisites 2 1`] = `
+Object {
+  "type": "and",
+  "values": Array [
+    Object {
+      "type": "or",
+      "values": Array [
+        Object {
+          "classId": "3600",
+          "subject": "CS",
+        },
+        Object {
+          "classId": "3650",
+          "subject": "CS",
+        },
+        Object {
+          "classId": "5600",
+          "subject": "CS",
+        },
+        Object {
+          "classId": "5600",
+          "subject": "CS",
+        },
+      ],
+    },
+    Object {
+      "type": "or",
+      "values": Array [
+        Object {
+          "classId": "4800",
+          "subject": "CS",
+        },
+        Object {
+          "classId": "5800",
+          "subject": "CS",
+        },
+        Object {
+          "classId": "5800",
+          "subject": "CS",
+        },
+      ],
+    },
+  ],
+}
+`;

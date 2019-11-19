@@ -91,6 +91,11 @@ it('should handle parenthesized prerequisites', () => {
   expect(prereqs).toEqual(actual);
 });
 
+it('should handle parenthesized prerequisites 2', () => {
+  const prereqs = SearchResultsParser.serializePrereqs(PrereqExamples.cs4240, subjectAbbreviationTable);
+  expect(prereqs).toMatchSnapshot();
+});
+
 it('should handle nested parenthesized prerequisites or "Graduate Admissions REQ"', () => {
   const cive2221prereqs = SearchResultsParser.serializePrereqs(PrereqExamples.cive2221, subjectAbbreviationTable);
   const nrsg2220prereqs = SearchResultsParser.serializePrereqs(PrereqExamples.nrsg2220, subjectAbbreviationTable);
