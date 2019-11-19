@@ -583,13 +583,10 @@ class Home extends React.Component {
       attentionSection = (
         <div style={ actionCenterStyle } className='atentionContainer'>
           <p className='helpFistRow' />
-            Search NEU is built by Sandbox
+            Help improve Search NEU
           <p>
-            Want to work with us?
-          </p>
-          <p>
-            <a href='https://www.sandboxneu.com/apply' target='_blank' rel='noopener noreferrer' className={ `getInvolvedText ${hiddenHelpButton}` }>
-              Get involved &gt;
+            <a href='https://forms.gle/HNJ1AWTCXnu3XovKA' target='_blank' rel='noopener noreferrer' className={ `getInvolvedText ${hiddenHelpButton}` }>
+              Take our survey
             </a>
           </p>
         </div>
