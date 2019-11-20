@@ -17,6 +17,7 @@ import markMissingPrereqs from './processors/markMissingPrereqs';
 import termStartEndDate from './processors/termStartEndDate';
 import simplifyProfList from './processors/simplifyProfList';
 import addPreRequisiteFor from './processors/addPreRequisiteFor';
+import attachSectionsToClasses from './processors/attachSectionsToClasses';
 
 // Parsers
 import collegeNamesParser from './parsers/collegeNamesParser';
@@ -163,6 +164,7 @@ class Main {
     // Add new processors here.
     simplifyProfList.go(dump);
     addPreRequisiteFor.go(dump);
+    attachSectionsToClasses.go(dump);
 
     return dump;
   }

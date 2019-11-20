@@ -12,7 +12,7 @@ class BaseProcessor {
 
     sections.forEach((section) => {
       const obj = {
-        host:section.host,
+        host: section.host,
         termId: section.termId,
         subject: section.subject,
         classId: section.classId,
