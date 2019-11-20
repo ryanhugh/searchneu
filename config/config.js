@@ -15,7 +15,7 @@ module.exports = {
     host: '127.0.0.1',
     dialect: 'postgres',
   },
-  production: {
+  prod: {
     username: macros.getEnvVariable('DB_USERNAME'),
     password: macros.getEnvVariable('DB_PASSWORD'),
     database: macros.getEnvVariable('DB_NAME'),
