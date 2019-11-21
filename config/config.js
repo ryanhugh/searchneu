@@ -16,10 +16,10 @@ module.exports = {
     dialect: 'postgres',
   },
   prod: {
-    username: macros.getEnvVariable('DB_USERNAME'),
-    password: macros.getEnvVariable('DB_PASSWORD'),
-    database: macros.getEnvVariable('DB_NAME'),
-    host: macros.getEnvVariable('DB_HOST'),
+    username: macros.getEnvVariable('dbUsername'),
+    password: macros.getEnvVariable('dbPassword'),
+    database: macros.getEnvVariable('dbName'),
+    host: macros.getEnvVariable('dbHost'),
     dialect: 'postgres',
   },
 };
