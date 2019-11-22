@@ -1,5 +1,6 @@
 'use strict';
 
+const macros = require('../backend/macros');
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
@@ -7,6 +8,13 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'dev';
 const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
+
+if (env === 'prod') {
+  config.username = macros.getEnvVariable('dbUsername');
+  config.password = macros.getEnvVariable('dbPassword');
+  config.database = macros.getEnvVariable('dbName');
+  config.host = macros.getEnvVariable('dbHost');
+}
 
 let sequelize;
 if (config.use_env_variable) {

@@ -1,4 +1,3 @@
-import macros from '../backend/macros';
 
 module.exports = {
   dev: {
@@ -16,10 +15,6 @@ module.exports = {
     dialect: 'postgres',
   },
   prod: {
-    username: macros.getEnvVariable('dbUsername'),
-    password: macros.getEnvVariable('dbPassword'),
-    database: macros.getEnvVariable('dbName'),
-    host: macros.getEnvVariable('dbHost'),
     dialect: 'postgres',
   },
 };
