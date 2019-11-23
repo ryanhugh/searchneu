@@ -143,7 +143,7 @@ class Elastic {
     const got = await client.search({
       index: this.CLASS_INDEX,
       body: {
-        sort: 'class.termId.keyword',
+        sort: { 'class.termId.keyword' : 'desc' },
         size: 1,
         query: {
           bool: {
@@ -157,6 +157,7 @@ class Elastic {
       },
     });
     const hit = got.body.hits.hits[0];
+    console.log(hit);
     return hit ? hit._source.class : null;
   }
 
