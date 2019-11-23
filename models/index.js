@@ -9,13 +9,6 @@ const env = process.env.NODE_ENV || 'dev';
 const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
 
-if (env === 'prod') {
-  config.username = macros.getEnvVariable('dbUsername');
-  config.password = macros.getEnvVariable('dbPassword');
-  config.database = macros.getEnvVariable('dbName');
-  config.host = macros.getEnvVariable('dbHost');
-}
-
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);

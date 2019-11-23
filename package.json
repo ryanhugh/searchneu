@@ -94,6 +94,7 @@
     "cross-env": "^5.0.0",
     "dnscache": "^1.0.1",
     "domutils": "^1.6.2",
+    "dotenv": "^8.2.0",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
     "enzyme-to-json": "^3.3.5",
