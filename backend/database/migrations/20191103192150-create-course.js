@@ -2,11 +2,15 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Courses', {
-      id: {
+      classHash: {
         allowNull: false,
-        autoIncrement: true,
+        autoIncrement: false,
         primaryKey: true,
+<<<<<<< HEAD:backend/database/migrations/20191103192150-create-course.js
         type: Sequelize.INTEGER,
+=======
+        type: Sequelize.STRING
+>>>>>>> correcting section data types and structure and moving directory structure a bit:migrations/20191103192150-create-course.js
       },
       maxCredits: {
         type: Sequelize.INTEGER,

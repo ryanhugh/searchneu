@@ -2,11 +2,15 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Sections', {
-      id: {
+      sectionHash: {
         allowNull: false,
-        autoIncrement: true,
+        autoIncrement: false,
         primaryKey: true,
+<<<<<<< HEAD:backend/database/migrations/20191109211529-create-section.js
         type: Sequelize.INTEGER,
+=======
+        type: Sequelize.STRING
+>>>>>>> correcting section data types and structure and moving directory structure a bit:migrations/20191109211529-create-section.js
       },
       seatsCapacity: {
         type: Sequelize.INTEGER,
@@ -32,12 +36,21 @@ module.exports = {
       crn: {
         type: Sequelize.STRING,
       },
-      classId: {
-        type: Sequelize.INTEGER,
+      meetings: {
+        type: Sequelize.JSON
+      },
+      classHash: {
+        type: Sequelize.STRING,
         references: {
+<<<<<<< HEAD:backend/database/migrations/20191109211529-create-section.js
           model: 'Courses',
           key: 'id',
         },
+=======
+          model: "Courses",
+          key: 'classHash'
+        }
+>>>>>>> correcting section data types and structure and moving directory structure a bit:migrations/20191109211529-create-section.js
       },
       createdAt: {
         allowNull: false,
@@ -51,5 +64,9 @@ module.exports = {
   },
   down: (queryInterface) => {
     return queryInterface.dropTable('Sections');
+<<<<<<< HEAD:backend/database/migrations/20191109211529-create-section.js
   },
+=======
+  }
+>>>>>>> correcting section data types and structure and moving directory structure a bit:migrations/20191109211529-create-section.js
 };
