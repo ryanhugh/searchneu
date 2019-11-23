@@ -157,7 +157,6 @@ class Elastic {
       },
     });
     const hit = got.body.hits.hits[0];
-    console.log(hit);
     return hit ? hit._source.class : null;
   }
 
