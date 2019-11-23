@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`gets major from majorId 1`] = `
+Object {
+  "data": Object {
+    "major": null,
+  },
+  "errors": Array [
+    [GraphQLError: relation "MajorData" does not exist],
+  ],
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;

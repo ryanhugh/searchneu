@@ -41,7 +41,7 @@ it('gets major from majorId', async () => {
           name
         }
       }
-    `;
+    `,
   });
   expect(res).toMatchSnapshot();
 });
@@ -59,7 +59,7 @@ it('gets specific occurrence', async () => {
           }
         }
       }
-    `;
+    `,
   });
 });
 
@@ -75,6 +75,6 @@ it('gets latest occurrence', async () => {
         }
         }
       }
-    `;
+    `,
   });
 });
