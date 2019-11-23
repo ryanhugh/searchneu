@@ -43,6 +43,7 @@ it('gets major from majorId', async () => {
       }
     `,
   });
+  console.log(res);
   expect(res).toMatchSnapshot();
 });
 
@@ -61,6 +62,8 @@ it('gets specific occurrence', async () => {
       }
     `,
   });
+
+  expect(res).toMatchSnapshot();
 });
 
 it('gets latest occurrence', async () => {
@@ -68,13 +71,14 @@ it('gets latest occurrence', async () => {
     query: gql`
       query major {
         major(majorId: "computer-information-science/computer-science/bscs") {
-        name
-        latestOccurrence {
-          catalogYear
-          requirements
-        }
+          name
+          latestOccurrence {
+            catalogYear
+            requirements
+          }
         }
       }
     `,
   });
+  expect(res).toMatchSnapshot();
 });
