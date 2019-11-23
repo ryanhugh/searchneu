@@ -43,6 +43,9 @@ class AttachSectionsToClasses extends BaseProcessor.BaseProcessor {
         return;
       }
 
+
+      termDump.classes[classMap[classHash]].sections.push(section);
+    });
     return Object.values(classMap);
   }
 }
