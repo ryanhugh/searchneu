@@ -14,8 +14,48 @@ import elastic from '../../elastic';
 
 
 class SearchIndex {
+  attachSectionsToClasses(termDump) {
+    // Hashmap of all classes. Used to more quickly lookup classes
+    const classMap = {};
+
+    termDump.classes.forEach((aClass) => {
+      const classHash = Keys.getClassHash(aClass);
+
+      classMap[classHash] = {
+        class: aClass,
+        sections: [],
+        type: 'class',
+      };
+    });
+
+    // Sort sections by crn.
+    // This will keep the sections the same between different scrapings.
+    termDump.sections.sort((a, b) => {
+      return a.crn > b.crn;
+    });
+
+    // Loop through all sections and associate them with the right class
+    termDump.sections.forEach((section) => {
+      const classHash = Keys.getClassHash({
+        host: section.host,
+        termId: section.termId,
+        subject: section.subject,
+        classId: section.classId,
+      });
+
+      if (!classMap[classHash]) {
+        // This should never happen now that the bug has been fixed.
+        macros.error('No class exists with same data?', classHash, section.url);
+        return;
+      }
+
+      classMap[classHash].sections.push(section);
+    });
+    return classMap;
+  }
+
   async createSearchIndex(termDump) {
-    const classes = termDump;
+    const classes = this.attachSectionsToClasses(termDump);
 
     //await elastic.resetIndex(elastic.CLASS_INDEX, mapping);
     macros.log('performing bulk insert to index classes');
