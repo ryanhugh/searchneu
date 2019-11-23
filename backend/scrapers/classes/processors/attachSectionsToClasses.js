@@ -12,14 +12,6 @@ import macros from '../../../macros';
 
 class AttachSectionsToClasses extends BaseProcessor.BaseProcessor {
   go(termDump) {
-    // decent solution:
-    // 1. create a hash from classHash to index in class array
-    // 2. for each section, insert class to sections in that object
-    // 3. ezpz
-    // 4. return whatever
-
-
-
     // Hashmap of all classes. Used to more quickly lookup classes
     const classMap = {};
 
@@ -51,10 +43,10 @@ class AttachSectionsToClasses extends BaseProcessor.BaseProcessor {
         return;
       }
 
-      classMap[classHash].sections.push(section);
+      termDump.classes[classMap[classHash]].sections.push(section);
     });
 
-    return Object.values(classMap);
+    return classMap;
   }
 }
 
