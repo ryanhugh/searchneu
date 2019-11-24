@@ -45,7 +45,6 @@ it('gets major from majorId', async () => {
       }
     `,
   });
-  console.log(res);
   expect(res).toMatchSnapshot();
 });
 
