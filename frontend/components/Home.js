@@ -393,6 +393,10 @@ class Home extends React.Component {
       newState.results = results;
       newState.subjectName = obj.subjectName;
       newState.subjectCount = obj.subjectCount;
+
+      if (results.length === 0) {
+        macros.logAmplitudeEvent('Frontend Search No Results', { query: searchQuery.toLowerCase(), sessionCount: this.searchCount });
+      }
     }
 
 
