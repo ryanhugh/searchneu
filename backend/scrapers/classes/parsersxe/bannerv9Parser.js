@@ -9,10 +9,31 @@ import macros from '../../../macros';
 import Request from '../../request';
 import SearchResultsParser from './searchResultsParser';
 import Keys from '../../../../common/Keys';
+import _ from 'lodash';
 
 const request = new Request('bannerv9Parser');
 
 class Bannerv9Parser {
+  async main2() {
+    const terms = await getTerms();
+    const classIds = _.flatten(terms.map(getClassesInTerm));
+    const classData = classIds.map(getClassData);
+    const classData = classIds.map(getClassData)
+    const mergedOutput = {
+      classes: uniqueClasses,
+      sections: allSections,
+    };
+  }
+
+  async getTerms() {
+  }
+
+  async getClassesInTerm({host, termId}) {
+  }
+
+  async getClassData({host, termId, subject, courseNumber}) {
+  }
+
   async main(termsUrl) {
     const bannerTerms = await request.get({
       url: termsUrl,
