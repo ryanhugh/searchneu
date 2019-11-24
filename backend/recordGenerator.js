@@ -12,10 +12,11 @@ const Meeting = db.Meeting;
 
 class RecordGenerator {
   async main(termDump, profDump) {
-    _.mapValues(profDump, async (prof) => {
-      await this.insertProf(prof);
-    });
+    // _.mapValues(profDump, async (prof) => {
+    //   await this.insertProf(prof);
+    // });
 
+    console.log(termDump.classes[0]);
     termDump.classes.forEach(async (aClass) => {
       await this.insertClass(aClass);
     });
