@@ -1,7 +1,9 @@
-import db from './index';
 import fs from 'fs-extra';
 import _ from 'lodash';
-import Keys from '../../common/Keys';
+import path from 'path';
+import Keys from '../common/Keys';
+import macros from './macros';
+import db from './models/index';
 
 const Professor = db.Professor;
 const Course = db.Course;
@@ -10,17 +12,22 @@ const Meeting = db.Meeting;
 
 class RecordGenerator {
   async main(termDump, profDump) {
-    _.mapValues(profDump, (prof) => {
-      Professor.create(profInfo);
+    _.mapValues(profDump, async (prof) => {
+      await this.insertProf(prof);
     });
 
-    termDump.classes.forEach(aClass => {
+    termDump.classes.forEach(async (aClass) => {
       await this.insertClass(aClass);
     });
 
-    termDump.sections.forEach(section => {
+    termDump.sections.forEach(async (section) => {
       await this.insertSection(section);
     });
+  }
+
+  async insertProf(profInfo) {
+    delete profInfo.id;
+    await Professor.create(profInfo);
   }
 
   async insertClass(classInfo) {
