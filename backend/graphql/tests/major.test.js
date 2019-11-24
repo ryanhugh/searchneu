@@ -8,6 +8,8 @@ const MajorData = db.MajorData;
 
 
 beforeAll(async () => {
+  await MajorData.truncate({ cascade: true, restartIdentity: true });
+
   await MajorData.create({
     majorId: 'computer-information-science/computer-science/bscs',
     catalogYear: 2018,
