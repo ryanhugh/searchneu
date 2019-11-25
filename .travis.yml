@@ -14,7 +14,7 @@ before_install:
 - sudo systemctl start postgresql
 before_script:
 - psql -c 'create database searchneu_test;'
-- npx sequelize-cli --dev 'test' db:migrate
+- npx sequelize-cli --env 'test' db:migrate
 - sleep 10
 script:
 - bash travis_deploy.sh
