@@ -139,20 +139,6 @@ class Home extends React.Component {
     // Timer used for hidding the search results after an interval
     this.hideSearchResultsTimeout = null;
 
-    this.onClick = this.onClick.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.loadMore = this.loadMore.bind(this);
-    this.onPopState = this.onPopState.bind(this);
-    this.onDOMEventSearch = this.onDOMEventSearch.bind(this);
-    this.onInputFocus = this.onInputFocus.bind(this);
-    this.onSearchDebounced = this.onSearchDebounced.bind(this);
-    this.onLogoClick = this.onLogoClick.bind(this);
-    this.onTermdropdownChange = this.onTermdropdownChange.bind(this);
-    this.openForm = this.openForm.bind(this);
-    this.closeForm = this.closeForm.bind(this);
-    this.closeHelpModal = this.closeHelpModal.bind(this);
-    this.openHelpModal = this.openHelpModal.bind(this);
-
     // Count the number of times the user searched this session. Used for analytics.
     this.searchCount = 0;
 
@@ -192,7 +178,7 @@ class Home extends React.Component {
   }
 
   // Runs when the user clicks back or forward in their browser.
-  onPopState() {
+  onPopState = () => {
     const parsedUrl = this.parseUrl();
 
     let newSelectedTermId = this.state.selectedTermId;
@@ -208,7 +194,7 @@ class Home extends React.Component {
     }
   }
 
-  onDOMEventSearch(event) {
+  onDOMEventSearch = (event) => {
     const query = event.detail;
 
     // Update the text box.
@@ -225,7 +211,7 @@ class Home extends React.Component {
     this.search(query, this.state.selectedTermId);
   }
 
-  onInputFocus() {
+  onInputFocus = () => {
     if (macros.isMobile) {
       this.setState({
         results: [],
@@ -234,17 +220,19 @@ class Home extends React.Component {
     }
   }
 
-  onLogoClick() {
+  onLogoClick = () => {
     if (this.inputElement) {
       this.inputElement.value = '';
     }
+    //Resets url
+    this.onSearchDebounced('');
 
     this.search('', this.state.selectedTermId);
   }
 
   // On mobile, this is called whenever the user clicks enter.
   // On desktop, this is called 500ms after they user stops typing.
-  onSearchDebounced(searchQuery) {
+  onSearchDebounced = (searchQuery) => {
     searchQuery = searchQuery.trim();
 
     this.updateUrl(this.state.selectedTermId, searchQuery);
@@ -252,7 +240,7 @@ class Home extends React.Component {
     this.logSearch(searchQuery);
   }
 
-  onClick(event) {
+  onClick = (event) => {
     if (macros.isMobile) {
       this.setState({
         results: [],
@@ -269,7 +257,7 @@ class Home extends React.Component {
     this.searchFromUserAction(event);
   }
 
-  onKeyDown(event) {
+  onKeyDown = (event) => {
     if (event.key !== 'Enter') {
       return;
     }
@@ -286,7 +274,7 @@ class Home extends React.Component {
     this.searchFromUserAction(event);
   }
 
-  onTermdropdownChange(event, data) {
+  onTermdropdownChange = (event, data) => {
     localStorage.selectedTermId = data.value;
 
     this.updateUrl(data.value, this.state.searchQuery);
@@ -300,8 +288,14 @@ class Home extends React.Component {
     });
   }
 
+
+  // Called from ResultsLoader to load more
+  loadMore = () => {
+    this.search(this.state.searchQuery, this.state.selectedTermId, this.state.results.length + 10);
+  }
+
   // Parse termId and query from the url. The url might just be a search and it might be a search term and a termId
-  parseUrl() {
+  parseUrl = () => {
     const pathname = decodeURIComponent(macros.replaceAll(window.location.pathname.slice(1), '+', ' '));
     const retVal = {};
 
@@ -327,21 +321,19 @@ class Home extends React.Component {
     return retVal;
   }
 
-  closeForm() {
-    this.setState({ feedbackModalOpen: false });
+
+  toggleForm = () => {
+    this.setState((prevState) => ({
+      feedbackModalOpen: !prevState.feedbackModalOpen,
+    }));
   }
 
-  openForm() {
-    this.setState({ feedbackModalOpen: true });
+  toggleHelpModal = () => {
+    this.setState((prevState) => ({
+      helpModalOpen: !prevState.helpModalOpen,
+    }));
   }
 
-  closeHelpModal() {
-    this.setState({ helpModalOpen: false });
-  }
-
-  openHelpModal() {
-    this.setState({ helpModalOpen: true });
-  }
 
   logSearch(searchQuery) {
     searchQuery = searchQuery.trim();
@@ -360,11 +352,6 @@ class Home extends React.Component {
       macros.logAmplitudeEvent('Homepage visit');
       window.ga('send', 'pageview', '/');
     }
-  }
-
-  // Called from ResultsLoader to load more
-  loadMore() {
-    this.search(this.state.searchQuery, this.state.selectedTermId, this.state.results.length + 10);
   }
 
   async search(searchQuery, selectedTermId, termCount = 5) {
@@ -711,15 +698,15 @@ class Home extends React.Component {
               Search NEU is built for students by students & is not affiliated with NEU.
             </div>
             <div className='footer ui basic center aligned segment contact'>
-              <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
+              <a role='button' tabIndex={ 0 } onClick={ this.toggleForm }>
                 Feedback
               </a>
               &nbsp;•&nbsp;
-              <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
+              <a role='button' tabIndex={ 0 } onClick={ this.toggleForm }>
                 Report a bug
               </a>
               &nbsp;•&nbsp;
-              <a role='button' tabIndex={ 0 } onClick={ this.openForm }>
+              <a role='button' tabIndex={ 0 } onClick={ this.toggleForm }>
                 Contact
               </a>
             </div>
@@ -727,9 +714,9 @@ class Home extends React.Component {
           </div>
         </div>
 
-        <FeedbackModal isFeedback closeForm={ this.closeForm } feedbackModalOpen={ this.state.feedbackModalOpen } />
+        <FeedbackModal isFeedback toggleForm={ this.toggleForm } feedbackModalOpen={ this.state.feedbackModalOpen } />
 
-        <FeedbackModal isHelpOut closeForm={ this.closeHelpModal } feedbackModalOpen={ this.state.helpModalOpen } />
+        <FeedbackModal isHelpOut toggleForm={ this.toggleHelpModal } feedbackModalOpen={ this.state.helpModalOpen } />
 
         <ReactTooltip effect='solid' className='listIconTooltip' />
       </div>

@@ -264,16 +264,16 @@ exports[`should render a section 1`] = `
     </div>
   </div>
   <FeedbackModal
-    closeForm={[Function]}
     feedbackModalOpen={false}
     isFeedback={true}
     isHelpOut={false}
+    toggleForm={[Function]}
   />
   <FeedbackModal
-    closeForm={[Function]}
     feedbackModalOpen={false}
     isFeedback={false}
     isHelpOut={true}
+    toggleForm={[Function]}
   />
   <ReactTooltip
     className="listIconTooltip"
