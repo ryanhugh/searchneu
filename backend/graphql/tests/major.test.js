@@ -35,6 +35,10 @@ beforeAll(async () => {
   });
 });
 
+afterAll(async () => {
+  await db.sequelize.close();
+});
+
 it('gets major from majorId', async () => {
   const res = await query({
     query: gql`
