@@ -25,10 +25,7 @@ class Bannerv9Parser {
      * memory than default allocation by node.js
      * performance: 60-90 seconds per term
      */
-    const termsToKeep = bannerTerms.body.filter((term) => {
-      return EllucianTermsParser.isValidTerm(term.code, term.description);
-    });
-    // termsToKeep = termsToKeep.slice(0, 2); // DEBUG to save time
+    const termsToKeep = bannerTerms.body.slice(0, 3);
 
     const serializedTerms = this.serializeTermsList(termsToKeep);
 
