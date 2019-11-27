@@ -1,4 +1,4 @@
-'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   const Course = sequelize.define('Course', {
     maxCredits: DataTypes.INTEGER,
@@ -16,10 +16,8 @@ module.exports = (sequelize, DataTypes) => {
     coreqs: DataTypes.JSON,
     prereqsFor: DataTypes.JSON,
     optPrereqsFor: DataTypes.JSON,
-    classAttributes: DataTypes.ARRAY(DataTypes.STRING)
+    classAttributes: DataTypes.ARRAY(DataTypes.STRING),
   }, {});
-  Course.associate = function(models) {
-    // associations can be defined here
-  };
+
   return Course;
 };

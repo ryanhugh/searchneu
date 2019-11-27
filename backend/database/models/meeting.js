@@ -1,4 +1,4 @@
-'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   const Meeting = sequelize.define('Meeting', {
     startDate: DataTypes.INTEGER,
@@ -7,12 +7,10 @@ module.exports = (sequelize, DataTypes) => {
     times: DataTypes.JSON,
     sectionId: {
       type: DataTypes.INTEGER,
-      references: "Sections",
-      referencesKey: 'id'
-    }
+      references: 'Sections',
+      referencesKey: 'id',
+    },
   }, {});
-  Meeting.associate = function(models) {
-    // associations can be defined here
-  };
+
   return Meeting;
 };

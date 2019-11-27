@@ -1,4 +1,4 @@
-'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   const Professor = sequelize.define('Professor', {
     name: DataTypes.STRING,
@@ -13,10 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     streetAddress: DataTypes.STRING,
     personalSite: DataTypes.STRING,
     googleScholarId: DataTypes.STRING,
-    bigPictureUrl: DataTypes.STRING
+    bigPictureUrl: DataTypes.STRING,
   }, {});
-  Professor.associate = function(models) {
-    // associations can be defined here
-  };
+
   return Professor;
 };

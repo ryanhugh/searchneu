@@ -1,4 +1,4 @@
-'use strict';
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Courses', {
@@ -6,73 +6,73 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       maxCredits: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       minCredits: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       desc: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
       },
       classId: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: 'classKeyIndex'
+        unique: 'classKeyIndex',
       },
       url: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       prettyurl: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       lastUpdateTime: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       termId: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: 'classKeyIndex'
+        unique: 'classKeyIndex',
       },
       host: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       subject: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: 'classKeyIndex'
+        unique: 'classKeyIndex',
       },
       prereqs: {
-        type: Sequelize.JSON
+        type: Sequelize.JSON,
       },
       coreqs: {
-        type: Sequelize.JSON
+        type: Sequelize.JSON,
       },
       prereqsFor: {
-        type: Sequelize.JSON
+        type: Sequelize.JSON,
       },
       optPrereqsFor: {
-        type: Sequelize.JSON
+        type: Sequelize.JSON,
       },
       classAttributes: {
-        type: Sequelize.ARRAY(Sequelize.STRING)
+        type: Sequelize.ARRAY(Sequelize.STRING),
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface.dropTable('Courses');
-  }
+  },
 };

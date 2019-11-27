@@ -323,15 +323,19 @@ class Home extends React.Component {
 
 
   toggleForm = () => {
-    this.setState((prevState) => ({
-      feedbackModalOpen: !prevState.feedbackModalOpen,
-    }));
+    this.setState((prevState) => {
+      return {
+        feedbackModalOpen: !prevState.feedbackModalOpen,
+      };
+    });
   }
 
   toggleHelpModal = () => {
-    this.setState((prevState) => ({
-      helpModalOpen: !prevState.helpModalOpen,
-    }));
+    this.setState((prevState) => {
+      return {
+        helpModalOpen: !prevState.helpModalOpen,
+      };
+    });
   }
 
 
