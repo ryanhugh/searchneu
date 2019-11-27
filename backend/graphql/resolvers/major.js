@@ -1,4 +1,5 @@
 import db from '../../../models/index';
+
 const { UserInputError } = require('apollo-server');
 
 const MajorData = db.MajorData;
@@ -14,7 +15,7 @@ const getLatestMajorOccurrence = async (majorId, recordType) => {
     limit: 1,
   });
 
-  return (response ? response : noResultsError(recordType) );
+  return (response || noResultsError(recordType));
 };
 
 const resolvers = {
@@ -27,7 +28,7 @@ const resolvers = {
         where: { majorId: major.majorId, catalogYear: args.year },
         limit: 1,
       });
-      return (response ? response : noResultsError('occurrence') );
+      return (response || noResultsError('occurrence'));
     },
     latestOccurrence: (major) => { return getLatestMajorOccurrence(major.majorId, 'latestOccurrence'); },
   },
