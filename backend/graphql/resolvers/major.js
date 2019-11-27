@@ -1,4 +1,4 @@
-import db from '../../../models/index';
+import db from '../../database/models/index';
 
 const { UserInputError } = require('apollo-server');
 

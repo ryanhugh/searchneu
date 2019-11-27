@@ -1,6 +1,6 @@
 'use strict';
 
-const macros = require('../backend/macros');
+const macros = require('../../macros');
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');

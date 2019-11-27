@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 
-import db from '../models/index';
+import db from '../backend/database/models/index';
 
 const MajorData = db.MajorData;
 

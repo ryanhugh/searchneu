@@ -1,7 +1,7 @@
 import { createTestClient } from 'apollo-server-testing';
 import { gql } from 'apollo-server';
 import server from '../index';
-import db from '../../../models/index';
+import db from '../../database/models/index';
 
 const { query } = createTestClient(server);
 const MajorData = db.MajorData;
