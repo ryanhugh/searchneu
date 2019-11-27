@@ -15,7 +15,7 @@ beforeAll(async () => {
     catalogYear: 2018,
     name: 'Computer Science',
     requirements: { name: 'Computer Science, BSCS', yearVersion: 2018 },
-    plansOfStudy: [ { years: [ 1000 ] , id: '0' } ],
+    plansOfStudy: [{ years: [1000], id: '0' }],
   });
 
   await MajorData.create({
@@ -23,7 +23,7 @@ beforeAll(async () => {
     catalogYear: 2017,
     name: 'Computer Science',
     requirements: { name: 'Computer Science, BSCS', yearVersion: 2017 },
-    plansOfStudy: [ { years: [ 1000 ], id: '0' } ],
+    plansOfStudy: [{ years: [1000], id: '0' }],
   });
 
   await MajorData.create({
@@ -31,7 +31,7 @@ beforeAll(async () => {
     catalogYear: 2018,
     name: 'Biochemistry',
     requirements: { name: 'Biochemistry, BS', yearVersion: 2018 },
-    plansOfStudy: [ { years: [ 1000 ], id: '0' } ],
+    plansOfStudy: [{ years: [1000], id: '0' }],
   });
 });
 
@@ -105,7 +105,7 @@ it('cannot find major from non-present majorId', async () => {
 });
 
 it('cannot find majorOccurrence from non-present year', async () => {
-  const res = await query({ 
+  const res = await query({
     query: gql`
       query major {
         major(majorId: "computer-information-science/computer-science/bscs") {
