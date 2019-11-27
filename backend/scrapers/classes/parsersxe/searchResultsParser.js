@@ -467,8 +467,9 @@ class SearchResultsParser {
           boolean = row['and/or'].toLowerCase();
         }
 
-        if (!subjectAbbreviation) {
-          macros.error(`Prereqs: can't find abbreviation for "${row.subject}" from POST ${req.request.path}`);
+        if (row.subject && !subjectAbbreviation) {
+          //TODO rollbar this and other scrape issues
+          macros.warn(`Prereqs: can't find abbreviation for "${row.subject}" from POST ${req.request.path} ${req.request.body}`);
         }
         const curr = row.test
           ? row.test
