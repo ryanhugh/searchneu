@@ -275,7 +275,7 @@ class CombineCCISandEmployees {
 
           mergedPeopleList.push(newMatchPerson);
         } else if (matchesFound > 1) {
-          macros.error(matchesFound, 'matches found for ', person.name, '!!!!');
+          macros.warn(matchesFound, 'matches found for ', person.name, '!!!!');
         }
       }
 
