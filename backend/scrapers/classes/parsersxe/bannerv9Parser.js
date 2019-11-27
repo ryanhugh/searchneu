@@ -7,7 +7,6 @@
 import cache from '../../cache';
 import macros from '../../../macros';
 import Request from '../../request';
-import EllucianTermsParser from '../parsers/ellucianTermsParser';
 import SearchResultsParser from './searchResultsParser';
 import Keys from '../../../../common/Keys';
 
