@@ -87,3 +87,35 @@ it('gets latest occurrence', async () => {
   });
   expect(res).toMatchSnapshot();
 });
+
+it('cannot find major from non-present majorId', async () => {
+  const res = await query({
+    query: gql`
+      query major {
+        major(majorId: "humanities/lovecraftian-studies/lovecraft-studies-ba") {
+          name
+          latestOccurrence {
+            catalogYear
+          }
+        }
+      }
+    `,
+  });
+  expect(res).toMatchSnapshot();
+});
+
+it('cannot find majorOccurrence from non-present year', async () => {
+  const res = await query({ 
+    query: gql`
+      query major {
+        major(majorId: "computer-information-science/computer-science/bscs") {
+          name
+          occurrence(year: 1984) {
+            requirements
+          }
+        }
+      }
+    `,
+  });
+  expect(res).toMatchSnapshot();
+});

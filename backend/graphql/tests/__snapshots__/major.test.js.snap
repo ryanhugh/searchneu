@@ -1,5 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`cannot find major from non-present majorId 1`] = `
+Object {
+  "data": Object {
+    "major": null,
+  },
+  "errors": Array [
+    [GraphQLError: major not found!],
+  ],
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`cannot find majorOccurrence from non-present year 1`] = `
+Object {
+  "data": Object {
+    "major": Object {
+      "name": "Computer Science",
+      "occurrence": null,
+    },
+  },
+  "errors": Array [
+    [GraphQLError: occurrence not found!],
+  ],
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
 exports[`gets latest occurrence 1`] = `
 Object {
   "data": Object {
