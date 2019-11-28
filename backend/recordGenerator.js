@@ -16,7 +16,10 @@ class RecordGenerator {
 
     console.log(termDump.classes[0]);
     termDump.classes.forEach(async (aClass) => {
-      await this.insertClass(aClass);
+      const res = await this.insertClass(aClass);
+      if (res === null) {
+        return;
+      }
     });
 
     termDump.sections.forEach(async (section) => {
@@ -30,12 +33,16 @@ class RecordGenerator {
   }
 
   async insertClass(classInfo) {
-    const additionalProps = { classHash: Keys.getClassHash(classInfo) };
-    Course.create({ ...classInfo, ...additionalProps });
+    const additionalProps = { id: Keys.getClassHash(classInfo) };
+    const val = await Course.create({ ...classInfo, ...additionalProps });
+    if (typeof(val) !== Course) {
+      console.log(`this is bananas. ${classInfo}`);
+      return null;
+    }
   }
 
   async insertSection(secInfo) {
-    const additionalProps = { sectionHash: Keys.getSectionHash(secInfo), classHash: Keys.getClassHash(secInfo) };
+    const additionalProps = { id: Keys.getSectionHash(secInfo), classHash: Keys.getClassHash(secInfo) };
     Section.create({ ...secInfo, ...additionalProps });
   }
 }
