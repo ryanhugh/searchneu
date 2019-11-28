@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: false,
         primaryKey: true,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       maxCredits: {
         type: Sequelize.INTEGER,
@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       classId: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       url: {
         type: Sequelize.STRING,
@@ -33,13 +33,13 @@ module.exports = {
         type: Sequelize.DATE,
       },
       termId: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       host: {
         type: Sequelize.STRING,
       },
       subject: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       prereqs: {
         type: Sequelize.JSON,
@@ -64,7 +64,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-    }).then(() => queryInterface.addIndex('Courses', ['classId', 'termId', 'subject']));
+    }).then(() => { return queryInterface.addIndex('Courses', ['classId', 'termId', 'subject']); });
   },
   down: (queryInterface) => {
     return queryInterface.dropTable('Courses');

@@ -1,14 +1,12 @@
 import fs from 'fs-extra';
-import _ from 'lodash';
 import path from 'path';
 import Keys from '../common/Keys';
 import macros from './macros';
-import db from './models/index';
+import db from './database/models/index';
 
 const Professor = db.Professor;
 const Course = db.Course;
 const Section = db.Section;
-const Meeting = db.Meeting;
 
 class RecordGenerator {
   async main(termDump, profDump) {
@@ -33,12 +31,12 @@ class RecordGenerator {
 
   async insertClass(classInfo) {
     const additionalProps = { classHash: Keys.getClassHash(classInfo) };
-    const course = await Course.create({ ...classInfo, ...additionalProps });
+    Course.create({ ...classInfo, ...additionalProps });
   }
 
   async insertSection(secInfo) {
     const additionalProps = { sectionHash: Keys.getSectionHash(secInfo), classHash: Keys.getClassHash(secInfo) };
-    const section = await Section.create({ ...secInfo, ...additionalProps });
+    Section.create({ ...secInfo, ...additionalProps });
   }
 }
 
@@ -64,5 +62,5 @@ if (require.main === module) {
   const empFilePath = path.join(macros.PUBLIC_DIR, 'employeeDump.json');
   fromFile(termFilePath, empFilePath).catch(macros.error);
 }
-  
+
 export default instance;
