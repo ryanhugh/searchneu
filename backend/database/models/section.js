@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     classHash: {
       type: DataTypes.STRING,
       references: "Courses",
-      referencesKey: 'classHash'
+      referencesKey: 'id'
     }
 >>>>>>> correcting section data types and structure and moving directory structure a bit:backend/models/section.js
   }, {});
