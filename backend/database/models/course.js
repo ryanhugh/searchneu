@@ -1,7 +1,6 @@
 
 module.exports = (sequelize, DataTypes) => {
   const Course = sequelize.define('Course', {
-    id: DataTypes.STRING,
     maxCredits: DataTypes.INTEGER,
     minCredits: DataTypes.INTEGER,
     desc: DataTypes.TEXT,

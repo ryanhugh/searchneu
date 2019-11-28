@@ -1,7 +1,6 @@
 
 module.exports = (sequelize, DataTypes) => {
   const Section = sequelize.define('Section', {
-    id: DataTypes.STRING,
     seatsCapacity: DataTypes.INTEGER,
     seatsRemaining: DataTypes.INTEGER,
     waitCapacity: DataTypes.INTEGER,
