@@ -10,9 +10,9 @@ const Section = db.Section;
 
 class RecordGenerator {
   async main(termDump, profDump) {
-    // _.mapValues(profDump, async (prof) => {
-    //   await this.insertProf(prof);
-    // });
+    _.mapValues(profDump, async (prof) => {
+      await this.insertProf(prof);
+    });
 
     termDump.classes.forEach(async (aClass) => {
       const res = await this.insertClass(aClass);
