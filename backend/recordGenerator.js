@@ -14,6 +14,7 @@ class RecordGenerator {
       await this.insertProf(prof);
     });
 
+    // for asynchronous behavior: each of these threads can run asynchronously, but each block needs the previous one to complete (except profs, I guess?)
     termDump.classes.forEach(async (aClass) => {
       const res = await this.insertClass(aClass);
     });
