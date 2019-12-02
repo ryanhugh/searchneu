@@ -14,22 +14,28 @@ const Professor = db.Professor;
 const Course = db.Course;
 const Section = db.Section;
 
+const CHUNK_SIZE = 2000;
+
 class RecordGenerator {
   /**
    * @param {Object} termDump object containing all class and section data, normally acquired from scrapers
    * @param {Object} profDump object containing all professor data, normally acquired from scrapers
    */
   async main(termDump, profDump) {
-    const profPromises = _.mapValues(profDump, async (prof) => {
-      return this.insertProf(prof);
+    const profPromises = this.chunkify(Object.values(profDump)).map(async (profChunk) => {
+      const processedChunk = profChunk.map(prof => { return this.processProf(prof); });
+      return Professor.bulkCreate(processedChunk);
     });
 
-    const classPromises = await termDump.classes.map(async (aClass) => {
-      return this.insertClass(aClass);
+    const classPromises = this.chunkify(termDump.classes).map(async (classChunk) => {
+      const processedChunk = classChunk.map(aClass => { return this.processClass(aClass); });
+      return Course.bulkCreate(processedChunk);
     });
 
-    const secPromises = termDump.sections.map(async (section) => {
-      return this.insertSection(section);
+
+    const secPromises = this.chunkify(termDump.sections).map(async (secChunk) => {
+      const processedChunk = secChunk.map(section => { return this.processSection(section); });
+      return Section.bulkCreate(processedChunk);
     });
 
     await Promise.all(profPromises);
@@ -37,19 +43,27 @@ class RecordGenerator {
     await Promise.all(secPromises);
   }
 
-  async insertProf(profInfo) {
+  processProf(profInfo) {
     delete profInfo.id;
-    return Professor.create(profInfo);
+    return profInfo;
   }
 
-  async insertClass(classInfo) {
-    const additionalProps = { id: Keys.getClassHash(classInfo), minCredits: Math.floor(classInfo.minCredits), maxCredits: Math.floor(classInfo.maxCredits) };
-    return Course.create({ ...classInfo, ...additionalProps });
+  processClass(classInfo) {
+    const additionalProps = { id: `\'${Keys.getClassHash(classInfo)}\'`, minCredits: Math.floor(classInfo.minCredits), maxCredits: Math.floor(classInfo.maxCredits) };
+    return { ...classInfo, ...additionalProps };
   }
 
-  async insertSection(secInfo) {
-    const additionalProps = { id: Keys.getSectionHash(secInfo), classHash: Keys.getClassHash(secInfo) };
-    return Section.create({ ...secInfo, ...additionalProps });
+  processSection(secInfo) {
+    const additionalProps = { id: `\'${Keys.getSectionHash(secInfo)}\'`, classHash: Keys.getClassHash(secInfo) };
+    return { ...secInfo, ...additionalProps };
+  }
+
+  chunkify(arr) {
+    const res = [];
+    for (let index = 0; index < arr.length; index += CHUNK_SIZE) {
+      res.push(arr.slice(index, index + CHUNK_SIZE));
+    }
+    return res;
   }
 }
 
