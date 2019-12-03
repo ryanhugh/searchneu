@@ -350,7 +350,7 @@ class CombineCCISandEmployees {
     const hiddenProfs = ['i.escobedo@northeastern.edu', 'p.kothamali@northeastern.edu'];
     const beforeModifyCount = mergedEmployees.length;
     mergedEmployees = mergedEmployees.filter((person) => {
-      if (person.emails && _.intersection(person.emails, hiddenProfs)) {
+      if (person.emails && _.intersection(person.emails, hiddenProfs).length > 0) {
         return false;
       }
 
