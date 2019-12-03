@@ -26,20 +26,19 @@ class RecordGenerator {
       const processedChunk = profChunk.map(prof => { return this.processProf(prof); });
       return Professor.bulkCreate(processedChunk);
     });
+    await Promise.all(profPromises);
 
     const classPromises = this.chunkify(termDump.classes).map(async (classChunk) => {
       const processedChunk = classChunk.map(aClass => { return this.processClass(aClass); });
       return Course.bulkCreate(processedChunk);
     });
+    await Promise.all(classPromises);
 
 
     const secPromises = this.chunkify(termDump.sections).map(async (secChunk) => {
       const processedChunk = secChunk.map(section => { return this.processSection(section); });
       return Section.bulkCreate(processedChunk);
     });
-
-    await Promise.all(profPromises);
-    await Promise.all(classPromises);
     await Promise.all(secPromises);
   }
 
@@ -49,12 +48,12 @@ class RecordGenerator {
   }
 
   processClass(classInfo) {
-    const additionalProps = { id: `\'${Keys.getClassHash(classInfo)}\'`, minCredits: Math.floor(classInfo.minCredits), maxCredits: Math.floor(classInfo.maxCredits) };
+    const additionalProps = { id: `${Keys.getClassHash(classInfo)}`, minCredits: Math.floor(classInfo.minCredits), maxCredits: Math.floor(classInfo.maxCredits) };
     return { ...classInfo, ...additionalProps };
   }
 
   processSection(secInfo) {
-    const additionalProps = { id: `\'${Keys.getSectionHash(secInfo)}\'`, classHash: Keys.getClassHash(secInfo) };
+    const additionalProps = { id: `${Keys.getSectionHash(secInfo)}`, classHash: Keys.getClassHash(secInfo) };
     return { ...secInfo, ...additionalProps };
   }
 
