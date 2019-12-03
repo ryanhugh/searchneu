@@ -3,36 +3,62 @@
  * See the license file in the root folder for details.
  */
 
-
+import _ from 'lodash';
 import cache from '../../cache';
 import macros from '../../../macros';
 import Request from '../../request';
 import SearchResultsParser from './searchResultsParser';
 import Keys from '../../../../common/Keys';
-import _ from 'lodash';
 
 const request = new Request('bannerv9Parser');
 
+/**
+ * Top level parser. Exposes nice interface to rest of app.
+ */
 class Bannerv9Parser {
   async main2() {
-    const terms = await getTerms();
-    const classIds = _.flatten(terms.map(getClassesInTerm));
-    const classData = classIds.map(getClassData);
-    const classData = classIds.map(getClassData)
-    const mergedOutput = {
-      classes: uniqueClasses,
-      sections: allSections,
-    };
+    const termIds = await this.getTermIds().map((t) => { return t.termId; });
+    await this.scrapeTerms(termIds);
   }
 
-  async getTerms() {
+  /**
+   * Get the list of all available terms given the starting url
+   * @param termsUrl the starting url to find the terms with v9
+   * @returns List of {termId, description}
+   */
+  async getTermList(termsUrl) {
+    const bannerTerms = await request.get({ url: termsUrl, json: true }).body;
+    const renamed = bannerTerms.map(({ code, description }) => {
+      return {
+        termId: code,
+        description: description,
+      };
+    });
+    return renamed;
   }
 
-  async getClassesInTerm({host, termId}) {
+  /**
+   * Scrape all the class data in a set of terms
+   * @param termIds array of terms to scrape in
+   * @returns Object {classes, sections} where classes is a list of class data
+   */
+  async scrapeTerms(termIds) {
+    const termData = await Promise.all(termIds.map(this.scrapeTerm));
+    return _.mergeWith(...termData, (a, b) => { return a.concat(b); });
   }
 
-  async getClassData({host, termId, subject, courseNumber}) {
+  /**
+   * Scrape all the details of a specific class and associated sections
+   * @param termId termId the class is in
+   * @param subject the subject of the class ("CS")
+   * @param classId the course number of the class (2500)
+   * @returns Object {classes, sections} where classes and sections are arrays,
+   *          though classes should only have 1 element
+   */
+  async scrapeClass(termId, subject, courseNumber) {
+
   }
+
 
   async main(termsUrl) {
     const bannerTerms = await request.get({
@@ -104,21 +130,6 @@ class Bannerv9Parser {
       // Don't log anything because there would just be too much logging.
     }
     return mergedOutput;
-  }
-
-  serializeTermsList(termsFromBanner) {
-    return termsFromBanner.map((term) => {
-      this.renameKey(term, 'code', 'termId');
-      this.renameKey(term, 'description', 'text');
-      term.host = 'neu.edu';
-      const subCollege = this.determineSubCollegeName(term.text);
-      if (subCollege === 'undergraduate') {
-        term.text = term.text.replace(/ (Semester|Quarter)/, '');
-      } else {
-        term.subCollegeName = subCollege;
-      }
-      return term;
-    });
   }
 
   /**
