@@ -22,6 +22,8 @@ class RecordGenerator {
    * @param {Object} profDump object containing all professor data, normally acquired from scrapers
    */
   async main(termDump, profDump) {
+    await this.truncateTables();
+
     const profPromises = this.chunkify(Object.values(profDump)).map(async (profChunk) => {
       const processedChunk = profChunk.map(prof => { return this.processProf(prof); });
       return Professor.bulkCreate(processedChunk);
@@ -63,6 +65,12 @@ class RecordGenerator {
       res.push(arr.slice(index, index + CHUNK_SIZE));
     }
     return res;
+  }
+
+  async truncateTables() {
+    await Professor.destroy({ where: {} });
+    await Section.destroy({ where: {} });
+    await Course.destroy({ where: {} });
   }
 }
 
