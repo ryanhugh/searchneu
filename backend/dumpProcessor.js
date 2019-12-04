@@ -14,9 +14,11 @@ const Professor = db.Professor;
 const Course = db.Course;
 const Section = db.Section;
 
-const CHUNK_SIZE = 2000;
+class dumpProcessor {
+  constructor() {
+    this.CHUNK_SIZE = 2000;
+  }
 
-class RecordGenerator {
   /**
    * @param {Object} termDump object containing all class and section data, normally acquired from scrapers
    * @param {Object} profDump object containing all professor data, normally acquired from scrapers
@@ -61,8 +63,8 @@ class RecordGenerator {
 
   chunkify(arr) {
     const res = [];
-    for (let index = 0; index < arr.length; index += CHUNK_SIZE) {
-      res.push(arr.slice(index, index + CHUNK_SIZE));
+    for (let index = 0; index < arr.length; index += this.CHUNK_SIZE) {
+      res.push(arr.slice(index, index + this.CHUNK_SIZE));
     }
     return res;
   }
@@ -74,7 +76,7 @@ class RecordGenerator {
   }
 }
 
-const instance = new RecordGenerator();
+const instance = new dumpProcessor();
 
 async function fromFile(termFilePath, empFilePath) {
   const termExists = await fs.pathExists(termFilePath);
