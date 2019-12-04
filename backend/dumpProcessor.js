@@ -5,7 +5,6 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import _ from 'lodash';
 import Keys from '../common/Keys';
 import macros from './macros';
 import db from './database/models/index';
