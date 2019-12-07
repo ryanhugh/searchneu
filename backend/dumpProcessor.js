@@ -4,6 +4,7 @@
  */
 
 import fs from 'fs-extra';
+import _ from 'lodash';
 import path from 'path';
 import Keys from '../common/Keys';
 import macros from './macros';
@@ -12,6 +13,10 @@ import db from './database/models/index';
 const Professor = db.Professor;
 const Course = db.Course;
 const Section = db.Section;
+
+const profAttributes = Object.keys(_.omit(Professor.rawAttributes, ['id', 'createdAt', 'updatedAt']));
+const courseAttributes = Object.keys(_.omit(Course.rawAttributes, ['id', 'createdAt', 'updatedAt']));
+const secAttributes = Object.keys(_.omit(Section.rawAttributes, ['id', 'createdAt', 'updatedAt']));
 
 class dumpProcessor {
   constructor() {
@@ -23,24 +28,21 @@ class dumpProcessor {
    * @param {Object} profDump object containing all professor data, normally acquired from scrapers
    */
   async main(termDump, profDump) {
-    await this.truncateTables();
-
     const profPromises = this.chunkify(Object.values(profDump)).map(async (profChunk) => {
       const processedChunk = profChunk.map(prof => { return this.processProf(prof); });
-      return Professor.bulkCreate(processedChunk);
+      return Professor.bulkCreate(processedChunk, { updateOnDuplicate: profAttributes });
     });
     await Promise.all(profPromises);
 
     const classPromises = this.chunkify(termDump.classes).map(async (classChunk) => {
       const processedChunk = classChunk.map(aClass => { return this.processClass(aClass); });
-      return Course.bulkCreate(processedChunk);
+      return Course.bulkCreate(processedChunk, { updateOnDuplicate: courseAttributes });
     });
     await Promise.all(classPromises);
 
-
     const secPromises = this.chunkify(termDump.sections).map(async (secChunk) => {
       const processedChunk = secChunk.map(section => { return this.processSection(section); });
-      return Section.bulkCreate(processedChunk);
+      return Section.bulkCreate(processedChunk, { updateOnDuplicate: secAttributes });
     });
     await Promise.all(secPromises);
   }
