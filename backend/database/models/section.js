@@ -16,12 +16,21 @@ module.exports = (sequelize, DataTypes) => {
     url: DataTypes.STRING,
     crn: DataTypes.STRING,
     meetings: DataTypes.JSON,
-    classHash: {
-      type: DataTypes.STRING,
-      references: 'Courses',
-      referencesKey: 'id',
-    },
-  }, {});
+  });
+
+  Section.associate = models => {
+    Section.belongsTo(models.Course, { 
+      hooks: true, 
+      foreignKey: { 
+        name: 'classHash', 
+        type: DataTypes.STRING, 
+        references: 'Courses', 
+        referencesKey: 'id',
+      }, 
+      onDelete: 'CASCADE', 
+      onUpdate: 'CASCADE', 
+    });
+  };
 
   return Section;
 };

@@ -13,6 +13,7 @@ import db from './database/models/index';
 const Professor = db.Professor;
 const Course = db.Course;
 const Section = db.Section;
+const Op = db.Sequelize.Op;
 
 const profAttributes = Object.keys(_.omit(Professor.rawAttributes, ['id', 'createdAt', 'updatedAt']));
 const courseAttributes = Object.keys(_.omit(Course.rawAttributes, ['id', 'createdAt', 'updatedAt']));
@@ -28,6 +29,8 @@ class dumpProcessor {
    * @param {Object} profDump object containing all professor data, normally acquired from scrapers
    */
   async main(termDump, profDump) {
+    const coveredTerms = new Set();
+
     const profPromises = this.chunkify(Object.values(profDump)).map(async (profChunk) => {
       const processedChunk = profChunk.map(prof => { return this.processProf(prof); });
       return Professor.bulkCreate(processedChunk, { updateOnDuplicate: profAttributes });
@@ -35,7 +38,7 @@ class dumpProcessor {
     await Promise.all(profPromises);
 
     const classPromises = this.chunkify(termDump.classes).map(async (classChunk) => {
-      const processedChunk = classChunk.map(aClass => { return this.processClass(aClass); });
+      const processedChunk = classChunk.map(aClass => { return this.processClass(aClass, coveredTerms); });
       return Course.bulkCreate(processedChunk, { updateOnDuplicate: courseAttributes });
     });
     await Promise.all(classPromises);
@@ -45,14 +48,23 @@ class dumpProcessor {
       return Section.bulkCreate(processedChunk, { updateOnDuplicate: secAttributes });
     });
     await Promise.all(secPromises);
+
+    await Course.destroy({
+      where: { 
+        termId: { [Op.in]: Array.from(coveredTerms) }, 
+        updatedAt: { [Op.lt]: new Date(new Date() - 24 * 60 * 60 * 1000) } 
+      },
+    });
   }
 
   processProf(profInfo) {
+    const additionalProps = { profId: profInfo.id };
     delete profInfo.id;
-    return profInfo;
+    return { ...profInfo, ...additionalProps };
   }
 
-  processClass(classInfo) {
+  processClass(classInfo, coveredTerms) {
+    coveredTerms.add(classInfo.termId);
     const additionalProps = { id: `${Keys.getClassHash(classInfo)}`, minCredits: Math.floor(classInfo.minCredits), maxCredits: Math.floor(classInfo.maxCredits) };
     return { ...classInfo, ...additionalProps };
   }
