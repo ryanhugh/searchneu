@@ -1,11 +1,16 @@
 
 module.exports = (sequelize, DataTypes) => {
   const Professor = sequelize.define('Professor', {
+    id: {
+      allowNull: false,
+      autoIncrement: false,
+      primaryKey: true,
+      type: DataTypes.STRING,
+    },
     name: DataTypes.STRING,
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     phone: DataTypes.STRING,
-    profId: DataTypes.STRING,
     emails: DataTypes.ARRAY(DataTypes.STRING),
     primaryRole: DataTypes.STRING,
     primaryDepartment: DataTypes.STRING,

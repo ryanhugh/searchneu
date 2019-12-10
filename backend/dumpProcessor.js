@@ -19,7 +19,7 @@ const profAttributes = Object.keys(_.omit(Professor.rawAttributes, ['id', 'creat
 const courseAttributes = Object.keys(_.omit(Course.rawAttributes, ['id', 'createdAt', 'updatedAt']));
 const secAttributes = Object.keys(_.omit(Section.rawAttributes, ['id', 'createdAt', 'updatedAt']));
 
-class dumpProcessor {
+class DumpProcessor {
   constructor() {
     this.CHUNK_SIZE = 2000;
   }
@@ -31,36 +31,29 @@ class dumpProcessor {
   async main(termDump, profDump) {
     const coveredTerms = new Set();
 
-    const profPromises = this.chunkify(Object.values(profDump)).map(async (profChunk) => {
-      const processedChunk = profChunk.map(prof => { return this.processProf(prof); });
-      return Professor.bulkCreate(processedChunk, { updateOnDuplicate: profAttributes });
+    const profPromises = _.chunk(Object.values(profDump), this.CHUNK_SIZE).map(async (profChunk) => {
+      return Professor.bulkCreate(profChunk, { updateOnDuplicate: profAttributes });
     });
     await Promise.all(profPromises);
 
-    const classPromises = this.chunkify(termDump.classes).map(async (classChunk) => {
-      const processedChunk = classChunk.map(aClass => { return this.processClass(aClass, coveredTerms); });
+    const classPromises = _.chunk(termDump.classes, this.CHUNK_SIZE).map(async (classChunk) => {
+      const processedChunk = classChunk.map((aClass) => { return this.processClass(aClass, coveredTerms); });
       return Course.bulkCreate(processedChunk, { updateOnDuplicate: courseAttributes });
     });
     await Promise.all(classPromises);
 
-    const secPromises = this.chunkify(termDump.sections).map(async (secChunk) => {
-      const processedChunk = secChunk.map(section => { return this.processSection(section); });
+    const secPromises = _.chunk(termDump.sections, this.CHUNK_SIZE).map(async (secChunk) => {
+      const processedChunk = secChunk.map((section) => { return this.processSection(section); });
       return Section.bulkCreate(processedChunk, { updateOnDuplicate: secAttributes });
     });
     await Promise.all(secPromises);
 
     await Course.destroy({
-      where: { 
-        termId: { [Op.in]: Array.from(coveredTerms) }, 
-        updatedAt: { [Op.lt]: new Date(new Date() - 24 * 60 * 60 * 1000) } 
+      where: {
+        termId: { [Op.in]: Array.from(coveredTerms) },
+        updatedAt: { [Op.lt]: new Date(new Date() - 24 * 60 * 60 * 1000) },
       },
     });
-  }
-
-  processProf(profInfo) {
-    const additionalProps = { profId: profInfo.id };
-    delete profInfo.id;
-    return { ...profInfo, ...additionalProps };
   }
 
   processClass(classInfo, coveredTerms) {
@@ -74,14 +67,6 @@ class dumpProcessor {
     return { ...secInfo, ...additionalProps };
   }
 
-  chunkify(arr) {
-    const res = [];
-    for (let index = 0; index < arr.length; index += this.CHUNK_SIZE) {
-      res.push(arr.slice(index, index + this.CHUNK_SIZE));
-    }
-    return res;
-  }
-
   async truncateTables() {
     await Professor.destroy({ where: {} });
     await Section.destroy({ where: {} });
@@ -89,7 +74,7 @@ class dumpProcessor {
   }
 }
 
-const instance = new dumpProcessor();
+const instance = new DumpProcessor();
 
 async function fromFile(termFilePath, empFilePath) {
   const termExists = await fs.pathExists(termFilePath);

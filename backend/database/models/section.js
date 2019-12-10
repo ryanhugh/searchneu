@@ -18,17 +18,17 @@ module.exports = (sequelize, DataTypes) => {
     meetings: DataTypes.JSON,
   });
 
-  Section.associate = models => {
-    Section.belongsTo(models.Course, { 
-      hooks: true, 
-      foreignKey: { 
-        name: 'classHash', 
-        type: DataTypes.STRING, 
-        references: 'Courses', 
+  Section.associate = (models) => {
+    Section.belongsTo(models.Course, {
+      hooks: true,
+      foreignKey: {
+        name: 'classHash',
+        type: DataTypes.STRING,
+        references: 'Courses',
         referencesKey: 'id',
-      }, 
-      onDelete: 'CASCADE', 
-      onUpdate: 'CASCADE', 
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     });
   };
 

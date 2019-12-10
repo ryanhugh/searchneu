@@ -24,31 +24,17 @@ afterAll(async () => {
   await db.sequelize.close();
 });
 
-// tests we need to do:
-// 2. it bulk inserts
-// 3. it does a cascade delete
-// 4. it does not do a cascade delete
-// 5. check term stuff
-
-const getCounts = async () => {
-  const profCount = await Professor.count();
-  const courseCount = await Course.count();
-  const secCount = await Section.count();
-
-  return [profCount, courseCount, secCount];
-};
-
 it('does not create records if dump is empty', async () => {
-  const prevCounts = await getCounts();
+  const prevCounts = Promise.all([Professor.count(), Course.count(), Section.count()]);
   await dumpProcessor.main({ classes: [], sections: [] }, {});
-  expect(await getCounts()).toEqual(prevCounts);
+  expect(Promise.all([Professor.count(), Course.count(), Section.count()])).toEqual(prevCounts);
 });
 
 describe('with professors', () => {
   it('creates professors', async () => {
-    const prevCounts = await getCounts();
     const profDump = {
-      'firstProf': {
+      firstProf: {
+        id: 'abcdefg',
         name: 'Benjamin Lerner',
         firstName: 'Benjamin',
         lastName: 'Lerner',
@@ -61,9 +47,10 @@ describe('with professors', () => {
         personalSite: 'http://www.ccs.neu.edu/home/blerner/',
         bigPictureUrl: 'https://www.khoury.northeastern.edu/wp-content/uploads/2016/02/Benjamin-Lerner-hero-image.jpg',
       },
-      'secondProf': {
+      secondProf: {
+        id: 'hijklmnop',
         name: 'Neal Lerner',
-        firstName: 'Neal', 
+        firstName: 'Neal',
         lastName: 'Lerner',
         phone: '6173732451',
         profId: 'IhhKL%2BkX586x52IdGT5mRQ%3D%3D',
@@ -71,10 +58,11 @@ describe('with professors', () => {
         primaryRole: 'Professor & Chair',
         primaryDepartment: 'English',
       },
-      'thirdProf': {
+      thirdProf: {
+        id: 'qrstuv',
         name: 'Alan Mislove',
         firstName: 'Alan',
-        lastName: 'Mislove', 
+        lastName: 'Mislove',
         phone: '6173737069',
         profId: 'c69LPTvUpGHXJaH73AeRmg%3D%3D',
         emails: ['a.mislove@northeastern.edu', 'amislove@ccs.neu.edu'],
@@ -88,18 +76,17 @@ describe('with professors', () => {
     };
 
     await dumpProcessor.main({ classes: [], sections: [] }, profDump);
-    expect((await getCounts())[0]).toEqual(prevCounts[0] + 3);
+    expect(await Professor.count()).toEqual(3);
   });
 });
 
 describe('with classes', () => {
   it('creates classes', async () => {
-    const prevCounts = await getCounts();
     const termDump = {
       sections: [],
       classes: [
         {
-          id: '/neu.edu/202030/CS/2500',
+          id: 'neu.edu/202030/CS/2500',
           maxCredits: 4,
           minCredits: 4,
           host: 'neu.edu',
@@ -108,13 +95,13 @@ describe('with classes', () => {
           termId: '202030',
           subject: 'CS',
           prereqs: { type: 'and', values: [] },
-          coreqs: { type: 'and', values: [ { subject: 'CS', classId: '2501' } ] },
+          coreqs: { type: 'and', values: [{ subject: 'CS', classId: '2501' }] },
           prereqsFor: { type: 'and', values: [] },
           optPrereqsFor: { type: 'and', values: [] },
           classAttributes: ['fun intro'],
         },
         {
-          id: '/neu.edu/202030/CS/2510',
+          id: 'neu.edu/202030/CS/2510',
           maxCredits: 4,
           minCredits: 4,
           host: 'neu.edu',
@@ -128,7 +115,7 @@ describe('with classes', () => {
           optPrereqsFor: { type: 'and', values: [] },
         },
         {
-          id: '/neu.edu/202030/CS/3500',
+          id: 'neu.edu/202030/CS/3500',
           maxCredits: 4,
           minCredits: 4,
           host: 'neu.edu',
@@ -141,13 +128,13 @@ describe('with classes', () => {
     };
 
     await dumpProcessor.main(termDump, {});
-    expect((await getCounts())[1]).toEqual(prevCounts[1] + 3);
+    expect(await Course.count()).toEqual(3);
   });
 });
 
 describe('with sections', () => {
   beforeEach(async () => {
-    await Course.create({ 
+    await Course.create({
       id: 'neu.edu/202030/CS/3500',
       maxCredits: 4,
       minCredits: 4,
@@ -159,7 +146,6 @@ describe('with sections', () => {
   });
 
   it('creates sections', async () => {
-    const prevCounts = await getCounts();
     const termDump = {
       classes: [],
       sections: [
@@ -205,13 +191,13 @@ describe('with sections', () => {
     };
 
     await dumpProcessor.main(termDump, {});
-    expect((await getCounts())[2]).toEqual(prevCounts[2] + 3);
+    expect(await Section.count()).toEqual(3);
   });
 });
 
 describe('with updates', () => {
   beforeEach(async () => {
-    await Course.create({ 
+    await Course.create({
       id: 'neu.edu/202030/CS/3500',
       maxCredits: 4,
       minCredits: 4,
@@ -233,12 +219,11 @@ describe('with updates', () => {
   });
 
   it('updates fields for courses', async () => {
-    const prevCounts = await getCounts();
     const termDump = {
       sections: [],
       classes: [
         {
-          id: '/neu.edu/202030/CS/3500',
+          id: 'neu.edu/202030/CS/3500',
           maxCredits: 4,
           minCredits: 4,
           host: 'neu.edu',
@@ -251,7 +236,8 @@ describe('with updates', () => {
     };
 
     await dumpProcessor.main(termDump, {});
-    expect(await getCounts()).toEqual(prevCounts);
+    expect(await Course.count()).toEqual(1);
+    expect(await Section.count()).toEqual(1);
     expect((await Course.findByPk('neu.edu/202030/CS/3500')).name).toEqual('Compilers');
   });
 });

@@ -4,9 +4,9 @@ module.exports = {
     return queryInterface.createTable('Professors', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        autoIncrement: false,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       name: {
         type: Sequelize.STRING,
@@ -18,9 +18,6 @@ module.exports = {
         type: Sequelize.STRING,
       },
       phone: {
-        type: Sequelize.STRING,
-      },
-      profId: {
         type: Sequelize.STRING,
       },
       emails: {
