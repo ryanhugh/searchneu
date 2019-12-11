@@ -7,7 +7,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import macros from '../../macros';
 import Keys from '../../../common/Keys';
-import mapping from './classMapping.json';
+// import mapping from './classMapping.json';
 import elastic from '../../elastic';
 
 // Creates the search index for classes
