@@ -1,4 +1,4 @@
-'use strict';
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('FollowedSections', {
@@ -20,20 +20,20 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     }).then(() => {
-      return queryInterface.addConstraint('FollowedSections', ['userId', 'sectionId'], { 
-        type: 'primary key', 
+      return queryInterface.addConstraint('FollowedSections', ['userId', 'sectionId'], {
+        type: 'primary key',
         name: 'followed_sections_pkey',
       });
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface.dropTable('FollowedSections');
-  }
+  },
 };

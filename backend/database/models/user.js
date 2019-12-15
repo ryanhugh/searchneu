@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     User.belongsToMany(models.Section, {
-      through: 'FollowedSection', 
+      through: 'FollowedSection',
       as: 'followedSections',
       foreignKey: 'userId',
     });

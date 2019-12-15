@@ -1,4 +1,4 @@
-'use strict';
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('FollowedCourses', {
@@ -20,12 +20,12 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     }).then(() => {
       return queryInterface.addConstraint('FollowedCourses', ['userId', 'courseId'], {
         type: 'primary key',
@@ -33,7 +33,7 @@ module.exports = {
       });
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface.dropTable('FollowedCourses');
-  }
+  },
 };
