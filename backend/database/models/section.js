@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Section.belongsToMany(models.User, {
-      through: 'FollowedSections',
+      through: 'FollowedSection',
       as: 'followers',
       foreignKey: 'sectionId',
     });

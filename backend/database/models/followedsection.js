@@ -1,10 +1,9 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const FollowedSections = sequelize.define('FollowedSections', {
+  const FollowedSections = sequelize.define('FollowedSection', {
     userId: DataTypes.STRING,
     sectionId: DataTypes.STRING
   }, {});
-  FollowedSections.associate = function(models) {
-  };
+
   return FollowedSections;
 };

@@ -15,13 +15,13 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = (models) => {
     User.belongsToMany(models.Course, {
-      through: 'FollowedCourses',
+      through: 'FollowedCourse',
       as: 'followedCourses',
       foreignKey: 'userId',
     });
 
     User.belongsToMany(models.Section, {
-      through: 'FollowedSections', 
+      through: 'FollowedSection', 
       as: 'followedSections',
       foreignKey: 'userId',
     });
