@@ -2,7 +2,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('FollowedSections', {
-      user_id: {
+      userId: {
         type: Sequelize.STRING,
         references: {
           model: 'Users',
@@ -10,7 +10,7 @@ module.exports = {
         },
         allowNull: false,
       },
-      section_id: {
+      sectionId: {
         type: Sequelize.STRING,
         references: {
           model: 'Sections',
@@ -27,9 +27,9 @@ module.exports = {
         type: Sequelize.DATE
       }
     }).then(() => {
-      return queryInterface.addConstraint('FollowedSections', ['user_id', 'section_id'], { 
+      return queryInterface.addConstraint('FollowedSections', ['userId', 'sectionId'], { 
         type: 'primary key', 
-        name: 'followed_section_pkey',
+        name: 'followed_sections_pkey',
       });
     });
   },
