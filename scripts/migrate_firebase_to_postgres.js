@@ -11,13 +11,13 @@ firebase.initializeApp({
 
 const db = firebase.database();
 
-db.ref('/users/').once('value').then((users) => {
-  users.forEach((user) => {
+db.ref('/users/').once('value').then((snapshot) => {
+  Object.values(snapshot.val()).forEach((user) => {
     User.create({ id: user.facebookMessengerId, facebookPageId: user.facebookPageId, firstName: user.firstName, lastName: user.lastName, loginKeys: user.loginKeys })
       .then((res) => {
 
-      user.watchingSections.forEach((section) => { FollowedSection.create({ userId: res.id, sectionId: followedSection }); });
-      user.watchingCourses.forEach((course) => { FollowedCourse.create({ userId: res.id, courseId: followedCourse }); });
+      user.watchingSections.forEach((section) => { FollowedSection.create({ userId: res.id, sectionId: section }); });
+      user.watchingClasses.forEach((course) => { FollowedCourse.create({ userId: res.id, courseId: course }); });
     });
   });
 });
