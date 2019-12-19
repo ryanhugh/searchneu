@@ -14,6 +14,8 @@ const Professor = db.Professor;
 const Course = db.Course;
 const Section = db.Section;
 const Op = db.Sequelize.Op;
+const sequelize = db.sequelize;
+
 
 const profAttributes = Object.keys(_.omit(Professor.rawAttributes, ['id', 'createdAt', 'updatedAt']));
 const courseAttributes = Object.keys(_.omit(Course.rawAttributes, ['id', 'createdAt', 'updatedAt']));
@@ -29,6 +31,9 @@ class DumpProcessor {
    * @param {Object} profDump object containing all professor data, normally acquired from scrapers
    */
   async main(termDump, profDump) {
+    // the logs on prod are literally running out of space, so stopping sequelize logs for now
+    sequelize.options.logging = false;
+
     const coveredTerms = new Set();
 
     const profPromises = _.chunk(Object.values(profDump), this.CHUNK_SIZE).map(async (profChunk) => {
@@ -54,6 +59,7 @@ class DumpProcessor {
         updatedAt: { [Op.lt]: new Date(new Date() - 24 * 60 * 60 * 1000) },
       },
     });
+    sequelize.options.logging = false;
   }
 
   processClass(classInfo, coveredTerms) {
