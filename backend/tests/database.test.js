@@ -1,107 +1,195 @@
 import database from '../database';
+import db from '../database/models/index';
+
+const { User, Section, Course, FollowedSection, FollowedCourse } = db;
 
 // Note when testing here: The database is not reset between tests.
 
-it('set and get should work', () => {
-  const keyPath = ['aaa', 'bbb'];
+// specs I want:
+// one test to make sure a user is found and the json is generated properly
+// one test to make sure we handle failed-to-find gracefully (or decide on it)
+//
+// one test to make sure getByLoginKey works and finds
+// one test to make sure it fails gracefully
 
-  database.setMemoryStorage(keyPath, 5);
+// in jest config, maybe disable Sequelize output?
 
-  const output = database.getMemoryStorage(keyPath);
+beforeEach(async () => {
+  await FollowedSection.truncate({ cascade: true, restartIdentity: true });
+  await FollowedCourse.truncate({ cascade: true, restartIdentity: true });
+  await User.truncate({ cascade: true, restartIdentity: true });
+  await Section.truncate({ cascade: true, restartIdentity: true });
+  await Course.truncate({ cascade: true, restartIdentity: true });
 
-  expect(output).toBe(5);
+  await Course.create({
+    id: 'neu.edu/202030/CS/2500',
+    host: 'neu.edu',
+    classId: '2500',
+    name: 'Fundamentals of Computer Science 1',
+    termId: '202030',
+    subject: 'CS',
+  });
+
+  await Course.create({
+    id: 'neu.edu/202030/CS/2510',
+    host: 'neu.edu',
+    classId: '2510',
+    name: 'Fundamentals of Computer Science 2',
+    termId: '202030',
+    subject: 'CS',
+  });
+
+  await Course.create({
+    id: 'neu.edu/202030/CS/3500',
+    host: 'neu.edu',
+    classId: '3500',
+    name: 'Object-Oriented Design',
+    termId: '202030',
+    subject: 'CS',
+  });
+
+  await Section.create({
+    id: 'neu.edu/202030/CS/2500/19350',
+    classHash: 'neu.edu/202030/CS/2500',
+    seatsCapacity: 80,
+    seatsRemaining: 0,
+  });
+
+  await Section.create({
+    id: 'neu.edu/202030/CS/2500/19360',
+    classHash: 'neu.edu/202030/CS/2500',
+    seatsCapacity: 80,
+    seatsRemaining: 5,
+  });
+
+  await Section.create({
+    id: 'neu.edu/202030/CS/3500/20350',
+    classHash: 'neu.edu/202030/CS/3500',
+    seatsCapacity: 100,
+    seatsRemaining: 0,
+  });
+
+  await User.create({
+    id: '123456789',
+    facebookPageId: '23456',
+    firstName: 'Wilbur',
+    lastName: 'Whateley',
+    loginKeys: ['the key', 'the gate'],
+  });
+
+  await FollowedSection.create({
+    userId: '123456789',
+    sectionId: 'neu.edu/202030/CS/2500/19350',
+  });
+
+  await FollowedCourse.create({
+    userId: '123456789',
+    courseId: 'neu.edu/202030/CS/3500',
+  });
 });
 
-
-it('get should return null when there is no value', () => {
-  const keyPath = ['shouldbeempty'];
-
-  const output = database.getMemoryStorage(keyPath);
-
-  expect(output).toBe(null);
+afterAll(async () => {
+  await db.sequelize.close();
 });
 
-it('should also be empty when', () => {
-  const keyPath = ['shouldbeempty', 'empty', 'also empty'];
+describe('set', () => {
+  it('creates a user if user does not exist', async () => {
+    expect(await User.findByPk('33')).toBe(null);
+    expect(await FollowedSection.count({ where: { userId: '33' } })).toBe(0);
+    expect(await FollowedCourse.count({ where: { userId: '33' } })).toBe(0);
+    await database.set('33', {
+      facebookPageId: '37', 
+      firstName: 'Erich', 
+      lastName: 'Zann', 
+      loginKeys: ['not the key'], 
+      watchingSections: ['neu.edu/202030/CS/3500/20350'],
+      watchingClasses: ['neu.edu/202030/CS/3500'],
+    });
 
-  const output = database.getMemoryStorage(keyPath);
+    expect((await User.findByPk('33')).facebookPageId).toBe('37');
+    expect((await FollowedSection.findOne({ where: { userId: '33' } })).sectionId).toBe('neu.edu/202030/CS/3500/20350');
+    expect((await FollowedCourse.findOne({ where: { userId: '33' } })).courseId).toBe('neu.edu/202030/CS/3500');
+  });
 
-  expect(output).toBe(null);
+  it('updates a user if user exists', async () => {
+    expect(await User.count({ where: { id: '123456789' } })).toEqual(1);  
+    expect(await FollowedSection.count({ where: { userId: '123456789' } })).toBe(1);
+    expect(await FollowedCourse.count({ where: { userId: '123456789' } })).toBe(1);
+    await database.set('123456789', {
+      facebookPageId: '76543',
+      loginKeys: ['abcdefg'],
+    });
+
+    expect((await User.findByPk('123456789')).facebookPageId).toBe('76543');
+  });
+
+  it('updates the followed sections for a user', async () => {
+    expect((await FollowedSection.findOne({ where: { userId: '123456789' } })).sectionId).toBe('neu.edu/202030/CS/2500/19350');
+    await database.set('123456789', {
+      watchingSections: ['neu.edu/202030/CS/2500/19360', 'neu.edu/202030/CS/3500/20350'],
+    });
+
+    expect(await FollowedSection.count({ where: { userId: '123456789', sectionId: 'neu.edu/202030/CS/2500/19350' } })).toBe(0);
+    expect(await FollowedSection.count({ where: { userId: '123456789', sectionId: 'neu.edu/202030/CS/2500/19360' } })).toBe(1);
+    expect(await FollowedSection.count({ where: { userId: '123456789', sectionId: 'neu.edu/202030/CS/3500/20350' } })).toBe(1);
+    expect(await FollowedSection.count({ where: { userId: '123456789' } })).toBe(2);
+  });
+
+  it('updates the followed courses for a user', async () => {
+    expect((await FollowedCourse.findOne({ where: { userId: '123456789' } })).courseId).toBe('neu.edu/202030/CS/3500');
+    await database.set('123456789', {
+      watchingClasses: ['neu.edu/202030/CS/2500', 'neu.edu/202030/CS/2510'],
+    });
+
+    expect(await FollowedCourse.count({ where: { userId: '123456789', courseId: 'neu.edu/202030/CS/3500' } })).toBe(0);
+    expect(await FollowedCourse.count({ where: { userId: '123456789', courseId: 'neu.edu/202030/CS/2500' } })).toBe(1);
+    expect(await FollowedCourse.count({ where: { userId: '123456789', courseId: 'neu.edu/202030/CS/2510' } })).toBe(1);
+    expect(await FollowedCourse.count({ where: { userId: '123456789' } })).toBe(2);
+  });
 });
 
+// one test to make sure a user is found and the json is generated properly
+// one test to make sure we handle failed-to-find gracefully (or decide on it)
+describe('get', () => {
+  it('gets an existing user', async () => {
+    const foundUser = await database.get('123456789');
 
-it('should return an array when there are multiple values', () => {
-  database.setMemoryStorage(['aaa1', 'bbb'], 1);
-  database.setMemoryStorage(['aaa1', '22'], 2);
-  database.setMemoryStorage(['aaa1', '33'], 3);
-  database.setMemoryStorage(['aaa1', '44'], 4);
+    expect(foundUser).toStrictEqual({
+      facebookMessengerId: '123456789',
+      facebookPageId: '23456',
+      firstName: 'Wilbur',
+      lastName: 'Whateley',
+      loginKeys: ['the key', 'the gate'],
+      watchingSections: ['neu.edu/202030/CS/2500/19350'],
+      watchingClasses: ['neu.edu/202030/CS/3500'],
+    });
+  });
 
-  const output = database.getMemoryStorage(['aaa1']);
+  it('returns null if no user found', async () => {
+    const foundUser = await database.get('33');
 
-  output.sort();
-
-  expect(output).toEqual([1, 2, 3, 4]);
+    expect(foundUser).toBe(null);
+  });
 });
 
+describe('getByLoginKey', () => {
+  it('gets an existing user', async () => {
+    const foundUser = await database.getByLoginKey('the key');
 
-it('can override a leaf node with a path', () => {
-  database.setMemoryStorage(['overridetest'], 1);
+    expect(foundUser).toStrictEqual({
+      facebookMessengerId: '123456789',
+      facebookPageId: '23456',
+      firstName: 'Wilbur',
+      lastName: 'Whateley',
+      loginKeys: ['the key', 'the gate'],
+      watchingSections: ['neu.edu/202030/CS/2500/19350'],
+      watchingClasses: ['neu.edu/202030/CS/3500'],
+    });
+  });
 
-  let output = database.getMemoryStorage(['overridetest']);
-  expect(output).toBe(1);
+  it('returns null if no user found', async () => {
+    const foundUser = await database.getByLoginKey('memes');
 
-  database.setMemoryStorage(['overridetest', 'another path'], 1);
-
-  database.setMemoryStorage(['overridetest', 'path 2'], 2);
-
-  output = database.getMemoryStorage(['overridetest']);
-
-  output.sort();
-
-  expect(output).toEqual([1, 2]);
-});
-
-
-it('should split a key', () => {
-  expect(database.standardizeKey('/one/two/three')).toEqual(['one', 'two', 'three']);
-  expect(database.standardizeKey('one/two/three')).toEqual(['one', 'two', 'three']);
-  expect(database.standardizeKey('one/two/three/')).toEqual(['one', 'two', 'three']);
-  expect(database.standardizeKey('/one/two/three/')).toEqual(['one', 'two', 'three']);
-});
-
-
-it('set and get work', async (done) => {
-  expect(await database.get('setKey')).toBe(null);
-
-  await database.set('setKey', 'setValue');
-  const out = await database.get('setKey');
-
-  expect(out).toBe('setValue');
-
-  done();
-});
-
-it('creating an array and fetching it works', async (done) => {
-  await database.set('setArray/1', '1');
-  await database.set('setArray/2', '2');
-  await database.set('setArray/3', '3');
-  await database.set('setArray/4', '4');
-  await database.set('setArray/5', '5');
-
-  const out = await database.get('setArray');
-
-  expect(out).toEqual(['1', '2', '3', '4', '5']);
-
-  done();
-});
-
-
-it('should test MockFirebaseRef', async (done) => {
-  const ref = await database.getRef('setMockRef/1');
-
-  expect(ref.once()).toBe(null);
-  expect(ref.once('value').val()).toBe(null);
-  ref.set('setMockRefValue');
-  expect(ref.once('value').val()).toBe('setMockRefValue');
-  done();
+    expect(foundUser).toBe(null);
+  });
 });

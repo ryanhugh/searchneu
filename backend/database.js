@@ -13,29 +13,32 @@ import { User, FollowedSection, FollowedCourse } from './database/models/index';
 // 2. correct the keys
 // 3. fix up README
 class Database {
-  constructor() {
-    this.users = User;
-    this.followedSections = FollowedSection;
-    this.followedCourses = FollowedCourse;
-  }
 
   // key is the primaryKey (id, facebookMessengerId) of the user
   // value is any updated columns plus all watchingSections and watchingClasses
   async set(key, value) {
-    const user = await (await User.findByPk(key)).update(value, { fields: ['facebookPageId', 'firstName', 'lastName', 'loginKeys'] });
-    await Promise.all([ FollowedSection.destroy({ where: { userId: user.id } }), FollowedCourse.destroy({ where: { userId: user.id } }) ]);
-    await Promise.all(value.watchingSections.map(section => { return FollowedSection.create({ userId: user.id, sectionId: section }) }));
-    await Promise.all(value.watchingClasses.map(section => { return FollowedCourse.create({ userId: user.id, courseId: course }) }));
-    return null;
+    await User.upsert({ id: key, ...value });
+
+    await Promise.all([ FollowedSection.destroy({ where: { userId: key } }), FollowedCourse.destroy({ where: { userId: key } }) ]);
+    if (value.watchingSections) {
+      await Promise.all(value.watchingSections.map(section => { return FollowedSection.create({ userId: key, sectionId: section }) }));
+    }
+
+    if (value.watchingClasses) {
+      await Promise.all(value.watchingClasses.map(course => { return FollowedCourse.create({ userId: key, courseId: course }) }));
+    }
   }
 
   // Get the value at this key.
   // Key follows the same form in the set method
-  // TODO: does this function work when there's a key miss?
   async get(key) {
     const user = await User.findByPk(key);
-    const watchingSections = await FollowedSection.findAll({ where: { userId: user.id }, attributes: ['sectionId'] });
-    const watchingClasses = await FollowedCourse.findAll({ where: { userId: user.id }, attributes: ['courseId'] });
+    if (!user) {
+      return null;
+    }
+
+    const watchingSections = await FollowedSection.findAll({ where: { userId: user.id }, attributes: ['sectionId'] }).map(section => section.sectionId);
+    const watchingClasses = await FollowedCourse.findAll({ where: { userId: user.id }, attributes: ['courseId'] }).map(course => course.courseId);
 
     return {
       facebookMessengerId: user.id,
@@ -49,10 +52,12 @@ class Database {
   }
 
   async getByLoginKey(requestLoginKey) {
-    const userId = await User.findOne({ where: { loginKeys: { [Op.contains]: [requestLoginKey] }}});
-    return this.get(userId);
+    const user = await User.findOne({ where: { loginKeys: { [Op.contains]: [requestLoginKey] }}});
+    if (!user) {
+      return null;
+    }
+    return this.get(user.id);
   }
-  // maybe I can implement getRef with some magic?
 }
 
 
