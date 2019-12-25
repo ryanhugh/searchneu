@@ -58,7 +58,7 @@ class SearchIndex {
     const classes = this.attachSectionsToClasses(termDump);
 
     await elastic.resetIndex(elastic.CLASS_INDEX, mapping);
-    macros.log('performing bulk insert to index of ',Object.keys(classes).length, ' classes');
+    macros.log('performing bulk insert to index classes');
     await elastic.bulkIndexFromMap(elastic.CLASS_INDEX, classes);
     macros.log('indexed classes');
   }
