@@ -64,7 +64,13 @@
     ],
     "ignore": [
       "node_modules"
-    ]
+    ],
+    "env": {
+      "debug": {
+        "sourceMaps": "inline",
+        "retainLines": true
+      }
+    }
   },
   "stylelint": {
     "extends": "stylelint-config-standard"
