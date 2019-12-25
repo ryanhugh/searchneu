@@ -30,10 +30,11 @@ class DumpProcessor {
    * @param {Object} termDump object containing all class and section data, normally acquired from scrapers
    * @param {Object} profDump object containing all professor data, normally acquired from scrapers
    */
-  async main(termDump, profDump) {
+
+  async main(termDump, profDump, options = {}) {
     // the logs on prod are literally running out of space, so stopping sequelize logs for now
     sequelize.options.logging = false;
-
+    const destroyOldCourses = options.destroy || false;
     const coveredTerms = new Set();
 
     const profPromises = _.chunk(Object.values(profDump), this.CHUNK_SIZE).map(async (profChunk) => {
@@ -59,6 +60,14 @@ class DumpProcessor {
         updatedAt: { [Op.lt]: new Date(new Date() - 24 * 60 * 60 * 1000) },
       },
     });
+    if (destroyOldCourses) {
+      await Course.destroy({
+        where: {
+          termId: { [Op.in]: Array.from(coveredTerms) },
+          updatedAt: { [Op.lt]: new Date(new Date() - 24 * 60 * 60 * 1000) },
+        },
+      });
+    }
     sequelize.options.logging = false;
   }
 
@@ -71,12 +80,6 @@ class DumpProcessor {
   processSection(secInfo) {
     const additionalProps = { id: `${Keys.getSectionHash(secInfo)}`, classHash: Keys.getClassHash(secInfo) };
     return { ...secInfo, ...additionalProps };
-  }
-
-  async truncateTables() {
-    await Professor.destroy({ where: {} });
-    await Section.destroy({ where: {} });
-    await Course.destroy({ where: {} });
   }
 }
 

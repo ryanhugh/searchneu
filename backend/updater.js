@@ -12,6 +12,8 @@ import macros from './macros';
 import database from './database';
 import Keys from '../common/Keys';
 import notifyer from './notifyer';
+import dumpProcessor from './dumpProcessor';
+import { User, FollowedSection, FollowedCourse, Section, Course, sequelize } from './database/models/index';
 
 
 class Updater {
@@ -50,72 +52,23 @@ class Updater {
     macros.log('updating');
     const startTime = Date.now();
 
-    let users = await database.get('users');
-    if (!users) {
-      return;
-    }
+    const classHashes = (await FollowedCourse.findAll({ attributes: [[sequelize.fn('DISTINCT', sequelize.col('courseId')), 'courseId']] })).map(course => course.courseId);
+    const sectionHashes = (await FollowedSection.findAll({ attributes: [[sequelize.fn('DISTINCT', sequelize.col('sectionId')), 'sectionId']] })).map(section => section.sectionId);
 
-    users = Object.values(users);
-
-    let classHashes = [];
-    let sectionHashes = [];
-
-    const sectionHashToUsers = {};
     const classHashToUsers = {};
+    const sectionHashToUsers = {};
 
-    for (const user of users) {
-      if (!user.facebookMessengerId) {
-        macros.warn('User has no FB id?', JSON.stringify(user));
-        continue;
-      }
+    (await sequelize.query('SELECT "courseId", ARRAY_AGG("userId") FROM "FollowedCourses" GROUP BY "courseId"', { type: sequelize.QueryTypes.SELECT }))
+      .forEach((classHash) => {
+         classHashToUsers[classHash.courseId] = classHash.array_agg;
+      });
 
-      // Firebase, for some reason, strips leading 0s from the Facebook messenger id.
-      // Add them back here.
-      while (user.facebookMessengerId.length < 16) {
-        user.facebookMessengerId = `0${user.facebookMessengerId}`;
-      }
+    (await sequelize.query('SELECT "sectionId", ARRAY_AGG("userId") FROM "FollowedSections" GROUP BY "sectionId"', { type: sequelize.QueryTypes.SELECT }))
+      .forEach((sectionHash) => {
+        sectionHashToUsers[sectionHash.sectionId] = sectionHash.array_agg;
+      });
 
-
-      if (!user.watchingClasses) {
-        user.watchingClasses = [];
-      }
-
-      if (!user.watchingSections) {
-        user.watchingSections = [];
-      }
-
-      // When an item is deleted from an array in firebase, firebase dosen't shift the rest of the items down one index.
-      // Instead, it adds an undefined item to the array.
-      // This removes any possible undefined items from the array.
-      // The warnings can be added back when unsubscribing is done with code.
-      _.pull(user.watchingClasses, null);
-      _.pull(user.watchingSections, null);
-
-      classHashes = classHashes.concat(user.watchingClasses);
-      sectionHashes = sectionHashes.concat(user.watchingSections);
-
-      for (const classHash of user.watchingClasses) {
-        if (!classHashToUsers[classHash]) {
-          classHashToUsers[classHash] = [];
-        }
-
-        classHashToUsers[classHash].push(user.facebookMessengerId);
-      }
-
-      for (const sectionHash of user.watchingSections) {
-        if (!sectionHashToUsers[sectionHash]) {
-          sectionHashToUsers[sectionHash] = [];
-        }
-
-        sectionHashToUsers[sectionHash].push(user.facebookMessengerId);
-      }
-    }
-
-    // Remove duplicates. This will occur if multiple people are watching the same class.
-    classHashes = _(classHashes).uniq().compact();
-    sectionHashes = _(sectionHashes).uniq().compact();
-
-    macros.log('watching classes ', classHashes.size());
+    macros.log('watching classes ', classHashes.length);
 
     // Get the old data for watched classes
     const esOldDocs = await elastic.getMapFromIDs(elastic.CLASS_INDEX, classHashes);
@@ -275,7 +228,7 @@ class Updater {
       };
     }
     await elastic.bulkUpdateFromMap(elastic.CLASS_INDEX, classMap);
-
+    await dumpProcessor.main(output, {});
 
     // Loop through the messages and send them.
     // Do this as the very last stage on purpose.
@@ -286,10 +239,10 @@ class Updater {
     // Fetch new data -> send notification -> crash (repeat), and never save the updated data.
     for (const fbUserId of Object.keys(userToMessageMap)) {
       for (const message of userToMessageMap[fbUserId]) {
-        notifyer.sendFBNotification(fbUserId, message);
+        // notifyer.sendFBNotification(fbUserId, message);
       }
       setTimeout(((facebookUserId) => {
-        notifyer.sendFBNotification(facebookUserId, 'Reply with "stop" to unsubscribe from notifications.');
+        // notifyer.sendFBNotification(facebookUserId, 'Reply with "stop" to unsubscribe from notifications.');
       }).bind(this, fbUserId), 100);
 
       macros.logAmplitudeEvent('Facebook message sent out', {
