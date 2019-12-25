@@ -131,6 +131,7 @@ app.use((req, res, next) => {
   objectToLog.path = req.path;
   objectToLog.carrierIp = req.connection.remoteAddress;
   objectToLog.serverNow = Date.now();
+  objectToLog.remoteIp = req.headers['x-forwarded-for'];
 
   elastic.index(elastic.REQUEST_ANALYTICS, objectToLog);
 });

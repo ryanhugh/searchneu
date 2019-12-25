@@ -7,6 +7,9 @@
       "carrierIp": {
         "type": "ip"
       },
+      "remoteIp": {
+        "type": "ip"
+      },
       "host": {
         "type": "keyword"
       },
