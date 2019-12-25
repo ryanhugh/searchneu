@@ -3,6 +3,8 @@
  * See the license file in the root folder for details.
  */
 
+import URI from 'urijs';
+
 import asyncjs from 'async';
 import macros from './macros';
 
@@ -29,6 +31,9 @@ import macros from './macros';
 // and a couple seconds to load the data when the page was opened.
 
 // Prefix to store keys in localstorage
+
+const sessionToken = String(Math.random()).slice(2);
+const pageLoadTime = Date.now();
 
 class Request {
   async getFromInternet(config) {
@@ -81,7 +86,16 @@ class Request {
         }, false);
       }
 
-      xmlhttp.open(config.method, config.url, true);
+      // Add the session token to the request.
+      const url = new URI(config.url);
+      url.addQuery('sessionToken', sessionToken);
+      url.addQuery('pageLoadTime', pageLoadTime);
+      url.addQuery('windowInnerWidth', window.innerWidth);
+      url.addQuery('windowInnerHeight', window.innerHeight);
+      url.addQuery('windowScrollY', window.scrollY);
+      url.addQuery('clientNow', Date.now());
+
+      xmlhttp.open(config.method, url.toString(), true);
 
       if (config.method === 'POST') {
         xmlhttp.setRequestHeader('Content-Type', 'application/json');

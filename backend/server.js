@@ -25,6 +25,7 @@ import notifyer from './notifyer';
 import Updater from './updater';
 import database from './database';
 import graphql from './graphql';
+import requestMapping from './requestMapping.json';
 
 // This file manages every endpoint in the backend
 // and calls out to respective files depending on what was called
@@ -70,6 +71,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Process application/json
 app.use(bodyParser.json());
 
+// Set up the request index.
+elastic.ensureIndexExists(elastic.REQUEST_ANALYTICS, requestMapping);
+
 // Prevent being in an iFrame.
 app.use((req, res, next) => {
   res.setHeader('X-Frame-Options', 'DENY');
@@ -89,6 +93,44 @@ app.use((req, res, next) => {
     res.setHeader('Cache-Control', 'no-cache');
   }
   next();
+});
+
+
+// Log request to elasticsearch for analysis.
+app.use((req, res, next) => {
+  next();
+
+  let objectToLog = { ...req.headers, ...req.query };
+
+  const removeHeaderList = [
+    'connection',
+    'accept',
+    'dnt',
+    'sec-fetch-site',
+    'sec-fetch-mode',
+    'sec-fetch-user',
+    'accept-encoding',
+    'accept-language',
+  ];
+
+  // Don't log these headers because they are not useful for analysis.
+  objectToLog = _.omit(objectToLog, removeHeaderList);
+
+  for (const field of Object.keys(objectToLog)) {
+    // Don't log fields that are unreasonably long.
+    if (field.length > 500 || objectToLog[field].length > 2000) {
+      macros.log('Not logging long field', field.slice(0, 500));
+      objectToLog[field] = undefined;
+      continue;
+    }
+  }
+
+  objectToLog.path = req.path;
+  objectToLog.carrierIp = req.connection.remoteAddress;
+  objectToLog.serverNow = Date.now();
+  objectToLog.remoteIp = req.headers['x-forwarded-for'];
+
+  elastic.insertDoc(elastic.REQUEST_ANALYTICS, objectToLog);
 });
 
 // Prefer the headers if they are present so we get the real ip instead of localhost (nginx) or a cloudflare IP

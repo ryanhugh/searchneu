@@ -1,0 +1,60 @@
+{
+  "mappings": {
+    "properties": {
+      "apiVersion": {
+        "type": "integer"
+      },
+      "carrierIp": {
+        "type": "ip"
+      },
+      "remoteIp": {
+        "type": "ip"
+      },
+      "host": {
+        "type": "keyword"
+      },
+      "maxIndex": {
+        "type": "integer"
+      },
+      "minIndex": {
+        "type": "integer"
+      },
+      "clientNow": {
+        "type": "date"
+      },
+      "serverNow": {
+        "type": "date"
+      },
+      "pageLoadTime": {
+        "type": "date"
+      },
+      "sessionToken": {
+        "type": "keyword"
+      },
+      "windowInnerWidth": {
+        "type": "integer"
+      },
+      "windowInnerHeight": {
+        "type": "integer"
+      },
+      "windowScrollY": {
+        "type": "integer"
+      },
+      "path": {
+        "type": "keyword"
+      },
+      "query": {
+        "type": "keyword"
+      },
+      "referer": {
+        "type": "text"
+      },
+      "termId": {
+        "type": "keyword"
+      },
+      "user-agent": {
+        "type": "keyword"
+      }
+    }
+  }
+}
