@@ -25,6 +25,7 @@ import notifyer from './notifyer';
 import Updater from './updater';
 import database from './database';
 import graphql from './graphql';
+import requestMapping from './requestMapping.json'
 
 // This file manages every endpoint in the backend
 // and calls out to respective files depending on what was called
@@ -70,6 +71,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Process application/json
 app.use(bodyParser.json());
 
+// Set up the request index. 
+elastic.ensureIndexExists(elastic.REQUEST_ANALYTICS, requestMapping);
+
 // Prevent being in an iFrame.
 app.use((req, res, next) => {
   res.setHeader('X-Frame-Options', 'DENY');
@@ -90,6 +94,50 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+
+// Log request to elasticsearch for analysis. 
+app.use((req, res, next) => {
+  next();
+
+  console.log('TO LOG HERE! ')
+
+  let objectToLog = {...req.headers, ...req.query}
+
+  let removeHeaderList = ['connection',
+   'accept',
+   'dnt',
+   'sec-fetch-site',
+   'sec-fetch-mode',
+   'sec-fetch-user',
+   'accept-encoding',
+   'accept-language'];
+
+  for (let header of Object.keys(objectToLog)) {
+
+    // Don't log these headers because they are not useful for analysis. 
+    if (removeHeaderList.includes(header)) {
+      objectToLog[header] = undefined;
+      continue;
+    }
+
+    // Don't log headers that are unreasonably long. 
+    if (header.length > 500 || objectToLog[header].length > 2000) {
+      console.log("Not logging long header", header.slice(0, 500))
+      objectToLog[header] = undefined;
+      continue;
+    }
+  }
+
+  
+  objectToLog.path = req.path;
+  objectToLog.carrierIp = req.connection.remoteAddress;
+  objectToLog.serverNow = Date.now();
+
+  console.log(objectToLog)
+
+  elastic.set(elastic.REQUEST_ANALYTICS, objectToLog)
+})
 
 // Prefer the headers if they are present so we get the real ip instead of localhost (nginx) or a cloudflare IP
 function getIpPath(req) {

@@ -137,6 +137,7 @@ class Cache {
   // Path, in both set and get, is an array of strings. These strings can be anything and can be the same for separate requests, but just need to be the same for identical requests.
   // Kindof like hash codes in java for the equals method.
   async get(folderName, className, key) {
+    return undefined;
     if (!macros.DEV) {
       macros.error('Called cache.js get but not in DEV mode?');
     }
@@ -190,6 +191,7 @@ class Cache {
   //     If set to true, the data is debounced at SAVE_INTERVAL_LONG (120 as of now) seconds and saved with msgpack.
   //      This is much faster than JSON, but is binary (not openable by editors easily).
   async set(folderName, className, key, value, optimizeForSpeed = false) {
+    return;
     if (!macros.DEV) {
       macros.error('Called cache.js set but not in DEV mode?');
     }

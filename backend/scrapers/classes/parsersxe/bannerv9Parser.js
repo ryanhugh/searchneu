@@ -24,7 +24,7 @@ class Bannerv9Parser {
      * memory than default allocation by node.js
      * performance: 60-90 seconds per term
      */
-    const termsToKeep = bannerTerms.body.slice(0, 3);
+    const termsToKeep = bannerTerms.body.slice(0, 10);
 
     const serializedTerms = this.serializeTermsList(termsToKeep);
 
