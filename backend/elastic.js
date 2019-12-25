@@ -16,7 +16,7 @@ class Elastic {
     // Because we export an instance of this class, put the constants on the instance.
     this.CLASS_INDEX = 'classes';
     this.EMPLOYEE_INDEX = 'employees';
-    this.REQUEST_ANALYTICS = 'request_analytics'
+    this.REQUEST_ANALYTICS = 'request_analytics';
     // keep internal track of the available subjects
     this.subjects = null;
   }
@@ -45,14 +45,14 @@ class Elastic {
   }
 
   /**
-   * Ensures that an index exists. Creates it (with the given mapping) if it doesn't exist. 
+   * Ensures that an index exists. Creates it (with the given mapping) if it doesn't exist.
    * @param  {string} indexName The index to insert into
    * @param  {Object} mapping   The new elasticsearch index mapping(schema)
    */
   async ensureIndexExists(indexName, mapping) {
-    let results = await client.indices.exists({index: indexName})
+    const results = await client.indices.exists({ index: indexName });
 
-    // If the index doesn't exist, create it. 
+    // If the index doesn't exist, create it.
     if (results.statusCode !== 200) {
       await client.indices.create({
         index: indexName,
@@ -62,15 +62,15 @@ class Elastic {
   }
 
   /**
-   * Inserts a singular row into an index. 
+   * Inserts a singular row into an index.
    * @param  {string} indexName The index to insert into
-   * @param  {Object} row   The new row to insert into the index. 
+   * @param  {Object} row   The new row to insert into the index.
    */
-  set(indexName, row) {
+  index(indexName, row) {
     return client.index({
-      index: indexName, 
-      body: row
-    })
+      index: indexName,
+      body: row,
+    });
   }
 
   /**
@@ -288,5 +288,4 @@ class Elastic {
 }
 
 const instance = new Elastic();
-instance.client = client
 export default instance;

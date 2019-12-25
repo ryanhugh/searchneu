@@ -86,13 +86,13 @@ class Request {
         }, false);
       }
 
-      // Add the session token to the request. 
-      let url = new URI(config.url);
+      // Add the session token to the request.
+      const url = new URI(config.url);
       url.addQuery('sessionToken', sessionToken);
       url.addQuery('pageLoadTime', pageLoadTime);
-      url.addQuery('windowInnerWidth', window.innerWidth)
-      url.addQuery('windowInnerHeight', window.innerHeight)
-      url.addQuery('windowScrollY', window.scrollY)
+      url.addQuery('windowInnerWidth', window.innerWidth);
+      url.addQuery('windowInnerHeight', window.innerHeight);
+      url.addQuery('windowScrollY', window.scrollY);
       url.addQuery('clientNow', Date.now());
 
       xmlhttp.open(config.method, url.toString(), true);
