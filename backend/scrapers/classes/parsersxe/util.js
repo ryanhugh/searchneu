@@ -59,7 +59,7 @@ function parseTable(table) {
       .filter(validCell)
       .map((el) => { return $(el).text(); });
     if (values.length >= heads.length) {
-      macros.log('warning, table row is longer than head, ignoring some content', heads, $(row).text());
+      macros.log('warning, table row is longer than head, ignoring some content');
     }
 
     ret.push(_.zipObject(heads, values));
