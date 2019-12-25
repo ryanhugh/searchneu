@@ -130,7 +130,7 @@ app.use((req, res, next) => {
   objectToLog.serverNow = Date.now();
   objectToLog.remoteIp = req.headers['x-forwarded-for'];
 
-  elastic.insertDoc(elastic.REQUEST_ANALYTICS, objectToLog);
+  // elastic.insertDoc(elastic.REQUEST_ANALYTICS, objectToLog);
 });
 
 // Prefer the headers if they are present so we get the real ip instead of localhost (nginx) or a cloudflare IP

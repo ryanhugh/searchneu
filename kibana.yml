@@ -1,0 +1,2 @@
+# The Elasticsearch instance to use for all your queries.
+elasticsearch.hosts: ["https://webserver:L4n8r^m97NDS@elasticsearch.searchneu.com:9200"]
