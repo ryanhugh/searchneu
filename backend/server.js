@@ -100,7 +100,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   next();
 
-  const objectToLog = { ...req.headers, ...req.query };
+  let objectToLog = { ...req.headers, ...req.query };
 
   const removeHeaderList = [
     'connection',
@@ -113,17 +113,14 @@ app.use((req, res, next) => {
     'accept-language',
   ];
 
-  for (const header of Object.keys(objectToLog)) {
-    // Don't log these headers because they are not useful for analysis.
-    if (removeHeaderList.includes(header)) {
-      objectToLog[header] = undefined;
-      continue;
-    }
+  // Don't log these headers because they are not useful for analysis.
+  objectToLog = _.omit(objectToLog, removeHeaderList);
 
-    // Don't log headers that are unreasonably long.
-    if (header.length > 500 || objectToLog[header].length > 2000) {
-      macros.log('Not logging long header', header.slice(0, 500));
-      objectToLog[header] = undefined;
+  for (const field of Object.keys(objectToLog)) {
+    // Don't log fields that are unreasonably long.
+    if (field.length > 500 || objectToLog[field].length > 2000) {
+      macros.log('Not logging long field', field.slice(0, 500));
+      objectToLog[field] = undefined;
       continue;
     }
   }
@@ -133,7 +130,7 @@ app.use((req, res, next) => {
   objectToLog.serverNow = Date.now();
   objectToLog.remoteIp = req.headers['x-forwarded-for'];
 
-  elastic.index(elastic.REQUEST_ANALYTICS, objectToLog);
+  elastic.insertDoc(elastic.REQUEST_ANALYTICS, objectToLog);
 });
 
 // Prefer the headers if they are present so we get the real ip instead of localhost (nginx) or a cloudflare IP

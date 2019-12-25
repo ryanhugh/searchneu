@@ -62,14 +62,14 @@ class Elastic {
   }
 
   /**
-   * Inserts a singular row into an index.
+   * Inserts a singular doc into an index.
    * @param  {string} indexName The index to insert into
-   * @param  {Object} row   The new row to insert into the index.
+   * @param  {Object} doc   The new doc to insert into the index.
    */
-  index(indexName, row) {
+  insertDoc(indexName, doc) {
     return client.index({
       index: indexName,
-      body: row,
+      body: doc,
     });
   }
 
