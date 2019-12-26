@@ -36,7 +36,7 @@ import macros from './macros';
 // No user info (email, name, etc) is recorded.
 const sessionToken = String(Math.random()).slice(2);
 const pageLoadTime = Date.now();
-if (window.localStorage.analyticsId) {
+if (!window.localStorage.analyticsId) {
   window.localStorage.analyticsId = String(Math.random()).slice(2);
 }
 const analyticsId = window.localStorage.analyticsId;
