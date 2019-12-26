@@ -138,7 +138,7 @@ app.use((req, res, next) => {
   }
 
   objectToLog.path = req.path;
-  objectToLog.carrierIp = req.connection.remoteAddress;
+  objectToLog.carrierIp = req.headers['x-real-ip'];
   objectToLog.serverNow = Date.now();
   objectToLog.remoteIp = getRemoteIp();
 
