@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
       as: 'followers',
       foreignKey: 'courseId',
     });
+
+    Course.hasMany(models.Section, {
+      foreignKey: 'classHash',
+    });
   };
 
   return Course;
