@@ -95,56 +95,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
-// Log request to elasticsearch for analysis.
-app.use((req, res, next) => {
-  next();
-
-  let objectToLog = { ...req.headers, ...req.query };
-
-  const removeHeaderList = [
-    'connection',
-    'accept',
-    'dnt',
-    'sec-fetch-site',
-    'sec-fetch-mode',
-    'sec-fetch-user',
-    'accept-encoding',
-    'accept-language',
-    'cf-visitor',
-    'cf-connecting-ip',
-    'x-forwarded-proto',
-    'cf-ray',
-
-    // This is the ip of CloudFlare's server, not the user.
-    'x-real-ip',
-
-    // There are some third party scripts on the page that add a few cookies.
-    // But we don't need to analyse those, we can just use the tokens we add in the frontend.
-    'cookie',
-    'x-forwarded-for',
-  ];
-
-  // Don't log these headers because they are not useful for analysis.
-  objectToLog = _.omit(objectToLog, removeHeaderList);
-
-  for (const field of Object.keys(objectToLog)) {
-    // Don't log fields that are unreasonably long.
-    if (field.length > 500 || objectToLog[field].length > 2000) {
-      macros.log('Not logging long field', field.slice(0, 500));
-      objectToLog[field] = undefined;
-      continue;
-    }
-  }
-
-  objectToLog.path = req.path;
-  objectToLog.carrierIp = req.headers['x-real-ip'];
-  objectToLog.serverNow = Date.now();
-  objectToLog.remoteIp = getRemoteIp();
-
-  elastic.insertDoc(elastic.REQUEST_ANALYTICS, objectToLog);
-});
-
 // Prefer the headers if they are present so we get the real ip instead of localhost (nginx) or a cloudflare IP
 function getIpPath(req) {
   const output = [];
@@ -219,6 +169,56 @@ function getRemoteIp(req) {
 function getTime() {
   return moment().format('hh:mm:ss a');
 }
+
+
+// Log request to elasticsearch for analysis.
+app.use((req, res, next) => {
+  next();
+
+  let objectToLog = { ...req.headers, ...req.query };
+
+  const removeHeaderList = [
+    'connection',
+    'accept',
+    'dnt',
+    'sec-fetch-site',
+    'sec-fetch-mode',
+    'sec-fetch-user',
+    'accept-encoding',
+    'accept-language',
+    'cf-visitor',
+    'cf-connecting-ip',
+    'x-forwarded-proto',
+    'cf-ray',
+
+    // This is the ip of CloudFlare's server, not the user.
+    'x-real-ip',
+
+    // There are some third party scripts on the page that add a few cookies.
+    // But we don't need to analyse those, we can just use the tokens we add in the frontend.
+    'cookie',
+    'x-forwarded-for',
+  ];
+
+  // Don't log these headers because they are not useful for analysis.
+  objectToLog = _.omit(objectToLog, removeHeaderList);
+
+  for (const field of Object.keys(objectToLog)) {
+    // Don't log fields that are unreasonably long.
+    if (field.length > 500 || objectToLog[field].length > 2000) {
+      macros.log('Not logging long field', field.slice(0, 500));
+      objectToLog[field] = undefined;
+      continue;
+    }
+  }
+
+  objectToLog.path = req.path;
+  objectToLog.carrierIp = req.headers['x-real-ip'];
+  objectToLog.serverNow = Date.now();
+  objectToLog.remoteIp = getRemoteIp();
+
+  elastic.insertDoc(elastic.REQUEST_ANALYTICS, objectToLog);
+});
 
 
 // Http to https redirect.
