@@ -111,6 +111,18 @@ app.use((req, res, next) => {
     'sec-fetch-user',
     'accept-encoding',
     'accept-language',
+    'cf-visitor',
+    'cf-connecting-ip',
+    'x-forwarded-proto',
+    'cf-ray',
+
+    // This is the ip of CloudFlare's server, not the user.
+    'x-real-ip',
+
+    // There are some third party scripts on the page that add a few cookies.
+    // But we don't need to analyse those, we can just use the tokens we add in the frontend.
+    'cookie',
+    'x-forwarded-for',
   ];
 
   // Don't log these headers because they are not useful for analysis.
@@ -126,9 +138,9 @@ app.use((req, res, next) => {
   }
 
   objectToLog.path = req.path;
-  objectToLog.carrierIp = req.connection.remoteAddress;
+  objectToLog.carrierIp = req.headers['x-real-ip'];
   objectToLog.serverNow = Date.now();
-  objectToLog.remoteIp = req.headers['x-forwarded-for'];
+  objectToLog.remoteIp = getRemoteIp();
 
   elastic.insertDoc(elastic.REQUEST_ANALYTICS, objectToLog);
 });
@@ -168,6 +180,14 @@ function getIpPath(req) {
 // We shouldn't check the first item in the header, because someone could send a forged x-forwarded-for header
 // that would be added to the beginning of the x-forwarded-for that is received here.
 function getRemoteIp(req) {
+  if (req.headers['cf-connecting-ip']) {
+    return req.headers['cf-connecting-ip'];
+  }
+
+  if (macros.PROD) {
+    macros.error('No cf-connecting-ip?', req.headers, req.connection.remoteAddress);
+  }
+
   const forwardedForHeader = req.headers['x-forwarded-for'];
 
   if (!forwardedForHeader) {
