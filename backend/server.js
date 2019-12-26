@@ -215,7 +215,7 @@ app.use((req, res, next) => {
   objectToLog.path = req.path;
   objectToLog.carrierIp = req.headers['x-real-ip'];
   objectToLog.serverNow = Date.now();
-  objectToLog.remoteIp = getRemoteIp();
+  objectToLog.remoteIp = getRemoteIp(req);
 
   elastic.insertDoc(elastic.REQUEST_ANALYTICS, objectToLog);
 });
