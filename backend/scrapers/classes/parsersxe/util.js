@@ -1,6 +1,9 @@
 import $ from 'cheerio';
 import _ from 'lodash';
+import Request from '../../request';
 import macros from '../../../macros';
+
+const request = new Request('util');
 
 function validCell(el) {
   return el.type === 'tag' && ['th', 'td'].includes(el.name);
@@ -67,6 +70,30 @@ function parseTable(table) {
   return ret;
 }
 
+
+async function getCookiesForSearch(termCode) {
+  // first, get the cookies
+  // https://jennydaman.gitlab.io/nubanned/dark.html#studentregistrationssb-clickcontinue-post
+  const clickContinue = await request.post({
+    url: 'https://nubanner.neu.edu/StudentRegistrationSsb/ssb/term/search?mode=search',
+    form: {
+      term: termCode,
+    },
+    cache: false,
+  });
+
+  if (clickContinue.body.regAllowed === false) {
+    macros.error(`failed to get cookies (from clickContinue) for the term ${termCode}`, clickContinue);
+  }
+
+  const cookiejar = request.jar();
+  for (const cookie of clickContinue.headers['set-cookie']) {
+    cookiejar.setCookie(cookie, 'https://nubanner.neu.edu/StudentRegistrationSsb/');
+  }
+  return cookiejar;
+}
+
 export default {
   parseTable: parseTable,
+  getCookiesForSearch: getCookiesForSearch,
 };

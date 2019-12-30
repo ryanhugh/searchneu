@@ -8,7 +8,7 @@ import macros from '../../../macros';
 import Request from '../../request';
 import ClassParser from './classParser';
 import SectionParser from './sectionParser';
-import SubjectAbbreviationParser from './subjectAbbreviationParser';
+import util from './util';
 
 const request = new Request('termParser');
 
@@ -19,10 +19,8 @@ class TermParser {
    * @returns Object {classes, sections} where classes is a list of class data
    */
   async parseTerm(termId) {
-    const subjectAbbreviations = await SubjectAbbreviationParser.getSubjectAbberviations(termId);
-
     const courseSearchResults = await this.requestsClassesForTerm(termId);
-    const classes = await Promise.all(courseSearchResults.map((a) => { return ClassParser.parseClassFromSearchResult(a, termId, subjectAbbreviations); }));
+    const classes = await Promise.all(courseSearchResults.map((a) => { return ClassParser.parseClassFromSearchResult(a, termId); }));
 
     const searchResults = await this.requestsSectionsForTerm(termId);
     const sections = searchResults.map((a) => { return SectionParser.parseSectionFromSearchResult(a); });
@@ -36,7 +34,7 @@ class TermParser {
    * @return {Promise<Array>}
    */
   async requestsClassesForTerm(termCode) {
-    const cookiejar = await this.getCookiesForSearch(termCode);
+    const cookiejar = await util.getCookiesForSearch(termCode);
     // second, get the total number of sections in this semester
     try {
       return this.concatPagination(async (offset, pageSize) => {
@@ -71,7 +69,7 @@ class TermParser {
    * @return {Promise<Array>}
    */
   async requestsSectionsForTerm(termCode) {
-    const cookiejar = await this.getCookiesForSearch(termCode);
+    const cookiejar = await util.getCookiesForSearch(termCode);
     // second, get the total number of sections in this semester
     try {
       return this.concatPagination(async (offset, pageSize) => {
@@ -130,32 +128,6 @@ class TermParser {
     const sections = _(chunks).map((d) => { return d.items; }).flatten().value();
     return sections;
   }
-
-  async getCookiesForSearch(termCode) {
-    // first, get the cookies
-    // https://jennydaman.gitlab.io/nubanned/dark.html#studentregistrationssb-clickcontinue-post
-    const clickContinue = await request.post({
-      url: 'https://nubanner.neu.edu/StudentRegistrationSsb/ssb/term/search?mode=search',
-      form: {
-        term: termCode,
-        studyPath: '',
-        studyPathText: '',
-        startDatepicker: '',
-        endDatepicker: '',
-      },
-      cache: false,
-    });
-
-    if (clickContinue.body.regAllowed === false) {
-      macros.error(`failed to get cookies (from clickContinue) for the term ${termCode}`, clickContinue);
-    }
-
-    const cookiejar = request.jar();
-    for (const cookie of clickContinue.headers['set-cookie']) {
-      cookiejar.setCookie(cookie, 'https://nubanner.neu.edu/StudentRegistrationSsb/');
-    }
-    return cookiejar;
-  }
 }
 
 /**
@@ -168,7 +140,7 @@ class TermParser {
 const instance = new TermParser();
 
 if (require.main === module) {
-  instance.parseTerm('202034').then(console.log)
+  instance.parseTerm('202034');
 }
 
 export default instance;

@@ -4,12 +4,10 @@
  */
 
 import _ from 'lodash';
-import cache from '../../cache';
-import macros from '../../../macros';
 import Request from '../../request';
 import TermListParser from './termListParser';
 import TermParser from './termParser';
-import SectionParser from './sectionParser';
+import ClassParser from './classParser';
 
 const request = new Request('bannerv9Parser');
 
@@ -20,8 +18,8 @@ class Bannerv9Parser {
   async main(termsUrl) {
     const termIds = (await this.getTermList(termsUrl)).map((t) => { return t.termId; });
     const suffixes = ['10', '30', '40', '50', '60'];
-    const undergradIds = termIds.filter((t) => { return suffixes.includes(t.slice(-2))});
-    return this.scrapeTerms(undergradIds.slice(0,1));
+    const undergradIds = termIds.filter((t) => { return suffixes.includes(t.slice(-2)); });
+    return this.scrapeTerms(undergradIds.slice(0, 1));
   }
 
   /**
@@ -53,7 +51,7 @@ class Bannerv9Parser {
    *          though classes should only have 1 element
    */
   async scrapeClass(termId, subject, courseNumber) {
-
+    return ClassParser.parseClass(termId, subject, courseNumber);
   }
 
   // Just a convient test method, if you want to
