@@ -148,8 +148,6 @@ describe('set', () => {
   });
 });
 
-// one test to make sure a user is found and the json is generated properly
-// one test to make sure we handle failed-to-find gracefully (or decide on it)
 describe('get', () => {
   it('gets an existing user', async () => {
     const foundUser = await database.get('123456789');

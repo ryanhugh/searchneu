@@ -1,3 +1,4 @@
+import _ from 'lodash';
 
 module.exports = (sequelize, DataTypes) => {
   const Section = sequelize.define('Section', {
@@ -36,6 +37,11 @@ module.exports = (sequelize, DataTypes) => {
       as: 'followers',
       foreignKey: 'sectionId',
     });
+  };
+
+  Section.prototype.to_json = function() {
+    const obj = this.dataValues;
+    return _.omit(obj, ['id', 'createdAt', 'updatedAt', 'classHash']);
   };
 
   return Section;
