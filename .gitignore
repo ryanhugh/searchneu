@@ -8,3 +8,4 @@ public
 coverage
 .DS_Store
 .idea
+kibana.yml

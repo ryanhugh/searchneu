@@ -8,6 +8,7 @@ import Request from '../../request';
 import TermListParser from './termListParser';
 import TermParser from './termParser';
 import ClassParser from './classParser';
+import util from './util';
 
 const request = new Request('bannerv9Parser');
 
@@ -19,7 +20,7 @@ class Bannerv9Parser {
     const termIds = (await this.getTermList(termsUrl)).map((t) => { return t.termId; });
     const suffixes = ['10', '30', '40', '50', '60'];
     const undergradIds = termIds.filter((t) => { return suffixes.includes(t.slice(-2)); });
-    return this.scrapeTerms(undergradIds.slice(0, 1));
+    return this.scrapeTerms(undergradIds.slice(0, 4));
   }
 
   /**
@@ -38,7 +39,7 @@ class Bannerv9Parser {
    * @returns Object {classes, sections} where classes is a list of class data
    */
   async scrapeTerms(termIds) {
-    const termData = await Promise.all(termIds.map((p) => { return TermParser.parseTerm(p); }));
+    const termData = await util.promiseMap(termIds, (p) => { return TermParser.parseTerm(p); });
     return _.mergeWith(...termData, (a, b) => { return a.concat(b); });
   }
 
@@ -58,7 +59,7 @@ class Bannerv9Parser {
   async test() {
     const numTerms = 10;
     const url = `https://nubanner.neu.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?offset=1&max=${numTerms}&searchTerm=`;
-    const output = await this.main2(url);
+    const output = await this.main(url);
     // eslint-disable-next-line global-require
     require('fs').writeFileSync('parsersxe.json', JSON.stringify(output, null, 4));
   }

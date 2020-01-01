@@ -30,6 +30,12 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
+
+    Section.belongsToMany(models.User, {
+      through: 'FollowedSection',
+      as: 'followers',
+      foreignKey: 'sectionId',
+    });
   };
 
   return Section;

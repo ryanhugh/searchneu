@@ -70,7 +70,6 @@ function parseTable(table) {
   return ret;
 }
 
-
 async function getCookiesForSearch(termCode) {
   // first, get the cookies
   // https://jennydaman.gitlab.io/nubanned/dark.html#studentregistrationssb-clickcontinue-post
@@ -93,7 +92,37 @@ async function getCookiesForSearch(termCode) {
   return cookiejar;
 }
 
+function promiseMap(iterable, mapper, options) {
+  options = options || {};
+  let concurrency = options.concurrency || Infinity;
+
+  let index = 0;
+  const results = [];
+  const iterator = iterable[Symbol.iterator]();
+  const promises = [];
+
+  while (concurrency-- > 0) {
+    const promise = wrappedMapper();
+    if (promise) promises.push(promise);
+    else break;
+  }
+
+  return Promise.all(promises).then(() => { return results; });
+
+  function wrappedMapper() {
+    const next = iterator.next();
+    if (next.done) return null;
+    const i = index++;
+    const mapped = mapper(next.value, i);
+    return Promise.resolve(mapped).then((resolved) => {
+      results[i] = resolved;
+      return wrappedMapper();
+    });
+  }
+}
+
 export default {
   parseTable: parseTable,
   getCookiesForSearch: getCookiesForSearch,
+  promiseMap: promiseMap,
 };
