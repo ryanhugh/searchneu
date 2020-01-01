@@ -28,7 +28,7 @@ class Bannerv9Parser {
      */
     const termsToKeep = bannerTerms.body;
 
-    const terms = ['201930'];//, '201940', '201950', '201960', '202010'];
+    const terms = ['202030'];//, '201940', '201950', '201960', '202010'];
 
     const serializedTerms = this.serializeTermsList(termsToKeep).filter((t) => { return terms.includes(t.termId); });
 
