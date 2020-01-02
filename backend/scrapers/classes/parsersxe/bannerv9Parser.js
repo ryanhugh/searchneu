@@ -4,11 +4,13 @@
  */
 
 
+import _ from 'lodash';
 import cache from '../../cache';
 import macros from '../../../macros';
 import Request from '../../request';
 import SearchResultsParser from './searchResultsParser';
 import Keys from '../../../../common/Keys';
+import util from './util';
 
 const request = new Request('bannerv9Parser');
 
@@ -24,9 +26,13 @@ class Bannerv9Parser {
      * memory than default allocation by node.js
      * performance: 60-90 seconds per term
      */
-    const termsToKeep = bannerTerms.body.slice(0, 3);
+    const termsToKeep = bannerTerms.body;
 
-    const serializedTerms = this.serializeTermsList(termsToKeep);
+    const terms = ['202030'];//, '201940', '201950', '201960', '202010'];
+
+    const serializedTerms = this.serializeTermsList(termsToKeep).filter((t) => { return terms.includes(t.termId); });
+
+    macros.log('scraping terms', serializedTerms.map((t) => { return t.termId; }));
 
     let subjectsRequests = [];
     let sectionsDataPerEveryTerm = [];
@@ -43,15 +49,12 @@ class Bannerv9Parser {
       allSubjects = allSubjects.concat(this.processSubjectListResponse(subjectResponse, term));
     });
 
-    const detailsRequests = [];
-    sectionsDataPerEveryTerm.forEach((allSectionsFromTerm) => {
-      allSectionsFromTerm.forEach((searchResultsFromXE) => {
-        // searchResultsFromXE is JSON object from here
-        // https://jennydaman.gitlab.io/nubanned/dark.html#studentregistrationssb-search-get
-        detailsRequests.push(SearchResultsParser.mostDetails(searchResultsFromXE));
-      });
-    });
-    const allSections = await Promise.all(detailsRequests);
+    const allSectionsEveryTerm = _.flatten(sectionsDataPerEveryTerm);
+    macros.log(`scraping ${allSectionsEveryTerm.length} sections`);
+    const allSections = await util.promiseMap(allSectionsEveryTerm,
+      (x) => { return SearchResultsParser.mostDetails(x); },
+      { concurrency: 300 });
+    macros.log('all sections scraped');
 
     // TOD: Run any other parsers you want to run
     // All of the other existing parsers run 0 or 1 other parsers, but you can run any number
