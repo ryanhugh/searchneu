@@ -26,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     prereqsFor: DataTypes.JSON,
     optPrereqsFor: DataTypes.JSON,
     classAttributes: DataTypes.ARRAY(DataTypes.STRING),
+    feeAmount: DataTypes.INTEGER,
+    feeDescription: DataTypes.STRING,
   }, {});
 
   Course.associate = (models) => {
@@ -40,19 +42,14 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Course.prototype.to_json = function() {
+  Course.prototype.toJSON = function() {
     const obj = this.dataValues;
 
-    let omitColumns = ['id', 'createdAt', 'updatedAt'];
-
-    omitColumns = omitColumns.concat(['prereqs', 'coreqs', 'prereqsFor', 'optPrereqsFor'].filter(prop => obj[prop] === null));
-
     obj.lastUpdateTime = obj.lastUpdateTime.getTime();
-
-    return _.omit(obj, omitColumns);
+    return _(obj).omit(['id', 'createdAt', 'updatedAt']).omitBy(_.isNil).value();
   }
 
-  Course.bulkUpsertEs = async (instances) => {
+  Course.bulkUpsertES = async (instances) => {
     const Section = sequelize.models.Section;
 
     const courseIds = instances.map(instance => instance.id);
@@ -60,30 +57,36 @@ module.exports = (sequelize, DataTypes) => {
 
     const classToSections = _.groupBy(sections, 'classHash');
 
-    const bulkCourses = _(instances).keyBy('id')
-      .mapValues(instance => {
-        const courseProps = { lastUpdateTime: instance.lastUpdateTime.getTime(), termId: instance.termId, host: instance.host, subject: instance.subject, classId: instance.classId };
+    const bulkCourses = _(instances).keyBy('id').mapValues(instance => {
+      const courseProps = { lastUpdateTime: instance.lastUpdateTime.getTime(), termId: instance.termId, host: instance.host, subject: instance.subject, classId: instance.classId };
 
-        const courseSections = classToSections[instance.id];
-        const crns = courseSections.map(section => section.crn);
-        const sectionObjs = courseSections.map(section => { return { ...section.to_json(), ...courseProps } });
+      let crns = [];
+      let sectionObjs = [];
 
-        const courseObj = instance.to_json();
-        courseObj.crns = crns;
-        courseObj.sections = sectionObjs;
+      const courseSections = classToSections[instance.id];
+      if (courseSections) {
+        crns = courseSections.map(section => section.crn);
+        sectionObjs = courseSections.map(section => { return { ...section.toJSON(), ...courseProps } });
+      }
 
-        return {
-          "class": courseObj,
-          sections: sectionObjs,
-        };
+      const courseObj = instance.toJSON();
+      courseObj.crns = crns;
+      courseObj.sections = sectionObjs;
 
-      })
-      .value();
+      return {
+        'class': courseObj,
+        sections: sectionObjs,
+        type: 'class',
+      };
+
+    })
+    .value();
 
     await elastic.bulkIndexFromMap(elastic.CLASS_INDEX, bulkCourses);
   };
 
-  Course.addHook('afterBulkCreate', async (instances) => { return Course.bulk_upsert_es(instances); });
+  Course.addHook('afterBulkCreate', async (instances) => { return Course.bulkUpsertES(instances) });
+  Course.addHook('afterBulkUpdate', async ({ attributes, where }) => { return Course.bulkUpsertES(await Course.findAll({ where: where })) });
 
   return Course;
 };

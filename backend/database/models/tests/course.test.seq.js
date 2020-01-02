@@ -1,10 +1,10 @@
-import { sequelize, Course, Section } from '../models/index';
-import elastic from '../../elastic';
+import { sequelize, Course, Section } from '../index';
+import elastic from '../../../elastic';
 
 let sections;
 let expected;
 
-beforeAll(async () => {
+beforeEach(async () => {
   await Section.truncate({ cascade: true, restartIdentity: true });
   await Course.truncate({ cascade: true, restartIdentity: true });
 
@@ -185,7 +185,7 @@ beforeEach(() => {
 
   expected = {
     'neu.edu/202030/CS/2500': {
-      "class": {
+      'class': {
         crns: ['19350', '19360'],
         classAttributes: ['hebloo'],
         maxCredits: 4,
@@ -202,21 +202,22 @@ beforeEach(() => {
         sections: sections,
       },
       sections: sections,
+      type: 'class',
     },
   };
 });
 
-describe('bulkUpsertEs', () => {
+describe('bulkUpsertES', () => {
   it('upserts to ES', async () => {
     const course = await Course.findByPk('neu.edu/202030/CS/2500');
-    await Course.bulk_upsert_es([course]);
+    await Course.bulkUpsertES([course]);
 
     expect(elastic.bulkIndexFromMap).toHaveBeenCalledWith(elastic.CLASS_INDEX, expected);
   });
 
   it('includes prerequisites and corequisites if they exist', async () => {
     const id = 'neu.edu/202030/CS/2500';
-
+    
     // obviously...
     const prereqs = {
       type: 'and',
@@ -265,16 +266,56 @@ describe('bulkUpsertEs', () => {
       coreqs: coreqs,
       prereqsFor: prereqsFor,
       optPrereqsFor: optPrereqsFor,
-    }, { where: { id: 'neu.edu/202030/CS/2500' } });
+    }, { where: { id: 'neu.edu/202030/CS/2500' }, hooks: false });
 
-    expected[id]["class"].prereqs = prereqs;
-    expected[id]["class"].coreqs = coreqs;
-    expected[id]["class"].prereqsFor = prereqsFor;
-    expected[id]["class"].optPrereqsFor = optPrereqsFor;
+    expected[id]['class'].prereqs = prereqs;
+    expected[id]['class'].coreqs = coreqs;
+    expected[id]['class'].prereqsFor = prereqsFor;
+    expected[id]['class'].optPrereqsFor = optPrereqsFor;
 
     const course = await Course.findByPk('neu.edu/202030/CS/2500');
-    await Course.bulk_upsert_es([course]);
+    await Course.bulkUpsertES([course]);
 
     expect(elastic.bulkIndexFromMap).toHaveBeenCalledWith(elastic.CLASS_INDEX, expected);
+  });
+});
+
+describe('afterBulkCreate', () => {
+  it('updates ES', async () => {
+    expected['neu.edu/202030/CS/2500']['class'].name = 'Fundies 1';
+
+    await Course.bulkCreate([{ name: 'Fundies 1', id: 'neu.edu/202030/CS/2500' }], { where: { id: 'neu.edu/202030/CS/2500' }, updateOnDuplicate: ['name'] });
+
+    expect(elastic.bulkIndexFromMap).toHaveBeenCalledWith(elastic.CLASS_INDEX, expected);
+  });
+});
+
+describe('afterBulkUpdate', () => {
+  it('updates ES', async() => {
+    expected['neu.edu/202030/CS/2500']['class'].name = 'Fundies 1';
+
+    await Course.update({ name: 'Fundies 1' }, { where: { id: 'neu.edu/202030/CS/2500' } });
+
+    expect(elastic.bulkIndexFromMap).toHaveBeenCalledWith(elastic.CLASS_INDEX, expected);
+  });
+});
+
+describe('toJSON', () => {
+  it('generates the correct object', async () => {
+    const course = await Course.findByPk('neu.edu/202030/CS/2500');
+    expect(course.toJSON()).toEqual({
+      classAttributes: ['hebloo'],
+      maxCredits: 4,
+      minCredits: 4,
+      desc: 'a good class',
+      classId: '2500',
+      prettyUrl: 'https://foo.com',
+      url: 'https://foo.com',
+      name: 'Fundamentals of Computer Science 1',
+      lastUpdateTime: 123456789,
+      termId: '202030',
+      host: 'neu.edu',
+      subject: 'CS',
+    });
   });
 });

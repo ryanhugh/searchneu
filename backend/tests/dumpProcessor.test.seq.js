@@ -99,6 +99,7 @@ describe('with classes', () => {
           prereqsFor: { type: 'and', values: [] },
           optPrereqsFor: { type: 'and', values: [] },
           classAttributes: ['fun intro'],
+          lastUpdateTime: 123456789,
         },
         {
           id: 'neu.edu/202030/CS/2510',
@@ -113,6 +114,7 @@ describe('with classes', () => {
           coreqs: { type: 'and', values: [] },
           prereqsFor: { type: 'and', values: [] },
           optPrereqsFor: { type: 'and', values: [] },
+          lastUpdateTime: 123456789,
         },
         {
           id: 'neu.edu/202030/CS/3500',
@@ -123,6 +125,7 @@ describe('with classes', () => {
           name: 'Object-Oriented Design',
           termId: '202030',
           subject: 'CS',
+          lastUpdateTime: 123456789,
         },
       ],
     };
@@ -142,6 +145,7 @@ describe('with sections', () => {
       name: 'Object-Oriented Design',
       termId: '202030',
       subject: 'CS',
+      lastUpdateTime: 123456789,
     });
   });
 
@@ -205,6 +209,7 @@ describe('with updates', () => {
       name: 'Object-Oriented Design',
       termId: '202030',
       subject: 'CS',
+      lastUpdateTime: 123456789,
     });
 
     await Section.create({
@@ -231,6 +236,7 @@ describe('with updates', () => {
           name: 'Compilers',
           termId: '202030',
           subject: 'CS',
+          lastUpdateTime: 123456789,
         },
       ],
     };

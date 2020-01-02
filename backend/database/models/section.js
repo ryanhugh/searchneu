@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     url: DataTypes.STRING,
     crn: DataTypes.STRING,
     meetings: DataTypes.JSON,
+    info: DataTypes.TEXT,
   });
 
   Section.associate = (models) => {
@@ -39,9 +40,9 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Section.prototype.to_json = function() {
+  Section.prototype.toJSON = function() {
     const obj = this.dataValues;
-    return _.omit(obj, ['id', 'createdAt', 'updatedAt', 'classHash']);
+    return _(obj).omit(['id', 'createdAt', 'updatedAt', 'classHash']).omitBy(_.isNil).value();
   };
 
   return Section;

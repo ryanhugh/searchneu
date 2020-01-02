@@ -23,8 +23,9 @@
     "lint": "npm run -s lintjs;npm run -s lintstyle",
     "fix": "npm run -s fixjs;npm run -s fixstyle",
     "-testing-": "--------testing--------",
-    "test": "./node_modules/jest-cli/bin/jest.js --testPathIgnorePatterns='regtest'",
-    "regtest": "jest regtests",
+    "test": "./node_modules/jest-cli/bin/jest.js --testPathIgnorePatterns='(reg.js|seq.js)'",
+    "regtest": "jest reg.js",
+    "seqtest": "jest -i seq.js",
     "coverage": "./node_modules/jest-cli/bin/jest.js --coverage",
     "-building-": "--------building--------",
     "prod_migrate": "npx sequelize-cli --env prod db:migrate",
@@ -214,6 +215,11 @@
     ],
     "setupFiles": [
       "./common/jestSetupFile.js"
+    ],
+    "moduleFileExtensions": ["js", "jsx", "json", "node", "seq.js"],
+    "testMatch": [
+    "**/__tests__/**/*.[jt]s?(x)", 
+    "**/?(*.)+(spec|test)?(.(seq|reg)).[jt]s?(x)"
     ],
     "moduleNameMapper": {
       "__comment": "The css import needs to be an object that returns a string",

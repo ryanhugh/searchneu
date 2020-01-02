@@ -14,7 +14,7 @@ set -v
 # Might be worth looking into this again if the jobs are slow in the future. 
 
 # We can't use npm run test directly because it adds some output, which messes up coveralls
-./node_modules/jest-cli/bin/jest.js --coverage --coverageReporters=text-lcov --testPathIgnorePatterns='regtest' | ./node_modules/coveralls/bin/coveralls.js
+./node_modules/jest-cli/bin/jest.js --coverage --coverageReporters=text-lcov --testPathIgnorePatterns='(reg.js|seq.js)' | ./node_modules/coveralls/bin/coveralls.js
 
 # Make sure everything passes linting
 # Run the commands separately, so if one fails, this script fails

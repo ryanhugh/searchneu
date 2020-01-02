@@ -1,3 +1,5 @@
+import _ from 'lodash';
+import elastic from '../../elastic';
 
 module.exports = (sequelize, DataTypes) => {
   const Professor = sequelize.define('Professor', {
@@ -19,7 +21,26 @@ module.exports = (sequelize, DataTypes) => {
     personalSite: DataTypes.STRING,
     googleScholarId: DataTypes.STRING,
     bigPictureUrl: DataTypes.STRING,
+    email: DataTypes.STRING,
+    pic: DataTypes.JSON,
+    link: DataTypes.STRING,
+    officeRoom: DataTypes.STRING,
   }, {});
+
+  Professor.prototype.toJSON = function() {
+    const obj = this.dataValues;
+    return _(obj).omit(['createdAt', 'updatedAt']).omitBy(_.isNil).value();
+  }
+
+  Professor.bulkUpsertES = async (instances) => {
+    const bulkProfessors = _(instances).keyBy('id').mapValues(instance => { 
+      return { employee: instance.toJSON(), type: 'employee' };
+    }).value();
+    await elastic.bulkIndexFromMap(elastic.EMPLOYEE_INDEX, bulkProfessors);
+  }
+
+  Professor.addHook('afterBulkCreate', async (instances) => { return Professor.bulkUpsertES(instances) });
+  Professor.addHook('afterBulkUpdate', async ({ attributes, where }) => { return Professor.bulkUpsertES(await Professor.findAll({ where: where })) });
 
   return Professor;
 };
