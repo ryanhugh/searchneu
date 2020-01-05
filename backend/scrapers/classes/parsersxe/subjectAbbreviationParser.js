@@ -15,7 +15,7 @@ const request = new Request('subjectAbberviationParser');
  * Get the subject abberviations for use in parsing prereqs
  */
 
-const getSubjectAbberviations = _.memoize(async (termId) => {
+const getSubjectAbbreviations = _.memoize(async (termId) => {
   macros.log(`SubjectAbberviationParser: Not memoized. Scraping term ${termId}`);
   const subjectResponse = await requestSubjects(termId);
   return processSubjectListResponse(subjectResponse);
@@ -47,7 +47,5 @@ function processSubjectListResponse(subjects) {
 }
 
 export default {
-  getSubjectAbberviations: getSubjectAbberviations,
-  requestSubjects: requestSubjects,
-  processSubjectListResponse: processSubjectListResponse,
+  getSubjectAbbreviations: getSubjectAbbreviations,
 };

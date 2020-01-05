@@ -48,7 +48,7 @@ class ClassParser {
    * @param termId the termId that the class belongs to. Required cause searchresult doesn't include termid for some reason
    */
   async parseClassFromSearchResult(SR, termId) {
-    const subjectAbbreviations = await SubjectAbbreviationParser.getSubjectAbberviations(termId);
+    const subjectAbbreviations = await SubjectAbbreviationParser.getSubjectAbbreviations(termId);
 
     const { subjectCode, courseNumber } = SR;
     const description = await this.getDescription(termId, subjectCode, courseNumber);
