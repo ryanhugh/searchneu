@@ -48,4 +48,6 @@ function processSubjectListResponse(subjects) {
 
 export default {
   getSubjectAbbreviations: getSubjectAbbreviations,
+  // Export for testing https://philipwalton.com/articles/how-to-unit-test-private-functions-in-javascript/
+  _processSubjectListResponse: processSubjectListResponse,
 };
