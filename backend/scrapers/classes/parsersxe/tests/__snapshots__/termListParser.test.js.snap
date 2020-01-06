@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`termListParser pulls out relevant data 1`] = `
+Array [
+  Object {
+    "host": "neu.edu",
+    "subCollegeName": "CPS",
+    "termId": "202034",
+    "text": "Spring 2020 CPS Semester",
+  },
+  Object {
+    "host": "neu.edu",
+    "subCollegeName": "LAW",
+    "termId": "202032",
+    "text": "Spring 2020 Law Semester",
+  },
+  Object {
+    "host": "neu.edu",
+    "subCollegeName": undefined,
+    "termId": "202030",
+    "text": "Spring 2020",
+  },
+]
+`;
