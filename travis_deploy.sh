@@ -101,9 +101,9 @@ if [ "$TRAVIS_BRANCH" == "prod" ]; then
   ssh -o StrictHostKeyChecking=no ubuntu@3.226.156.218 'cd searchneu; mkdir -p public'
   ssh -o StrictHostKeyChecking=no ubuntu@3.226.156.218 'cd searchneu; mkdir -p dist'
 
-  scp -o StrictHostKeyChecking=no -r public/* ubuntu@3.226.156.218 :~/searchneu/public
-  scp -o StrictHostKeyChecking=no -r dist/* ubuntu@3.226.156.218 :~/searchneu/dist
-  scp -o StrictHostKeyChecking=no -r .sequelizerc ubuntu@3.226.156.218 :~/searchneu/dist/.sequelizerc
+  scp -o StrictHostKeyChecking=no -r public/* ubuntu@3.226.156.218:~/searchneu/public
+  scp -o StrictHostKeyChecking=no -r dist/* ubuntu@3.226.156.218:~/searchneu/dist
+  scp -o StrictHostKeyChecking=no -r .sequelizerc ubuntu@3.226.156.218:~/searchneu/dist/.sequelizerc
 
   if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
     # If this is a cron job, we need to take down the server while the re-index is running so users's don't get invalid or incomplete data.
