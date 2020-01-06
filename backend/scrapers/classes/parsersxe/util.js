@@ -101,14 +101,6 @@ function promiseMap(iterable, mapper, options) {
   const iterator = iterable[Symbol.iterator]();
   const promises = [];
 
-  while (concurrency-- > 0) {
-    const promise = wrappedMapper();
-    if (promise) promises.push(promise);
-    else break;
-  }
-
-  return Promise.all(promises).then(() => { return results; });
-
   function wrappedMapper() {
     const next = iterator.next();
     if (next.done) return null;
@@ -119,6 +111,14 @@ function promiseMap(iterable, mapper, options) {
       return wrappedMapper();
     });
   }
+
+  while (concurrency-- > 0) {
+    const promise = wrappedMapper();
+    if (promise) promises.push(promise);
+    else break;
+  }
+
+  return Promise.all(promises).then(() => { return results; });
 }
 
 export default {
