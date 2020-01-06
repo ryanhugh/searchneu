@@ -104,28 +104,28 @@ class TermParser {
    * Send paginated requests and merge the results
    * @param {TermParser~doRequest} doRequest - The callback that sends the response.
     */
-  async concatPagination(doRequest) {
-    const countRequest = await doRequest(0);
+  async concatPagination(doRequest, itemsPerRequest = 500) {
+    // Send initial request just to get the total number of items
+    const countRequest = await doRequest(0, 1);
     if (!countRequest) {
       throw Error('Missing data');
     }
 
     const { totalCount } = countRequest;
-    const COURSES_PER_REQUEST = 500;
 
-    // third, create a thread pool to make requests that fetch class data, 500 sections per request.
+    // third, create a thread pool to make requests, 500 items per request.
     // (500 is the limit)
     const sectionsPool = [];
-    for (let nextCourseIndex = 0; nextCourseIndex < totalCount; nextCourseIndex += COURSES_PER_REQUEST) {
-      sectionsPool.push(doRequest(nextCourseIndex, COURSES_PER_REQUEST));
+    for (let nextCourseIndex = 0; nextCourseIndex < totalCount; nextCourseIndex += itemsPerRequest) {
+      sectionsPool.push(doRequest(nextCourseIndex, itemsPerRequest));
     }
 
-    // finally, merge all the section data into one array
+    // finally, merge all the items into one array
     const chunks = await Promise.all(sectionsPool);
     if (chunks.some((s) => { return s === false; })) {
       throw Error('Missing data');
     }
-    const sections = _(chunks).map((d) => { return d.items; }).flatten().value();
+    const sections = _(chunks).map('items').flatten().value();
     return sections;
   }
 }
