@@ -20,7 +20,9 @@ class TermParser {
    */
   async parseTerm(termId) {
     const courseSearchResults = await this.requestsClassesForTerm(termId);
-    const classes = await Promise.all(courseSearchResults.map((a) => { return ClassParser.parseClassFromSearchResult(a, termId); }));
+    const classes = await util.promiseMap(courseSearchResults,
+      (a) => { return ClassParser.parseClassFromSearchResult(a, termId); },
+      { concurrency: 500 });
 
     const searchResults = await this.requestsSectionsForTerm(termId);
     const sections = searchResults.map((a) => { return SectionParser.parseSectionFromSearchResult(a); });
