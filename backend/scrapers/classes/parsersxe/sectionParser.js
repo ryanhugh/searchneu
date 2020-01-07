@@ -3,9 +3,33 @@
  * See the license file in the root folder for details.
  */
 
+import Request from '../../request';
+import util from './util';
 import parseMeetings from './meetingParser';
 
+const request = new Request('sectionParser');
+
 class SectionParser {
+  async parseSectionsOfClass(termId, subject, courseNumber) {
+    const cookiejar = await util.getCookiesForSearch(termId);
+    const req = await request.get({
+      url: 'https://nubanner.neu.edu/StudentRegistrationSsb/ssb/searchResults/searchResults',
+      qs: {
+        txt_term: termId,
+        txt_subject: subject,
+        txt_courseNumber: courseNumber,
+        pageOffset: 0,
+        pageMaxSize: 500,
+      },
+      jar: cookiejar,
+      json: true,
+    });
+    if (req.body.success) {
+      return req.body.data.map((sr) => { return this.parseSectionFromSearchResult(sr); });
+    }
+    return false;
+  }
+
   /**
    * Search results already has all relevant section data
    * @param SR Section item from /searchResults

@@ -9,6 +9,7 @@ import TermListParser from './termListParser';
 import TermParser from './termParser';
 import ClassParser from './classParser';
 import util from './util';
+import SectionParser from './sectionParser';
 
 const request = new Request('bannerv9Parser');
 
@@ -52,7 +53,10 @@ class Bannerv9Parser {
    *          though classes should only have 1 element
    */
   async scrapeClass(termId, subject, courseNumber) {
-    return ClassParser.parseClass(termId, subject, courseNumber);
+    return {
+      classes: ClassParser.parseClass(termId, subject, courseNumber),
+      sections: SectionParser.parseSectionsOfClass(termId, subject, courseNumber),
+    };
   }
 
   // Just a convient test method, if you want to

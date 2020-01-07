@@ -42,12 +42,8 @@ class TermParser {
           url: 'https://nubanner.neu.edu/StudentRegistrationSsb/ssb/courseSearchResults/courseSearchResults',
           qs: {
             txt_term: termCode,
-            startDatepicker: '',
-            endDatepicker: '',
             pageOffset: offset,
             pageMaxSize: pageSize,
-            sortColumn: 'subjectDescription',
-            sortDirection: 'asc',
           },
           jar: cookiejar,
           json: true,
@@ -76,15 +72,9 @@ class TermParser {
         const req = await request.get({
           url: 'https://nubanner.neu.edu/StudentRegistrationSsb/ssb/searchResults/searchResults',
           qs: {
-            txt_subject: '',
-            txt_courseNumber: '',
             txt_term: termCode,
-            startDatepicker: '',
-            endDatepicker: '',
             pageOffset: offset,
             pageMaxSize: pageSize,
-            sortColumn: 'subjectDescription',
-            sortDirection: 'asc',
           },
           jar: cookiejar,
           json: true,
