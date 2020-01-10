@@ -52,6 +52,10 @@ class Updater {
     macros.log('updating');
     const startTime = Date.now();
 
+    if((await FollowedCourse.count()) === 0 && (await FollowedSection.count()) === 0) {
+      return;
+    }
+
     const classHashes = (await FollowedCourse.findAll({ attributes: [[sequelize.fn('DISTINCT', sequelize.col('courseId')), 'courseId']] })).map(course => course.courseId);
     const sectionHashes = (await FollowedSection.findAll({ attributes: [[sequelize.fn('DISTINCT', sequelize.col('sectionId')), 'sectionId']] })).map(section => section.sectionId);
 

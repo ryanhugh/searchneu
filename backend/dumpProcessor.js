@@ -54,12 +54,6 @@ class DumpProcessor {
     });
     await Promise.all(secPromises);
 
-    await Course.destroy({
-      where: {
-        termId: { [Op.in]: Array.from(coveredTerms) },
-        updatedAt: { [Op.lt]: new Date(new Date() - 24 * 60 * 60 * 1000) },
-      },
-    });
     if (destroyOldCourses) {
       await Course.destroy({
         where: {
