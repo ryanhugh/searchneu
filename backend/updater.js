@@ -4,6 +4,7 @@
  */
 
 import _ from 'lodash';
+import { Op } from 'sequelize';
 
 import elastic from './elastic';
 
@@ -56,8 +57,6 @@ class Updater {
       return;
     }
 
-    const classHashes = (await FollowedCourse.findAll({ attributes: [[sequelize.fn('DISTINCT', sequelize.col('courseId')), 'courseId']] })).map(course => course.courseId);
-    const sectionHashes = (await FollowedSection.findAll({ attributes: [[sequelize.fn('DISTINCT', sequelize.col('sectionId')), 'sectionId']] })).map(section => section.sectionId);
 
     const classHashToUsers = {};
     const sectionHashToUsers = {};
@@ -72,14 +71,17 @@ class Updater {
         sectionHashToUsers[sectionHash.sectionId] = sectionHash.array_agg;
       });
 
+    const classHashes = Object.keys(classHashToUsers);
+    const sectionHashes = Object.keys(sectionHashToUsers);
+
     macros.log('watching classes ', classHashes.length);
 
     // Get the old data for watched classes
-    const esOldDocs = await elastic.getMapFromIDs(elastic.CLASS_INDEX, classHashes);
+    const oldDocs = await Course.bulkJSON(await Course.findAll({ where: { id: { [Op.in]: classHashes } } }));
 
-    const oldWatchedClasses = _.mapValues(esOldDocs, (doc) => { return { sections: doc.sections, ...doc.class }; });
+    const oldWatchedClasses = _.mapValues(oldDocs, (doc) => { return doc.class; });
     const oldWatchedSections = {};
-    for (const aClass of Object.values(esOldDocs)) {
+    for (const aClass of Object.values(oldDocs)) {
       for (const section of aClass.sections) {
         oldWatchedSections[Keys.getSectionHash(section)] = section;
       }

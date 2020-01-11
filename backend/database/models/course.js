@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
     return _(obj).omit(['id', 'createdAt', 'updatedAt']).omitBy(_.isNil).value();
   }
 
-  Course.bulkUpsertES = async (instances) => {
+  Course.bulkJSON = async (instances) => {
     const Section = sequelize.models.Section;
 
     const courseIds = instances.map(instance => instance.id);
@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
 
     const classToSections = _.groupBy(sections, 'classHash');
 
-    const bulkCourses = _(instances).keyBy('id').mapValues(instance => {
+    return _(instances).keyBy('id').mapValues(instance => {
       const courseProps = { lastUpdateTime: instance.lastUpdateTime.getTime(), termId: instance.termId, host: instance.host, subject: instance.subject, classId: instance.classId };
 
       let crns = [];
@@ -81,7 +81,10 @@ module.exports = (sequelize, DataTypes) => {
 
     })
     .value();
+  };
 
+  Course.bulkUpsertES = async (instances) => {
+    const bulkCourses = await Course.bulkJSON(instances);
     await elastic.bulkIndexFromMap(elastic.CLASS_INDEX, bulkCourses);
   };
 

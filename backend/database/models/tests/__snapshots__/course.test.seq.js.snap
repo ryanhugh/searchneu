@@ -1,0 +1,968 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`afterBulkCreate updates ES 1`] = `
+Array [
+  "classes",
+  Object {
+    "neu.edu/202030/CS/2500": Object {
+      "class": Object {
+        "classAttributes": Array [
+          "hebloo",
+        ],
+        "classId": "2500",
+        "crns": Array [
+          "19350",
+          "19360",
+        ],
+        "desc": "a good class",
+        "host": "neu.edu",
+        "lastUpdateTime": 123456789,
+        "maxCredits": 4,
+        "minCredits": 4,
+        "name": "Fundamentals of Computer Science 1",
+        "prettyUrl": "https://foo.com",
+        "sections": Array [
+          Object {
+            "classId": "2500",
+            "crn": "19350",
+            "honors": false,
+            "host": "neu.edu",
+            "lastUpdateTime": 123456789,
+            "meetings": Array [
+              Object {
+                "allProfs": Array [
+                  "Benjamin Lerner",
+                  "Alan Mislove",
+                ],
+                "endDate": 18013,
+                "profs": Array [
+                  "Benjamin Lerner",
+                ],
+                "startDate": 17903,
+                "times": Object {
+                  "4": Array [
+                    Object {
+                      "end": 41400,
+                      "start": 33600,
+                    },
+                  ],
+                },
+                "type": "Class",
+                "where": "IV 010",
+              },
+            ],
+            "online": false,
+            "seatsCapacity": 80,
+            "seatsRemaining": 0,
+            "subject": "CS",
+            "termId": "202030",
+            "url": "https://foo.com/19350",
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+          },
+          Object {
+            "classId": "2500",
+            "crn": "19360",
+            "honors": false,
+            "host": "neu.edu",
+            "lastUpdateTime": 123456789,
+            "meetings": Array [
+              Object {
+                "allProfs": Array [
+                  "Benjamin Lerner",
+                  "Alan Mislove",
+                ],
+                "endDate": 18013,
+                "profs": Array [
+                  "Alan Mislove",
+                ],
+                "startDate": 17903,
+                "times": Object {
+                  "2": Array [
+                    Object {
+                      "end": 41400,
+                      "start": 33600,
+                    },
+                  ],
+                },
+                "type": "Class",
+                "where": "West Village G 010",
+              },
+            ],
+            "online": false,
+            "seatsCapacity": 80,
+            "seatsRemaining": 5,
+            "subject": "CS",
+            "termId": "202030",
+            "url": "https://foo.com/19360",
+            "waitCapacity": 10,
+            "waitRemaining": 2,
+          },
+        ],
+        "subject": "CS",
+        "termId": "202030",
+        "url": "https://foo.com",
+      },
+      "sections": Array [
+        Object {
+          "classId": "2500",
+          "crn": "19350",
+          "honors": false,
+          "host": "neu.edu",
+          "lastUpdateTime": 123456789,
+          "meetings": Array [
+            Object {
+              "allProfs": Array [
+                "Benjamin Lerner",
+                "Alan Mislove",
+              ],
+              "endDate": 18013,
+              "profs": Array [
+                "Benjamin Lerner",
+              ],
+              "startDate": 17903,
+              "times": Object {
+                "4": Array [
+                  Object {
+                    "end": 41400,
+                    "start": 33600,
+                  },
+                ],
+              },
+              "type": "Class",
+              "where": "IV 010",
+            },
+          ],
+          "online": false,
+          "seatsCapacity": 80,
+          "seatsRemaining": 0,
+          "subject": "CS",
+          "termId": "202030",
+          "url": "https://foo.com/19350",
+          "waitCapacity": 0,
+          "waitRemaining": 0,
+        },
+        Object {
+          "classId": "2500",
+          "crn": "19360",
+          "honors": false,
+          "host": "neu.edu",
+          "lastUpdateTime": 123456789,
+          "meetings": Array [
+            Object {
+              "allProfs": Array [
+                "Benjamin Lerner",
+                "Alan Mislove",
+              ],
+              "endDate": 18013,
+              "profs": Array [
+                "Alan Mislove",
+              ],
+              "startDate": 17903,
+              "times": Object {
+                "2": Array [
+                  Object {
+                    "end": 41400,
+                    "start": 33600,
+                  },
+                ],
+              },
+              "type": "Class",
+              "where": "West Village G 010",
+            },
+          ],
+          "online": false,
+          "seatsCapacity": 80,
+          "seatsRemaining": 5,
+          "subject": "CS",
+          "termId": "202030",
+          "url": "https://foo.com/19360",
+          "waitCapacity": 10,
+          "waitRemaining": 2,
+        },
+      ],
+      "type": "class",
+    },
+  },
+]
+`;
+
+exports[`afterBulkUpdate updates ES 1`] = `
+Array [
+  "classes",
+  Object {
+    "neu.edu/202030/CS/2500": Object {
+      "class": Object {
+        "classAttributes": Array [
+          "hebloo",
+        ],
+        "classId": "2500",
+        "crns": Array [
+          "19350",
+          "19360",
+        ],
+        "desc": "a good class",
+        "host": "neu.edu",
+        "lastUpdateTime": 123456789,
+        "maxCredits": 4,
+        "minCredits": 4,
+        "name": "Fundamentals of Computer Science 1",
+        "prettyUrl": "https://foo.com",
+        "sections": Array [
+          Object {
+            "classId": "2500",
+            "crn": "19350",
+            "honors": false,
+            "host": "neu.edu",
+            "lastUpdateTime": 123456789,
+            "meetings": Array [
+              Object {
+                "allProfs": Array [
+                  "Benjamin Lerner",
+                  "Alan Mislove",
+                ],
+                "endDate": 18013,
+                "profs": Array [
+                  "Benjamin Lerner",
+                ],
+                "startDate": 17903,
+                "times": Object {
+                  "4": Array [
+                    Object {
+                      "end": 41400,
+                      "start": 33600,
+                    },
+                  ],
+                },
+                "type": "Class",
+                "where": "IV 010",
+              },
+            ],
+            "online": false,
+            "seatsCapacity": 80,
+            "seatsRemaining": 0,
+            "subject": "CS",
+            "termId": "202030",
+            "url": "https://foo.com/19350",
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+          },
+          Object {
+            "classId": "2500",
+            "crn": "19360",
+            "honors": false,
+            "host": "neu.edu",
+            "lastUpdateTime": 123456789,
+            "meetings": Array [
+              Object {
+                "allProfs": Array [
+                  "Benjamin Lerner",
+                  "Alan Mislove",
+                ],
+                "endDate": 18013,
+                "profs": Array [
+                  "Alan Mislove",
+                ],
+                "startDate": 17903,
+                "times": Object {
+                  "2": Array [
+                    Object {
+                      "end": 41400,
+                      "start": 33600,
+                    },
+                  ],
+                },
+                "type": "Class",
+                "where": "West Village G 010",
+              },
+            ],
+            "online": false,
+            "seatsCapacity": 80,
+            "seatsRemaining": 5,
+            "subject": "CS",
+            "termId": "202030",
+            "url": "https://foo.com/19360",
+            "waitCapacity": 10,
+            "waitRemaining": 2,
+          },
+        ],
+        "subject": "CS",
+        "termId": "202030",
+        "url": "https://foo.com",
+      },
+      "sections": Array [
+        Object {
+          "classId": "2500",
+          "crn": "19350",
+          "honors": false,
+          "host": "neu.edu",
+          "lastUpdateTime": 123456789,
+          "meetings": Array [
+            Object {
+              "allProfs": Array [
+                "Benjamin Lerner",
+                "Alan Mislove",
+              ],
+              "endDate": 18013,
+              "profs": Array [
+                "Benjamin Lerner",
+              ],
+              "startDate": 17903,
+              "times": Object {
+                "4": Array [
+                  Object {
+                    "end": 41400,
+                    "start": 33600,
+                  },
+                ],
+              },
+              "type": "Class",
+              "where": "IV 010",
+            },
+          ],
+          "online": false,
+          "seatsCapacity": 80,
+          "seatsRemaining": 0,
+          "subject": "CS",
+          "termId": "202030",
+          "url": "https://foo.com/19350",
+          "waitCapacity": 0,
+          "waitRemaining": 0,
+        },
+        Object {
+          "classId": "2500",
+          "crn": "19360",
+          "honors": false,
+          "host": "neu.edu",
+          "lastUpdateTime": 123456789,
+          "meetings": Array [
+            Object {
+              "allProfs": Array [
+                "Benjamin Lerner",
+                "Alan Mislove",
+              ],
+              "endDate": 18013,
+              "profs": Array [
+                "Alan Mislove",
+              ],
+              "startDate": 17903,
+              "times": Object {
+                "2": Array [
+                  Object {
+                    "end": 41400,
+                    "start": 33600,
+                  },
+                ],
+              },
+              "type": "Class",
+              "where": "West Village G 010",
+            },
+          ],
+          "online": false,
+          "seatsCapacity": 80,
+          "seatsRemaining": 5,
+          "subject": "CS",
+          "termId": "202030",
+          "url": "https://foo.com/19360",
+          "waitCapacity": 10,
+          "waitRemaining": 2,
+        },
+      ],
+      "type": "class",
+    },
+  },
+]
+`;
+
+exports[`bulkJSON generates proper JSON for a class 1`] = `
+Object {
+  "neu.edu/202030/CS/2500": Object {
+    "class": Object {
+      "classAttributes": Array [
+        "hebloo",
+      ],
+      "classId": "2500",
+      "crns": Array [
+        "19350",
+        "19360",
+      ],
+      "desc": "a good class",
+      "host": "neu.edu",
+      "lastUpdateTime": 123456789,
+      "maxCredits": 4,
+      "minCredits": 4,
+      "name": "Fundamentals of Computer Science 1",
+      "prettyUrl": "https://foo.com",
+      "sections": Array [
+        Object {
+          "classId": "2500",
+          "crn": "19350",
+          "honors": false,
+          "host": "neu.edu",
+          "lastUpdateTime": 123456789,
+          "meetings": Array [
+            Object {
+              "allProfs": Array [
+                "Benjamin Lerner",
+                "Alan Mislove",
+              ],
+              "endDate": 18013,
+              "profs": Array [
+                "Benjamin Lerner",
+              ],
+              "startDate": 17903,
+              "times": Object {
+                "4": Array [
+                  Object {
+                    "end": 41400,
+                    "start": 33600,
+                  },
+                ],
+              },
+              "type": "Class",
+              "where": "IV 010",
+            },
+          ],
+          "online": false,
+          "seatsCapacity": 80,
+          "seatsRemaining": 0,
+          "subject": "CS",
+          "termId": "202030",
+          "url": "https://foo.com/19350",
+          "waitCapacity": 0,
+          "waitRemaining": 0,
+        },
+        Object {
+          "classId": "2500",
+          "crn": "19360",
+          "honors": false,
+          "host": "neu.edu",
+          "lastUpdateTime": 123456789,
+          "meetings": Array [
+            Object {
+              "allProfs": Array [
+                "Benjamin Lerner",
+                "Alan Mislove",
+              ],
+              "endDate": 18013,
+              "profs": Array [
+                "Alan Mislove",
+              ],
+              "startDate": 17903,
+              "times": Object {
+                "2": Array [
+                  Object {
+                    "end": 41400,
+                    "start": 33600,
+                  },
+                ],
+              },
+              "type": "Class",
+              "where": "West Village G 010",
+            },
+          ],
+          "online": false,
+          "seatsCapacity": 80,
+          "seatsRemaining": 5,
+          "subject": "CS",
+          "termId": "202030",
+          "url": "https://foo.com/19360",
+          "waitCapacity": 10,
+          "waitRemaining": 2,
+        },
+      ],
+      "subject": "CS",
+      "termId": "202030",
+      "url": "https://foo.com",
+    },
+    "sections": Array [
+      Object {
+        "classId": "2500",
+        "crn": "19350",
+        "honors": false,
+        "host": "neu.edu",
+        "lastUpdateTime": 123456789,
+        "meetings": Array [
+          Object {
+            "allProfs": Array [
+              "Benjamin Lerner",
+              "Alan Mislove",
+            ],
+            "endDate": 18013,
+            "profs": Array [
+              "Benjamin Lerner",
+            ],
+            "startDate": 17903,
+            "times": Object {
+              "4": Array [
+                Object {
+                  "end": 41400,
+                  "start": 33600,
+                },
+              ],
+            },
+            "type": "Class",
+            "where": "IV 010",
+          },
+        ],
+        "online": false,
+        "seatsCapacity": 80,
+        "seatsRemaining": 0,
+        "subject": "CS",
+        "termId": "202030",
+        "url": "https://foo.com/19350",
+        "waitCapacity": 0,
+        "waitRemaining": 0,
+      },
+      Object {
+        "classId": "2500",
+        "crn": "19360",
+        "honors": false,
+        "host": "neu.edu",
+        "lastUpdateTime": 123456789,
+        "meetings": Array [
+          Object {
+            "allProfs": Array [
+              "Benjamin Lerner",
+              "Alan Mislove",
+            ],
+            "endDate": 18013,
+            "profs": Array [
+              "Alan Mislove",
+            ],
+            "startDate": 17903,
+            "times": Object {
+              "2": Array [
+                Object {
+                  "end": 41400,
+                  "start": 33600,
+                },
+              ],
+            },
+            "type": "Class",
+            "where": "West Village G 010",
+          },
+        ],
+        "online": false,
+        "seatsCapacity": 80,
+        "seatsRemaining": 5,
+        "subject": "CS",
+        "termId": "202030",
+        "url": "https://foo.com/19360",
+        "waitCapacity": 10,
+        "waitRemaining": 2,
+      },
+    ],
+    "type": "class",
+  },
+}
+`;
+
+exports[`bulkJSON includes prerequisites and corequisites if they exist 1`] = `
+Object {
+  "neu.edu/202030/CS/2500": Object {
+    "class": Object {
+      "classAttributes": Array [
+        "hebloo",
+      ],
+      "classId": "2500",
+      "coreqs": Object {
+        "type": "and",
+        "values": Array [
+          Object {
+            "classId": "2501",
+            "subject": "CS",
+          },
+        ],
+      },
+      "crns": Array [
+        "19350",
+        "19360",
+      ],
+      "desc": "a good class",
+      "host": "neu.edu",
+      "lastUpdateTime": 123456789,
+      "maxCredits": 4,
+      "minCredits": 4,
+      "name": "Fundamentals of Computer Science 1",
+      "optPrereqsFor": Object {
+        "values": Array [
+          Object {
+            "classId": "3200",
+            "subject": "CS",
+          },
+        ],
+      },
+      "prereqs": Object {
+        "type": "and",
+        "values": Array [
+          Object {
+            "classId": "2510",
+            "subject": "CS",
+          },
+        ],
+      },
+      "prereqsFor": Object {
+        "values": Array [
+          Object {
+            "classId": "2510",
+            "subject": "CS",
+          },
+          Object {
+            "classId": "2800",
+            "subject": "CS",
+          },
+        ],
+      },
+      "prettyUrl": "https://foo.com",
+      "sections": Array [
+        Object {
+          "classId": "2500",
+          "crn": "19350",
+          "honors": false,
+          "host": "neu.edu",
+          "lastUpdateTime": 123456789,
+          "meetings": Array [
+            Object {
+              "allProfs": Array [
+                "Benjamin Lerner",
+                "Alan Mislove",
+              ],
+              "endDate": 18013,
+              "profs": Array [
+                "Benjamin Lerner",
+              ],
+              "startDate": 17903,
+              "times": Object {
+                "4": Array [
+                  Object {
+                    "end": 41400,
+                    "start": 33600,
+                  },
+                ],
+              },
+              "type": "Class",
+              "where": "IV 010",
+            },
+          ],
+          "online": false,
+          "seatsCapacity": 80,
+          "seatsRemaining": 0,
+          "subject": "CS",
+          "termId": "202030",
+          "url": "https://foo.com/19350",
+          "waitCapacity": 0,
+          "waitRemaining": 0,
+        },
+        Object {
+          "classId": "2500",
+          "crn": "19360",
+          "honors": false,
+          "host": "neu.edu",
+          "lastUpdateTime": 123456789,
+          "meetings": Array [
+            Object {
+              "allProfs": Array [
+                "Benjamin Lerner",
+                "Alan Mislove",
+              ],
+              "endDate": 18013,
+              "profs": Array [
+                "Alan Mislove",
+              ],
+              "startDate": 17903,
+              "times": Object {
+                "2": Array [
+                  Object {
+                    "end": 41400,
+                    "start": 33600,
+                  },
+                ],
+              },
+              "type": "Class",
+              "where": "West Village G 010",
+            },
+          ],
+          "online": false,
+          "seatsCapacity": 80,
+          "seatsRemaining": 5,
+          "subject": "CS",
+          "termId": "202030",
+          "url": "https://foo.com/19360",
+          "waitCapacity": 10,
+          "waitRemaining": 2,
+        },
+      ],
+      "subject": "CS",
+      "termId": "202030",
+      "url": "https://foo.com",
+    },
+    "sections": Array [
+      Object {
+        "classId": "2500",
+        "crn": "19350",
+        "honors": false,
+        "host": "neu.edu",
+        "lastUpdateTime": 123456789,
+        "meetings": Array [
+          Object {
+            "allProfs": Array [
+              "Benjamin Lerner",
+              "Alan Mislove",
+            ],
+            "endDate": 18013,
+            "profs": Array [
+              "Benjamin Lerner",
+            ],
+            "startDate": 17903,
+            "times": Object {
+              "4": Array [
+                Object {
+                  "end": 41400,
+                  "start": 33600,
+                },
+              ],
+            },
+            "type": "Class",
+            "where": "IV 010",
+          },
+        ],
+        "online": false,
+        "seatsCapacity": 80,
+        "seatsRemaining": 0,
+        "subject": "CS",
+        "termId": "202030",
+        "url": "https://foo.com/19350",
+        "waitCapacity": 0,
+        "waitRemaining": 0,
+      },
+      Object {
+        "classId": "2500",
+        "crn": "19360",
+        "honors": false,
+        "host": "neu.edu",
+        "lastUpdateTime": 123456789,
+        "meetings": Array [
+          Object {
+            "allProfs": Array [
+              "Benjamin Lerner",
+              "Alan Mislove",
+            ],
+            "endDate": 18013,
+            "profs": Array [
+              "Alan Mislove",
+            ],
+            "startDate": 17903,
+            "times": Object {
+              "2": Array [
+                Object {
+                  "end": 41400,
+                  "start": 33600,
+                },
+              ],
+            },
+            "type": "Class",
+            "where": "West Village G 010",
+          },
+        ],
+        "online": false,
+        "seatsCapacity": 80,
+        "seatsRemaining": 5,
+        "subject": "CS",
+        "termId": "202030",
+        "url": "https://foo.com/19360",
+        "waitCapacity": 10,
+        "waitRemaining": 2,
+      },
+    ],
+    "type": "class",
+  },
+}
+`;
+
+exports[`bulkUpsertES upserts to ES 1`] = `
+Array [
+  "classes",
+  Object {
+    "neu.edu/202030/CS/2500": Object {
+      "class": Object {
+        "classAttributes": Array [
+          "hebloo",
+        ],
+        "classId": "2500",
+        "crns": Array [
+          "19350",
+          "19360",
+        ],
+        "desc": "a good class",
+        "host": "neu.edu",
+        "lastUpdateTime": 123456789,
+        "maxCredits": 4,
+        "minCredits": 4,
+        "name": "Fundamentals of Computer Science 1",
+        "prettyUrl": "https://foo.com",
+        "sections": Array [
+          Object {
+            "classId": "2500",
+            "crn": "19350",
+            "honors": false,
+            "host": "neu.edu",
+            "lastUpdateTime": 123456789,
+            "meetings": Array [
+              Object {
+                "allProfs": Array [
+                  "Benjamin Lerner",
+                  "Alan Mislove",
+                ],
+                "endDate": 18013,
+                "profs": Array [
+                  "Benjamin Lerner",
+                ],
+                "startDate": 17903,
+                "times": Object {
+                  "4": Array [
+                    Object {
+                      "end": 41400,
+                      "start": 33600,
+                    },
+                  ],
+                },
+                "type": "Class",
+                "where": "IV 010",
+              },
+            ],
+            "online": false,
+            "seatsCapacity": 80,
+            "seatsRemaining": 0,
+            "subject": "CS",
+            "termId": "202030",
+            "url": "https://foo.com/19350",
+            "waitCapacity": 0,
+            "waitRemaining": 0,
+          },
+          Object {
+            "classId": "2500",
+            "crn": "19360",
+            "honors": false,
+            "host": "neu.edu",
+            "lastUpdateTime": 123456789,
+            "meetings": Array [
+              Object {
+                "allProfs": Array [
+                  "Benjamin Lerner",
+                  "Alan Mislove",
+                ],
+                "endDate": 18013,
+                "profs": Array [
+                  "Alan Mislove",
+                ],
+                "startDate": 17903,
+                "times": Object {
+                  "2": Array [
+                    Object {
+                      "end": 41400,
+                      "start": 33600,
+                    },
+                  ],
+                },
+                "type": "Class",
+                "where": "West Village G 010",
+              },
+            ],
+            "online": false,
+            "seatsCapacity": 80,
+            "seatsRemaining": 5,
+            "subject": "CS",
+            "termId": "202030",
+            "url": "https://foo.com/19360",
+            "waitCapacity": 10,
+            "waitRemaining": 2,
+          },
+        ],
+        "subject": "CS",
+        "termId": "202030",
+        "url": "https://foo.com",
+      },
+      "sections": Array [
+        Object {
+          "classId": "2500",
+          "crn": "19350",
+          "honors": false,
+          "host": "neu.edu",
+          "lastUpdateTime": 123456789,
+          "meetings": Array [
+            Object {
+              "allProfs": Array [
+                "Benjamin Lerner",
+                "Alan Mislove",
+              ],
+              "endDate": 18013,
+              "profs": Array [
+                "Benjamin Lerner",
+              ],
+              "startDate": 17903,
+              "times": Object {
+                "4": Array [
+                  Object {
+                    "end": 41400,
+                    "start": 33600,
+                  },
+                ],
+              },
+              "type": "Class",
+              "where": "IV 010",
+            },
+          ],
+          "online": false,
+          "seatsCapacity": 80,
+          "seatsRemaining": 0,
+          "subject": "CS",
+          "termId": "202030",
+          "url": "https://foo.com/19350",
+          "waitCapacity": 0,
+          "waitRemaining": 0,
+        },
+        Object {
+          "classId": "2500",
+          "crn": "19360",
+          "honors": false,
+          "host": "neu.edu",
+          "lastUpdateTime": 123456789,
+          "meetings": Array [
+            Object {
+              "allProfs": Array [
+                "Benjamin Lerner",
+                "Alan Mislove",
+              ],
+              "endDate": 18013,
+              "profs": Array [
+                "Alan Mislove",
+              ],
+              "startDate": 17903,
+              "times": Object {
+                "2": Array [
+                  Object {
+                    "end": 41400,
+                    "start": 33600,
+                  },
+                ],
+              },
+              "type": "Class",
+              "where": "West Village G 010",
+            },
+          ],
+          "online": false,
+          "seatsCapacity": 80,
+          "seatsRemaining": 5,
+          "subject": "CS",
+          "termId": "202030",
+          "url": "https://foo.com/19360",
+          "waitCapacity": 10,
+          "waitRemaining": 2,
+        },
+      ],
+      "type": "class",
+    },
+  },
+]
+`;
