@@ -1,4 +1,3 @@
-'use strict';
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -7,5 +6,5 @@ module.exports = {
 
   down: (queryInterface) => {
     return queryInterface.destroyColumn('Sections', 'info');
-  }
+  },
 };

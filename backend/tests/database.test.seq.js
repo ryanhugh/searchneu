@@ -1,7 +1,9 @@
 import database from '../database';
 import db from '../database/models/index';
 
-const { User, Section, Course, FollowedSection, FollowedCourse } = db;
+const {
+  User, Section, Course, FollowedSection, FollowedCourse,
+} = db;
 
 // Note when testing here: The database is not reset between tests.
 
@@ -98,10 +100,10 @@ describe('set', () => {
     expect(await FollowedSection.count({ where: { userId: '33' } })).toBe(0);
     expect(await FollowedCourse.count({ where: { userId: '33' } })).toBe(0);
     await database.set('33', {
-      facebookPageId: '37', 
-      firstName: 'Erich', 
-      lastName: 'Zann', 
-      loginKeys: ['not the key'], 
+      facebookPageId: '37',
+      firstName: 'Erich',
+      lastName: 'Zann',
+      loginKeys: ['not the key'],
       watchingSections: ['neu.edu/202030/CS/3500/20350'],
       watchingClasses: ['neu.edu/202030/CS/3500'],
     });
@@ -112,7 +114,7 @@ describe('set', () => {
   });
 
   it('updates a user if user exists', async () => {
-    expect(await User.count({ where: { id: '123456789' } })).toEqual(1);  
+    expect(await User.count({ where: { id: '123456789' } })).toEqual(1);
     expect(await FollowedSection.count({ where: { userId: '123456789' } })).toBe(1);
     expect(await FollowedCourse.count({ where: { userId: '123456789' } })).toBe(1);
     await database.set('123456789', {

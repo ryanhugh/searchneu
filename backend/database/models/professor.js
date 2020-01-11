@@ -27,20 +27,20 @@ module.exports = (sequelize, DataTypes) => {
     officeRoom: DataTypes.STRING,
   }, {});
 
-  Professor.prototype.toJSON = function() {
+  Professor.prototype.toJSON = function toJSON() {
     const obj = this.dataValues;
     return _(obj).omit(['createdAt', 'updatedAt']).omitBy(_.isNil).value();
-  }
+  };
 
   Professor.bulkUpsertES = async (instances) => {
-    const bulkProfessors = _(instances).keyBy('id').mapValues(instance => { 
+    const bulkProfessors = _(instances).keyBy('id').mapValues((instance) => {
       return { employee: instance.toJSON(), type: 'employee' };
     }).value();
     await elastic.bulkIndexFromMap(elastic.EMPLOYEE_INDEX, bulkProfessors);
-  }
+  };
 
-  Professor.addHook('afterBulkCreate', async (instances) => { return Professor.bulkUpsertES(instances) });
-  Professor.addHook('afterBulkUpdate', async ({ attributes, where }) => { return Professor.bulkUpsertES(await Professor.findAll({ where: where })) });
+  Professor.addHook('afterBulkCreate', async (instances) => { return Professor.bulkUpsertES(instances); });
+  Professor.addHook('afterBulkUpdate', async ({ where }) => { return Professor.bulkUpsertES(await Professor.findAll({ where: where })); });
 
   return Professor;
 };

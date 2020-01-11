@@ -551,7 +551,7 @@ app.post('/webhook/', wrap(async (req, res) => {
 // finds the user with the login key that's been requested
 // if the user doesn't exist, return
 async function findMatchingUser(requestLoginKey) {
-  return await database.getByLoginKey(requestLoginKey);
+  return database.getByLoginKey(requestLoginKey);
 }
 
 // sends data to the database in the backend

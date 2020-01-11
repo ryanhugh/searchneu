@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Section.prototype.toJSON = function() {
+  Section.prototype.toJSON = function toJSON() {
     const obj = this.dataValues;
     return _(obj).omit(['id', 'createdAt', 'updatedAt', 'classHash']).omitBy(_.isNil).value();
   };

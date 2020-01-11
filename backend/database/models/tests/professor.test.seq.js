@@ -1,5 +1,5 @@
-import { sequelize, Professor } from '../index';
 import { Op } from 'sequelize';
+import { sequelize, Professor } from '../index';
 import elastic from '../../../elastic';
 
 let expected;
@@ -37,12 +37,11 @@ beforeEach(async () => {
     primaryRole: 'Professor',
     primaryDepartment: 'Khoury',
   });
-
 });
 
 beforeEach(() => {
   expected = {
-    '12345': {
+    12345: {
       employee: {
         id: '12345',
         name: 'Ben Lerner',
@@ -60,7 +59,7 @@ beforeEach(() => {
       },
       type: 'employee',
     },
-    '67890': {
+    67890: {
       employee: {
         id: '67890',
         name: 'Matthias Felleisen',
@@ -73,7 +72,7 @@ beforeEach(() => {
         primaryRole: 'Professor',
         primaryDepartment: 'Khoury',
       },
-      type: 'employee', 
+      type: 'employee',
     },
   };
 });

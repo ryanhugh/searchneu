@@ -12,5 +12,5 @@ module.exports = {
       queryInterface.removeColumn('Courses', 'feeAmount'),
       queryInterface.removeColumn('Courses', 'feeDescription'),
     ]);
-  }
+  },
 };

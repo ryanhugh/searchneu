@@ -10,11 +10,12 @@ import elastic from './elastic';
 
 import Bannerv9Parser from './scrapers/classes/parsersxe/bannerv9Parser';
 import macros from './macros';
-import database from './database';
 import Keys from '../common/Keys';
 import notifyer from './notifyer';
 import dumpProcessor from './dumpProcessor';
-import { User, FollowedSection, FollowedCourse, Section, Course, sequelize } from './database/models/index';
+import {
+  FollowedSection, FollowedCourse, Course, sequelize,
+} from './database/models/index';
 
 
 class Updater {
@@ -53,7 +54,7 @@ class Updater {
     macros.log('updating');
     const startTime = Date.now();
 
-    if((await FollowedCourse.count()) === 0 && (await FollowedSection.count()) === 0) {
+    if ((await FollowedCourse.count()) === 0 && (await FollowedSection.count()) === 0) {
       return;
     }
 
@@ -63,7 +64,7 @@ class Updater {
 
     (await sequelize.query('SELECT "courseId", ARRAY_AGG("userId") FROM "FollowedCourses" GROUP BY "courseId"', { type: sequelize.QueryTypes.SELECT }))
       .forEach((classHash) => {
-         classHashToUsers[classHash.courseId] = classHash.array_agg;
+        classHashToUsers[classHash.courseId] = classHash.array_agg;
       });
 
     (await sequelize.query('SELECT "sectionId", ARRAY_AGG("userId") FROM "FollowedSections" GROUP BY "sectionId"', { type: sequelize.QueryTypes.SELECT }))
@@ -245,10 +246,10 @@ class Updater {
     // Fetch new data -> send notification -> crash (repeat), and never save the updated data.
     for (const fbUserId of Object.keys(userToMessageMap)) {
       for (const message of userToMessageMap[fbUserId]) {
-        // notifyer.sendFBNotification(fbUserId, message);
+        notifyer.sendFBNotification(fbUserId, message);
       }
       setTimeout(((facebookUserId) => {
-        // notifyer.sendFBNotification(facebookUserId, 'Reply with "stop" to unsubscribe from notifications.');
+        notifyer.sendFBNotification(facebookUserId, 'Reply with "stop" to unsubscribe from notifications.');
       }).bind(this, fbUserId), 100);
 
       macros.logAmplitudeEvent('Facebook message sent out', {

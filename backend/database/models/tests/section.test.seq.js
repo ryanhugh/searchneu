@@ -38,8 +38,8 @@ beforeAll(async () => {
         profs: [
           'Benjamin Lerner',
         ],
-        where: "IV 010",
-        type: "Class",
+        where: 'IV 010',
+        type: 'Class',
         times: {
           4: [
             {
@@ -80,8 +80,8 @@ describe('toJSON', () => {
           profs: [
             'Benjamin Lerner',
           ],
-          where: "IV 010",
-          type: "Class",
+          where: 'IV 010',
+          type: 'Class',
           times: {
             4: [
               {

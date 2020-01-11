@@ -1,9 +1,6 @@
 import { sequelize, Course, Section } from '../index';
 import elastic from '../../../elastic';
 
-let sections;
-let expected;
-
 beforeEach(async () => {
   await Section.truncate({ cascade: true, restartIdentity: true });
   await Course.truncate({ cascade: true, restartIdentity: true });
@@ -45,8 +42,8 @@ beforeEach(async () => {
         profs: [
           'Benjamin Lerner',
         ],
-        where: "IV 010",
-        type: "Class",
+        where: 'IV 010',
+        type: 'Class',
         times: {
           4: [
             {
@@ -81,8 +78,8 @@ beforeEach(async () => {
         profs: [
           'Alan Mislove',
         ],
-        where: "West Village G 010",
-        type: "Class",
+        where: 'West Village G 010',
+        type: 'Class',
         times: {
           2: [
             {
@@ -155,7 +152,7 @@ describe('bulkJSON', () => {
       ],
     };
 
-    await Course.update({ 
+    await Course.update({
       prereqs: prereqs,
       coreqs: coreqs,
       prereqsFor: prereqsFor,
@@ -186,7 +183,7 @@ describe('afterBulkCreate', () => {
 });
 
 describe('afterBulkUpdate', () => {
-  it('updates ES', async() => {
+  it('updates ES', async () => {
     await Course.update({ name: 'Fundies 1' }, { where: { id: 'neu.edu/202030/CS/2500' } });
     expect(elastic.bulkIndexFromMap.mock.calls[0]).toMatchSnapshot();
   });

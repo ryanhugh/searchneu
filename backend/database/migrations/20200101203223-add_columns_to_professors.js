@@ -16,5 +16,5 @@ module.exports = {
       queryInterface.removeColumn('Professors', 'link'),
       queryInterface.removeColumn('Professors', 'email'),
     ]);
-  }
+  },
 };
