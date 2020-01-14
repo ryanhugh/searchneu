@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 require('dotenv').config();
 
 module.exports = {
@@ -21,5 +23,11 @@ module.exports = {
     database: process.env.dbName,
     host: process.env.dbHost,
     dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+        rejectUnauthorized: true,
+        ca: fs.readFileSync(process.env.dbCertPath),
+      },
+    },
   },
 };
