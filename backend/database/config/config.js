@@ -1,6 +1,7 @@
 const fs = require('fs');
 
 require('dotenv').config();
+const dbCert = process.env.dbCertPath ? fs.readFileSync(process.env.dbCertPath) : "";
 
 module.exports = {
   dev: {
@@ -26,7 +27,7 @@ module.exports = {
     dialectOptions: {
       ssl: {
         rejectUnauthorized: true,
-        ca: fs.readFileSync(process.env.dbCertPath),
+        ca: dbCert,
       },
     },
   },
