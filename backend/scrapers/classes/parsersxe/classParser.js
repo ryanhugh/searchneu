@@ -59,7 +59,7 @@ class ClassParser {
     const classDetails = {
       host: 'neu.edu',
       termId: termId,
-      subject: SR.subjectCode,
+      subject: subjectCode,
       classId: courseNumber,
       classAttributes: attributes,
       desc: description,
