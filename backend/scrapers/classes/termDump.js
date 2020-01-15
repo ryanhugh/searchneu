@@ -39,32 +39,6 @@ class TermDump {
       termMapDump[termHash].classMap[hash] = aClass;
     }
 
-    for (const subject of termDump.subjects) {
-      if (!subject.subject) {
-        macros.error('Subject controller found in termDump.js????', subject);
-        continue;
-      }
-      const hash = Keys.getSubjectHash(subject);
-
-      const termHash = Keys.getTermHash({
-        host: subject.host,
-        termId: subject.termId,
-      });
-
-      if (!termMapDump[termHash]) {
-        macros.log('Found subject with no class?');
-        termMapDump[termHash] = {
-          classMap: {},
-          sectionMap: {},
-          subjectMap: {},
-          termId: subject.termId,
-          host: subject.host,
-        };
-      }
-
-      termMapDump[termHash].subjectMap[hash] = subject;
-    }
-
     for (const section of termDump.sections) {
       const hash = Keys.getSectionHash(section);
 

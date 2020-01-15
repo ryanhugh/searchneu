@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should handle nested parenthesized prerequisites or "Graduate Admissions REQ" 1`] = `
+exports[`prereqParser should handle nested parenthesized prerequisites or "Graduate Admissions REQ" 1`] = `
 Object {
   "type": "or",
   "values": Array [
@@ -43,7 +43,7 @@ Object {
 }
 `;
 
-exports[`should handle nested parenthesized prerequisites or "Graduate Admissions REQ" 2`] = `
+exports[`prereqParser should handle nested parenthesized prerequisites or "Graduate Admissions REQ" 2`] = `
 Object {
   "type": "or",
   "values": Array [
@@ -74,6 +74,52 @@ Object {
       ],
     },
     "Graduate Admission",
+  ],
+}
+`;
+
+exports[`prereqParser should handle parenthesized prerequisites 2 1`] = `
+Object {
+  "type": "and",
+  "values": Array [
+    Object {
+      "type": "or",
+      "values": Array [
+        Object {
+          "classId": "3600",
+          "subject": "CS",
+        },
+        Object {
+          "classId": "3650",
+          "subject": "CS",
+        },
+        Object {
+          "classId": "5600",
+          "subject": "CS",
+        },
+        Object {
+          "classId": "5600",
+          "subject": "CS",
+        },
+      ],
+    },
+    Object {
+      "type": "or",
+      "values": Array [
+        Object {
+          "classId": "4800",
+          "subject": "CS",
+        },
+        Object {
+          "classId": "5800",
+          "subject": "CS",
+        },
+        Object {
+          "classId": "5800",
+          "subject": "CS",
+        },
+      ],
+    },
   ],
 }
 `;

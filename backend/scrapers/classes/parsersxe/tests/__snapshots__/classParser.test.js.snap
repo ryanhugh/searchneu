@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`classParser parseClassFromSearchResult parses and sends extra requests 1`] = `
+Object {
+  "classAttributes": Array [
+    "innovation",
+    "bizz",
+  ],
+  "classId": "2311",
+  "coreqs": Object {
+    "type": "and",
+    "values": Array [
+      Object {
+        "classId": "1800",
+        "subject": "CS",
+      },
+    ],
+  },
+  "desc": "class description 123",
+  "host": "neu.edu",
+  "lastUpdateTime": 1578252414987,
+  "maxCredits": 4,
+  "minCredits": 4,
+  "name": "Organic Chemistry 1",
+  "prereqs": Object {
+    "type": "and",
+    "values": Array [
+      Object {
+        "classId": "1800",
+        "subject": "CS",
+      },
+    ],
+  },
+  "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=202010&subj_code_in=CHEM&crse_numb_in=2311",
+  "subject": "CHEM",
+  "termId": 202010,
+  "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=202010&subj_in=CHEM&crse_in=2311&schd_in=%",
+}
+`;
+
+exports[`classParser parseClassFromSearchResult parses and sends extra requests 2`] = `
+Object {
+  "classAttributes": Array [
+    "innovation",
+    "bizz",
+  ],
+  "classId": "2500",
+  "coreqs": Object {
+    "type": "and",
+    "values": Array [
+      Object {
+        "classId": "1800",
+        "subject": "CS",
+      },
+    ],
+  },
+  "desc": "class description 123",
+  "host": "neu.edu",
+  "lastUpdateTime": 1578252414987,
+  "maxCredits": 4,
+  "minCredits": 4,
+  "name": "Fundamentals of Computer Science 1",
+  "prereqs": Object {
+    "type": "and",
+    "values": Array [
+      Object {
+        "classId": "1800",
+        "subject": "CS",
+      },
+    ],
+  },
+  "prettyUrl": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?cat_term_in=202010&subj_code_in=CS&crse_numb_in=2500",
+  "subject": "CS",
+  "termId": 202010,
+  "url": "https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?term_in=202010&subj_in=CS&crse_in=2500&schd_in=%",
+}
+`;

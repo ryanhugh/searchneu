@@ -29,8 +29,10 @@ class SitemapGenerator {
     const today = moment().diff(0, 'day');
     macros.log('It has been ', today, 'days since epoch.');
 
-    let currentTerm;
+    // Hardcode for now. In the future we will switch the below code to hit postgres, but scrapers no longer give us subjects and terms.
+    const currentTerm = '202030';
 
+    /*
     // Lets not spam the console if there are non-neu classes here.
     let foundNonNEUClass = false;
 
@@ -88,18 +90,9 @@ class SitemapGenerator {
         }
       }
     }
+    */
 
     macros.log('The current term is:', currentTerm);
-
-    // Add the subjects
-    for (const subject of termDump.subjects) {
-      if (subject.termId !== currentTerm) {
-        continue;
-      }
-
-      items.push(subject.subject);
-      items.push(subject.text);
-    }
 
     // Add the classes
     for (const aClass of termDump.classes) {

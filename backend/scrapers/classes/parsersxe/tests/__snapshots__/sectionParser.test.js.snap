@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sectionParser should match snapshot 1`] = `
+Object {
+  "classId": "2311",
+  "crn": "10259",
+  "honors": true,
+  "host": "neu.edu",
+  "meetings": Array [
+    Object {
+      "endDate": 18234,
+      "profs": Array [],
+      "startDate": 18143,
+      "times": Object {
+        "1": Array [
+          Object {
+            "end": 52800,
+            "start": 48900,
+          },
+        ],
+        "3": Array [
+          Object {
+            "end": 52800,
+            "start": 48900,
+          },
+        ],
+        "4": Array [
+          Object {
+            "end": 52800,
+            "start": 48900,
+          },
+        ],
+      },
+      "type": "Class",
+      "where": "Shillman Hall 220",
+    },
+    Object {
+      "endDate": 18243,
+      "profs": Array [],
+      "startDate": 18236,
+      "times": Object {},
+      "type": "Final Exam",
+      "where": "TBA",
+    },
+  ],
+  "online": true,
+  "seatsCapacity": 76,
+  "seatsRemaining": 36,
+  "subject": "CHEM",
+  "termId": "202010",
+  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=202010&crn_in=10259",
+  "waitCapacity": 0,
+  "waitRemaining": 0,
+}
+`;
+
+exports[`sectionParser should match snapshot 2`] = `
+Object {
+  "classId": "2500",
+  "crn": "30340",
+  "honors": false,
+  "host": "neu.edu",
+  "meetings": Array [
+    Object {
+      "endDate": 18003,
+      "profs": Array [],
+      "startDate": 17903,
+      "times": Object {
+        "1": Array [
+          Object {
+            "end": 37200,
+            "start": 33300,
+          },
+        ],
+        "3": Array [
+          Object {
+            "end": 37200,
+            "start": 33300,
+          },
+        ],
+        "4": Array [
+          Object {
+            "end": 37200,
+            "start": 33300,
+          },
+        ],
+      },
+      "type": "Class",
+      "where": "East Village 024",
+    },
+  ],
+  "online": false,
+  "seatsCapacity": 75,
+  "seatsRemaining": 4,
+  "subject": "CS",
+  "termId": "201930",
+  "url": "https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201930&crn_in=30340",
+  "waitCapacity": 0,
+  "waitRemaining": 0,
+}
+`;
