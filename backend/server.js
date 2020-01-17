@@ -217,7 +217,8 @@ app.use((req, res, next) => {
   objectToLog.serverNow = Date.now();
   objectToLog.remoteIp = getRemoteIp(req);
 
-  elastic.insertDoc(elastic.REQUEST_ANALYTICS, objectToLog);
+  // Disabled for now - no need to log any more data. 
+  // elastic.insertDoc(elastic.REQUEST_ANALYTICS, objectToLog);
 });
 
 
