@@ -12,6 +12,7 @@ const Section = db.Section;
 
 beforeAll(() => {
   dumpProcessor.CHUNK_SIZE = 2;
+  Course.removeHook('afterBulkUpdate', 
 });
 
 beforeEach(async () => {
@@ -26,7 +27,7 @@ afterAll(async () => {
 
 it('does not create records if dump is empty', async () => {
   const prevCounts = Promise.all([Professor.count(), Course.count(), Section.count()]);
-  await dumpProcessor.main({ classes: [], sections: [] }, {});
+  await dumpProcessor.main({ termDump: { classes: [], sections: [] } });
   expect(Promise.all([Professor.count(), Course.count(), Section.count()])).toEqual(prevCounts);
 });
 
@@ -75,7 +76,7 @@ describe('with professors', () => {
       },
     };
 
-    await dumpProcessor.main({ classes: [], sections: [] }, profDump);
+    await dumpProcessor.main({ termDump: { classes: [], sections: [] }, profDump: profDump });
     expect(await Professor.count()).toEqual(3);
   });
 });
@@ -130,7 +131,7 @@ describe('with classes', () => {
       ],
     };
 
-    await dumpProcessor.main(termDump, {});
+    await dumpProcessor.main({ termDump: termDump });
     expect(await Course.count()).toEqual(3);
   });
 });
@@ -194,7 +195,7 @@ describe('with sections', () => {
       ],
     };
 
-    await dumpProcessor.main(termDump, {});
+    await dumpProcessor.main({ termDump: termDump });
     expect(await Section.count()).toEqual(3);
   });
 });
@@ -241,7 +242,7 @@ describe('with updates', () => {
       ],
     };
 
-    await dumpProcessor.main(termDump, {});
+    await dumpProcessor.main({ termDump: termDump });
     expect(await Course.count()).toEqual(1);
     expect(await Section.count()).toEqual(1);
     expect((await Course.findByPk('neu.edu/202030/CS/3500')).name).toEqual('Compilers');

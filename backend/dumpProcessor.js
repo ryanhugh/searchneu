@@ -31,10 +31,9 @@ class DumpProcessor {
    * @param {Object} profDump object containing all professor data, normally acquired from scrapers
    */
 
-  async main(termDump, profDump, options = {}) {
+  async main({ termDump = {}, profDump = {}, destroy = false }) {
     // the logs on prod are literally running out of space, so stopping sequelize logs for now
     sequelize.options.logging = false;
-    const destroyOldCourses = options.destroy || false;
     const coveredTerms = new Set();
 
     const profPromises = _.chunk(Object.values(profDump), this.CHUNK_SIZE).map(async (profChunk) => {
@@ -54,11 +53,12 @@ class DumpProcessor {
     });
     await Promise.all(secPromises);
 
+    // destroy courses that haven't been updated in over 2 days
     if (destroyOldCourses) {
       await Course.destroy({
         where: {
           termId: { [Op.in]: Array.from(coveredTerms) },
-          updatedAt: { [Op.lt]: new Date(new Date() - 24 * 60 * 60 * 1000) },
+          updatedAt: { [Op.lt]: new Date(new Date() - 48 * 60 * 60 * 1000) },
         },
       });
     }
@@ -90,7 +90,7 @@ async function fromFile(termFilePath, empFilePath) {
 
   const termDump = await fs.readJson(termFilePath);
   const profDump = await fs.readJson(empFilePath);
-  await instance.main(termDump, profDump);
+  await instance.main({ termpDump: termDump, profDump: profDump });
 }
 
 if (require.main === module) {
