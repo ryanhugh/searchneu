@@ -45,8 +45,6 @@ class Class {
     this.optPrereqsFor = {
       values: [],
     };
-
-    this.crns = [];
   }
 
   static create(config) {
@@ -372,76 +370,18 @@ class Class {
     return false;
   }
 
-  loadSectionsFromSectionMap(sectionMap) {
-    if (this.isString) {
-      macros.error('ERROR cant load sections of class.string');
-      return;
-    }
-
-    this.sections = [];
-
-    this.crns.forEach((crn) => {
-      const hash = Keys.getSectionHash({
-        host: this.host,
-        termId: this.termId,
-        subject: this.subject,
-        classId: this.classId,
-        crn: crn,
-      });
-
-      const serverData = sectionMap[hash];
-      if (!serverData) {
-        macros.error('unable to find section in section map', this, crn);
-        return;
-      }
-
-      const section = Section.create(serverData);
-
-      if (!section) {
-        macros.error('could not make section with', serverData);
-        return;
-      }
-
-      this.sections.push(section);
-    });
-
-    this.finishLoadingSections();
-  }
-
-
   // Use this function to load sections from a list of server data of sections.
   // The given sections must all have crns in the class
   loadSectionsFromServerList(serverList) {
     this.sections = [];
 
-    // Just for sanity checking to make sure crns on this class match given sections
-    const unmatchedCrns = {};
-
-    for (const crn of this.crns) {
-      unmatchedCrns[crn] = true;
-    }
-
     for (const serverData of serverList) {
-      if (!unmatchedCrns[serverData.crn]) {
-        macros.log('Given section was not in unmatchedCrns??', serverList.length, this.crns.length, unmatchedCrns, serverList);
-        continue;
-      }
-
       const section = Section.create(serverData);
       if (!section) {
         macros.error('Error could not make section!', serverData);
         continue;
       }
-      unmatchedCrns[serverData.crn] = false;
       this.sections.push(section);
-    }
-
-    // Make sure all sections were given
-    const wasMatched = Object.values(unmatchedCrns);
-    for (const value of wasMatched) {
-      if (value) {
-        macros.error('Error, crn was never matched!', unmatchedCrns);
-      }
     }
 
     this.finishLoadingSections();
