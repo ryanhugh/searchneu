@@ -384,6 +384,28 @@
       // text-decoration: underline;
     }
   }
+  /* Media query to target very small devices such as iPhone 4 */
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 2/3)
+  {
+    .title {
+      font-size: 38px;
+      margin-top: 600px;
+    }
+    .subtitle {
+      font-size: 18px !important;
+    }
+    .atentionContainer {
+      font-size: 18px;
+      margin-top: 0px;
+      
+      .getInvolvedText {
+        font-size: 16px;
+      }
+      p:last-of-type {
+          padding-bottom: 500px;
+      }
+    }
+  }
 }
 
 .home-container.mobileCompact .atentionContainer {
