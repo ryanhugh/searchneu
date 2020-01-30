@@ -94,13 +94,12 @@ function days(meetingTime) {
 /**
  * @param facultyMeetingTimes meetingsFaculty object from searchresults, or /searchResults/getFacultyMeetingTimes
  */
-function meetings(facultyMeetingTimes) {
+function parseMeetings(facultyMeetingTimes) {
   return facultyMeetingTimes.map((m) => {
     const meetingTime = m.meetingTime;
     return {
       startDate: mmddyyyyToDaysSinceEpoch(meetingTime.startDate),
       endDate: mmddyyyyToDaysSinceEpoch(meetingTime.endDate),
-      profs: m.faculty.map((o) => { return profName(o); }),
       where: meetingTime.buildingDescription ? `${meetingTime.buildingDescription} ${meetingTime.room}` : 'TBA',
       type: meetingTime.meetingTypeDescription,
       times: days(meetingTime),
@@ -108,4 +107,4 @@ function meetings(facultyMeetingTimes) {
   });
 }
 
-export default meetings;
+export default { parseMeetings: parseMeetings, profName: profName };

@@ -21,7 +21,7 @@ class Bannerv9Parser {
     const termIds = (await this.getTermList(termsUrl)).map((t) => { return t.termId; });
     const suffixes = ['10', '30', '40', '50', '60'];
     const undergradIds = termIds.filter((t) => { return suffixes.includes(t.slice(-2)); });
-    return this.scrapeTerms(undergradIds.slice(0, 4));
+    return this.scrapeTerms(undergradIds.slice(0, 1));
   }
 
   /**

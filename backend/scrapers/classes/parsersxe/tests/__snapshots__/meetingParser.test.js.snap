@@ -4,14 +4,6 @@ exports[`meetingParser.js 1`] = `
 Array [
   Object {
     "endDate": 18067,
-    "profs": Array [
-      "Domenic Corey",
-      "Robert Connolly",
-      "Todd Hodgkiss",
-      "Cassandra Johnson",
-      "Christopher Laffey",
-      "Matthew Williams",
-    ],
     "startDate": 18022,
     "times": Object {
       "2": Array [
@@ -38,14 +30,6 @@ Array [
   },
   Object {
     "endDate": 18072,
-    "profs": Array [
-      "Domenic Corey",
-      "Robert Connolly",
-      "Todd Hodgkiss",
-      "Cassandra Johnson",
-      "Christopher Laffey",
-      "Matthew Williams",
-    ],
     "startDate": 18022,
     "times": Object {
       "1": Array [
@@ -66,14 +50,6 @@ Array [
   },
   Object {
     "endDate": 18072,
-    "profs": Array [
-      "Domenic Corey",
-      "Robert Connolly",
-      "Todd Hodgkiss",
-      "Cassandra Johnson",
-      "Christopher Laffey",
-      "Matthew Williams",
-    ],
     "startDate": 18072,
     "times": Object {
       "2": Array [
