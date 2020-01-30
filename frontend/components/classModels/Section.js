@@ -104,14 +104,7 @@ class Section {
 
   // Unique list of all professors in all meetings, sorted alphabetically
   getProfs() {
-    const professors = new Set();
-    this.meetings.forEach((meeting) => {
-      meeting.profs.forEach((prof) => {
-        professors.add(prof);
-      });
-    });
-
-    return Array.from(professors).sort();
+    return [];
   }
 
   getLocations(ignoreExams = true) {

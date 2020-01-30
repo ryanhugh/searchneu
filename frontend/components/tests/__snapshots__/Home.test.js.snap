@@ -149,18 +149,15 @@ exports[`should render a section 1`] = `
           <p
             className="helpFistRow"
           />
-          Search NEU is built by Sandbox
-          <p>
-            Want to work with us?
-          </p>
+          Help improve Search NEU
           <p>
             <a
               className="getInvolvedText "
-              href="https://www.sandboxneu.com/apply"
+              href="https://forms.gle/HNJ1AWTCXnu3XovKA"
               rel="noopener noreferrer"
               target="_blank"
             >
-              Get involved &gt;
+              Take our survey
             </a>
           </p>
         </div>

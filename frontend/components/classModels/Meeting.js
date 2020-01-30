@@ -14,8 +14,6 @@ class Meeting {
       return null;
     }
 
-    this.profs = serverData.profs;
-    this.profs.sort();
     this.where = serverData.where;
 
     // if without spaces and case insensitive is tba, make it TBA
