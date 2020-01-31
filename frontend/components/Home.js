@@ -121,6 +121,9 @@ class Home extends React.Component {
 
       // Keep track of whether the help modal is open or not.
       helpModalOpen: false,
+
+      // Keep track of whether the header title is shown
+      headerTitleVisible: true,
     };
 
     // Timer used to debounce search queries
@@ -227,6 +230,7 @@ class Home extends React.Component {
     if (this.inputElement) {
       this.inputElement.value = '';
     }
+    this.setState({ headerTitleVisible: true });
     //Resets url
     this.onSearchDebounced('');
 
@@ -237,28 +241,10 @@ class Home extends React.Component {
   // On desktop, this is called 500ms after they user stops typing.
   onSearchDebounced = (searchQuery) => {
     searchQuery = searchQuery.trim();
-
     this.updateUrl(this.state.selectedTermId, searchQuery);
-
     this.logSearch(searchQuery);
   }
 
-  onClick = (event) => {
-    if (macros.isMobile) {
-      this.setState({
-        results: [],
-        searchQuery: event.target.value,
-        waitingOnEnter: true,
-      });
-      return;
-    }
-
-    // Log the query 500 ms from now.
-    clearTimeout(this.searchDebounceTimer);
-    this.searchDebounceTimer = setTimeout(this.onSearchDebounced.bind(this, event.target.value), 500);
-
-    this.searchFromUserAction(event);
-  }
 
   onKeyDown = (event) => {
     if (event.key !== 'Enter') {
@@ -270,8 +256,6 @@ class Home extends React.Component {
       if (document.activeElement) {
         document.activeElement.blur();
       }
-
-      this.onSearchDebounced(event.target.value);
     }
     this.setState({ headerTitleVisible: false });
     this.searchPageVisible = true;
@@ -640,12 +624,17 @@ class Home extends React.Component {
           >
             { !this.searchPageVisible && (
             <div className='centerTextContainer'>
-              <h1 className='title'>
+              {this.state.headerTitleVisible
+                && (
+                  <>
+                    <h1 className='title'>
                 Search For Northeastern
-              </h1>
-              <p className='subtitle'>
+                    </h1>
+                    <p className='subtitle'>
                 Search for classes, professors, subjects, etc.
-              </p>
+                    </p>
+                  </>
+                )}
               <div>
                 <div className='sub header searchWrapper'>
                   <label htmlFor='search_id'>
