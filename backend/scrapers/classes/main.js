@@ -15,7 +15,6 @@ import bannerv9CollegeUrls from './bannerv9CollegeUrls';
 // Processors
 import markMissingPrereqs from './processors/markMissingPrereqs';
 import termStartEndDate from './processors/termStartEndDate';
-import simplifyProfList from './processors/simplifyProfList';
 import addPreRequisiteFor from './processors/addPreRequisiteFor';
 
 // Parsers
@@ -159,7 +158,6 @@ class Main {
     termStartEndDate.go(dump);
 
     // Add new processors here.
-    simplifyProfList.go(dump);
     addPreRequisiteFor.go(dump);
 
     return dump;

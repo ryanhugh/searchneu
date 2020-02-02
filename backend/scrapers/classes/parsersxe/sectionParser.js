@@ -5,7 +5,7 @@
 
 import Request from '../../request';
 import util from './util';
-import parseMeetings from './meetingParser';
+import MeetingParser from './meetingParser';
 
 const request = new Request('sectionParser');
 
@@ -49,7 +49,8 @@ class SectionParser {
       honors: SR.sectionAttributes.some((a) => { return a.description === 'Honors'; }),
       url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched'
       + `?term_in=${SR.term}&crn_in=${SR.courseReferenceNumber}`,
-      meetings: parseMeetings(SR.meetingsFaculty),
+      profs: SR.faculty.map(MeetingParser.profName),
+      meetings: MeetingParser.parseMeetings(SR.meetingsFaculty),
     };
   }
 }
