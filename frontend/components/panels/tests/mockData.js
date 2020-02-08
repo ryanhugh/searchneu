@@ -99,11 +99,11 @@ const sectionsForcs0210 = [
     online: false,
     url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=19389',
     crn: '19389',
+    profs: ['TBA'],
     meetings: [
       {
         startDate: 17474,
         endDate: 17474,
-        profs: ['TBA'],
         where: 'TBA',
         type: 'Class',
         times:
@@ -114,12 +114,10 @@ const sectionsForcs0210 = [
                 end: 43200,
               }],
           },
-        allProfs: ['TBA'],
       },
       {
         startDate: 17477,
         endDate: 17477,
-        profs: ['TBA'],
         where: 'TBA',
         type: 'Class',
         times:
@@ -130,12 +128,10 @@ const sectionsForcs0210 = [
                 end: 75600,
               }],
           },
-        allProfs: ['TBA'],
       },
       {
         startDate: 17500,
         endDate: 17500,
-        profs: ['TBA'],
         where: 'TBA',
         type: 'Class',
         times:
@@ -146,12 +142,10 @@ const sectionsForcs0210 = [
                 end: 75600,
               }],
           },
-        allProfs: ['TBA'],
       },
       {
         startDate: 17502,
         endDate: 17502,
-        profs: ['TBA'],
         where: 'TBA',
         type: 'Class',
         times:
@@ -162,12 +156,10 @@ const sectionsForcs0210 = [
                 end: 43200,
               }],
           },
-        allProfs: ['TBA'],
       },
       {
         startDate: 17507,
         endDate: 17507,
-        profs: ['TBA'],
         where: 'TBA',
         type: 'Class',
         times:
@@ -178,12 +170,10 @@ const sectionsForcs0210 = [
                 end: 75600,
               }],
           },
-        allProfs: ['TBA'],
       },
       {
         startDate: 17509,
         endDate: 17509,
-        profs: ['TBA'],
         where: 'TBA',
         type: 'Class',
         times:
@@ -194,7 +184,6 @@ const sectionsForcs0210 = [
                 end: 43200,
               }],
           },
-        allProfs: ['TBA'],
       }],
     lastUpdateTime: 1511131913601,
     termId: '201810',
@@ -230,11 +219,11 @@ const sectionsForcs1210 = [{
   online: false,
   url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13502',
   crn: '13502',
+  profs: ['Jennifer Anne Shire'],
   meetings: [
     {
       startDate: 17415,
       endDate: 17506,
-      profs: ['Jennifer Anne Shire'],
       where: 'Snell Engineering Center 108',
       type: 'Class',
       times:
@@ -245,7 +234,6 @@ const sectionsForcs1210 = [{
               end: 41400,
             }],
         },
-      allProfs: ['Jennifer Anne Shire'],
     }],
   lastUpdateTime: 1511131914029,
   termId: '201810',
@@ -261,11 +249,11 @@ const sectionsForcs1210 = [{
   online: false,
   url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=13503',
   crn: '13503',
+  profs: ['Melissa Anne Irgens Peikin'],
   meetings: [
     {
       startDate: 17415,
       endDate: 17506,
-      profs: ['Melissa Anne Irgens Peikin'],
       where: 'Churchill Hall 103',
       type: 'Class',
       times:
@@ -276,7 +264,6 @@ const sectionsForcs1210 = [{
               end: 41400,
             }],
         },
-      allProfs: ['Melissa Anne Irgens Peikin'],
     }],
   lastUpdateTime: 1511131914063,
   termId: '201810',
@@ -292,11 +279,11 @@ const sectionsForcs1210 = [{
   online: false,
   url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14386',
   crn: '14386',
+  profs: ['Yasmil Montes'],
   meetings: [
     {
       startDate: 17415,
       endDate: 17506,
-      profs: ['Yasmil Montes'],
       where: 'Ryder Hall 293',
       type: 'Class',
       times:
@@ -307,7 +294,6 @@ const sectionsForcs1210 = [{
               end: 48300,
             }],
         },
-      allProfs: ['Yasmil Montes'],
     }],
   lastUpdateTime: 1511131914075,
   termId: '201810',
@@ -323,11 +309,11 @@ const sectionsForcs1210 = [{
   online: false,
   url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404',
   crn: '14404',
+  profs: ['Jennifer Anne Shire'],
   meetings: [
     {
       startDate: 17415,
       endDate: 17506,
-      profs: ['Jennifer Anne Shire'],
       where: 'Ryder Hall 431',
       type: 'Class',
       times:
@@ -338,7 +324,6 @@ const sectionsForcs1210 = [{
               end: 48300,
             }],
         },
-      allProfs: ['Jennifer Anne Shire'],
     }],
   lastUpdateTime: 1511131914065,
   termId: '201810',
@@ -355,11 +340,11 @@ const sectionsForcs1210 = [{
   online: false,
   url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=14404',
   crn: '14405',
+  profs: ['Jennifer Anne Shire'],
   meetings: [
     {
       startDate: 17415,
       endDate: 17506,
-      profs: ['Jennifer Anne Shire'],
       where: 'Ryder Hall 431',
       type: 'Class',
       times:
@@ -370,7 +355,6 @@ const sectionsForcs1210 = [{
               end: 48300,
             }],
         },
-      allProfs: ['Jennifer Anne Shire'],
     }],
   lastUpdateTime: 1511131914065,
   termId: '201810',
@@ -392,11 +376,11 @@ const WMNS4520section = Section.create({
   online: false,
   url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched?term_in=201810&crn_in=17445',
   crn: '17445',
+  profs: ['Christopher S. Chambers'],
   meetings: [
     {
       startDate: 17415,
       endDate: 17506,
-      profs: ['Christopher S. Chambers'],
       where: 'Richards Hall 235',
       type: 'Class',
       times:
@@ -414,12 +398,10 @@ const WMNS4520section = Section.create({
             },
           ],
         },
-      allProfs: ['Christopher S. Chambers'],
     },
     {
       startDate: 17508,
       endDate: 17508,
-      profs: ['Christopher S. Chambers'],
       where: 'Kariotis Hall 102',
       type: 'Final Exam',
       times:
@@ -431,9 +413,6 @@ const WMNS4520section = Section.create({
             },
           ],
         },
-      allProfs: [
-        'Christopher S. Chambers',
-      ],
     },
   ],
   lastUpdateTime: 1510778472444,
