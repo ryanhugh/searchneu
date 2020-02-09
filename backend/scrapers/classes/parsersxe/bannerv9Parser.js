@@ -5,6 +5,7 @@
 
 import _ from 'lodash';
 import Request from '../../request';
+import macros from '../../../macros';
 import TermListParser from './termListParser';
 import TermParser from './termParser';
 import ClassParser from './classParser';
@@ -20,8 +21,9 @@ class Bannerv9Parser {
   async main(termsUrl) {
     const termIds = (await this.getTermList(termsUrl)).map((t) => { return t.termId; });
     const suffixes = ['10', '30', '40', '50', '60'];
-    const undergradIds = termIds.filter((t) => { return suffixes.includes(t.slice(-2)); });
-    return this.scrapeTerms(undergradIds.slice(0, 1));
+    const undergradIds = termIds.filter((t) => { return parseInt(t, 10) <= 202030 && suffixes.includes(t.slice(-2)); }).slice(0, 6);
+    macros.log(`scraping terms: ${undergradIds}`);
+    return this.scrapeTerms(undergradIds);
   }
 
   /**
