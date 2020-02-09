@@ -159,9 +159,6 @@ exports[`should render some stuff 1`] = `
                   "meetings": Array [
                     Meeting {
                       "endDate": "2017-12-07T00:00:00.000Z",
-                      "profs": Array [
-                        "Jennifer Anne Shire",
-                      ],
                       "startDate": "2017-09-07T00:00:00.000Z",
                       "times": Array [
                         Array [
@@ -175,6 +172,9 @@ exports[`should render some stuff 1`] = `
                     },
                   ],
                   "online": false,
+                  "profs": Array [
+                    "Jennifer Anne Shire",
+                  ],
                   "seatsCapacity": 19,
                   "seatsRemaining": 0,
                   "subject": "CS",
@@ -191,9 +191,6 @@ exports[`should render some stuff 1`] = `
                   "meetings": Array [
                     Meeting {
                       "endDate": "2017-12-07T00:00:00.000Z",
-                      "profs": Array [
-                        "Jennifer Anne Shire",
-                      ],
                       "startDate": "2017-09-07T00:00:00.000Z",
                       "times": Array [
                         Array [
@@ -207,6 +204,9 @@ exports[`should render some stuff 1`] = `
                     },
                   ],
                   "online": false,
+                  "profs": Array [
+                    "Jennifer Anne Shire",
+                  ],
                   "seatsCapacity": 19,
                   "seatsRemaining": 0,
                   "subject": "CS",
@@ -223,9 +223,6 @@ exports[`should render some stuff 1`] = `
                   "meetings": Array [
                     Meeting {
                       "endDate": "2017-12-07T00:00:00.000Z",
-                      "profs": Array [
-                        "Jennifer Anne Shire",
-                      ],
                       "startDate": "2017-09-07T00:00:00.000Z",
                       "times": Array [
                         Array [
@@ -239,6 +236,9 @@ exports[`should render some stuff 1`] = `
                     },
                   ],
                   "online": false,
+                  "profs": Array [
+                    "Jennifer Anne Shire",
+                  ],
                   "seatsCapacity": 19,
                   "seatsRemaining": 0,
                   "subject": "CS",
@@ -255,9 +255,6 @@ exports[`should render some stuff 1`] = `
                   "meetings": Array [
                     Meeting {
                       "endDate": "2017-12-07T00:00:00.000Z",
-                      "profs": Array [
-                        "Melissa Anne Irgens Peikin",
-                      ],
                       "startDate": "2017-09-07T00:00:00.000Z",
                       "times": Array [
                         Array [
@@ -271,6 +268,9 @@ exports[`should render some stuff 1`] = `
                     },
                   ],
                   "online": false,
+                  "profs": Array [
+                    "Melissa Anne Irgens Peikin",
+                  ],
                   "seatsCapacity": 19,
                   "seatsRemaining": 6,
                   "subject": "CS",
@@ -287,9 +287,6 @@ exports[`should render some stuff 1`] = `
                   "meetings": Array [
                     Meeting {
                       "endDate": "2017-12-07T00:00:00.000Z",
-                      "profs": Array [
-                        "Yasmil Montes",
-                      ],
                       "startDate": "2017-09-07T00:00:00.000Z",
                       "times": Array [
                         Array [
@@ -303,6 +300,9 @@ exports[`should render some stuff 1`] = `
                     },
                   ],
                   "online": false,
+                  "profs": Array [
+                    "Yasmil Montes",
+                  ],
                   "seatsCapacity": 19,
                   "seatsRemaining": 0,
                   "subject": "CS",
@@ -397,9 +397,6 @@ exports[`should render some stuff 1`] = `
             "meetings": Array [
               Meeting {
                 "endDate": "2017-12-07T00:00:00.000Z",
-                "profs": Array [
-                  "Jennifer Anne Shire",
-                ],
                 "startDate": "2017-09-07T00:00:00.000Z",
                 "times": Array [
                   Array [
@@ -413,6 +410,9 @@ exports[`should render some stuff 1`] = `
               },
             ],
             "online": false,
+            "profs": Array [
+              "Jennifer Anne Shire",
+            ],
             "seatsCapacity": 19,
             "seatsRemaining": 0,
             "subject": "CS",
@@ -438,9 +438,6 @@ exports[`should render some stuff 1`] = `
             "meetings": Array [
               Meeting {
                 "endDate": "2017-12-07T00:00:00.000Z",
-                "profs": Array [
-                  "Jennifer Anne Shire",
-                ],
                 "startDate": "2017-09-07T00:00:00.000Z",
                 "times": Array [
                   Array [
@@ -454,6 +451,9 @@ exports[`should render some stuff 1`] = `
               },
             ],
             "online": false,
+            "profs": Array [
+              "Jennifer Anne Shire",
+            ],
             "seatsCapacity": 19,
             "seatsRemaining": 0,
             "subject": "CS",
@@ -479,9 +479,6 @@ exports[`should render some stuff 1`] = `
             "meetings": Array [
               Meeting {
                 "endDate": "2017-12-07T00:00:00.000Z",
-                "profs": Array [
-                  "Jennifer Anne Shire",
-                ],
                 "startDate": "2017-09-07T00:00:00.000Z",
                 "times": Array [
                   Array [
@@ -495,6 +492,9 @@ exports[`should render some stuff 1`] = `
               },
             ],
             "online": false,
+            "profs": Array [
+              "Jennifer Anne Shire",
+            ],
             "seatsCapacity": 19,
             "seatsRemaining": 0,
             "subject": "CS",

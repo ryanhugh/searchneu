@@ -9,7 +9,6 @@ Object {
   "meetings": Array [
     Object {
       "endDate": 18234,
-      "profs": Array [],
       "startDate": 18143,
       "times": Object {
         "1": Array [
@@ -36,7 +35,6 @@ Object {
     },
     Object {
       "endDate": 18243,
-      "profs": Array [],
       "startDate": 18236,
       "times": Object {},
       "type": "Final Exam",
@@ -44,6 +42,9 @@ Object {
     },
   ],
   "online": true,
+  "profs": Array [
+    "Oyindasola Oyelaran",
+  ],
   "seatsCapacity": 76,
   "seatsRemaining": 36,
   "subject": "CHEM",
@@ -63,7 +64,6 @@ Object {
   "meetings": Array [
     Object {
       "endDate": 18003,
-      "profs": Array [],
       "startDate": 17903,
       "times": Object {
         "1": Array [
@@ -90,6 +90,9 @@ Object {
     },
   ],
   "online": false,
+  "profs": Array [
+    "Alan Mislove",
+  ],
   "seatsCapacity": 75,
   "seatsRemaining": 4,
   "subject": "CS",

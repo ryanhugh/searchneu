@@ -234,7 +234,7 @@ class Elastic {
       'class.name.autocomplete',
       'class.subject^4',
       'class.classId^3',
-      'sections.meetings.profs',
+      'sections.profs',
       'class.crns',
       'employee.name^2',
       'employee.emails',

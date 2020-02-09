@@ -23,9 +23,6 @@ exports[`should render a section 1`] = `
           "meetings": Array [
             Meeting {
               "endDate": "2017-12-07T00:00:00.000Z",
-              "profs": Array [
-                "Jennifer Anne Shire",
-              ],
               "startDate": "2017-09-07T00:00:00.000Z",
               "times": Array [
                 Array [
@@ -39,6 +36,9 @@ exports[`should render a section 1`] = `
             },
           ],
           "online": false,
+          "profs": Array [
+            "Jennifer Anne Shire",
+          ],
           "seatsCapacity": 19,
           "seatsRemaining": 0,
           "subject": "CS",
@@ -122,9 +122,6 @@ exports[`should render a section 1`] = `
             "meetings": Array [
               Meeting {
                 "endDate": "2017-12-07T00:00:00.000Z",
-                "profs": Array [
-                  "Jennifer Anne Shire",
-                ],
                 "startDate": "2017-09-07T00:00:00.000Z",
                 "times": Array [
                   Array [
@@ -138,6 +135,9 @@ exports[`should render a section 1`] = `
               },
             ],
             "online": false,
+            "profs": Array [
+              "Jennifer Anne Shire",
+            ],
             "seatsCapacity": 19,
             "seatsRemaining": 0,
             "subject": "CS",
@@ -190,9 +190,6 @@ exports[`should render a section w/ notif check boxes 1`] = `
           "meetings": Array [
             Meeting {
               "endDate": "2017-12-07T00:00:00.000Z",
-              "profs": Array [
-                "Jennifer Anne Shire",
-              ],
               "startDate": "2017-09-07T00:00:00.000Z",
               "times": Array [
                 Array [
@@ -206,6 +203,9 @@ exports[`should render a section w/ notif check boxes 1`] = `
             },
           ],
           "online": false,
+          "profs": Array [
+            "Jennifer Anne Shire",
+          ],
           "seatsCapacity": 19,
           "seatsRemaining": 0,
           "subject": "CS",
@@ -289,9 +289,6 @@ exports[`should render a section w/ notif check boxes 1`] = `
             "meetings": Array [
               Meeting {
                 "endDate": "2017-12-07T00:00:00.000Z",
-                "profs": Array [
-                  "Jennifer Anne Shire",
-                ],
                 "startDate": "2017-09-07T00:00:00.000Z",
                 "times": Array [
                   Array [
@@ -305,6 +302,9 @@ exports[`should render a section w/ notif check boxes 1`] = `
               },
             ],
             "online": false,
+            "profs": Array [
+              "Jennifer Anne Shire",
+            ],
             "seatsCapacity": 19,
             "seatsRemaining": 0,
             "subject": "CS",
@@ -357,9 +357,6 @@ exports[`should render another section 1`] = `
           "meetings": Array [
             Meeting {
               "endDate": "2017-12-07T00:00:00.000Z",
-              "profs": Array [
-                "Jennifer Anne Shire",
-              ],
               "startDate": "2017-09-07T00:00:00.000Z",
               "times": Array [
                 Array [
@@ -373,6 +370,9 @@ exports[`should render another section 1`] = `
             },
           ],
           "online": false,
+          "profs": Array [
+            "Jennifer Anne Shire",
+          ],
           "seatsCapacity": 19,
           "seatsRemaining": 0,
           "subject": "CS",
@@ -456,9 +456,6 @@ exports[`should render another section 1`] = `
             "meetings": Array [
               Meeting {
                 "endDate": "2017-12-07T00:00:00.000Z",
-                "profs": Array [
-                  "Jennifer Anne Shire",
-                ],
                 "startDate": "2017-09-07T00:00:00.000Z",
                 "times": Array [
                   Array [
@@ -472,6 +469,9 @@ exports[`should render another section 1`] = `
               },
             ],
             "online": false,
+            "profs": Array [
+              "Jennifer Anne Shire",
+            ],
             "seatsCapacity": 19,
             "seatsRemaining": 0,
             "subject": "CS",
