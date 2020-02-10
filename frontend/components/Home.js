@@ -279,6 +279,11 @@ class Home extends React.Component {
   }
 
 
+  updateRef = (element) => {
+    this.inputElement = element;
+  }
+
+
   // Called from ResultsLoader to load more
   loadMore = () => {
     this.search(this.state.searchQuery, this.state.selectedTermId, this.state.results.length + 10);
@@ -581,6 +586,7 @@ class Home extends React.Component {
     // Actually it only removes the extra whitespace on chrome. Need to come up with a better solution for other browsers.
     return (
       <div className={ containerClassnames }>
+        { console.log("this.inputElement", this.inputElement)}
         { console.log('this.onClick', this.onClick) }
         {/* <a target='_blank' rel='noopener noreferrer' href='https://github.com/sandboxnu/searchneu' className='githubCornerContainer'> */}
         {/* eslint-disable max-len */}
@@ -602,6 +608,7 @@ class Home extends React.Component {
           selectedTermId={ this.state.selectedTermId }
           termDropDownOptions={ termDropDownOptions }
           onTermdropdownChange={ this.onTermdropdownChange }
+          updateRef={ this.updateRef }
         />
         )}
 
