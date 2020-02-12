@@ -135,14 +135,15 @@ function getRemoteIp(req) {
   }
 
   if (macros.PROD) {
-    macros.error('No cf-connecting-ip?', req.headers, req.connection.remoteAddress);
+    macros.warn('No cf-connecting-ip?', req.headers, req.connection.remoteAddress);
+    return '';
   }
 
   const forwardedForHeader = req.headers['x-forwarded-for'];
 
   if (!forwardedForHeader) {
     if (macros.PROD) {
-      macros.error('No forwardedForHeader?', req.headers, req.connection.remoteAddress);
+      macros.warn('No forwardedForHeader?', req.headers, req.connection.remoteAddress);
     }
 
     return req.connection.remoteAddress;
@@ -153,7 +154,7 @@ function getRemoteIp(req) {
   // Cloudflare sometimes sends health check requests
   // which will only have 1 item in this header
   if (splitHeader.length === 1) {
-    macros.error('Only have one item in the header?', forwardedForHeader);
+    macros.warn('Only have one item in the header?', forwardedForHeader);
     return splitHeader[0].trim();
   }
 
