@@ -42,6 +42,12 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  Course.prototype.toEsJSON = function toEsJSON() {
+    return _.pick(this.toJSON(), [
+      'name', 'classId', 'termId', 'subject', 'crns',
+    ]);
+  };
+
   Course.prototype.toJSON = function toJSON() {
     const obj = this.dataValues;
 
@@ -49,7 +55,11 @@ module.exports = (sequelize, DataTypes) => {
     return _(obj).omit(['id', 'createdAt', 'updatedAt']).omitBy(_.isNil).value();
   };
 
-  Course.bulkJSON = async (instances) => {
+  Course.bulkEsJSON = async (instances) => {
+    return Course.bulkJSON(instances, [], ['lastUpdateTime', 'termId', 'host', 'subject', 'classId']);
+  };
+
+  Course.bulkJSON = async (instances, sectionCols, courseProps) => {
     const Section = sequelize.models.Section;
 
     const courseIds = instances.map((instance) => { return instance.id; });
@@ -58,17 +68,14 @@ module.exports = (sequelize, DataTypes) => {
     const classToSections = _.groupBy(sections, 'classHash');
 
     return _(instances).keyBy('id').mapValues((instance) => {
-      const courseProps = {
-        lastUpdateTime: instance.lastUpdateTime.getTime(), termId: instance.termId, host: instance.host, subject: instance.subject, classId: instance.classId,
-      };
-
+      const coursePropVals = _.pick(instance, courseProps);
       let crns = [];
       let sectionObjs = [];
 
       const courseSections = classToSections[instance.id];
       if (courseSections) {
         crns = courseSections.map((section) => { return section.crn; });
-        sectionObjs = courseSections.map((section) => { return { ...section.toJSON(), ...courseProps }; });
+        sectionObjs = courseSections.map((section) => { return { ..._.omit(section.toJSON(), sectionCols), ...coursePropVals }; });
       }
 
       const courseObj = instance.toJSON();
