@@ -1,18 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import logo from './images/logo.svg';
 
 export default function TopSearchBar(props) {
-  // eslint-disable-next-line no-unused-vars
   const [inputElement, setInputElement] = useState(null);
-  // let inputElement = null;
-  // console.log("props.onClick", props.onClick);
-  // console.log("props.onKeyDown", props.onKeyDown);
-  console.log("props.searchQuery", props.searchQuery);
-  console.log("props.inputElement", props.inputElement);
-  // console.log("props.selectedTermId", props.selectedTermId);
-  // console.log("props.termDropDownOptions", props.termDropDownOptions);
-  // console.log("onTermdropdownChange", props.onTermdropdownChange);
   return (
     <div>
       <div>
@@ -39,6 +31,7 @@ export default function TopSearchBar(props) {
         options={ props.termDropDownOptions }
         onChange={ props.onTermdropdownChange }
       />
+      <img src={ logo } className='logo' alt='logo' onClick={ props.onLogoClick } />
     </div>
 
   );
@@ -52,7 +45,7 @@ TopSearchBar.propTypes = {
   selectedTermId: PropTypes.string,
   termDropDownOptions: PropTypes.array,
   onTermdropdownChange: PropTypes.func.isRequired,
-  inputElement: PropTypes.instanceOf(Element).isRequired,
+  onLogoClick: PropTypes.func.isRequired,
 
 
 };
