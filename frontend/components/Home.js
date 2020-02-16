@@ -73,7 +73,7 @@ class Home extends React.Component {
     const parsedUrl = this.parseUrl();
 
     let selectedTermId;
-    let searchPageVisible;
+    const searchPageVisible = false; // Seems to work fine, but not sure why we were using local storage
     // Check the following sources, in order, for the current selected term. If any are found, use that one and don't continue.
     // 1. The url.
     // 2. Localstorage
@@ -95,9 +95,10 @@ class Home extends React.Component {
       selectedTermId = LATEST_TERM;
     }
 
-    if (window.localStorage.searchPageVisible) {
-      searchPageVisible = window.localStorage.searchPageVisible;
-    }
+    // Why do we check this? - Daniel
+    // if (window.localStorage.searchPageVisible) {
+    //   searchPageVisible = window.localStorage.searchPageVisible;
+    // }
 
 
     this.state = {
@@ -201,9 +202,8 @@ class Home extends React.Component {
       newSelectedTermId = parsedUrl.selectedTermId;
       // this.searchPageVisible = false;
     }
-    if (!parsedUrl.searchQuery) {
-      this.searchPageVisible = !this.searchPageVisible;
-    }
+
+    this.searchPageVisible = !!(parsedUrl.searchQuery);
 
     // Only search if the query is longer than 0
     this.search(parsedUrl.searchQuery, newSelectedTermId);
