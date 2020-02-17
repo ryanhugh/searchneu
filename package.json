@@ -132,6 +132,7 @@
     "msgpack5": "^4.0.0",
     "node-notifier": "^5.2.1",
     "object-hash": "^1.1.7",
+    "p-map": "^3.0.0",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
     "prop-types": "^15.5.8",

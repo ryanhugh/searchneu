@@ -545,28 +545,24 @@ class Home extends React.Component {
 
     const termDropDownOptions = [
       {
+        text: 'Summer I 2020',
+        value: '202040',
+      },
+      {
+        text: 'Summer II 2020',
+        value: '202060',
+      },
+      {
+        text: 'Summer Full 2020',
+        value: '202050',
+      },
+      {
         text: 'Spring 2020',
         value: '202030',
       },
       {
         text: 'Fall 2019',
         value: '202010',
-      },
-      {
-        text: 'Summer I 2019',
-        value: '201940',
-      },
-      {
-        text: 'Summer II 2019',
-        value: '201960',
-      },
-      {
-        text: 'Summer Full 2019',
-        value: '201950',
-      },
-      {
-        text: 'Spring 2019',
-        value: '201930',
       },
     ];
 

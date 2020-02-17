@@ -6,10 +6,13 @@
 
 import { Client } from '@elastic/elasticsearch';
 import _ from 'lodash';
+import pMap from 'p-map';
 import macros from './macros';
 
 const URL = macros.getEnvVariable('elasticURL') || 'http://localhost:9200';
 const client = new Client({ node: URL });
+
+const BULKSIZE = 5000;
 
 class Elastic {
   constructor() {
@@ -79,16 +82,17 @@ class Elastic {
    * @param  {Object} map       A map of document ids to document sources to create
    */
   async bulkIndexFromMap(indexName, map) {
-    let promises = Promise.resolve();
-    for (const part of _.chunk(Object.keys(map), 100)) {
+    const chunks = _.chunk(Object.keys(map), BULKSIZE);
+    return pMap(chunks, (chunk, chunkNum) => {
+      macros.log(`indexed ${chunkNum * BULKSIZE} docs into ${indexName}`);
       const bulk = [];
-      for (const id of part) {
+      for (const id of chunk) {
         bulk.push({ index: { _id: id } });
         bulk.push(map[id]);
       }
-      promises = promises.then(() => { return client.bulk({ index: indexName, refresh: 'wait_for', body: bulk }); });
-    }
-    return promises;
+      return client.bulk({ index: indexName, refresh: 'wait_for', body: bulk });
+    },
+    { concurrency: 1 });
   }
 
   /**

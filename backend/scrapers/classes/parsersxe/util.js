@@ -62,7 +62,8 @@ function parseTable(table) {
       .filter(validCell)
       .map((el) => { return $(el).text(); });
     if (values.length >= heads.length) {
-      macros.log('warning, table row is longer than head, ignoring some content');
+      // TODO look into which classes trigger this
+      // macros.log('warning, table row is longer than head, ignoring some content');
     }
 
     ret.push(_.zipObject(heads, values));
@@ -92,37 +93,7 @@ async function getCookiesForSearch(termCode) {
   return cookiejar;
 }
 
-function promiseMap(iterable, mapper, options) {
-  options = options || {};
-  let concurrency = options.concurrency || Infinity;
-
-  let index = 0;
-  const results = [];
-  const iterator = iterable[Symbol.iterator]();
-  const promises = [];
-
-  function wrappedMapper() {
-    const next = iterator.next();
-    if (next.done) return null;
-    const i = index++;
-    const mapped = mapper(next.value, i);
-    return Promise.resolve(mapped).then((resolved) => {
-      results[i] = resolved;
-      return wrappedMapper();
-    });
-  }
-
-  while (concurrency-- > 0) {
-    const promise = wrappedMapper();
-    if (promise) promises.push(promise);
-    else break;
-  }
-
-  return Promise.all(promises).then(() => { return results; });
-}
-
 export default {
   parseTable: parseTable,
   getCookiesForSearch: getCookiesForSearch,
-  promiseMap: promiseMap,
 };
