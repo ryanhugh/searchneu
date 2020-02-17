@@ -203,9 +203,12 @@ class Updater {
 
       // Count how many sections are present in the new but not in the old.
       let count = 0;
-      if (aNewClass.crns) {
-        for (const crn of aNewClass.crns) {
-          if (!oldClass.crns.includes(crn)) {
+      if (aNewClass.sections) {
+        const newCrns = aNewClass.sections.map((section) => { return section.crn; });
+        const oldCrns = oldClass.sections.map((section) => { return section.crn; });
+
+        for (const crn of newCrns) {
+          if (!oldCrns.includes(crn)) {
             count++;
           }
         }
@@ -284,12 +287,9 @@ class Updater {
 
     const classMap = {};
     for (const aClass of output.classes) {
+      const crns = aClass.sections.map((section) => { return section.crn; });
       const associatedSections = output.sections.filter((s) => {
-        if (!aClass.crns) {
-          macros.log(`The class ${aClass.subject} ${aClass.classId} in ${aClass.termId} does not have crns!`);
-          return false;
-        }
-        return aClass.crns.includes(s.crn);
+        return crns.includes(s.crn);
       });
       // Sort each classes section by crn.
       // This will keep the sections the same between different scrapings.
@@ -300,7 +300,7 @@ class Updater {
       }
       classMap[Keys.getClassHash(aClass)] = {
         class: {
-          crns: aClass.crns,
+          crns: aClass.sections.map((section) => { return section.crn; }),
         },
         sections: associatedSections,
       };
