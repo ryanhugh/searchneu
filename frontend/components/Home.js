@@ -529,7 +529,7 @@ class Home extends React.Component {
       } else {
         topHeaderStyle.transform = 'translateY(-50%) translateY(292px)';
       }
-      resultsContainerStyle.transform = `translateY(-${window.innerHeight}px)`;
+      resultsContainerStyle.transform = `translateY(-${window.innerHeight - 88}px)`;
 
       // Without this line, there would be a lot of whitespace after the results.
       resultsContainerStyle.marginBottom = `${310 - window.innerHeight}px`;

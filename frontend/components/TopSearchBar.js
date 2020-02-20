@@ -6,32 +6,29 @@ import logo from './images/logo.svg';
 export default function TopSearchBar(props) {
   const [inputElement, setInputElement] = useState(null);
   return (
-    <div>
-      <div>
-        <input
-          type='search'
-          id='search_id'
-          autoComplete='off'
-          spellCheck='false'
-          tabIndex='0'
-          className='searchBox'
-          onChange={ props.onClick }
-          onKeyDown={ props.onKeyDown }
-          defaultValue={ props.searchQuery }
-          ref={ (element) => { setInputElement(element); } }
-          updateRef={ props.updateRef(inputElement) }
-        />
-      </div>
+    <div className='SearchHeader'>
+      <input
+        type='search'
+        id='search_id'
+        autoComplete='off'
+        spellCheck='false'
+        tabIndex='0'
+        className='SearchHeader_Input'
+        onChange={ props.onClick }
+        onKeyDown={ props.onKeyDown }
+        defaultValue={ props.searchQuery }
+        ref={ (element) => { setInputElement(element); } }
+        updateRef={ props.updateRef(inputElement) }
+      />
       <Dropdown
-        fluid
         selection
         defaultValue={ props.selectedTermId }
         placeholder='Spring 2018'
-        className='termDropdown'
+        className='SearchHeader_TermDropDown'
         options={ props.termDropDownOptions }
         onChange={ props.onTermdropdownChange }
       />
-      <img src={ logo } className='logo' alt='logo' onClick={ props.onLogoClick } />
+      <img src={ logo } className='SearchHeader_Logo' alt='logo' onClick={ props.onLogoClick } />
     </div>
 
   );
