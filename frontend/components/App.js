@@ -6,6 +6,9 @@ import {
 } from 'react-router-dom';
 import Home from './pages/Home';
 import Results from './pages/Results';
+import '../css/base.scss';
+import 'semantic-ui-css/semantic.min.css';
+
 
 export default function App() {
   return (
