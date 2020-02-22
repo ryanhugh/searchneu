@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import cx from 'classnames';
 import { Dropdown } from 'semantic-ui-react';
 import logo from '../images/logo.svg';
@@ -12,14 +12,55 @@ const ATTENTION_SECTION = {
 
 const attentionSectionMode = ATTENTION_SECTION.getInvolved;
 
+const OLD_TERMS = [
+  '201858',
+  '201855',
+  '201854',
+  '201852',
+  '201838',
+  '201835',
+  '201834',
+  '201832',
+  '201830',
+  '201828',
+  '201825',
+  '201840',
+  '201860',
+  '201850',
+  '201730',
+  '201630',
+  '201810',
+  '201820',
+  '201910',
+];
+
+// The lastest term - Fall 2019
+const LATEST_TERM = '202030';
+
 export default function Home() {
+  const parsedUrl = macros.parseUrl();
+
+  let initialTermId;
+  if (parsedUrl.initialTermId) {
+    initialTermId = parsedUrl.initialTermId;
+  } else {
+    // Defalt to LATEST_TERM (need to make this dynamic in the future...)
+    initialTermId = LATEST_TERM;
+  }
+
+  if (OLD_TERMS.includes(initialTermId)) {
+    initialTermId = LATEST_TERM;
+  }
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTermId, setSelectedTermId] = useState(initialTermId);
+  const inputElement = useRef(null);
+
   // Styles for the search header and the boston outline at the bottom of the above-the-fold content.
   const bostonContainerStyle = {};
   const topHeaderStyle = {};
-  const resultsContainerStyle = {};
   const hiddenHelpButton = '';
 
-  const inputElement = useRef(null);
 
   const onKeyDown = (event) => {
     if (event.key !== 'Enter') {
@@ -32,27 +73,16 @@ export default function Home() {
         document.activeElement.blur();
       }
     }
-    this.searchPageVisible = true;
-    localStorage.searchPageVisible = this.searchPageVisible;
-    this.onSearchDebounced(event.target.value);
-
-    this.searchFromUserAction(event);
-  }
-
+  };
 
   const onTermdropdownChange = (event, data) => {
     localStorage.selectedTermId = data.value;
 
-    this.updateUrl(data.value, this.state.searchQuery);
 
-    this.setState({
+    setSelectedTermId({
       selectedTermId: data.value,
-    }, () => {
-      if (this.state.searchQuery) {
-        this.search(this.state.searchQuery, data.value);
-      }
     });
-  }
+  };
 
 
   // On mobile only show the logo and the github corner if there are no results and the search box is not focused (the virtual keyboard is not on the screen).

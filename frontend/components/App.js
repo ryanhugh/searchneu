@@ -4,12 +4,14 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import Home from './pages/Home';
+import Results from './pages/Results';
 
 export default function App() {
   return (
     <Router>
       <Switch>
-        <Route path='/:termId'>
+        <Route path='/'>
           <Home />
         </Route>
         <Route path='/:termId/:query'>

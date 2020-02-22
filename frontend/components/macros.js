@@ -113,6 +113,28 @@ class Macros extends commonMacros {
 
     this.copyTextArea.style.display = 'none';
   }
+
+  static parseUrl = () => {
+    const pathname = decodeURIComponent(commonMacros.replaceAll(window.location.pathname.slice(1), '+', ' '));
+    const retVal = {};
+    if (pathname.includes('/')) {
+      // Must be something from the future or something, just treat the entire thing as a search
+      if (commonMacros.occurrences(pathname, '/') > 1) {
+        retVal.searchQuery = pathname;
+      } else {
+        const splitPathname = pathname.split('/');
+        if (splitPathname[0].length === 6) {
+          retVal.selectedTermId = splitPathname[0];
+          retVal.searchQuery = splitPathname[1];
+        } else {
+          retVal.searchQuery = pathname;
+        }
+      }
+    } else {
+      retVal.searchQuery = pathname;
+    }
+    return retVal;
+  };
 }
 
 // The backtick on the third row and all the backslashes need to be escaped.
