@@ -37,10 +37,12 @@ const termDropDownOptions = [
 export default function Results() {
   const { termId, query } = useParams();
   const inputElement = useRef(null);
-  const [searchQuery, setSearchQuery] = useState(query);
-  const [selectedTermId, setSelectedTermId] = useState(termId);
+//   const [searchQuery, setSearchQuery] = useState(query);
+//   const [selectedTermId, setSelectedTermId] = useState(termId);
   const [searchResults, setSearchResults] = useState([]);
   const history = useHistory();
+  const searchQuery = query;
+  const selectedTermId = termId;
 
 
   const callSearch = async (queryToSearch, termIdToSearch, termCount = 5) => {
@@ -72,13 +74,14 @@ export default function Results() {
       }
     }
     console.log(`pushing /${selectedTermId}/${inputElement.current.value} to history`);
-    setSearchQuery(inputElement.current.value);
-    history.push(`/${selectedTermId}/${inputElement.current.value}`);
+    // setSearchQuery(inputElement.current.value);
+    history.push(`/${selectedTermId}/${event.target.value}`);
   };
 
   const onTermdropdownChange = (event, data) => {
     console.log('selectedTermId', data.value);
-    setSelectedTermId(data.value);
+    // setSelectedTermId(data.value);
+    history.push(`/${data.value}/${searchQuery}`);
   };
   const onLogoClick = () => {
     history.push('/');
