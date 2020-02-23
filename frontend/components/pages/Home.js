@@ -66,7 +66,7 @@ export default function Home() {
 
 
   const onKeyDown = (event) => {
-    if (event.key !== 'Enter') {
+    if (event.key !== 'Enter' || !inputElement.current.value) {
       return;
     }
 
