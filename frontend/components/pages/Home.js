@@ -84,8 +84,6 @@ export default function Home() {
   };
 
   const onTermdropdownChange = (event, data) => {
-    localStorage.selectedTermId = data.value;
-
     console.log('selectedTermId', data.value);
     setSelectedTermId(data.value);
   };
