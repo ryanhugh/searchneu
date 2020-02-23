@@ -14,11 +14,11 @@ export default function App() {
   return (
     <Router>
       <Switch>
-        <Route path='/'>
-          <Home />
-        </Route>
         <Route path='/:termId/:query'>
           <Results />
+        </Route>
+        <Route path='/'>
+          <Home />
         </Route>
       </Switch>
     </Router>
