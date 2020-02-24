@@ -17,7 +17,7 @@ export default function App() {
         <Route path='/:termId/:query'>
           <Results />
         </Route>
-        <Route path='/'>
+        <Route path='/:termId?'>
           <Home />
         </Route>
       </Switch>

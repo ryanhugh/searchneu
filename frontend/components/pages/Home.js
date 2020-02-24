@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import cx from 'classnames';
 import { Dropdown } from 'semantic-ui-react';
 import SearchBar from '../ResultsPage/SearchBar';
@@ -41,33 +41,13 @@ const OLD_TERMS = [
 const LATEST_TERM = '202030';
 
 export default function Home() {
-  const parsedUrl = macros.parseUrl();
-
-  let initialTermId;
-  if (parsedUrl.initialTermId) {
-    initialTermId = parsedUrl.initialTermId;
-  } else {
-    // Defalt to LATEST_TERM (need to make this dynamic in the future...)
-    initialTermId = LATEST_TERM;
-  }
-
-  if (OLD_TERMS.includes(initialTermId)) {
-    initialTermId = LATEST_TERM;
-  }
-
-  const [selectedTermId, setSelectedTermId] = useState(initialTermId);
   const history = useHistory();
+  const { termId = LATEST_TERM } = useParams(); // Default to LATEST if term not in params
 
   // Styles for the search header and the boston outline at the bottom of the above-the-fold content.
   const bostonContainerStyle = {};
   const topHeaderStyle = {};
   const hiddenHelpButton = '';
-
-  const onTermdropdownChange = (event, data) => {
-    console.log('selectedTermId', data.value);
-    setSelectedTermId(data.value);
-  };
-
 
   // On mobile only show the logo and the github corner if there are no results and the search box is not focused (the virtual keyboard is not on the screen).
   let containerClassnames = 'home-container';
@@ -170,18 +150,18 @@ export default function Home() {
                 </label>
                 <SearchBar
                   className='searchBox'
-                  onSearch={ (val) => { return history.push(`/${selectedTermId}/${val}`); } }
+                  onSearch={ (q) => { history.push(`/${termId}/${q}`); } }
                   query=''
                 />
               </div>
               <Dropdown
                 fluid
                 selection
-                defaultValue={ selectedTermId }
+                defaultValue={ termId }
                 placeholder='Spring 2018'
                 className='termDropdown'
                 options={ termDropDownOptions }
-                onChange={ onTermdropdownChange }
+                onChange={ (e, data) => { history.push(`/${data.value}`); } }
               />
             </div>
             {attentionSection}
