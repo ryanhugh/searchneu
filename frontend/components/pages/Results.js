@@ -37,52 +37,29 @@ const termDropDownOptions = [
 
 export default function Results() {
   const { termId, query } = useParams();
-  //   const [searchQuery, setSearchQuery] = useState(query);
-  //   const [selectedTermId, setSelectedTermId] = useState(termId);
   const [searchResults, setSearchResults] = useState([]);
+  const [resultCursor, setResultCursor] = useState(5);
   const history = useHistory();
-  const searchQuery = query;
-  const selectedTermId = termId;
-
-
-  const callSearch = async (queryToSearch, termIdToSearch, termCount = 5) => {
-    const currentQueryAndTerm = queryToSearch + termIdToSearch;
-
-    const obj = await search.search(queryToSearch, termIdToSearch, termCount);
-    const results = obj.results;
-
-
-    if ((searchQuery + selectedTermId) !== currentQueryAndTerm) {
-      macros.log('Did not come back in order, discarding ', currentQueryAndTerm, '!==', queryToSearch, termIdToSearch);
-      return;
-    }
-
-
-    setSearchResults(results);
-    console.log(`searching for ${queryToSearch} in ${termIdToSearch}`);
-  };
-
-
-  const onTermdropdownChange = (event, data) => {
-    console.log('selectedTermId', data.value);
-    // setSelectedTermId(data.value);
-    history.push(`/${data.value}/${searchQuery}`);
-  };
-  const onLogoClick = () => {
-    history.push('/');
-  };
-
-  const loadMore = () => {
-    callSearch(searchQuery, selectedTermId, searchResults.length + 10);
-  };
 
   const toggleForm = () => {
   };
 
   useEffect(() => {
-    console.log('termId and searchQuery ', termId, query);
-    callSearch(searchQuery, selectedTermId);
-  }, [searchQuery, selectedTermId]);
+    let ignore = false;
+    const doSearch = async () => {
+      const obj = await search.search(query, termId, resultCursor);
+      const results = obj.results;
+
+      // Ignore will be true if out of order because useEffect is cleaned up before executing the next effect
+      if (ignore) {
+        macros.log('Did not come back in order, discarding');
+      } else {
+        setSearchResults(results);
+      }
+    };
+    doSearch();
+    return () => { ignore = true; };
+  }, [query, termId, resultCursor]);
 
   const resultsElement = () => {
     return searchResults.length ? (
@@ -92,7 +69,7 @@ export default function Results() {
         </div>
         <ResultsLoader
           results={ searchResults }
-          loadMore={ loadMore }
+          loadMore={ () => { setResultCursor(searchResults.length + 10); } }
         />
       </div>
     ) : (
@@ -102,11 +79,11 @@ export default function Results() {
         </h3>
         <div className='noResultsBottomLine'>
             Want to&nbsp;
-          <a target='_blank' rel='noopener noreferrer' href={ `https://google.com/search?q=${macros.collegeName} ${searchQuery}` }>
+          <a target='_blank' rel='noopener noreferrer' href={ `https://google.com/search?q=${macros.collegeName} ${query}` }>
               search for&nbsp;
             <div className='ui compact segment noResultsInputText'>
               <p>
-                {searchQuery}
+                {query}
               </p>
             </div>
                 &nbsp;on Google
@@ -122,18 +99,21 @@ export default function Results() {
       <div className='Results_Header'>
         <SearchBar
           className='Results_Input'
-          onSearch={ (val) => { return history.push(`/${selectedTermId}/${val}`); } }
-          query={ searchQuery }
+          onSearch={ (val) => {
+            setResultCursor(5);
+            history.push(`/${termId}/${val}`);
+          } }
+          query={ query }
         />
         <Dropdown
           selection
-          defaultValue={ selectedTermId }
+          defaultValue={ termId }
           placeholder='Spring 2018'
           className='Results_TermDropDown'
           options={ termDropDownOptions }
-          onChange={ onTermdropdownChange }
+          onChange={ (e, data) => { history.push(`/${data.value}/${query}`); } }
         />
-        <img src={ logo } className='Results_Logo' alt='logo' onClick={ onLogoClick } />
+        <img src={ logo } className='Results_Logo' alt='logo' onClick={ () => { history.push('/'); } } />
       </div>
       <div className='resultsContainer'>
         <div>
