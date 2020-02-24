@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 import logo from '../images/logo.svg';
 import search from '../search';
 import macros from '../macros';
 import ResultsLoader from '../ResultsLoader';
+import SearchBar from '../ResultsPage/SearchBar';
 
 
 const termDropDownOptions = [
@@ -36,9 +37,8 @@ const termDropDownOptions = [
 
 export default function Results() {
   const { termId, query } = useParams();
-  const inputElement = useRef(null);
-//   const [searchQuery, setSearchQuery] = useState(query);
-//   const [selectedTermId, setSelectedTermId] = useState(termId);
+  //   const [searchQuery, setSearchQuery] = useState(query);
+  //   const [selectedTermId, setSelectedTermId] = useState(termId);
   const [searchResults, setSearchResults] = useState([]);
   const history = useHistory();
   const searchQuery = query;
@@ -62,21 +62,6 @@ export default function Results() {
     console.log(`searching for ${queryToSearch} in ${termIdToSearch}`);
   };
 
-  const onKeyDown = (event) => {
-    if (event.key !== 'Enter' || !inputElement.current.value) {
-      return;
-    }
-
-    if (macros.isMobile) {
-      // Hide the keyboard on android phones.
-      if (document.activeElement) {
-        document.activeElement.blur();
-      }
-    }
-    console.log(`pushing /${selectedTermId}/${inputElement.current.value} to history`);
-    // setSearchQuery(inputElement.current.value);
-    history.push(`/${selectedTermId}/${event.target.value}`);
-  };
 
   const onTermdropdownChange = (event, data) => {
     console.log('selectedTermId', data.value);
@@ -135,16 +120,9 @@ export default function Results() {
   return (
     <>
       <div className='Results_Header'>
-        <input
-          type='search'
-          id='search_id'
-          autoComplete='off'
-          spellCheck='false'
-          tabIndex='0'
-          className='Results_Input'
-          onKeyDown={ onKeyDown }
-          defaultValue={ searchQuery }
-          ref={ inputElement }
+        <SearchBar
+          onSearch={ (val) => { return history.push(`/${selectedTermId}/${val}`); } }
+          query={ searchQuery }
         />
         <Dropdown
           selection
