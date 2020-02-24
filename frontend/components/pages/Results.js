@@ -121,6 +121,7 @@ export default function Results() {
     <>
       <div className='Results_Header'>
         <SearchBar
+          className='Results_Input'
           onSearch={ (val) => { return history.push(`/${selectedTermId}/${val}`); } }
           query={ searchQuery }
         />

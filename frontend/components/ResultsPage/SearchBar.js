@@ -5,7 +5,7 @@ import macros from '../macros';
 /**
  * Component to handle the searchbar input. Abstracts the jankiness of controlling input components.
  */
-export default function SearchBar({ query, onSearch }) {
+export default function SearchBar({ query, onSearch, className }) {
   // controlledQuery represents what's typed into the searchbar - even BEFORE enter is hit
   const [controlledQuery, setControlledQuery] = useState(query);
 
@@ -39,7 +39,7 @@ export default function SearchBar({ query, onSearch }) {
       autoComplete='off'
       spellCheck='false'
       tabIndex='0'
-      className='Results_Input'
+      className={ className }
       onKeyDown={ onKeyDown }
       onChange={ onChange }
       value={ controlledQuery }
@@ -48,6 +48,11 @@ export default function SearchBar({ query, onSearch }) {
 }
 
 SearchBar.propTypes = {
+  className: PropTypes.string,
   query: PropTypes.string.isRequired,
   onSearch: PropTypes.func.isRequired,
+};
+
+SearchBar.defaultProps = {
+  className: '',
 };
