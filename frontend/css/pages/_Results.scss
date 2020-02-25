@@ -63,3 +63,27 @@
     order: 2;
 
 }
+
+.Results_Container {
+    padding-top: 150px;
+}
+
+.Results_EmptyContainer {
+    font-size: 19px;
+    padding-top: 150px;
+    text-align: center;
+    padding-bottom: 100px;
+  }
+
+.Results_EmptyBottomLine {
+    padding-top: 7px;
+}
+
+
+.Results_EmptyText {
+    display: inline-block !important;
+    padding: 5px !important;
+    padding-left: 9px !important;
+    padding-right: 9px !important;
+    font-size: inherit !important;
+}

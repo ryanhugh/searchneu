@@ -73,15 +73,15 @@ export default function Results() {
         />
       </div>
     ) : (
-      <div className='noResultsContainer'>
+      <div className='Results_EmptyContainer'>
         <h3>
             No Results
         </h3>
-        <div className='noResultsBottomLine'>
+        <div className='Results_EmptyBottomLine'>
             Want to&nbsp;
           <a target='_blank' rel='noopener noreferrer' href={ `https://google.com/search?q=${macros.collegeName} ${query}` }>
               search for&nbsp;
-            <div className='ui compact segment noResultsInputText'>
+            <div className='ui compact segment Results_EmptyText'>
               <p>
                 {query}
               </p>
@@ -115,7 +115,7 @@ export default function Results() {
         />
         <img src={ logo } className='Results_Logo' alt='logo' onClick={ () => { history.push('/'); } } />
       </div>
-      <div className='resultsContainer'>
+      <div className='Results_Container'>
         <div>
           {resultsElement()}
         </div>
