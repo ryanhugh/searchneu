@@ -135,7 +135,7 @@ function getRemoteIp(req) {
   }
 
   if (macros.PROD) {
-    macros.warn('No cf-connecting-ip?', req.headers, req.connection.remoteAddress);
+    // macros.warn('No cf-connecting-ip?', req.headers, req.connection.remoteAddress);
     return '';
   }
 
