@@ -5,7 +5,9 @@ import macros from '../macros';
 /**
  * Component to handle the searchbar input. Abstracts the jankiness of controlling input components.
  */
-export default function SearchBar({ query, onSearch, className }) {
+export default function SearchBar({
+  query, onSearch, className, renderButton,
+}) {
   // controlledQuery represents what's typed into the searchbar - even BEFORE enter is hit
   const [controlledQuery, setControlledQuery] = useState(query);
 
@@ -14,36 +16,40 @@ export default function SearchBar({ query, onSearch, className }) {
     setControlledQuery(query);
   }, [query]);
 
-  const onKeyDown = (event) => {
-    if (event.key !== 'Enter' || !event.target.value) {
-      return;
-    }
-
+  // Hide keyboard and execute search
+  const search = () => {
     if (macros.isMobile) {
-      // Hide the keyboard on android phones.
       if (document.activeElement) {
         document.activeElement.blur();
       }
     }
-    onSearch(event.target.value);
-  };
-
-  const onChange = (event) => {
-    setControlledQuery(event.target.value);
+    onSearch(controlledQuery);
   };
 
   return (
-    <input
-      type='search'
-      id='search_id'
-      autoComplete='off'
-      spellCheck='false'
-      tabIndex='0'
-      className={ className }
-      onKeyDown={ onKeyDown }
-      onChange={ onChange }
-      value={ controlledQuery }
-    />
+    <>
+      <input
+        type='search'
+        id='search_id'
+        autoComplete='off'
+        spellCheck='false'
+        tabIndex='0'
+        className={ className }
+        onKeyDown={ (event) => {
+          if (event.key === 'Enter') {
+            search();
+          }
+        } }
+        onChange={ (event) => { setControlledQuery(event.target.value); } }
+        value={ controlledQuery }
+      />
+      {renderButton
+      && (
+      <div onClick={ search } role='button' tabIndex={ 0 }>
+        {renderButton()}
+      </div>
+      )}
+    </>
   );
 }
 
@@ -51,8 +57,10 @@ SearchBar.propTypes = {
   className: PropTypes.string,
   query: PropTypes.string.isRequired,
   onSearch: PropTypes.func.isRequired,
+  renderButton: PropTypes.func,
 };
 
 SearchBar.defaultProps = {
   className: '',
+  renderButton: null,
 };

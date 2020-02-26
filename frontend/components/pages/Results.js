@@ -135,21 +135,16 @@ export default function Results() {
               history.push(`/${termId}/${val}`);
             } }
             query={ query }
-
+            renderButton={ () => {
+              return !macros.isMobile && (
+              <img
+                src={ logoSmall }
+                className='Results_InputLogo'
+                alt='logo'
+              />
+              );
+            } }
           />
-          {!macros.isMobile &&
-          (
-          <img
-            src={ logoSmall }
-            className='Results_InputLogo'
-            alt='logo'
-            // onClick={ (val) => {
-            //   setResultCursor(5);
-            //   history.push(`/${termId}/${val}`);
-            // } }
-            query={ query }
-          />
-          )}
         </div>
         <Dropdown
           selection
