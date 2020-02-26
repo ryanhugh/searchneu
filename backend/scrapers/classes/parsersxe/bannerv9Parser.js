@@ -56,8 +56,8 @@ class Bannerv9Parser {
    */
   async scrapeClass(termId, subject, courseNumber) {
     return {
-      classes: ClassParser.parseClass(termId, subject, courseNumber),
-      sections: SectionParser.parseSectionsOfClass(termId, subject, courseNumber),
+      classes: [await ClassParser.parseClass(termId, subject, courseNumber)],
+      sections: await SectionParser.parseSectionsOfClass(termId, subject, courseNumber),
     };
   }
 
