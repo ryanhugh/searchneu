@@ -9,7 +9,7 @@
     flex-direction: row;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     position: fixed;
 }
 
@@ -17,24 +17,24 @@
 .Results_Input {
     margin-left: 104px;
     color: rgba(0, 0, 0, 0.6);
-    transition: all 300ms ease;
     border: 1px solid #979797;
     border-radius: 9px;
     z-index: 9999;
-    order: 0;
     width: 539px;
     height: 53px;
+    position: absolute;
+    left: 0;
 
 }
 
 .Results_TermDropDown {
     height: 38px;
-    min-width: 128px;
-    width: 121px;
+    max-width: 300px;
+    position: absolute;
+    left: 650px;
     box-shadow: none !important;
     border: none !important;
     pointer-events: initial;
-    order: 1;
     font-family: Lato;
     font-style: normal;
     font-weight: normal;
@@ -60,7 +60,7 @@
     height: 30px;
     z-index: 10;
     cursor: pointer;
-    order: 2;
+    margin-right: 100px;
 
 }
 
@@ -86,4 +86,26 @@
     padding-left: 9px !important;
     padding-right: 9px !important;
     font-size: inherit !important;
+}
+
+
+@media only screen and (max-width: 767px) {
+    .Results_Input {
+        margin-left: 10px;
+        position: relative;
+        width: 220px;
+
+    }
+    .Results_TermDropDown {
+        position: relative;
+        left: 0;
+        font-size: 18px;
+
+    }
+    .Results_Logo {
+        margin-right: 10px;
+    }
+
+
+
 }

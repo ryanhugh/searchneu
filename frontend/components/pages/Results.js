@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 import logo from '../images/logo.svg';
+import logoSmall from '../images/logo_small.svg';
 import search from '../search';
 import macros from '../macros';
 import ResultsLoader from '../ResultsLoader';
@@ -34,6 +35,34 @@ const termDropDownOptions = [
     value: '201930',
   },
 ];
+
+const mobileTermDropDownOptions = [
+  {
+    text: 'SP20',
+    value: '202030',
+  },
+  {
+    text: 'F19',
+    value: '202010',
+  },
+  {
+    text: 'SI19',
+    value: '201940',
+  },
+  {
+    text: 'SII19',
+    value: '201960',
+  },
+  {
+    text: 'SF19',
+    value: '201950',
+  },
+  {
+    text: 'SP19',
+    value: '201930',
+  },
+];
+
 
 export default function Results() {
   const { termId, query } = useParams();
@@ -107,13 +136,14 @@ export default function Results() {
         />
         <Dropdown
           selection
+          compact
           defaultValue={ termId }
           placeholder='Spring 2018'
           className='Results_TermDropDown'
-          options={ termDropDownOptions }
+          options={ macros.isMobile ? mobileTermDropDownOptions : termDropDownOptions }
           onChange={ (e, data) => { history.push(`/${data.value}/${query}`); } }
         />
-        <img src={ logo } className='Results_Logo' alt='logo' onClick={ () => { history.push('/'); } } />
+        <img src={ macros.isMobile ? logoSmall : logo } className='Results_Logo' alt='logo' onClick={ () => { history.push('/'); } } />
       </div>
       <div className='Results_Container'>
         <div>
