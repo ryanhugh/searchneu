@@ -126,14 +126,31 @@ export default function Results() {
   return (
     <>
       <div className='Results_Header'>
-        <SearchBar
-          className='Results_Input'
-          onSearch={ (val) => {
-            setResultCursor(5);
-            history.push(`/${termId}/${val}`);
-          } }
-          query={ query }
-        />
+        <img src={ macros.isMobile ? logoSmall : logo } className='Results_Logo' alt='logo' onClick={ () => { history.push('/'); } } />
+        <div className='Results_InputWrapper'>
+          <SearchBar
+            className='Results_Input'
+            onSearch={ (val) => {
+              setResultCursor(5);
+              history.push(`/${termId}/${val}`);
+            } }
+            query={ query }
+
+          />
+          {!macros.isMobile &&
+          (
+          <img
+            src={ logoSmall }
+            className='Results_InputLogo'
+            alt='logo'
+            // onClick={ (val) => {
+            //   setResultCursor(5);
+            //   history.push(`/${termId}/${val}`);
+            // } }
+            query={ query }
+          />
+          )}
+        </div>
         <Dropdown
           selection
           compact
@@ -143,7 +160,6 @@ export default function Results() {
           options={ macros.isMobile ? mobileTermDropDownOptions : termDropDownOptions }
           onChange={ (e, data) => { history.push(`/${data.value}/${query}`); } }
         />
-        <img src={ macros.isMobile ? logoSmall : logo } className='Results_Logo' alt='logo' onClick={ () => { history.push('/'); } } />
       </div>
       <div className='Results_Container'>
         <div>

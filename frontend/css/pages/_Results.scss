@@ -1,6 +1,6 @@
 .Results_Header {
     width: 100%;
-    height: 88px;
+    height: 53px;
     left: 0px;
     top: 0px;
     z-index: 9999;
@@ -9,41 +9,60 @@
     flex-direction: row;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: left;
     position: fixed;
 }
 
+.Results_InputWrapper {
+    border: .5px solid #A3A3A3;
+    border-radius: 80px;
+    position: relative;
+    text-align: left;
+    pointer-events: initial;
+    height: 38px;
+    display: flex;
+    width: 486px;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-right: 20px;
+
+
+}
 
 .Results_Input {
-    margin-left: 104px;
+    border: none;
     color: rgba(0, 0, 0, 0.6);
-    border: 1px solid #979797;
-    border-radius: 9px;
+    position: relative;
     z-index: 9999;
-    width: 539px;
-    height: 53px;
-    position: absolute;
-    left: 0;
+    width: 420px;
+    height: 30px;
+    font-size: 14px;
+    left: 10x;
+    &:focus {
+        outline: none;
+    }
 
+}
+
+.Results_InputLogo {
+    height: 16px;
+    cursor: pointer;
 }
 
 .Results_TermDropDown {
     height: 38px;
     max-width: 300px;
-    position: absolute;
-    left: 650px;
     box-shadow: none !important;
     border: none !important;
     pointer-events: initial;
     font-family: Lato;
     font-style: normal;
     font-weight: normal;
-    font-size: 22px;
-    line-height: 26px;
+    font-size: 17px;
+    line-height: 20px;
     align-items: center;
     letter-spacing: 1.5px;
     color: #636363 !important;
-    text-transform: uppercase;
     white-space: nowrap !important;
     display: flex !important;
 
@@ -60,12 +79,13 @@
     height: 30px;
     z-index: 10;
     cursor: pointer;
-    margin-right: 100px;
+    margin-left: 32px;
+    margin-right: 54px;
 
 }
 
 .Results_Container {
-    padding-top: 150px;
+    padding-top: 84px;
 }
 
 .Results_EmptyContainer {
@@ -90,20 +110,29 @@
 
 
 @media only screen and (max-width: 767px) {
+    .Results_InputWrapper {
+        margin-right: 0px;
+        width: 300px;
+        position: absolute;
+
+    }
     .Results_Input {
-        margin-left: 10px;
-        position: relative;
-        width: 220px;
+      position: absolute;
+      width: 200px;
+      right: 64px;
 
     }
     .Results_TermDropDown {
-        position: relative;
-        left: 0;
-        font-size: 18px;
-
+        font-size: 14px;
+        position: absolute;
+        left: 300px;
+       
     }
     .Results_Logo {
-        margin-right: 10px;
+        margin-right: 8px;
+        margin-left: 8px;
+        position: absolute;
+        height: 16px;
     }
 
 
