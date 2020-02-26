@@ -4,7 +4,6 @@
  */
 
 import _ from 'lodash';
-import pMap from 'p-map';
 
 import elastic from './elastic';
 
