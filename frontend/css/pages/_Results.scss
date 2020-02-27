@@ -1,6 +1,6 @@
 .Results_Header {
   width: 100%;
-  height: 53px;
+  height: 60px;
   left: 0px;
   top: 0px;
   z-index: 9999;
@@ -35,12 +35,28 @@
   }
 }
 
-.Results_Logo {
-  height: 30px;
+.Results__Logo {
+  height: 25px;
   z-index: 10;
   cursor: pointer;
   margin-left: 32px;
   margin-right: 54px;
+  &--sm {
+    display: none;
+  }
+  @media only screen and (max-width: 767px) {
+    display: none;
+    &--sm {
+      display: block;
+      margin-right: 10px;
+      margin-left: 10px;
+      height: 20px;
+    }
+  }
+}
+
+.Results__searchwrapper {
+  flex-grow: 2;
 }
 
 .Results_Container {
@@ -64,30 +80,4 @@
   padding-left: 9px !important;
   padding-right: 9px !important;
   font-size: inherit !important;
-}
-
-@media only screen and (max-width: 767px) {
-  .Results_InputWrapper {
-    margin-right: 0px;
-    width: 250px;
-    position: absolute;
-    left: 8px;
-  }
-  .Results_Input {
-    position: absolute;
-    width: 200px;
-    left: 30px;
-    font-size: 12px;
-  }
-  .Results_TermDropDown {
-    font-size: 14px;
-    position: absolute;
-    left: 280px;
-  }
-  .Results_Logo {
-    margin-right: 8px;
-    margin-left: 14px;
-    position: absolute;
-    height: 16px;
-  }
 }
