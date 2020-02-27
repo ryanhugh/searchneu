@@ -4,6 +4,7 @@
  */
 
 import _ from 'lodash';
+import pMap from 'p-map';
 import macros from '../../../macros';
 import Request from '../../request';
 import ClassParser from './classParser';
@@ -20,7 +21,7 @@ class TermParser {
    */
   async parseTerm(termId) {
     const courseSearchResults = await this.requestsClassesForTerm(termId);
-    const classes = await util.promiseMap(courseSearchResults,
+    const classes = await pMap(courseSearchResults,
       (a) => { return ClassParser.parseClassFromSearchResult(a, termId); },
       { concurrency: 500 });
 

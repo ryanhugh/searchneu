@@ -4,12 +4,12 @@
  */
 
 import _ from 'lodash';
+import pMap from 'p-map';
 import Request from '../../request';
 import macros from '../../../macros';
 import TermListParser from './termListParser';
 import TermParser from './termParser';
 import ClassParser from './classParser';
-import util from './util';
 import SectionParser from './sectionParser';
 
 const request = new Request('bannerv9Parser');
@@ -21,7 +21,7 @@ class Bannerv9Parser {
   async main(termsUrl) {
     const termIds = (await this.getTermList(termsUrl)).map((t) => { return t.termId; });
     const suffixes = ['10', '30', '40', '50', '60'];
-    const undergradIds = termIds.filter((t) => { return parseInt(t, 10) <= 202030 && suffixes.includes(t.slice(-2)); }).slice(0, 6);
+    const undergradIds = termIds.filter((t) => { return suffixes.includes(t.slice(-2)); }).slice(0, 3);
     macros.log(`scraping terms: ${undergradIds}`);
     return this.scrapeTerms(undergradIds);
   }
@@ -42,7 +42,7 @@ class Bannerv9Parser {
    * @returns Object {classes, sections} where classes is a list of class data
    */
   async scrapeTerms(termIds) {
-    const termData = await util.promiseMap(termIds, (p) => { return TermParser.parseTerm(p); });
+    const termData = await pMap(termIds, (p) => { return TermParser.parseTerm(p); });
     return _.mergeWith(...termData, (a, b) => { return a.concat(b); });
   }
 
@@ -56,8 +56,8 @@ class Bannerv9Parser {
    */
   async scrapeClass(termId, subject, courseNumber) {
     return {
-      classes: ClassParser.parseClass(termId, subject, courseNumber),
-      sections: SectionParser.parseSectionsOfClass(termId, subject, courseNumber),
+      classes: [await ClassParser.parseClass(termId, subject, courseNumber)],
+      sections: await SectionParser.parseSectionsOfClass(termId, subject, courseNumber),
     };
   }
 
