@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import macros from '../macros';
+import logoInput from '../images/logo_input.svg';
 
 /**
  * Component to handle the searchbar input. Abstracts the jankiness of controlling input components.
  */
 export default function SearchBar({
-  query, onSearch, className, renderButton,
+  query, onSearch,
 }) {
   // controlledQuery represents what's typed into the searchbar - even BEFORE enter is hit
   const [controlledQuery, setControlledQuery] = useState(query);
@@ -27,14 +28,14 @@ export default function SearchBar({
   };
 
   return (
-    <>
+    <div className='searchbar'>
       <input
         type='search'
         id='search_id'
         autoComplete='off'
         spellCheck='false'
         tabIndex='0'
-        className={ className }
+        className='searchbar__input'
         onKeyDown={ (event) => {
           if (event.key === 'Enter') {
             search();
@@ -44,23 +45,20 @@ export default function SearchBar({
         value={ controlledQuery }
         placeholder='Class, professor, course number'
       />
-      {renderButton && (
-        <div onClick={ search } role='button' tabIndex={ 0 }>
-          {renderButton()}
-        </div>
+      {!macros.isMobile && (
+      <div onClick={ search } className='searchbar__button' role='button' tabIndex={ 0 }>
+        <img
+          src={ logoInput }
+          className='searchbar__button-logo'
+          alt='logo'
+        />
+      </div>
       )}
-    </>
+    </div>
   );
 }
 
 SearchBar.propTypes = {
-  className: PropTypes.string,
   query: PropTypes.string.isRequired,
   onSearch: PropTypes.func.isRequired,
-  renderButton: PropTypes.func,
-};
-
-SearchBar.defaultProps = {
-  className: '',
-  renderButton: null,
 };

@@ -13,58 +13,6 @@
     position: fixed;
 }
 
-.Results_InputWrapper {
-    border: 1px solid #e2dfdf;
-    border-radius: 9px;
-    position: relative;
-    text-align: left;
-    pointer-events: initial;
-    height: 38px;
-    display: flex;
-    width: 486px;
-    align-items: center;
-    justify-content: space-evenly;
-    margin-right: 20px;
-
-
-}
-
-.Results_Input {
-    border: none;
-    color: rgba(0, 0, 0, 0.6);
-    position: relative;
-    z-index: 9999;
-    width: 420px;
-    height: 30px;
-    font-size: 14px;
-    left: 10px;
-    &:focus {
-        outline: none;
-    }
-    &::placeholder {
-        color: rgba(51, 51, 51, 0.2);
-      }
-    }
-
-.Results_InputButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #D41B2C;
-    width: 50px;
-    height: 38px;
-    border-radius: 0px 9px 9px 0px;
-    margin-left: 14px;
-    cursor: pointer;
-    &:focus {
-        outline: none;
-    }
-}
-.Results_InputLogo {
-    height: 16px;
-    cursor: pointer;
-}
-
 .Results_TermDropDown {
     height: 38px;
     max-width: 300px;

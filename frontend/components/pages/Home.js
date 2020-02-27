@@ -4,7 +4,6 @@ import cx from 'classnames';
 import { Dropdown } from 'semantic-ui-react';
 import SearchBar from '../ResultsPage/SearchBar';
 import logo from '../images/logo.svg';
-import logoInput from '../images/logo_input.svg';
 import boston from '../images/boston.svg';
 import macros from '../macros';
 
@@ -136,45 +135,28 @@ export default function Home() {
           style={ topHeaderStyle }
         >
           <div className='centerTextContainer'>
-            <>
-              <h1 className='title'>
+            <h1 className='title'>
                 Search For Northeastern
-              </h1>
-              <p className='subtitle'>
+            </h1>
+            <p className='subtitle'>
                 Search for classes, professors, subjects, etc.
-              </p>
-            </>
-            <div>
-              <div className='Home_InputWrapper'>
-                <SearchBar
-                  className='Home_Input'
-                  onSearch={ (q) => { history.push(`/${termId}/${q}`); } }
-                  query=''
-                  renderButton={ () => {
-                    return !macros.isMobile && (
-                      <>
-                        <div className='Home_InputButton' role='button' tabIndex={ 0 }>
-                          <img
-                            src={ logoInput }
-                            className='Home_InputLogo'
-                            alt='logo'
-                          />
-                        </div>
-                      </>
-                    );
-                  } }
-                />
-              </div>
-              <Dropdown
-                fluid
-                selection
-                defaultValue={ termId }
-                placeholder='Spring 2018'
-                className='termDropdown'
-                options={ termDropDownOptions }
-                onChange={ (e, data) => { history.push(`/${data.value}`); } }
-              />
+            </p>
+            <div className='searchWrapper'>
+
+            <SearchBar
+              onSearch={ (q) => { history.push(`/${termId}/${q}`); } }
+              query=''
+            />
             </div>
+            <Dropdown
+              fluid
+              selection
+              defaultValue={ termId }
+              placeholder='Spring 2018'
+              className='termDropdown'
+              options={ termDropDownOptions }
+              onChange={ (e, data) => { history.push(`/${data.value}`); } }
+            />
             {attentionSection}
 
             <div className='hitEnterToSearch'>

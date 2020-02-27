@@ -127,29 +127,13 @@ export default function Results() {
     <>
       <div className='Results_Header'>
         <img src={ macros.isMobile ? logoSmall : logo } className='Results_Logo' alt='logo' onClick={ () => { history.push('/'); } } />
-        <div className='Results_InputWrapper'>
-          <SearchBar
-            className='Results_Input'
-            onSearch={ (val) => {
-              setResultCursor(5);
-              history.push(`/${termId}/${val}`);
-            } }
-            query={ query }
-            renderButton={ () => {
-              return !macros.isMobile && (
-                <>
-                  <div className='Results_InputButton' role='button' tabIndex={ 0 }>
-                    <img
-                      src={ logoInput }
-                      className='Results_InputLogo'
-                      alt='logo'
-                    />
-                  </div>
-                </>
-              );
-            } }
-          />
-        </div>
+        <SearchBar
+          onSearch={ (val) => {
+            setResultCursor(5);
+            history.push(`/${termId}/${val}`);
+          } }
+          query={ query }
+        />
         <Dropdown
           selection
           compact
