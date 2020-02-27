@@ -8,10 +8,11 @@
 
   &__input {
     flex-grow: 2;
-    margin: 0px 9px;
+    margin: 0 9px;
     border: none;
     font-size: 16px;
     color: rgba(0, 0, 0, 0.6);
+
     &::placeholder {
       color: rgba(51, 51, 51, 0.2);
     }
@@ -22,13 +23,15 @@
     align-items: center;
     justify-content: center;
     background: #d41b2c;
-    border-radius: 0px 9px 9px 0px;
+    border-radius: 0 9px 9px 0;
     width: 50px;
     cursor: pointer;
+
     &:focus {
       outline: none;
     }
   }
+
   &__button-logo {
     cursor: pointer;
   }

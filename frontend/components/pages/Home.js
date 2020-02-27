@@ -143,10 +143,10 @@ export default function Home() {
             </p>
             <div className='searchWrapper'>
 
-            <SearchBar
-              onSearch={ (q) => { history.push(`/${termId}/${q}`); } }
-              query=''
-            />
+              <SearchBar
+                onSearch={ (q) => { history.push(`/${termId}/${q}`); } }
+                query=''
+              />
             </div>
             <Dropdown
               fluid
