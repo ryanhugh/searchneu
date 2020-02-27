@@ -84,8 +84,13 @@ describe('elastic', () => {
     expect(Keys.getClassHash(firstResult)).toBe('neu.edu/202010/CS/2500');
   });
 
-  it('filter by college', async () => {
-    const allResults = getAllClassResult(await elastic.search('math', '202010', 0, 1, { college: 'Computer&Info Sci' }));
+  it('filter by one college', async () => {
+    const allResults = getAllClassResult(await elastic.search('course', '202010', 0, 100, { college: ['Computer&Info Sci'] }));
+    allResults.forEach(result => expect(result.class.classAttributes).toContain('Computer&Info Sci'));
+  });
+
+  it('filter by multiple colleges', async () => {
+    const allResults = getAllClassResult(await elastic.search('course', '202010', 0, 100, { college: ['Computer&Info Sci'] }));
     allResults.forEach(result => expect(result.class.classAttributes).toContain('Computer&Info Sci'));
   });
 });
