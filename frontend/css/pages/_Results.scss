@@ -128,25 +128,27 @@
 @media only screen and (max-width: 767px) {
     .Results_InputWrapper {
         margin-right: 0px;
-        width: 300px;
+        width: 250px;
         position: absolute;
+        left: 8px;
 
     }
     .Results_Input {
       position: absolute;
       width: 200px;
-      right: 64px;
+      left: 30px;
+      font-size: 12px;
 
     }
     .Results_TermDropDown {
         font-size: 14px;
         position: absolute;
-        left: 300px;
+        left: 280px;
        
     }
     .Results_Logo {
         margin-right: 8px;
-        margin-left: 8px;
+        margin-left: 14px;
         position: absolute;
         height: 16px;
     }
