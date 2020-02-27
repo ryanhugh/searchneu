@@ -273,7 +273,14 @@ class Elastic {
             filter: {
               bool: {
                 should: [
-                  { term: { 'class.termId': termId } },
+                  {
+                    bool:{
+                      must: [
+                        { exists: { field: 'sections' } },
+                        { term: { 'class.termId': termId } },
+                      ],
+                    },
+                  },
                   { term: { type: 'employee' } },
                 ],
               },
