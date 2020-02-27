@@ -262,6 +262,20 @@ class Elastic {
       macros.log(filters);
     }
 
+    // filter by college {'college': ['Computer&Info Sci']}
+    let filterByCollege = null;
+    if ('college' in filters) {
+      filterByCollege = {
+        bool: {
+          filter: {
+            terms: {
+              'class.classAttributes' : filters.college,
+            },
+          },
+        },
+      };
+    }
+
     // query from the main search box
     const searchBoxQuery = {
       bool: {
@@ -283,20 +297,6 @@ class Elastic {
         },
       },
     };
-
-    // filter by college {'college': ['Computer&Info Sci']}
-    let filterByCollege = null;
-    if ('college' in filters) {
-      filterByCollege = {
-        bool: {
-          filter: {
-            terms: {
-              'class.classAttributes' : ['Computer&Info Sci'],
-            },
-          },
-        },
-      };
-    }
 
     // remove null filters
     const queryWithFilters = [
