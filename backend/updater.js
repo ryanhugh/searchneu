@@ -19,7 +19,7 @@ class Updater {
   constructor() {
     // 5 min if prod, 30 sec if dev.
     // In dev the cache will be used so we are not actually hitting NEU's servers anyway.
-    const intervalTime = macros.PROD ? 300000 : 10000;
+    const intervalTime = macros.PROD ? 300000 : 30000;
 
     setInterval(() => {
       try {
@@ -177,7 +177,6 @@ class Updater {
       // Count how many sections are present in the new but not in the old.
       let count = 0;
       if (aNewClass.sections) {
-        macros.log(oldClass);
         const newCrns = aNewClass.sections.map((section) => { return section.crn; });
         const oldCrns = oldClass.sections.map((section) => { return section.crn; });
 
