@@ -220,12 +220,13 @@ class Elastic {
 
   /**
    * Search for classes and employees
-   * @param  {string}  query  The search to query for
-   * @param  {string}  termId The termId to look within
-   * @param  {integer} min    The index of first document to retreive
-   * @param  {integer} max    The index of last document to retreive
+   * @param  {string}  query   The search to query for
+   * @param  {string}  termId  The termId to look within
+   * @param  {integer} min     The index of first document to retreive
+   * @param  {integer} max     The index of last document to retreive
+   * @param  {object}  filters The json object representing all filters
    */
-  async search(query, termId, min, max) {
+  async search(query, termId, min, max, filters = {}) {
     if (!this.subjects) {
       this.subjects = new Set(await this.getSubjectsFromClasses());
     }
@@ -250,7 +251,60 @@ class Elastic {
       fields = ['class.subject^10', 'class.classId'];
     }
 
-    const searchOutput = await client.search({
+    if (filters) {
+      /* we want the follwoing filters to modify the default es query
+      - NUpath
+      - college
+      - major
+      - online
+      */
+      macros.log(filters);
+    }
+
+    // query from the main search box
+    const searchBoxQuery = {
+      bool: {
+        must: {
+          multi_match: {
+            query: query,
+            type: 'most_fields', // More fields match => higher score
+            fuzziness: 'AUTO',
+            fields: fields,
+          },
+        },
+        filter: {
+          bool: {
+            should: [
+              { term: { 'class.termId': termId } },
+              { term: { type: 'employee' } },
+            ],
+          },
+        },
+      },
+    };
+
+    // filter by college {'college': ['Computer&Info Sci']}
+    let filterByCollege = null;
+    if ('college' in filters) {
+      filterByCollege = {
+        bool: {
+          filter: {
+            terms: {
+              'class.classAttributes' : ['Computer&Info Sci'],
+            },
+          },
+        },
+      };
+    }
+
+    // remove null filters
+    const queryWithFilters = [
+      searchBoxQuery,
+      filterByCollege,
+    ].filter(eachFilter => eachFilter != null);
+
+    // combine main query and filters
+    const elasticsearchQuery = {
       index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
       from: min,
       size: max - min,
@@ -287,7 +341,9 @@ class Elastic {
           },
         },
       },
-    });
+    };
+
+    const searchOutput = await client.search(elasticsearchQuery);
 
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
