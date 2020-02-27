@@ -325,8 +325,60 @@ class Elastic {
     // filter by type employee
     const isEmployee = { term: { type: 'employee' } };
 
-    // compound query for text query and filters
-    const mainQuery = {
+    if (filters) {
+      /* we want the follwoing filters to modify the default es query
+      - NUpath
+      - college
+      - major
+      - online
+      */
+      macros.log(filters);
+    }
+
+    // query from the main search box
+    const searchBoxQuery = {
+      bool: {
+        must: {
+          multi_match: {
+            query: query,
+            type: 'most_fields', // More fields match => higher score
+            fuzziness: 'AUTO',
+            fields: fields,
+          },
+        },
+        filter: {
+          bool: {
+            should: [
+              { term: { 'class.termId': termId } },
+              { term: { type: 'employee' } },
+            ],
+          },
+        },
+      },
+    };
+
+    // filter by college {'college': ['Computer&Info Sci']}
+    let filterByCollege = null;
+    if ('college' in filters) {
+      filterByCollege = {
+        bool: {
+          filter: {
+            terms: {
+              'class.classAttributes' : ['Computer&Info Sci'],
+            },
+          },
+        },
+      };
+    }
+
+    // remove null filters
+    const queryWithFilters = [
+      searchBoxQuery,
+      filterByCollege,
+    ].filter(eachFilter => eachFilter != null);
+
+    // combine main query and filters
+    const elasticsearchQuery = {
       index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
       from: min,
       size: max - min,
@@ -334,21 +386,13 @@ class Elastic {
         sort: ['_score', sortByClassId],
         query: {
           bool: {
-            must: matchTextQuery,
-            filter: {
-              bool: {
-                should: [
-                  { bool:{ must: classFilters } },
-                  isEmployee,
-                ],
-              },
-            },
+            must: queryWithFilters,
           },
         },
       },
     };
 
-    const searchOutput = await client.search(mainQuery);
+    const searchOutput = await client.search(elasticsearchQuery);
 
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),

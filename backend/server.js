@@ -257,7 +257,7 @@ app.get('/search', wrap(async (req, res) => {
       subject: 'object',
       online: 'string',
       classType: 'string',
-    }
+    };
     for (const [filterKey, filterValues] of Object.entries(filters)) {
       if (!filterKey in validFilters) {
         macros.log(getTime(), 'Invalid filter key.', filterKey);

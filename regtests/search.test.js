@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import elastic from '../backend/elastic';
 import Keys from '../common/Keys';
+import macros from '../backend/macros';
 
 function getFirstClassResult(results) {
   return results.searchContent[0].class;
