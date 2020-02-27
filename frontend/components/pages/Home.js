@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { Dropdown } from 'semantic-ui-react';
 import SearchBar from '../ResultsPage/SearchBar';
 import logo from '../images/logo.svg';
+import logoInput from '../images/logo_input.svg';
 import boston from '../images/boston.svg';
 import macros from '../macros';
 
@@ -144,14 +145,24 @@ export default function Home() {
               </p>
             </>
             <div>
-              <div className='sub header searchWrapper'>
-                <label htmlFor='search_id'>
-                  <i className='search icon' />
-                </label>
+              <div className='sub header Home_InputWrapper'>
                 <SearchBar
-                  className='searchBox'
+                  className='Home_Input'
                   onSearch={ (q) => { history.push(`/${termId}/${q}`); } }
                   query=''
+                  renderButton={ () => {
+                    return !macros.isMobile && (
+                      <>
+                        <div className='Home_InputButton' role='button' tabIndex={ 0 }>
+                          <img
+                            src={ logoInput }
+                            className='Home_InputLogo'
+                            alt='logo'
+                          />
+                        </div>
+                      </>
+                    );
+                  } }
                 />
               </div>
               <Dropdown

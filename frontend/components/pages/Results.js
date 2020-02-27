@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 import logo from '../images/logo.svg';
 import logoSmall from '../images/logo_small.svg';
+import logoInput from '../images/logo_input.svg';
 import search from '../search';
 import macros from '../macros';
 import ResultsLoader from '../ResultsLoader';
@@ -137,11 +138,15 @@ export default function Results() {
             query={ query }
             renderButton={ () => {
               return !macros.isMobile && (
-              <img
-                src={ logoSmall }
-                className='Results_InputLogo'
-                alt='logo'
-              />
+                <>
+                  <div className='Results_InputButton' role='button' tabIndex={ 0 }>
+                    <img
+                      src={ logoInput }
+                      className='Results_InputLogo'
+                      alt='logo'
+                    />
+                  </div>
+                </>
               );
             } }
           />

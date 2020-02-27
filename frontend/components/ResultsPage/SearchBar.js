@@ -42,12 +42,12 @@ export default function SearchBar({
         } }
         onChange={ (event) => { setControlledQuery(event.target.value); } }
         value={ controlledQuery }
+        placeholder='Class, professor, course number'
       />
-      {renderButton
-      && (
-      <div onClick={ search } role='button' tabIndex={ 0 }>
-        {renderButton()}
-      </div>
+      {renderButton && (
+        <div onClick={ search } role='button' tabIndex={ 0 }>
+          {renderButton()}
+        </div>
       )}
     </>
   );
