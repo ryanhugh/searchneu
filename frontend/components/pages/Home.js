@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import cx from 'classnames';
 import { Dropdown } from 'semantic-ui-react';
@@ -54,6 +54,8 @@ export default function Home() {
     history.push(`/${LATEST_TERM}`);
   }
 
+  const [searchFocused, setSearchFocused] = useState(false);
+
   // Styles for the search header and the boston outline at the bottom of the above-the-fold content.
   const bostonContainerStyle = {};
   const topHeaderStyle = {};
@@ -61,11 +63,8 @@ export default function Home() {
 
   // On mobile only show the logo and the github corner if there are no results and the search box is not focused (the virtual keyboard is not on the screen).
   let containerClassnames = 'home-container';
-  if (macros.isMobile) {
-    // Show the compact view unless there is nothing entered into the text box and the text box is not focused.
-    if (document.activeElement.id === 'search_id') {
-      containerClassnames += ' mobileCompact';
-    }
+  if (macros.isMobile && searchFocused) {
+    containerClassnames += ' mobileCompact';
   }
 
   const wantToHelpOpacity = 1;
@@ -124,7 +123,11 @@ export default function Home() {
             <p className='subtitle'>
               Search for classes, professors, subjects, etc.
             </p>
-            <div className='searchWrapper'>
+            <div
+              className='searchWrapper'
+              onFocus={ () => { setSearchFocused(true); } }
+              onBlur={ () => { setSearchFocused(false); } }
+            >
               <SearchBar
                 onSearch={ (q) => { history.push(`/${termId}/${q}`); } }
                 query=''
