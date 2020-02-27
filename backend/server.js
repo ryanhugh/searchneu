@@ -22,7 +22,7 @@ import Request from './scrapers/request';
 import webpackConfig from './webpack.config.babel';
 import macros from './macros';
 import notifyer from './notifyer';
-// import Updater from './updater';
+import Updater from './updater';
 import database from './database';
 import graphql from './graphql';
 import requestMapping from './requestMapping.json';
@@ -56,7 +56,7 @@ const MAX_HOLD_TIME_FOR_GET_USER_DATA_REQS = 3000;
 let getUserDataInterval = null;
 
 // Start updater interval
-// Updater.create();
+Updater.create();
 
 // Verify that the webhooks are coming from facebook
 // This needs to be above bodyParser for some reason
@@ -135,7 +135,7 @@ function getRemoteIp(req) {
   }
 
   if (macros.PROD) {
-    macros.warn('No cf-connecting-ip?', req.headers, req.connection.remoteAddress);
+    // macros.warn('No cf-connecting-ip?', req.headers, req.connection.remoteAddress);
     return '';
   }
 

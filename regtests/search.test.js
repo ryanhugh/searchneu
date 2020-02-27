@@ -90,7 +90,7 @@ describe('elastic', () => {
   });
 
   it('filter by multiple colleges', async () => {
-    const allResults = getAllClassResult(await elastic.search('course', '202010', 0, 100, { college: ['Computer&Info Sci'] }));
+    const allResults = getAllClassResult(await elastic.search('course', '202010', 0, 100, { college: ['GS College of Science', 'GSBV Bouve'] }));
     allResults.forEach(result => expect(result.class.classAttributes).toContain('Computer&Info Sci'));
   });
 });

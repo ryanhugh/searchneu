@@ -7,12 +7,10 @@ import _ from 'lodash';
 
 import elastic from './elastic';
 
-import classesScrapers from './scrapers/classes/main';
-
+import Bannerv9Parser from './scrapers/classes/parsersxe/bannerv9Parser';
 import macros from './macros';
 import database from './database';
 import Keys from '../common/Keys';
-import ellucianCatalogParser from './scrapers/classes/parsers/ellucianCatalogParser';
 import notifyer from './notifyer';
 
 
@@ -30,6 +28,7 @@ class Updater {
         macros.warn('Updater failed with :', e);
       }
     }, intervalTime);
+    this.onInterval();
   }
 
 
@@ -121,7 +120,7 @@ class Updater {
     // Get the old data for watched classes
     const esOldDocs = await elastic.getMapFromIDs(elastic.CLASS_INDEX, classHashes);
 
-    const oldWatchedClasses = _.mapValues(esOldDocs, (doc) => { return doc.class; });
+    const oldWatchedClasses = _.mapValues(esOldDocs, (doc) => { return { sections: doc.sections, ...doc.class }; });
     const oldWatchedSections = {};
     for (const aClass of Object.values(esOldDocs)) {
       for (const section of aClass.sections) {
@@ -138,59 +137,33 @@ class Updater {
     }
 
     // Scrape the latest data
-    const promises = Object.values(oldWatchedClasses).map((aClass) => {
-      return ellucianCatalogParser.main(aClass.prettyUrl).then((newClass) => {
-        if (!newClass) {
-          // TODO: This should be changed into a notification that the class probably no longer exists. Shoudn't unsubscribe people.
-          macros.warn('New class data is null?', aClass.prettyUrl, aClass);
-          return null;
-        }
-
-
-        // Copy over some fields that are not scraped from this scraper.
-        newClass.value.host = aClass.host;
-        newClass.value.termId = aClass.termId;
-        newClass.value.subject = aClass.subject;
-
-        return newClass;
-      });
+    const promises = Object.values(oldWatchedClasses).map(async (aClass) => {
+      const promise = await Bannerv9Parser.scrapeClass(aClass.termId, aClass.subject, aClass.classId);
+      const { classes, sections } = promise;
+      if (classes.length === 1) {
+        classes[0].sections = sections;
+        return { classes: classes, sections: sections };
+      }
+      return null;
     });
 
-    // Remove the instances where newClass was null
-    _.pull(promises, null);
 
-    let allParsersOutput;
+    let output;
 
     try {
-      allParsersOutput = await Promise.all(promises);
+      output = await Promise.all(promises);
     } catch (e) {
-      macros.warn('ellucianCatalogParser call failed in updater with error:', e);
+      macros.warn('bannerv9parser call failed in updater with error:', e);
       return;
     }
 
     // Remove any instances where the output was null.
     // This can happen if the class at one of the urls that someone was watching dissapeared or was taken down
     // In this case the output of the ellucianCatalogParser will be null.
-    _.pull(allParsersOutput, null);
+    _.pull(output, null);
 
-    const rootNode = {
-      type: 'ignore',
-      deps: allParsersOutput,
-      value: {},
-    };
-
-    // Because ellucianCatalogParser returns a list of classes, instead of a singular class, we need to run it on all of them
-    const output = classesScrapers.restructureData(rootNode);
-
-    if (!output.sections) {
-      output.sections = [];
-    }
-
-    if (!output.classes) {
-      output.classes = [];
-    }
-
-    classesScrapers.runProcessors(output);
+    // concat classes and section arrays
+    output = _.mergeWith(...output, (a, b) => { return a.concat(b); });
 
     // Keep track of which messages to send which users.
     // The key is the facebookMessengerId and the value is a list of messages.
