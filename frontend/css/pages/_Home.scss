@@ -86,32 +86,51 @@
    .Home_InputWrapper {
     margin: 10px auto !important;
     position: relative;
-    text-align: left;
     pointer-events: initial;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border: 1px solid #e2dfdf;
+    border-radius: 9px;
+  
    }
 
    .Home_Input {
-    -webkit-transition: all 300ms ease;
-    -moz-transition: all 300ms ease;
-    -ms-transition: all 300ms ease;
-    -o-transition: all 300ms ease;
+    border: none;
+    position: relative;
+    left: 10px;
+    font-size: 14px;
     color: rgba(0, 0, 0, 0.6);
-    transition: all 300ms ease;
-    border: 1px #e3e3e3 solid;
-    border-radius: 30px;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    display: block;
-    padding: 10px 45px;
-    width: 100%;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+    z-index: 9999;
+    width: 500px;
+    &:focus {
+      outline: none;
+    }
+    &::placeholder {
+      color: rgba(51, 51, 51, 0.2);
+    }
    }
 
    .Home_InputButton {
+    z-index: 9999;
+    margin-left: 32px;
+    flex-grow: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #D41B2C;
+    border-radius: 0px 9px 9px 0px;
+    width: 50px;
+    height: 30px;
+    cursor: pointer;
+    &:focus {
+      outline: none;
+  }
 
    }
 
    .Home_InputLogo {
+     cursor: pointer;
 
 
    }

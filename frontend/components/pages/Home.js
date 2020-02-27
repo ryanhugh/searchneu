@@ -124,7 +124,7 @@ export default function Home() {
 
       <div>
         <div
-          className={ cx({
+          className={ cx({ // TODO: Take this out and restyle this monstrosity from scratch
             ui: true,
             center: true,
             spacing: true,
@@ -145,7 +145,7 @@ export default function Home() {
               </p>
             </>
             <div>
-              <div className='sub header Home_InputWrapper'>
+              <div className='Home_InputWrapper'>
                 <SearchBar
                   className='Home_Input'
                   onSearch={ (q) => { history.push(`/${termId}/${q}`); } }
