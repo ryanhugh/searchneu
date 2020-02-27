@@ -15,34 +15,44 @@ const ATTENTION_SECTION = {
 
 const attentionSectionMode = ATTENTION_SECTION.getInvolved;
 
-const OLD_TERMS = [
-  '201858',
-  '201855',
-  '201854',
-  '201852',
-  '201838',
-  '201835',
-  '201834',
-  '201832',
-  '201830',
-  '201828',
-  '201825',
-  '201840',
-  '201860',
-  '201850',
-  '201730',
-  '201630',
-  '201810',
-  '201820',
-  '201910',
-];
-
 // The lastest term - Fall 2019
 const LATEST_TERM = '202030';
+
+const termDropDownOptions = [
+  {
+    text: 'Spring 2020',
+    value: '202030',
+  },
+  {
+    text: 'Fall 2019',
+    value: '202010',
+  },
+  {
+    text: 'Summer I 2019',
+    value: '201940',
+  },
+  {
+    text: 'Summer II 2019',
+    value: '201960',
+  },
+  {
+    text: 'Summer Full 2019',
+    value: '201950',
+  },
+  {
+    text: 'Spring 2019',
+    value: '201930',
+  },
+];
+
+const AVAILABLE_TERMS = termDropDownOptions.map((t) => { return t.value; });
 
 export default function Home() {
   const history = useHistory();
   const { termId = LATEST_TERM } = useParams(); // Default to LATEST if term not in params
+  if (!AVAILABLE_TERMS.includes(termId)) {
+    history.push(`/${LATEST_TERM}`);
+  }
 
   // Styles for the search header and the boston outline at the bottom of the above-the-fold content.
   const bostonContainerStyle = {};
@@ -57,33 +67,6 @@ export default function Home() {
       containerClassnames += ' mobileCompact';
     }
   }
-
-  const termDropDownOptions = [
-    {
-      text: 'Spring 2020',
-      value: '202030',
-    },
-    {
-      text: 'Fall 2019',
-      value: '202010',
-    },
-    {
-      text: 'Summer I 2019',
-      value: '201940',
-    },
-    {
-      text: 'Summer II 2019',
-      value: '201960',
-    },
-    {
-      text: 'Summer Full 2019',
-      value: '201950',
-    },
-    {
-      text: 'Spring 2019',
-      value: '201930',
-    },
-  ];
 
   const wantToHelpOpacity = 1;
   let attentionSection = null;
@@ -136,13 +119,12 @@ export default function Home() {
         >
           <div className='centerTextContainer'>
             <h1 className='title'>
-                Search For Northeastern
+              Search For Northeastern
             </h1>
             <p className='subtitle'>
-                Search for classes, professors, subjects, etc.
+              Search for classes, professors, subjects, etc.
             </p>
             <div className='searchWrapper'>
-
               <SearchBar
                 onSearch={ (q) => { history.push(`/${termId}/${q}`); } }
                 query=''
@@ -151,7 +133,7 @@ export default function Home() {
             <Dropdown
               fluid
               selection
-              defaultValue={ termId }
+              value={ termId }
               placeholder='Spring 2018'
               className='termDropdown'
               options={ termDropDownOptions }
