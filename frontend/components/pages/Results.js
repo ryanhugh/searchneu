@@ -8,6 +8,7 @@ import search from '../search';
 import macros from '../macros';
 import ResultsLoader from '../ResultsLoader';
 import SearchBar from '../ResultsPage/SearchBar';
+import ResultsFooter from '../ResultsPage/ResultsFooter';
 
 
 const termDropDownOptions = [
@@ -39,27 +40,27 @@ const termDropDownOptions = [
 
 const mobileTermDropDownOptions = [
   {
-    text: 'SP20',
+    text: 'SP 20',
     value: '202030',
   },
   {
-    text: 'F19',
+    text: 'F 19',
     value: '202010',
   },
   {
-    text: 'SI19',
+    text: 'S1 19',
     value: '201940',
   },
   {
-    text: 'SII19',
+    text: 'S2 19',
     value: '201960',
   },
   {
-    text: 'SF19',
+    text: 'SF 19',
     value: '201950',
   },
   {
-    text: 'SP19',
+    text: 'SP 19',
     value: '201930',
   },
 ];
@@ -71,8 +72,6 @@ export default function Results() {
   const [resultCursor, setResultCursor] = useState(5);
   const history = useHistory();
 
-  const toggleForm = () => {
-  };
 
   useEffect(() => {
     let ignore = false;
@@ -168,51 +167,7 @@ export default function Results() {
 
         <div className='botttomPadding' />
 
-        <div className='footer'>
-
-          <div className='footer ui basic center aligned segment'>
-         See an issue or want to add to this website? Fork it or create an issue on
-            <a target='_blank' rel='noopener noreferrer' href='https://github.com/sandboxnu/searchneu'>
-           &nbsp;GitHub
-            </a>
-         .
-          </div>
-
-          <div className='ui divider' />
-
-          <div className='footer ui basic center aligned segment credits'>
-         A&nbsp;
-            <a target='_blank' rel='noopener noreferrer' href='https://www.sandboxneu.com'>
-           Sandbox
-            </a>
-         &nbsp;Project (founded by&nbsp;
-            <a target='_blank' rel='noopener noreferrer' href='http://github.com/ryanhugh'>
-           Ryan Hughes
-            </a>
-         , with some awesome&nbsp;
-            <a target='_blank' rel='noopener noreferrer' href='https://github.com/sandboxnu/searchneu/graphs/contributors'>
-           contributors
-            </a>
-         )
-          </div>
-          <div className='footer ui basic center aligned segment affiliation'>
-         Search NEU is built for students by students & is not affiliated with NEU.
-          </div>
-          <div className='footer ui basic center aligned segment contact'>
-            <a role='button' tabIndex={ 0 } onClick={ toggleForm }>
-           Feedback
-            </a>
-         &nbsp;•&nbsp;
-            <a role='button' tabIndex={ 0 } onClick={ toggleForm }>
-           Report a bug
-            </a>
-         &nbsp;•&nbsp;
-            <a role='button' tabIndex={ 0 } onClick={ toggleForm }>
-           Contact
-            </a>
-          </div>
-
-        </div>
+        <ResultsFooter />
       </div>
     </>
 
