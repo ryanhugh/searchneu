@@ -13,7 +13,6 @@
   position: fixed;
 }
 
-
 .SearchHeader_Input {
   margin-left: 104px;
   color: rgba(0, 0, 0, 0.6);
@@ -34,7 +33,7 @@
   border: none !important;
   pointer-events: initial;
   order: 1;
-  font-family: Lato;
+  font-family: Lato, sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 22px;
