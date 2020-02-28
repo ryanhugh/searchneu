@@ -29,6 +29,9 @@
   color: #636363 !important;
   white-space: nowrap !important;
   display: flex !important;
+  @media only screen and (min-width: 767px ) {
+    margin-right: 750px;
+  }
 
   & i {
     align-content: flex-end;
@@ -40,7 +43,7 @@
   z-index: 10;
   cursor: pointer;
   margin-left: 32px;
-  margin-right: 54px;
+  margin-right: 100px;
 
   &--sm {
     display: none;
