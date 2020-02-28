@@ -7,7 +7,7 @@ import search from '../search';
 import macros from '../macros';
 import ResultsLoader from '../ResultsLoader';
 import SearchBar from '../ResultsPage/SearchBar';
-import ResultsFooter from '../ResultsPage/ResultsFooter';
+import Footer from '../Footer';
 
 
 const termDropDownOptions = [
@@ -168,7 +168,7 @@ export default function Results() {
 
         <div className='botttomPadding' />
 
-        <ResultsFooter />
+        <Footer />
       </div>
     </>
 

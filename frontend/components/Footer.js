@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import FeedbackModal from '../FeedbackModal';
+import FeedbackModal from './FeedbackModal';
 
-export default function ResultsFooter() {
+export default function Footer() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const toggleModal = () => {

@@ -6,6 +6,8 @@ import SearchBar from '../ResultsPage/SearchBar';
 import logo from '../images/logo.svg';
 import boston from '../images/boston.svg';
 import macros from '../macros';
+import SplashPage from '../SplashPage/SplashPage';
+import Footer from '../Footer';
 
 
 const ATTENTION_SECTION = {
@@ -144,6 +146,8 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <SplashPage />
+        <Footer />
       </div>
     </div>
   );
