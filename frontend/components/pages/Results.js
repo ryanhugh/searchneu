@@ -79,12 +79,14 @@ export default function Results() {
   const { termId, query } = useParams();
   const [searchResults, setSearchResults] = useState([]);
   const [resultCursor, setResultCursor] = useState(5);
+  const [isFetching, setIsFetching] = useState(true);
   const history = useHistory();
 
 
   useEffect(() => {
     let ignore = false;
     const doSearch = async () => {
+      setIsFetching(true);
       const obj = await search.search(query, termId, resultCursor);
       const results = obj.results;
 
@@ -93,6 +95,7 @@ export default function Results() {
         macros.log('Did not come back in order, discarding');
       } else {
         setSearchResults(results);
+        setIsFetching(false);
       }
     };
     doSearch();
@@ -101,7 +104,7 @@ export default function Results() {
   }, [query, termId, resultCursor]);
 
   const resultsElement = () => {
-    return searchResults.length ? (
+    return isFetching || searchResults.length ? (
       <div>
         <div className='subjectContaineRowContainer'>
           {/* {subjectInfoRow} */}
