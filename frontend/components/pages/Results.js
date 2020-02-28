@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 import logo from '../images/logo.svg';
 import logoSmall from '../images/logo_small.svg';
-import logoInput from '../images/logo_input.svg';
 import search from '../search';
 import macros from '../macros';
 import ResultsLoader from '../ResultsLoader';
@@ -77,16 +76,16 @@ function logSearch(searchQuery) {
 
 export default function Results() {
   const { termId, query } = useParams();
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchStatus, setSearchStatus] = useState({ searchResults: [], isLoading: true });
+  const { searchResults, isLoading } = searchStatus;
   const [resultCursor, setResultCursor] = useState(5);
-  const [isFetching, setIsFetching] = useState(true);
   const history = useHistory();
 
 
   useEffect(() => {
     let ignore = false;
     const doSearch = async () => {
-      setIsFetching(true);
+      setSearchStatus({ searchResults: searchResults, isLoading: true });
       const obj = await search.search(query, termId, resultCursor);
       const results = obj.results;
 
@@ -94,8 +93,7 @@ export default function Results() {
       if (ignore) {
         macros.log('Did not come back in order, discarding');
       } else {
-        setSearchResults(results);
-        setIsFetching(false);
+        setSearchStatus({ searchResults: results, isLoading: false });
       }
     };
     doSearch();
@@ -104,17 +102,20 @@ export default function Results() {
   }, [query, termId, resultCursor]);
 
   const resultsElement = () => {
-    return isFetching || searchResults.length ? (
-      <div>
-        <div className='subjectContaineRowContainer'>
-          {/* {subjectInfoRow} */}
+    if (isLoading || searchResults.length) {
+      return (
+        <div style={{ display: isLoading ? 'none' : 'block' }}>
+          <div className='subjectContaineRowContainer'>
+            {/* {subjectInfoRow} */}
+          </div>
+          <ResultsLoader
+            results={ searchResults }
+            loadMore={ () => { setResultCursor(searchResults.length + 10); } }
+          />
         </div>
-        <ResultsLoader
-          results={ searchResults }
-          loadMore={ () => { setResultCursor(searchResults.length + 10); } }
-        />
-      </div>
-    ) : (
+      );
+    }
+    return (
       <div className='Results_EmptyContainer'>
         <h3>
             No Results
