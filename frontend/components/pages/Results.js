@@ -65,6 +65,15 @@ const mobileTermDropDownOptions = [
   },
 ];
 
+let count = 0;
+function logSearch(searchQuery) {
+  searchQuery = searchQuery.trim();
+
+  if (searchQuery) {
+    count++;
+    macros.logAmplitudeEvent('Search', { query: searchQuery.toLowerCase(), sessionCount: count });
+  }
+}
 
 export default function Results() {
   const { termId, query } = useParams();
@@ -87,6 +96,7 @@ export default function Results() {
       }
     };
     doSearch();
+    logSearch(query);
     return () => { ignore = true; };
   }, [query, termId, resultCursor]);
 

@@ -50,16 +50,12 @@ const AVAILABLE_TERMS = termDropDownOptions.map((t) => { return t.value; });
 export default function Home() {
   const history = useHistory();
   const { termId = LATEST_TERM } = useParams(); // Default to LATEST if term not in params
+  // Redirect to latest if we're at an old term
   if (!AVAILABLE_TERMS.includes(termId)) {
     history.push(`/${LATEST_TERM}`);
   }
 
   const [searchFocused, setSearchFocused] = useState(false);
-
-  // Styles for the search header and the boston outline at the bottom of the above-the-fold content.
-  const bostonContainerStyle = {};
-  const topHeaderStyle = {};
-  const hiddenHelpButton = '';
 
   // On mobile only show the logo and the github corner if there are no results and the search box is not focused (the virtual keyboard is not on the screen).
   let containerClassnames = 'home-container';
@@ -77,7 +73,7 @@ export default function Home() {
         <p className='helpFistRow' />
         Help improve Search NEU
         <p>
-          <a href='https://forms.gle/HNJ1AWTCXnu3XovKA' target='_blank' rel='noopener noreferrer' className={ `getInvolvedText ${hiddenHelpButton}` }>
+          <a href='https://forms.gle/HNJ1AWTCXnu3XovKA' target='_blank' rel='noopener noreferrer' className='getInvolvedText'>
             Take our survey
           </a>
         </p>
@@ -99,7 +95,7 @@ export default function Home() {
 
       <img src={ logo } className='logo' alt='logo' />
 
-      <div className='bostonContainer' style={ bostonContainerStyle }>
+      <div className='bostonContainer'>
         <img src={ boston } className='boston' alt='logo' />
       </div>
 
@@ -114,7 +110,6 @@ export default function Home() {
             header: true,
             topHeader: true,
           }) }
-          style={ topHeaderStyle }
         >
           <div className='centerTextContainer'>
             <h1 className='title'>
