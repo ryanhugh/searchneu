@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render a section 1`] = `
+<Fragment>
+  <div
+    className="Results_Header"
+  >
+    <img
+      alt="logo"
+      className="Results__Logo"
+      onClick={[Function]}
+      src="file"
+    />
+    <img
+      alt="logo"
+      className="Results__Logo Results__Logo--sm"
+      onClick={[Function]}
+      src="file"
+    />
+    <div
+      className="Results__searchwrapper"
+    >
+      <SearchBar
+        onSearch={[Function]}
+        query="cs"
+      />
+    </div>
+    <Dropdown
+      additionLabel="Add "
+      additionPosition="top"
+      className="Results_TermDropDown"
+      closeOnBlur={true}
+      closeOnEscape={true}
+      compact={true}
+      deburr={false}
+      defaultValue="202030"
+      icon="dropdown"
+      minCharacters={1}
+      noResultsMessage="No results found."
+      onChange={[Function]}
+      openOnFocus={true}
+      options={
+        Array [
+          Object {
+            "text": "Spring 2020",
+            "value": "202030",
+          },
+          Object {
+            "text": "Fall 2019",
+            "value": "202010",
+          },
+          Object {
+            "text": "Summer I 2019",
+            "value": "201940",
+          },
+          Object {
+            "text": "Summer II 2019",
+            "value": "201960",
+          },
+          Object {
+            "text": "Summer Full 2019",
+            "value": "201950",
+          },
+          Object {
+            "text": "Spring 2019",
+            "value": "201930",
+          },
+        ]
+      }
+      placeholder="Spring 2018"
+      renderLabel={[Function]}
+      searchInput="text"
+      selectOnBlur={true}
+      selectOnNavigation={true}
+      selection={true}
+      wrapSelection={true}
+    />
+  </div>
+  <div
+    className="Results_Container"
+  >
+    <div>
+      <div
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      >
+        <div
+          className="subjectContaineRowContainer"
+        />
+        <ResultsLoader
+          loadMore={[Function]}
+          results={Array []}
+        />
+      </div>
+    </div>
+    <div
+      className="botttomPadding"
+    />
+    <Footer />
+  </div>
+</Fragment>
+`;
