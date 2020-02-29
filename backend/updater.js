@@ -260,22 +260,18 @@ class Updater {
 
     const classMap = {};
     for (const aClass of output.classes) {
-      const crns = aClass.sections.map((section) => { return section.crn; });
-      const associatedSections = output.sections.filter((s) => {
-        return crns.includes(s.crn);
-      });
       // Sort each classes section by crn.
       // This will keep the sections the same between different scrapings.
-      if (associatedSections.length > 1) {
-        associatedSections.sort((a, b) => {
+      if (aClass.sections.length > 1) {
+        aClass.sections.sort((a, b) => {
           return a.crn > b.crn;
         });
       }
       classMap[Keys.getClassHash(aClass)] = {
         class: {
-          crns: aClass.sections.map((section) => { return section.crn; }),
+          lastUpdateTime: aClass.lastUpdateTime,
         },
-        sections: associatedSections,
+        sections: aClass.sections,
       };
     }
     await elastic.bulkUpdateFromMap(elastic.CLASS_INDEX, classMap);
