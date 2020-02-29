@@ -252,16 +252,18 @@ class Elastic {
     }
 
     if (filters) {
-      /* we want the follwoing filters to modify the default es query
+      /* we want the following filters to modify the default es query
       - NUpath
       - college
       - major
       - online
+      - subject
+      - sectionsAvailable
+      - classType
       */
-      macros.log(filters);
     }
 
-    // filter by college {'college': ['Computer&Info Sci']}
+    // filter by college
     let filterByCollege = null;
     if ('college' in filters) {
       filterByCollege = {
@@ -275,17 +277,33 @@ class Elastic {
       };
     }
 
+    // filter by major
+    let filterBySubject = null;
+    if ('major' in filters) {
+      filterBySubject = {
+        bool: {
+          filter: {
+            terms: {
+              'class.subject' : ['CS'], // TODO change this to filters value
+            },
+          },
+        },
+      };
+    }
+
     // query from the main search box
     const searchBoxQuery = {
       bool: {
-        must: {
-          multi_match: {
-            query: query,
-            type: 'most_fields', // More fields match => higher score
-            fuzziness: 'AUTO',
-            fields: fields,
+        must: [
+          {
+            multi_match: {
+              query: query,
+              type: 'most_fields', // More fields match => higher score
+              fuzziness: 'AUTO',
+              fields: fields,
+            },
           },
-        },
+        ],
         filter: {
           bool: {
             should: [
@@ -301,6 +319,7 @@ class Elastic {
     const queryWithFilters = [
       searchBoxQuery,
       filterByCollege,
+      filterBySubject,
     ].filter(eachFilter => eachFilter != null);
 
     // combine main query and filters
@@ -343,7 +362,57 @@ class Elastic {
       },
     };
 
-    const searchOutput = await client.search(elasticsearchQuery);
+    const originalQuery = {
+      index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
+      from: min,
+      size: max - min,
+      body: {
+        sort: [
+          '_score',
+          { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } }, // Use lower classId has tiebreaker after relevance
+        ],
+        query: {
+          bool: {
+            must: [
+              {
+                multi_match: {
+                  query: query,
+                  type: 'most_fields', // More fields match => higher score
+                  fuzziness: 'AUTO',
+                  fields: fields,
+                },
+              },
+              // {
+              //   match: {
+              //     'class.subject': 'EECE',
+              //   },
+              // },
+            ],
+            filter: {
+              bool: {
+                should: [
+                  {
+                    bool:{
+                      must: [
+                        { exists: { field: 'sections' } },
+                        { term: { 'class.termId': termId } },
+                      ],
+                    },
+                  },
+                  { term: { type: 'employee' } },
+                ],
+              },
+            },
+            should: [
+              { term: { 'class.subject': 'EECE' } },
+            ],
+          },
+        },
+      },
+    };
+
+    macros.log(JSON.stringify(originalQuery));
+    const searchOutput = await client.search(originalQuery);
 
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),

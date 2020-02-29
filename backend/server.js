@@ -238,9 +238,8 @@ app.get('/search', wrap(async (req, res) => {
   }
 
   let filters = {};
-  if (req.query.filter) {
-    // front end should encode filters as uri with encodeURIComponent(JSON.stringyfy(filters));
-    filters = JSON.parse(decodeURIComponent(filters));
+  if (req.query.filters) {
+    filters = JSON.parse(req.query.filters);
   }
 
   const { searchContent, took, resultCount } = await elastic.search(req.query.query, req.query.termId, req.query.minIndex, req.query.maxIndex, filters);

@@ -1,6 +1,6 @@
+import _ from 'lodash';
 import elastic from '../backend/elastic';
 import Keys from '../common/Keys';
-import macros from '../backend/macros';
 
 function getFirstClassResult(results) {
   return results.searchContent[0].class;
@@ -85,12 +85,14 @@ describe('elastic', () => {
   });
 
   it('filter by one college', async () => {
-    const allResults = getAllClassResult(await elastic.search('course', '202010', 0, 100, { college: ['Computer&Info Sci'] }));
-    allResults.forEach(result => expect(result.class.classAttributes).toContain('Computer&Info Sci'));
+    const college = 'Computer&Info Sci';
+    const allResults = getAllClassResult(await elastic.search('course', '202010', 0, 20, { college: [college] }));
+    allResults.forEach(result => expect(result.class.classAttributes).toContain(college));
   });
 
   it('filter by multiple colleges', async () => {
-    const allResults = getAllClassResult(await elastic.search('course', '202010', 0, 100, { college: ['Computer&Info Sci'] }));
-    allResults.forEach(result => expect(result.class.classAttributes).toContain('Computer&Info Sci'));
+    const colleges = ['GS College of Science', 'GSBV Bouve'];
+    const allResults = getAllClassResult(await elastic.search('course', '202010', 0, 20, { college: colleges }));
+    allResults.forEach(result => expect(_.intersection(result.class.classAttributes, colleges).length > 0).toBe(true));
   });
 });
