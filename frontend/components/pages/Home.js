@@ -137,11 +137,13 @@ export default function Home() {
               options={ termDropDownOptions }
               onChange={ (e, data) => { history.push(`/${data.value}`); } }
             />
-            {attentionSection}
 
+            { searchFocused && (
             <div className='hitEnterToSearch'>
               Hit Enter to Search ...
             </div>
+            ) }
+            {attentionSection}
           </div>
         </div>
       </div>

@@ -6,9 +6,19 @@
   border: 1px solid #e2dfdf;
   border-radius: 9px;
 
+  &:focus-within {
+    -webkit-box-shadow: 0px 0px 5px ;
+    -moz-box-shadow: 0px 0px 5px ;
+    box-shadow: 0px 0px 5px ;
+  }
+
+  @media only screen and (min-width: 767px) {
+    width: 538px;
+  }
+
   &__input {
     flex-grow: 2;
-    margin: 0 9px;
+    margin: 2px 15px 2px;
     border: none;
     font-size: 16px;
     color: rgba(0, 0, 0, 0.6);

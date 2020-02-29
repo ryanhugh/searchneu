@@ -95,6 +95,10 @@
       transition-delay: 1s !important;
       transition-duration: 0.75s;
     }
+    .searchWrapper {
+      display: flex;
+      justify-content: center;
+    }
   }
 
   /* Mobile. */
@@ -246,7 +250,9 @@
   }
 
   .hitEnterToSearch {
-    display: none;
+    display: block;
+    padding-top: 14px;
+    color: rgba(0, 0, 0, 0.6);
   }
 
   /* Move the footer down in compact mode so you can't see the top of it when typing. */
@@ -367,11 +373,6 @@
 
 .home-container.mobileCompact .githubCornerContainer {
   display: none;
-}
-
-.home-container.mobileCompact .hitEnterToSearch {
-  display: block;
-  padding-top: 14px;
 }
 
 .home-container.mobileCompact .splashPage {
