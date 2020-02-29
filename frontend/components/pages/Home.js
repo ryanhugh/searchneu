@@ -140,11 +140,13 @@ export default function Home() {
               onChange={ (e, data) => { history.push(`/${data.value}`); } }
             />
 
-            { searchFocused && (
-            <div className='hitEnterToSearch'>
+            <div className={ cx({
+              hitEnterToSearch: true,
+              hitEnterToSearchVisible: searchFocused,
+            }) }
+            >
               Hit Enter to Search ...
             </div>
-            ) }
             {attentionSection}
           </div>
         </div>
