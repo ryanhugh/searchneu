@@ -239,7 +239,6 @@ app.get('/search', wrap(async (req, res) => {
 
   let filters = {};
   if (req.query.filters) {
-
     // Ensure filters is a string
     if (typeof req.query.filters !== 'string') {
       macros.log(getTime(), 'Invalid filters.', req.filters);
