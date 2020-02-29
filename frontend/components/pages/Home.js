@@ -21,10 +21,22 @@ const ATTENTION_SECTION = {
 
 const attentionSectionMode = ATTENTION_SECTION.getInvolved;
 
-// The lastest term - Fall 2019
-const LATEST_TERM = '202030';
+// The lastest term
+const LATEST_TERM = '202040';
 
 const termDropDownOptions = [
+  {
+    text: 'Summer I 2020',
+    value: '202040',
+  },
+  {
+    text: 'Summer II 2020',
+    value: '202060',
+  },
+  {
+    text: 'Summer Full 2020',
+    value: '202050',
+  },
   {
     text: 'Spring 2020',
     value: '202030',
@@ -32,22 +44,6 @@ const termDropDownOptions = [
   {
     text: 'Fall 2019',
     value: '202010',
-  },
-  {
-    text: 'Summer I 2019',
-    value: '201940',
-  },
-  {
-    text: 'Summer II 2019',
-    value: '201960',
-  },
-  {
-    text: 'Summer Full 2019',
-    value: '201950',
-  },
-  {
-    text: 'Spring 2019',
-    value: '201930',
   },
 ];
 

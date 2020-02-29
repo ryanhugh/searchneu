@@ -16,6 +16,18 @@ import Footer from '../Footer';
 
 const termDropDownOptions = [
   {
+    text: 'Summer I 2020',
+    value: '202040',
+  },
+  {
+    text: 'Summer II 2020',
+    value: '202060',
+  },
+  {
+    text: 'Summer Full 2020',
+    value: '202050',
+  },
+  {
     text: 'Spring 2020',
     value: '202030',
   },
@@ -23,25 +35,21 @@ const termDropDownOptions = [
     text: 'Fall 2019',
     value: '202010',
   },
-  {
-    text: 'Summer I 2019',
-    value: '201940',
-  },
-  {
-    text: 'Summer II 2019',
-    value: '201960',
-  },
-  {
-    text: 'Summer Full 2019',
-    value: '201950',
-  },
-  {
-    text: 'Spring 2019',
-    value: '201930',
-  },
 ];
 
 const mobileTermDropDownOptions = [
+  {
+    text: 'S1 20',
+    value: '202040',
+  },
+  {
+    text: 'S2 20',
+    value: '202060',
+  },
+  {
+    text: 'SF 20',
+    value: '202050',
+  },
   {
     text: 'SP 20',
     value: '202030',
@@ -49,22 +57,6 @@ const mobileTermDropDownOptions = [
   {
     text: 'F 19',
     value: '202010',
-  },
-  {
-    text: 'S1 19',
-    value: '201940',
-  },
-  {
-    text: 'S2 19',
-    value: '201960',
-  },
-  {
-    text: 'SF 19',
-    value: '201950',
-  },
-  {
-    text: 'SP 19',
-    value: '201930',
   },
 ];
 
