@@ -13,9 +13,20 @@
   position: fixed;
 }
 
+.Results__spacer {
+  min-width: 10px;
+  flex-basis: 100px;
+  flex-shrink: 3;
+  @media only screen and (max-width: 767px) {
+    flex-basis: 10px;
+  }
+}
+
 .Results_TermDropDown {
   height: 38px;
   max-width: 300px;
+  flex-shrink: 0;
+  background: transparent !important;
   box-shadow: none !important;
   border: none !important;
   pointer-events: initial;
@@ -29,10 +40,6 @@
   color: #636363 !important;
   white-space: nowrap !important;
   display: flex !important;
-  @media only screen and (min-width: 767px ) {
-    margin-right: 750px;
-  }
-
   & i {
     align-content: flex-end;
   }
@@ -43,7 +50,6 @@
   z-index: 10;
   cursor: pointer;
   margin-left: 32px;
-  margin-right: 100px;
 
   &--sm {
     display: none;
@@ -54,7 +60,6 @@
 
     &--sm {
       display: block;
-      margin-right: 10px;
       margin-left: 10px;
       height: 20px;
     }
@@ -62,7 +67,8 @@
 }
 
 .Results__searchwrapper {
-  flex-grow: 2;
+  flex-basis: 538px;
+  flex-shrink: 1;
 }
 
 .Results_Container {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 import logo from '../images/logo.svg';
@@ -142,6 +142,7 @@ export default function Results() {
       <div className='Results_Header'>
         <img src={ logo } className='Results__Logo' alt='logo' onClick={ () => { history.push('/'); } } />
         <img src={ logoSmall } className='Results__Logo Results__Logo--sm' alt='logo' onClick={ () => { history.push('/'); } } />
+        <div className='Results__spacer' />
         <div className='Results__searchwrapper'>
           <SearchBar
             onSearch={ (val) => {
