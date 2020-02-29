@@ -25,7 +25,6 @@ export default function App() {
         path='/'
         render={ ({ location }) => {
           if (typeof window.ga === 'function') {
-            // Not sure if this works 100% right
             window.ga('set', 'page', location.pathname + location.search);
             window.ga('send', 'pageview');
           }
