@@ -17,6 +17,7 @@
   min-width: 10px;
   flex-basis: 100px;
   flex-shrink: 3;
+
   @media only screen and (max-width: 767px) {
     flex-basis: 10px;
   }
@@ -40,6 +41,7 @@
   color: #636363 !important;
   white-space: nowrap !important;
   display: flex !important;
+
   & i {
     align-content: flex-end;
   }
