@@ -34,6 +34,8 @@ export default function SearchBar({
         id='search_id'
         autoComplete='off'
         spellCheck='false'
+        // eslint-disable-next-line jsx-a11y/no-autofocus
+        autoFocus={ !macros.isMobile }
         tabIndex='0'
         className='searchbar__input'
         onKeyDown={ (event) => {
