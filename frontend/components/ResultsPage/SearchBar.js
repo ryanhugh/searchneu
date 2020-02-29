@@ -1,3 +1,7 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import macros from '../macros';
