@@ -85,7 +85,7 @@ export default function Results() {
   useEffect(() => {
     let ignore = false;
     const doSearch = async () => {
-      setSearchStatus({ searchResults: searchResults, isLoading: true });
+      setSearchStatus({ searchResults: searchResults });
       const obj = await search.search(query, termId, resultCursor);
       const results = obj.results;
 
@@ -147,6 +147,7 @@ export default function Results() {
           <SearchBar
             onSearch={ (val) => {
               setResultCursor(5);
+              setSearchStatus({ ...searchStatus, isLoading: true });
               history.push(`/${termId}/${val}`);
             } }
             query={ query }
