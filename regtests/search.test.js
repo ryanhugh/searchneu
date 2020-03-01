@@ -84,15 +84,22 @@ describe('elastic', () => {
     expect(Keys.getClassHash(firstResult)).toBe('neu.edu/202010/CS/2500');
   });
 
-  it('filter by one college', async () => {
-    const college = 'Computer&Info Sci';
-    const allResults = getAllClassResult(await elastic.search('course', '202010', 0, 20, { college: [college] }));
-    allResults.forEach(result => expect(result.class.classAttributes).toContain(college));
+  it('filter for online: if any section is online', async () => {
+    const onlineFilter = { online: true };
+    const allResults = getAllClassResult(await elastic.search('2500', '202010', 0, 20, onlineFilter));
+    expect(allResults.length > 0).toBe(true);
+    allResults.forEach(result => expect(result.sections.map(section => section.online)).toContain(true));
   });
 
-  it('filter by multiple colleges', async () => {
-    const colleges = ['GS College of Science', 'GSBV Bouve'];
-    const allResults = getAllClassResult(await elastic.search('course', '202010', 0, 20, { college: colleges }));
-    allResults.forEach(result => expect(_.intersection(result.class.classAttributes, colleges).length > 0).toBe(true));
-  });
+  // it('filter by one college', async () => {
+  //   const college = 'Computer&Info Sci';
+  //   const allResults = getAllClassResult(await elastic.search('course', '202010', 0, 20, { college: [college] }));
+  //   allResults.forEach(result => expect(result.class.classAttributes).toContain(college));
+  // });
+
+  // it('filter by multiple colleges', async () => {
+  //   const colleges = ['GS College of Science', 'GSBV Bouve'];
+  //   const allResults = getAllClassResult(await elastic.search('course', '202010', 0, 20, { college: colleges }));
+  //   allResults.forEach(result => expect(_.intersection(result.class.classAttributes, colleges).length > 0).toBe(true));
+  // });
 });
