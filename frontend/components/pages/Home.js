@@ -76,7 +76,7 @@ export default function Home() {
         Help improve Search NEU
         <p>
           <a href='https://forms.gle/HNJ1AWTCXnu3XovKA' target='_blank' rel='noopener noreferrer' className='getInvolvedText'>
-            Take our survey
+            Take our survey &gt;
           </a>
         </p>
       </div>
