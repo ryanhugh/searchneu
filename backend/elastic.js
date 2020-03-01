@@ -312,7 +312,7 @@ class Elastic {
     // Filter by term
     const filterByTermId = { term: { 'class.termId': termId } };
 
-    // Constuct compound class filters
+    // Constuct compound class filters (fliters joined by AND (must), options for a filter joined by OR (should))
     const classFilters = [hasSections, filterByTermId];
     if ('NUpath' in filters) {
       const NUpathFilters = filters.NUpath.map(attribute => ({ match_phrase: { 'class.classAttributes': attribute } }));
@@ -324,13 +324,13 @@ class Elastic {
     }
     if ('subject' in filters) {
       const subjectFilters = filters.subject.map(eachSubject => ({ match: { 'class.subject': eachSubject } }));
-      classFilters.push(subjectFilters);
+      classFilters.push({ bool: { should: subjectFilters } });
     }
     if ('online' in filters && filters.online) {
       classFilters.push({ term: { 'sections.online': true } });
     }
     if ('classType' in filters) {
-      classFilters.push({ term: { 'sections.online': filters.classType } });
+      classFilters.push({ match: { 'class.scheduleType': filters.classType } });
     }
 
     // Text query from the main search box
@@ -372,53 +372,6 @@ class Elastic {
       },
     };
 
-    const texst = {
-      index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
-      from: min,
-      size: max - min,
-      body: {
-        sort: [
-          '_score',
-          { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } }, // Use lower classId has tiebreaker after relevance
-        ],
-        query: {
-          bool: {
-            must: {
-              multi_match: {
-                query: query,
-                type: 'most_fields', // More fields match => higher score
-                fuzziness: 'AUTO',
-                fields: fields,
-              },
-            },
-            filter: {
-              bool: {
-                should: [
-                  {
-                    bool: {
-                      must: [
-                        { exists: { field: 'sections' } },
-                        { term: { 'class.termId': termId } },
-                        {
-                          bool: {
-                            should: [
-                              { match_phrase: { 'class.classAttributes': termId } },
-                            ],
-                          },
-                        },
-                      ],
-                    },
-                  },
-                  { term: { type: 'employee' } },
-                ],
-              },
-            },
-          },
-        },
-      },
-    }
-
-    macros.log(JSON.stringify(mainQuery));
     const searchOutput = await client.search(mainQuery);
 
     return {

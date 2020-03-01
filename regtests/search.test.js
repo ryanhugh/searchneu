@@ -80,7 +80,47 @@ describe('elastic', () => {
     expect(Keys.getClassHash(firstResult)).toBe('neu.edu/202010/CS/2500');
   });
 
-  // test NUpath, college, subject, online, classType
+  it('filter by one NUpath', async () => {
+    const NUpath = 'NUpath Writing Intensive';
+    const allResults = getAllClassResult(await elastic.search('2500', '202010', 0, 20, { NUpath: [NUpath] }));
+    expect(allResults.length > 0).toBe(true);
+    allResults.forEach(result => expect(result.class.classAttributes).toContain(NUpath));
+  });
+
+  it('filter by multiple NUpaths', async () => {
+    const NUpaths = ['NUpath Difference/Diversity', 'NUpath Interpreting Culture'];
+    const allResults = getAllClassResult(await elastic.search('2500', '202010', 0, 20, { college: NUpaths }));
+    expect(allResults.length > 0).toBe(true);
+    allResults.forEach(result => expect(_.intersection(result.class.classAttributes, NUpaths).length > 0).toBe(true));
+  });
+
+  it('filter by one college', async () => {
+    const college = 'Computer&Info Sci';
+    const allResults = getAllClassResult(await elastic.search('2500', '202010', 0, 20, { college: [college] }));
+    expect(allResults.length > 0).toBe(true);
+    allResults.forEach(result => expect(result.class.classAttributes).toContain(college));
+  });
+
+  it('filter by multiple colleges', async () => {
+    const colleges = ['GS College of Science', 'GSBV Bouve'];
+    const allResults = getAllClassResult(await elastic.search('2500', '202010', 0, 20, { college: colleges }));
+    expect(allResults.length > 0).toBe(true);
+    allResults.forEach(result => expect(_.intersection(result.class.classAttributes, colleges).length > 0).toBe(true));
+  });
+
+  it('filter by one subject', async () => {
+    const subject = 'CS';
+    const allResults = getAllClassResult(await elastic.search('2500', '202010', 0, 20, { subject: [subject] }));
+    expect(allResults.length > 0).toBe(true);
+    allResults.forEach(result => expect(result.class.subject).toBe(subject));
+  });
+
+  it('filter by multiple subjects', async () => {
+    const subjects = ['CS', 'ENGL'];
+    const allResults = getAllClassResult(await elastic.search('2500', '202010', 0, 20, { subject: subjects }));
+    expect(allResults.length > 0).toBe(true);
+    allResults.forEach(result => expect(subjects).toContain(result.class.subject));
+  });
 
   it('filter for online: if any section is online', async () => {
     const onlineFilter = { online: true };
@@ -91,20 +131,20 @@ describe('elastic', () => {
 
   it('filter for online: online option not selected', async () => {
     const onlineFilter = { online: false };
-    const allResults = (await elastic.search('2500', '202010', 0, 20, onlineFilter)).searchContent;
+    const allResults = getAllClassResult(await elastic.search('2500', '202010', 0, 20, onlineFilter));
     expect(allResults.length > 0).toBe(true);
   });
 
   it('filter for class type of seminar', async () => {
     const classTypeFilter = { classType: 'Seminar' };
-    const allResults = (await elastic.search('2500', '202010', 0, 20, classTypeFilter)).searchContent;
+    const allResults = getAllClassResult(await elastic.search('2500', '202010', 0, 20, classTypeFilter));
     expect(allResults.length > 0).toBe(true);
     allResults.forEach(result => expect(result.class.scheduleType).toBe(classTypeFilter.classType));
   });
 
   it('filter for class type of lab', async () => {
     const classTypeFilter = { classType: 'Lab' };
-    const allResults = (await elastic.search('2500', '202010', 0, 20, classTypeFilter)).searchContent;
+    const allResults = getAllClassResult(await elastic.search('2500', '202010', 0, 20, classTypeFilter));
     expect(allResults.length > 0).toBe(true);
     allResults.forEach(result => expect(result.class.scheduleType).toBe(classTypeFilter.classType));
   });
@@ -117,7 +157,7 @@ describe('elastic', () => {
       online: true,
       classType: 'Lecture',
     };
-    const allResults = (await elastic.search('writing', '202010', 0, 5, filters)).searchContent;
+    const allResults = getAllClassResult(await elastic.search('writing', '202010', 0, 5, filters));
     expect(allResults.length > 0).toBe(true);
     allResults.forEach(result => expect(result.class.classAttributes).toContain(filters.NUpath[0]));
     allResults.forEach(result => expect(result.class.classAttributes).toContain(filters.college[0]));
@@ -134,7 +174,11 @@ describe('elastic', () => {
       online: true,
       classType: 'Lecture',
     };
+<<<<<<< HEAD
     const allResults = (await elastic.search('science', '202010', 0, 2, filters)).searchContent;
+=======
+    const allResults = getAllClassResult(await elastic.search('science', '202010', 0, 2, filters));
+>>>>>>> add tests
     expect(allResults.length > 0).toBe(true);
     allResults.forEach(result => expect(_.intersection(result.class.classAttributes, filters.NUpath).length > 0).toBe(true));
     allResults.forEach(result => expect(_.intersection(result.class.classAttributes, filters.college).length > 0).toBe(true));
