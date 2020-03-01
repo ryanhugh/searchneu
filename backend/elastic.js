@@ -452,16 +452,86 @@ class Elastic {
                 ],
               },
             },
-            should: [
-              { term: { 'class.subject': 'EECE' } },
-            ],
           },
         },
       },
     };
 
-    macros.log(JSON.stringify(originalQuery));
-    const searchOutput = await client.search(originalQuery);
+    const prevQuery = {
+      index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
+      from: min,
+      size: max - min,
+      body: {
+        sort: [
+          '_score',
+          { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } }, // Use lower classId has tiebreaker after relevance
+        ],
+        query: {
+          bool: {
+            must: {
+              multi_match: {
+                query: query,
+                type: 'most_fields', // More fields match => higher score
+                fuzziness: 'AUTO',
+                fields: fields,
+              },
+            },
+            filter: {
+              bool: {
+                should: [
+                  {
+                    bool:{
+                      must: [
+                        { exists: { field: 'sections' } },
+                        { term: { 'class.termId': termId } },
+                      ],
+                    },
+                  },
+                  { term: { type: 'employee' } },
+                ],
+              },
+            },
+          },
+        },
+      },
+    };
+
+
+    const testQuery = {
+      index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
+      from: 0,
+      size: 1000,
+      body: {
+        query: {
+          constant_score: {
+            filter: {
+              bool: {
+                must: [
+                  // {
+                  //   match: {
+                  //     'sections.online': true,
+                  //   },
+                  // },
+                  {
+                    match_phrase: {
+                      'class.scheduleType': 'Lab',
+                    },
+                  },
+                  // {
+                  //   match_phrase: {
+                  //     'class.classAttributes': 'GSEN Engineering',
+                  //   },
+                  // },
+                ],
+              },
+            },
+          },
+        },
+      },
+    };
+
+    macros.log(JSON.stringify(testQuery));
+    const searchOutput = await client.search(testQuery);
 
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
@@ -473,3 +543,18 @@ class Elastic {
 
 const instance = new Elastic();
 export default instance;
+
+/*
+
+
+curl -X GET "localhost:9200/classes/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "match": {
+      "sections.online": true
+    }
+  }
+}
+'
+
+*/
