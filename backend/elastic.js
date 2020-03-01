@@ -14,6 +14,66 @@ const client = new Client({ node: URL });
 
 const BULKSIZE = 5000;
 
+/**
+   * Get elasticsearch query from json filters and termId
+   * @param  {string}  termId  The termId to look within
+   * @param  {object}  filters The json object representing all filters
+   */
+function getClassFilterQuery(termId, filters) {
+  // filter classes to get those with sections
+  const hasSections = { exists: { field: 'sections' } };
+
+  // filter by term
+  const filterByTermId = { term: { 'class.termId': termId } };
+
+  const getNUpathFilter = (selectedNUpaths) => {
+    const NUpathFilters = selectedNUpaths.map(eachNUpath => ({ match_phrase: { 'class.classAttributes': eachNUpath } }));
+    return { bool: { should: NUpathFilters } };
+  };
+
+  const getCollegeFilter = (selectedColleges) => {
+    const collegeFilters = selectedColleges.map(eachCollege => ({ match_phrase: { 'class.classAttributes': eachCollege } }));
+    return { bool: { should: collegeFilters } };
+  };
+
+  const getSubjectFilter = (selectedSubject) => {
+    const subjectFilters = selectedSubject.map(eachSubject => ({ match: { 'class.subject': eachSubject } }));
+    return { bool: { should: subjectFilters } };
+  };
+
+  // note that { online: false } should not never be in filters
+  const getOnlineFilter = (selectedOnlineOption) => {
+    return { term: { 'sections.online': selectedOnlineOption } };
+  };
+
+  const getClassTypeFilter = (selectedClassType) => {
+    return { match: { 'class.scheduleType': selectedClassType } };
+  };
+
+  // construct compound class filters (fliters joined by AND (must), options for a filter joined by OR (should))
+  const filterToEsQuery = {
+    NUpath: getNUpathFilter,
+    college: getCollegeFilter,
+    subject: getSubjectFilter,
+    online: getOnlineFilter,
+    classType: getClassTypeFilter,
+  };
+
+  const classFilters = [hasSections, filterByTermId];
+  for (const [filterKey, filterValues] of Object.entries(filters)) {
+    if (filterKey in filterToEsQuery) {
+      macros.log(`Filter: {${filterKey}: ${filterValues}}`);
+      macros.log(`Type: ${typeof filterToEsQuery[filterKey]}`);
+      macros.log(`Type: ${typeof filterToEsQuery.filterKey}`);
+      classFilters.push(filterToEsQuery[filterKey](filterValues));
+    } else {
+      macros.log(`Invalid filter: {${filterKey}: ${filterValues}}`);
+    }
+  }
+
+  return classFilters;
+}
+
 class Elastic {
   constructor() {
     // Because we export an instance of this class, put the constants on the instance.
@@ -306,56 +366,8 @@ class Elastic {
       fields = ['class.subject^10', 'class.classId'];
     }
 
-    // filter classes to get those with sections
-    const hasSections = { exists: { field: 'sections' } };
-
-    // filter by term
-    const filterByTermId = { term: { 'class.termId': termId } };
-
-    const getNUpathFilter = (selectedNUpaths) => {
-      const NUpathFilters = selectedNUpaths.map(eachNUpath => ({ match_phrase: { 'class.classAttributes': eachNUpath } }));
-      return { bool: { should: NUpathFilters } };
-    };
-
-    const getCollegeFilter = (selectedColleges) => {
-      const collegeFilters = selectedColleges.map(eachCollege => ({ match_phrase: { 'class.classAttributes': eachCollege } }));
-      return { bool: { should: collegeFilters } };
-    };
-
-    const getSubjectFilter = (selectedSubject) => {
-      const subjectFilters = selectedSubject.map(eachSubject => ({ match: { 'class.subject': eachSubject } }));
-      return { bool: { should: subjectFilters } };
-    };
-
-    // note that { online: false } should not never be in filters
-    const getOnlineFilter = (selectedOnlineOption) => {
-      return { term: { 'sections.online': selectedOnlineOption } };
-    };
-
-    const getClassTypeFilter = (selectedClassType) => {
-      return { match: { 'class.scheduleType': selectedClassType } };
-    };
-
-    // construct compound class filters (fliters joined by AND (must), options for a filter joined by OR (should))
-    const filterToEsQuery = {
-      NUpath: getNUpathFilter,
-      college: getCollegeFilter,
-      subject: getSubjectFilter,
-      online: getOnlineFilter,
-      classType: getClassTypeFilter,
-    };
-
-    const classFilters = [hasSections, filterByTermId];
-    for (const [filterKey, filterValues] of Object.entries(filters)) {
-      if (filterKey in filterToEsQuery) {
-        macros.log(`Filter: {${filterKey}: ${filterValues}}`);
-        macros.log(`Type: ${typeof filterToEsQuery[filterKey]}`);
-        macros.log(`Type: ${typeof filterToEsQuery.filterKey}`);
-        classFilters.push(filterToEsQuery[filterKey](filterValues));
-      } else {
-        macros.log(`Invalid filter: {${filterKey}: ${filterValues}}`);
-      }
-    }
+    // get compound class filters
+    const classFilters = getClassFilterQuery(termId, filters);
 
     // text query from the main search box
     const matchTextQuery = {
