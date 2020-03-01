@@ -84,8 +84,6 @@ describe('elastic', () => {
     expect(Keys.getClassHash(firstResult)).toBe('neu.edu/202010/CS/2500');
   });
 
-  // Tests for filters below
-
   it('filter by one NUpath', async () => {
     const NUpath = 'NUpath Writing Intensive';
     const allResults = getAllClassResult(await elastic.search('2500', '202010', 0, 20, { NUpath: [NUpath] }));
