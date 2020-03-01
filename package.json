@@ -197,6 +197,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "^7.0.1",
+    "eslint-plugin-react-hooks": "^2.5.0",
     "ignore-styles": "^5.0.1",
     "node-sass": "^4.9.2",
     "sass-loader": "^7.0.1",
