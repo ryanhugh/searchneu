@@ -84,6 +84,8 @@ describe('elastic', () => {
     expect(Keys.getClassHash(firstResult)).toBe('neu.edu/202010/CS/2500');
   });
 
+  // test NUpath, college, subject, online, classType
+
   it('filter for online: if any section is online', async () => {
     const onlineFilter = { online: true };
     const allResults = getAllClassResult(await elastic.search('2500', '202010', 0, 20, onlineFilter));
