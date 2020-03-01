@@ -247,23 +247,6 @@
     visibility: visible;
   }
 
-  /* Move the footer down in compact mode so you can't see the top of it when typing. */
-  .termDropdown {
-    display: inline-block;
-    max-width: 200px;
-    color: #636363 !important;
-    margin: 0 auto;
-    box-shadow: none !important;
-    border: none !important;
-    pointer-events: initial;
-  }
-
-  .termDropdown * {
-    font-weight: initial !important;
-    border: none !important;
-    color: #636363 !important;
-  }
-
   .atentionContainer {
     max-width: 95%;
     margin-left: auto;

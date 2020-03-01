@@ -42,6 +42,7 @@ export default function SearchBar({
         autoFocus={ !macros.isMobile }
         tabIndex='0'
         className='searchbar__input'
+        size='10'
         onKeyDown={ (event) => {
           if (event.key === 'Enter') {
             search();

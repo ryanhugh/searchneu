@@ -23,54 +23,20 @@
   }
 }
 
-.Results_TermDropDown {
-  height: 38px;
-  max-width: 300px;
-  flex-shrink: 0;
-  background: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
-  pointer-events: initial;
-  font-family: Lato, sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 17px;
-  line-height: 20px;
-  align-items: center;
-  letter-spacing: 1.5px;
-  color: #636363 !important;
-  white-space: nowrap !important;
-  display: flex !important;
-
-  & i {
-    align-content: flex-end;
-  }
-}
-
 .Results__Logo {
   height: 25px;
   z-index: 10;
   cursor: pointer;
   margin-left: 32px;
 
-  &--sm {
-    display: none;
-  }
-
   @media only screen and (max-width: 767px) {
     display: none;
-
-    &--sm {
-      display: block;
-      margin-left: 10px;
-      height: 20px;
-    }
   }
 }
 
 .Results__searchwrapper {
   flex-basis: 538px;
-  flex-shrink: 1;
+  flex-shrink: 2;
 }
 
 .Results_Container {

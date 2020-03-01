@@ -6,7 +6,6 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 import logo from '../images/logo.svg';
-import logoSmall from '../images/logo_small.svg';
 import search from '../search';
 import macros from '../macros';
 import ResultsLoader from '../ResultsLoader';
@@ -33,29 +32,6 @@ const termDropDownOptions = [
   },
   {
     text: 'Fall 2019',
-    value: '202010',
-  },
-];
-
-const mobileTermDropDownOptions = [
-  {
-    text: 'S1 20',
-    value: '202040',
-  },
-  {
-    text: 'S2 20',
-    value: '202060',
-  },
-  {
-    text: 'SF 20',
-    value: '202050',
-  },
-  {
-    text: 'SP 20',
-    value: '202030',
-  },
-  {
-    text: 'F 19',
     value: '202010',
   },
 ];
@@ -137,7 +113,6 @@ export default function Results() {
     <>
       <div className='Results_Header'>
         <img src={ logo } className='Results__Logo' alt='logo' onClick={ () => { history.push('/'); } } />
-        <img src={ logoSmall } className='Results__Logo Results__Logo--sm' alt='logo' onClick={ () => { history.push('/'); } } />
         <div className='Results__spacer' />
         <div className='Results__searchwrapper'>
           <SearchBar
@@ -153,9 +128,9 @@ export default function Results() {
           selection
           compact
           defaultValue={ termId }
-          placeholder='Spring 2018'
-          className='Results_TermDropDown'
-          options={ macros.isMobile ? mobileTermDropDownOptions : termDropDownOptions }
+          placeholder='Spring 2020'
+          className='termdropdown termdropdown--compact'
+          options={ termDropDownOptions }
           onChange={ (e, data) => { history.push(`/${data.value}/${query}`); } }
         />
       </div>

@@ -135,7 +135,7 @@ export default function Home() {
               selection
               value={ termId }
               placeholder='Spring 2018'
-              className='termDropdown'
+              className='termdropdown'
               options={ termDropDownOptions }
               onChange={ (e, data) => { history.push(`/${data.value}`); } }
             />
