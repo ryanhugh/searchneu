@@ -71,9 +71,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Process application/json
 app.use(bodyParser.json());
 
-// Set up the request index.
-elastic.ensureIndexExists(elastic.REQUEST_ANALYTICS, requestMapping);
-
 // Prevent being in an iFrame.
 app.use((req, res, next) => {
   res.setHeader('X-Frame-Options', 'DENY');
@@ -170,57 +167,6 @@ function getRemoteIp(req) {
 function getTime() {
   return moment().format('hh:mm:ss a');
 }
-
-
-// Log request to elasticsearch for analysis.
-app.use((req, res, next) => {
-  next();
-
-  let objectToLog = { ...req.headers, ...req.query };
-
-  const removeHeaderList = [
-    'connection',
-    'accept',
-    'dnt',
-    'sec-fetch-site',
-    'sec-fetch-mode',
-    'sec-fetch-user',
-    'accept-encoding',
-    'accept-language',
-    'cf-visitor',
-    'cf-connecting-ip',
-    'x-forwarded-proto',
-    'cf-ray',
-
-    // This is the ip of CloudFlare's server, not the user.
-    'x-real-ip',
-
-    // There are some third party scripts on the page that add a few cookies.
-    // But we don't need to analyse those, we can just use the tokens we add in the frontend.
-    'cookie',
-    'x-forwarded-for',
-  ];
-
-  // Don't log these headers because they are not useful for analysis.
-  objectToLog = _.omit(objectToLog, removeHeaderList);
-
-  for (const field of Object.keys(objectToLog)) {
-    // Don't log fields that are unreasonably long.
-    if (field.length > 500 || objectToLog[field].length > 2000) {
-      macros.log('Not logging long field', field.slice(0, 500));
-      objectToLog[field] = undefined;
-      continue;
-    }
-  }
-
-  objectToLog.path = req.path;
-  objectToLog.carrierIp = req.headers['x-real-ip'];
-  objectToLog.serverNow = Date.now();
-  objectToLog.remoteIp = getRemoteIp(req);
-
-  // Disabled for now - no need to log any more data.
-  // elastic.insertDoc(elastic.REQUEST_ANALYTICS, objectToLog);
-});
 
 
 // Http to https redirect.

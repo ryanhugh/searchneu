@@ -19,7 +19,6 @@ class Elastic {
     // Because we export an instance of this class, put the constants on the instance.
     this.CLASS_INDEX = 'classes';
     this.EMPLOYEE_INDEX = 'employees';
-    this.REQUEST_ANALYTICS = 'request_analytics';
     // keep internal track of the available subjects
     this.subjects = null;
   }
