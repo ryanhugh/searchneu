@@ -255,43 +255,104 @@ class Elastic {
       /* we want the following filters to modify the default es query
       - NUpath
       - college
-      - major
+      - subject (= major)
       - online
-      - subject
       - sectionsAvailable
       - classType
       */
+    }
+
+    // filter by NUpath
+    let filterByNUpath = null;
+    if ('NUpath' in filters) {
+      filterByNUpath = {
+        filter: {
+          terms: {
+            'class.classAttributes' : filters.college,
+          },
+        },
+      };
     }
 
     // filter by college
     let filterByCollege = null;
     if ('college' in filters) {
       filterByCollege = {
-        bool: {
-          filter: {
-            terms: {
-              'class.classAttributes' : filters.college,
-            },
+        filter: {
+          terms: {
+            'class.classAttributes' : filters.college,
           },
         },
       };
     }
 
-    // filter by major
+    // filter by subject
     let filterBySubject = null;
-    if ('major' in filters) {
+    if ('subject' in filters) {
       filterBySubject = {
-        bool: {
-          filter: {
-            terms: {
-              'class.subject' : ['CS'], // TODO change this to filters value
-            },
+        filter: {
+          terms: {
+            'class.subject' : ['CS'], // TODO change this to filters value
           },
         },
+        random_score: {},
+        weight: 23,
       };
     }
 
-    // query from the main search box
+    // filter by online
+    let onlineFilter = null;
+    if ('online' in filters && filters.online) {
+      onlineFilter = {
+        filter: {
+          match: {
+            'sections.online': true,
+          },
+        },
+        random_score: {},
+        weight: 23,
+      };
+    }
+
+    // filter by sectionAvailable
+    let sectionAvailableFilter = null;
+    if ('sectionAvailable' in filters && filters.sectionAvailable) {
+      sectionAvailableFilter = {
+        filter: {
+          match: {
+            'sections.online': true,
+          },
+        },
+        random_score: {},
+        weight: 23,
+      };
+    }
+
+    // filter by class type
+    let classTypeFilter = null;
+    if ('classType' in filters) {
+      classTypeFilter = {
+        filter: {
+          match: {
+            'class.scheduleType': filters.classType,
+          },
+        },
+        random_score: {},
+        weight: 23,
+      };
+    }
+
+    // remove null filters
+    const allValidFilters = [
+      filterByNUpath,
+      filterByCollege,
+      filterBySubject,
+      onlineFilter,
+      sectionAvailableFilter,
+      classTypeFilter,
+    ].filter(eachFilter => eachFilter != null);
+
+    // text query from the main search box
     const searchBoxQuery = {
       bool: {
         must: [
@@ -315,15 +376,8 @@ class Elastic {
       },
     };
 
-    // remove null filters
-    const queryWithFilters = [
-      searchBoxQuery,
-      filterByCollege,
-      filterBySubject,
-    ].filter(eachFilter => eachFilter != null);
-
-    // combine main query and filters
-    const elasticsearchQuery = {
+    // combine main query and filters, using function_score to only filter on class with matching query score
+    const prevTestQuery = {
       index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
       from: min,
       size: max - min,
@@ -333,156 +387,21 @@ class Elastic {
           { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } }, // Use lower classId has tiebreaker after relevance
         ],
         query: {
-          bool: {
-            must: {
-              multi_match: {
-                query: query,
-                type: 'most_fields', // More fields match => higher score
-                fuzziness: 'AUTO',
-                fields: fields,
-              },
-            },
-            filter: {
-              bool: {
-                should: [
-                  {
-                    bool:{
-                      must: [
-                        { exists: { field: 'sections' } },
-                        { term: { 'class.termId': termId } },
-                      ],
-                    },
-                  },
-                  { term: { type: 'employee' } },
-                ],
-              },
-            },
+          function_score: {
+            query: searchBoxQuery,
+            boost: 5,
+            functions: allValidFilters,
+            max_boost: 42,
+            score_mode: 'max',
+            boost_mode: 'multiply',
+            min_score: 42,
           },
         },
       },
     };
 
-    const originalQuery = {
-      index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
-      from: min,
-      size: max - min,
-      body: {
-        sort: [
-          '_score',
-          { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } }, // Use lower classId has tiebreaker after relevance
-        ],
-        query: {
-          bool: {
-            must: [
-              {
-                multi_match: {
-                  query: query,
-                  type: 'most_fields', // More fields match => higher score
-                  fuzziness: 'AUTO',
-                  fields: fields,
-                },
-              },
-              // {
-              //   match: {
-              //     'class.subject': 'EECE',
-              //   },
-              // },
-            ],
-            filter: {
-              bool: {
-                should: [
-                  {
-                    bool:{
-                      must: [
-                        { exists: { field: 'sections' } },
-                        { term: { 'class.termId': termId } },
-                      ],
-                    },
-                  },
-                  { term: { type: 'employee' } },
-                ],
-              },
-            },
-          },
-        },
-      },
-    };
-
-    const prevQuery = {
-      index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
-      from: min,
-      size: max - min,
-      body: {
-        sort: [
-          '_score',
-          { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } }, // Use lower classId has tiebreaker after relevance
-        ],
-        query: {
-          bool: {
-            must: {
-              multi_match: {
-                query: query,
-                type: 'most_fields', // More fields match => higher score
-                fuzziness: 'AUTO',
-                fields: fields,
-              },
-            },
-            filter: {
-              bool: {
-                should: [
-                  {
-                    bool:{
-                      must: [
-                        { exists: { field: 'sections' } },
-                        { term: { 'class.termId': termId } },
-                      ],
-                    },
-                  },
-                  { term: { type: 'employee' } },
-                ],
-              },
-            },
-          },
-        },
-      },
-    };
-
-
-    const testQuery = {
-      index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
-      from: 0,
-      size: 1000,
-      body: {
-        query: {
-          constant_score: {
-            filter: {
-              bool: {
-                must: [
-                  // {
-                  //   match: {
-                  //     'sections.online': true,
-                  //   },
-                  // },
-                  {
-                    match_phrase: {
-                      'class.scheduleType': 'Lab',
-                    },
-                  },
-                  // {
-                  //   match_phrase: {
-                  //     'class.classAttributes': 'GSEN Engineering',
-                  //   },
-                  // },
-                ],
-              },
-            },
-          },
-        },
-      },
-    };
-
-    macros.log(JSON.stringify(testQuery));
-    const searchOutput = await client.search(testQuery);
+    macros.log(JSON.stringify(prevTestQuery));
+    const searchOutput = await client.search(prevTestQuery);
 
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
@@ -494,18 +413,3 @@ class Elastic {
 
 const instance = new Elastic();
 export default instance;
-
-/*
-
-
-curl -X GET "localhost:9200/classes/_search?pretty" -H 'Content-Type: application/json' -d'
-{
-  "query": {
-    "match": {
-      "sections.online": true
-    }
-  }
-}
-'
-
-*/
