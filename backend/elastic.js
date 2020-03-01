@@ -251,34 +251,58 @@ class Elastic {
       fields = ['class.subject^10', 'class.classId'];
     }
 
-    // Filter classes to get those with sections
+    // filter classes to get those with sections
     const hasSections = { exists: { field: 'sections' } };
 
-    // Filter by term
+    // filter by term
     const filterByTermId = { term: { 'class.termId': termId } };
 
-    // Constuct compound class filters (fliters joined by AND (must), options for a filter joined by OR (should))
+    const getNUpathFilter = (selectedNUpaths) => {
+      const NUpathFilters = selectedNUpaths.map(eachNUpath => ({ match_phrase: { 'class.classAttributes': eachNUpath } }));
+      return { bool: { should: NUpathFilters } };
+    };
+
+    const getCollegeFilter = (selectedColleges) => {
+      const collegeFilters = selectedColleges.map(eachCollege => ({ match_phrase: { 'class.classAttributes': eachCollege } }));
+      return { bool: { should: collegeFilters } };
+    };
+
+    const getSubjectFilter = (selectedSubject) => {
+      const subjectFilters = selectedSubject.map(eachSubject => ({ match: { 'class.subject': eachSubject } }));
+      return { bool: { should: subjectFilters } };
+    };
+
+    // note that { online: false } should not never be in filters
+    const getOnlineFilter = (selectedOnlineOption) => {
+      return { term: { 'sections.online': selectedOnlineOption } };
+    };
+
+    const getClassTypeFilter = (selectedClassType) => {
+      return { match: { 'class.scheduleType': selectedClassType } };
+    };
+
+    // construct compound class filters (fliters joined by AND (must), options for a filter joined by OR (should))
+    const filterToEsQuery = {
+      NUpath: getNUpathFilter,
+      college: getCollegeFilter,
+      subject: getSubjectFilter,
+      online: getOnlineFilter,
+      classType: getClassTypeFilter,
+    };
+
     const classFilters = [hasSections, filterByTermId];
-    if ('NUpath' in filters) {
-      const NUpathFilters = filters.NUpath.map(attribute => ({ match_phrase: { 'class.classAttributes': attribute } }));
-      classFilters.push({ bool: { should: NUpathFilters } });
-    }
-    if ('college' in filters) {
-      const collegeFilters = filters.college.map(attribute => ({ match_phrase: { 'class.classAttributes': attribute } }));
-      classFilters.push({ bool: { should: collegeFilters } });
-    }
-    if ('subject' in filters) {
-      const subjectFilters = filters.subject.map(eachSubject => ({ match: { 'class.subject': eachSubject } }));
-      classFilters.push({ bool: { should: subjectFilters } });
-    }
-    if ('online' in filters && filters.online) {
-      classFilters.push({ term: { 'sections.online': true } });
-    }
-    if ('classType' in filters) {
-      classFilters.push({ match: { 'class.scheduleType': filters.classType } });
+    for (const [filterKey, filterValues] of Object.entries(filters)) {
+      if (filterKey in filterToEsQuery) {
+        macros.log(`Filter: {${filterKey}: ${filterValues}}`);
+        macros.log(`Type: ${typeof filterToEsQuery[filterKey]}`);
+        macros.log(`Type: ${typeof filterToEsQuery.filterKey}`);
+        classFilters.push(filterToEsQuery[filterKey](filterValues));
+      } else {
+        macros.log(`Invalid filter: {${filterKey}: ${filterValues}}`);
+      }
     }
 
-    // Text query from the main search box
+    // text query from the main search box
     const matchTextQuery = {
       multi_match: {
         query: query,
@@ -288,13 +312,13 @@ class Elastic {
       },
     };
 
-    // Use lower classId has tiebreaker after relevance
+    // use lower classId has tiebreaker after relevance
     const sortByClassId = { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } };
 
-    // Filter by type employee
+    // filter by type employee
     const isEmployee = { term: { type: 'employee' } };
 
-    // Compound query for text query and filters
+    // compound query for text query and filters
     const mainQuery = {
       index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
       from: min,
