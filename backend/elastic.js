@@ -383,8 +383,7 @@ class Elastic {
             'sections.online': true,
           },
         },
-        random_score: {},
-        weight: 23,
+        weight: 5,
       };
     }
 
@@ -418,12 +417,12 @@ class Elastic {
 
     // remove null filters
     const allValidFilters = [
-      filterByNUpath,
-      filterByCollege,
-      filterBySubject,
+      // filterByNUpath,
+      // filterByCollege,
+      // filterBySubject,
       onlineFilter,
-      sectionAvailableFilter,
-      classTypeFilter,
+      // sectionAvailableFilter,
+      // classTypeFilter,
     ].filter(eachFilter => eachFilter != null);
 
     // text query from the main search box
@@ -450,29 +449,80 @@ class Elastic {
       },
     };
 
-    // combine main query and filters, using function_score to only filter on class with matching query score
-    const prevTestQuery = {
+    // ensure result pass at least one filter when filters exist
+    const minScore = allValidFilters.length > 0 ? 100 : 5;
+
+    // compound query for text query and filters
+    const esQuery = {
       index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
-      from: min,
-      size: max - min,
+      // from: min,
+      // size: max - min,
       body: {
         sort: ['_score', sortByClassId],
         query: {
-          function_score: {
+          function_score: { // Use function_score to only filter on class with matching query
             query: searchBoxQuery,
-            boost: 5,
+            // boost: 5,
             functions: allValidFilters,
-            max_boost: 42,
+            // max_boost: 100,
             score_mode: 'max',
-            boost_mode: 'multiply',
-            min_score: 42,
+            boost_mode: 'sum',
+            min_score: minScore,
           },
         },
       },
     };
 
-    macros.log(JSON.stringify(prevTestQuery));
-    const searchOutput = await client.search(prevTestQuery);
+    const prevQuery = {
+      index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
+      from: min,
+      size: max - min,
+      body: {
+        sort: [
+          '_score',
+          { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } }, // Use lower classId has tiebreaker after relevance
+        ],
+        query: {
+          bool: {
+            must: {
+              multi_match: {
+                query: query,
+                type: 'most_fields', // More fields match => higher score
+                fuzziness: 'AUTO',
+                fields: fields,
+              },
+            },
+            filter: {
+              bool: {
+                should: [
+                  {
+                    bool: {
+                      must: [
+                        { exists: { field: 'sections' } },
+                        { term: { 'class.termId': termId } },
+                        { term: { 'sections.online': true } },
+                        {
+                          bool: {
+                            should: [
+                              { match_phrase: { 'class.classAttributes': 'GS College of Science' } },
+                              { match_phrase: { 'class.classAttributes': 'Computer&Info Sci' } },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                  },
+                  { term: { type: 'employee' } },
+                ],
+              },
+            },
+          },
+        },
+      },
+    };
+
+    macros.log(JSON.stringify(prevQuery));
+    const searchOutput = await client.search(prevQuery);
 
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
@@ -484,3 +534,57 @@ class Elastic {
 
 const instance = new Elastic();
 export default instance;
+
+/*
+curl -X GET "localhost:9200/classes/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "bool": {
+      "must": {
+        "multi_match": {
+          "query": "cs 2500",
+          "type": "most_fields",
+          "fuzziness": "AUTO",
+          "fields": [
+            "class.subject^10",
+            "class.classId"
+          ]
+        }
+      },
+      "filter": {
+        "bool": {
+          "should": [
+            {
+              "bool": {
+                "must": [
+                  {
+                    "exists": {
+                      "field": "sections"
+                    }
+                  },
+                  {
+                    "term": {
+                      "class.termId": "202010"
+                    }
+                  },
+                  {
+                    "term": {
+                      "sections.online": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "term": {
+                "type": "employee"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+'
+ */
