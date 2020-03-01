@@ -80,68 +80,7 @@ describe('elastic', () => {
     expect(Keys.getClassHash(firstResult)).toBe('neu.edu/202010/CS/2500');
   });
 
-  it('converts filters to es class filters', () => {
-    const termId = '202010';
-    const filters = {
-      NUpath: ['NU Core/NUpath Adv Writ Dscpl', 'NUpath Interpreting Culture'],
-      college: ['UG Col Socl Sci & Humanities', 'GS Col of Arts', 'Computer&Info Sci'],
-      subject: ['ENGW', 'ARTG', 'CS'],
-      online: true,
-      classType: 'Lecture',
-    };
-    const esFilters = elastic.getClassFilterQuery(termId, filters);
-    const expectedEsFilters = [{"exists": {"field": "sections"}}, {"term": {"class.termId": "202010"}}, 
-    {"bool": {"should": [{"match_phrase": {"class.classAttributes": "NU Core/NUpath Adv Writ Dscpl"}}, 
-    {"match_phrase": {"class.classAttributes": "NUpath Interpreting Culture"}}]}}, 
-    {"bool": {"should": [{"match_phrase": {"class.classAttributes": "UG Col Socl Sci & Humanities"}}, 
-    {"match_phrase": {"class.classAttributes": "GS Col of Arts"}}, 
-    {"match_phrase": {"class.classAttributes": "Computer&Info Sci"}}]}}, 
-    {"bool": {"should": [{"match": {"class.subject": "ENGW"}}, {"match": {"class.subject": "ARTG"}}, {"match": {"class.subject": "CS"}}]}}, 
-    {"term": {"sections.online": true}}, {"match": {"class.scheduleType": "Lecture"}}]
-    expect(esFilters).toMatchObject(expectedEsFilters);
-  })
-
-  it('filter by one NUpath', async () => {
-    const NUpath = 'NUpath Writing Intensive';
-    const allResults = (await elastic.search('2500', '202010', 0, 20, { NUpath: [NUpath] })).searchContent;
-    expect(allResults.length > 0).toBe(true);
-    allResults.forEach(result => expect(result.class.classAttributes).toContain(NUpath));
-  });
-
-  it('filter by multiple NUpaths', async () => {
-    const NUpaths = ['NUpath Difference/Diversity', 'NUpath Interpreting Culture'];
-    const allResults = (await elastic.search('2500', '202010', 0, 20, { college: NUpaths })).searchContent;
-    expect(allResults.length > 0).toBe(true);
-    allResults.forEach(result => expect(_.intersection(result.class.classAttributes, NUpaths).length > 0).toBe(true));
-  });
-
-  it('filter by one college', async () => {
-    const college = 'Computer&Info Sci';
-    const allResults = (await elastic.search('2500', '202010', 0, 20, { college: [college] })).searchContent;
-    expect(allResults.length > 0).toBe(true);
-    allResults.forEach(result => expect(result.class.classAttributes).toContain(college));
-  });
-
-  it('filter by multiple colleges', async () => {
-    const colleges = ['GS College of Science', 'GSBV Bouve'];
-    const allResults = (await elastic.search('2500', '202010', 0, 20, { college: colleges })).searchContent;
-    expect(allResults.length > 0).toBe(true);
-    allResults.forEach(result => expect(_.intersection(result.class.classAttributes, colleges).length > 0).toBe(true));
-  });
-
-  it('filter by one subject', async () => {
-    const subject = 'CS';
-    const allResults = (await elastic.search('2500', '202010', 0, 20, { subject: [subject] })).searchContent;
-    expect(allResults.length > 0).toBe(true);
-    allResults.forEach(result => expect(result.class.subject).toBe(subject));
-  });
-
-  it('filter by multiple subjects', async () => {
-    const subjects = ['CS', 'ENGL'];
-    const allResults = (await elastic.search('2500', '202010', 0, 20, { subject: subjects })).searchContent;
-    expect(allResults.length > 0).toBe(true);
-    allResults.forEach(result => expect(subjects).toContain(result.class.subject));
-  });
+  // test NUpath, college, subject, online, classType
 
   it('filter for online: if any section is online', async () => {
     const onlineFilter = { online: true };

@@ -313,27 +313,24 @@ class Elastic {
     const filterByTermId = { term: { 'class.termId': termId } };
 
     // Constuct compound class filters
-    let classFilters = [hasSections, filterByTermId];
-    if (filters) {
-      for (const [filterKey, filterValues] of Object.entries(filters)) {
-        switch (filterKey) {
-          case 'NUpath':
-            break;
-          case 'college':
-            break;
-          case 'subject':
-            break;
-          case 'online':
-            break;
-          case 'sectionAvailable':
-            break;
-          case 'classType':
-            break;
-          default:
-            macros.log(`Filter error: Invalid filter {${filterKey}: ${filterValues}}`);
-            break;
-        }
-      }
+    const classFilters = [hasSections, filterByTermId];
+    if ('NUpath' in filters) {
+      const NUpathFilters = filters.NUpath.map(attribute => ({ match_phrase: { 'class.classAttributes': attribute } }));
+      classFilters.push({ bool: { should: NUpathFilters } });
+    }
+    if ('college' in filters) {
+      const collegeFilters = filters.college.map(attribute => ({ match_phrase: { 'class.classAttributes': attribute } }));
+      classFilters.push({ bool: { should: collegeFilters } });
+    }
+    if ('subject' in filters) {
+      const subjectFilters = filters.subject.map(eachSubject => ({ match: { 'class.subject': eachSubject } }));
+      classFilters.push(subjectFilters);
+    }
+    if ('online' in filters && filters.online) {
+      classFilters.push({ term: { 'sections.online': true } });
+    }
+    if ('classType' in filters) {
+      classFilters.push({ term: { 'sections.online': filters.classType } });
     }
 
     // Text query from the main search box
@@ -362,11 +359,64 @@ class Elastic {
         query: {
           bool: {
             must: matchTextQuery,
-            filter: { bool: { should: [{ bool:{ must: classFilters } }, isEmployee] } },
+            filter: {
+              bool: {
+                should: [
+                  { bool:{ must: classFilters } },
+                  isEmployee,
+                ],
+              },
+            },
           },
         },
       },
     };
+
+    const texst = {
+      index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
+      from: min,
+      size: max - min,
+      body: {
+        sort: [
+          '_score',
+          { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } }, // Use lower classId has tiebreaker after relevance
+        ],
+        query: {
+          bool: {
+            must: {
+              multi_match: {
+                query: query,
+                type: 'most_fields', // More fields match => higher score
+                fuzziness: 'AUTO',
+                fields: fields,
+              },
+            },
+            filter: {
+              bool: {
+                should: [
+                  {
+                    bool: {
+                      must: [
+                        { exists: { field: 'sections' } },
+                        { term: { 'class.termId': termId } },
+                        {
+                          bool: {
+                            should: [
+                              { match_phrase: { 'class.classAttributes': termId } },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                  },
+                  { term: { type: 'employee' } },
+                ],
+              },
+            },
+          },
+        },
+      },
+    }
 
     macros.log(JSON.stringify(mainQuery));
     const searchOutput = await client.search(mainQuery);
