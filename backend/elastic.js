@@ -306,126 +306,37 @@ class Elastic {
       fields = ['class.subject^10', 'class.classId'];
     }
 
-    // get compound class filters
-    const classFilters = this.getClassFilterQuery(termId, filters);
+    // Filter classes to get those with sections
+    const hasSections = { exists: { field: 'sections' } };
 
-    // text query from the main search box
-    const matchTextQuery = {
-      multi_match: {
-        query: query,
-        type: 'most_fields', // More fields match => higher score
-        fuzziness: 'AUTO',
-        fields: fields,
-      },
-    };
+    // Filter by term
+    const filterByTermId = { term: { 'class.termId': termId } };
 
-    // use lower classId has tiebreaker after relevance
-    const sortByClassId = { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } };
-
-    // filter by type employee
-    const isEmployee = { term: { type: 'employee' } };
-
+    // Constuct compound class filters
+    let classFilters = [hasSections, filterByTermId];
     if (filters) {
-      /* we want the following filters to modify the default es query
-      - NUpath
-      - college
-      - subject (= major)
-      - online
-      - sectionsAvailable
-      - classType
-      */
+      for (const [filterKey, filterValues] of Object.entries(filters)) {
+        switch (filterKey) {
+          case 'NUpath':
+            break;
+          case 'college':
+            break;
+          case 'subject':
+            break;
+          case 'online':
+            break;
+          case 'sectionAvailable':
+            break;
+          case 'classType':
+            break;
+          default:
+            macros.log(`Filter error: Invalid filter {${filterKey}: ${filterValues}}`);
+            break;
+        }
+      }
     }
 
-    // filter by NUpath
-    let filterByNUpath = null;
-    if ('NUpath' in filters) {
-      filterByNUpath = {
-        filter: {
-          terms: {
-            'class.classAttributes' : filters.college,
-          },
-        },
-      };
-    }
-
-    // filter by college
-    let filterByCollege = null;
-    if ('college' in filters) {
-      filterByCollege = {
-        filter: {
-          terms: {
-            'class.classAttributes' : filters.college,
-          },
-        },
-      };
-    }
-
-    // filter by subject
-    let filterBySubject = null;
-    if ('subject' in filters) {
-      filterBySubject = {
-        filter: {
-          terms: {
-            'class.subject' : ['CS'], // TODO change this to filters value
-          },
-        },
-        random_score: {},
-        weight: 23,
-      };
-    }
-
-    // filter by online
-    let onlineFilter = null;
-    if ('online' in filters && filters.online) {
-      onlineFilter = {
-        filter: {
-          match: {
-            'sections.online': true,
-          },
-        },
-        weight: 5,
-      };
-    }
-
-    // filter by sectionAvailable
-    let sectionAvailableFilter = null;
-    if ('sectionAvailable' in filters && filters.sectionAvailable) {
-      sectionAvailableFilter = {
-        filter: {
-          match: {
-            'sections.online': true,
-          },
-        },
-        random_score: {},
-        weight: 23,
-      };
-    }
-
-    // filter by class type
-    let classTypeFilter = null;
-    if ('classType' in filters) {
-      classTypeFilter = {
-        filter: {
-          match: {
-            'class.scheduleType': filters.classType,
-          },
-        },
-        random_score: {},
-        weight: 23,
-      };
-    }
-
-    // remove null filters
-    const allValidFilters = [
-      // filterByNUpath,
-      // filterByCollege,
-      // filterBySubject,
-      onlineFilter,
-      // sectionAvailableFilter,
-      // classTypeFilter,
-    ].filter(eachFilter => eachFilter != null);
-
-    // text query from the main search box
+    // Text query from the main search box
     const matchTextQuery = {
       multi_match: {
         query: query,
@@ -434,60 +345,15 @@ class Elastic {
         fields: fields,
       },
     };
-
-    // const compoundQuery = {
-    //   index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
-    //   from: min,
-    //   size: max - min,
-    //   body: {
-    //     sort: [
-    //       '_score',
-    //       { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } }, // Use lower classId has tiebreaker after relevance
-    //     ],
-    //     query: {
-    //       bool: {
-    //           must: matchTextQuery,
-    //         },
-    //         filter: {
-    //           bool: {
-    //             should: [
-    //               {
-    //                 bool: {
-    //                   must: [
-    //                     { exists: { field: 'sections' } },
-    //                     { term: { 'class.termId': termId } },
-    //                     { term: { 'sections.online': true } },
-    //                     {
-    //                       bool: {
-    //                         should: [
-    //                           { match_phrase: { 'class.classAttributes': 'GS College of Science' } },
-    //                           { match_phrase: { 'class.classAttributes': 'Computer&Info Sci' } },
-    //                         ],
-    //                       },
-    //                     },
-    //                   ],
-    //                 },
-    //               },
-    //               { term: { type: 'employee' } },
-    //             ],
-    //           },
-    //         },
-    //       },
-    //     },
-    //   },
-    // };
 
     // Use lower classId has tiebreaker after relevance
     const sortByClassId = { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } };
 
-    const hasSections = { exists: { field: 'sections' } };
-
-    const matchTermId = { term: { 'class.termId': termId } };
-
+    // Filter by type employee
     const isEmployee = { term: { type: 'employee' } };
 
-    // compound query for text query and filters
-    const compoundQuery = await client.search({
+    // Compound query for text query and filters
+    const mainQuery = {
       index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
       from: min,
       size: max - min,
@@ -496,25 +362,14 @@ class Elastic {
         query: {
           bool: {
             must: matchTextQuery,
-            filter: {
-              bool: {
-                should: [
-                  {
-                    bool:{
-                      must: [hasSections, matchTermId],
-                    },
-                  },
-                  isEmployee,
-                ],
-              },
-            },
+            filter: { bool: { should: [{ bool:{ must: classFilters } }, isEmployee] } },
           },
         },
       },
-    });
+    };
 
-    macros.log(JSON.stringify(compoundQuery));
-    const searchOutput = await client.search(compoundQuery);
+    macros.log(JSON.stringify(mainQuery));
+    const searchOutput = await client.search(mainQuery);
 
     return {
       searchContent: searchOutput.body.hits.hits.map((hit) => { return { ...hit._source, score: hit._score }; }),
