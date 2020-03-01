@@ -2,97 +2,65 @@
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
  */
-import { useReducer, useEffect } from 'react';
+import {
+  useEffect, useState, useCallback,
+} from 'react';
 import macros from '../macros';
 
-const searchReducer = (state, action) => {
-  switch (action.type) {
-    case 'NEW_SEARCH':
-      return {
-        ...state,
-        results: [],
-        isLoadingNew: true,
-        isLoadingMore: false,
-      };
-    case 'LOAD_MORE':
-      return {
-        ...state,
-        isLoadingNew: false,
-        isLoadingMore: true,
-      };
-    case 'SEARCH_SUCCESS':
-      return {
-        ...state,
-        results: action.payload,
-        isLoadingNew: false,
-        isLoadingMore: false,
-        page: 1,
-      };
-    case 'LOAD_MORE_SUCCESS':
-      // Only accept if currently loading more.
-      // Prevents race condition where a new search is executed mid-loadMore, and old loadMore results come in.
-      if (state.isLoadingMore) {
-        return {
-          ...state,
-          results: action.payload,
-          isLoadingNew: false,
-          isLoadingMore: false,
-          page: state.page + 1,
-        };
-      }
-      return state;
-    default:
-      throw new Error();
-  }
+const Status = {
+  FETCHING_NEW: 1,
+  FETCHING_MORE: 2,
+  SUCCESS: 3,
 };
 
 /**
- * @param {func} doSearch async (page: number) => results[]. Needs to be memoized.
- * @returns {results: results[], isLoading: boolean, loadMore}
+ * @param {object} initialParams initial params to give fetchresults
+ * @param {func} fetchResults async (params, page: number) => results[].
+ * @returns {results: results[], isReady: boolean, loadMore}
  *  results is a list of results
- *  ready represents whether the results are ready to be displayed
+ *  isReady represents whether the results are ready to be displayed
  *  loadMore is a function that triggers loading the next page when invoked
+ *  doSearch triggers search execution. Expects a object containing search params
  */
-export default function useSearch(doSearch) {
-  const [state, dispatch] = useReducer(
-    searchReducer,
-    {
-      results: [], isLoadingNew: true, isLoadingMore: false, page: 0,
-    },
-  );
-  const {
-    results, isLoadingNew, isLoadingMore, page,
-  } = state;
+export default function useSearch(initialParams, fetchResults) {
+  const [params, setParams] = useState(initialParams);
+  const [page, setPage] = useState(0);
+  const [results, setResults] = useState([]);
+  const [status, setStatus] = useState(Status.FETCHING_NEW);
 
   useEffect(() => {
     let ignore = false;
     const searchWrap = async () => {
-      dispatch({ type: 'NEW_SEARCH' });
-      const data = await doSearch(0);
+      const data = await fetchResults(params, page);
       // Ignore will be true if out of order because useEffect is cleaned up before executing the next effect
       if (ignore) {
         macros.log('Did not come back in order, discarding');
       } else {
-        dispatch({ type: 'SEARCH_SUCCESS', payload: data });
+        setResults(data);
+        setStatus(Status.SUCCESS);
       }
     };
     searchWrap();
     return () => { ignore = true; };
-  }, [doSearch]);
+  }, [params, page, fetchResults]);
 
-  async function loadMore() {
-    // Don't load more if we're already loading something else
-    if (isLoadingNew || isLoadingMore) {
-      return;
+  function loadMore() {
+    // Only load more if nothing else is mid-flight
+    if (status === Status.SUCCESS) {
+      setStatus(Status.FETCHING_MORE);
+      setPage(page + 1);
     }
-    dispatch({ type:'LOAD_MORE' });
-    const data = await doSearch(page);
-    dispatch({ type: 'LOAD_MORE_SUCCESS', payload: data });
   }
+
+  const doSearch = useCallback((p) => {
+    setStatus(Status.FETCHING_NEW);
+    setParams(p);
+  }, []);
 
   return {
     results: results,
-    ready: !isLoadingNew,
+    isReady: status !== Status.FETCHING_NEW,
     loadMore: loadMore,
+    doSearch: doSearch,
   };
 }

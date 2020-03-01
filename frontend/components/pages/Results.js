@@ -2,7 +2,7 @@
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
  */
-import React, { useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 import logo from '../images/logo.svg';
@@ -38,6 +38,7 @@ const termDropDownOptions = [
 ];
 
 let count = 0;
+// Log search queries to amplitude on enter.
 function logSearch(searchQuery) {
   searchQuery = searchQuery.trim();
 
@@ -47,23 +48,31 @@ function logSearch(searchQuery) {
   }
 }
 
+// Retreive result data from backend.
+const fetchResults = async ({ query, termId }, page) => {
+  const obj = await search.search(query, termId, 5 + page * 10);
+  const results = obj.results;
+  if (page === 0) {
+    logSearch(query);
+  }
+  return results;
+};
+
 export default function Results() {
-  const { termId, query } = useParams();
+  const params = useParams();
   const history = useHistory();
+  const { termId, query } = params;
 
-  const doSearch = useCallback(async (page) => {
-    const obj = await search.search(query, termId, 5 + page * 10);
-    const results = obj.results;
-    if (page === 0) {
-      logSearch(query);
-    }
-    return results;
-  }, [termId, query]);
+  const {
+    results, isReady, loadMore, doSearch,
+  } = useSearch(params, fetchResults);
 
-  const { results, ready, loadMore } = useSearch(doSearch);
+  useEffect(() => {
+    doSearch(params);
+  }, [params, doSearch]);
 
   const resultsElement = () => {
-    if (!ready) {
+    if (!isReady) {
       return <div className='Results_Loading' />;
     }
     if (results.length) {
