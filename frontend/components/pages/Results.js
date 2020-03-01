@@ -2,7 +2,7 @@
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
  */
-import React, { useState, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 import logo from '../images/logo.svg';
@@ -11,6 +11,7 @@ import macros from '../macros';
 import ResultsLoader from '../ResultsLoader';
 import SearchBar from '../ResultsPage/SearchBar';
 import Footer from '../Footer';
+import useSearch from '../ResultsPage/useSearch';
 
 
 const termDropDownOptions = [
@@ -48,41 +49,32 @@ function logSearch(searchQuery) {
 
 export default function Results() {
   const { termId, query } = useParams();
-  const [searchStatus, setSearchStatus] = useState({ searchResults: [], isLoading: true });
-  const { searchResults, isLoading } = searchStatus;
-  const [resultCursor, setResultCursor] = useState(5);
   const history = useHistory();
 
+  const doSearch = useCallback(async (page) => {
+    const obj = await search.search(query, termId, 5 + page * 10);
+    const results = obj.results;
+    if (page === 0) {
+      logSearch(query);
+    }
+    return results;
+  }, [termId, query]);
 
-  useEffect(() => {
-    let ignore = false;
-    const doSearch = async () => {
-      setSearchStatus({ searchResults: searchResults });
-      const obj = await search.search(query, termId, resultCursor);
-      const results = obj.results;
-
-      // Ignore will be true if out of order because useEffect is cleaned up before executing the next effect
-      if (ignore) {
-        macros.log('Did not come back in order, discarding');
-      } else {
-        setSearchStatus({ searchResults: results, isLoading: false });
-      }
-    };
-    doSearch();
-    logSearch(query);
-    return () => { ignore = true; };
-  }, [query, termId, resultCursor]);
+  const { results, ready, loadMore } = useSearch(doSearch);
 
   const resultsElement = () => {
-    if (isLoading || searchResults.length) {
+    if (!ready) {
+      return <div className='Results_Loading' />;
+    }
+    if (results.length) {
       return (
-        <div style={{ display: isLoading ? 'none' : 'block' }}>
+        <div>
           <div className='subjectContaineRowContainer'>
             {/* {subjectInfoRow} */}
           </div>
           <ResultsLoader
-            results={ searchResults }
-            loadMore={ () => { setResultCursor(searchResults.length + 10); } }
+            results={ results }
+            loadMore={ loadMore }
           />
         </div>
       );
@@ -117,8 +109,6 @@ export default function Results() {
         <div className='Results__searchwrapper'>
           <SearchBar
             onSearch={ (val) => {
-              setResultCursor(5);
-              setSearchStatus({ ...searchStatus, isLoading: true });
               history.push(`/${termId}/${val}`);
             } }
             query={ query }

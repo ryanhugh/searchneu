@@ -43,6 +43,11 @@
   padding-top: 84px;
 }
 
+// TODO make this a spiner, but need to fix ResultsLoader rerender issue first
+.Results_Loading {
+  height: 0;
+}
+
 .Results_EmptyContainer {
   font-size: 19px;
   padding-top: 150px;
