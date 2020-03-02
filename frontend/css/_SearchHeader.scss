@@ -1,0 +1,58 @@
+.SearchHeader {
+  width: 100%;
+  height: 88px;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: fixed;
+}
+
+.SearchHeader_Input {
+  margin-left: 104px;
+  color: rgba(0, 0, 0, 0.6);
+  transition: all 300ms ease;
+  border: 1px solid #979797;
+  border-radius: 9px;
+  z-index: 9999;
+  order: 0;
+  width: 539px;
+  height: 53px;
+}
+
+.SearchHeader_TermDropDown {
+  height: 38px;
+  min-width: 128px;
+  width: 121px;
+  box-shadow: none !important;
+  border: none !important;
+  pointer-events: initial;
+  order: 1;
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 26px;
+  align-items: center;
+  letter-spacing: 1.5px;
+  color: #636363 !important;
+  text-transform: uppercase;
+  white-space: nowrap !important;
+  display: flex !important;
+
+  & i {
+    align-content: flex-end;
+  }
+}
+
+.SearchHeader_Logo {
+  height: 30px;
+  z-index: 10;
+  cursor: pointer;
+  order: 2;
+}

@@ -8,7 +8,14 @@ import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import Home from '../Home';
+import Home from '../../pages/Home';
+
+jest.mock('react-router-dom', () => ({
+  useHistory: () => ({
+    push: jest.fn(),
+  }),
+  useParams: () => ({ termId:'202030' }),
+}));
 
 Enzyme.configure({ adapter: new Adapter() });
 

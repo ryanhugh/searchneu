@@ -1,0 +1,45 @@
+.termdropdown {
+  display: inline-block;
+  max-width: 200px;
+  color: #636363 !important;
+  background: transparent !important;
+  margin: 0 auto;
+  box-shadow: none !important;
+  border: none !important;
+  pointer-events: initial;
+
+  & * {
+    font-size: 18px;
+    font-weight: initial !important;
+    border: none !important;
+    color: #636363 !important;
+  }
+
+  &--compact {
+    flex-basis: 200px;
+    flex-shrink: 1;
+    height: 60px;
+    margin: 0;
+    padding: 0 0 0 10px !important;
+    text-align: right;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+
+    & * {
+      font-size: 15px;
+      line-height: 20px;
+
+      @media only screen and (min-width: 767px) {
+        font-size: 17px;
+      }
+    }
+
+    & > i {
+      position: static !important;
+      top: initial !important;
+      right: initial !important;
+      margin: 0 !important;
+    }
+  }
+}

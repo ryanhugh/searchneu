@@ -1,0 +1,68 @@
+.Results_Header {
+  width: 100%;
+  height: 60px;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(31, 33, 38, 0.5);
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  position: fixed;
+}
+
+.Results__spacer {
+  min-width: 10px;
+  flex-basis: 100px;
+  flex-shrink: 3;
+
+  @media only screen and (max-width: 767px) {
+    flex-basis: 10px;
+  }
+}
+
+.Results__Logo {
+  height: 25px;
+  z-index: 10;
+  cursor: pointer;
+  margin-left: 32px;
+
+  @media only screen and (max-width: 767px) {
+    display: none;
+  }
+}
+
+.Results__searchwrapper {
+  flex-basis: 538px;
+  flex-shrink: 2;
+}
+
+.Results_Container {
+  padding-top: 84px;
+}
+
+// TODO make this a spiner, but need to fix ResultsLoader rerender issue first
+.Results_Loading {
+  height: 0;
+}
+
+.Results_EmptyContainer {
+  font-size: 19px;
+  padding-top: 150px;
+  text-align: center;
+  padding-bottom: 100px;
+}
+
+.Results_EmptyBottomLine {
+  padding-top: 7px;
+}
+
+.Results_EmptyText {
+  display: inline-block !important;
+  padding: 5px !important;
+  padding-left: 9px !important;
+  padding-right: 9px !important;
+  font-size: inherit !important;
+}

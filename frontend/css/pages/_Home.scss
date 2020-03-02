@@ -3,7 +3,7 @@
  * See the license file in the root folder for details.
  */
 
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
+@import url("https://fonts.googleapis.com/css?family=Lato:300,400,700");
 
 .home-container {
   height: 100%;
@@ -51,7 +51,7 @@
 
   .title {
     color: rgb(174, 69, 67);
-    font: Roboto, 'Segoe UI', Tahoma, sans-serif;
+    font: Roboto, "Segoe UI", Tahoma, sans-serif;
     font-weight: 400;
     pointer-events: initial;
   }
@@ -68,7 +68,6 @@
     top: 40px;
     left: 40px;
     z-index: 10;
-    cursor: pointer;
   }
 
   .bostonContainer {
@@ -85,72 +84,15 @@
   }
 
   .searchWrapper {
-    margin: 10px auto !important;
-    position: relative;
-    text-align: left;
-    pointer-events: initial;
-  }
-
-  .searchWrapper label {
-    left: 17px;
-    position: absolute;
-    top: 12px;
-  }
-
-  .searchWrapper label i {
-    color: #ef6e7e;
-    display: inline-block !important;
-    font-size: inherit !important;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-
-  .searchBox {
-    -webkit-transition: all 300ms ease;
-    -moz-transition: all 300ms ease;
-    -ms-transition: all 300ms ease;
-    -o-transition: all 300ms ease;
-    color: rgba(0, 0, 0, 0.6);
-    transition: all 300ms ease;
-    border: 1px #e3e3e3 solid;
-    border-radius: 30px;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    display: block;
-    padding: 10px 45px;
-    width: 100%;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-
-  .searchBox:focus {
-    border-color: rgba(239, 110, 126, 0.5);
-    box-shadow: 0 0 10px rgba(239, 110, 126, 0.5);
-    outline: none;
+    margin: 10px;
   }
 
   /* Desktop. */
   @media only screen and (min-width: 767px) {
-    .searchWrapper {
-      max-width: 80%;
-      width: 782px;
-    }
-
     .bostonContainer {
       transition-property: opacity;
       transition-delay: 1s !important;
       transition-duration: 0.75s;
-    }
-  }
-
-  /* Mobile. */
-  @media only screen and (max-width: 767px) {
-    .searchWrapper {
-      width: 95% !important;
-      margin-right: 10px !important;
-      margin-left: 10px !important;
-      max-width: none !important;
     }
   }
 
@@ -295,59 +237,21 @@
   }
 
   .hitEnterToSearch {
-    display: none;
+    display: block;
+    padding-top: 14px;
+    color: rgba(0, 0, 0, 0.6);
+    visibility: hidden;
   }
 
-  /* Footer. */
-  .credits {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-  }
-
-  .affiliation {
-    margin: 0 !important;
-    padding-bottom: 0 !important;
-    font-size: 14px !important;
-    padding-top: 0 !important;
-    color: gray;
-  }
-
-  .contact {
-    margin: 0 !important;
-    padding: 0 !important;
-    font-size: 14px !important;
-    padding-bottom: 30px !important;
-  }
-
-  .contact > a {
-    padding-right: 1px;
-    padding-left: 1px;
-    outline: 0;
-    cursor: pointer;
-  }
-
-  /* Move the footer down in compact mode so you can't see the top of it when typing. */
-  .termDropdown {
-    display: inline-block;
-    max-width: 200px;
-    color: rgb(174, 69, 67) !important;
-    margin: 0 auto;
-    box-shadow: none !important;
-    border: none !important;
-    pointer-events: initial;
-  }
-
-  .termDropdown * {
-    font-weight: initial !important;
-    border: none !important;
-    color: rgb(174, 69, 67) !important;
+  .hitEnterToSearchVisible {
+    visibility: visible;
   }
 
   .atentionContainer {
     max-width: 95%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 62px;
+    margin-top: 30px;
     line-height: 25px;
     transition: opacity 0.6s;
     transition-delay: 1s;
@@ -444,11 +348,6 @@
 
 .home-container.mobileCompact .githubCornerContainer {
   display: none;
-}
-
-.home-container.mobileCompact .hitEnterToSearch {
-  display: block;
-  padding-top: 14px;
 }
 
 .home-container.mobileCompact .splashPage {

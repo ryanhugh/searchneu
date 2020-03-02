@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render a section 1`] = `
+<Fragment>
+  <div
+    className="Results_Header"
+  >
+    <img
+      alt="logo"
+      className="Results__Logo"
+      onClick={[Function]}
+      src="file"
+    />
+    <div
+      className="Results__spacer"
+    />
+    <div
+      className="Results__searchwrapper"
+    >
+      <SearchBar
+        onSearch={[Function]}
+        query="cs"
+      />
+    </div>
+    <Dropdown
+      additionLabel="Add "
+      additionPosition="top"
+      className="termdropdown termdropdown--compact"
+      closeOnBlur={true}
+      closeOnEscape={true}
+      compact={true}
+      deburr={false}
+      defaultValue="202030"
+      icon="dropdown"
+      minCharacters={1}
+      noResultsMessage="No results found."
+      onChange={[Function]}
+      openOnFocus={true}
+      options={
+        Array [
+          Object {
+            "text": "Summer I 2020",
+            "value": "202040",
+          },
+          Object {
+            "text": "Summer II 2020",
+            "value": "202060",
+          },
+          Object {
+            "text": "Summer Full 2020",
+            "value": "202050",
+          },
+          Object {
+            "text": "Spring 2020",
+            "value": "202030",
+          },
+          Object {
+            "text": "Fall 2019",
+            "value": "202010",
+          },
+        ]
+      }
+      placeholder="Spring 2020"
+      renderLabel={[Function]}
+      searchInput="text"
+      selectOnBlur={true}
+      selectOnNavigation={true}
+      selection={true}
+      wrapSelection={true}
+    />
+  </div>
+  <div
+    className="Results_Container"
+  >
+    <div>
+      <div
+        className="Results_Loading"
+      />
+    </div>
+    <div
+      className="botttomPadding"
+    />
+    <Footer />
+  </div>
+</Fragment>
+`;

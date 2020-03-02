@@ -10,7 +10,7 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 
 import macros from './components/macros';
-import Home from './components/Home';
+import App from './components/App';
 
 if (window.location.hash === '#notrack') {
   macros.log('Turning on no track.');
@@ -123,7 +123,7 @@ if (window.location.protocol === 'https:' || window.location.hostname === 'local
 
 function createApp() {
   return (
-    <Home />
+    <App />
   );
 }
 

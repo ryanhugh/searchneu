@@ -7,7 +7,8 @@ module.exports = {
   "plugins": [
     "babel",
     "react",
-    "promise"
+    "promise",
+    "react-hooks"
   ],
   "env": {
     "browser": true,
@@ -15,7 +16,7 @@ module.exports = {
   },
   "rules": {
     "arrow-parens": [1, "always"],
-    "arrow-body-style": [1, "always"],
+    "arrow-body-style": 0,
     "key-spacing": 0,
     "no-mixed-operators": 0,
     "no-param-reassign": 0,
@@ -92,6 +93,9 @@ module.exports = {
       "spacing": {
         "objectLiterals": "never"
       }
-    }]
+    }],
+
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

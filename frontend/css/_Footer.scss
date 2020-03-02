@@ -1,0 +1,29 @@
+/* Footer. */
+.footer {
+  .credits {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .affiliation {
+    margin: 0 !important;
+    padding-bottom: 0 !important;
+    font-size: 14px !important;
+    padding-top: 0 !important;
+    color: gray;
+  }
+
+  .contact {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+    padding-bottom: 30px !important;
+  }
+
+  .contact > a {
+    padding-right: 1px;
+    padding-left: 1px;
+    outline: 0;
+    cursor: pointer;
+  }
+}
