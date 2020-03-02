@@ -137,7 +137,7 @@
     "pg-hstore": "^2.3.3",
     "prop-types": "^15.5.8",
     "randomstring": "^1.1.5",
-    "react": "^16.1.1",
+    "react": "^16.13.0",
     "react-collapsible": "^2.6.0",
     "react-dom": "^16.1.1",
     "react-hot-loader": "^4.0.0",
