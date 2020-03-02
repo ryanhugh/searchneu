@@ -42,9 +42,8 @@ export default function Home() {
     containerClassnames += ' mobileCompact';
   }
 
-  const wantToHelpOpacity = 1;
   let attentionSection = null;
-  const actionCenterStyle = { opacity: wantToHelpOpacity, visibility: (wantToHelpOpacity === 0) ? 'hidden' : '' };
+  const actionCenterStyle = { opacity: 1 };
 
   if (attentionSectionMode === ATTENTION_SECTION.getInvolved) {
     attentionSection = (
