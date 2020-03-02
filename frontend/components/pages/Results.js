@@ -4,38 +4,14 @@
  */
 import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { Dropdown } from 'semantic-ui-react';
 import logo from '../images/logo.svg';
 import search from '../search';
 import macros from '../macros';
 import ResultsLoader from '../ResultsLoader';
 import SearchBar from '../ResultsPage/SearchBar';
+import TermDropdown from '../ResultsPage/TermDropdown';
 import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
-
-
-const termDropDownOptions = [
-  {
-    text: 'Summer I 2020',
-    value: '202040',
-  },
-  {
-    text: 'Summer II 2020',
-    value: '202060',
-  },
-  {
-    text: 'Summer Full 2020',
-    value: '202050',
-  },
-  {
-    text: 'Spring 2020',
-    value: '202030',
-  },
-  {
-    text: 'Fall 2019',
-    value: '202010',
-  },
-];
 
 let count = 0;
 // Log search queries to amplitude on enter.
@@ -123,13 +99,9 @@ export default function Results() {
             query={ query }
           />
         </div>
-        <Dropdown
-          selection
+        <TermDropdown
           compact
-          defaultValue={ termId }
-          placeholder='Spring 2020'
-          className='termdropdown termdropdown--compact'
-          options={ termDropDownOptions }
+          termId={ termId }
           onChange={ (e, data) => { history.push(`/${data.value}/${query}`); } }
         />
       </div>

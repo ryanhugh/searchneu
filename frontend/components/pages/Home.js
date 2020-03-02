@@ -5,13 +5,13 @@
 import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import cx from 'classnames';
-import { Dropdown } from 'semantic-ui-react';
 import SearchBar from '../ResultsPage/SearchBar';
 import logo from '../images/logo.svg';
 import boston from '../images/boston.svg';
 import macros from '../macros';
 import SplashPage from '../SplashPage/SplashPage';
 import Footer from '../Footer';
+import TermDropdown, { termDropDownOptions } from '../ResultsPage/TermDropdown';
 
 
 const ATTENTION_SECTION = {
@@ -23,29 +23,6 @@ const attentionSectionMode = ATTENTION_SECTION.getInvolved;
 
 // The lastest term
 const LATEST_TERM = '202040';
-
-const termDropDownOptions = [
-  {
-    text: 'Summer I 2020',
-    value: '202040',
-  },
-  {
-    text: 'Summer II 2020',
-    value: '202060',
-  },
-  {
-    text: 'Summer Full 2020',
-    value: '202050',
-  },
-  {
-    text: 'Spring 2020',
-    value: '202030',
-  },
-  {
-    text: 'Fall 2019',
-    value: '202010',
-  },
-];
 
 const AVAILABLE_TERMS = termDropDownOptions.map((t) => { return t.value; });
 
@@ -130,13 +107,8 @@ export default function Home() {
                 query=''
               />
             </div>
-            <Dropdown
-              fluid
-              selection
-              value={ termId }
-              placeholder='Spring 2018'
-              className='termdropdown'
-              options={ termDropDownOptions }
+            <TermDropdown
+              termId={ termId }
               onChange={ (e, data) => { history.push(`/${data.value}`); } }
             />
 
