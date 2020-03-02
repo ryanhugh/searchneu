@@ -70,8 +70,7 @@ exports[`should render a section 1`] = `
             query=""
           />
         </div>
-        <TermDropdown
-          compact={false}
+        <Memo(TermDropdown)
           onChange={[Function]}
           termId="202030"
         />
@@ -106,7 +105,7 @@ exports[`should render a section 1`] = `
       </div>
     </div>
     <SplashPage />
-    <Footer />
+    <Memo(Footer) />
   </div>
 </div>
 `;

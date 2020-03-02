@@ -22,7 +22,7 @@ exports[`should render a section 1`] = `
         query="cs"
       />
     </div>
-    <TermDropdown
+    <Memo(TermDropdown)
       compact={true}
       onChange={[Function]}
       termId="202030"
@@ -33,13 +33,25 @@ exports[`should render a section 1`] = `
   >
     <div>
       <div
-        className="Results_Loading"
-      />
+        style={
+          Object {
+            "visibility": "hidden",
+          }
+        }
+      >
+        <div
+          className="subjectContaineRowContainer"
+        />
+        <ResultsLoader
+          loadMore={[Function]}
+          results={Array []}
+        />
+      </div>
     </div>
     <div
       className="botttomPadding"
     />
-    <Footer />
+    <Memo(Footer) />
   </div>
 </Fragment>
 `;
