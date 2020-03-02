@@ -2,7 +2,7 @@
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
  */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import logo from '../images/logo.svg';
 import search from '../search';
@@ -35,9 +35,30 @@ const fetchResults = async ({ query, termId }, page) => {
 };
 
 export default function Results() {
+  const [atTop, setAtTop] = useState(true);
   const params = useParams();
   const history = useHistory();
   const { termId, query } = params;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const pageY = document.body.scrollTop || document.documentElement.scrollTop;
+      // TODO clean up this mess
+      setAtTop((preAtTop) => {
+        if (pageY > 0 && preAtTop) {
+          return false;
+        } if (pageY === 0) {
+          return true;
+        }
+        return preAtTop;
+      });
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [setAtTop]);
 
   const {
     results, isReady, loadMore, doSearch,
@@ -86,7 +107,7 @@ export default function Results() {
 
   return (
     <>
-      <div className='Results_Header'>
+      <div className={ `Results_Header ${atTop ? 'Results_Header-top' : ''}` }>
         <img src={ logo } className='Results__Logo' alt='logo' onClick={ () => { history.push('/'); } } />
         <div className='Results__spacer' />
         <div className='Results__searchwrapper'>

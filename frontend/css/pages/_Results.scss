@@ -5,12 +5,17 @@
   top: 0;
   z-index: 9999;
   background: #fff;
-  box-shadow: 0 0 10px rgba(31, 33, 38, 0.5);
   flex-direction: row;
   display: flex;
   align-items: center;
   justify-content: left;
   position: fixed;
+  box-shadow: 0 0 10px rgba(31, 33, 38, 0.5);
+
+  &-top {
+    box-shadow: none;
+    border-bottom: 1px solid #DDD;
+  }
 }
 
 .Results__spacer {
