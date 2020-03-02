@@ -52,7 +52,6 @@ export default function SearchBar({
         value={ controlledQuery }
         placeholder={ !macros.isMobile && 'Class, professor, course number' }
       />
-      {!macros.isMobile && (
       <div onClick={ search } className='searchbar__button' role='button' tabIndex={ 0 }>
         <img
           src={ logoInput }
@@ -60,7 +59,6 @@ export default function SearchBar({
           alt='logo'
         />
       </div>
-      )}
     </div>
   );
 }
