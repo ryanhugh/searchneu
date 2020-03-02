@@ -62,12 +62,7 @@ function getClassFilterQuery(termId, filters) {
   const classFilters = [hasSections, filterByTermId];
   for (const [filterKey, filterValues] of Object.entries(filters)) {
     if (filterKey in filterToEsQuery) {
-      macros.log(`Filter: {${filterKey}: ${filterValues}}`);
-      macros.log(`Type: ${typeof filterToEsQuery[filterKey]}`);
-      macros.log(`Type: ${typeof filterToEsQuery.filterKey}`);
       classFilters.push(filterToEsQuery[filterKey](filterValues));
-    } else {
-      macros.log(`Invalid filter: {${filterKey}: ${filterValues}}`);
     }
   }
 
