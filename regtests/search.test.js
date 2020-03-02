@@ -80,7 +80,7 @@ describe('elastic', () => {
     expect(Keys.getClassHash(firstResult)).toBe('neu.edu/202010/CS/2500');
   });
 
-  it('convertes filters to es class filters', () => {
+  it('converts filters to es class filters', () => {
     const termId = '202010';
     const filters = {
       NUpath: ['NU Core/NUpath Adv Writ Dscpl', 'NUpath Interpreting Culture'],
