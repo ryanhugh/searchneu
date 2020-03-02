@@ -250,6 +250,7 @@ app.get('/search', wrap(async (req, res) => {
     }
     filters = JSON.parse(req.query.filters);
 
+    // Ensure filter key and value type are valid
     const validFilters = {
       NUpath: 'object',
       college: 'object',
@@ -258,7 +259,6 @@ app.get('/search', wrap(async (req, res) => {
       classType: 'string',
     }
     for (const [filterKey, filterValues] of Object.entries(filters)) {
-      // Ensure filters keys are valid
       if (!filterKey in validFilters) {
         macros.log(getTime(), 'Invalid filter key.', filterKey);
         res.send(JSON.stringify({
@@ -266,9 +266,8 @@ app.get('/search', wrap(async (req, res) => {
         }));
         return;
       }
-      // Ensure filter values are of the correct type
-      if (typeof filtersValues !== validFilters[filterKey]) {
-        macros.log(getTime(), `Invalid type of filter value ${typeof filtersValues} for ${filterKey}.`);
+      if (typeof filterValues !== validFilters[filterKey]) {
+        macros.log(getTime(), `Invalid type of filter value ${typeof filterValues} for ${filterKey}.`);
         res.send(JSON.stringify({
           error: 'Invalid type of filter value.',
         }));

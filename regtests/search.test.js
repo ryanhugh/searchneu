@@ -81,7 +81,7 @@ describe('elastic', () => {
   });
 
   it('convertes filters to es class filters', () => {
-    const termId = '202010'
+    const termId = '202010';
     const filters = {
       NUpath: ['NU Core/NUpath Adv Writ Dscpl', 'NUpath Interpreting Culture'],
       college: ['UG Col Socl Sci & Humanities', 'GS Col of Arts', 'Computer&Info Sci'],
