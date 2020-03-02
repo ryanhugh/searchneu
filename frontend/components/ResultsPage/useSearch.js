@@ -54,6 +54,7 @@ export default function useSearch(initialParams, fetchResults) {
 
   const doSearch = useCallback((p) => {
     setStatus(Status.FETCHING_NEW);
+    setPage(0);
     setParams(p);
   }, []);
 
