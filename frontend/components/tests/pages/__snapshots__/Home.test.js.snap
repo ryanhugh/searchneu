@@ -73,7 +73,7 @@ exports[`should render a section 1`] = `
         <Dropdown
           additionLabel="Add "
           additionPosition="top"
-          className="termDropdown"
+          className="termdropdown"
           closeOnBlur={true}
           closeOnEscape={true}
           deburr={false}
@@ -86,28 +86,24 @@ exports[`should render a section 1`] = `
           options={
             Array [
               Object {
+                "text": "Summer I 2020",
+                "value": "202040",
+              },
+              Object {
+                "text": "Summer II 2020",
+                "value": "202060",
+              },
+              Object {
+                "text": "Summer Full 2020",
+                "value": "202050",
+              },
+              Object {
                 "text": "Spring 2020",
                 "value": "202030",
               },
               Object {
                 "text": "Fall 2019",
                 "value": "202010",
-              },
-              Object {
-                "text": "Summer I 2019",
-                "value": "201940",
-              },
-              Object {
-                "text": "Summer II 2019",
-                "value": "201960",
-              },
-              Object {
-                "text": "Summer Full 2019",
-                "value": "201950",
-              },
-              Object {
-                "text": "Spring 2019",
-                "value": "201930",
               },
             ]
           }
@@ -120,6 +116,11 @@ exports[`should render a section 1`] = `
           value="202030"
           wrapSelection={true}
         />
+        <div
+          className="hitEnterToSearch"
+        >
+          Hit Enter to Search ...
+        </div>
         <div
           className="atentionContainer"
           style={
@@ -140,14 +141,9 @@ exports[`should render a section 1`] = `
               rel="noopener noreferrer"
               target="_blank"
             >
-              Take our survey
+              Take our survey &gt;
             </a>
           </p>
-        </div>
-        <div
-          className="hitEnterToSearch"
-        >
-          Hit Enter to Search ...
         </div>
       </div>
     </div>

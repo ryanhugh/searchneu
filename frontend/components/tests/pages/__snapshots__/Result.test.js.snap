@@ -11,11 +11,8 @@ exports[`should render a section 1`] = `
       onClick={[Function]}
       src="file"
     />
-    <img
-      alt="logo"
-      className="Results__Logo Results__Logo--sm"
-      onClick={[Function]}
-      src="file"
+    <div
+      className="Results__spacer"
     />
     <div
       className="Results__searchwrapper"
@@ -28,7 +25,7 @@ exports[`should render a section 1`] = `
     <Dropdown
       additionLabel="Add "
       additionPosition="top"
-      className="Results_TermDropDown"
+      className="termdropdown termdropdown--compact"
       closeOnBlur={true}
       closeOnEscape={true}
       compact={true}
@@ -42,6 +39,18 @@ exports[`should render a section 1`] = `
       options={
         Array [
           Object {
+            "text": "Summer I 2020",
+            "value": "202040",
+          },
+          Object {
+            "text": "Summer II 2020",
+            "value": "202060",
+          },
+          Object {
+            "text": "Summer Full 2020",
+            "value": "202050",
+          },
+          Object {
             "text": "Spring 2020",
             "value": "202030",
           },
@@ -49,25 +58,9 @@ exports[`should render a section 1`] = `
             "text": "Fall 2019",
             "value": "202010",
           },
-          Object {
-            "text": "Summer I 2019",
-            "value": "201940",
-          },
-          Object {
-            "text": "Summer II 2019",
-            "value": "201960",
-          },
-          Object {
-            "text": "Summer Full 2019",
-            "value": "201950",
-          },
-          Object {
-            "text": "Spring 2019",
-            "value": "201930",
-          },
         ]
       }
-      placeholder="Spring 2018"
+      placeholder="Spring 2020"
       renderLabel={[Function]}
       searchInput="text"
       selectOnBlur={true}
@@ -81,20 +74,8 @@ exports[`should render a section 1`] = `
   >
     <div>
       <div
-        style={
-          Object {
-            "display": "none",
-          }
-        }
-      >
-        <div
-          className="subjectContaineRowContainer"
-        />
-        <ResultsLoader
-          loadMore={[Function]}
-          results={Array []}
-        />
-      </div>
+        className="Results_Loading"
+      />
     </div>
     <div
       className="botttomPadding"
