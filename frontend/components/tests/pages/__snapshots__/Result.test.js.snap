@@ -3,7 +3,7 @@
 exports[`should render a section 1`] = `
 <Fragment>
   <div
-    className="Results_Header"
+    className="Results_Header Results_Header-top"
   >
     <img
       alt="logo"
