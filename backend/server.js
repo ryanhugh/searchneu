@@ -239,7 +239,42 @@ app.get('/search', wrap(async (req, res) => {
 
   let filters = {};
   if (req.query.filters) {
+
+    // Ensure filters is a string
+    if (typeof req.query.filters !== 'string') {
+      macros.log(getTime(), 'Invalid filters.', req.filters);
+      res.send(JSON.stringify({
+        error: 'Invalid filters.',
+      }));
+      return;
+    }
     filters = JSON.parse(req.query.filters);
+
+    const validFilters = {
+      NUpath: 'object',
+      college: 'object',
+      subject: 'object',
+      online: 'string',
+      classType: 'string',
+    }
+    for (const [filterKey, filterValues] of Object.entries(filters)) {
+      // Ensure filters keys are valid
+      if (!filterKey in validFilters) {
+        macros.log(getTime(), 'Invalid filter key.', filterKey);
+        res.send(JSON.stringify({
+          error: 'Invalid filter key.',
+        }));
+        return;
+      }
+      // Ensure filter values are of the correct type
+      if (typeof filtersValues !== validFilters[filterKey]) {
+        macros.log(getTime(), `Invalid type of filter value ${typeof filtersValues} for ${filterKey}.`);
+        res.send(JSON.stringify({
+          error: 'Invalid type of filter value.',
+        }));
+        return;
+      }
+    }
   }
 
   const { searchContent, took, resultCount } = await elastic.search(req.query.query, req.query.termId, req.query.minIndex, req.query.maxIndex, filters);
