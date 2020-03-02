@@ -22,7 +22,6 @@
     margin: 0;
     padding: 0 0 0 10px !important;
     text-align: right;
-
     display: flex !important;
     justify-content: center;
     align-items: center;
@@ -30,6 +29,7 @@
     & * {
       font-size: 15px;
       line-height: 20px;
+
       @media only screen and (min-width: 767px) {
         font-size: 17px;
       }
