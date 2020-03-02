@@ -48,12 +48,10 @@ export default function Results() {
   }, [params, doSearch]);
 
   const resultsElement = () => {
-    if (!isReady) {
-      return <div className='Results_Loading' />;
-    }
-    if (results.length) {
+    // return <div className='Results_Loading' />;
+    if (!isReady || results.length) {
       return (
-        <div>
+        <div style={{ visibility: (isReady ? 'visible' : 'hidden') }}>
           <div className='subjectContaineRowContainer'>
             {/* {subjectInfoRow} */}
           </div>
