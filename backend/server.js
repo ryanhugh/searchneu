@@ -256,21 +256,18 @@ app.get('/search', wrap(async (req, res) => {
       college: 'object',
       subject: 'object',
       online: 'string',
-      classType: 'string'
-    }
+      classType: 'string',
+    };
     for (const [filterKey, filterValues] of Object.entries(filters)) {
-
-      // Ensure filters keys are valid
-      if (!filterKey in validFilters) {
+      if (!(filterKey in validFilters)) {
         macros.log(getTime(), 'Invalid filter key.', filterKey);
         res.send(JSON.stringify({
           error: 'Invalid filter key.',
         }));
         return;
       }
-      // Ensure filter values are of the correct type
-      if (typeof filtersValues !== validFilters[filterKey]) {
-        macros.log(getTime(), `Invalid type of filter value ${typeof filtersValues} for ${filterKey}.`);
+      if (typeof filterValues !== validFilters[filterKey]) { // eslint-disable-line valid-typeof
+        macros.log(getTime(), `Invalid type of filter value ${typeof filterValues} for ${filterKey}.`);
         res.send(JSON.stringify({
           error: 'Invalid type of filter value.',
         }));

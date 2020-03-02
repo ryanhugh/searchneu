@@ -231,17 +231,17 @@ class Elastic {
     const filterByTermId = { term: { 'class.termId': termId } };
 
     const getNUpathFilter = (selectedNUpaths) => {
-      const NUpathFilters = selectedNUpaths.map(eachNUpath => ({ match_phrase: { 'class.classAttributes': eachNUpath } }));
+      const NUpathFilters = selectedNUpaths.map((eachNUpath) => ({ match_phrase: { 'class.classAttributes': eachNUpath } }));
       return { bool: { should: NUpathFilters } };
     };
 
     const getCollegeFilter = (selectedColleges) => {
-      const collegeFilters = selectedColleges.map(eachCollege => ({ match_phrase: { 'class.classAttributes': eachCollege } }));
+      const collegeFilters = selectedColleges.map((eachCollege) => ({ match_phrase: { 'class.classAttributes': eachCollege } }));
       return { bool: { should: collegeFilters } };
     };
 
     const getSubjectFilter = (selectedSubject) => {
-      const subjectFilters = selectedSubject.map(eachSubject => ({ match: { 'class.subject': eachSubject } }));
+      const subjectFilters = selectedSubject.map((eachSubject) => ({ match: { 'class.subject': eachSubject } }));
       return { bool: { should: subjectFilters } };
     };
 
