@@ -50,4 +50,4 @@ TermDropdown.defaultProps = {
   compact: false,
 };
 
-export default memo(TermDropdown, (prev, next) => prev.termId === next.termId);
+export default memo(TermDropdown);
