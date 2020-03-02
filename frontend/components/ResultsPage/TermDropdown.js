@@ -1,5 +1,5 @@
 import { Dropdown } from 'semantic-ui-react';
-import React from 'react';
+import React, { memo } from 'react';
 import { PropTypes } from 'prop-types';
 
 export const termDropDownOptions = [
@@ -25,7 +25,7 @@ export const termDropDownOptions = [
   },
 ];
 
-export default function TermDropdown({ termId, onChange, compact = false }) {
+function TermDropdown({ termId, onChange, compact = false }) {
   return (
     <Dropdown
       selection
@@ -49,3 +49,5 @@ TermDropdown.propTypes = {
 TermDropdown.defaultProps = {
   compact: false,
 };
+
+export default memo(TermDropdown, (prev, next) => prev.termId === next.termId);
