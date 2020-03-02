@@ -70,51 +70,10 @@ exports[`should render a section 1`] = `
             query=""
           />
         </div>
-        <Dropdown
-          additionLabel="Add "
-          additionPosition="top"
-          className="termdropdown"
-          closeOnBlur={true}
-          closeOnEscape={true}
-          deburr={false}
-          fluid={true}
-          icon="dropdown"
-          minCharacters={1}
-          noResultsMessage="No results found."
+        <TermDropdown
+          compact={false}
           onChange={[Function]}
-          openOnFocus={true}
-          options={
-            Array [
-              Object {
-                "text": "Summer I 2020",
-                "value": "202040",
-              },
-              Object {
-                "text": "Summer II 2020",
-                "value": "202060",
-              },
-              Object {
-                "text": "Summer Full 2020",
-                "value": "202050",
-              },
-              Object {
-                "text": "Spring 2020",
-                "value": "202030",
-              },
-              Object {
-                "text": "Fall 2019",
-                "value": "202010",
-              },
-            ]
-          }
-          placeholder="Spring 2018"
-          renderLabel={[Function]}
-          searchInput="text"
-          selectOnBlur={true}
-          selectOnNavigation={true}
-          selection={true}
-          value="202030"
-          wrapSelection={true}
+          termId="202030"
         />
         <div
           className="hitEnterToSearch"
@@ -126,7 +85,6 @@ exports[`should render a section 1`] = `
           style={
             Object {
               "opacity": 1,
-              "visibility": "",
             }
           }
         >
