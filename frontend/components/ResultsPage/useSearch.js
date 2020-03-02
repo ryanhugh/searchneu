@@ -23,10 +23,17 @@ const Status = {
  *  doSearch triggers search execution. Expects a object containing search params
  */
 export default function useSearch(initialParams, fetchResults) {
-  const [params, setParams] = useState(initialParams);
-  const [page, setPage] = useState(0);
-  const [results, setResults] = useState([]);
-  const [status, setStatus] = useState(Status.FETCHING_NEW);
+  // Batch all into one state to avoid multiple rerender
+  const [state, setState] = useState({
+    params: initialParams, page: 0, results: [], status: Status.FETCHING_NEW,
+  });
+  // Equivalent of setState in class components.
+  function updateState(changes) {
+    setState((prev) => ({ ...prev, ...changes }));
+  }
+  const {
+    params, page, results, status,
+  } = state;
 
   useEffect(() => {
     let ignore = false;
@@ -36,26 +43,27 @@ export default function useSearch(initialParams, fetchResults) {
       if (ignore) {
         macros.log('Did not come back in order, discarding');
       } else {
-        setResults(data);
-        setStatus(Status.SUCCESS);
+        updateState({ results: data, status: Status.SUCCESS });
       }
     };
     searchWrap();
     return () => { ignore = true; };
   }, [params, page, fetchResults]);
 
-  function loadMore() {
+  const loadMore = useCallback(() => {
     // Only load more if nothing else is mid-flight
-    if (status === Status.SUCCESS) {
-      setStatus(Status.FETCHING_MORE);
-      setPage(page + 1);
-    }
-  }
+    setState((prev) => {
+      if (prev.status === Status.SUCCESS) {
+        return { ...prev, status: Status.FETCHING_MORE, page: prev.page + 1 };
+      }
+      return prev;
+    });
+  }, []);
 
   const doSearch = useCallback((p) => {
-    setStatus(Status.FETCHING_NEW);
-    setPage(0);
-    setParams(p);
+    updateState({
+      params: p, page: 0, status: Status.FETCHING_NEW,
+    });
   }, []);
 
   return {

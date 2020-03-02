@@ -2,10 +2,10 @@
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
  */
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import FeedbackModal from './FeedbackModal';
 
-export default function Footer() {
+function Footer() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const toggleModal = () => {
@@ -62,3 +62,4 @@ export default function Footer() {
     </>
   );
 }
+export default memo(Footer);
