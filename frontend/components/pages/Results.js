@@ -26,7 +26,7 @@ function logSearch(searchQuery) {
 
 // Retreive result data from backend.
 const fetchResults = async ({ query, termId }, page) => {
-  const obj = await search.search(query, termId, 5 + page * 10);
+  const obj = await search.search(query, termId, (1 + page) * 10);
   const results = obj.results;
   if (page === 0) {
     logSearch(query);
