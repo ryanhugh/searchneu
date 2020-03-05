@@ -14,9 +14,6 @@
               }
             }
           },
-          "crns": {
-            "type": "keyword"
-          },
           "classId": {
             "type": "text",
             "analyzer": "course_code",
@@ -36,22 +33,6 @@
                 "ignore_above": 4
               }
             }
-          },
-          "prereqs": {
-            "type": "object",
-            "enabled": false
-          },
-          "coreqs": {
-            "type": "object",
-            "enabled": false
-          },
-          "optPrereqsFor": {
-            "type": "object",
-            "enabled": false
-          },
-          "prereqsFor": {
-            "type": "object",
-            "enabled": false
           }
         }
       },

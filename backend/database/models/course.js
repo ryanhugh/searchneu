@@ -1,6 +1,5 @@
-import _ from 'lodash';
-import { Op } from 'sequelize';
 import elastic from '../../elastic';
+import ElasticSerializer from '../serializers/elasticSerializer';
 
 module.exports = (sequelize, DataTypes) => {
   const Course = sequelize.define('Course', {
@@ -42,57 +41,8 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Course.prototype.toEsJSON = function toEsJSON() {
-    return _.pick(this.toJSON(), [
-      'name', 'classId', 'termId', 'subject', 'crns',
-    ]);
-  };
-
-  Course.prototype.toJSON = function toJSON() {
-    const obj = this.dataValues;
-
-    obj.lastUpdateTime = obj.lastUpdateTime.getTime();
-    return _(obj).omit(['id', 'createdAt', 'updatedAt']).omitBy(_.isNil).value();
-  };
-
-  Course.bulkEsJSON = async (instances) => {
-    return Course.bulkJSON(instances, [], ['lastUpdateTime', 'termId', 'host', 'subject', 'classId']);
-  };
-
-  Course.bulkJSON = async (instances, sectionCols, courseProps) => {
-    const Section = sequelize.models.Section;
-
-    const courseIds = instances.map((instance) => { return instance.id; });
-    const sections = await Section.findAll({ where: { classHash: { [Op.in]: courseIds } } });
-
-    const classToSections = _.groupBy(sections, 'classHash');
-
-    return _(instances).keyBy('id').mapValues((instance) => {
-      const coursePropVals = _.pick(instance, courseProps);
-      let crns = [];
-      let sectionObjs = [];
-
-      const courseSections = classToSections[instance.id];
-      if (courseSections) {
-        crns = courseSections.map((section) => { return section.crn; });
-        sectionObjs = courseSections.map((section) => { return { ..._.omit(section.toJSON(), sectionCols), ...coursePropVals }; });
-      }
-
-      const courseObj = instance.toJSON();
-      courseObj.crns = crns;
-      courseObj.sections = sectionObjs;
-
-      return {
-        class: courseObj,
-        sections: sectionObjs,
-        type: 'class',
-      };
-    })
-      .value();
-  };
-
   Course.bulkUpsertES = async (instances) => {
-    const bulkCourses = await Course.bulkJSON(instances);
+    const bulkCourses = await (new ElasticSerializer(sequelize.models.Section)).bulkSerialize(instances);
     await elastic.bulkIndexFromMap(elastic.CLASS_INDEX, bulkCourses);
   };
 

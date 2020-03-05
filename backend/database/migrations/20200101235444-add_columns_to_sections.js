@@ -5,6 +5,6 @@ module.exports = {
   },
 
   down: (queryInterface) => {
-    return queryInterface.destroyColumn('Sections', 'info');
+    return queryInterface.removeColumn('Sections', 'info');
   },
 };

@@ -1,25 +1,32 @@
 import _ from 'lodash';
-import { Op, Section } from '../models/index';
+import { Op } from 'sequelize';
+import macros from '../../macros';
 
 class CourseSerializer {
+  // this is a hack to get around the circular dependency created by [elasticSerializer -> courseSerializer -> database/index -> database/course -> elasticSerializer]
+  constructor(sectionModel) {
+    this.sectionModel = sectionModel;
+    this.i = true;
+  }
+
   async bulkSerialize(instances) {
-    const courses = instances.map(this.serializeCourse);
-    const sections = await Section.findAll({
+    const courses = instances.map((course) => { return this.serializeCourse(course); });
+
+    const sections = await this.sectionModel.findAll({
       where: {
-        classHash: { [Op.in]: courses.map('id') },
+        classHash: { [Op.in]: instances.map(instance => instance.id) },
       },
     });
 
     const classToSections = _.groupBy(sections, 'classHash');
 
-    return _(instances).keyBy('classHash').mapValues((instance) => {
-      return this.bulkSerializeCourse(instance, classToSections[instance.id]);
+    return _(courses).keyBy(this.getClassHash).mapValues((course) => {
+      return this.bulkSerializeCourse(course, classToSections[this.getClassHash(course)] || []);
     }).value();
   }
 
   bulkSerializeCourse(course, sections) {
-    const serializedSections = this.serializeSections(sections);
-    course.crns = serializedSections.map('crn');
+    const serializedSections = this.serializeSections(sections, course);
     course.sections = serializedSections;
 
     return {
@@ -30,7 +37,7 @@ class CourseSerializer {
   }
 
   serializeSections(sections, parentCourse) {
-    sections.map(this.serializeSection).map((section) => {
+    return sections.map((section) => { return this.serializeSection(section); }).map((section) => {
       return { ...section, ..._.pick(parentCourse, this.courseProps()) };
     });
   }
@@ -45,6 +52,10 @@ class CourseSerializer {
   serializeSection(section) {
     const obj = section.dataValues;
     return _(obj).pick(this.sectionCols()).omitBy(_.isNil).value();
+  }
+
+  getClassHash(course) {
+    return ['neu.edu', course.termId, course.subject, course.classId].join('/');
   }
 
   courseCols() {

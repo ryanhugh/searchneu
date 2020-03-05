@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     const bulkProfessors = _(instances).keyBy('id').mapValues((instance) => {
       return { employee: instance.toJSON(), type: 'employee' };
     }).value();
-    await elastic.bulkIndexFromMap(elastic.EMPLOYEE_INDEX, bulkProfessors);
+    return elastic.bulkIndexFromMap(elastic.EMPLOYEE_INDEX, bulkProfessors);
   };
 
   Professor.addHook('afterBulkCreate', async (instances) => { return Professor.bulkUpsertES(instances); });

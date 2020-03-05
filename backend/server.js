@@ -16,6 +16,7 @@ import moment from 'moment';
 import xhub from 'express-x-hub';
 import atob from 'atob';
 import _ from 'lodash';
+import searcher from './searcher';
 import elastic from './elastic';
 
 import Request from './scrapers/request';
@@ -257,8 +258,10 @@ app.get('/search', wrap(async (req, res) => {
     }
   }
 
-  const { searchContent, took, resultCount } = await elastic.search(req.query.query, req.query.termId, req.query.minIndex, req.query.maxIndex, filters);
+  const { searchContent, took, resultCount } = await searcher.search(req.query.query, req.query.termId, req.query.minIndex, req.query.maxIndex, filters);
   const midTime = Date.now();
+
+  macros.log(searchContent);
 
   let string;
   if (req.query.apiVersion === '2') {

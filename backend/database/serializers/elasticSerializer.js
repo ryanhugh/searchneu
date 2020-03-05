@@ -6,7 +6,7 @@ class ElasticSerializer extends CourseSerializer {
   }
 
   courseCols() {
-    return ['name', 'subject', 'classId', 'crns'];
+    return ['name', 'subject', 'classId', 'termId'];
   }
 
   sectionCols() {
@@ -14,5 +14,4 @@ class ElasticSerializer extends CourseSerializer {
   }
 }
 
-const instance = new ElasticSerializer();
-export default instance;
+export default ElasticSerializer;

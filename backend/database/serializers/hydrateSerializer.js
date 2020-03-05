@@ -16,5 +16,4 @@ class HydrateSerializer extends CourseSerializer {
   }
 }
 
-const instance = new HydrateSerializer();
-export default instance;
+export default HydrateSerializer;
