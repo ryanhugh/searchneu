@@ -245,16 +245,15 @@ app.get('/search', wrap(async (req, res) => {
       res.send(JSON.stringify({
         error: 'Invalid filters.',
       }));
-      return;
-    }
-    try {
-      filters = JSON.parse(req.query.filters);
-    } catch (e) {
-      macros.log('Invalid filters JSON.', req.filters);
-      res.send(JSON.stringify({
-        error: 'Invalid filters.',
-      }));
-      return;
+    } else {
+      try {
+        filters = JSON.parse(req.query.filters);
+      } catch (e) {
+        macros.log('Invalid filters JSON.', req.filters);
+        res.send(JSON.stringify({
+          error: 'Invalid filters.',
+        }));
+      }
     }
   }
 

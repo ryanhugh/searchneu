@@ -354,7 +354,7 @@ class Elastic {
 
     // get compound class filters
     const validFilters = this.validateFilters(filters);
-    const satisfyClassFilters = this.getClassFilterQuery(termId, validFilters);
+    const classFilters = this.getClassFilterQuery(termId, validFilters);
 
     // text query from the main search box
     const matchTextQuery = {
@@ -385,7 +385,7 @@ class Elastic {
             filter: {
               bool: {
                 should: [
-                  satisfyClassFilters,
+                  classFilters,
                   isEmployee,
                 ],
               },
