@@ -219,16 +219,62 @@ class Elastic {
   }
 
   /**
+   * Remove any invalid filter with the following criteria:
+   * 1. Correct key string and value type;
+   * 2. Check that { online: false } should not never be in filters
+   *
+   * A sample filters JSON object has the following format:
+   * { 'NUpath': string[],
+   *   'college': string[],
+   *   'subject': string[],
+   *   'online': boolean,
+   *   'classType': string }
+   *
+   * @param {object} filters The json object represting all filters on classes
+   */
+  validateFilters(filters) {
+    const isString = (givenVar) => {
+      return typeof givenVar === 'string' || givenVar instanceof String;
+    };
+
+    const isStringArray = (givenVar) => {
+      return Array.isArray(givenVar) && givenVar.every((eachVar) => isString(eachVar));
+    };
+
+    const isTrue = (givenVar) => {
+      return typeof givenVar === 'boolean' && givenVar;
+    };
+
+    const validFiltersFormat = {
+      NUpath: isStringArray,
+      college: isStringArray,
+      subject: isStringArray,
+      online: isTrue,
+      classType: isString,
+    };
+
+    const validFilters = {};
+    for (const [filterKey, filterValues] of Object.entries(filters)) {
+      if (!(filterKey in validFiltersFormat)) {
+        macros.log('Invalid filter key.', filterKey);
+      } else if (!(validFiltersFormat[filterKey](filterValues))) {
+        macros.log('Invalid filter value type.', filterKey);
+      } else {
+        validFilters[filterKey] = filterValues;
+      }
+    }
+    return validFilters;
+  }
+
+  /**
    * Get elasticsearch query from json filters and termId
    * @param  {string}  termId  The termId to look within
-   * @param  {object}  filters The json object representing all filters
+   * @param  {object}  filters The json object representing all filters on classes
    */
   getClassFilterQuery(termId, filters) {
-    // filter classes to get those with sections
-    const hasSections = { exists: { field: 'sections' } };
+    const hasSectionsFilter = { exists: { field: 'sections' } };
 
-    // filter by term
-    const filterByTermId = { term: { 'class.termId': termId } };
+    const termFilter = { term: { 'class.termId': termId } };
 
     const getNUpathFilter = (selectedNUpaths) => {
       const NUpathFilters = selectedNUpaths.map((eachNUpath) => ({ match_phrase: { 'class.classAttributes': eachNUpath } }));
@@ -240,12 +286,12 @@ class Elastic {
       return { bool: { should: collegeFilters } };
     };
 
-    const getSubjectFilter = (selectedSubject) => {
-      const subjectFilters = selectedSubject.map((eachSubject) => ({ match: { 'class.subject': eachSubject } }));
+    const getSubjectFilter = (selectedSubjects) => {
+      const subjectFilters = selectedSubjects.map((eachSubject) => ({ match: { 'class.subject': eachSubject } }));
       return { bool: { should: subjectFilters } };
     };
 
-    // note that { online: false } should not never be in filters
+    // note that { online: false } is never in filters
     const getOnlineFilter = (selectedOnlineOption) => {
       return { term: { 'sections.online': selectedOnlineOption } };
     };
@@ -263,14 +309,14 @@ class Elastic {
       classType: getClassTypeFilter,
     };
 
-    const classFilters = [hasSections, filterByTermId];
+    const classFilters = [hasSectionsFilter, termFilter];
     for (const [filterKey, filterValues] of Object.entries(filters)) {
       if (filterKey in filterToEsQuery) {
         classFilters.push(filterToEsQuery[filterKey](filterValues));
       }
     }
 
-    return classFilters;
+    return { bool:{ must: classFilters } };
   }
 
   /**
@@ -279,7 +325,7 @@ class Elastic {
    * @param  {string}  termId  The termId to look within
    * @param  {integer} min     The index of first document to retreive
    * @param  {integer} max     The index of last document to retreive
-   * @param  {object}  filters The json object representing all filters
+   * @param  {object}  filters The json object representing all filters on classes
    */
   async search(query, termId, min, max, filters = {}) {
     if (!this.subjects) {
@@ -307,7 +353,8 @@ class Elastic {
     }
 
     // get compound class filters
-    const classFilters = this.getClassFilterQuery(termId, filters);
+    const validFilters = this.validateFilters(filters);
+    const satisfyClassFilters = this.getClassFilterQuery(termId, validFilters);
 
     // text query from the main search box
     const matchTextQuery = {
@@ -338,7 +385,7 @@ class Elastic {
             filter: {
               bool: {
                 should: [
-                  { bool:{ must: classFilters } },
+                  satisfyClassFilters,
                   isEmployee,
                 ],
               },

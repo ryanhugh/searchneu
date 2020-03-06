@@ -241,38 +241,20 @@ app.get('/search', wrap(async (req, res) => {
   if (req.query.filters) {
     // Ensure filters is a string
     if (typeof req.query.filters !== 'string') {
-      macros.log(getTime(), 'Invalid filters.', req.filters);
+      macros.log('Invalid filters.', req.filters);
       res.send(JSON.stringify({
         error: 'Invalid filters.',
       }));
       return;
     }
-    filters = JSON.parse(req.query.filters);
-
-
-    // Ensure filter key and value type are valid
-    const validFilters = {
-      NUpath: 'object',
-      college: 'object',
-      subject: 'object',
-      online: 'string',
-      classType: 'string',
-    };
-    for (const [filterKey, filterValues] of Object.entries(filters)) {
-      if (!(filterKey in validFilters)) {
-        macros.log(getTime(), 'Invalid filter key.', filterKey);
-        res.send(JSON.stringify({
-          error: 'Invalid filter key.',
-        }));
-        return;
-      }
-      if (typeof filterValues !== validFilters[filterKey]) { // eslint-disable-line valid-typeof
-        macros.log(getTime(), `Invalid type of filter value ${typeof filterValues} for ${filterKey}.`);
-        res.send(JSON.stringify({
-          error: 'Invalid type of filter value.',
-        }));
-        return;
-      }
+    try {
+      filters = JSON.parse(req.query.filters);
+    } catch (e) {
+      macros.log('Invalid filters JSON.', req.filters);
+      res.send(JSON.stringify({
+        error: 'Invalid filters.',
+      }));
+      return;
     }
   }
 
