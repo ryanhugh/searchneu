@@ -25,7 +25,6 @@ import notifyer from './notifyer';
 import Updater from './updater';
 import database from './database';
 import graphql from './graphql';
-import requestMapping from './requestMapping.json';
 
 // This file manages every endpoint in the backend
 // and calls out to respective files depending on what was called
