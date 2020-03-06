@@ -92,7 +92,7 @@ describe('elastic', () => {
     expect(elastic.validateFilters(invalidFilters)).toMatchObject({});
   });
 
-  it('keeps the valid filters', () => {
+  it('keeps all valid filters', () => {
     const validFilters = {
       NUpath: ['NU Core/NUpath Adv Writ Dscpl', 'NUpath Interpreting Culture'],
       college: ['UG Col Socl Sci & Humanities', 'GS Col of Arts', 'Computer&Info Sci'],
