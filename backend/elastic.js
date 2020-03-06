@@ -221,7 +221,7 @@ class Elastic {
   /**
    * Remove any invalid filter with the following criteria:
    * 1. Correct key string and value type;
-   * 2. Check that { online: false } should not never be in filters
+   * 2. Check that { online: false } should never be in filters
    *
    * A sample filters JSON object has the following format:
    * { 'NUpath': string[],
