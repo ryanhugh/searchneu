@@ -234,7 +234,7 @@ class Elastic {
    */
   validateFilters(filters) {
     const isString = (givenVar) => {
-      return typeof givenVar === 'string' || givenVar instanceof String;
+      return typeof givenVar === 'string';
     };
 
     const isStringArray = (givenVar) => {
