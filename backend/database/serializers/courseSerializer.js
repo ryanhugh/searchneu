@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { Op } from 'sequelize';
-import macros from '../../macros';
 
 class CourseSerializer {
   // this is a hack to get around the circular dependency created by [elasticSerializer -> courseSerializer -> database/index -> database/course -> elasticSerializer]
