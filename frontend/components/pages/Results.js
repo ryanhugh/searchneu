@@ -4,6 +4,7 @@
  */
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { useQueryParams, BooleanParam, ArrayParam } from 'use-query-params';
 import logo from '../images/logo.svg';
 import search from '../search';
 import macros from '../macros';
@@ -34,11 +35,20 @@ const fetchResults = async ({ query, termId }, page) => {
   return results;
 };
 
+const QUERY_PARAM_ENCODERS = {
+  online: BooleanParam,
+  nupath: ArrayParam,
+  subject: ArrayParam,
+  classType: ArrayParam,
+};
+
 export default function Results() {
   const [atTop, setAtTop] = useState(true);
-  const params = useParams();
+  const { termId, query } = useParams();
+  const [filters, setFilters] = useQueryParams(QUERY_PARAM_ENCODERS);
   const history = useHistory();
-  const { termId, query } = params;
+
+  const searchParams = { termId, query, ...filters };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,11 +72,11 @@ export default function Results() {
 
   const {
     results, isReady, loadMore, doSearch,
-  } = useSearch(params, fetchResults);
+  } = useSearch(searchParams, fetchResults);
 
   useEffect(() => {
-    doSearch(params);
-  }, [params, doSearch]);
+    doSearch(searchParams);
+  }, [searchParams, doSearch]);
 
   const resultsElement = () => {
     // return <div className='Results_Loading' />;

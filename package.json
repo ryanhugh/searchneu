@@ -165,6 +165,7 @@
     "stylelint": "^10.0.1",
     "stylelint-config-standard": "^18.2.0",
     "urijs": "^1.18.8",
+    "use-query-params": "^0.6.0",
     "webpack": "^4.1.0",
     "webpack-cli": "^3.0.1",
     "webpack-dev-middleware": "^3.0.1",
