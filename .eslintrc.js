@@ -15,6 +15,13 @@ module.exports = {
     "browser": true,
     "jest": true
   },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
   "rules": {
     "arrow-parens": [1, "always"],
     "arrow-body-style": 0,
