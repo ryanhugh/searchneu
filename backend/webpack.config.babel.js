@@ -91,13 +91,21 @@ export default {
   ],
 
   resolve: {
-    extensions: ['.js', '.css'],
+    extensions: ['.js', '.ts', '.tsx', '.css'],
     modules: ['frontend', 'node_modules', 'common'],
   },
 
   module: {
     rules: [
-
+      {
+        test: /\.tsx?$/,
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.js$/,
+        use: ['source-map-loader'],
+        enforce: 'pre',
+      },
       // Ensure that everything passes eslint.
       // {
       //   enforce: 'pre',

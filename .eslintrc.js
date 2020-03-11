@@ -1,18 +1,26 @@
-
 module.exports = {
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": './tsconfig.json',
+  },
   "extends": [
-    "airbnb"
+    "airbnb-typescript",
   ],
   "plugins": [
-    "babel",
-    "react",
+    "@typescript-eslint",
     "promise",
     "react-hooks"
   ],
   "env": {
     "browser": true,
     "jest": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   },
   "rules": {
     "arrow-parens": [1, "always"],
@@ -75,7 +83,7 @@ module.exports = {
     "no-use-before-define": 1,
     "jsx-quotes": [2, "prefer-single"],
     "max-len": [2, 5000, 2],
-    "object-shorthand": ["error", "never"],
+    "object-shorthand": "off",
     "object-curly-spacing": [2, "always"],
     "react/forbid-prop-types": 0,
     "react/no-danger": 1,
