@@ -33,7 +33,7 @@ class Macros extends commonMacros {
   // Currently used in just ClassPanel.js.
   static debounceTooltipRebuild() {
     clearTimeout(tooltipTimer);
-    tooltipTimer = setTimeout(ReactTooltip.rebuild.bind(ReactTooltip), 20);
+    tooltipTimer = setTimeout(() => ReactTooltip.rebuild(), 20);
   }
 
   // Log an event to amplitude. Same function signature as the function for the backend/.
