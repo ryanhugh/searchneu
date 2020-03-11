@@ -10,7 +10,6 @@
     "./frontend/**/*",
     "./backend/**/*",
     "./common/**/*",
-    "./custom.d.ts"
   ],
   "exclude": [
     "node_modules"
