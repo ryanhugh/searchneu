@@ -4,23 +4,16 @@ module.exports = {
     "project": './tsconfig.json',
   },
   "extends": [
-    "airbnb-typescript",
+    "airbnb",
   ],
   "plugins": [
-    "@typescript-eslint",
+    // "@typescript-eslint",
     "promise",
     "react-hooks"
   ],
   "env": {
     "browser": true,
     "jest": true
-  },
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      }
-    }
   },
   "rules": {
     "arrow-parens": [1, "always"],
