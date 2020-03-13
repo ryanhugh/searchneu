@@ -123,7 +123,6 @@ class Searcher {
    * @param  {integer} max    The index of last document to retreive
    */
   async search(query, termId, min, max, filters = {}) {
-
     // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
     const courseCodePattern = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i;
     let fields = [
@@ -184,9 +183,9 @@ class Searcher {
 
     const searchOutput = await elastic.query(`${elastic.EMPLOYEE_INDEX},${elastic.CLASS_INDEX}`, min, max - min, mainQuery);
 
-    const resultModels = await Course.findAll({ where: { id: searchOutput.body.hits.hits.map((hit) => { return hit._id; }) } });
+    const resultModels = await Course.findAll({ where: { id: searchOutput.body.hits.hits.map((hit) => { return hit._id; }) } }); // eslint-disable-line no-underscore-dangle
     const resultScores = searchOutput.body.hits.hits.reduce((acc, elem) => {
-      acc[elem._id] = elem._score;
+      acc[elem._id] = elem._score; // eslint-disable-line no-underscore-dangle
       return acc;
     }, {});
 

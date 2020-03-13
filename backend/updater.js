@@ -13,9 +13,7 @@ import macros from './macros';
 import Keys from '../common/Keys';
 import notifyer from './notifyer';
 import dumpProcessor from './dumpProcessor';
-import {
-  FollowedSection, FollowedCourse, Course, sequelize,
-} from './database/models/index';
+import { Course, sequelize } from './database/models/index';
 
 
 class Updater {

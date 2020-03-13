@@ -12,7 +12,6 @@ const Section = db.Section;
 
 beforeAll(() => {
   dumpProcessor.CHUNK_SIZE = 2;
-  Course.removeHook('afterBulkUpdate', 
 });
 
 beforeEach(async () => {

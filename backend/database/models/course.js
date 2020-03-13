@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Course.bulkUpsertES = async (instances, toUpdate=false) => {
+  Course.bulkUpsertES = async (instances) => {
     const bulkCourses = await (new ElasticSerializer(sequelize.models.Section)).bulkSerialize(instances);
     return elastic.bulkIndexFromMap(elastic.CLASS_INDEX, bulkCourses);
   };

@@ -13,7 +13,7 @@ class CourseSerializer {
 
     const sections = await this.sectionModel.findAll({
       where: {
-        classHash: { [Op.in]: instances.map(instance => instance.id) },
+        classHash: { [Op.in]: instances.map((instance) => instance.id) },
       },
     });
 
@@ -33,7 +33,6 @@ class CourseSerializer {
       sections: serializedSections,
       type: 'class',
     };
-
   }
 
   serializeSections(sections, parentCourse) {

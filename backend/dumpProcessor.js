@@ -7,7 +7,9 @@ import _ from 'lodash';
 import path from 'path';
 import Keys from '../common/Keys';
 import macros from './macros';
-import { Professor, Course, Section, Op, sequelize } from './database/models/index';
+import {
+  Professor, Course, Section, Op, sequelize,
+} from './database/models/index';
 
 const profAttributes = Object.keys(_.omit(Professor.rawAttributes, ['id', 'createdAt', 'updatedAt']));
 const courseAttributes = Object.keys(_.omit(Course.rawAttributes, ['id', 'createdAt', 'updatedAt']));
@@ -81,7 +83,7 @@ async function fromFile(termFilePath, empFilePath) {
 
   const termDump = await fs.readJson(termFilePath);
   const profDump = await fs.readJson(empFilePath);
-  await instance.main({ termDump, profDump });
+  await instance.main({ termDump: termDump, profDump: profDump });
 }
 
 if (require.main === module) {

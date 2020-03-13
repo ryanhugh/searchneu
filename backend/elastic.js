@@ -239,7 +239,9 @@ class Elastic {
   }
 
   async query(index, from, size, body) {
-    return client.search({ index, from, size, body });
+    return client.search({
+      index: index, from: from, size: size, body: body,
+    });
   }
 }
 
