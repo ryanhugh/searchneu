@@ -26,7 +26,6 @@ class CourseSerializer {
 
   bulkSerializeCourse(course, sections) {
     const serializedSections = this.serializeSections(sections, course);
-    course.sections = serializedSections;
 
     return {
       class: course,
@@ -46,12 +45,12 @@ class CourseSerializer {
     const obj = course.dataValues;
     obj.lastUpdateTime = obj.lastUpdateTime.getTime();
 
-    return _(obj).pick(this.courseCols()).omitBy(_.isNil).value();
+    return _(obj).pick(this.courseCols()).value();
   }
 
   serializeSection(section) {
     const obj = section.dataValues;
-    return _(obj).pick(this.sectionCols()).omitBy(_.isNil).value();
+    return _(obj).pick(this.sectionCols()).value();
   }
 
   getClassHash(course) {
