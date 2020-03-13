@@ -122,7 +122,7 @@ class Searcher {
    * @param  {integer} min    The index of first document to retreive
    * @param  {integer} max    The index of last document to retreive
    */
-  async search(query, termId, min, max) {
+  async search(query, termId, min, max, filters = {}) {
 
     // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
     const courseCodePattern = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i;
@@ -165,27 +165,24 @@ class Searcher {
     const isEmployee = { term: { type: 'employee' } };
 
     // compound query for text query and filters
-    const searchOutput = {
-      index: `${this.EMPLOYEE_INDEX},${this.CLASS_INDEX}`,
-      from: min,
-      size: max - min,
-      body: {
-        sort: ['_score', sortByClassId],
-        query: {
-          bool: {
-            must: matchTextQuery,
-            filter: {
-              bool: {
-                should: [
-                  classFilters,
-                  isEmployee,
-                ],
-              },
+    const mainQuery = {
+      sort: ['_score', sortByClassId],
+      query: {
+        bool: {
+          must: matchTextQuery,
+          filter: {
+            bool: {
+              should: [
+                classFilters,
+                isEmployee,
+              ],
             },
           },
         },
       },
     };
+
+    const searchOutput = await elastic.query(`${elastic.EMPLOYEE_INDEX},${elastic.CLASS_INDEX}`, min, max - min, mainQuery);
 
     const resultModels = await Course.findAll({ where: { id: searchOutput.body.hits.hits.map((hit) => { return hit._id; }) } });
     const resultScores = searchOutput.body.hits.hits.reduce((acc, elem) => {

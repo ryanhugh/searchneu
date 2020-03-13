@@ -41,13 +41,13 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Course.bulkUpsertES = async (instances) => {
+  Course.bulkUpsertES = async (instances, toUpdate=false) => {
     const bulkCourses = await (new ElasticSerializer(sequelize.models.Section)).bulkSerialize(instances);
-    await elastic.bulkIndexFromMap(elastic.CLASS_INDEX, bulkCourses);
+    return elastic.bulkIndexFromMap(elastic.CLASS_INDEX, bulkCourses);
   };
 
   Course.addHook('afterBulkCreate', async (instances) => { return Course.bulkUpsertES(instances); });
-  Course.addHook('afterBulkUpdate', async ({ where }) => { return Course.bulkUpsertES(await Course.findAll({ where: where })); });
+  Course.addHook('afterBulkUpdate', async ({ where }) => { return Course.bulkUpsertES(await Course.findAll({ where: where }), true); });
 
   return Course;
 };

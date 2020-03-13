@@ -53,7 +53,7 @@ class DumpProcessor {
         },
       });
     }
-    sequelize.options.logging = false;
+    sequelize.options.logging = true;
   }
 
   processClass(classInfo, coveredTerms) {

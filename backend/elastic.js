@@ -239,7 +239,6 @@ class Elastic {
   }
 
   async query(index, from, size, body) {
-    macros.log(JSON.stringify({ index, from, size, body }));
     return client.search({ index, from, size, body });
   }
 }

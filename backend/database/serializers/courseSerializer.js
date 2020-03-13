@@ -33,9 +33,11 @@ class CourseSerializer {
       sections: serializedSections,
       type: 'class',
     };
+
   }
 
   serializeSections(sections, parentCourse) {
+    if (sections.length === 0) return sections;
     return sections.map((section) => { return this.serializeSection(section); }).map((section) => {
       return { ...section, ..._.pick(parentCourse, this.courseProps()) };
     });

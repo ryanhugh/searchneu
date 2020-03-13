@@ -132,7 +132,6 @@ function getRemoteIp(req) {
   }
 
   if (macros.PROD) {
-    // macros.warn('No cf-connecting-ip?', req.headers, req.connection.remoteAddress);
     return '';
   }
 
@@ -260,8 +259,6 @@ app.get('/search', wrap(async (req, res) => {
 
   const { searchContent, took, resultCount } = await searcher.search(req.query.query, req.query.termId, req.query.minIndex, req.query.maxIndex, filters);
   const midTime = Date.now();
-
-  macros.log(searchContent);
 
   let string;
   if (req.query.apiVersion === '2') {
