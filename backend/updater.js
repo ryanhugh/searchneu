@@ -13,8 +13,8 @@ import macros from './macros';
 import Keys from '../common/Keys';
 import notifyer from './notifyer';
 import dumpProcessor from './dumpProcessor';
-import { Course, sequelize } from './database/models/index';
-
+import { Course, Section, sequelize } from './database/models/index';
+import HydrateSerializer from './database/serializers/hydrateSerializer';
 
 class Updater {
   // Don't call this directly, call .create instead.
@@ -50,6 +50,8 @@ class Updater {
   // Update the local data about the changes
   async onInterval() {
     macros.log('updating');
+    if (macros.DEV) return;
+
     const startTime = Date.now();
 
     const classHashToUsers = {};
@@ -75,7 +77,7 @@ class Updater {
     macros.log('watching classes ', classHashes.length);
 
     // Get the old data for watched classes
-    const oldDocs = await Course.bulkJSON(await Course.findAll({ where: { id: { [Op.in]: classHashes } } }));
+    const oldDocs = await (new HydrateSerializer(Section)).bulkSerialize(await Course.findAll({ where: { id: { [Op.in]: classHashes } } }));
 
     const oldWatchedClasses = _.mapValues(oldDocs, (doc) => { return doc.class; });
     const oldWatchedSections = {};
@@ -135,7 +137,7 @@ class Updater {
       let count = 0;
       if (aNewClass.sections) {
         const newCrns = aNewClass.sections.map((section) => { return section.crn; });
-        const oldCrns = oldClass.sections.map((section) => { return section.crn; });
+        const oldCrns = (oldClass.sections || []).map((section) => { return section.crn; });
 
         for (const crn of newCrns) {
           if (!oldCrns.includes(crn)) {
