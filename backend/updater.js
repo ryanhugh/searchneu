@@ -50,7 +50,10 @@ class Updater {
   // Update the local data about the changes
   async onInterval() {
     macros.log('updating');
-    if (macros.DEV) return;
+
+    if (macros.DEV) {
+      return;
+    }
 
     const startTime = Date.now();
 
