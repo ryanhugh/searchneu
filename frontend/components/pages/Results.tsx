@@ -3,8 +3,10 @@
  * See the license file in the root folder for details.
  */
 import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
 import { useHistory, useParams } from 'react-router-dom';
 import { useQueryParams, BooleanParam, ArrayParam } from 'use-query-params';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 import logo from '../images/logo.svg';
 import search from '../search';
 import macros from '../macros';
@@ -13,6 +15,7 @@ import SearchBar from '../ResultsPage/SearchBar';
 import TermDropdown from '../ResultsPage/TermDropdown';
 import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
+import FilterPanel from '../ResultsPage/FilterPanel';
 
 let count = 0;
 // Log search queries to amplitude on enter.
@@ -42,26 +45,27 @@ const QUERY_PARAM_ENCODERS = {
   classType: ArrayParam,
 };
 
+const DEFAULT_PARAMS = {
+  online: false,
+  nupath: [],
+  subject: [],
+  classType: [],
+}
+
 export default function Results() {
   const [atTop, setAtTop] = useState(true);
   const { termId, query } = useParams();
-  const [filters, setFilters] = useQueryParams(QUERY_PARAM_ENCODERS);
+  const [qParams, setQParams] = useQueryParams(QUERY_PARAM_ENCODERS);
   const history = useHistory();
 
-  const searchParams = { termId, query, ...filters };
+  const filters = _.merge({}, DEFAULT_PARAMS, qParams);
+
+  const searchParams = { termId, query, filters };
 
   useEffect(() => {
     const handleScroll = () => {
       const pageY = document.body.scrollTop || document.documentElement.scrollTop;
-      // TODO clean up this mess
-      setAtTop((preAtTop) => {
-        if (pageY > 0 && preAtTop) {
-          return false;
-        } if (pageY === 0) {
-          return true;
-        }
-        return preAtTop;
-      });
+      setAtTop(pageY === 0);
     };
     window.addEventListener('scroll', handleScroll);
     handleScroll();
@@ -74,7 +78,7 @@ export default function Results() {
     results, isReady, loadMore, doSearch,
   } = useSearch(searchParams, fetchResults);
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     doSearch(searchParams);
   }, [searchParams, doSearch]);
 
@@ -135,6 +139,22 @@ export default function Results() {
         />
       </div>
       <div className='Results_Container'>
+        <FilterPanel
+          options={{
+            NUpath: [
+              {
+                key:'DD', value:'DD', text:'diff div', count:1,
+              },
+              {
+                key:'IC', value:'IC', text:'interp cultures', count:1,
+              },
+            ],
+            subject: [],
+            classType: [],
+          }}
+          active={ filters }
+          setActive={ (p) => setQParams(p) }
+        />
         <div>
           {resultsElement()}
         </div>
