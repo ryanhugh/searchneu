@@ -50,7 +50,7 @@ class ResultsLoader extends React.Component {
     this.handleInfiniteLoad();
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     this.alreadyLoadedAt = {};
   }
 

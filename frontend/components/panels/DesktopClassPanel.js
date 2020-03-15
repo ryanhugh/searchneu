@@ -107,7 +107,7 @@ export default class DesktopClassPanel extends BaseClassPanel {
             <tr>
               <th>
                 <div className='inlineBlock' data-tip='Course Reference Number'>
-                    CRN
+                  CRN
                 </div>
               </th>
               <th> Professors </th>
@@ -200,13 +200,13 @@ export default class DesktopClassPanel extends BaseClassPanel {
           <br />
           <br />
           <div className='leftPanel'>
-              Prerequisites: {this.optionalDisplay(macros.prereqTypes.PREREQ)} {this.showMore(macros.prereqTypes.PREREQ)}
+            Prerequisites: {this.optionalDisplay(macros.prereqTypes.PREREQ)} {this.showMore(macros.prereqTypes.PREREQ)}
             <br />
-              Corequisites: {this.optionalDisplay(macros.prereqTypes.COREQ)} {this.showMore(macros.prereqTypes.COREQ)}
+            Corequisites: {this.optionalDisplay(macros.prereqTypes.COREQ)} {this.showMore(macros.prereqTypes.COREQ)}
             <br />
-              Prerequisite for: {this.optionalDisplay(macros.prereqTypes.PREREQ_FOR)} {this.showMore(macros.prereqTypes.PREREQ_FOR)}
+            Prerequisite for: {this.optionalDisplay(macros.prereqTypes.PREREQ_FOR)} {this.showMore(macros.prereqTypes.PREREQ_FOR)}
             <br />
-              Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
+            Optional Prerequisite for: {this.optionalDisplay(macros.prereqTypes.OPT_PREREQ_FOR)} {this.showMore(macros.prereqTypes.OPT_PREREQ_FOR)}
             <br />
             <Collapsible trigger='Show Course Attributes'>
               <div>

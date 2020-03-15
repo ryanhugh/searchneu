@@ -250,9 +250,9 @@ class Updater {
       for (const message of userToMessageMap[fbUserId]) {
         notifyer.sendFBNotification(fbUserId, message);
       }
-      setTimeout(((facebookUserId) => {
-        notifyer.sendFBNotification(facebookUserId, 'Reply with "stop" to unsubscribe from notifications.');
-      }).bind(this, fbUserId), 100);
+      setTimeout(() => {
+        notifyer.sendFBNotification(fbUserId, 'Reply with "stop" to unsubscribe from notifications.');
+      }, 100);
 
       macros.logAmplitudeEvent('Facebook message sent out', {
         toUser: fbUserId,

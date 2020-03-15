@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    // Don't output the built files - Babel will do that. Tsc just for checking.
+    "noEmit": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "jsx": "react",
+  },
+  "include": [
+    "./frontend/**/*",
+    "./backend/**/*",
+    "./common/**/*",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

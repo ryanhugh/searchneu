@@ -1061,7 +1061,7 @@ app.get('*', (req, res) => {
 // your express error handler
 // Express handles functions with four arguments as error handlers and functions with 3 arguments as middleware
 // Add the eslint comment to keep all the args.
-app.use((err, req, res, next) => { //eslint-disable-line no-unused-vars
+app.use((err, req, res, next) => { // eslint-disable-line @typescript-eslint/no-unused-vars
   // in case of specific URIError
   if (err instanceof URIError) {
     macros.log('Warning, could not process malformed url: ', req.url);

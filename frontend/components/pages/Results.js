@@ -86,20 +86,20 @@ export default function Results() {
     return (
       <div className='Results_EmptyContainer'>
         <h3>
-            No Results
+          No Results
         </h3>
         <div className='Results_EmptyBottomLine'>
-            Want to&nbsp;
+          Want to&nbsp;
           <a target='_blank' rel='noopener noreferrer' href={ `https://google.com/search?q=${macros.collegeName} ${query}` }>
-              search for&nbsp;
+            search for&nbsp;
             <div className='ui compact segment Results_EmptyText'>
               <p>
                 {query}
               </p>
             </div>
-                &nbsp;on Google
+            &nbsp;on Google
           </a>
-            ?
+          ?
         </div>
       </div>
     );
