@@ -9,7 +9,7 @@ import 'regenerator-runtime/runtime';
 
 if (process.env.NODE_ENV === 'test') {
   global.requestAnimationFrame = (callback) => {
-    setTimeout(callback, 0);
+    setTimeout(() => callback(), 0);
   };
 
   window.ga = function ga() {

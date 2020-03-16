@@ -134,7 +134,7 @@ class FeedbackModal extends React.Component {
       firstText = 'Find a bug in Search NEU? Find a query that doesn\'t come up with the results you were looking for? Have an idea for an improvement or just want to say hi? Drop a line below! Feel free to write whatever you want to and someone on the team will read it.';
       secondBody = [
         <p key='0'>
-            By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
+          By default this form is anonymous. Leave your name and/or email if you want us to be able to contact you.
         </p>,
         <Input name='contact' form='feedbackForm' className='formModalInput' onChange={ this.onContactChange } key='1' />,
       ];
@@ -174,11 +174,11 @@ class FeedbackModal extends React.Component {
           <Modal.Actions>
             <Button basic color='red' onClick={ this.props.toggleForm }>
               <Icon name='remove' />
-                Cancel
+              Cancel
             </Button>
             <Button type='submit' color='green' form='feedbackForm' onClick={ this.onSubmit }>
               <Icon name='checkmark' />
-                Submit
+              Submit
             </Button>
           </Modal.Actions>
         </Modal>

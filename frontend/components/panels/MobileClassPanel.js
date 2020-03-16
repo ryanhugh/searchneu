@@ -119,7 +119,7 @@ class MobileClassPanel extends BaseClassPanel {
             role='button'
             tabIndex={ 0 }
           >
-              Show More...
+            Show More...
           </a>
         </div>
       </span>

@@ -285,7 +285,7 @@ class Request {
       clearInterval(this.timer);
       macros.log('Starting request analytics timer.');
       this.analytics[hostname].startTime = Date.now();
-      this.timer = setInterval(this.onInterval.bind(this), 5000);
+      this.timer = setInterval(() => this.onInterval(), 5000);
       setTimeout(() => {
         this.onInterval();
       }, 0);
