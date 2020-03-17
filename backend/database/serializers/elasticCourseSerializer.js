@@ -1,6 +1,6 @@
 import CourseSerializer from './courseSerializer';
 
-class ElasticSerializer extends CourseSerializer {
+class ElasticCourseSerializer extends CourseSerializer {
   courseProps() {
     return [];
   }
@@ -14,4 +14,4 @@ class ElasticSerializer extends CourseSerializer {
   }
 }
 
-export default ElasticSerializer;
+export default ElasticCourseSerializer;

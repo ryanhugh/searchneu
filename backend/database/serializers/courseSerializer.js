@@ -5,7 +5,6 @@ class CourseSerializer {
   // this is a hack to get around the circular dependency created by [elasticSerializer -> courseSerializer -> database/index -> database/course -> elasticSerializer]
   constructor(sectionModel) {
     this.sectionModel = sectionModel;
-    this.i = true;
   }
 
   async bulkSerialize(instances) {
@@ -19,9 +18,9 @@ class CourseSerializer {
 
     const classToSections = _.groupBy(sections, 'classHash');
 
-    return _(courses).keyBy(this.getClassHash).mapValues((course) => {
+    return courses.map((course) => {
       return this.bulkSerializeCourse(course, classToSections[this.getClassHash(course)] || []);
-    }).value();
+    });
   }
 
   bulkSerializeCourse(course, sections) {
@@ -53,6 +52,7 @@ class CourseSerializer {
     return _(obj).pick(this.sectionCols()).value();
   }
 
+  // TODO this should definitely be eliminated
   getClassHash(course) {
     return ['neu.edu', course.termId, course.subject, course.classId].join('/');
   }

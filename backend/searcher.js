@@ -4,10 +4,9 @@
  */
 
 import elastic from './elastic';
-import { Course, Section } from './database/models/index';
+import { Section } from './database/models/index';
 import HydrateSerializer from './database/serializers/hydrateSerializer';
 import macros from './macros';
-import Keys from '../common/Keys';
 
 class Searcher {
   constructor() {
@@ -183,16 +182,12 @@ class Searcher {
 
     const searchOutput = await elastic.query(`${elastic.EMPLOYEE_INDEX},${elastic.CLASS_INDEX}`, min, max - min, mainQuery);
 
-    const resultModels = await Course.findAll({ where: { id: searchOutput.body.hits.hits.map((hit) => { return hit._id; }) } }); // eslint-disable-line no-underscore-dangle
-    const resultScores = searchOutput.body.hits.hits.reduce((acc, elem) => {
-      acc[elem._id] = elem._score; // eslint-disable-line no-underscore-dangle
-      return acc;
-    }, {});
+    const results = await (new HydrateSerializer(Section)).bulkSerialize(searchOutput.body.hits.hits);
 
-    const results = await (new HydrateSerializer(Section)).bulkSerialize(resultModels);
+    const resultScores = searchOutput.body.hits.hits.map(hit => hit._score);
 
     return {
-      searchContent: Object.values(results).map((res) => { return { ...res, score: resultScores[Keys.getClassHash(res.class)] }; }),
+      searchContent: results.map((res, idx) => { return { ...res, score: resultScores[idx] } }),
       resultCount: searchOutput.body.hits.total.value,
       took: searchOutput.body.took,
     };
