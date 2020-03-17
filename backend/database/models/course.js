@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Course.bulkUpsertES = async (instances) => {
     const bulkCourses = await (new ElasticCourseSerializer(sequelize.models.Section)).bulkSerialize(instances);
-    return elastic.bulkIndexFromMap(elastic.CLASS_INDEX, _.keyBy(bulkCourses, (course) => Keys.getClassHash(course.class)));
+    return elastic.bulkIndexFromMap(elastic.CLASS_INDEX, bulkCourses);
   };
 
   Course.addHook('afterBulkCreate', async (instances) => { return Course.bulkUpsertES(instances); });

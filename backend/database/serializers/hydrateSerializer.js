@@ -10,8 +10,8 @@ class HydrateSerializer {
   }
 
   async bulkSerialize(instances) {
-    const profs = instances.filter((instance) => instance._source.type === 'employee');
-    const courses = instances.filter((instance) => instance._source.type === 'course');
+    const profs = instances.filter((instance) => { return instance._source.type === 'employee' });
+    const courses = instances.filter((instance) => { return instance._source.type === 'class' });
 
     const profInstances = await Professor.findAll({ where: { id: profs.map((prof) => { return prof._id }) } });
     const courseInstances = await Course.findAll({ where: { id: courses.map((course) => { return course._id }) } });
@@ -19,7 +19,8 @@ class HydrateSerializer {
     const serializedProfs = await this.profSerializer.bulkSerialize(profInstances);
     const serializedCourses = await this.courseSerializer.bulkSerialize(courseInstances);
 
-    return serializedProfs.concat(serializedCourses);
+    const serializedResults = { ...serializedProfs, ...serializedCourses };
+    return instances.map((instance) => serializedResults[instance._id]);
   }
 }
 

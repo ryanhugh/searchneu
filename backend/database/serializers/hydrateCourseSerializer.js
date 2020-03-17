@@ -8,7 +8,7 @@ class HydrateCourseSerializer extends CourseSerializer {
   }
 
   courseCols() {
-    return Object.keys(_.omit(Course.rawAttributes, ['id', 'createdAt', 'updatedAt']));
+    return Object.keys(_.omit(Course.rawAttributes, ['createdAt', 'updatedAt']));
   }
 
   sectionCols() {

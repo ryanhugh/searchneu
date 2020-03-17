@@ -3,7 +3,7 @@ import _ from 'lodash';
 /* eslint-disable no-underscore-dangle */
 class ProfSerializer {
   async bulkSerialize(instances) {
-    return instances.map((instance) => this._bulkSerializeProf(this._serializeProf(instance)));
+    return _.keyBy(instances.map((instance) => this._bulkSerializeProf(this._serializeProf(instance))), (res) => res.employee.id);
   }
 
   _bulkSerializeProf(prof) {

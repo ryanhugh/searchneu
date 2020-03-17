@@ -18,9 +18,9 @@ class CourseSerializer {
 
     const classToSections = _.groupBy(sections, 'classHash');
 
-    return courses.map((course) => {
+    return _(courses).keyBy(this.getClassHash).mapValues((course) => {
       return this.bulkSerializeCourse(course, classToSections[this.getClassHash(course)] || []);
-    });
+    }).value();
   }
 
   bulkSerializeCourse(course, sections) {
