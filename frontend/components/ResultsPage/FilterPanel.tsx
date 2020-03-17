@@ -4,6 +4,14 @@ import _ from 'lodash';
 import DropdownFilter from './DropdownFilter';
 import { FilterOptions } from './filterTypes';
 import { FilterSelection } from '../types';
+import ToggleFilter from './OnlineFilter';
+
+export type ActiveFilters = {
+  online?: boolean,
+  NUpath?: string[],
+  subject?: string[],
+  classType?: string[],
+}
 
 export interface FilterPanelProps {
   options: FilterOptions,
@@ -25,6 +33,10 @@ function FilterPanel({ options, active, setActive }: FilterPanelProps) {
         options={ options.NUpath }
         active={ active.NUpath }
         setActive={ (a: string[]) => setActive({ NUpath: a }) }
+      />
+      <ToggleFilter
+        active={ active.online }
+        setActive={ (a) => setActive({ online: a }) }
       />
     </div>
   );
