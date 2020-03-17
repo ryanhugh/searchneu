@@ -1,7 +1,5 @@
-import _ from 'lodash';
 import elastic from '../../elastic';
 import ElasticCourseSerializer from '../serializers/elasticCourseSerializer';
-import Keys from '../../../common/Keys';
 
 module.exports = (sequelize, DataTypes) => {
   const Course = sequelize.define('Course', {
