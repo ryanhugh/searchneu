@@ -184,10 +184,8 @@ class Searcher {
 
     const results = await (new HydrateSerializer(Section)).bulkSerialize(searchOutput.body.hits.hits);
 
-    const resultScores = searchOutput.body.hits.hits.map((hit) => hit._score); // eslint-disable-line no-underscore-dangle
-
     return {
-      searchContent: results.map((res, idx) => { return { ...res, score: resultScores[idx] } }),
+      searchContent: results,
       resultCount: searchOutput.body.hits.total.value,
       took: searchOutput.body.took,
     };
