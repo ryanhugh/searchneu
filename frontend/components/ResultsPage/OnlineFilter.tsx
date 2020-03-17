@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../../css/_Filters.scss';
 
 interface OnlineFilterProps {
@@ -6,12 +6,12 @@ interface OnlineFilterProps {
   setActive: (a:boolean)=>void
 }
 
-const ToggleSwitch = ({ active, setActive }) => {
+export default function OnlineFilter({ active, setActive }: OnlineFilterProps) {
   return (
-    <>
+    <div className='onlineToggle'>
       <input
         checked={ active }
-        onChange={ setActive }
+        onChange={ () => { setActive(!active) } }
         className='react-switch-checkbox'
         id='react-switch-new'
         type='checkbox'
@@ -23,28 +23,6 @@ const ToggleSwitch = ({ active, setActive }) => {
       >
         <span className='react-switch-button' />
       </label>
-    </>
-  )
-};
-
-/*
-<Checkbox
-      toggle
-      onChange={ () => {
-        setActive(!active);
-      } }
-      checked={ active }
-    />
- */
-
-export default function OnlineFilter({ active, setActive }: OnlineFilterProps) {
-  const [value, setValue] = useState(false);
-  return (
-    <div className='onlineToggle'>
-      <ToggleSwitch
-        active={ value }
-        setActive={ () => setValue(!value) }
-      />
     </div>
   );
 }
