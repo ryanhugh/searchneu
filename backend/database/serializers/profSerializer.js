@@ -1,18 +1,19 @@
 import _ from 'lodash';
 
+/* eslint-disable no-underscore-dangle */
 class ProfSerializer {
   async bulkSerialize(instances) {
-    return instances.map(instance => this.bulkSerializeProf(this.serializeProf(instance)));
+    return instances.map((instance) => this._bulkSerializeProf(this._serializeProf(instance)));
   }
 
-  bulkSerializeProf(prof) {
+  _bulkSerializeProf(prof) {
     return {
       employee: prof,
-      type: 'employee'
+      type: 'employee',
     };
   }
 
-  serializeProf(instance) {
+  _serializeProf(instance) {
     return _(instance.dataValues).pick(this.profCols()).value();
   }
 }

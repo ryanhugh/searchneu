@@ -6,7 +6,7 @@ class ElasticCourseSerializer extends CourseSerializer {
   }
 
   courseCols() {
-    return ['name', 'subject', 'classId', 'termId'];
+    return ['host', 'name', 'subject', 'classId', 'termId'];
   }
 
   sectionCols() {
