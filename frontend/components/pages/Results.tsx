@@ -2,7 +2,7 @@
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import _ from 'lodash';
 import { useHistory, useParams } from 'react-router-dom';
 import { useQueryParams, BooleanParam, ArrayParam } from 'use-query-params';
@@ -26,7 +26,7 @@ interface SearchParams {
 
 let count = 0;
 // Log search queries to amplitude on enter.
-function logSearch(searchQuery) {
+function logSearch(searchQuery: string) {
   searchQuery = searchQuery.trim();
 
   if (searchQuery) {
@@ -36,7 +36,7 @@ function logSearch(searchQuery) {
 }
 
 // Retreive result data from backend.
-const fetchResults = async ({ query, termId, filters }: SearchParams, page) => {
+const fetchResults = async ({ query, termId, filters }: SearchParams, page: number): Promise<SearchItem[]> => {
   const results: SearchItem[] = await search.search(query, termId, filters, (1 + page) * 10);
   if (page === 0) {
     logSearch(query);
@@ -133,7 +133,7 @@ export default function Results() {
         <div className='Results__searchwrapper'>
           <SearchBar
             onSearch={ (val) => {
-              history.push(`/${termId}/${val}`);
+              history.push(`/${termId}/${val}${history.location.search}`);
             } }
             query={ query }
           />
@@ -141,7 +141,7 @@ export default function Results() {
         <TermDropdown
           compact
           termId={ termId }
-          onChange={ (e, data) => { history.push(`/${data.value}/${query}`); } }
+          onChange={ useCallback((e, data) => { history.push(`/${data.value}/${query}`); }, [history, query]) }
         />
       </div>
       <div className='Results_Container'>
@@ -159,7 +159,7 @@ export default function Results() {
             classType: [],
           }}
           active={ filters }
-          setActive={ (p) => setQParams(p) }
+          setActive={ setQParams }
         />
         <div>
           {resultsElement()}

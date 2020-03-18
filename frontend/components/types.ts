@@ -8,7 +8,7 @@
 
 // ======= Search Results ========
 // Represents the course and employee data returned by /search
-export type Course = any;
+export type Course = any; //TODO
 export type Employee = any;
 export type SearchItem = Course | Employee;
 
