@@ -1,18 +1,12 @@
 import React from 'react';
 import NUPathFilter from './NUPathFilter';
 import { FilterOptions } from './filterTypes';
-
-export type ActiveFilters = {
-  online?: boolean,
-  NUpath?: string[],
-  subject?: string[],
-  classType?: string[],
-}
+import { FilterSelection } from '../types';
 
 export interface FilterPanelProps {
   options: FilterOptions,
-  active: ActiveFilters,
-  setActive: (f: ActiveFilters) => void,
+  active: FilterSelection,
+  setActive: (f: FilterSelection) => void,
 }
 
 export default function FilterPanel({ options, active, setActive }: FilterPanelProps) {

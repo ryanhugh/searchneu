@@ -16,6 +16,13 @@ import TermDropdown from '../ResultsPage/TermDropdown';
 import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
 import FilterPanel from '../ResultsPage/FilterPanel';
+import { FilterSelection, SearchItem } from '../types';
+
+interface SearchParams {
+  termId: string,
+  query: string,
+  filters: FilterSelection
+}
 
 let count = 0;
 // Log search queries to amplitude on enter.
@@ -29,9 +36,8 @@ function logSearch(searchQuery) {
 }
 
 // Retreive result data from backend.
-const fetchResults = async ({ query, termId }, page) => {
-  const obj = await search.search(query, termId, (1 + page) * 10);
-  const results = obj.results;
+const fetchResults = async ({ query, termId, filters }: SearchParams, page) => {
+  const results: SearchItem[] = await search.search(query, termId, filters, (1 + page) * 10);
   if (page === 0) {
     logSearch(query);
   }
@@ -40,14 +46,14 @@ const fetchResults = async ({ query, termId }, page) => {
 
 const QUERY_PARAM_ENCODERS = {
   online: BooleanParam,
-  nupath: ArrayParam,
+  NUpath: ArrayParam,
   subject: ArrayParam,
   classType: ArrayParam,
 };
 
 const DEFAULT_PARAMS = {
   online: false,
-  nupath: [],
+  NUpath: [],
   subject: [],
   classType: [],
 }
@@ -58,9 +64,9 @@ export default function Results() {
   const [qParams, setQParams] = useQueryParams(QUERY_PARAM_ENCODERS);
   const history = useHistory();
 
-  const filters = _.merge({}, DEFAULT_PARAMS, qParams);
+  const filters: FilterSelection = _.merge({}, DEFAULT_PARAMS, qParams);
 
-  const searchParams = { termId, query, filters };
+  const searchParams: SearchParams = { termId, query, filters };
 
   useEffect(() => {
     const handleScroll = () => {
