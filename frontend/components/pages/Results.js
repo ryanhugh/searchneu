@@ -12,6 +12,7 @@ import SearchBar from '../ResultsPage/SearchBar';
 import TermDropdown from '../ResultsPage/TermDropdown';
 import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
+import FilterPanel from '../ResultsPage/FilterPanel'
 
 let count = 0;
 // Log search queries to amplitude on enter.
@@ -125,12 +126,10 @@ export default function Results() {
         />
       </div>
       <div className='Results_Container'>
-        <div>
+      <FilterPanel />
+        <div className="Results_Element">
           {resultsElement()}
         </div>
-
-        <div className='botttomPadding' />
-
         <Footer />
       </div>
     </>
