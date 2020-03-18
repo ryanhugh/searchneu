@@ -230,10 +230,16 @@
     "setupFiles": [
       "./common/jestSetupFile.js"
     ],
-    "moduleFileExtensions": ["js", "jsx", "json", "node", "seq.js"],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "node",
+      "seq.js"
+    ],
     "testMatch": [
-    "**/__tests__/**/*.[jt]s?(x)", 
-    "**/?(*.)+(spec|test)?(.(seq|reg)).[jt]s?(x)"
+      "**/__tests__/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test)?(.(seq|reg)).[jt]s?(x)"
     ],
     "moduleNameMapper": {
       "__comment": "The css import needs to be an object that returns a string",

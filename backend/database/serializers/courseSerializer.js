@@ -1,3 +1,7 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
 import _ from 'lodash';
 import { Op } from 'sequelize';
 
@@ -5,7 +9,6 @@ class CourseSerializer {
   // this is a hack to get around the circular dependency created by [elasticSerializer -> courseSerializer -> database/index -> database/course -> elasticSerializer]
   constructor(sectionModel) {
     this.sectionModel = sectionModel;
-    this.i = true;
   }
 
   async bulkSerialize(instances) {
@@ -53,6 +56,7 @@ class CourseSerializer {
     return _(obj).pick(this.sectionCols()).value();
   }
 
+  // TODO this should definitely be eliminated
   getClassHash(course) {
     return ['neu.edu', course.termId, course.subject, course.classId].join('/');
   }
