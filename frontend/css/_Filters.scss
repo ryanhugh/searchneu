@@ -9,17 +9,17 @@
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  width: 100px;
-  height: 50px;
+  width: 100px; // probably want to make these percentages when an actual side bar is in
+  height: 35px;
   background: grey;
   border-radius: 100px;
-  position: relative;
+  position: absolute;
   transition: background-color 0.01s;
 }
 
 .react-switch-label .react-switch-button {
   content: '';
-  position: absolute;
+  position: relative;
   top: 2px;
   left: 2px;
   width: 45px;
@@ -30,11 +30,11 @@
   box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
 }
 
+.react-switch-label:active .react-switch-button {
+  width: 60px;
+}
+
 .react-switch-checkbox:checked + .react-switch-label .react-switch-button {
   left: calc(100% - 2px);
   transform: translateX(-100%);
-}
-
-.react-switch-label:active .react-switch-button {
-  width: 60px;
 }
