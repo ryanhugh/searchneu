@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import NUPathFilter from './NUPathFilter';
 import { FilterOptions } from './filterTypes';
 import { FilterSelection } from '../types';
@@ -9,7 +10,7 @@ export interface FilterPanelProps {
   setActive: (f: FilterSelection) => void,
 }
 
-export default function FilterPanel({ options, active, setActive }: FilterPanelProps) {
+function FilterPanel({ options, active, setActive }: FilterPanelProps) {
   return (
     <NUPathFilter
       options={ options.NUpath }
@@ -18,3 +19,5 @@ export default function FilterPanel({ options, active, setActive }: FilterPanelP
     />
   );
 }
+
+export default React.memo(FilterPanel, _.isEqual);
