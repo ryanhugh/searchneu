@@ -4,6 +4,10 @@ import { PropTypes } from 'prop-types';
 
 export const termDropDownOptions = [
   {
+    text: 'Fall 2020',
+    value: '202110',
+  },
+  {
     text: 'Summer I 2020',
     value: '202040',
   },
@@ -18,10 +22,6 @@ export const termDropDownOptions = [
   {
     text: 'Spring 2020',
     value: '202030',
-  },
-  {
-    text: 'Fall 2019',
-    value: '202010',
   },
 ];
 
