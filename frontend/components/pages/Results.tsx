@@ -18,6 +18,7 @@ import useSearch from '../ResultsPage/useSearch';
 import FilterPanel from '../ResultsPage/FilterPanel';
 import { FilterSelection, SearchItem } from '../types';
 import EmptyResultsContainer from './EmptyResultsContainer';
+import LoadingContainer from './LoadingContainer';
 
 interface SearchParams {
   termId: string,
@@ -127,7 +128,7 @@ export default function Results() {
         />
 
         <div>
-          {!isReady && <div style={{ visibility : 'hidden' }} /> }
+          {!isReady && <LoadingContainer />}
           {isReady && !results.length && <EmptyResultsContainer query={ query } />}
           {isReady && results.length
           && (
