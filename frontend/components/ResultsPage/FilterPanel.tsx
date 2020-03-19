@@ -1,4 +1,5 @@
 import React from "react";
+import FilterBreadcrumb from "./FilterBreadcrumb"
 
 
 export type ActiveFilters = {
@@ -23,7 +24,6 @@ export default function FilterPanel({ options, active, setActive }: FilterPanelP
 
     return (
         <div className="FilterPanel">
-            <div className="Dummy"/>
         </div>
     )
 
