@@ -22,7 +22,7 @@ const ATTENTION_SECTION = {
 const attentionSectionMode = ATTENTION_SECTION.getInvolved;
 
 // The lastest term
-const LATEST_TERM = '202040';
+const LATEST_TERM = '202110';
 
 const AVAILABLE_TERMS = termDropDownOptions.map((t) => { return t.value; });
 

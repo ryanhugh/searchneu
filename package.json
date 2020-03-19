@@ -86,6 +86,7 @@
     "@babel/plugin-transform-arrow-functions": "^7.2.0",
     "@babel/register": "^7.0.0",
     "@elastic/elasticsearch": "^7.0.0-rc.2",
+    "@types/lodash": "^4.14.149",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
     "@types/react-router-dom": "^5.1.3",
@@ -148,6 +149,7 @@
     "react-collapsible": "^2.6.0",
     "react-dom": "^16.1.1",
     "react-hot-loader": "^4.0.0",
+    "react-infinite-scroll-component": "^5.0.4",
     "react-router-dom": "^5.1.2",
     "react-test-renderer": "^16.1.1",
     "react-tooltip": "^3.2.6",
@@ -165,6 +167,8 @@
     "stylelint": "^10.0.1",
     "stylelint-config-standard": "^18.2.0",
     "urijs": "^1.18.8",
+    "use-deep-compare-effect": "^1.3.1",
+    "use-query-params": "^0.6.0",
     "webpack": "^4.1.0",
     "webpack-cli": "^3.0.1",
     "webpack-dev-middleware": "^3.0.1",
@@ -230,10 +234,16 @@
     "setupFiles": [
       "./common/jestSetupFile.js"
     ],
-    "moduleFileExtensions": ["js", "jsx", "json", "node", "seq.js"],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "node",
+      "seq.js"
+    ],
     "testMatch": [
-    "**/__tests__/**/*.[jt]s?(x)", 
-    "**/?(*.)+(spec|test)?(.(seq|reg)).[jt]s?(x)"
+      "**/__tests__/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test)?(.(seq|reg)).[jt]s?(x)"
     ],
     "moduleNameMapper": {
       "__comment": "The css import needs to be an object that returns a string",

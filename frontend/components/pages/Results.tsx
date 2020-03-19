@@ -2,8 +2,11 @@
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import _ from 'lodash';
 import { useHistory, useParams } from 'react-router-dom';
+import { useQueryParams, BooleanParam, ArrayParam } from 'use-query-params';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 import logo from '../images/logo.svg';
 import search from '../search';
 import macros from '../macros';
@@ -14,10 +17,17 @@ import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
 import FilterPanel from '../ResultsPage/FilterPanel';
 import AppliedFilters from '..//ResultsPage/AppliedFilters';
+import { FilterSelection, SearchItem } from '../types';
+
+interface SearchParams {
+  termId: string,
+  query: string,
+  filters: FilterSelection
+}
 
 let count = 0;
 // Log search queries to amplitude on enter.
-function logSearch(searchQuery) {
+function logSearch(searchQuery: string) {
   searchQuery = searchQuery.trim();
 
   if (searchQuery) {
@@ -27,33 +37,42 @@ function logSearch(searchQuery) {
 }
 
 // Retreive result data from backend.
-const fetchResults = async ({ query, termId }, page) => {
-  const obj = await search.search(query, termId, (1 + page) * 10);
-  const results = obj.results;
+const fetchResults = async ({ query, termId, filters }: SearchParams, page: number): Promise<SearchItem[]> => {
+  const results: SearchItem[] = await search.search(query, termId, filters, (1 + page) * 10);
   if (page === 0) {
     logSearch(query);
   }
   return results;
 };
 
+const QUERY_PARAM_ENCODERS = {
+  online: BooleanParam,
+  NUpath: ArrayParam,
+  subject: ArrayParam,
+  classType: ArrayParam,
+};
+
+const DEFAULT_PARAMS = {
+  online: false,
+  NUpath: [],
+  subject: [],
+  classType: [],
+}
+
 export default function Results() {
   const [atTop, setAtTop] = useState(true);
-  const params = useParams();
+  const { termId, query } = useParams();
+  const [qParams, setQParams] = useQueryParams(QUERY_PARAM_ENCODERS);
   const history = useHistory();
-  const { termId, query } = params;
+
+  const filters: FilterSelection = _.merge({}, DEFAULT_PARAMS, qParams);
+
+  const searchParams: SearchParams = { termId, query, filters };
 
   useEffect(() => {
     const handleScroll = () => {
       const pageY = document.body.scrollTop || document.documentElement.scrollTop;
-      // TODO clean up this mess
-      setAtTop((preAtTop) => {
-        if (pageY > 0 && preAtTop) {
-          return false;
-        } if (pageY === 0) {
-          return true;
-        }
-        return preAtTop;
-      });
+      setAtTop(pageY === 0);
     };
     window.addEventListener('scroll', handleScroll);
     handleScroll();
@@ -64,11 +83,11 @@ export default function Results() {
 
   const {
     results, isReady, loadMore, doSearch,
-  } = useSearch(params, fetchResults);
+  } = useSearch(searchParams, fetchResults);
 
-  useEffect(() => {
-    doSearch(params);
-  }, [params, doSearch]);
+  useDeepCompareEffect(() => {
+    doSearch(searchParams);
+  }, [searchParams, doSearch]);
 
   const resultsElement = () => {
     // return <div className='Results_Loading' />;
@@ -115,7 +134,7 @@ export default function Results() {
         <div className='Results__searchwrapper'>
           <SearchBar
             onSearch={ (val) => {
-              history.push(`/${termId}/${val}`);
+              history.push(`/${termId}/${val}${history.location.search}`);
             } }
             query={ query }
           />
@@ -123,11 +142,26 @@ export default function Results() {
         <TermDropdown
           compact
           termId={ termId }
-          onChange={ (e, data) => { history.push(`/${data.value}/${query}`); } }
+          onChange={ useCallback((e, data) => { history.push(`/${data.value}/${query}`); }, [history, query]) }
         />
       </div>
       <div className='Results_Container'>
-      <FilterPanel />
+        <FilterPanel
+          options={{
+            NUpath: [
+              {
+                key:'DD', value:'DD', text:'diff div', count:1,
+              },
+              {
+                key:'IC', value:'IC', text:'interp cultures', count:1,
+              },
+            ],
+            subject: [],
+            classType: [],
+          }}
+          active={ filters }
+          setActive={ setQParams }
+        />  
       <AppliedFilters />
         <div className="Results_Element">
           {resultsElement()}

@@ -1,5 +1,5 @@
 import elastic from '../../elastic';
-import ElasticSerializer from '../serializers/elasticSerializer';
+import ElasticCourseSerializer from '../serializers/elasticCourseSerializer';
 
 module.exports = (sequelize, DataTypes) => {
   const Course = sequelize.define('Course', {
@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Course.bulkUpsertES = async (instances) => {
-    const bulkCourses = await (new ElasticSerializer(sequelize.models.Section)).bulkSerialize(instances);
+    const bulkCourses = await (new ElasticCourseSerializer(sequelize.models.Section)).bulkSerialize(instances);
     return elastic.bulkIndexFromMap(elastic.CLASS_INDEX, bulkCourses);
   };
 
