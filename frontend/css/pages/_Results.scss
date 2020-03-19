@@ -46,11 +46,11 @@
 
 .Results_Container {
   padding-top: 84px;
-  grid-template-rows: 50px 1fr 30px;
-  grid-template-columns: 150px 1fr;
+  grid-template-rows: 20px 1fr 30px;
+  grid-template-columns: 268px 1fr;
   display: grid;
   grid-template-areas: 
-    "FilterPanel Results_Element Results_Element"
+    "     .      AppliedFilters  AppliedFilters"
     "FilterPanel Results_Element Results_Element"
     "FilterPanel Results_Element Results_Element"
     "FilterPanel footer   footer"

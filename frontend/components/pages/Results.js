@@ -12,7 +12,8 @@ import SearchBar from '../ResultsPage/SearchBar';
 import TermDropdown from '../ResultsPage/TermDropdown';
 import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
-import FilterPanel from '../ResultsPage/FilterPanel'
+import FilterPanel from '../ResultsPage/FilterPanel';
+import AppliedFilters from '..//ResultsPage/AppliedFilters';
 
 let count = 0;
 // Log search queries to amplitude on enter.
@@ -127,6 +128,7 @@ export default function Results() {
       </div>
       <div className='Results_Container'>
       <FilterPanel />
+      <AppliedFilters />
         <div className="Results_Element">
           {resultsElement()}
         </div>

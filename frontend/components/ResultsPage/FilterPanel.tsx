@@ -8,7 +8,7 @@ export type ActiveFilters = {
     classType?: string[],
   }
   
-  export interface FilterPanelProps {
+export interface FilterPanelProps {
     options: FilterOptions,
     active: ActiveFilters,
     setActive: (f: ActiveFilters) => void,
@@ -20,8 +20,10 @@ export type ActiveFilters = {
 
 export default function FilterPanel({ options, active, setActive }: FilterPanelProps)  {
 
+
     return (
         <div className="FilterPanel">
+            <div className="Dummy"/>
         </div>
     )
 
