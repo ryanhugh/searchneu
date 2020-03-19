@@ -17,6 +17,7 @@ import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
 import FilterPanel from '../ResultsPage/FilterPanel';
 import { FilterSelection, SearchItem } from '../types';
+import EmptyResultsContainer from './EmptyResultsContainer';
 
 interface SearchParams {
   termId: string,
@@ -88,43 +89,6 @@ export default function Results() {
     doSearch(searchParams);
   }, [searchParams, doSearch]);
 
-  const resultsElement = () => {
-    // return <div className='Results_Loading' />;
-    if (!isReady || results.length) {
-      return (
-        <div style={{ visibility: (isReady ? 'visible' : 'hidden') }}>
-          <div className='subjectContaineRowContainer'>
-            {/* {subjectInfoRow} */}
-          </div>
-          <ResultsLoader
-            results={ results }
-            loadMore={ loadMore }
-          />
-        </div>
-      );
-    }
-    return (
-      <div className='Results_EmptyContainer'>
-        <h3>
-          No Results
-        </h3>
-        <div className='Results_EmptyBottomLine'>
-          Want to&nbsp;
-          <a target='_blank' rel='noopener noreferrer' href={ `https://google.com/search?q=${macros.collegeName} ${query}` }>
-            search for&nbsp;
-            <div className='ui compact segment Results_EmptyText'>
-              <p>
-                {query}
-              </p>
-            </div>
-            &nbsp;on Google
-          </a>
-          ?
-        </div>
-      </div>
-    );
-  };
-
   return (
     <>
       <div className={ `Results_Header ${atTop ? 'Results_Header-top' : ''}` }>
@@ -161,12 +125,20 @@ export default function Results() {
           active={ filters }
           setActive={ setQParams }
         />
+
         <div>
-          {resultsElement()}
+          {!isReady && <div style={{ visibility : 'hidden' }} /> }
+          {isReady && !results.length && <EmptyResultsContainer query={ query } />}
+          {isReady && results.length
+          && (
+          <ResultsLoader
+            results={ results }
+            loadMore={ loadMore }
+          />
+          )}
         </div>
 
         <div className='botttomPadding' />
-
         <Footer />
       </div>
     </>
