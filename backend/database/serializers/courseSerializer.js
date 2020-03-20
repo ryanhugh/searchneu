@@ -46,7 +46,6 @@ class CourseSerializer {
 
   serializeCourse(course) {
     const obj = course.dataValues;
-    console.log(obj.lastUpdateTime);
     obj.lastUpdateTime = obj.lastUpdateTime.getTime();
 
     return _(obj).pick(this.courseCols()).value();

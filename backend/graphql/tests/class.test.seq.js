@@ -15,7 +15,7 @@ beforeAll(async () => {
     subject: 'CS',
     classId: '2500',
     name: 'Fundamentals of Computer Science 1',
-    lastUpdateTime: 123456789
+    lastUpdateTime: new Date()
   });
 
   await Course.create({
@@ -25,7 +25,7 @@ beforeAll(async () => {
     subject: 'CS',
     classId: '2500',
     name: 'Fundamentals of Computer Science 1',
-    lastUpdateTime: 123456789
+    lastUpdateTime: new Date()
   });
 });
 
@@ -33,7 +33,7 @@ afterAll(async () => {
   await sequelize.close();
 });
 
-it.only('gets all occurrences', async () => {
+it('gets all occurrences', async () => {
   const res = await query({
     query: gql`
       query class {
