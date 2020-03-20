@@ -16,6 +16,7 @@ import TermDropdown from '../ResultsPage/TermDropdown';
 import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
 import FilterPanel from '../ResultsPage/FilterPanel';
+import AppliedFilters from '..//ResultsPage/AppliedFilters';
 import { FilterSelection, SearchItem } from '../types';
 
 interface SearchParams {
@@ -160,13 +161,11 @@ export default function Results() {
           }}
           active={ filters }
           setActive={ setQParams }
-        />
-        <div>
+        />  
+      <AppliedFilters />
+        <div className="Results_Element">
           {resultsElement()}
         </div>
-
-        <div className='botttomPadding' />
-
         <Footer />
       </div>
     </>

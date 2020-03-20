@@ -46,6 +46,19 @@
 
 .Results_Container {
   padding-top: 84px;
+  grid-template-rows: 20px 1fr 30px;
+  grid-template-columns: 268px 1fr;
+  display: grid;
+  grid-template-areas: 
+    "     .      AppliedFilters  AppliedFilters"
+    "FilterPanel Results_Element Results_Element"
+    "FilterPanel Results_Element Results_Element"
+    "FilterPanel footer   footer"
+
+}
+
+.Results_Element {
+  grid-area: Results_Element;
 }
 
 // TODO make this a spiner, but need to fix ResultsLoader rerender issue first
