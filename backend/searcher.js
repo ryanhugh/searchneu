@@ -4,13 +4,14 @@
  */
 
 import elastic from './elastic';
-import { Section } from './database/models/index';
+import { Course, Section } from './database/models/index';
 import HydrateSerializer from './database/serializers/hydrateSerializer';
 import macros from './macros';
 
 class Searcher {
   constructor() {
     this.elastic = elastic;
+    this.subjects = null;
   }
 
   /**
@@ -115,6 +116,17 @@ class Searcher {
   }
 
   /**
+   * return a set of all existing subjects of classes
+   */
+  async getSubjects() {
+    if (!this.subjects) {
+      // can add plain: false if you want
+      this.subjects = new Set((await Course.aggregate('subject', 'distinct', { plain: false })).map(hash => hash.distinct));
+    }
+    return this.subjects;
+  }
+
+  /**
    * Search for classes and employees
    * @param  {string}  query  The search to query for
    * @param  {string}  termId The termId to look within
@@ -137,7 +149,7 @@ class Searcher {
     ];
 
     const patternResults = query.match(courseCodePattern);
-    if (patternResults && (await elastic.getSubjects()).has(patternResults[1].toLowerCase())) {
+    if (patternResults && (await this.getSubjects()).has(patternResults[1].toLowerCase())) {
       // after the first result, all of the following results should be of the same subject, e.g. it's weird to get ENGL2500 as the second or third result for CS2500
       fields = ['class.subject^10', 'class.classId'];
     }

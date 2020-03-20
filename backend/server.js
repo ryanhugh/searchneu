@@ -18,6 +18,7 @@ import atob from 'atob';
 import _ from 'lodash';
 import searcher from './searcher';
 import elastic from './elastic';
+import { Course, Section } from './database/models/index';
 
 import Request from './scrapers/request';
 import webpackConfig from './webpack.config.babel';
@@ -26,6 +27,7 @@ import notifyer from './notifyer';
 // import Updater from './updater';
 import database from './database';
 import graphql from './graphql';
+import HydrateCourseSerializer from './database/serializers/hydrateCourseSerializer';
 
 // This file manages every endpoint in the backend
 // and calls out to respective files depending on what was called
@@ -335,8 +337,8 @@ async function onSendToMessengerButtonClick(sender, userPageId, b64ref) {
   macros.log('Got webhook - received ', userObject);
   // TODO: check that sender is a string and not a number
   const existingData = await database.get(sender);
-
-  const aClass = (await elastic.get(elastic.CLASS_INDEX, userObject.classHash)).class;
+  const classModel = await Course.findByPk(userObject.classHash);
+  const aClass = Object.values(await (new HydrateCourseSerializer(Section).bulkSerialize([classModel])))[0].class;
 
   // User is signing in from a new device
   if (existingData) {
