@@ -133,21 +133,21 @@ export default function Results() {
             <div className='Results_SidebarSpacer' />
           </>
         ) }
-        <div className='Results_Element'>
+        <div className='Results_Main'>
           <AppliedFilters filters={ filters } setFilters={ setQParams } />
           {!isReady && <div style={{ visibility : 'hidden' }} /> }
-          {isReady && !results.length && <EmptyResultsContainer query={ query } />}
-          {isReady && results.length
+          {isReady && results.length === 0 && <EmptyResultsContainer query={ query } />}
+          {isReady && results.length > 0
           && (
           <ResultsLoader
             results={ results }
             loadMore={ loadMore }
           />
           )}
+          <Footer />
         </div>
       </div>
       <div className='botttomPadding' />
-      <Footer />
     </>
 
   );
