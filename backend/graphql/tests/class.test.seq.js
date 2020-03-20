@@ -1,3 +1,7 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
 import { createTestClient } from 'apollo-server-testing';
 import { gql } from 'apollo-server';
 import server from '../index';
