@@ -110,24 +110,27 @@ export default function Results() {
         />
       </div>
       <div className='Results_Container'>
-        <FilterPanel
-          options={{
-            NUpath: [
-              {
-                key:'DD', value:'DD', text:'diff div', count:1,
-              },
-              {
-                key:'IC', value:'IC', text:'interp cultures', count:1,
-              },
-            ],
-            subject: [],
-            classType: [],
-          }}
-          active={ filters }
-          setActive={ setQParams }
-        />
-        <AppliedFilters />
+        <div className='Results_SidebarWrapper'>
+          <FilterPanel
+            options={{
+              NUpath: [
+                {
+                  key:'DD', value:'DD', text:'diff div', count:1,
+                },
+                {
+                  key:'IC', value:'IC', text:'interp cultures', count:1,
+                },
+              ],
+              subject: [],
+              classType: [],
+            }}
+            active={ filters }
+            setActive={ setQParams }
+          />
+        </div>
+        <div className='Results_SidebarSpacer' />
         <div className='Results_Element'>
+          <AppliedFilters />
           {!isReady && <div style={{ visibility : 'hidden' }} /> }
           {isReady && !results.length && <EmptyResultsContainer query={ query } />}
           {isReady && results.length
@@ -138,10 +141,9 @@ export default function Results() {
           />
           )}
         </div>
-
-        <div className='botttomPadding' />
-        <Footer />
       </div>
+      <div className='botttomPadding' />
+      <Footer />
     </>
 
   );
