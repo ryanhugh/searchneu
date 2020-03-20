@@ -18,11 +18,15 @@ const getLatestClassOccurrence = async (host, subject, classId) => {
 
 const getAllClassOccurrences = async (host, subject, classId) => {
   const results = await Course.findAll({ where: { host, subject, classId }, limit: 10 });
-  return (await serializeValues(results)).map(c => c.class);
+  return (await serializeValues(results)).map((c) => c.class);
 }
 
 const getClassOccurrence = async (host, subject, classId, termId) => {
-  const res = await Course.findOne({ where: { host, subject, classId, termId } });
+  const res = await Course.findOne({
+    where: {
+      host, subject, classId, termId,
+    },
+  });
   return (await serializeValues([res]))[0].class;
 }
 

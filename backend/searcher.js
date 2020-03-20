@@ -121,7 +121,7 @@ class Searcher {
   async getSubjects() {
     if (!this.subjects) {
       // can add plain: false if you want
-      this.subjects = new Set((await Course.aggregate('subject', 'distinct', { plain: false })).map(hash => hash.distinct));
+      this.subjects = new Set((await Course.aggregate('subject', 'distinct', { plain: false })).map((hash) => hash.distinct));
     }
     return this.subjects;
   }

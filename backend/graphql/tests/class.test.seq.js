@@ -19,7 +19,7 @@ beforeAll(async () => {
     subject: 'CS',
     classId: '2500',
     name: 'Fundamentals of Computer Science 1',
-    lastUpdateTime: new Date()
+    lastUpdateTime: new Date(),
   });
 
   await Course.create({
@@ -29,7 +29,7 @@ beforeAll(async () => {
     subject: 'CS',
     classId: '2500',
     name: 'Fundamentals of Computer Science 1',
-    lastUpdateTime: new Date()
+    lastUpdateTime: new Date(),
   });
 });
 
