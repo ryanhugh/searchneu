@@ -7,18 +7,18 @@ import { Course, Section } from '../../database/models/index';
 
 const serializer = new HydrateCourseSerializer(Section);
 
-const serializeValues = async (results) => {
-  return Object.values(await serializer.bulkSerialize(results));
+const serializeValues = (results) => {
+  return results.map((result) => serializer.serializeCourse(result));
 }
 
 const getLatestClassOccurrence = async (host, subject, classId) => {
-  const res = await Course.findOne({ where: { host, subject, classId } });
-  return (await serializeValues([res]))[0].class;
+  const res = await Course.findOne({ where: { host, subject, classId }, order: [['termId', 'DESC']] });
+  return serializeValues([res])[0];
 }
 
 const getAllClassOccurrences = async (host, subject, classId) => {
-  const results = await Course.findAll({ where: { host, subject, classId }, limit: 10 });
-  return (await serializeValues(results)).map((c) => c.class);
+  const results = await Course.findAll({ where: { host, subject, classId } });
+  return serializeValues(results);
 }
 
 const getClassOccurrence = async (host, subject, classId, termId) => {
@@ -27,7 +27,7 @@ const getClassOccurrence = async (host, subject, classId, termId) => {
       host, subject, classId, termId,
     },
   });
-  return (await serializeValues([res]))[0].class;
+  return serializeValues([res])[0];
 }
 
 const resolvers = {
