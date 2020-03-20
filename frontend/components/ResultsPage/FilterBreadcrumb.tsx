@@ -1,11 +1,12 @@
-import React from "react";
+import React from 'react';
 
 export default function FilterBreadcrumb() {
-    return (
-    <div className="FilterBreadcrumb">
-        <button className="FilterBreadcrumb__close">
-            NU Path: Integration Experience
-            <span className="FilterBreadcrumb__icon"></span>
-            </button>
-            </div>)
+  return (
+    <div className='FilterBreadcrumb'>
+      <button className='FilterBreadcrumb__close'>
+        NU Path: Integration Experience
+        <span className='FilterBreadcrumb__icon' />
+      </button>
+    </div>
+  )
 }

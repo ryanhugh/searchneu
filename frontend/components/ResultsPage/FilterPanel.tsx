@@ -13,12 +13,12 @@ export interface FilterPanelProps {
 
 function FilterPanel({ options, active, setActive }: FilterPanelProps) {
   return (
-    <div className="FilterPanel">
-    <NUPathFilter
-      options={ options.NUpath }
-      active={ active.NUpath }
-      setActive={ (a) => setActive({ NUpath: a }) }
-    />
+    <div className='FilterPanel'>
+      <NUPathFilter
+        options={ options.NUpath }
+        active={ active.NUpath }
+        setActive={ (a) => setActive({ NUpath: a }) }
+      />
     </div>
   );
 }
