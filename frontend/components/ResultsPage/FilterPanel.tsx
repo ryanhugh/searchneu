@@ -17,7 +17,7 @@ function FilterPanel({ options, active, setActive }: FilterPanelProps) {
       <NUPathFilter
         options={ options.NUpath }
         active={ active.NUpath }
-        setActive={ (a) => setActive({ NUpath: a }) }
+        setActive={ (a: string[]) => setActive({ NUpath: a }) }
       />
     </div>
   );

@@ -48,7 +48,7 @@ $SIDEBAR_WIDTH: 268px;
 }
 
 .Results_Container {
-  padding-top: 84px;
+  padding-top: $TOPNAV_HEIGHT;
 }
 
 .Results_SidebarWrapper {
@@ -64,6 +64,7 @@ $SIDEBAR_WIDTH: 268px;
 
 .Results_Element {
   margin-left: $SIDEBAR_WIDTH;
+  padding: 0 40px;
 }
 
 // TODO make this a spiner, but need to fix ResultsLoader rerender issue first
