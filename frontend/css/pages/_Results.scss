@@ -57,6 +57,10 @@ $SIDEBAR_WIDTH: 268px;
   top: $TOPNAV_HEIGHT;
   bottom: 0;
   overflow-y: scroll;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 .Results_SidebarSpacer {
   width: $SIDEBAR_WIDTH;
