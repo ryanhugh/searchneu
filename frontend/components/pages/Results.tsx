@@ -157,8 +157,13 @@ export default function Results() {
             ],
             subject: [],
             classType: [ {
-              key:'II', value:'II', text:'individual instruction', count:1,
-            }, {key: 'L', value: 'L', text:'lab', count:1 }],
+              key:'individual', value:'individual', text:'Individual Instruction', count:1,
+              }, {
+                key: 'lab', value: 'lab', text:'Lab', count:1 
+              }, 
+              {
+              key: 'lecture', value: 'lecture', text: 'Lecture', count: 1
+            }],
           }
         }
           active={ filters }

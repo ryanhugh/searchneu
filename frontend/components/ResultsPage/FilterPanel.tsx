@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import NUPathFilter from './NUPathFilter';
-import ClassTypeFilter from './ClassTypeFilter';
+import CheckboxFilter from './CheckboxFilter';
 import { FilterOptions } from './filterTypes';
 import { FilterSelection } from '../types';
 
@@ -19,7 +19,8 @@ function FilterPanel({ options, active, setActive }: FilterPanelProps) {
       active={ active.NUpath }
       setActive={ (a) => setActive({ NUpath: a }) }
     />
-    <ClassTypeFilter
+    <CheckboxFilter
+      title='Schedule Type'
       options={ options.classType }
       active={ active.classType }
       setActive={ (a) => setActive( {classType: a})}
