@@ -247,4 +247,82 @@ describe('searcher', () => {
       allResults.forEach((result) => expect(result.class.scheduleType).toBe(filters.classType));
     });
   });
+
+  describe('filter aggregations', () => {
+    it('gives no aggregations', () => {
+      expect((await searcher.search('fundies', '202010', 0, 10, {})).aggregations).toEqual({});
+    });
+
+    it('gives an aggregation for a single filter', () => {
+      const filters = { online: true };
+      expect((searcher.search('writing', '202010', 0, 10, filters)).aggregations).toEqual({
+        online: {
+          value: true,
+          // this should be the count for all possible results you see
+          count: 100
+        }
+      });
+    });
+
+    it('gives multiple aggregations for a single filter with multiple options', () => {
+      const filters = { NUPath: ['NU Core/NUpath Adv Writ Dscpl', 'NUpath Interpreting Culture'] };
+      expect((searcher.search('science', '202010', 0, 10, filters))).toEqual({
+        // these guys should be OR'd. When getting their aggregation, ignore the selection of other filters of their kind.
+        NUPath: [
+          {
+            value: 'NU Core/NUpath Adv Writ Dscpl',
+            count: 30
+          },
+          {
+            value: 'NUpath Interpreting Culture',
+            count: 50
+          }
+        ]
+      });
+    });
+
+    it('gives an AND count for aggregations of multiple filters', () => {
+      const filters = {
+        sectionsAvailable: true,
+        online: true
+      };
+
+      expect((searcher.search('science', '202010', 0, 10, filters))).toEqual({
+        // these guys should be ANDed together
+        sectionsAvailable: {
+          value: true,
+          count: 50
+        },
+        online: {
+          value: true,
+          count: 30
+        }
+      });
+    });
+
+    it('gives an OR count for aggregations with multiple filters of the same kind', () => {
+      const filters = {
+        sectionsAvailable: true,
+        classType: ['Lab', 'Lecture']
+      };
+
+      expect((searcher.search('science', '202010', 0, 10, filters))).toEqual({
+        // these guys should be ANDed together
+        sectionsAvailable: {
+          value: true,
+          count: 50
+        },
+        classType: [
+          {
+            value: 'Lab',
+            count: 100
+          },
+          {
+            value: 'Lecture',
+            count: 30
+          }
+        ],
+      });
+    });
+  });
 });
