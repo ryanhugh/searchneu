@@ -12,7 +12,7 @@ export default function ToggleFilter({ title, active, setActive }: ToggleFilterP
     <div className='toggleFilter'>
       <div className='toggleName'>
         <p>
-          Show {title}
+          {title}
         </p>
       </div>
       <div className='toggleSwitch'>
