@@ -12,7 +12,7 @@
   width: 36px; // probably want to make these percentages when an actual side bar is in
   height: 18px;
   background: grey;
-  border-radius: 60px;
+  border-radius: 36px;
   position: absolute;
   transition: background-color 0.01s;
 }
@@ -23,7 +23,7 @@
   left: 1px;
   width: 20px;
   height: 20px;
-  border-radius: 25px;
+  border-radius: 20px;
   transition: 0.2s;
   background: #ae4543;
   box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
@@ -36,4 +36,9 @@
 .react-switch-checkbox:checked + .react-switch-label .react-switch-button {
   left: calc(100% - 2px);
   transform: translateX(-100%);
+}
+
+.toggleFilter {
+  display: flex;
+  justify-content: center;
 }
