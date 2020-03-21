@@ -62,6 +62,7 @@ const DEFAULT_PARAMS = {
 
 export default function Results() {
   const [atTop, setAtTop] = useState(true);
+  const [showSearching, setShowSearching] = useState(false);
   const { termId, query } = useParams();
   const [qParams, setQParams] = useQueryParams(QUERY_PARAM_ENCODERS);
   const history = useHistory();
@@ -101,6 +102,7 @@ export default function Results() {
               history.push(`/${termId}/${val}${history.location.search}`);
             } }
             query={ query }
+            onFocusChange={ setShowSearching }
           />
         </div>
         <TermDropdown
@@ -144,6 +146,7 @@ export default function Results() {
             loadMore={ loadMore }
           />
           )}
+        {showSearching+""}
           <Footer />
         </div>
       </div>

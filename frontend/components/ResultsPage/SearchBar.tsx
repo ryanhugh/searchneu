@@ -3,16 +3,21 @@
  * See the license file in the root folder for details.
  */
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import macros from '../macros';
 import logoInput from '../images/logo_input.svg';
+
+interface SearchBarProps {
+  query: string,
+  onSearch: (q: string) => void,
+  onFocusChange: (isFocused: boolean) => void
+}
 
 /**
  * Component to handle the searchbar input. Abstracts the jankiness of controlling input components.
  */
 export default function SearchBar({
-  query, onSearch,
-}) {
+  query, onSearch, onFocusChange,
+}: SearchBarProps) {
   // controlledQuery represents what's typed into the searchbar - even BEFORE enter is hit
   const [controlledQuery, setControlledQuery] = useState(query);
 
@@ -24,7 +29,7 @@ export default function SearchBar({
   // Hide keyboard and execute search
   const search = () => {
     if (macros.isMobile) {
-      if (document.activeElement) {
+      if (document.activeElement && document.activeElement instanceof HTMLElement) {
         document.activeElement.blur();
       }
     }
@@ -40,14 +45,16 @@ export default function SearchBar({
         spellCheck='false'
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus={ !macros.isMobile }
-        tabIndex='0'
+        tabIndex={ 0 }
         className='searchbar__input'
-        size='10'
+        size={ 10 }
         onKeyDown={ (event) => {
           if (event.key === 'Enter') {
             search();
           }
         } }
+        onFocus={ () => onFocusChange(true) }
+        onBlur={ () => onFocusChange(false) }
         onChange={ (event) => { setControlledQuery(event.target.value); } }
         value={ controlledQuery }
         placeholder={ !macros.isMobile && 'Class, professor, course number' }
@@ -62,8 +69,3 @@ export default function SearchBar({
     </div>
   );
 }
-
-SearchBar.propTypes = {
-  query: PropTypes.string.isRequired,
-  onSearch: PropTypes.func.isRequired,
-};
