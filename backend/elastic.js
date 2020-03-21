@@ -112,17 +112,6 @@ class Elastic {
   }
 
   /**
-   * Get document by id
-   * @param  {string} indexName Index to get from
-   * @param  {string} id        ID to get
-   * @return {Object} document source
-   * TODO: replace with Postgres?
-   */
-  async get(indexName, id) {
-    return (await client.get({ index: indexName, type: '_doc', id: id })).body._source;
-  }
-
-  /**
    * Get a hashmap of ids to documents from a list of ids
    * @param  {string} indexName Index to get from
    * @param  {Array}  ids       Array of string ids to get
@@ -143,99 +132,6 @@ class Elastic {
       }
       return result;
     }, {});
-  }
-
-  /**
-   * Get all occurrences of a class
-   * @param {string} host     Host to search in
-   * @param {string} subject  Subject (department) to search in
-   * @param {integer} classId Class ID code to find
-   * TODO: replace with postgres
-   */
-  async getAllClassOccurrences(host, subject, classId) {
-    const got = await client.search({
-      index: this.CLASS_INDEX,
-      body: {
-        size: 10,
-        query: {
-          bool: {
-            filter: [
-              { term: { 'class.host.keyword': host } },
-              { term: { 'class.subject.keyword': subject } },
-              { term: { 'class.classId.keyword': classId } },
-            ],
-          },
-        },
-      },
-    });
-    const hits = got.body.hits.hits.map((c) => { return c._source.class; });
-    return hits;
-  }
-
-  /**
-   * Get the latest occurrence of a class
-   * @param {string} host     Host to search in
-   * @param {string} subject  Subject (department) to search in
-   * @param {integer} classId Class ID code to find
-   * TODO: replace with Postgres
-   */
-  async getLatestClassOccurrence(host, subject, classId) {
-    const got = await client.search({
-      index: this.CLASS_INDEX,
-      body: {
-        sort: { 'class.termId.keyword' : 'desc' },
-        size: 1,
-        query: {
-          bool: {
-            filter: [
-              { term: { 'class.host.keyword': host } },
-              { term: { 'class.subject.keyword': subject } },
-              { term: { 'class.classId.keyword': classId } },
-            ],
-          },
-        },
-      },
-    });
-    const hit = got.body.hits.hits[0];
-    return hit ? hit._source.class : null;
-  }
-
-  /*
-   * Get all subjects for classes in the index
-   * TODO: replace with Postgres
-   */
-  async getSubjectsFromClasses() {
-    const subjects = await client.search({
-      index: `${this.CLASS_INDEX}`,
-      body: {
-        aggs: {
-          subjects: {
-            global: {},
-            aggs: {
-              subjects: {
-                terms: {
-                  field: 'class.subject.keyword',
-                  size: 10000, // anything that will get everything
-                },
-              },
-            },
-          },
-        },
-      },
-    });
-    return _.map(subjects.body.aggregations.subjects.subjects.buckets, (subject) => { return subject.key.toLowerCase(); });
-  }
-
-
-  /**
-   * Return a set of all available subjects
-   * TODO: replace with Postgres
-   */
-  async getSubjects() {
-    if (!this.subjects) {
-      this.subjects = new Set(await this.getSubjectsFromClasses());
-    }
-    return this.subjects;
   }
 
   async query(index, from, size, body) {

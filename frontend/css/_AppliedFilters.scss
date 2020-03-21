@@ -1,9 +1,17 @@
-.AppliedFilters {
-  width: 100%;
-  height: 80px;
-  left: 268px;
-  top: 20px;
-  grid-area: AppliedFilters;
-  position: absolute;
-}
+.applied-filters {
+  display: flex;
+  align-items:  center;
+  padding: 15px 0;
 
+  &__label {
+    font-weight: bold;
+    margin-right: 7px
+  }
+
+  &__row {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min-content;
+    grid-column-gap: 10px;
+  }
+}
