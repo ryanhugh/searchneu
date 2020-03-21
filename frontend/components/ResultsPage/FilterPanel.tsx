@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import NUPathFilter from './NUPathFilter';
+import ClassTypeFilter from './ClassTypeFilter';
 import { FilterOptions } from './filterTypes';
 import { FilterSelection } from '../types';
 
@@ -12,11 +13,19 @@ export interface FilterPanelProps {
 
 function FilterPanel({ options, active, setActive }: FilterPanelProps) {
   return (
+    <>
     <NUPathFilter
       options={ options.NUpath }
       active={ active.NUpath }
       setActive={ (a) => setActive({ NUpath: a }) }
     />
+    <ClassTypeFilter
+      options={ options.classType }
+      active={ active.classType }
+      setActive={ (a) => setActive( {classType: a})}
+    />
+    </>
+
   );
 }
 

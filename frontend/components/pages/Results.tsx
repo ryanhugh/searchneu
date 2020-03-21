@@ -156,8 +156,11 @@ export default function Results() {
               },
             ],
             subject: [],
-            classType: [],
-          }}
+            classType: [ {
+              key:'II', value:'II', text:'individual instruction', count:1,
+            }, {key: 'L', value: 'L', text:'lab', count:1 }],
+          }
+        }
           active={ filters }
           setActive={ setQParams }
         />
