@@ -2,17 +2,17 @@ import React from 'react';
 import '../../css/_Filters.scss';
 
 interface ToggleFilterProps {
-  filterName: string,
+  title: string,
   active: boolean,
   setActive: (a:boolean)=>void
 }
 
-export default function ToggleFilter({ filterName, active, setActive }: ToggleFilterProps) {
+export default function ToggleFilter({ title, active, setActive }: ToggleFilterProps) {
   return (
     <div className='toggleFilter'>
       <div className='toggleName'>
         <p>
-          Show {filterName}
+          Show {title}
         </p>
       </div>
       <div className='toggleSwitch'>

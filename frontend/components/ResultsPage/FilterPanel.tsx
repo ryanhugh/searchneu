@@ -35,7 +35,7 @@ function FilterPanel({ options, active, setActive }: FilterPanelProps) {
         setActive={ (a: string[]) => setActive({ NUpath: a}) }
       />
       <ToggleFilter
-        filterName='Online Classes Only'
+        title='Online Classes Only'
         active={ active.online }
         setActive={ (a) => setActive({ online: a }) }
       />
