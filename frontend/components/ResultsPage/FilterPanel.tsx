@@ -1,3 +1,4 @@
+
 import React from 'react';
 import _ from 'lodash';
 import NUPathFilter from './NUPathFilter';
@@ -13,20 +14,19 @@ export interface FilterPanelProps {
 
 function FilterPanel({ options, active, setActive }: FilterPanelProps) {
   return (
-    <>
-    <NUPathFilter
-      options={ options.NUpath }
-      active={ active.NUpath }
-      setActive={ (a) => setActive({ NUpath: a }) }
-    />
-    <CheckboxFilter
+    <div className='FilterPanel'>
+      <NUPathFilter
+        options={ options.NUpath }
+        active={ active.NUpath }
+        setActive={ (a) => setActive({ NUpath: a }) }
+      />
+      <CheckboxFilter
       title='Schedule Type'
       options={ options.classType }
       active={ active.classType }
       setActive={ (a) => setActive( {classType: a})}
-    />
-    </>
-
+      />
+    </div>
   );
 }
 
