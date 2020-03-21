@@ -35,7 +35,7 @@
     }
 
     &__text:hover > input:not(:checked) + .CheckboxFilter__checkbox {
-        background-color:rgba(212, 27, 44, .2);
+        background-color:rgba(212, 27, 44, .1);
         border: 1px solid rgba(0, 0, 0, 0.8);
 
     }
