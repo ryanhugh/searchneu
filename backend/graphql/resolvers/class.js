@@ -1,29 +1,43 @@
-import elastic from '../../elastic';
-import Keys from '../../../common/Keys';
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
+import HydrateCourseSerializer from '../../database/serializers/hydrateCourseSerializer';
+import { Course, Section } from '../../database/models/index';
 
-const getClassOccurence = async (host, subject, classId, termId) => {
-  try {
-    const id = Keys.getClassHash({
-      host: host, subject: subject, classId: classId, termId: termId,
-    });
-    const s = await elastic.get(elastic.CLASS_INDEX, id);
-    return s.class;
-  } catch (err) {
-    if (err.statusCode === 404) {
-      return null;
-    }
-    throw err;
-  }
-};
+const serializer = new HydrateCourseSerializer(Section);
+
+const serializeValues = (results) => {
+  return results.map((result) => serializer.serializeCourse(result));
+}
+
+const getLatestClassOccurrence = async (host, subject, classId) => {
+  const res = await Course.findOne({ where: { host, subject, classId }, order: [['termId', 'DESC']] });
+  return serializeValues([res])[0];
+}
+
+const getAllClassOccurrences = async (host, subject, classId) => {
+  const results = await Course.findAll({ where: { host, subject, classId } });
+  return serializeValues(results);
+}
+
+const getClassOccurrence = async (host, subject, classId, termId) => {
+  const res = await Course.findOne({
+    where: {
+      host, subject, classId, termId,
+    },
+  });
+  return serializeValues([res])[0];
+}
 
 const resolvers = {
   Query: {
-    class: (parent, args) => { return elastic.getLatestClassOccurrence('neu.edu', args.subject, args.classId); },
+    class: (parent, args) => { return getLatestClassOccurrence('neu.edu', args.subject, args.classId && args.classId.toString()); },
   },
   Class: {
-    latestOccurrence: (clas) => { return elastic.getLatestClassOccurrence('neu.edu', clas.subject, clas.classId); },
-    allOccurrences: (clas) => { return elastic.getAllClassOccurrences('neu.edu', clas.subject, clas.classId); },
-    occurrence: (clas, args) => { return getClassOccurence('neu.edu', clas.subject, clas.classId, args.termId.toString()); },
+    latestOccurrence: (clas) => { return getLatestClassOccurrence('neu.edu', clas.subject, clas.classId); },
+    allOccurrences: (clas) => { return getAllClassOccurrences('neu.edu', clas.subject, clas.classId); },
+    occurrence: (clas, args) => { return getClassOccurrence('neu.edu', clas.subject, clas.classId, args.termId.toString()); },
   },
 };
 

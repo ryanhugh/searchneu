@@ -1,6 +1,7 @@
+
 import React from 'react';
 import _ from 'lodash';
-import NUPathFilter from './NUPathFilter';
+import DropdownFilter from './DropdownFilter';
 import { FilterOptions } from './filterTypes';
 import { FilterSelection } from '../types';
 
@@ -12,11 +13,20 @@ export interface FilterPanelProps {
 
 function FilterPanel({ options, active, setActive }: FilterPanelProps) {
   return (
-    <NUPathFilter
-      options={ options.NUpath }
-      active={ active.NUpath }
-      setActive={ (a) => setActive({ NUpath: a }) }
-    />
+    <div className='FilterPanel'>
+      <DropdownFilter
+        title='Subjects'
+        options={ options.subject }
+        active={ active.subject }
+        setActive={ (a: string[]) => setActive({ subject: a }) }
+      />
+      <DropdownFilter
+        title='NU Paths'
+        options={ options.NUpath }
+        active={ active.NUpath }
+        setActive={ (a: string[]) => setActive({ NUpath: a }) }
+      />
+    </div>
   );
 }
 

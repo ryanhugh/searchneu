@@ -1,0 +1,52 @@
+.FilterBreadcrumb {
+  &__close {
+    height: 30px;
+    background: #ffff;
+    white-space: nowrap;
+    color: #4c5454;
+    border-radius: 7px;
+    border: .5px solid #bababa;
+    cursor: pointer;
+    padding-left: 10px;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:hover {
+      background-color: #d41b2c;
+      border-color: #d41b2c;
+      color: #ffff;
+    }
+
+    &:hover .FilterBreadcrumb__icon::before,
+    &:hover .FilterBreadcrumb__icon::after {
+      background-color: #ffff;
+    }
+  }
+
+  &__icon {
+    margin-left: 25px;
+    position: relative;
+
+    &::before,
+    &::after {
+      top: 50%;
+      right: 50%;
+      position: absolute;
+      content: '';
+      width: 14px; /* x size */
+      height: 1.5px; /* x thickness */
+      background-color: #d41b2c;
+    }
+
+    &::before {
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+    }
+  }
+}
+
