@@ -4,7 +4,7 @@ import _ from 'lodash';
 import DropdownFilter from './DropdownFilter';
 import { FilterOptions } from './filterTypes';
 import { FilterSelection } from '../types';
-import ToggleFilter from './OnlineFilter';
+import ToggleFilter from './ToggleFilter';
 
 export type ActiveFilters = {
   online?: boolean,
@@ -35,6 +35,7 @@ function FilterPanel({ options, active, setActive }: FilterPanelProps) {
         setActive={ (a: string[]) => setActive({ NUpath: a }) }
       />
       <ToggleFilter
+        filterName='Online Classes Only'
         active={ active.online }
         setActive={ (a) => setActive({ online: a }) }
       />
