@@ -49,6 +49,7 @@ $SIDEBAR_WIDTH: 268px;
 
 .Results_Container {
   padding-top: $TOPNAV_HEIGHT;
+  display: flex;
 }
 
 .Results_SidebarWrapper {
@@ -61,14 +62,20 @@ $SIDEBAR_WIDTH: 268px;
   &::-webkit-scrollbar {
     display: none;
   }
+  background-color: #f0f0f0;
 }
 .Results_SidebarSpacer {
-  width: $SIDEBAR_WIDTH;
+  flex-basis: $SIDEBAR_WIDTH;
+  flex-shrink: 0;
 }
 
 .Results_Main {
-  margin-left: $SIDEBAR_WIDTH;
   padding: 0 40px;
+  flex-grow: 1;
+  max-width: 1800px;
+  @media only screen and (max-width: 767px) {
+    padding: 0 10px;
+  }
 }
 
 // TODO make this a spiner, but need to fix ResultsLoader rerender issue first

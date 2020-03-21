@@ -108,7 +108,7 @@ export default function Home() {
             </div>
             <TermDropdown
               termId={ termId }
-              onChange={ (e, data) => { history.push(`/${data.value}`); } }
+              onChange={ (t) => { history.push(`/${t}`); } }
             />
 
             <div className={ cx({

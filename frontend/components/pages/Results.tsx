@@ -16,9 +16,10 @@ import TermDropdown from '../ResultsPage/TermDropdown';
 import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
 import FilterPanel from '../ResultsPage/FilterPanel';
-import AppliedFilters from '../ResultsPage/AppliedFilters';
+import ActiveFilters from '../ResultsPage/ActiveFilters';
 import { FilterSelection, SearchItem } from '../types';
 import EmptyResultsContainer from './EmptyResultsContainer';
+import MobileSearchOverlay from '../ResultsPage/MobileSearchOverlay';
 
 interface SearchParams {
   termId: string,
@@ -46,6 +47,19 @@ const fetchResults = async ({ query, termId, filters }: SearchParams, page: numb
   return results;
 };
 
+const BS_FILTER_OPTIONS = {
+  NUpath: [
+    {
+      key: 'DD', value: 'DD', text: 'diff div', count: 1,
+    },
+    {
+      key: 'IC', value: 'IC', text: 'interp cultures', count: 1,
+    },
+  ],
+  subject: [],
+  classType: [],
+}
+
 const QUERY_PARAM_ENCODERS = {
   online: BooleanParam,
   NUpath: ArrayParam,
@@ -66,6 +80,8 @@ export default function Results() {
   const { termId, query } = useParams();
   const [qParams, setQParams] = useQueryParams(QUERY_PARAM_ENCODERS);
   const history = useHistory();
+  const setSearchQuery = (q: string) => { history.push(`/${termId}/${q}${history.location.search}`); }
+  const setTerm = useCallback((t: string) => { history.push(`/${t}/${query}${history.location.search}`); }, [history, query])
 
   const filters: FilterSelection = _.merge({}, DEFAULT_PARAMS, qParams);
 
@@ -91,24 +107,37 @@ export default function Results() {
     doSearch(searchParams);
   }, [searchParams, doSearch]);
 
+  if (showSearching && macros.isMobile) {
+    return (
+      <MobileSearchOverlay
+        query={ query }
+        activeFilters={ filters }
+        filterOptions={ BS_FILTER_OPTIONS }
+        setActiveFilters={ setQParams }
+        setQuery={ (q: string) => {
+          setSearchQuery(q);
+          setShowSearching(false);
+        } }
+      />
+    )
+  }
+
   return (
-    <>
+    <div>
       <div className={ `Results_Header ${atTop ? 'Results_Header-top' : ''}` }>
         <img src={ logo } className='Results__Logo' alt='logo' onClick={ () => { history.push('/'); } } />
         <div className='Results__spacer' />
         <div className='Results__searchwrapper'>
           <SearchBar
-            onSearch={ (val) => {
-              history.push(`/${termId}/${val}${history.location.search}`);
-            } }
+            onSearch={ setSearchQuery }
             query={ query }
-            onFocusChange={ setShowSearching }
+            onClick={ () => setShowSearching(true) }
           />
         </div>
         <TermDropdown
           compact
           termId={ termId }
-          onChange={ useCallback((e, data) => { history.push(`/${data.value}/${query}`); }, [history, query]) }
+          onChange={ setTerm }
         />
       </div>
       <div className='Results_Container'>
@@ -116,42 +145,30 @@ export default function Results() {
           <>
             <div className='Results_SidebarWrapper'>
               <FilterPanel
-                options={{
-                  NUpath: [
-                    {
-                      key:'DD', value:'DD', text:'diff div', count:1,
-                    },
-                    {
-                      key:'IC', value:'IC', text:'interp cultures', count:1,
-                    },
-                  ],
-                  subject: [],
-                  classType: [],
-                }}
+                options={ BS_FILTER_OPTIONS }
                 active={ filters }
                 setActive={ setQParams }
               />
             </div>
             <div className='Results_SidebarSpacer' />
           </>
-        ) }
+        )}
         <div className='Results_Main'>
-          <AppliedFilters filters={ filters } setFilters={ setQParams } />
-          {!isReady && <div style={{ visibility : 'hidden' }} /> }
+          <ActiveFilters filters={ filters } setFilters={ setQParams } />
+          {!isReady && <div style={{ visibility: 'hidden' }} />}
           {isReady && results.length === 0 && <EmptyResultsContainer query={ query } />}
           {isReady && results.length > 0
-          && (
-          <ResultsLoader
-            results={ results }
-            loadMore={ loadMore }
-          />
-          )}
-        {showSearching+""}
+            && (
+              <ResultsLoader
+                results={ results }
+                loadMore={ loadMore }
+              />
+            )}
           <Footer />
         </div>
       </div>
       <div className='botttomPadding' />
-    </>
+    </div>
 
   );
 }

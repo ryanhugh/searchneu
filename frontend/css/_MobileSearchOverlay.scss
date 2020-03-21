@@ -1,0 +1,26 @@
+.msearch-overlay {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__back {
+    padding: 5px 15px 5px 15px;
+    height: 30px;
+  }
+
+  &__search {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
+
+  &__content {
+    flex-grow: 1;
+    margin-top: $TOPNAV_HEIGHT;
+    background-color: #f0f0f0;
+  }
+
+  &__active {
+    padding-left: 20px;
+    background-color: #fff;
+  }
+}

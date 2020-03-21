@@ -9,14 +9,15 @@ import logoInput from '../images/logo_input.svg';
 interface SearchBarProps {
   query: string,
   onSearch: (q: string) => void,
-  onFocusChange: (isFocused: boolean) => void
+  onClick?: () => void,
+  autoFocus?: boolean,
 }
 
 /**
  * Component to handle the searchbar input. Abstracts the jankiness of controlling input components.
  */
 export default function SearchBar({
-  query, onSearch, onFocusChange,
+  query, onSearch, onClick, autoFocus = !macros.isMobile,
 }: SearchBarProps) {
   // controlledQuery represents what's typed into the searchbar - even BEFORE enter is hit
   const [controlledQuery, setControlledQuery] = useState(query);
@@ -44,7 +45,7 @@ export default function SearchBar({
         autoComplete='off'
         spellCheck='false'
         // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus={ !macros.isMobile }
+        autoFocus={ autoFocus }
         tabIndex={ 0 }
         className='searchbar__input'
         size={ 10 }
@@ -53,8 +54,7 @@ export default function SearchBar({
             search();
           }
         } }
-        onFocus={ () => onFocusChange(true) }
-        onBlur={ () => onFocusChange(false) }
+        onClick={ onClick }
         onChange={ (event) => { setControlledQuery(event.target.value); } }
         value={ controlledQuery }
         placeholder={ !macros.isMobile && 'Class, professor, course number' }
