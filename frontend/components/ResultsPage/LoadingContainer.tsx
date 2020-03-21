@@ -3,21 +3,22 @@
  * See the license file in the root folder for details.
  */
 import React, { useEffect, useState } from 'react';
-import '../../css/pages/_LoadingContainer.scss'
+import '../../css/_LoadingContainer.scss'
 
 /**
  * Page that displays while results aren't ready
  */
 export default function LoadingContainer() {
-  const [showBlank, setDoAnimation] = useState(true);
+  const [doAnimation, setDoAnimation] = useState(true);
   const halfSecond = 500;
 
   useEffect(() => {
-    setTimeout(() => setDoAnimation(false), halfSecond);
-  });
+    const timer = setTimeout(() => setDoAnimation(false), halfSecond);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    showBlank ? <div style={{ visibility: 'hidden' }} />
+    doAnimation ? <div style={{ visibility: 'hidden' }} />
       : (
         <div className='loader'>
           <svg width='100' height='100' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'>

@@ -17,8 +17,8 @@ import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
 import FilterPanel from '../ResultsPage/FilterPanel';
 import { FilterSelection, SearchItem } from '../types';
-import EmptyResultsContainer from './EmptyResultsContainer';
-import LoadingContainer from './LoadingContainer';
+import EmptyResultsContainer from '../ResultsPage/EmptyResultsContainer';
+import LoadingContainer from '../ResultsPage/LoadingContainer';
 
 interface SearchParams {
   termId: string,
