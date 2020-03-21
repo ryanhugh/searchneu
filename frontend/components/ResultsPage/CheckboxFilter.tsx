@@ -20,13 +20,13 @@ export default function CheckboxFilter({title, options, active, setActive }: Che
         {(Checkbox) => (
           <>
             {options.map((option) => (
-              <label className="CheckboxFilter__element">
+              <div className="CheckboxFilter__element">
+                <label className='CheckboxFilter__text'>
                 <Checkbox value={ option.key } />
                 <span className='CheckboxFilter__checkbox' /> 
-                <label className='CheckboxFilter__text'>
                 {option.text}
                 </label>
-              </label>
+              </div>
             ))}
           </>
         )}

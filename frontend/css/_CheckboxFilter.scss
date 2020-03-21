@@ -17,7 +17,7 @@
         margin-left: 2px;
         margin-bottom: 5px;
     }
-    &__element > input {
+    &__text > input {
         position: absolute;
         opacity: 0;
         cursor: pointer;
@@ -25,19 +25,16 @@
         width: 16px;
     }
 
-    &__element > input:checked + .CheckboxFilter__checkbox {
+    &__text > input:checked + .CheckboxFilter__checkbox {
         background-color: #d41b2c;
         border-color:  #d41b2c;
-
     }
-    &__element > input:checked + .CheckboxFilter__checkbox::after {
+    
+    &__text > input:checked + .CheckboxFilter__checkbox::after {
         display: block;
-        
-
     }
 
     &__checkbox {
-
         display: block;
         position: absolute;
         top: 3px;
@@ -73,7 +70,8 @@
 
 
     &__text {
-        margin-left: 28px
+        margin-left: 28px;
+        cursor: pointer;
     }
 
 }
