@@ -57,7 +57,7 @@ export default function SearchBar({
         onClick={ onClick }
         onChange={ (event) => { setControlledQuery(event.target.value); } }
         value={ controlledQuery }
-        placeholder={ !macros.isMobile && 'Class, professor, course number' }
+        placeholder={ !macros.isMobile ? 'Class, professor, course number' : undefined }
       />
       <div onClick={ search } className='searchbar__button' role='button' tabIndex={ 0 }>
         <img

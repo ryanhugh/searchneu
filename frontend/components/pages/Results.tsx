@@ -77,7 +77,7 @@ const DEFAULT_PARAMS = {
 export default function Results() {
   const [atTop, setAtTop] = useState(true);
   const [showSearching, setShowSearching] = useState(false);
-  const { termId, query } = useParams();
+  const { termId, query = '' } = useParams();
   const [qParams, setQParams] = useQueryParams(QUERY_PARAM_ENCODERS);
   const history = useHistory();
   const setSearchQuery = (q: string) => { history.push(`/${termId}/${q}${history.location.search}`); }

@@ -19,7 +19,7 @@ export default function MobileSearchOverlay({
 }: MobileSearchOverlayProps) {
   return (
     <div className='msearch-overlay'>
-      <div className='Results_Header msearch-overlay__topbar'>
+      <div className='Results_Header Results_Header-top msearch-overlay__topbar'>
         <img
           src={ backIcon }
           className='msearch-overlay__back'

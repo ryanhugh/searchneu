@@ -25,6 +25,7 @@ export default function DropdownFilter({
         multiple
         selection
         fluid
+        compact
       />
     </div>
   );
