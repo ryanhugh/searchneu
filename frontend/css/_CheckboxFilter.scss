@@ -33,10 +33,6 @@
         height: 16px;
         width: 16px;
     }
-    &__text:hover + .CheckboxFilter__checkbox {
-        border-width: thic
-
-    }
 
     &__text:hover > input:not(:checked) + .CheckboxFilter__checkbox {
         background-color:rgba(212, 27, 44, .2);
