@@ -17,6 +17,15 @@
         margin-left: 2px;
         margin-bottom: 5px;
     }
+
+    &__text {
+        margin-left: 28px;
+        cursor: pointer;
+        &:hover {
+            font-weight: bolder;
+        }
+    }
+
     &__text > input {
         position: absolute;
         opacity: 0;
@@ -24,12 +33,22 @@
         height: 16px;
         width: 16px;
     }
+    &__text:hover + .CheckboxFilter__checkbox {
+        border-width: thic
+
+    }
+
+    &__text:hover > input:not(:checked) + .CheckboxFilter__checkbox {
+        background-color:rgba(212, 27, 44, .2);
+        border: 1px solid rgba(0, 0, 0, 0.8);
+
+    }
 
     &__text > input:checked + .CheckboxFilter__checkbox {
         background-color: #d41b2c;
         border-color:  #d41b2c;
     }
-    
+
     &__text > input:checked + .CheckboxFilter__checkbox::after {
         display: block;
     }
@@ -67,11 +86,5 @@
         }
     }
 
-
-
-    &__text {
-        margin-left: 28px;
-        cursor: pointer;
-    }
 
 }
