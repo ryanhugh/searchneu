@@ -9,6 +9,9 @@
     cursor: pointer;
     padding-left: 10px;
 
+    margin-left: 5px;
+    margin-bottom: 5px;
+
     &:focus {
       outline: none;
     }
@@ -22,6 +25,12 @@
     &:hover .FilterBreadcrumb__icon::before,
     &:hover .FilterBreadcrumb__icon::after {
       background-color: #ffff;
+    }
+  }
+
+  &__category {
+    @media only screen and (max-width: 700px) {
+      display: none;
     }
   }
 

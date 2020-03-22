@@ -16,7 +16,7 @@ function FilterBreadcrumb({ category, state, onClose }: BreadcrumbProps) {
         type='button'
         onClick={ onClose }
       >
-        <span className='FilterBreacrumb__category'>
+        <span className='FilterBreadcrumb__category'>
           {`${category}: `}
         </span>
         {state}
@@ -70,11 +70,11 @@ export default function ActiveFilters({ filters, setFilters }: ActiveFiltersProp
 
   if (crumbs.length > 0) {
     return (
-      <div className='applied-filters'>
-        <span className='applied-filters__label'>
-          Applied ({filters.NUpath.length}):
+      <div className='active-filters'>
+        <span className='active-filters__label'>
+          Applied ({crumbs.length}):
         </span>
-        <div className='applied-filters__row'>
+        <div className='active-filters__row'>
           {
           crumbs.map((crumb: BreadcrumbProps) => (
             <FilterBreadcrumb
