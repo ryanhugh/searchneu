@@ -60,7 +60,17 @@ const BS_FILTER_OPTIONS = {
     },
   ],
   subject: [],
-  classType: [],
+  classType: [
+    {
+      key: 'individual', value: 'individual', text: 'Individual Instruction', count: 1
+    }, 
+    {
+      key:'lab', value:'lab', text:'Lab', count: 1
+    },
+    {
+      key: 'lecture', value: 'lecture', text: 'Lecture', count:1
+    },
+  ],
 }
 
 const QUERY_PARAM_ENCODERS = {
