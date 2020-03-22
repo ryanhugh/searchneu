@@ -8,13 +8,6 @@ import { FilterOptions } from './filterTypes';
 import { FilterSelection } from '../types';
 import ToggleFilter from './ToggleFilter';
 
-export type ActiveFilters = {
-  online?: boolean,
-  NUpath?: string[],
-  subject?: string[],
-  classType?: string[],
-}
-
 export interface FilterPanelProps {
   options: FilterOptions,
   active: FilterSelection,
@@ -40,6 +33,11 @@ function FilterPanel({ options, active, setActive }: FilterPanelProps) {
         title='Online Classes Only'
         active={ active.online }
         setActive={ (a) => setActive({ online: a }) }
+      />
+      <ToggleFilter
+        title='Show Non-Offered Classes'
+        active={ active.showUnavailable }
+        setActive={ (a) => setActive({ showUnavailable: a }) }
       />
       <CheckboxFilter
         title='Schedule Type'
