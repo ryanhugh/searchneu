@@ -5,19 +5,19 @@
 import React, { useState, useEffect } from 'react';
 import macros from '../macros';
 import logoInput from '../images/logo_input.svg';
+import LogoInput from '../images/LogoInput';
 
 interface SearchBarProps {
   query: string,
   onSearch: (q: string) => void,
   onClick?: () => void,
-  autoFocus?: boolean,
 }
 
 /**
  * Component to handle the searchbar input. Abstracts the jankiness of controlling input components.
  */
 export default function SearchBar({
-  query, onSearch, onClick, autoFocus = !macros.isMobile,
+  query, onSearch, onClick,
 }: SearchBarProps) {
   // controlledQuery represents what's typed into the searchbar - even BEFORE enter is hit
   const [controlledQuery, setControlledQuery] = useState(query);
@@ -45,7 +45,7 @@ export default function SearchBar({
         autoComplete='off'
         spellCheck='false'
         // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus={ autoFocus }
+        autoFocus={ !macros.isMobile }
         tabIndex={ 0 }
         className='searchbar__input'
         size={ 10 }
@@ -60,11 +60,7 @@ export default function SearchBar({
         placeholder={ !macros.isMobile ? 'Class, professor, course number' : undefined }
       />
       <div onClick={ search } className='searchbar__button' role='button' tabIndex={ 0 }>
-        <img
-          src={ logoInput }
-          className='searchbar__button-logo'
-          alt='logo'
-        />
+        <LogoInput />
       </div>
     </div>
   );

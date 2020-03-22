@@ -1,3 +1,5 @@
+$EXECUTE_BTN_HEIGHT: 40px;
+
 .msearch-overlay {
   min-height: 100vh;
   display: flex;
@@ -16,11 +18,45 @@
   &__content {
     flex-grow: 1;
     margin-top: $TOPNAV_HEIGHT;
+    margin-bottom: $EXECUTE_BTN_HEIGHT;
     background-color: #f0f0f0;
   }
 
   &__active {
     padding-left: 20px;
     background-color: #fff;
+  }
+
+  &__execute {
+    position: fixed;
+    bottom: 0;
+    height: $EXECUTE_BTN_HEIGHT;
+    width: 100%;
+
+    font-size: 14px;
+    line-height: $EXECUTE_BTN_HEIGHT;
+    text-align: center;
+
+    background: #673ab7;
+    color: #FFF;
+  }
+}
+
+.overlay-search {
+  flex-grow: 1;
+  display: flex;
+
+  &__input {
+    flex-grow: 1;
+    border: none;
+    font-size: 16px;
+  }
+  
+  &__button {
+    padding-right: 20px;
+  }
+
+  &__logo .path{
+    fill: #0F0;
   }
 }
