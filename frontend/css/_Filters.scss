@@ -9,11 +9,10 @@
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  width: 36px; // probably want to make these percentages when an actual side bar is in
-  height: 18px;
+  width: 50px; // probably want to make these percentages when an actual side bar is in
+  height: 20px;
   background: grey;
   border-radius: 36px;
-  position: absolute;
   transition: background-color 0.01s;
 }
 
@@ -21,9 +20,9 @@
   content: '';
   position: relative;
   left: 1px;
-  width: 20px;
-  height: 20px;
-  border-radius: 20px;
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
   transition: 0.2s;
   background: #ae4543;
   box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
@@ -40,5 +39,9 @@
 
 .toggleFilter {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+}
+
+.toggleSwitch {
+  display: flex;
 }
