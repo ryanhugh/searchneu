@@ -3,12 +3,12 @@ import _ from 'lodash';
 import { FilterSelection } from '../types';
 
 interface BreadcrumbProps {
-  category: string,
-  state: string,
+  verbose: string, // for desktop
+  compact: string, // for mobile
   onClose: () => void,
 }
 
-function FilterBreadcrumb({ category, state, onClose }: BreadcrumbProps) {
+function FilterBreadcrumb({ verbose, compact, onClose }: BreadcrumbProps) {
   return (
     <div className='FilterBreadcrumb'>
       <button
@@ -16,10 +16,12 @@ function FilterBreadcrumb({ category, state, onClose }: BreadcrumbProps) {
         type='button'
         onClick={ onClose }
       >
-        <span className='FilterBreadcrumb__category'>
-          {`${category}: `}
+        <span className='FilterBreadcrumb__verbose'>
+          {verbose}
         </span>
-        {state}
+        <span className='FilterBreadcrumb__compact'>
+          {compact}
+        </span>
         <span className='FilterBreadcrumb__icon' />
       </button>
     </div>
@@ -51,8 +53,8 @@ export default function ActiveFilters({ filters, setFilters }: ActiveFiltersProp
   for (const { display, key } of OPTION_CATEGORIES) {
     for (const s of filters[key]) {
       crumbs.push({
-        category: display,
-        state: s,
+        verbose: `${display}: ${s}`,
+        compact: s,
         onClose: () => setFilters({ [key]: _.without(filters[key], s) }),
       });
     }
@@ -61,8 +63,8 @@ export default function ActiveFilters({ filters, setFilters }: ActiveFiltersProp
   for (const { display, key } of BOOLEAN_CATEGORIES) {
     if (filters[key]) {
       crumbs.push({
-        category: '',
-        state: display,
+        verbose: display,
+        compact: display,
         onClose: () => setFilters({ [key]: false }),
       })
     }
@@ -70,17 +72,18 @@ export default function ActiveFilters({ filters, setFilters }: ActiveFiltersProp
 
   return (
     <div className='active-filters'>
-      <span className='active-filters__label'>
-        {crumbs.length > 0
-          ? `Applied (${crumbs.length})`
-          : 'No filters applied'}
-      </span>
+      {crumbs.length > 0
+         && (
+         <span className='active-filters__label'>
+           Applied ({crumbs.length})
+         </span>
+         )}
       <div className='active-filters__row'>
         {
           crumbs.map((crumb: BreadcrumbProps) => (
             <FilterBreadcrumb
-              category={ crumb.category }
-              state={ crumb.state }
+              verbose={ crumb.verbose }
+              compact={ crumb.compact }
               onClose={ crumb.onClose }
             />
           ))

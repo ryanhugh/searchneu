@@ -28,8 +28,14 @@
     }
   }
 
-  &__category {
-    @media only screen and (max-width: 700px) {
+  &__verbose {
+    display: none;
+    @media only screen and (min-width: 700px) {
+      display: inline;
+    }
+  }
+  &__compact {
+    @media only screen and (min-width: 700px) {
       display: none;
     }
   }
