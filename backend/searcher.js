@@ -3,6 +3,7 @@
  * See the license file in the root folder for details.
  */
 
+import _ from 'lodash';
 import elastic from './elastic';
 import { Course, Section } from './database/models/index';
 import HydrateSerializer from './database/serializers/hydrateSerializer';
@@ -182,11 +183,23 @@ class Searcher {
   async getSearchResults(query, termId, min, max, filters) {
     const validFilters = this.validateFilters(filters);
     const classFilters = this.getClassFilterQuery(termId, validFilters);
+    const filteredFilters = Object.keys(this.filters).filter(filter => filter.agg);
     const queries = [this.generateQuery(query, classFilters, min, max)];
-    Object.keys(this.filters).filter(filter => filter.agg).forEach(filter => queries.push(this.generateQuery(query, _.omit(classFilters, filter), min, max, filter)));
+    filteredFilters.forEach(filter => queries.push(this.generateQuery(query, _.omit(classFilters, filter), min, max, filter)));
 
     const results = elastic.mquery(index, queries);
-    // parse
+    return this.parseResults(results, filteredFilters);
+  }
+
+  parseResults(results, aggFilters) {
+    return {
+      output: results[0].body.hits.hits,
+      resultCount: results[0].body.hits.total.value,
+      took: results[0].body.took,
+      aggregations: aggFilters.forEach((filter, idx) => {
+        aggAcc[filter] = results[idx + 1].body.hits.aggregations[filter].buckets.map(aggVal => { return { value: aggVal.key, count: aggVal.doc_count } });
+      }),
+    };
   }
 
   /**
@@ -197,13 +210,14 @@ class Searcher {
    * @param  {integer} max    The index of last document to retreive
    */
   async search(query, termId, min, max, filters = {}) {
-    const searchOutput = this.getSearchResults(query, termId, min, max, filters);
-    const results = await (new HydrateSerializer(Section)).bulkSerialize(searchOutput.body.hits.hits);
+    const { output, resultCount, took, aggregations } = this.getSearchResults(query, termId, min, max, filters);
+    const results = await (new HydrateSerializer(Section)).bulkSerialize(output);
 
     return {
       searchContent: results,
-      resultCount: searchOutput.body.hits.total.value,
-      took: searchOutput.body.took,
+      resultCount,
+      took,
+      aggregations
     };
   }
 }
