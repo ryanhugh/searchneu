@@ -139,6 +139,16 @@ class Elastic {
       index: index, from: from, size: size, body: body,
     });
   }
+
+  async mquery(index, queries) {
+    const multiQuery = [];
+    for (query of queries) {
+      multiQuery.push({ index });
+      multiQuery.push(query);
+    };
+
+    return client.search({ body: multiQuery });
+  }
 }
 
 const instance = new Elastic();

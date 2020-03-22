@@ -12,6 +12,54 @@ class Searcher {
   constructor() {
     this.elastic = elastic;
     this.subjects = null;
+    this.filters = Searcher.generateFilters();
+  }
+
+  static generateFilters() {
+    // type validating functions
+    const isString = (arg) => {
+      typeof arg === 'string';
+    };
+
+    const isStringArray = (arg) => {
+      return Array.isArray(arg) && arg.every(elem => isString(elem));
+    };
+
+    const isTrue = (arg) => {
+      return typeof arg === 'boolean' && arg;
+    };
+
+    // filter-generating functions
+    const getSectionsAvailableFilter  = (_) => {
+      return { exists: { field: 'sections' } };
+    };
+
+    const getNUpathFilter = (selectedNUpaths) => {
+      const NUpathFilters = selectedNUpaths.map((eachNUpath) => ({ match_phrase: { 'class.classAttributes': eachNUpath } }));
+      return { bool: { should: NUpathFilters } };
+    };
+
+    const getSubjectFilter = (selectedSubjects) => {
+      const subjectFilters = selectedSubjects.map((eachSubject) => ({ match: { 'class.subject': eachSubject } }));
+      return { bool: { should: subjectFilters } };
+    };
+
+    // note that { online: false } is never in filters
+    const getOnlineFilter = (selectedOnlineOption) => {
+      return { term: { 'sections.online': selectedOnlineOption } };
+    };
+
+    const getClassTypeFilter = (selectedClassType) => {
+      return { match: { 'class.scheduleType': selectedClassType } };
+    };
+
+    return {
+      nupath: { validate: isStringArray, create: getNUpathFilter, agg: true },
+      subject: { validate: isStringArray, create: getSubjectFilter, agg: true },
+      online: { validate: isTrue, create: getOnlineFilter, agg: false },
+      classType: { validate: isStringArray, create: getClassTypeFilter, agg: true },
+      sectionsAvailable: { validate: isTrue, create: getSectionsAvailableFilter, agg: false }
+    };
   }
 
   /**
@@ -29,37 +77,11 @@ class Searcher {
    * @param {object} filters The json object represting all filters on classes
    */
   validateFilters(filters) {
-    const isString = (givenVar) => {
-      return typeof givenVar === 'string';
-    };
-
-    const isStringArray = (givenVar) => {
-      return Array.isArray(givenVar) && givenVar.every((eachVar) => isString(eachVar));
-    };
-
-    const isTrue = (givenVar) => {
-      return typeof givenVar === 'boolean' && givenVar;
-    };
-
-    const validFiltersFormat = {
-      NUpath: isStringArray,
-      college: isStringArray,
-      subject: isStringArray,
-      online: isTrue,
-      classType: isString,
-    };
-
-    const validFilters = {};
-    for (const [filterKey, filterValues] of Object.entries(filters)) {
-      if (!(filterKey in validFiltersFormat)) {
-        macros.log('Invalid filter key.', filterKey);
-      } else if (!(validFiltersFormat[filterKey](filterValues))) {
-        macros.log('Invalid filter value type.', filterKey);
-      } else {
-        validFilters[filterKey] = filterValues;
-      }
-    }
-    return validFilters;
+    return Object.keys(filters).reduce((validFilters, currFilter) => {
+      if (!(currFilter in this.filters)) macros.log('Invalid filter key.', currFilter);
+      else if (!(this.filters[currFilter].validate(filters[currFilter]))) macros.log('Invalid filter value type.', currFilter);
+      else validFilters[currFilter] = filters[currFilter];
+    }, {});
   }
 
   /**
@@ -68,51 +90,10 @@ class Searcher {
    * @param  {object}  filters The json object representing all filters on classes
    */
   getClassFilterQuery(termId, filters) {
-    const hasSectionsFilter = { exists: { field: 'sections' } };
+    const classFilters = Object.keys(filters).filter(filter => filter in this.filters).map(filter => this.filters[filter].create(filters[filter]));
+    classFilters.push({ term: { 'class.termId': termId } });
 
-    const termFilter = { term: { 'class.termId': termId } };
-
-    const getNUpathFilter = (selectedNUpaths) => {
-      const NUpathFilters = selectedNUpaths.map((eachNUpath) => ({ match_phrase: { 'class.classAttributes': eachNUpath } }));
-      return { bool: { should: NUpathFilters } };
-    };
-
-    const getCollegeFilter = (selectedColleges) => {
-      const collegeFilters = selectedColleges.map((eachCollege) => ({ match_phrase: { 'class.classAttributes': eachCollege } }));
-      return { bool: { should: collegeFilters } };
-    };
-
-    const getSubjectFilter = (selectedSubjects) => {
-      const subjectFilters = selectedSubjects.map((eachSubject) => ({ match: { 'class.subject': eachSubject } }));
-      return { bool: { should: subjectFilters } };
-    };
-
-    // note that { online: false } is never in filters
-    const getOnlineFilter = (selectedOnlineOption) => {
-      return { term: { 'sections.online': selectedOnlineOption } };
-    };
-
-    const getClassTypeFilter = (selectedClassType) => {
-      return { match: { 'class.scheduleType': selectedClassType } };
-    };
-
-    // construct compound class filters (fliters joined by AND (must), options for a filter joined by OR (should))
-    const filterToEsQuery = {
-      NUpath: getNUpathFilter,
-      college: getCollegeFilter,
-      subject: getSubjectFilter,
-      online: getOnlineFilter,
-      classType: getClassTypeFilter,
-    };
-
-    const classFilters = [hasSectionsFilter, termFilter];
-    for (const [filterKey, filterValues] of Object.entries(filters)) {
-      if (filterKey in filterToEsQuery) {
-        classFilters.push(filterToEsQuery[filterKey](filterValues));
-      }
-    }
-
-    return { bool:{ must: classFilters } };
+    return { bool: { must: classFilters } };
   }
 
   /**
@@ -120,20 +101,12 @@ class Searcher {
    */
   async getSubjects() {
     if (!this.subjects) {
-      // can add plain: false if you want
       this.subjects = new Set((await Course.aggregate('subject', 'distinct', { plain: false })).map((hash) => hash.distinct));
     }
     return this.subjects;
   }
 
-  /**
-   * Search for classes and employees
-   * @param  {string}  query  The search to query for
-   * @param  {string}  termId The termId to look within
-   * @param  {integer} min    The index of first document to retreive
-   * @param  {integer} max    The index of last document to retreive
-   */
-  async search(query, termId, min, max, filters = {}) {
+  searchFields(query) {
     // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
     const courseCodePattern = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i;
     let fields = [
@@ -154,9 +127,11 @@ class Searcher {
       fields = ['class.subject^10', 'class.classId'];
     }
 
-    // get compound class filters
-    const validFilters = this.validateFilters(filters);
-    const classFilters = this.getClassFilterQuery(termId, validFilters);
+    return fields;
+  }
+
+  generateQuery(query, classFilters, min, max, aggregation = '') {
+    const fields = this.getFields(query);
 
     // text query from the main search box
     const matchTextQuery = {
@@ -174,8 +149,17 @@ class Searcher {
     // filter by type employee
     const isEmployee = { term: { type: 'employee' } };
 
+    // very likely this doesn't work
+    const aggregation = !aggregation ? {} : {
+      [aggregation]: {
+        terms: { field: aggregation }
+      }
+    };
+
     // compound query for text query and filters
-    const mainQuery = {
+    return {
+      from: min,
+      size: max - min,
       sort: ['_score', sortByClassId],
       query: {
         bool: {
@@ -190,10 +174,30 @@ class Searcher {
           },
         },
       },
+      aggregations: aggregation,
     };
+  }
 
-    const searchOutput = await elastic.query(`${elastic.EMPLOYEE_INDEX},${elastic.CLASS_INDEX}`, min, max - min, mainQuery);
 
+  async getSearchResults(query, termId, min, max, filters) {
+    const validFilters = this.validateFilters(filters);
+    const classFilters = this.getClassFilterQuery(termId, validFilters);
+    const queries = [this.generateQuery(query, classFilters, min, max)];
+    Object.keys(this.filters).filter(filter => filter.agg).forEach(filter => queries.push(this.generateQuery(query, _.omit(classFilters, filter), min, max, filter)));
+
+    const results = elastic.mquery(index, queries);
+    // parse
+  }
+
+  /**
+   * Search for classes and employees
+   * @param  {string}  query  The search to query for
+   * @param  {string}  termId The termId to look within
+   * @param  {integer} min    The index of first document to retreive
+   * @param  {integer} max    The index of last document to retreive
+   */
+  async search(query, termId, min, max, filters = {}) {
+    const searchOutput = this.getSearchResults(query, termId, min, max, filters);
     const results = await (new HydrateSerializer(Section)).bulkSerialize(searchOutput.body.hits.hits);
 
     return {
