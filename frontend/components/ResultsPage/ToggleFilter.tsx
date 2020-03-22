@@ -24,7 +24,6 @@ export default function ToggleFilter({ title, active, setActive }: ToggleFilterP
           type='checkbox'
         />
         <label
-          style={{ background:active && '#CA9897' }} // Color is currently same as darker red in Figma
           className='react-switch-label'
           htmlFor='react-switch-new'
         >
