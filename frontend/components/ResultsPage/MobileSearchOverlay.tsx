@@ -3,9 +3,9 @@ import { FilterSelection } from '../types';
 import FilterPanel from './FilterPanel';
 import { FilterOptions } from './filterTypes';
 import ActiveFilters from './ActiveFilters';
-import backIcon from '../images/back_icon.svg';
 import macros from '../macros';
 import LogoInput from '../images/LogoInput';
+import IconClose from '../images/IconClose';
 
 /**
  * setActiveFilters sets the active filters
@@ -50,12 +50,14 @@ export default function MobileSearchOverlay({
   return (
     <div className='msearch-overlay'>
       <div className='Results_Header Results_Header-top msearch-overlay__topbar'>
-        <img
-          src={ backIcon }
+        <div
           className='msearch-overlay__back'
-          alt='back'
+          role='button'
+          tabIndex={ 0 }
           onClick={ onClose }
-        />
+        >
+          <IconClose fill='#d41b2c' />
+        </div>
         <div className='overlay-search'>
           <input
             type='search'
@@ -82,12 +84,10 @@ export default function MobileSearchOverlay({
         </div>
       </div>
       <div className='msearch-overlay__content'>
-        <div className='msearch-overlay__active'>
-          <ActiveFilters
-            filters={ activeFilters }
-            setFilters={ setActiveFilters }
-          />
-        </div>
+        <ActiveFilters
+          filters={ activeFilters }
+          setFilters={ setActiveFilters }
+        />
         <FilterPanel
           options={ filterOptions }
           active={ activeFilters }

@@ -75,7 +75,7 @@ export default function ActiveFilters({ filters, setFilters }: ActiveFiltersProp
       {crumbs.length > 0
          && (
          <span className='active-filters__label'>
-           Applied ({crumbs.length})
+           Applied ({crumbs.length}):
          </span>
          )}
       <div className='active-filters__row'>

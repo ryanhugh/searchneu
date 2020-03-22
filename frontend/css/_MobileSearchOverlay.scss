@@ -8,6 +8,7 @@ $EXECUTE_BTN_HEIGHT: 40px;
   &__back {
     padding: 5px 15px 5px 15px;
     height: 30px;
+    width: 50px;
   }
 
   &__search {
@@ -20,10 +21,7 @@ $EXECUTE_BTN_HEIGHT: 40px;
     margin-top: $TOPNAV_HEIGHT;
     margin-bottom: $EXECUTE_BTN_HEIGHT;
     background-color: #f6f6f6;
-  }
-
-  &__active {
-    padding-left: 20px;
+    padding: 0 15px 25px 15px;
   }
 
   &__execute {
