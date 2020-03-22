@@ -31,12 +31,12 @@ interface ActiveFiltersProps {
   setFilters: (f: FilterSelection) => void
 }
 
-type FilterCategorySpecification = {key:string, display:string};
+type FilterCategorySpecification = { key: string, display: string };
 
 const OPTION_CATEGORIES: FilterCategorySpecification[] = [
-  { key:'NUpath', display:'NU Path' },
-  { key:'subject', display:'Subject' },
-  { key:'classType', display:'Class Type' },
+  { key: 'NUpath', display: 'NU Path' },
+  { key: 'subject', display: 'Subject' },
+  { key: 'classType', display: 'Class Type' },
 ];
 
 const BOOLEAN_CATEGORIES: FilterCategorySpecification[] = [
@@ -68,14 +68,15 @@ export default function ActiveFilters({ filters, setFilters }: ActiveFiltersProp
     }
   }
 
-  if (crumbs.length > 0) {
-    return (
-      <div className='active-filters'>
-        <span className='active-filters__label'>
-          Applied ({crumbs.length}):
-        </span>
-        <div className='active-filters__row'>
-          {
+  return (
+    <div className='active-filters'>
+      <span className='active-filters__label'>
+        {crumbs.length > 0
+          ? `Applied (${crumbs.length})`
+          : 'No filters applied'}
+      </span>
+      <div className='active-filters__row'>
+        {
           crumbs.map((crumb: BreadcrumbProps) => (
             <FilterBreadcrumb
               category={ crumb.category }
@@ -84,9 +85,7 @@ export default function ActiveFilters({ filters, setFilters }: ActiveFiltersProp
             />
           ))
         }
-        </div>
       </div>
-    )
-  }
-  return null;
+    </div>
+  )
 }

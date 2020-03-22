@@ -1,7 +1,8 @@
 .active-filters {
   display: flex;
   align-items:  center;
-  padding: 15px 0;
+  padding: 10px 0;
+  height: 50px;
 
   &__label {
     font-weight: bold;
