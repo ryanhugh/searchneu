@@ -34,5 +34,3 @@ export default function ToggleFilter({ title, active, setActive }: ToggleFilterP
     </div>
   );
 }
-
-// TODO: add label, turn into generic ToggleFilter, add name parameter
