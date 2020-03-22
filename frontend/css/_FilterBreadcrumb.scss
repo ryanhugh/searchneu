@@ -9,6 +9,9 @@
     cursor: pointer;
     padding-left: 10px;
 
+    margin-left: 5px;
+    margin-bottom: 5px;
+
     &:focus {
       outline: none;
     }
@@ -25,6 +28,12 @@
     }
   }
 
+  &__category {
+    @media only screen and (max-width: 700px) {
+      display: none;
+    }
+  }
+
   &__icon {
     margin-left: 25px;
     position: relative;
@@ -38,6 +47,7 @@
       width: 14px; /* x size */
       height: 1.5px; /* x thickness */
       background-color: #d41b2c;
+      border-radius: 2px;
     }
 
     &::before {

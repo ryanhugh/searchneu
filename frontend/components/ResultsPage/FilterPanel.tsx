@@ -1,6 +1,8 @@
 
 import React from 'react';
 import _ from 'lodash';
+
+import CheckboxFilter from './CheckboxFilter';
 import DropdownFilter from './DropdownFilter';
 import { FilterOptions } from './filterTypes';
 import { FilterSelection } from '../types';
@@ -38,6 +40,12 @@ function FilterPanel({ options, active, setActive }: FilterPanelProps) {
         title='Online Classes Only'
         active={ active.online }
         setActive={ (a) => setActive({ online: a }) }
+      />
+      <CheckboxFilter
+        title='Schedule Type'
+        options={ options.classType }
+        active={ active.classType }
+        setActive={ (a) => setActive({ classType: a }) }
       />
     </div>
   );

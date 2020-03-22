@@ -16,10 +16,10 @@ export default function App() {
     <Router>
       <QueryParamProvider ReactRouterRoute={ Route }>
         <Switch>
-          <Route path='/:termId/:query'>
+          <Route path='/:termId/:query?'>
             <Results />
           </Route>
-          <Route path='/:termId?'>
+          <Route path='/'>
             <Home />
           </Route>
         </Switch>

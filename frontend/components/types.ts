@@ -16,6 +16,7 @@ export type SearchItem = Course | Employee;
 // Represents which filters were selected by a user.
 export interface FilterSelection {
   online?: boolean,
+  showUnavailable?: boolean,
   NUpath?: string[],
   subject?: string[],
   classType?: string[],

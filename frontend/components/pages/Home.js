@@ -3,8 +3,9 @@
  * See the license file in the root folder for details.
  */
 import React, { useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import cx from 'classnames';
+import { useQueryParam, StringParam } from 'use-query-params';
 import SearchBar from '../ResultsPage/SearchBar';
 import logo from '../images/logo.svg';
 import boston from '../images/boston.svg';
@@ -28,10 +29,10 @@ const AVAILABLE_TERMS = termDropDownOptions.map((t) => { return t.value; });
 
 export default function Home() {
   const history = useHistory();
-  const { termId = LATEST_TERM } = useParams(); // Default to LATEST if term not in params
+  const [termId = LATEST_TERM, setTermId] = useQueryParam('termId', StringParam); // Default to LATEST if term not in params
   // Redirect to latest if we're at an old term
   if (!AVAILABLE_TERMS.includes(termId)) {
-    history.push(`/${LATEST_TERM}`);
+    setTermId(LATEST_TERM);
   }
 
   const [searchFocused, setSearchFocused] = useState(false);
@@ -108,7 +109,7 @@ export default function Home() {
             </div>
             <TermDropdown
               termId={ termId }
-              onChange={ (e, data) => { history.push(`/${data.value}`); } }
+              onChange={ setTermId }
             />
 
             <div className={ cx({
