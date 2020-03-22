@@ -64,6 +64,16 @@ class Searcher {
   }
 
   /**
+   * return a set of all existing subjects of classes
+   */
+  async getSubjects() {
+    if (!this.subjects) {
+      this.subjects = new Set((await Course.aggregate('subject', 'distinct', { plain: false })).map((hash) => hash.distinct));
+    }
+    return this.subjects;
+  }
+
+  /**
    * Remove any invalid filter with the following criteria:
    * 1. Correct key string and value type;
    * 2. Check that { online: false } should never be in filters
@@ -97,17 +107,8 @@ class Searcher {
     return { bool: { must: classFilters } };
   }
 
-  /**
-   * return a set of all existing subjects of classes
-   */
-  async getSubjects() {
-    if (!this.subjects) {
-      this.subjects = new Set((await Course.aggregate('subject', 'distinct', { plain: false })).map((hash) => hash.distinct));
-    }
-    return this.subjects;
-  }
 
-  searchFields(query) {
+  async getFields(query) {
     // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
     const courseCodePattern = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i;
     let fields = [
@@ -131,8 +132,8 @@ class Searcher {
     return fields;
   }
 
-  generateQuery(query, classFilters, min, max, aggregation = '') {
-    const fields = this.getFields(query);
+  async generateQuery(query, classFilters, min, max, aggregation = '') {
+    const fields = await this.getFields(query);
 
     // text query from the main search box
     const matchTextQuery = {
@@ -151,7 +152,7 @@ class Searcher {
     const isEmployee = { term: { type: 'employee' } };
 
     // very likely this doesn't work
-    const aggregation = !aggregation ? {} : {
+    const aggQuery = !aggregation ? {} : {
       [aggregation]: {
         terms: { field: aggregation }
       }
@@ -175,7 +176,7 @@ class Searcher {
           },
         },
       },
-      aggregations: aggregation,
+      aggregations: aggQuery,
     };
   }
 
@@ -184,10 +185,10 @@ class Searcher {
     const validFilters = this.validateFilters(filters);
     const classFilters = this.getClassFilterQuery(termId, validFilters);
     const filteredFilters = Object.keys(this.filters).filter(filter => filter.agg);
-    const queries = [this.generateQuery(query, classFilters, min, max)];
-    filteredFilters.forEach(filter => queries.push(this.generateQuery(query, _.omit(classFilters, filter), min, max, filter)));
+    const queries = [await this.generateQuery(query, classFilters, min, max)];
+    filteredFilters.forEach(async (filter) => queries.push(await this.generateQuery(query, _.omit(classFilters, filter), min, max, filter)));
 
-    const results = elastic.mquery(index, queries);
+    const results = await elastic.mquery(index, queries);
     return this.parseResults(results, filteredFilters);
   }
 
@@ -210,7 +211,7 @@ class Searcher {
    * @param  {integer} max    The index of last document to retreive
    */
   async search(query, termId, min, max, filters = {}) {
-    const { output, resultCount, took, aggregations } = this.getSearchResults(query, termId, min, max, filters);
+    const { output, resultCount, took, aggregations } = await this.getSearchResults(query, termId, min, max, filters);
     const results = await (new HydrateSerializer(Section)).bulkSerialize(output);
 
     return {
