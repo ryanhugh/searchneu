@@ -19,7 +19,8 @@
     }
 
     &__text {
-        margin-left: 28px;
+        padding-left: 28px;
+        flex-grow: 1;
         cursor: pointer;
         &:hover {
             color: black;

@@ -11,7 +11,9 @@ interface CheckboxFilterProps {
 
 }
 
-export default function CheckboxFilter({title, options, active, setActive }: CheckboxFilterProps) {
+export default function CheckboxFilter({
+  title, options, active, setActive,
+}: CheckboxFilterProps) {
   return (
 
     <div className='CheckboxFilter'>
@@ -20,11 +22,11 @@ export default function CheckboxFilter({title, options, active, setActive }: Che
         {(Checkbox) => (
           <>
             {options.map((option) => (
-              <div className="CheckboxFilter__element">
+              <div className='CheckboxFilter__element'>
                 <label className='CheckboxFilter__text'>
-                <Checkbox value={ option.key } />
-                <span className='CheckboxFilter__checkbox' /> 
-                {option.text}
+                  <Checkbox value={ option.key } />
+                  <span className='CheckboxFilter__checkbox' />
+                  {option.text}
                 </label>
               </div>
             ))}
