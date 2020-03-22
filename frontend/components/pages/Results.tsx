@@ -65,13 +65,15 @@ const BS_FILTER_OPTIONS = {
 
 const QUERY_PARAM_ENCODERS = {
   online: BooleanParam,
+  showUnavailable: BooleanParam,
   NUpath: ArrayParam,
   subject: ArrayParam,
   classType: ArrayParam,
 };
 
-const DEFAULT_PARAMS = {
+const DEFAULT_PARAMS: FilterSelection = {
   online: false,
+  showUnavailable: false,
   NUpath: [],
   subject: [],
   classType: [],
