@@ -62,10 +62,10 @@ class ClassParser {
       subject: subjectCode,
       classId: courseNumber,
       classAttributes: attributes,
-      desc: description,
+      desc: he.decode(description),
       prettyUrl: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?'
         + `cat_term_in=${termId}&subj_code_in=${subjectCode}&crse_numb_in=${courseNumber}`,
-      name: SR.courseTitle,
+      name: he.decode(SR.courseTitle),
       url: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_listcrse?'
         + `term_in=${termId}&subj_in=${subjectCode}&crse_in=${courseNumber}&schd_in=%`,
       lastUpdateTime: Date.now(),
