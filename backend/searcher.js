@@ -14,6 +14,7 @@ class Searcher {
     this.elastic = elastic;
     this.subjects = null;
     this.filters = Searcher.generateFilters();
+    this.aggFilters = _.pickBy(this.filters, (f) => !!f.agg);
   }
 
   static generateFilters() {
@@ -55,12 +56,17 @@ class Searcher {
       return { terms: { 'sections.classType': selectedClassTypes } };
     };
 
+    const getTermIdFilter = (selectedTermId) => {
+      return { term: { 'class.termId': selectedTermId } };
+    };
+
     return {
       nupath: { validate: isStringArray, create: getNUpathFilter, agg: 'class.classAttributes.keyword' },
       subject: { validate: isStringArray, create: getSubjectFilter, agg: 'class.subject.keyword' },
       online: { validate: isTrue, create: getOnlineFilter, agg: false },
       classType: { validate: isStringArray, create: getClassTypeFilter, agg: 'sections.classType.keyword' },
       sectionsAvailable: { validate: isTrue, create: getSectionsAvailableFilter, agg: false },
+      termId: { validate: isString, create: getTermIdFilter, agg: false },
     };
   }
 
@@ -83,7 +89,7 @@ class Searcher {
    * 2. Check that { online: false } should never be in filters
    *
    * A sample filters JSON object has the following format:
-   * { 'NUpath': string[],
+   * { 'nupath': string[],
    *   'college': string[],
    *   'subject': string[],
    *   'online': boolean,
@@ -100,22 +106,6 @@ class Searcher {
     });
     return validFilters;
   }
-
-  /**
-   * Get elasticsearch query from json filters and termId
-   * @param  {string}  termId  The termId to look within
-   * @param  {object}  filters The json object representing all filters on classes
-   */
-  getClassFilterQuery(termId, filters) {
-    // for every filter in this.filters
-    // create it
-    const classFilters = _(filters).pick(Object.keys(this.filters)).toPairs().map(([key, val]) => this.filters[key].create(val))
-      .value();
-    classFilters.push({ term: { 'class.termId': termId } });
-
-    return classFilters;
-  }
-
 
   getFields(query) {
     // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
@@ -141,7 +131,10 @@ class Searcher {
     return fields;
   }
 
-  generateQuery(query, classFilters, min, max, aggregation) {
+  /**
+   * Get elasticsearch query
+   */
+  generateQuery(query, termId, userFilters, min, max, aggregation) {
     const fields = this.getFields(query);
 
     // text query from the main search box
@@ -159,6 +152,12 @@ class Searcher {
 
     // filter by type employee
     const isEmployee = { term: { type: 'employee' } };
+    const areFiltersApplied = Object.keys(userFilters).length > 0;
+    const requiredFilters = { termId: termId, sectionsAvailable: true };
+    const filters = { ...requiredFilters, ...userFilters };
+
+    const classFilters = _(filters).pick(Object.keys(this.filters)).toPairs().map(([key, val]) => this.filters[key].create(val))
+      .value();
 
     // very likely this doesn't work
     const aggQuery = !aggregation ? undefined : {
@@ -179,7 +178,7 @@ class Searcher {
             bool: {
               should: [
                 { bool: { must: classFilters } },
-                isEmployee,
+                ...(!areFiltersApplied) ? [isEmployee] : [],
               ],
             },
           },
@@ -189,21 +188,22 @@ class Searcher {
     };
   }
 
+  generateMQuery(query, termId, min, max, filters) {
+    const validFilters = this.validateFilters(filters);
+
+    const queries = [this.generateQuery(query, termId, validFilters, min, max)];
+
+    for (const fKey of Object.keys(this.aggFilters)) {
+      const everyOtherFilter = _.omit(filters, fKey);
+      queries.push((this.generateQuery(query, termId, everyOtherFilter, 0, 0, fKey)));
+    }
+    return queries;
+  }
 
   async getSearchResults(query, termId, min, max, filters) {
-    const validFilters = this.validateFilters(filters);
-    const classFilters = this.getClassFilterQuery(termId, validFilters);
-
-    const queries = [this.generateQuery(query, classFilters, min, max)];
-    const aggFilters = _.pickBy(this.filters, (f) => !!f.agg);
-
-    for (const fKey of Object.keys(aggFilters)) {
-      const everyOtherFilter = _.without(Object.keys(filters), fKey);
-      queries.push((this.generateQuery(query, this.getClassFilterQuery(termId, everyOtherFilter), 0, 0, fKey)));
-    }
-
+    const queries = this.generateMQuery(query, termId, min, max, filters);
     const results = await elastic.mquery(`${elastic.CLASS_INDEX},${elastic.EMPLOYEE_INDEX}`, queries);
-    return this.parseResults(results.body.responses, Object.keys(aggFilters));
+    return this.parseResults(results.body.responses, Object.keys(this.aggFilters));
   }
 
   parseResults(results, filters) {

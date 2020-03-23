@@ -63,7 +63,6 @@ class Search {
       subject: filters.subject,
       online: filters.online,
       classType: filters.classType,
-      sectionsAvailable: !filters.showUnavailable,
     }, (v) => !Array.isArray(v) || v.length));
 
     const searchHash = termId + query + stringFilters;

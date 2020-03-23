@@ -11,6 +11,16 @@ describe('searcher', () => {
   describe('formFilters', () => {
   });
 
+  describe('generateQuery', () => {
+    it('generates with no filters', () => {
+      expect(searcher.generateMQuery('fundies', '202030', 0, 10, {})).toMatchSnapshot();
+    });
+
+    it('generates aggs with online filters applied', () => {
+      expect(searcher.generateMQuery('fundies', '202030', 0, 10, { online: true })).toMatchSnapshot();
+    });
+  });
+
   // TODO: create an association between cols in elasticCourseSerializer and here
   describe('generateQuery', () => {
     it('generates a query without filters', () => {

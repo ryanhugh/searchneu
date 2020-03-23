@@ -34,11 +34,6 @@ function FilterPanel({ options, active, setActive }: FilterPanelProps) {
         active={ active.online }
         setActive={ (a) => setActive({ online: a }) }
       />
-      <ToggleFilter
-        title='Show Non-Offered Classes'
-        active={ active.showUnavailable }
-        setActive={ (a) => setActive({ showUnavailable: a }) }
-      />
       <CheckboxFilter
         title='Schedule Type'
         options={ options.classType }

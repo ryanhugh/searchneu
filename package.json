@@ -9,6 +9,7 @@
     "fetch": "./scripts/load_data.sh",
     "index": "babel-node backend/scrapers/classes/searchIndex.js; babel-node backend/scrapers/employees/searchIndex.js",
     "store": "babel-node backend/dumpProcessor.js",
+    "resetIndex": "babel-node backend/resetIndex.js",
     "script": "cd $INIT_CWD; babel-node --root-mode upward --ignore \".this_does_not_exit\"",
     "inspect": "cd $INIT_CWD;echo 'Open chrome://inspect in chrome and hit the node button';npm run -s script -- --inspect-brk",
     "profile": "yarn run build_backend && mkdir -p cache && time env NODE_ENV=prod node --heap-prof --heap-prof-dir=cache --max_old_space_size=12000 dist/backend/scrapers/classes/parsersxe/startup.js",

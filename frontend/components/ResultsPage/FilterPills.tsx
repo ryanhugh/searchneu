@@ -43,7 +43,6 @@ const OPTION_CATEGORIES: FilterCategorySpecification[] = [
 
 const BOOLEAN_CATEGORIES: FilterCategorySpecification[] = [
   { key: 'online', display: 'Only Online' },
-  { key: 'showUnavailable', display: 'Show Unavailable' },
 ]
 
 export default function FilterPills({ filters, setFilters }: FilterPillsProps) {
