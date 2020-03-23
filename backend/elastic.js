@@ -145,8 +145,8 @@ class Elastic {
     for (const query of queries) {
       multiQuery.push({ index });
       multiQuery.push(query);
+      macros.log(JSON.stringify(query));
     }
-
     return client.msearch({ body: multiQuery });
   }
 }
