@@ -142,12 +142,12 @@ class Elastic {
 
   async mquery(index, queries) {
     const multiQuery = [];
-    for (query of queries) {
+    for (const query of queries) {
       multiQuery.push({ index });
       multiQuery.push(query);
     };
 
-    return client.search({ body: multiQuery });
+    return client.msearch({ body: multiQuery });
   }
 }
 

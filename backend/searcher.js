@@ -188,17 +188,17 @@ class Searcher {
     const queries = [await this.generateQuery(query, classFilters, min, max)];
     filteredFilters.forEach(async (filter) => queries.push(await this.generateQuery(query, _.omit(classFilters, filter), min, max, filter)));
 
-    const results = await elastic.mquery(index, queries);
-    return this.parseResults(results, filteredFilters);
+    const results = await elastic.mquery(`${elastic.CLASS_INDEX},${elastic.EMPLOYEE_INDEX}`, queries);
+    return this.parseResults(results.body.responses, filteredFilters);
   }
 
   parseResults(results, aggFilters) {
     return {
-      output: results[0].body.hits.hits,
-      resultCount: results[0].body.hits.total.value,
-      took: results[0].body.took,
+      output: results[0].hits.hits,
+      resultCount: results[0].hits.total.value,
+      took: results[0].took,
       aggregations: aggFilters.forEach((filter, idx) => {
-        aggAcc[filter] = results[idx + 1].body.hits.aggregations[filter].buckets.map(aggVal => { return { value: aggVal.key, count: aggVal.doc_count } });
+        aggAcc[filter] = results[idx + 1].hits.aggregations[filter].buckets.map(aggVal => { return { value: aggVal.key, count: aggVal.doc_count } });
       }),
     };
   }
