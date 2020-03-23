@@ -56,7 +56,13 @@ class Search {
       return [];
     }
 
-    const stringFilters = JSON.stringify(filters);
+    const stringFilters = JSON.stringify({
+      nupath: filters.NUpath,
+      subject: filters.subject,
+      online: filters.online,
+      classType: filters.classType,
+      sectionsAvailable: !filters.showUnavailable,
+    });
 
     const searchHash = termId + query + stringFilters;
 
