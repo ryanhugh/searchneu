@@ -78,14 +78,15 @@ export default function FilterPills({ filters, setFilters }: FilterPillsProps) {
         </span>
         <div className='active-filters__row'>
           {
-          crumbs.map((crumb: PillProps) => (
-            <FilterPill
-              verbose={ crumb.verbose }
-              compact={ crumb.compact }
-              onClose={ crumb.onClose }
-            />
-          ))
-        }
+            crumbs.map((crumb: PillProps) => (
+              <FilterPill
+                key={ crumb.verbose }
+                verbose={ crumb.verbose }
+                compact={ crumb.compact }
+                onClose={ crumb.onClose }
+              />
+            ))
+          }
         </div>
       </div>
     )
