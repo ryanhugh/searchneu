@@ -28,6 +28,9 @@
     cursor: pointer;
     padding-left: 10px;
 
+    margin-left: 5px;
+    margin-bottom: 5px;
+
     &:focus {
       outline: none;
     }
@@ -41,6 +44,18 @@
     &:hover .FilterBreadcrumb__icon::before,
     &:hover .FilterBreadcrumb__icon::after {
       background-color: #ffff;
+    }
+  }
+
+  &__verbose {
+    display: none;
+    @media only screen and (min-width: 700px) {
+      display: inline;
+    }
+  }
+  &__compact {
+    @media only screen and (min-width: 700px) {
+      display: none;
     }
   }
 

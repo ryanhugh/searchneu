@@ -1,9 +1,12 @@
 
 import React from 'react';
 import _ from 'lodash';
+
+import CheckboxFilter from './CheckboxFilter';
 import DropdownFilter from './DropdownFilter';
 import { FilterOptions } from './filterTypes';
 import { FilterSelection } from '../types';
+import ToggleFilter from './ToggleFilter';
 
 export interface FilterPanelProps {
   options: FilterOptions,
@@ -25,6 +28,22 @@ function FilterPanel({ options, active, setActive }: FilterPanelProps) {
         options={ options.NUpath }
         active={ active.NUpath }
         setActive={ (a: string[]) => setActive({ NUpath: a }) }
+      />
+      <ToggleFilter
+        title='Online Classes Only'
+        active={ active.online }
+        setActive={ (a) => setActive({ online: a }) }
+      />
+      <ToggleFilter
+        title='Show Non-Offered Classes'
+        active={ active.showUnavailable }
+        setActive={ (a) => setActive({ showUnavailable: a }) }
+      />
+      <CheckboxFilter
+        title='Schedule Type'
+        options={ options.classType }
+        active={ active.classType }
+        setActive={ (a) => setActive({ classType: a }) }
       />
     </div>
   );

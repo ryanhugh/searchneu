@@ -63,8 +63,8 @@ $SIDEBAR_WIDTH: 268px;
   &::-webkit-scrollbar {
     display: none;
   }
-
-  background-color: #f0f0f0;
+  background-color: #f6f6f6;
+  padding: 25px 15px 25px 15px;
 }
 
 .Results_SidebarSpacer {
@@ -78,8 +78,7 @@ $SIDEBAR_WIDTH: 268px;
   padding-left: 40px;
   flex-grow: 1;
   max-width: 1800px;
-
-  @media only screen and (max-width: 767px) {
+  @media only screen and (max-width: 1000px) {
     padding-right: 10px;
     padding-left: 10px;
   }

@@ -2,10 +2,13 @@
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
  */
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {
+  useEffect, useState, useCallback, useRef,
+} from 'react';
 import _ from 'lodash';
 import { useHistory, useParams } from 'react-router-dom';
-import { useQueryParams, BooleanParam, ArrayParam } from 'use-query-params';
+import { Location } from 'history';
+import { useQueryParams, BooleanParam, ArrayParam, useQueryParam } from 'use-query-params';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import logo from '../images/logo.svg';
 import search from '../search';
@@ -57,18 +60,30 @@ const BS_FILTER_OPTIONS = {
     },
   ],
   subject: [],
-  classType: [],
+  classType: [
+    {
+      key: 'individual', value: 'individual', text: 'Individual Instruction', count: 1
+    }, 
+    {
+      key:'lab', value:'lab', text:'Lab', count: 1
+    },
+    {
+      key: 'lecture', value: 'lecture', text: 'Lecture', count:1
+    },
+  ],
 }
 
 const QUERY_PARAM_ENCODERS = {
   online: BooleanParam,
+  showUnavailable: BooleanParam,
   NUpath: ArrayParam,
   subject: ArrayParam,
   classType: ArrayParam,
 };
 
-const DEFAULT_PARAMS = {
+const DEFAULT_PARAMS: FilterSelection = {
   online: false,
+  showUnavailable: false,
   NUpath: [],
   subject: [],
   classType: [],
@@ -76,7 +91,8 @@ const DEFAULT_PARAMS = {
 
 export default function Results() {
   const [atTop, setAtTop] = useState(true);
-  const [showSearching, setShowSearching] = useState(false);
+  const [showOverlay, setShowOverlay] = useQueryParam('overlay', BooleanParam);
+  const oldLoc = useRef<Location>(); // Url before going to the overlay
   const { termId, query = '' } = useParams();
   const [qParams, setQParams] = useQueryParams(QUERY_PARAM_ENCODERS);
   const history = useHistory();
@@ -107,17 +123,16 @@ export default function Results() {
     doSearch(searchParams);
   }, [searchParams, doSearch]);
 
-  if (showSearching && macros.isMobile) {
+  if (showOverlay && macros.isMobile) {
     return (
       <MobileSearchOverlay
         query={ query }
         activeFilters={ filters }
         filterOptions={ BS_FILTER_OPTIONS }
         setActiveFilters={ setQParams }
-        setQuery={ (q: string) => {
-          setSearchQuery(q);
-          setShowSearching(false);
-        } }
+        setQuery={ (q: string) => setSearchQuery(q) }
+        onExecute={ () => setShowOverlay(false) }
+        onClose={ () => history.push(oldLoc.current) }
       />
     )
   }
@@ -131,7 +146,12 @@ export default function Results() {
           <SearchBar
             onSearch={ setSearchQuery }
             query={ query }
-            onClick={ () => setShowSearching(true) }
+            onClick={ () => {
+              if (macros.isMobile) {
+                oldLoc.current = history.location;
+                setShowOverlay(true);
+              }
+            } }
           />
         </div>
         <TermDropdown
