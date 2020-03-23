@@ -249,13 +249,13 @@ describe('searcher', () => {
   });
 
   describe('filter aggregations', () => {
-    it('gives no aggregations', () => {
+    it('gives no aggregations', async () => {
       expect((await searcher.search('fundies', '202010', 0, 10, {})).aggregations).toEqual({});
     });
 
-    it('gives an aggregation for a single filter', () => {
+    it('gives an aggregation for a single filter', async () => {
       const filters = { online: true };
-      expect((searcher.search('writing', '202010', 0, 10, filters)).aggregations).toEqual({
+      expect((await searcher.search('writing', '202010', 0, 10, filters)).aggregations).toEqual({
         online: {
           value: true,
           // this should be the count for all possible results you see
@@ -264,9 +264,9 @@ describe('searcher', () => {
       });
     });
 
-    it('gives multiple aggregations for a single filter with multiple options', () => {
+    it('gives multiple aggregations for a single filter with multiple options', async () => {
       const filters = { NUPath: ['NU Core/NUpath Adv Writ Dscpl', 'NUpath Interpreting Culture'] };
-      expect((searcher.search('science', '202010', 0, 10, filters))).toEqual({
+      expect((await searcher.search('science', '202010', 0, 10, filters))).toEqual({
         // these guys should be OR'd. When getting their aggregation, ignore the selection of other filters of their kind.
         NUPath: [
           {
@@ -281,13 +281,13 @@ describe('searcher', () => {
       });
     });
 
-    it('gives an AND count for aggregations of multiple filters', () => {
+    it('gives an AND count for aggregations of multiple filters', async () => {
       const filters = {
         sectionsAvailable: true,
         online: true,
       };
 
-      expect((searcher.search('science', '202010', 0, 10, filters))).toEqual({
+      expect((await searcher.search('science', '202010', 0, 10, filters))).toEqual({
         // these guys should be ANDed together
         sectionsAvailable: {
           value: true,
@@ -300,13 +300,13 @@ describe('searcher', () => {
       });
     });
 
-    it('gives an OR count for aggregations with multiple filters of the same kind', () => {
+    it('gives an OR count for aggregations with multiple filters of the same kind', async () => {
       const filters = {
         sectionsAvailable: true,
         classType: ['Lab', 'Lecture'],
       };
 
-      expect((searcher.search('science', '202010', 0, 10, filters))).toEqual({
+      expect((await searcher.search('science', '202010', 0, 10, filters))).toEqual({
         // these guys should be ANDed together
         sectionsAvailable: {
           value: true,

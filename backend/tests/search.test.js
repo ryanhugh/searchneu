@@ -9,8 +9,8 @@ describe('searcher', () => {
 
   // TODO: create an association between cols in elasticCourseSerializer and here
   describe('generateQuery', () => {
-    it('generates a query without filters', () => {
-      expect(searcher.generateQuery('fundies', '202010', {})).toEqual({
+    it('generates a query without filters', async () => {
+      expect(await searcher.generateQuery('fundies', '202010', {})).toEqual({
         sort: ['_score', {
           'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' },
         }],
