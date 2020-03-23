@@ -1,6 +1,6 @@
 .active-filters {
   display: flex;
-  align-items:  center;
+  align-items: center;
   padding: 10px 0;
 
   &__label {
@@ -18,25 +18,6 @@
 }
 
 .FilterPill {
-  &::before,
-  &::after {
-    top: 50%;
-    right: 50%;
-    position: absolute;
-    content: '';
-    width: 14px; /* x size */
-    height: 1.5px; /* x thickness */
-    background-color: #d41b2c;
-  }
-
-  &::before {
-    transform: rotate(45deg);
-  }
-
-  &::after {
-    transform: rotate(-45deg);
-  }
-
   &__close {
     height: 30px;
     background: #ffff;
@@ -81,5 +62,23 @@
   &__icon {
     margin-left: 25px;
     position: relative;
+    &::before,
+    &::after {
+      top: 50%;
+      right: 50%;
+      position: absolute;
+      content: "";
+      width: 14px; /* x size */
+      height: 1.5px; /* x thickness */
+      background-color: #d41b2c;
+    }
+
+    &::before {
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+    }
   }
 }
