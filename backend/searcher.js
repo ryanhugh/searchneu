@@ -59,7 +59,7 @@ class Searcher {
       nupath: { validate: isStringArray, create: getNUpathFilter, agg: 'class.classAttributes.keyword' },
       subject: { validate: isStringArray, create: getSubjectFilter, agg: 'class.subject.keyword' },
       online: { validate: isTrue, create: getOnlineFilter, agg: false },
-      classType: { validate: isStringArray, create: getClassTypeFilter, agg: 'section.classType.keyword' },
+      classType: { validate: isStringArray, create: getClassTypeFilter, agg: 'sections.classType.keyword' },
       sectionsAvailable: { validate: isTrue, create: getSectionsAvailableFilter, agg: false },
     };
   }

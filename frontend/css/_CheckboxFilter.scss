@@ -25,6 +25,11 @@
         }
     }
 
+    &__count {
+        float: right;
+        color:  #888;
+    }
+
     &__text > input {
         position: absolute;
         opacity: 0;

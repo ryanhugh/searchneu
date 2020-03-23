@@ -20,7 +20,7 @@ export default function DropdownFilter({
         } }
         value={ active }
         labeled
-        options={ options.map((o:Option) => ({ key:o.value, text:o.value, value:o.value })) }
+        options={ options.map((o:Option) => ({ key:o.value, text:o.value, value:o.value, description: o.count})) }
         search
         multiple
         selection

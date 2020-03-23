@@ -14,7 +14,7 @@ class ElasticCourseSerializer extends CourseSerializer {
   }
 
   sectionCols() {
-    return ['profs', 'online'];
+    return ['profs', 'online', 'classType'];
   }
 }
 

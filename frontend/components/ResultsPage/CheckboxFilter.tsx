@@ -27,6 +27,9 @@ export default function CheckboxFilter({
                   <Checkbox value={ option.value } />
                   <span className='CheckboxFilter__checkbox' />
                   {option.value}
+                  <span className='CheckboxFilter__count'>
+                    {option.count}
+                  </span>
                 </label>
               </div>
             ))}
