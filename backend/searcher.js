@@ -189,22 +189,27 @@ class Searcher {
   async getSearchResults(query, termId, min, max, filters) {
     const validFilters = this.validateFilters(filters);
     const classFilters = this.getClassFilterQuery(termId, validFilters);
-    const filteredFilters = Object.keys(this.filters).filter((filter) => filter.agg);
+
     const queries = [await this.generateQuery(query, classFilters, min, max)];
-    filteredFilters.forEach(async (filter) => queries.push(await this.generateQuery(query, _.omit(classFilters, filter), min, max, filter)));
+    const aggFilters = Object.keys(this.filters).filter(filter => this.filters[filter].agg);
+
+    for (const aggFilter of aggFilters) {
+      queries.push((await this.generateQuery(query, _.omit(classFilters, aggFilter), min, max, aggFilter)));
+    }
 
     const results = await elastic.mquery(`${elastic.CLASS_INDEX},${elastic.EMPLOYEE_INDEX}`, queries);
-    return this.parseResults(results.body.responses, filteredFilters);
+    return this.parseResults(results.body.responses, aggFilters);
   }
 
-  parseResults(results, aggFilters) {
+  parseResults(results, filters) {
+    macros.log(results);
     const aggAcc = {};
     return {
       output: results[0].hits.hits,
       resultCount: results[0].hits.total.value,
       took: results[0].took,
-      aggregations: aggFilters.forEach((filter, idx) => {
-        aggAcc[filter] = results[idx + 1].hits.aggregations[filter].buckets.map((aggVal) => { return { value: aggVal.key, count: aggVal.doc_count } });
+      aggregations: filters.forEach((filter, idx) => {
+        aggAcc[filter] = results[idx + 1].aggregations[filter].buckets.map((aggVal) => { return { value: aggVal.key, count: aggVal.doc_count } });
       }),
     };
   }
