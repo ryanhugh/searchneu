@@ -38,13 +38,11 @@ class Searcher {
 
     // TODO just use the terms query!!!!!!! wtfff
     const getNUpathFilter = (selectedNUpaths) => {
-      const NUpathFilters = selectedNUpaths.map((eachNUpath) => ({ match_phrase: { 'class.classAttributes': eachNUpath } }));
-      return { bool: { should: NUpathFilters } };
+      return { terms: { 'class.classAttributes.keyword': selectedNUpaths } };
     };
 
     const getSubjectFilter = (selectedSubjects) => {
-      const subjectFilters = selectedSubjects.map((eachSubject) => ({ match: { 'class.subject': eachSubject } }));
-      return { bool: { should: subjectFilters } };
+      return { terms: { 'class.subject.keyword': selectedSubjects } };
     };
 
     // note that { online: false } is never in filters
@@ -53,7 +51,7 @@ class Searcher {
     };
 
     const getClassTypeFilter = (selectedClassTypes) => {
-      return { terms: { 'sections.classType': selectedClassTypes } };
+      return { terms: { 'sections.classType.keyword': selectedClassTypes } };
     };
 
     const getTermIdFilter = (selectedTermId) => {
@@ -159,6 +157,7 @@ class Searcher {
     const classFilters = _(filters).pick(Object.keys(this.filters)).toPairs().map(([key, val]) => this.filters[key].create(val))
       .value();
 
+    macros.log(classFilters);
     // very likely this doesn't work
     const aggQuery = !aggregation ? undefined : {
       [aggregation]: {
@@ -203,6 +202,8 @@ class Searcher {
   async getSearchResults(query, termId, min, max, filters) {
     const queries = this.generateMQuery(query, termId, min, max, filters);
     const results = await elastic.mquery(`${elastic.CLASS_INDEX},${elastic.EMPLOYEE_INDEX}`, queries);
+    macros.log('es results')
+    macros.log(JSON.stringify(results, null, 2));
     return this.parseResults(results.body.responses, Object.keys(this.aggFilters));
   }
 
