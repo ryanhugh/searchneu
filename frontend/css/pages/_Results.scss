@@ -59,11 +59,14 @@ $SIDEBAR_WIDTH: 268px;
   bottom: 0;
   overflow-y: scroll;
   scrollbar-width: none;
+
   &::-webkit-scrollbar {
     display: none;
   }
+
   background-color: #f0f0f0;
 }
+
 .Results_SidebarSpacer {
   flex-basis: $SIDEBAR_WIDTH;
   flex-shrink: 0;
@@ -75,6 +78,7 @@ $SIDEBAR_WIDTH: 268px;
   padding-left: 40px;
   flex-grow: 1;
   max-width: 1800px;
+
   @media only screen and (max-width: 767px) {
     padding-right: 10px;
     padding-left: 10px;

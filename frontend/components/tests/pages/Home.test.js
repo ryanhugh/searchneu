@@ -13,7 +13,7 @@ import Home from '../../pages/Home';
 jest.mock('react-router-dom', () => ({
   useHistory: () => ({
     push: jest.fn(),
-  })
+  }),
 }));
 
 jest.mock('use-query-params', () => ({

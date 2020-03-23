@@ -45,7 +45,7 @@ it('should cache the results of a given search', async (done) => {
   // Even though we disable the response, this search module should cache it.
   mockRequest.setBenResponse(false);
 
-  const secondResults = await search.search('ben', '201850', {},  4);
+  const secondResults = await search.search('ben', '201850', {}, 4);
 
   expect(secondResults).toEqual(firstResults);
 
