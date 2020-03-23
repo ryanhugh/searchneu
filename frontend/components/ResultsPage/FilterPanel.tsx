@@ -1,5 +1,5 @@
 
-import React, { useCallback } from 'react';
+import React from 'react';
 import _ from 'lodash';
 
 import CheckboxFilter from './CheckboxFilter';

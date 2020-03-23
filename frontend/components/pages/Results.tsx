@@ -2,18 +2,15 @@
  * This file is part of Search NEU and licensed under AGPL3.
  * See the license file in the root folder for details.
  */
-import React, {
-  useEffect, useState, useCallback, useRef,
-} from 'react';
+import React, { useCallback } from 'react';
 import _ from 'lodash';
 import { useHistory, useParams } from 'react-router-dom';
-import { Location } from 'history';
 import {
   useQueryParams, BooleanParam, ArrayParam, useQueryParam,
 } from 'use-query-params';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import logo from '../images/logo.svg';
-import search, { SearchResult } from '../search';
+import search from '../search';
 import macros from '../macros';
 import ResultsLoader from '../ResultsLoader';
 import SearchBar from '../ResultsPage/SearchBar';
@@ -22,11 +19,11 @@ import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
 import FilterPanel from '../ResultsPage/FilterPanel';
 import FilterPills from '../ResultsPage/FilterPills';
-import { FilterSelection, SearchItem } from '../types';
+import { FilterSelection, BLANK_SEARCH_RESULT, SearchResult } from '../types';
 import EmptyResultsContainer from './EmptyResultsContainer';
 import MobileSearchOverlay from '../ResultsPage/MobileSearchOverlay';
 import useAtTop from '../ResultsPage/useAtTop';
-import { BLANK_SEARCH_RESULT } from '../types';
+
 
 interface SearchParams {
   termId: string,
@@ -54,30 +51,6 @@ const fetchResults = async ({ query, termId, filters }: SearchParams, page: numb
   return response;
 };
 
-const BS_FILTER_OPTIONS = {
-  nupath: [
-    {
-      key: 'Computer&Info Sci  UBCS', value: 'Computer&Info Sci  UBCS', text: 'diff div', count: 1,
-
-    },
-    {
-      key: 'IC', value: 'IC', text: 'interp cultures', count: 1,
-    },
-  ],
-  subject: [],
-  classType: [
-    {
-      key: 'individual', value: 'individual', text: 'Individual Instruction', count: 1,
-    },
-    {
-      key:'lab', value:'lab', text:'Lab', count: 1,
-    },
-    {
-      key: 'lecture', value: 'lecture', text: 'Lecture', count:1,
-    },
-  ],
-}
-
 const QUERY_PARAM_ENCODERS = {
   online: BooleanParam,
   showUnavailable: BooleanParam,
@@ -97,7 +70,6 @@ const DEFAULT_PARAMS: FilterSelection = {
 export default function Results() {
   const atTop = useAtTop();
   const [showOverlay, setShowOverlay] = useQueryParam('overlay', BooleanParam);
-  const oldLoc = useRef<Location>(); // Url before going to the overlay
   const { termId, query = '' } = useParams();
   const [qParams, setQParams] = useQueryParams(QUERY_PARAM_ENCODERS);
   const history = useHistory();
@@ -127,7 +99,6 @@ export default function Results() {
         setFilterPills={ setQParams }
         setQuery={ (q: string) => setSearchQuery(q) }
         onExecute={ () => setShowOverlay(false) }
-        onClose={ () => history.push(oldLoc.current) }
       />
     )
   }
@@ -143,7 +114,6 @@ export default function Results() {
             query={ query }
             onClick={ () => {
               if (macros.isMobile) {
-                oldLoc.current = history.location;
                 setShowOverlay(true);
               }
             } }

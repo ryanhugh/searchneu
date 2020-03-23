@@ -20,14 +20,13 @@ interface MobileSearchOverlayProps {
   setFilterPills: (f: FilterSelection) => void,
   setQuery: (q: string) => void,
   onExecute: () => void,
-  onClose: () => void,
   activeFilters: FilterSelection,
   filterOptions: FilterOptions,
   query: string,
 }
 
 export default function MobileSearchOverlay({
-  setFilterPills, setQuery, activeFilters, filterOptions, query, onExecute, onClose,
+  setFilterPills, setQuery, activeFilters, filterOptions, query, onExecute,
 }: MobileSearchOverlayProps) {
   // controlledQuery represents what's typed into the searchbar - even BEFORE enter is hit
   const [controlledQuery, setControlledQuery] = useState(query);
@@ -54,7 +53,7 @@ export default function MobileSearchOverlay({
           className='msearch-overlay__back'
           role='button'
           tabIndex={ 0 }
-          onClick={ onClose }
+          onClick={ search }
         >
           <IconClose fill='#d41b2c' />
         </div>
