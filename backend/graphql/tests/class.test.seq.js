@@ -1,34 +1,40 @@
+/*
+ * This file is part of Search NEU and licensed under AGPL3.
+ * See the license file in the root folder for details.
+ */
 import { createTestClient } from 'apollo-server-testing';
 import { gql } from 'apollo-server';
-import elastic from '../../elastic';
 import server from '../index';
-import mapping from '../../scrapers/classes/classMapping.json';
+import { Course, Section, sequelize } from '../../database/models/index';
 
 const { query } = createTestClient(server);
 
 beforeAll(async () => {
-  elastic.CLASS_INDEX = 'testclasses';
-  await elastic.resetIndex(elastic.CLASS_INDEX, mapping);
-  await elastic.bulkIndexFromMap(elastic.CLASS_INDEX, {
-    'neu.edu/201930/CS/2500': {
-      class: {
-        host: 'neu.edu',
-        termId: '201930',
-        subject: 'CS',
-        classId: '2500',
-        name: 'Fundamentals of Computer Science 1',
-      },
-    },
-    'neu.edu/201830/CS/2500': {
-      class: {
-        host: 'neu.edu',
-        termId: '201830',
-        subject: 'CS',
-        classId: '2500',
-        name: 'Fundamentals of Computer Science 1',
-      },
-    },
+  await Section.truncate({ cascade: true, restartIdentity: true });
+  await Course.truncate({ cascade: true, restartIdentity: true });
+  await Course.create({
+    id: 'neu.edu/201930/CS/2500',
+    host: 'neu.edu',
+    termId: '201930',
+    subject: 'CS',
+    classId: '2500',
+    name: 'Fundamentals of Computer Science 1',
+    lastUpdateTime: new Date(),
   });
+
+  await Course.create({
+    id: 'neu.edu/201830/CS/2500',
+    host: 'neu.edu',
+    termId: '201830',
+    subject: 'CS',
+    classId: '2500',
+    name: 'Fundamentals of Computer Science 1',
+    lastUpdateTime: new Date(),
+  });
+});
+
+afterAll(async () => {
+  await sequelize.close();
 });
 
 it('gets all occurrences', async () => {
