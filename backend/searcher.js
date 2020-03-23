@@ -198,7 +198,7 @@ class Searcher {
     const aggFilters = _.pickBy(this.filters, (f) => !!f.agg);
 
     for (const fKey of Object.keys(aggFilters)) {
-      const everyOtherFilter = _.without(Object.keys(this.filters), fKey);
+      const everyOtherFilter = _.without(Object.keys(filters), fKey);
       queries.push((this.generateQuery(query, this.getClassFilterQuery(termId, everyOtherFilter), 0, 0, fKey)));
     }
 
@@ -207,7 +207,6 @@ class Searcher {
   }
 
   parseResults(results, filters) {
-    macros.log(JSON.stringify(results, null, 2));
     return {
       output: results[0].hits.hits,
       resultCount: results[0].hits.total.value,
