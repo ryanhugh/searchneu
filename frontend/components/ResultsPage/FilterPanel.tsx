@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import _ from 'lodash';
 
 import CheckboxFilter from './CheckboxFilter';
@@ -25,9 +25,9 @@ function FilterPanel({ options, active, setActive }: FilterPanelProps) {
       />
       <DropdownFilter
         title='NU Paths'
-        options={ options.NUpath }
-        active={ active.NUpath }
-        setActive={ (a: string[]) => setActive({ NUpath: a }) }
+        options={ options.nupath }
+        active={ active.nupath }
+        setActive={ (a: string[]) => setActive({ nupath: a }) }
       />
       <ToggleFilter
         title='Online Classes Only'

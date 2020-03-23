@@ -8,10 +8,12 @@ import React, {
 import _ from 'lodash';
 import { useHistory, useParams } from 'react-router-dom';
 import { Location } from 'history';
-import { useQueryParams, BooleanParam, ArrayParam, useQueryParam } from 'use-query-params';
+import {
+  useQueryParams, BooleanParam, ArrayParam, useQueryParam,
+} from 'use-query-params';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import logo from '../images/logo.svg';
-import search from '../search';
+import search, { SearchResult } from '../search';
 import macros from '../macros';
 import ResultsLoader from '../ResultsLoader';
 import SearchBar from '../ResultsPage/SearchBar';
@@ -23,6 +25,8 @@ import FilterPills from '../ResultsPage/FilterPills';
 import { FilterSelection, SearchItem } from '../types';
 import EmptyResultsContainer from './EmptyResultsContainer';
 import MobileSearchOverlay from '../ResultsPage/MobileSearchOverlay';
+import useAtTop from '../ResultsPage/useAtTop';
+import { BLANK_SEARCH_RESULT } from '../types';
 
 interface SearchParams {
   termId: string,
@@ -42,18 +46,19 @@ function logSearch(searchQuery: string) {
 }
 
 // Retreive result data from backend.
-const fetchResults = async ({ query, termId, filters }: SearchParams, page: number): Promise<SearchItem[]> => {
-  const results: SearchItem[] = await search.search(query, termId, filters, (1 + page) * 10);
+const fetchResults = async ({ query, termId, filters }: SearchParams, page: number): Promise<SearchResult> => {
+  const response: SearchResult = await search.search(query, termId, filters, (1 + page) * 10);
   if (page === 0) {
     logSearch(query);
   }
-  return results;
+  return response;
 };
 
 const BS_FILTER_OPTIONS = {
-  NUpath: [
+  nupath: [
     {
-      key: 'DD', value: 'DD', text: 'diff div', count: 1,
+      key: 'Computer&Info Sci  UBCS', value: 'Computer&Info Sci  UBCS', text: 'diff div', count: 1,
+
     },
     {
       key: 'IC', value: 'IC', text: 'interp cultures', count: 1,
@@ -62,13 +67,13 @@ const BS_FILTER_OPTIONS = {
   subject: [],
   classType: [
     {
-      key: 'individual', value: 'individual', text: 'Individual Instruction', count: 1
-    }, 
-    {
-      key:'lab', value:'lab', text:'Lab', count: 1
+      key: 'individual', value: 'individual', text: 'Individual Instruction', count: 1,
     },
     {
-      key: 'lecture', value: 'lecture', text: 'Lecture', count:1
+      key:'lab', value:'lab', text:'Lab', count: 1,
+    },
+    {
+      key: 'lecture', value: 'lecture', text: 'Lecture', count:1,
     },
   ],
 }
@@ -76,7 +81,7 @@ const BS_FILTER_OPTIONS = {
 const QUERY_PARAM_ENCODERS = {
   online: BooleanParam,
   showUnavailable: BooleanParam,
-  NUpath: ArrayParam,
+  nupath: ArrayParam,
   subject: ArrayParam,
   classType: ArrayParam,
 };
@@ -84,13 +89,13 @@ const QUERY_PARAM_ENCODERS = {
 const DEFAULT_PARAMS: FilterSelection = {
   online: false,
   showUnavailable: false,
-  NUpath: [],
+  nupath: [],
   subject: [],
   classType: [],
 }
 
 export default function Results() {
-  const [atTop, setAtTop] = useState(true);
+  const atTop = useAtTop();
   const [showOverlay, setShowOverlay] = useQueryParam('overlay', BooleanParam);
   const oldLoc = useRef<Location>(); // Url before going to the overlay
   const { termId, query = '' } = useParams();
@@ -103,21 +108,11 @@ export default function Results() {
 
   const searchParams: SearchParams = { termId, query, filters };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const pageY = document.body.scrollTop || document.documentElement.scrollTop;
-      setAtTop(pageY === 0);
-    };
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [setAtTop]);
-
+  const us = useSearch(searchParams, BLANK_SEARCH_RESULT, fetchResults);
   const {
-    results, isReady, loadMore, doSearch,
-  } = useSearch(searchParams, fetchResults);
+    isReady, loadMore, doSearch,
+  } = us;
+  const { results, filterOptions } = us.results;
 
   useDeepCompareEffect(() => {
     doSearch(searchParams);
@@ -128,7 +123,7 @@ export default function Results() {
       <MobileSearchOverlay
         query={ query }
         activeFilters={ filters }
-        filterOptions={ BS_FILTER_OPTIONS }
+        filterOptions={ filterOptions }
         setFilterPills={ setQParams }
         setQuery={ (q: string) => setSearchQuery(q) }
         onExecute={ () => setShowOverlay(false) }
@@ -165,7 +160,7 @@ export default function Results() {
           <>
             <div className='Results_SidebarWrapper'>
               <FilterPanel
-                options={ BS_FILTER_OPTIONS }
+                options={ filterOptions }
                 active={ filters }
                 setActive={ setQParams }
               />

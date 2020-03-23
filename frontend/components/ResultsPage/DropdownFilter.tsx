@@ -20,12 +20,13 @@ export default function DropdownFilter({
         } }
         value={ active }
         labeled
-        options={ options }
+        options={ options.map((o:Option) => ({ key:o.value, text:o.value, value:o.value })) }
         search
         multiple
         selection
         fluid
         compact
+        lazyLoad
       />
     </div>
   );

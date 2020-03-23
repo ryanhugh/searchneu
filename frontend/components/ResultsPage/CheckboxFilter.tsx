@@ -24,9 +24,9 @@ export default function CheckboxFilter({
             {options.map((option) => (
               <div className='CheckboxFilter__element'>
                 <label className='CheckboxFilter__text'>
-                  <Checkbox value={ option.key } />
+                  <Checkbox value={ option.value } />
                   <span className='CheckboxFilter__checkbox' />
-                  {option.text}
+                  {option.value}
                 </label>
               </div>
             ))}

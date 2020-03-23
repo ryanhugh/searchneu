@@ -5,19 +5,28 @@
  * ONLY PUT COMMONLY USED TYPES HERE
  */
 
+import { FilterOptions } from './ResultsPage/filterTypes';
+
 
 // ======= Search Results ========
 // Represents the course and employee data returned by /search
+export interface SearchResult {
+  results: SearchItem[],
+  filterOptions: FilterOptions,
+}
+
 export type Course = any; //TODO
 export type Employee = any;
 export type SearchItem = Course | Employee;
+
+export const BLANK_SEARCH_RESULT: SearchResult = { results:[], filterOptions:{ nupath:[], subject:[], classType:[] } };
 
 
 // Represents which filters were selected by a user.
 export interface FilterSelection {
   online?: boolean,
   showUnavailable?: boolean,
-  NUpath?: string[],
+  nupath?: string[],
   subject?: string[],
   classType?: string[],
 }

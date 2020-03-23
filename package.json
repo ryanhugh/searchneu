@@ -125,6 +125,7 @@
     "fs-extra": "^8.0.0",
     "graphql-type-json": "^0.3.0",
     "he": "^1.2.0",
+    "history": "^4.10.1",
     "html-webpack-plugin": "^3.0.6",
     "htmlparser2": "^3",
     "identity-obj-proxy": "^3.0.0",
@@ -240,7 +241,6 @@
       "jsx",
       "json",
       "node",
-      "seq.js",
       "tsx",
       "ts"
     ],

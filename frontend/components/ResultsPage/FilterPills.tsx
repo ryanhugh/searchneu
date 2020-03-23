@@ -36,7 +36,7 @@ interface FilterPillsProps {
 type FilterCategorySpecification = { key: string, display: string };
 
 const OPTION_CATEGORIES: FilterCategorySpecification[] = [
-  { key: 'NUpath', display: 'NU Path' },
+  { key: 'nupath', display: 'NU Path' },
   { key: 'subject', display: 'Subject' },
   { key: 'classType', display: 'Class Type' },
 ];
