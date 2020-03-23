@@ -52,7 +52,7 @@ class Searcher {
     };
 
     const getClassTypeFilter = (selectedClassTypes) => {
-      return { bool: { should: selectedClassTypes } };
+      return { terms: { 'sections.classType': selectedClassTypes } };
     };
 
     return {
