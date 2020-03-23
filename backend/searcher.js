@@ -101,7 +101,13 @@ class Searcher {
    * @param  {object}  filters The json object representing all filters on classes
    */
   getClassFilterQuery(termId, filters) {
-    const classFilters = Object.keys(filters).filter(filter => filter in this.filters).map(filter => this.filters[filter].create(filters[filter]));
+    // for every filter in this.filters
+    // create it
+    const classFilters = _(filters).pick(Object.keys(this.filters)).toPairs().map(([key, val]) => this.filters[key].create(val)).value();
+    // const classFilters = _.pick(this.filters, Object.keys(filters))
+    // const classFilters = _.pick(this.filters, Object.keys(filters)).map(selected => this.filters[selected].create(filters[selected]));
+
+    // const classFilters = Object.keys(filters).filter(filter => filter in this.filters).map(filter => this.filters[filter].create(filters[filter]));
     classFilters.push({ term: { 'class.termId': termId } });
 
     return { bool: { must: classFilters } };
