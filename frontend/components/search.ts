@@ -4,10 +4,12 @@
  */
 
 import URI from 'urijs';
+import _ from 'lodash';
 
 import macros from './macros';
 import request from './request';
 import { SearchItem, FilterSelection } from './types';
+import { array } from 'prop-types';
 
 // Every time there is a breaking change in the search api, increment the version
 // This way, the backend will send back the result that frontend is expecting
@@ -56,13 +58,13 @@ class Search {
       return [];
     }
 
-    const stringFilters = JSON.stringify({
+    const stringFilters = JSON.stringify(_.pickBy({
       nupath: filters.NUpath,
       subject: filters.subject,
       online: filters.online,
       classType: filters.classType,
       sectionsAvailable: !filters.showUnavailable,
-    });
+    }, (v) => !Array.isArray(v) || !array.length));
 
     const searchHash = termId + query + stringFilters;
 
