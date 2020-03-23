@@ -108,7 +108,6 @@ class Searcher {
     const classFilters = _(filters).pick(Object.keys(this.filters)).toPairs().map(([key, val]) => this.filters[key].create(val))
       .value();
     classFilters.push({ term: { 'class.termId': termId } });
-    macros.log('8');
 
     return { bool: { must: classFilters } };
   }
@@ -188,21 +187,17 @@ class Searcher {
 
 
   async getSearchResults(query, termId, min, max, filters) {
-    macros.log('5');
     const validFilters = this.validateFilters(filters);
     const classFilters = this.getClassFilterQuery(termId, validFilters);
     const filteredFilters = Object.keys(this.filters).filter((filter) => filter.agg);
     const queries = [await this.generateQuery(query, classFilters, min, max)];
     filteredFilters.forEach(async (filter) => queries.push(await this.generateQuery(query, _.omit(classFilters, filter), min, max, filter)));
-    macros.log('6');
 
     const results = await elastic.mquery(`${elastic.CLASS_INDEX},${elastic.EMPLOYEE_INDEX}`, queries);
-    macros.log('7');
     return this.parseResults(results.body.responses, filteredFilters);
   }
 
   parseResults(results, aggFilters) {
-    macros.log('4');
     const aggAcc = {};
     return {
       output: results[0].hits.hits,
@@ -222,14 +217,10 @@ class Searcher {
    * @param  {integer} max    The index of last document to retreive
    */
   async search(query, termId, min, max, filters = {}) {
-    try {
-    macros.log('1');
     const {
       output, resultCount, took, aggregations,
     } = await this.getSearchResults(query, termId, min, max, filters);
-    macros.log('2');
     const results = await (new HydrateSerializer(Section)).bulkSerialize(output);
-    macros.log('3');
 
     return {
       searchContent: results,
@@ -237,10 +228,6 @@ class Searcher {
       took,
       aggregations,
     };
-    } catch (err) {
-      macros.log(err.meta.body.error);
-      return {};
-    }
   }
 }
 
