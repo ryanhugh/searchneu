@@ -1,4 +1,23 @@
-.FilterBreadcrumb {
+.active-filters {
+  display: flex;
+  align-items:  center;
+  padding: 10px 0;
+
+  &__label {
+    font-weight: bold;
+    margin-right: 7px;
+    flex-shrink: 0;
+  }
+
+  &__row {
+    display: flex;
+    flex-flow: row wrap;
+    margin-left: -5px;
+    margin-bottom: -5px;
+  }
+}
+
+.FilterPill {
   &::before,
   &::after {
     top: 50%;
@@ -41,8 +60,8 @@
       color: #ffff;
     }
 
-    &:hover .FilterBreadcrumb__icon::before,
-    &:hover .FilterBreadcrumb__icon::after {
+    &:hover .FilterPill__icon::before,
+    &:hover .FilterPill__icon::after {
       background-color: #ffff;
     }
   }

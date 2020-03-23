@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { FilterSelection } from '../types';
 import FilterPanel from './FilterPanel';
 import { FilterOptions } from './filterTypes';
-import ActiveFilters from './ActiveFilters';
+import FilterPills from './FilterPills';
 import macros from '../macros';
 import LogoInput from '../images/LogoInput';
 import IconClose from '../images/IconClose';
 
 /**
- * setActiveFilters sets the active filters
+ * setFilterPills sets the active filters
  * setQuery sets the search query from the searchbar
  * onExecute indicates the query should be run and we should return to the results page
  * onClose indicates the user wants to close the overlay and return to wherever we were before
@@ -17,7 +17,7 @@ import IconClose from '../images/IconClose';
  * query is the search query
  */
 interface MobileSearchOverlayProps {
-  setActiveFilters: (f: FilterSelection) => void,
+  setFilterPills: (f: FilterSelection) => void,
   setQuery: (q: string) => void,
   onExecute: () => void,
   onClose: () => void,
@@ -27,7 +27,7 @@ interface MobileSearchOverlayProps {
 }
 
 export default function MobileSearchOverlay({
-  setActiveFilters, setQuery, activeFilters, filterOptions, query, onExecute, onClose,
+  setFilterPills, setQuery, activeFilters, filterOptions, query, onExecute, onClose,
 }: MobileSearchOverlayProps) {
   // controlledQuery represents what's typed into the searchbar - even BEFORE enter is hit
   const [controlledQuery, setControlledQuery] = useState(query);
@@ -84,14 +84,16 @@ export default function MobileSearchOverlay({
         </div>
       </div>
       <div className='msearch-overlay__content'>
-        <ActiveFilters
-          filters={ activeFilters }
-          setFilters={ setActiveFilters }
-        />
+        <div className='msearch-overlay__pills'>
+          <FilterPills
+            filters={ activeFilters }
+            setFilters={ setFilterPills }
+          />
+        </div>
         <FilterPanel
           options={ filterOptions }
           active={ activeFilters }
-          setActive={ setActiveFilters }
+          setActive={ setFilterPills }
         />
       </div>
       <div

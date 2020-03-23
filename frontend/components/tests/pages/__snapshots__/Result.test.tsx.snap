@@ -73,7 +73,7 @@ exports[`should render a section 1`] = `
     <div
       className="Results_Main"
     >
-      <ActiveFilters
+      <FilterPills
         filters={
           Object {
             "NUpath": Array [],

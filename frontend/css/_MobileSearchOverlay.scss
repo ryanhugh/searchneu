@@ -24,6 +24,10 @@ $EXECUTE_BTN_HEIGHT: 40px;
     padding: 0 15px 25px 15px;
   }
 
+  &__pills {
+    min-height: 50px;
+  }
+
   &__execute {
     position: fixed;
     bottom: 0;

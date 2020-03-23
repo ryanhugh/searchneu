@@ -19,7 +19,7 @@ import TermDropdown from '../ResultsPage/TermDropdown';
 import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
 import FilterPanel from '../ResultsPage/FilterPanel';
-import ActiveFilters from '../ResultsPage/ActiveFilters';
+import FilterPills from '../ResultsPage/FilterPills';
 import { FilterSelection, SearchItem } from '../types';
 import EmptyResultsContainer from './EmptyResultsContainer';
 import MobileSearchOverlay from '../ResultsPage/MobileSearchOverlay';
@@ -129,7 +129,7 @@ export default function Results() {
         query={ query }
         activeFilters={ filters }
         filterOptions={ BS_FILTER_OPTIONS }
-        setActiveFilters={ setQParams }
+        setFilterPills={ setQParams }
         setQuery={ (q: string) => setSearchQuery(q) }
         onExecute={ () => setShowOverlay(false) }
         onClose={ () => history.push(oldLoc.current) }
@@ -174,7 +174,7 @@ export default function Results() {
           </>
         )}
         <div className='Results_Main'>
-          <ActiveFilters filters={ filters } setFilters={ setQParams } />
+          <FilterPills filters={ filters } setFilters={ setQParams } />
           {!isReady && <div style={{ visibility: 'hidden' }} />}
           {isReady && results.length === 0 && <EmptyResultsContainer query={ query } />}
           {isReady && results.length > 0
