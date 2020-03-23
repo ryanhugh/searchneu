@@ -259,8 +259,8 @@ describe('searcher', () => {
         online: {
           value: true,
           // this should be the count for all possible results you see
-          count: 100
-        }
+          count: 100,
+        },
       });
     });
 
@@ -271,56 +271,56 @@ describe('searcher', () => {
         NUPath: [
           {
             value: 'NU Core/NUpath Adv Writ Dscpl',
-            count: 30
+            count: 30,
           },
           {
             value: 'NUpath Interpreting Culture',
-            count: 50
-          }
-        ]
+            count: 50,
+          },
+        ],
       });
     });
 
     it('gives an AND count for aggregations of multiple filters', () => {
       const filters = {
         sectionsAvailable: true,
-        online: true
+        online: true,
       };
 
       expect((searcher.search('science', '202010', 0, 10, filters))).toEqual({
         // these guys should be ANDed together
         sectionsAvailable: {
           value: true,
-          count: 50
+          count: 50,
         },
         online: {
           value: true,
-          count: 30
-        }
+          count: 30,
+        },
       });
     });
 
     it('gives an OR count for aggregations with multiple filters of the same kind', () => {
       const filters = {
         sectionsAvailable: true,
-        classType: ['Lab', 'Lecture']
+        classType: ['Lab', 'Lecture'],
       };
 
       expect((searcher.search('science', '202010', 0, 10, filters))).toEqual({
         // these guys should be ANDed together
         sectionsAvailable: {
           value: true,
-          count: 50
+          count: 50,
         },
         classType: [
           {
             value: 'Lab',
-            count: 100
+            count: 100,
           },
           {
             value: 'Lecture',
-            count: 30
-          }
+            count: 30,
+          },
         ],
       });
     });

@@ -19,11 +19,11 @@ class Searcher {
   static generateFilters() {
     // type validating functions
     const isString = (arg) => {
-      typeof arg === 'string';
+      return typeof arg === 'string';
     };
 
     const isStringArray = (arg) => {
-      return Array.isArray(arg) && arg.every(elem => isString(elem));
+      return Array.isArray(arg) && arg.every((elem) => isString(elem));
     };
 
     const isTrue = (arg) => {
@@ -31,7 +31,7 @@ class Searcher {
     };
 
     // filter-generating functions
-    const getSectionsAvailableFilter  = (_) => {
+    const getSectionsAvailableFilter = () => {
       return { exists: { field: 'sections' } };
     };
 
@@ -59,7 +59,7 @@ class Searcher {
       subject: { validate: isStringArray, create: getSubjectFilter, agg: true },
       online: { validate: isTrue, create: getOnlineFilter, agg: false },
       classType: { validate: isStringArray, create: getClassTypeFilter, agg: true },
-      sectionsAvailable: { validate: isTrue, create: getSectionsAvailableFilter, agg: false }
+      sectionsAvailable: { validate: isTrue, create: getSectionsAvailableFilter, agg: false },
     };
   }
 
@@ -88,11 +88,13 @@ class Searcher {
    * @param {object} filters The json object represting all filters on classes
    */
   validateFilters(filters) {
-    return Object.keys(filters).reduce((validFilters, currFilter) => {
+    const validFilters = {};
+    Object.keys(filters).forEach((currFilter) => {
       if (!(currFilter in this.filters)) macros.log('Invalid filter key.', currFilter);
       else if (!(this.filters[currFilter].validate(filters[currFilter]))) macros.log('Invalid filter value type.', currFilter);
       else validFilters[currFilter] = filters[currFilter];
-    }, {});
+    });
+    return validFilters;
   }
 
   /**
@@ -103,11 +105,8 @@ class Searcher {
   getClassFilterQuery(termId, filters) {
     // for every filter in this.filters
     // create it
-    const classFilters = _(filters).pick(Object.keys(this.filters)).toPairs().map(([key, val]) => this.filters[key].create(val)).value();
-    // const classFilters = _.pick(this.filters, Object.keys(filters))
-    // const classFilters = _.pick(this.filters, Object.keys(filters)).map(selected => this.filters[selected].create(filters[selected]));
-
-    // const classFilters = Object.keys(filters).filter(filter => filter in this.filters).map(filter => this.filters[filter].create(filters[filter]));
+    const classFilters = _(filters).pick(Object.keys(this.filters)).toPairs().map(([key, val]) => this.filters[key].create(val))
+      .value();
     classFilters.push({ term: { 'class.termId': termId } });
 
     return { bool: { must: classFilters } };
@@ -160,8 +159,8 @@ class Searcher {
     // very likely this doesn't work
     const aggQuery = !aggregation ? {} : {
       [aggregation]: {
-        terms: { field: aggregation }
-      }
+        terms: { field: aggregation },
+      },
     };
 
     // compound query for text query and filters
@@ -190,7 +189,7 @@ class Searcher {
   async getSearchResults(query, termId, min, max, filters) {
     const validFilters = this.validateFilters(filters);
     const classFilters = this.getClassFilterQuery(termId, validFilters);
-    const filteredFilters = Object.keys(this.filters).filter(filter => filter.agg);
+    const filteredFilters = Object.keys(this.filters).filter((filter) => filter.agg);
     const queries = [await this.generateQuery(query, classFilters, min, max)];
     filteredFilters.forEach(async (filter) => queries.push(await this.generateQuery(query, _.omit(classFilters, filter), min, max, filter)));
 
@@ -199,12 +198,13 @@ class Searcher {
   }
 
   parseResults(results, aggFilters) {
+    const aggAcc = {};
     return {
       output: results[0].hits.hits,
       resultCount: results[0].hits.total.value,
       took: results[0].took,
       aggregations: aggFilters.forEach((filter, idx) => {
-        aggAcc[filter] = results[idx + 1].hits.aggregations[filter].buckets.map(aggVal => { return { value: aggVal.key, count: aggVal.doc_count } });
+        aggAcc[filter] = results[idx + 1].hits.aggregations[filter].buckets.map((aggVal) => { return { value: aggVal.key, count: aggVal.doc_count } });
       }),
     };
   }
@@ -217,14 +217,16 @@ class Searcher {
    * @param  {integer} max    The index of last document to retreive
    */
   async search(query, termId, min, max, filters = {}) {
-    const { output, resultCount, took, aggregations } = await this.getSearchResults(query, termId, min, max, filters);
+    const {
+      output, resultCount, took, aggregations,
+    } = await this.getSearchResults(query, termId, min, max, filters);
     const results = await (new HydrateSerializer(Section)).bulkSerialize(output);
 
     return {
       searchContent: results,
       resultCount,
       took,
-      aggregations
+      aggregations,
     };
   }
 }
