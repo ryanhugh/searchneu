@@ -59,12 +59,14 @@ $SIDEBAR_WIDTH: 268px;
   bottom: 0;
   overflow-y: scroll;
   scrollbar-width: none;
+
   &::-webkit-scrollbar {
     display: none;
   }
   background-color: #f6f6f6;
   padding: 25px 15px 25px 15px;
 }
+
 .Results_SidebarSpacer {
   flex-basis: $SIDEBAR_WIDTH;
   flex-shrink: 0;

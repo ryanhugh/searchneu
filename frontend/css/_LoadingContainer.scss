@@ -1,0 +1,20 @@
+
+svg .path {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 0;
+  animation: dash 3s linear infinite;
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 200;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.loader {
+  text-align: center;
+}

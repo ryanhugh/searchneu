@@ -240,7 +240,9 @@
       "jsx",
       "json",
       "node",
-      "seq.js"
+      "seq.js",
+      "tsx",
+      "ts"
     ],
     "testMatch": [
       "**/__tests__/**/*.[jt]s?(x)",
