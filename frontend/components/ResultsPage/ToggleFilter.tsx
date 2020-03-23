@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../css/_Filters.scss';
+import _ from 'lodash';
 
 interface ToggleFilterProps {
   title: string,
@@ -8,6 +9,7 @@ interface ToggleFilterProps {
 }
 
 export default function ToggleFilter({ title, active, setActive }: ToggleFilterProps) {
+  const [id] = useState(_.uniqueId('react-switch-'));
   return (
     <div className='toggleFilter'>
       <div className='toggleName'>
@@ -20,12 +22,12 @@ export default function ToggleFilter({ title, active, setActive }: ToggleFilterP
           checked={ active }
           onChange={ () => { setActive(!active) } }
           className='react-switch-checkbox'
-          id='react-switch-new'
+          id={ id }
           type='checkbox'
         />
         <label
           className='react-switch-label'
-          htmlFor='react-switch-new'
+          htmlFor={ id }
         >
           <span className='react-switch-button' />
         </label>
