@@ -19,7 +19,9 @@ export type Course = any; //TODO
 export type Employee = any;
 export type SearchItem = Course | Employee;
 
-export const BLANK_SEARCH_RESULT: SearchResult = { results:[], filterOptions:{ nupath:[], subject:[], classType:[] } };
+export function BLANK_SEARCH_RESULT(): SearchResult {
+  return { results: [], filterOptions: { nupath: [], subject: [], classType: [] } }
+}
 
 
 // Represents which filters were selected by a user.

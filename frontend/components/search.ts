@@ -50,12 +50,12 @@ class Search {
 
     if (query.length === 0) {
       macros.log('No query given in frontend/search.js. Returning empty array.', query, termCount);
-      return BLANK_SEARCH_RESULT;
+      return BLANK_SEARCH_RESULT();
     }
 
     if (!termId || termId.length !== 6) {
       macros.log('No termId given in frontend/search.js. Returning empty array.', termId, termCount);
-      return BLANK_SEARCH_RESULT;
+      return BLANK_SEARCH_RESULT();
     }
 
     const stringFilters = JSON.stringify(_.pickBy({
@@ -110,19 +110,19 @@ class Search {
 
     if (results.error) {
       macros.error('Error with networking request', results.error);
-      return BLANK_SEARCH_RESULT;
+      return BLANK_SEARCH_RESULT();
     }
 
     // if cache doesn't exist, instantiate. Subject info only changed here
     // since it should only be changed on cache misses
     if (!this.cache[searchHash]) {
-      this.cache[searchHash] = BLANK_SEARCH_RESULT;
+      this.cache[searchHash] = BLANK_SEARCH_RESULT();
     }
 
     const cacheResult:SearchResult = this.cache[searchHash];
 
     // Add to the end of exiting results.
-    cacheResult.results = this.cache[searchHash].results.concat(results);
+    cacheResult.results = cacheResult.results.concat(results);
 
     // set filterOptions
     cacheResult.filterOptions = waitedRequest.filterOptions;

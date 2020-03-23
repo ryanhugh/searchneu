@@ -108,7 +108,7 @@ export default function Results() {
 
   const searchParams: SearchParams = { termId, query, filters };
 
-  const us = useSearch(searchParams, BLANK_SEARCH_RESULT, fetchResults);
+  const us = useSearch(searchParams, BLANK_SEARCH_RESULT(), fetchResults);
   const {
     isReady, loadMore, doSearch,
   } = us;
