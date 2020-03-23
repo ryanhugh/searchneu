@@ -35,6 +35,7 @@ class Searcher {
       return { exists: { field: 'sections' } };
     };
 
+    // TODO just use the terms query!!!!!!! wtfff
     const getNUpathFilter = (selectedNUpaths) => {
       const NUpathFilters = selectedNUpaths.map((eachNUpath) => ({ match_phrase: { 'class.classAttributes': eachNUpath } }));
       return { bool: { should: NUpathFilters } };
@@ -55,21 +56,24 @@ class Searcher {
     };
 
     return {
-      nupath: { validate: isStringArray, create: getNUpathFilter, agg: true },
-      subject: { validate: isStringArray, create: getSubjectFilter, agg: true },
+      nupath: { validate: isStringArray, create: getNUpathFilter, agg: 'class.classAttributes.keyword' },
+      subject: { validate: isStringArray, create: getSubjectFilter, agg: 'class.subject.keyword' },
       online: { validate: isTrue, create: getOnlineFilter, agg: false },
-      classType: { validate: isStringArray, create: getClassTypeFilter, agg: true },
+      classType: { validate: isStringArray, create: getClassTypeFilter, agg: 'section.classType.keyword' },
       sectionsAvailable: { validate: isTrue, create: getSectionsAvailableFilter, agg: false },
     };
+  }
+
+  async initializeSubjects() {
+    if (!this.subjects) {
+      this.subjects = new Set((await Course.aggregate('subject', 'distinct', { plain: false })).map((hash) => hash.distinct));
+    }
   }
 
   /**
    * return a set of all existing subjects of classes
    */
-  async getSubjects() {
-    if (!this.subjects) {
-      this.subjects = new Set((await Course.aggregate('subject', 'distinct', { plain: false })).map((hash) => hash.distinct));
-    }
+  getSubjects() {
     return this.subjects;
   }
 
@@ -109,11 +113,11 @@ class Searcher {
       .value();
     classFilters.push({ term: { 'class.termId': termId } });
 
-    return { bool: { must: classFilters } };
+    return classFilters;
   }
 
 
-  async getFields(query) {
+  getFields(query) {
     // if we know that the query is of the format of a course code, we want to do a very targeted query against subject and classId: otherwise, do a regular query.
     const courseCodePattern = /^\s*([a-zA-Z]{2,4})\s*(\d{4})?\s*$/i;
     let fields = [
@@ -129,7 +133,7 @@ class Searcher {
     ];
 
     const patternResults = query.match(courseCodePattern);
-    if (patternResults && (await this.getSubjects()).has(patternResults[1].toLowerCase())) {
+    if (patternResults && (this.getSubjects()).has(patternResults[1].toLowerCase())) {
       // after the first result, all of the following results should be of the same subject, e.g. it's weird to get ENGL2500 as the second or third result for CS2500
       fields = ['class.subject^10', 'class.classId'];
     }
@@ -137,8 +141,8 @@ class Searcher {
     return fields;
   }
 
-  async generateQuery(query, classFilters, min, max, aggregation = '') {
-    const fields = await this.getFields(query);
+  generateQuery(query, classFilters, min, max, aggregation) {
+    const fields = this.getFields(query);
 
     // text query from the main search box
     const matchTextQuery = {
@@ -157,9 +161,9 @@ class Searcher {
     const isEmployee = { term: { type: 'employee' } };
 
     // very likely this doesn't work
-    const aggQuery = !aggregation ? {} : {
+    const aggQuery = !aggregation ? undefined : {
       [aggregation]: {
-        terms: { field: aggregation },
+        terms: { field: this.filters[aggregation].agg },
       },
     };
 
@@ -174,7 +178,7 @@ class Searcher {
           filter: {
             bool: {
               should: [
-                classFilters,
+                { bool: { must: classFilters } },
                 isEmployee,
               ],
             },
@@ -190,27 +194,27 @@ class Searcher {
     const validFilters = this.validateFilters(filters);
     const classFilters = this.getClassFilterQuery(termId, validFilters);
 
-    const queries = [await this.generateQuery(query, classFilters, min, max)];
-    const aggFilters = Object.keys(this.filters).filter(filter => this.filters[filter].agg);
+    const queries = [this.generateQuery(query, classFilters, min, max)];
+    const aggFilters = _.pickBy(this.filters, (f) => !!f.agg);
 
-    for (const aggFilter of aggFilters) {
-      queries.push((await this.generateQuery(query, _.omit(classFilters, aggFilter), min, max, aggFilter)));
+    for (const fKey of Object.keys(aggFilters)) {
+      const everyOtherFilter = _.without(Object.keys(this.filters), fKey);
+      queries.push((this.generateQuery(query, this.getClassFilterQuery(termId, everyOtherFilter), 0, 0, fKey)));
     }
 
     const results = await elastic.mquery(`${elastic.CLASS_INDEX},${elastic.EMPLOYEE_INDEX}`, queries);
-    return this.parseResults(results.body.responses, aggFilters);
+    return this.parseResults(results.body.responses, Object.keys(aggFilters));
   }
 
   parseResults(results, filters) {
-    macros.log(results);
-    const aggAcc = {};
+    macros.log(JSON.stringify(results, null, 2));
     return {
       output: results[0].hits.hits,
       resultCount: results[0].hits.total.value,
       took: results[0].took,
-      aggregations: filters.forEach((filter, idx) => {
-        aggAcc[filter] = results[idx + 1].aggregations[filter].buckets.map((aggVal) => { return { value: aggVal.key, count: aggVal.doc_count } });
-      }),
+      aggregations: _.fromPairs(filters.map((filter, idx) => {
+        return [filter, results[idx + 1].aggregations[filter].buckets.map((aggVal) => { return { value: aggVal.key, count: aggVal.doc_count } })];
+      })),
     };
   }
 
@@ -222,6 +226,7 @@ class Searcher {
    * @param  {integer} max    The index of last document to retreive
    */
   async search(query, termId, min, max, filters = {}) {
+    await this.initializeSubjects();
     const {
       output, resultCount, took, aggregations,
     } = await this.getSearchResults(query, termId, min, max, filters);

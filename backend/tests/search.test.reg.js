@@ -23,7 +23,7 @@ describe('searcher', () => {
       expect(Keys.getClassHash(firstResult)).toBe('neu.edu/202010/CS/2510');
     });
 
-    it.only('returns a professor if name requested', async () => {
+    it('returns a professor if name requested', async () => {
       const results = await searcher.search('mislove', '202010', 0, 1);
       const firstResult = results.searchContent[0].employee;
       expect(firstResult.emails).toContain('a.mislove@northeastern.edu');
@@ -181,7 +181,7 @@ describe('searcher', () => {
 
     it('filter by multiple subjects', async () => {
       const subjects = ['CS', 'ENGL'];
-      const allResults = (await searcher.search('2500', '202010', 0, 20, { subject: subjects })).searchContent;
+      const allResults = (await searcher.search('2500', '202060', 0, 20, { subject: subjects })).searchContent;
       expect(allResults.length > 0).toBe(true);
       allResults.forEach((result) => expect(subjects).toContain(result.class.subject));
     });
@@ -265,10 +265,10 @@ describe('searcher', () => {
     });
 
     it('gives multiple aggregations for a single filter with multiple options', async () => {
-      const filters = { NUPath: ['NU Core/NUpath Adv Writ Dscpl', 'NUpath Interpreting Culture'] };
-      expect((await searcher.search('science', '202010', 0, 10, filters))).toEqual({
+      const filters = { nupath: ['NU Core/NUpath Adv Writ Dscpl', 'NUpath Interpreting Culture'] };
+      expect((await searcher.search('science', '202010', 0, 10, filters)).aggregations).toEqual({
         // these guys should be OR'd. When getting their aggregation, ignore the selection of other filters of their kind.
-        NUPath: [
+        nupath: [
           {
             value: 'NU Core/NUpath Adv Writ Dscpl',
             count: 30,

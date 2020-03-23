@@ -1,5 +1,9 @@
 import searcher from '../searcher';
 
+beforeAll(async () => {
+  await searcher.initializeSubjects();
+})
+
 describe('searcher', () => {
   describe('makeFilters', () => {
   });
@@ -9,11 +13,13 @@ describe('searcher', () => {
 
   // TODO: create an association between cols in elasticCourseSerializer and here
   describe('generateQuery', () => {
-    it('generates a query without filters', async () => {
-      expect(await searcher.generateQuery('fundies', '202010', {})).toEqual({
+    it('generates a query without filters', () => {
+      expect(searcher.generateQuery('fundies', [], 0, 10, 'nupath')).toEqual({
         sort: ['_score', {
           'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' },
         }],
+        from: 0,
+        size: 10,
         query: {
           bool: {
             must: {
@@ -39,15 +45,7 @@ describe('searcher', () => {
                 should: [
                   {
                     bool: {
-                      must: [
-                        {
-                          // does this filter actually work?
-                          exists: { field: 'sections' },
-                        },
-                        {
-                          term: { 'class.termId': '202010' },
-                        },
-                      ],
+                      must: [],
                     },
                   },
                   {
@@ -60,8 +58,8 @@ describe('searcher', () => {
           },
         },
         aggregations: {
-          sectionsAvailable: {
-            filter: { exists: { field: 'sections' } },
+          nupath: {
+            terms: { field: 'class.classAttributes.keyword' },
           },
         },
       });

@@ -64,7 +64,7 @@ class Search {
       online: filters.online,
       classType: filters.classType,
       sectionsAvailable: !filters.showUnavailable,
-    }, (v) => !Array.isArray(v) || !array.length));
+    }, (v) => !Array.isArray(v) || array.length));
 
     const searchHash = termId + query + stringFilters;
 
