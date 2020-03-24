@@ -22,6 +22,7 @@ Object {
   "maxCredits": 4,
   "minCredits": 4,
   "name": "Organic Chemistry 1",
+  "nupath": Array [],
   "prereqs": Object {
     "type": "and",
     "values": Array [
@@ -60,6 +61,7 @@ Object {
   "maxCredits": 4,
   "minCredits": 4,
   "name": "Fundamentals of Computer Science 1",
+  "nupath": Array [],
   "prereqs": Object {
     "type": "and",
     "values": Array [
