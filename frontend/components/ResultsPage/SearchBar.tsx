@@ -4,7 +4,6 @@
  */
 import React, { useState, useEffect } from 'react';
 import macros from '../macros';
-import logoInput from '../images/logo_input.svg';
 import LogoInput from '../images/LogoInput';
 
 interface SearchBarProps {

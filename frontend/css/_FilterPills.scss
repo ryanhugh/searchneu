@@ -18,6 +18,32 @@
 }
 
 .FilterPill {
+  $root: &;
+
+  &__icon {
+    margin-left: 25px;
+    position: relative;
+
+    &::before,
+    &::after {
+      top: 50%;
+      right: 50%;
+      position: absolute;
+      content: "";
+      width: 14px; /* x size */
+      height: 1.5px; /* x thickness */
+      background-color: #d41b2c;
+    }
+
+    &::before {
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+    }
+  }
+
   &__close {
     height: 30px;
     background: #ffff;
@@ -27,7 +53,6 @@
     border: 0.5px solid #bababa;
     cursor: pointer;
     padding-left: 10px;
-
     margin-left: 5px;
     margin-bottom: 5px;
 
@@ -49,36 +74,15 @@
 
   &__verbose {
     display: none;
+
     @media only screen and (min-width: 700px) {
       display: inline;
     }
   }
+
   &__compact {
     @media only screen and (min-width: 700px) {
       display: none;
-    }
-  }
-
-  &__icon {
-    margin-left: 25px;
-    position: relative;
-    &::before,
-    &::after {
-      top: 50%;
-      right: 50%;
-      position: absolute;
-      content: "";
-      width: 14px; /* x size */
-      height: 1.5px; /* x thickness */
-      background-color: #d41b2c;
-    }
-
-    &::before {
-      transform: rotate(45deg);
-    }
-
-    &::after {
-      transform: rotate(-45deg);
     }
   }
 }

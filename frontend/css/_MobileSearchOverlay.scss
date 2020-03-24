@@ -33,13 +33,11 @@ $EXECUTE_BTN_HEIGHT: 40px;
     bottom: 0;
     height: $EXECUTE_BTN_HEIGHT;
     width: 100%;
-
     font-size: 14px;
     line-height: $EXECUTE_BTN_HEIGHT;
     text-align: center;
-
-    background: #338EF1;
-    color: #FFF;
+    background: #338ef1;
+    color: #fff;
   }
 }
 
@@ -52,7 +50,7 @@ $EXECUTE_BTN_HEIGHT: 40px;
     border: none;
     font-size: 16px;
   }
-  
+
   &__button {
     padding-right: 20px;
   }
