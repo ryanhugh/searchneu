@@ -48,11 +48,6 @@ class Search {
     // Searches are case insensitive.
     query = query.trim().toLowerCase();
 
-    // if (query.length === 0) {
-    //   macros.log('No query given in frontend/search.js. Returning empty array.', query, termCount);
-    //   return BLANK_SEARCH_RESULT();
-    // }
-
     if (!termId || termId.length !== 6) {
       macros.log('No termId given in frontend/search.js. Returning empty array.', termId, termCount);
       return BLANK_SEARCH_RESULT();

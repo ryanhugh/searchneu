@@ -28,7 +28,7 @@ beforeEach(() => {
 
 it('should not have any results', async (done) => {
   mockRequest.setBenResponse(false);
-  const results = await search.search('ben', '201850', {}, 4);
+  const { results } = await search.search('ben', '201850', {}, 4);
 
   expect(results.length).toBe(0);
   done();
@@ -36,7 +36,7 @@ it('should not have any results', async (done) => {
 
 
 it('should cache the results of a given search', async (done) => {
-  const results = await search.search('ben', '201850', {}, 4);
+  const { results } = await search.search('ben', '201850', {}, 4);
 
   expect(results.length).toBe(4);
 
@@ -45,7 +45,7 @@ it('should cache the results of a given search', async (done) => {
   // Even though we disable the response, this search module should cache it.
   mockRequest.setBenResponse(false);
 
-  const secondResults = await search.search('ben', '201850', {}, 4);
+  const { results: secondResults } = await search.search('ben', '201850', {}, 4);
 
   expect(secondResults).toEqual(firstResults);
 
@@ -56,15 +56,11 @@ it('should cache the results of a given search', async (done) => {
 
 
 it('should fail if not given the right info', async (done) => {
-  const nope = await search.search('', '201810', {}, 4);
-
-  expect(nope.length).toBe(0);
-
-  const invalidTermIdResults = await search.search('ben', '567898765', {}, 4);
+  const { results: invalidTermIdResults } = await search.search('ben', '567898765', {}, 4);
 
   expect(invalidTermIdResults.length).toBe(0);
 
-  const alsoInvalidTermIdResults = await search.search('ben', null, {}, 4);
+  const { results: alsoInvalidTermIdResults } = await search.search('ben', null, {}, 4);
 
   expect(alsoInvalidTermIdResults.length).toBe(0);
 
@@ -73,11 +69,11 @@ it('should fail if not given the right info', async (done) => {
 
 
 it('should be able to combine different lengths', async (done) => {
-  const results = await search.search('ben', '201850', {}, 1);
+  const { results } = await search.search('ben', '201850', {}, 1);
 
   expect(results.length).toBe(1);
 
-  const moreResults = await search.search('ben', '201850', {}, 4);
+  const { results: moreResults } = await search.search('ben', '201850', {}, 4);
 
   // Make sure the original didn't change
   expect(results.length).toBe(1);
@@ -88,7 +84,7 @@ it('should be able to combine different lengths', async (done) => {
   // Make a request to hit cache
   mockRequest.setBenResponse(false);
 
-  const resultsThatHitCache = await search.search('ben', '201850', {}, 4);
+  const { results: resultsThatHitCache } = await search.search('ben', '201850', {}, 4);
 
   expect(resultsThatHitCache).toEqual(moreResults);
 
