@@ -19,16 +19,16 @@ Array [
                       },
                     },
                     Object {
+                      "exists": Object {
+                        "field": "sections",
+                      },
+                    },
+                    Object {
                       "term": Object {
                         "class.termId": "202030",
                       },
                     },
                   ],
-                },
-              },
-              Object {
-                "term": Object {
-                  "type": "employee",
                 },
               },
             ],
@@ -69,7 +69,7 @@ Array [
     "aggregations": Object {
       "nupath": Object {
         "terms": Object {
-          "field": "class.classAttributes.keyword",
+          "field": "class.nupath.keyword",
         },
       },
     },
@@ -88,16 +88,16 @@ Array [
                       },
                     },
                     Object {
+                      "exists": Object {
+                        "field": "sections",
+                      },
+                    },
+                    Object {
                       "term": Object {
                         "class.termId": "202030",
                       },
                     },
                   ],
-                },
-              },
-              Object {
-                "term": Object {
-                  "type": "employee",
                 },
               },
             ],
@@ -157,16 +157,16 @@ Array [
                       },
                     },
                     Object {
+                      "exists": Object {
+                        "field": "sections",
+                      },
+                    },
+                    Object {
                       "term": Object {
                         "class.termId": "202030",
                       },
                     },
                   ],
-                },
-              },
-              Object {
-                "term": Object {
-                  "type": "employee",
                 },
               },
             ],
@@ -226,16 +226,16 @@ Array [
                       },
                     },
                     Object {
+                      "exists": Object {
+                        "field": "sections",
+                      },
+                    },
+                    Object {
                       "term": Object {
                         "class.termId": "202030",
                       },
                     },
                   ],
-                },
-              },
-              Object {
-                "term": Object {
-                  "type": "employee",
                 },
               },
             ],
@@ -289,6 +289,11 @@ Array [
                 "bool": Object {
                   "must": Array [
                     Object {
+                      "exists": Object {
+                        "field": "sections",
+                      },
+                    },
+                    Object {
                       "term": Object {
                         "class.termId": "202030",
                       },
@@ -339,7 +344,7 @@ Array [
     "aggregations": Object {
       "nupath": Object {
         "terms": Object {
-          "field": "class.classAttributes.keyword",
+          "field": "class.nupath.keyword",
         },
       },
     },
@@ -352,6 +357,11 @@ Array [
               Object {
                 "bool": Object {
                   "must": Array [
+                    Object {
+                      "exists": Object {
+                        "field": "sections",
+                      },
+                    },
                     Object {
                       "term": Object {
                         "class.termId": "202030",
@@ -417,6 +427,11 @@ Array [
                 "bool": Object {
                   "must": Array [
                     Object {
+                      "exists": Object {
+                        "field": "sections",
+                      },
+                    },
+                    Object {
                       "term": Object {
                         "class.termId": "202030",
                       },
@@ -480,6 +495,11 @@ Array [
               Object {
                 "bool": Object {
                   "must": Array [
+                    Object {
+                      "exists": Object {
+                        "field": "sections",
+                      },
+                    },
                     Object {
                       "term": Object {
                         "class.termId": "202030",

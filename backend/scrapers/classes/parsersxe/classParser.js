@@ -108,7 +108,7 @@ class ClassParser {
   }
 
   nupath(attributes) {
-    const regex = /NUpath (.*?) *NC[A-Z]{2}/g;
+    const regex = new RegExp('NUpath (.*?) *NC.{2}');
     return attributes
       .filter((a) => regex.test(a))
       .map((a) => regex.exec(a)[1]);
