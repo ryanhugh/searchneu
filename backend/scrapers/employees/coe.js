@@ -4,6 +4,7 @@
  */
 
 import cheerio from 'cheerio';
+import _ from 'lodash';
 
 import Request from '../request';
 import cache from '../cache';
@@ -14,7 +15,6 @@ const request = new Request('COE');
 // TODO
 // Could parse a lot more from each page
 // Phone numbers with extentions are not parsed http://www.civ.neu.edu/people/patterson-mark
-
 
 
 class COE {
