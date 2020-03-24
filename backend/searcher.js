@@ -38,7 +38,7 @@ class Searcher {
 
     // TODO just use the terms query!!!!!!! wtfff
     const getNUpathFilter = (selectedNUpaths) => {
-      return { terms: { 'class.classAttributes.keyword': selectedNUpaths } };
+      return { terms: { 'class.nupath.keyword': selectedNUpaths } };
     };
 
     const getSubjectFilter = (selectedSubjects) => {
@@ -59,7 +59,7 @@ class Searcher {
     };
 
     return {
-      nupath: { validate: isStringArray, create: getNUpathFilter, agg: 'class.classAttributes.keyword' },
+      nupath: { validate: isStringArray, create: getNUpathFilter, agg: 'class.nupath.keyword' },
       subject: { validate: isStringArray, create: getSubjectFilter, agg: 'class.subject.keyword' },
       online: { validate: isTrue, create: getOnlineFilter, agg: false },
       classType: { validate: isStringArray, create: getClassTypeFilter, agg: 'sections.classType.keyword' },

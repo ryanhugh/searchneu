@@ -62,6 +62,7 @@ class ClassParser {
       subject: subjectCode,
       classId: courseNumber,
       classAttributes: attributes,
+      nupath: attributes.filter(attr => attr.substring(0, 6) === 'NUpath'),
       desc: description,
       prettyUrl: 'https://wl11gp.neu.edu/udcprod8/bwckctlg.p_disp_course_detail?'
         + `cat_term_in=${termId}&subj_code_in=${subjectCode}&crse_numb_in=${courseNumber}`,
