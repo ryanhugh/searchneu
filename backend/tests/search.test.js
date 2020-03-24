@@ -28,55 +28,7 @@ describe('searcher', () => {
     });
 
     it('generates a query without filters', () => {
-      expect(searcher.generateQuery('fundies', '202030', [], 0, 10, 'nupath')).toEqual({
-        sort: ['_score', {
-          'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' },
-        }],
-        from: 0,
-        size: 10,
-        query: {
-          bool: {
-            must: {
-              multi_match: {
-                query: 'fundies',
-                type: 'most_fields',
-                fuzziness: 'AUTO',
-                fields: [
-                  'class.name^2',
-                  'class.name.autocomplete',
-                  'class.subject^4',
-                  'class.classId^3',
-                  'sections.profs',
-                  'class.crns',
-                  'employee.name^2',
-                  'employee.emails',
-                  'employee.phone',
-                ],
-              },
-            },
-            filter: {
-              bool: {
-                should: [
-                  {
-                    bool: {
-                      must: [],
-                    },
-                  },
-                  {
-                    // why do we need this?
-                    term: { type: 'employee' },
-                  },
-                ],
-              },
-            },
-          },
-        },
-        aggregations: {
-          nupath: {
-            terms: { field: 'class.classAttributes.keyword' },
-          },
-        },
-      });
+      expect(searcher.generateQuery('fundies', '202030', [], 0, 10, 'nupath')).toMatchSnapshot();
     });
   });
 });
