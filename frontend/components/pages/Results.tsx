@@ -20,7 +20,7 @@ import useSearch from '../ResultsPage/useSearch';
 import FilterPanel from '../ResultsPage/FilterPanel';
 import FilterPills from '../ResultsPage/FilterPills';
 import { FilterSelection, BLANK_SEARCH_RESULT, SearchResult } from '../types';
-import EmptyResultsContainer from './EmptyResultsContainer';
+import EmptyResultsContainer from '../ResultsPage/EmptyResultsContainer';
 import MobileSearchOverlay from '../ResultsPage/MobileSearchOverlay';
 import useAtTop from '../ResultsPage/useAtTop';
 
