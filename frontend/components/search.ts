@@ -48,22 +48,17 @@ class Search {
     // Searches are case insensitive.
     query = query.trim().toLowerCase();
 
-    if (query.length === 0) {
-      macros.log('No query given in frontend/search.js. Returning empty array.', query, termCount);
-      return BLANK_SEARCH_RESULT();
-    }
+    // if (query.length === 0) {
+    //   macros.log('No query given in frontend/search.js. Returning empty array.', query, termCount);
+    //   return BLANK_SEARCH_RESULT();
+    // }
 
     if (!termId || termId.length !== 6) {
       macros.log('No termId given in frontend/search.js. Returning empty array.', termId, termCount);
       return BLANK_SEARCH_RESULT();
     }
 
-    const stringFilters = JSON.stringify(_.pickBy({
-      nupath: filters.nupath,
-      subject: filters.subject,
-      online: filters.online,
-      classType: filters.classType,
-    }, (v) => !Array.isArray(v) || v.length));
+    const stringFilters = JSON.stringify(_.pickBy(filters, (v) => !Array.isArray(v) || v.length));
 
     const searchHash = termId + query + stringFilters;
 

@@ -11,7 +11,7 @@ describe('searcher', () => {
   describe('formFilters', () => {
   });
 
-  describe('generateQuery', () => {
+  describe('generateMQuery', () => {
     it('generates with no filters', () => {
       expect(searcher.generateMQuery('fundies', '202030', 0, 10, {})).toMatchSnapshot();
     });
@@ -23,8 +23,12 @@ describe('searcher', () => {
 
   // TODO: create an association between cols in elasticCourseSerializer and here
   describe('generateQuery', () => {
+    it('generates match_all when no query', () => {
+      expect(searcher.generateQuery('', '202030', [], 0, 10).query.bool.must).toEqual({ match_all:{} });
+    });
+
     it('generates a query without filters', () => {
-      expect(searcher.generateQuery('fundies', [], 0, 10, 'nupath')).toEqual({
+      expect(searcher.generateQuery('fundies', '202030', [], 0, 10, 'nupath')).toEqual({
         sort: ['_score', {
           'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' },
         }],

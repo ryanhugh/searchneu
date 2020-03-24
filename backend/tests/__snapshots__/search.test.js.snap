@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`searcher generateQuery generates aggs with online filters applied 1`] = `
+exports[`searcher generateMQuery generates aggs with online filters applied 1`] = `
 Array [
   Object {
     "aggregations": undefined,
@@ -275,7 +275,7 @@ Array [
 ]
 `;
 
-exports[`searcher generateQuery generates with no filters 1`] = `
+exports[`searcher generateMQuery generates with no filters 1`] = `
 Array [
   Object {
     "aggregations": undefined,

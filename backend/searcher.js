@@ -136,14 +136,18 @@ class Searcher {
     const fields = this.getFields(query);
 
     // text query from the main search box
-    const matchTextQuery = {
-      multi_match: {
-        query: query,
-        type: 'most_fields', // More fields match => higher score
-        fuzziness: 'AUTO',
-        fields: fields,
-      },
-    };
+    const matchTextQuery = query.length > 0
+      ? {
+        multi_match: {
+          query: query,
+          type: 'most_fields', // More fields match => higher score
+          fuzziness: 'AUTO',
+          fields: fields,
+        },
+      }
+      : {
+        match_all: {},
+      };
 
     // use lower classId has tiebreaker after relevance
     const sortByClassId = { 'class.classId.keyword': { order: 'asc', unmapped_type: 'keyword' } };

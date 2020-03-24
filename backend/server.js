@@ -205,7 +205,7 @@ app.get('/search', wrap(async (req, res) => {
     return;
   }
 
-  if (!req.query.query || typeof req.query.query !== 'string' || req.query.query.length > 500) {
+  if (typeof req.query.query !== 'string' || req.query.query.length > 500) {
     macros.log(getTime(), 'Need query.', req.query);
     res.send(JSON.stringify({
       error: 'Need query param.',
