@@ -4,8 +4,7 @@ import _ from 'lodash';
 
 import CheckboxFilter from './CheckboxFilter';
 import DropdownFilter from './DropdownFilter';
-import { FilterOptions } from './filterTypes';
-import { FilterSelection } from '../types';
+import { FilterSelection, FilterOptions } from '../types';
 import ToggleFilter from './ToggleFilter';
 
 export interface FilterPanelProps {
