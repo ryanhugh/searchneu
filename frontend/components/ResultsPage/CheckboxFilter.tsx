@@ -1,5 +1,5 @@
 import React from 'react';
-import CheckboxGroup from 'react-checkbox-group';
+import CheckboxGroup from './CheckboxGroup';
 import { Option } from './filterTypes';
 
 

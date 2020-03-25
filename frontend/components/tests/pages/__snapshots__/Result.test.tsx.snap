@@ -38,29 +38,17 @@ exports[`should render a section 1`] = `
       <Memo(FilterPanel)
         active={
           Object {
-            "NUpath": Array [],
             "classType": Array [],
+            "nupath": Array [],
             "online": false,
+            "showUnavailable": false,
             "subject": Array [],
           }
         }
         options={
           Object {
-            "NUpath": Array [
-              Object {
-                "count": 1,
-                "key": "DD",
-                "text": "diff div",
-                "value": "DD",
-              },
-              Object {
-                "count": 1,
-                "key": "IC",
-                "text": "interp cultures",
-                "value": "IC",
-              },
-            ],
             "classType": Array [],
+            "nupath": Array [],
             "subject": Array [],
           }
         }
@@ -76,9 +64,10 @@ exports[`should render a section 1`] = `
       <FilterPills
         filters={
           Object {
-            "NUpath": Array [],
             "classType": Array [],
+            "nupath": Array [],
             "online": false,
+            "showUnavailable": false,
             "subject": Array [],
           }
         }

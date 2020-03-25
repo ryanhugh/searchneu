@@ -10213,11 +10213,6 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-checkbox-group@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/react-checkbox-group/-/react-checkbox-group-5.0.2.tgz#ccf6d5bd36d549727f8bc2c44b011224e4599450"
-  integrity sha512-iNnKCwVNNlsj6DXIzPO9qx5BcwPf3lXV0u8UW6YcsVDwlS2AC+bJXq76z2uwbtWZbCIZHzm2mxMMj4Bzm3B+lw==
-
 react-collapsible@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/react-collapsible/-/react-collapsible-2.6.0.tgz#8cc18e8b88c46032b21c119833cd6922344636c9"
