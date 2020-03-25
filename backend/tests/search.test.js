@@ -1,7 +1,7 @@
 import searcher from '../searcher';
 
 beforeAll(async () => {
-  await searcher.initializeSubjects();
+  searcher.subjects = [];
 })
 
 describe('searcher', () => {
