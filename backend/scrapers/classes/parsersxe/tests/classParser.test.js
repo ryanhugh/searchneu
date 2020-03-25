@@ -18,6 +18,13 @@ afterAll(() => {
 jest.mock('../subjectAbbreviationParser');
 
 describe('classParser', () => {
+  describe('nupath', () => {
+    it('filters and parses', () => {
+      const actual = ['Natural/Designed World'];
+      expect(ClassParser.nupath(ClassParser.serializeAttributes(data.getCourseAttributes2))).toEqual(actual);
+    });
+  });
+
   describe('serializeAttributes', () => {
     it('trims and splits on <br/>', () => {
       const actual = ['Business Admin  UBBA'];

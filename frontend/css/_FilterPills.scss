@@ -1,0 +1,88 @@
+.active-filters {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+
+  &__label {
+    font-weight: bold;
+    margin-right: 7px;
+    flex-shrink: 0;
+  }
+
+  &__row {
+    display: flex;
+    flex-flow: row wrap;
+    margin-left: -5px;
+    margin-bottom: -5px;
+  }
+}
+
+.FilterPill {
+  $root: &;
+
+  &__icon {
+    margin-left: 25px;
+    position: relative;
+
+    &::before,
+    &::after {
+      top: 50%;
+      right: 50%;
+      position: absolute;
+      content: "";
+      width: 14px; /* x size */
+      height: 1.5px; /* x thickness */
+      background-color: #d41b2c;
+    }
+
+    &::before {
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+    }
+  }
+
+  &__close {
+    height: 30px;
+    background: #ffff;
+    white-space: nowrap;
+    color: #4c5454;
+    border-radius: 7px;
+    border: 0.5px solid #bababa;
+    cursor: pointer;
+    padding-left: 10px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:hover {
+      background-color: #d41b2c;
+      border-color: #d41b2c;
+      color: #ffff;
+    }
+
+    &:hover .FilterPill__icon::before,
+    &:hover .FilterPill__icon::after {
+      background-color: #ffff;
+    }
+  }
+
+  &__verbose {
+    display: none;
+
+    @media only screen and (min-width: 700px) {
+      display: inline;
+    }
+  }
+
+  &__compact {
+    @media only screen and (min-width: 700px) {
+      display: none;
+    }
+  }
+}

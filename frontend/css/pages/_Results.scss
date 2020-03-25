@@ -1,6 +1,9 @@
+$TOPNAV_HEIGHT: 60px;
+$SIDEBAR_WIDTH: 268px;
+
 .Results_Header {
   width: 100%;
-  height: 60px;
+  height: $TOPNAV_HEIGHT;
   left: 0;
   top: 0;
   z-index: 9999;
@@ -11,6 +14,7 @@
   justify-content: left;
   position: fixed;
   box-shadow: 0 0 10px rgba(31, 33, 38, 0.5);
+  border-bottom: 1px solid #fff;
 
   &-top {
     box-shadow: none;
@@ -45,7 +49,42 @@
 }
 
 .Results_Container {
-  padding-top: 84px;
+  padding-top: $TOPNAV_HEIGHT;
+  display: flex;
+}
+
+.Results_SidebarWrapper {
+  position: fixed;
+  width: $SIDEBAR_WIDTH;
+  top: $TOPNAV_HEIGHT;
+  bottom: 0;
+  overflow-y: scroll;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  background-color: #f6f6f6;
+  padding: 25px 15px 25px 15px;
+}
+
+.Results_SidebarSpacer {
+  flex-basis: $SIDEBAR_WIDTH;
+  flex-shrink: 0;
+}
+
+.Results_Main {
+  padding-top: 10px;
+  padding-right: 40px;
+  padding-left: 40px;
+  flex-grow: 1;
+  max-width: 1800px;
+
+  @media only screen and (max-width: 1000px) {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
 }
 
 // TODO make this a spiner, but need to fix ResultsLoader rerender issue first

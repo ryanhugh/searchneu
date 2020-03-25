@@ -14,7 +14,10 @@ jest.mock('react-router-dom', () => ({
   useHistory: () => ({
     push: jest.fn(),
   }),
-  useParams: () => ({ termId:'202030' }),
+}));
+
+jest.mock('use-query-params', () => ({
+  useQueryParam: () => (['202030', () => {}]),
 }));
 
 Enzyme.configure({ adapter: new Adapter() });
