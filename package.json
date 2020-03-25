@@ -26,6 +26,7 @@
     "tsc": "tsc",
     "-testing-": "--------testing--------",
     "test": "./node_modules/jest-cli/bin/jest.js --testPathIgnorePatterns='(reg.js|seq.js)'",
+    "test_migrate": "npx sequelize-cli --env test db:migrate",
     "regtest": "jest reg.js",
     "seqtest": "jest -i seq.js",
     "coverage": "./node_modules/jest-cli/bin/jest.js --coverage",
