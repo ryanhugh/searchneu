@@ -91,15 +91,11 @@ export default function FilterPills({ filters, setFilters }: FilterPillsProps) {
             type='button'
             onClick={ () => {
               for (const { key } of OPTION_CATEGORIES) {
-                for (const s of filters[key]) {
-                  setFilters({ [key]: _.without(filters[key], s) });
-                }
+                setFilters({ [key] : [] })
               }
 
               for (const { key } of BOOLEAN_CATEGORIES) {
-                if (filters[key]) {
-                  setFilters({ [key]: false });
-                }
+                setFilters({ [key]: false });
               }
             } }
           >
