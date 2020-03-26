@@ -23,6 +23,7 @@ import chevronRight from './chevron-right.svg';
 class MobileClassPanel extends BaseClassPanel {
   static propTypes = {
     aClass: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
   };
 
   constructor(props) {
