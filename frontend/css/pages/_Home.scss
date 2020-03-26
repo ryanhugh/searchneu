@@ -46,28 +46,20 @@
   }
 
   .centerTextContainer {
+    flex-basis: 600px;
     padding-bottom: 8%;
   }
 
-  .title {
-    color: rgb(174, 69, 67);
-    font: Roboto, "Segoe UI", Tahoma, sans-serif;
-    font-weight: 400;
-    pointer-events: initial;
-  }
-
-  .subtitle {
-    color: #a3a3a3 !important;
-    font-weight: 200;
-    pointer-events: initial;
-  }
-
   .logo {
-    position: absolute;
-    height: 30px;
-    top: 40px;
-    left: 40px;
+    height: 50px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
     z-index: 10;
+
+    @media only screen and (min-width: 400px) {
+      height: 60px;
+    }
   }
 
   .bostonContainer {
@@ -112,15 +104,6 @@
       transition-delay: 1s !important;
       transition-timing-function: cubic-bezier(0.46, 0.03, 0.62, 0.98);
     }
-
-    .title {
-      font-size: 54px;
-    }
-
-    .subtitle {
-      font-size: 27px !important;
-      margin: 10px 0 25px 0;
-    }
   }
 
   /* Title and subtitle area. Mobile only. */
@@ -128,16 +111,6 @@
     .topHeader {
       padding-bottom: 20px !important;
       height: 100vh;
-    }
-
-    .title {
-      font-size: 45px;
-    }
-
-    .subtitle {
-      font-size: 22px !important;
-      max-width: 76%;
-      margin: 0 auto;
     }
   }
 
