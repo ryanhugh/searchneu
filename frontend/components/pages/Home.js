@@ -71,7 +71,6 @@ export default function Home() {
         </svg>
       </a>
 
-      <img src={ logo } className='logo' alt='logo' />
 
       <div className='bostonContainer'>
         <img src={ boston } className='boston' alt='logo' />
@@ -90,12 +89,7 @@ export default function Home() {
           }) }
         >
           <div className='centerTextContainer'>
-            <h1 className='title'>
-              Search For Northeastern
-            </h1>
-            <p className='subtitle'>
-              Search for classes, professors, subjects, etc.
-            </p>
+          <img src={ logo } className='logo' alt='logo' />
             <div
               className='searchWrapper'
               onFocus={ () => { setSearchFocused(true); } }
