@@ -86,6 +86,25 @@ export default function FilterPills({ filters, setFilters }: FilterPillsProps) {
               />
             ))
           }
+          <button
+            className='clear-filters-button'
+            type='button'
+            onClick={ () => {
+              for (const { key } of OPTION_CATEGORIES) {
+                for (const s of filters[key]) {
+                  setFilters({ [key]: _.without(filters[key], s) });
+                }
+              }
+
+              for (const { key } of BOOLEAN_CATEGORIES) {
+                if (filters[key]) {
+                  setFilters({ [key]: false });
+                }
+              }
+            } }
+          >
+            Clear All
+          </button>
         </div>
       </div>
     )
