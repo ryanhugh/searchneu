@@ -90,7 +90,7 @@ export default function Home() {
           }) }
         >
           <div className='centerTextContainer'>
-          <img src={ logo } className='logo' alt='logo' />
+            <img src={ logo } className='logo' alt='logo' />
             <div
               className='searchWrapper'
               onFocus={ () => { setSearchFocused(true); } }
