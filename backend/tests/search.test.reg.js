@@ -23,7 +23,7 @@ describe('searcher', () => {
       expect(Keys.getClassHash(firstResult)).toBe('neu.edu/202010/CS/2510');
     });
 
-    it.only('returns a professor if name requested', async () => {
+    it('returns a professor if name requested', async () => {
       const results = await searcher.search('mislove', '202010', 0, 1);
       const firstResult = results.searchContent[0].employee;
       expect(firstResult.emails).toContain('a.mislove@northeastern.edu');
@@ -181,7 +181,7 @@ describe('searcher', () => {
 
     it('filter by multiple subjects', async () => {
       const subjects = ['CS', 'ENGL'];
-      const allResults = (await searcher.search('2500', '202010', 0, 20, { subject: subjects })).searchContent;
+      const allResults = (await searcher.search('2500', '202060', 0, 20, { subject: subjects })).searchContent;
       expect(allResults.length > 0).toBe(true);
       allResults.forEach((result) => expect(subjects).toContain(result.class.subject));
     });
@@ -245,6 +245,84 @@ describe('searcher', () => {
       allResults.forEach((result) => expect(filters.subject).toContain(result.class.subject));
       allResults.forEach((result) => expect(result.sections.map((section) => section.online)).toContain(true));
       allResults.forEach((result) => expect(result.class.scheduleType).toBe(filters.classType));
+    });
+  });
+
+  describe('filter aggregations', () => {
+    it('gives no aggregations', async () => {
+      expect((await searcher.search('fundies', '202010', 0, 10, {})).aggregations).toEqual({});
+    });
+
+    it('gives an aggregation for a single filter', async () => {
+      const filters = { online: true };
+      expect((await searcher.search('writing', '202010', 0, 10, filters)).aggregations).toEqual({
+        online: {
+          value: true,
+          // this should be the count for all possible results you see
+          count: 100,
+        },
+      });
+    });
+
+    it('gives multiple aggregations for a single filter with multiple options', async () => {
+      const filters = { nupath: ['NU Core/NUpath Adv Writ Dscpl', 'NUpath Interpreting Culture'] };
+      expect((await searcher.search('science', '202010', 0, 10, filters)).aggregations).toEqual({
+        // these guys should be OR'd. When getting their aggregation, ignore the selection of other filters of their kind.
+        nupath: [
+          {
+            value: 'NU Core/NUpath Adv Writ Dscpl',
+            count: 30,
+          },
+          {
+            value: 'NUpath Interpreting Culture',
+            count: 50,
+          },
+        ],
+      });
+    });
+
+    it('gives an AND count for aggregations of multiple filters', async () => {
+      const filters = {
+        sectionsAvailable: true,
+        online: true,
+      };
+
+      expect((await searcher.search('science', '202010', 0, 10, filters))).toEqual({
+        // these guys should be ANDed together
+        sectionsAvailable: {
+          value: true,
+          count: 50,
+        },
+        online: {
+          value: true,
+          count: 30,
+        },
+      });
+    });
+
+    it('gives an OR count for aggregations with multiple filters of the same kind', async () => {
+      const filters = {
+        sectionsAvailable: true,
+        classType: ['Lab', 'Lecture'],
+      };
+
+      expect((await searcher.search('science', '202010', 0, 10, filters))).toEqual({
+        // these guys should be ANDed together
+        sectionsAvailable: {
+          value: true,
+          count: 50,
+        },
+        classType: [
+          {
+            value: 'Lab',
+            count: 100,
+          },
+          {
+            value: 'Lecture',
+            count: 30,
+          },
+        ],
+      });
     });
   });
 });

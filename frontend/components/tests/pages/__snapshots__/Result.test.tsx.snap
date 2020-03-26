@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render a section 1`] = `
+<div>
+  <div
+    className="Results_Header Results_Header-top"
+  >
+    <img
+      alt="logo"
+      className="Results__Logo"
+      onClick={[Function]}
+      src="file"
+    />
+    <div
+      className="Results__spacer"
+    />
+    <div
+      className="Results__searchwrapper"
+    >
+      <SearchBar
+        onClick={[Function]}
+        onSearch={[Function]}
+        query="cs"
+      />
+    </div>
+    <Memo(TermDropdown)
+      compact={true}
+      onChange={[Function]}
+      termId="202030"
+    />
+  </div>
+  <div
+    className="Results_Container"
+  >
+    <div
+      className="Results_SidebarWrapper"
+    >
+      <Memo(FilterPanel)
+        active={
+          Object {
+            "classType": Array [],
+            "nupath": Array [],
+            "online": false,
+            "showUnavailable": false,
+            "subject": Array [],
+          }
+        }
+        options={
+          Object {
+            "classType": Array [],
+            "nupath": Array [],
+            "subject": Array [],
+          }
+        }
+        setActive={[Function]}
+      />
+    </div>
+    <div
+      className="Results_SidebarSpacer"
+    />
+    <div
+      className="Results_Main"
+    >
+      <FilterPills
+        filters={
+          Object {
+            "classType": Array [],
+            "nupath": Array [],
+            "online": false,
+            "showUnavailable": false,
+            "subject": Array [],
+          }
+        }
+        setFilters={[Function]}
+      />
+      <div
+        style={
+          Object {
+            "visibility": "hidden",
+          }
+        }
+      />
+      <Memo(Footer) />
+    </div>
+  </div>
+  <div
+    className="botttomPadding"
+  />
+</div>
+`;

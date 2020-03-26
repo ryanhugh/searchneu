@@ -4,6 +4,7 @@
  */
 
 import cheerio from 'cheerio';
+import _ from 'lodash';
 
 import Request from '../request';
 import cache from '../cache';
@@ -15,9 +16,6 @@ const request = new Request('COE');
 // Could parse a lot more from each page
 // Phone numbers with extentions are not parsed http://www.civ.neu.edu/people/patterson-mark
 
-
-// This was removed from matchEmployees.js, but when its re-written just add it back.
-// https://github.com/ryanhugh/searchneu/issues/95
 
 class COE {
   parsePeopleList(resp) {
@@ -32,8 +30,12 @@ class COE {
         obj.name = name;
       }
 
-      const { firstName, lastName } = macros.parseNameWithSpaces(obj.name);
+      const splitName = macros.parseNameWithSpaces(obj.name);
+      if (!splitName) {
+        return null;
+      }
 
+      const { firstName, lastName } = splitName;
       if (firstName && lastName) {
         obj.firstName = firstName;
         obj.lastName = lastName;
@@ -79,7 +81,7 @@ class COE {
       return obj;
     });
 
-    return people;
+    return _.pull(people, null);
   }
 
   async main() {

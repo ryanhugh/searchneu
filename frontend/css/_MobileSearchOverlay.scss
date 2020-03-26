@@ -1,0 +1,57 @@
+$EXECUTE_BTN_HEIGHT: 40px;
+
+.msearch-overlay {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__back {
+    padding: 5px 15px 5px 15px;
+    height: 30px;
+    width: 50px;
+  }
+
+  &__search {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
+
+  &__content {
+    flex-grow: 1;
+    margin-top: $TOPNAV_HEIGHT;
+    margin-bottom: $EXECUTE_BTN_HEIGHT;
+    background-color: #f6f6f6;
+    padding: 0 15px 25px 15px;
+  }
+
+  &__pills {
+    min-height: 50px;
+  }
+
+  &__execute {
+    position: fixed;
+    bottom: 0;
+    height: $EXECUTE_BTN_HEIGHT;
+    width: 100%;
+    font-size: 14px;
+    line-height: $EXECUTE_BTN_HEIGHT;
+    text-align: center;
+    background: #338ef1;
+    color: #fff;
+  }
+}
+
+.overlay-search {
+  flex-grow: 1;
+  display: flex;
+
+  &__input {
+    flex-grow: 1;
+    border: none;
+    font-size: 16px;
+  }
+
+  &__button {
+    padding-right: 20px;
+  }
+}

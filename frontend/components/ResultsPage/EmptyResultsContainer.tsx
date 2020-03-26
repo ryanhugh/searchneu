@@ -9,6 +9,9 @@ interface EmptyResultsProps {
   query: string
 }
 
+/**
+ * Empty page that signifies to user no results were found
+ */
 export default function EmptyResultsContainer({ query }: EmptyResultsProps) {
   return (
     <div className='Results_EmptyContainer'>
@@ -17,7 +20,11 @@ export default function EmptyResultsContainer({ query }: EmptyResultsProps) {
       </h3>
       <div className='Results_EmptyBottomLine'>
         Want to&nbsp;
-        <a target='_blank' rel='noopener noreferrer' href={ `https://google.com/search?q=${macros.collegeName} ${query}` }>
+        <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href={ `https://google.com/search?q=${macros.collegeName} ${query}` }
+        >
           search for&nbsp;
           <div className='ui compact segment Results_EmptyText'>
             <p>

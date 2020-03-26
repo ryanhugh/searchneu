@@ -1,0 +1,88 @@
+.CheckboxFilter {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  &__element {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 2px;
+    margin-bottom: 5px;
+  }
+
+  &__text {
+    padding-left: 28px;
+    flex-grow: 1;
+    cursor: pointer;
+
+    &:hover {
+      color: black;
+    }
+  }
+
+  &__count {
+    float: right;
+    color: #888;
+  }
+
+  &__checkbox {
+    display: block;
+    position: absolute;
+    top: 3px;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.42);
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &::after {
+      /* Styles for the check */
+      content: "";
+      position: absolute;
+      display: none;
+      left: 4px;
+      top: 1px;
+      width: 6px;
+      height: 9px;
+      border: solid #ffff;
+      border-radius: 1px;
+      border-width: 0 2px 2px 0;
+      -webkit-transform: rotate(40deg);
+      -ms-transform: rotate(40deg);
+      transform: rotate(40deg);
+    }
+  }
+
+  &__text > input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 16px;
+    width: 16px;
+  }
+
+  &__text > input:checked + .CheckboxFilter__checkbox {
+    background-color: #d41b2c;
+    border-color: #d41b2c;
+  }
+
+  &__text:hover > input:not(:checked) + .CheckboxFilter__checkbox {
+    background-color: rgba(212, 27, 44, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+  }
+
+  &__text > input:checked + .CheckboxFilter__checkbox::after {
+    display: block;
+  }
+}

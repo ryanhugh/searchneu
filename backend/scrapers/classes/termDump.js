@@ -16,6 +16,7 @@ import Keys from '../../../common/Keys';
 class TermDump {
   async main(termDump) {
     const termMapDump = {};
+    macros.log('TERM DUMPING')
 
 
     for (const aClass of termDump.classes) {

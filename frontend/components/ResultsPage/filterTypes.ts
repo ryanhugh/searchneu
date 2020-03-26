@@ -1,12 +1,10 @@
 export type Option = {
-  key: string,
   value: string,
-  text: string,
   count: number
 }
 
 export type FilterOptions = {
-  NUpath: Option[],
+  nupath: Option[],
   subject: Option[],
   classType: Option[],
 }

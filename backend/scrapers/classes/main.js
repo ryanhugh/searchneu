@@ -186,9 +186,12 @@ class Main {
 
     const bannerv9Url = bannerv9Urls[0];
 
+    macros.warn('BOUT TO SCRAPE');
     const bannerv9ParserOutput = await bannerv9Parser.main(bannerv9Url);
+    macros.warn('SCRAPEd');
 
     const dump = this.runProcessors(bannerv9ParserOutput);
+    macros.warn('BOUT TO DUMP')
 
     await termDump.main(dump);
 

@@ -14,7 +14,7 @@ enum Status {
 }
 
 interface UseSearchReturn<P, R> {
-  results: R[],
+  results: R,
   isReady: boolean,
   loadMore: () => void,
   doSearch: (p: P) => void
@@ -30,12 +30,12 @@ interface UseSearchReturn<P, R> {
  *  loadMore is a function that triggers loading the next page when invoked
  *  doSearch triggers search execution. Expects a object containing search params
  */
-export default function useSearch<P, R>(initialParams: P, fetchResults: (params:P, page:number)=>Promise<R[]>): UseSearchReturn<P, R> {
-  type State = {params:P, page: number, results: R[], status: Status};
+export default function useSearch<P, R>(initialParams: P, initialResults: R, fetchResults: (params:P, page:number)=>Promise<R>): UseSearchReturn<P, R> {
+  type State = {params:P, page: number, results: R, status: Status};
 
   // Batch all into one state to avoid multiple rerender
   const [state, setState] = useState<State>({
-    params: initialParams, page: 0, results: [], status: Status.FETCHING_NEW,
+    params: initialParams, page: 0, results: initialResults, status: Status.FETCHING_NEW,
   });
   // Equivalent of setState in class components.
   function updateState(changes: Partial<State>) {
