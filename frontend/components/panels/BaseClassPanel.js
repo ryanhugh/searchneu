@@ -88,8 +88,6 @@ class BaseClassPanel extends React.Component {
 
   // Prevents page reload and fires off new search without reloading.
   onReqClick(reqType, childBranch, event, hash) {
-    macros.log('in event', childBranch, event, Keys.getClassHash(childBranch));
-
     this.props.history.push(hash);
 
     // Create the React element and add it to retVal
