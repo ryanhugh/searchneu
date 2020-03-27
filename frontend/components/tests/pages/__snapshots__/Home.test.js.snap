@@ -29,11 +29,6 @@ exports[`should render a section 1`] = `
       />
     </svg>
   </a>
-  <img
-    alt="logo"
-    className="logo"
-    src="file"
-  />
   <div
     className="bostonContainer"
   >
@@ -50,16 +45,11 @@ exports[`should render a section 1`] = `
       <div
         className="centerTextContainer"
       >
-        <h1
-          className="title"
-        >
-          Search For Northeastern
-        </h1>
-        <p
-          className="subtitle"
-        >
-          Search for classes, professors, subjects, etc.
-        </p>
+        <img
+          alt="logo"
+          className="logo"
+          src="file"
+        />
         <div
           className="searchWrapper"
           onBlur={[Function]}
