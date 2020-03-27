@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { FILTERS_BY_CATEGORY, FilterSelection, FILTER_SPECS } from './filters';
+import { FILTERS_BY_CATEGORY, FilterSelection } from './filters';
 
 interface PillProps {
   verbose: string, // for desktop

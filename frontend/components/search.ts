@@ -8,7 +8,8 @@ import _ from 'lodash';
 
 import macros from './macros';
 import request from './request';
-import { FilterSelection, SearchResult, BLANK_SEARCH_RESULT } from './types';
+import { SearchResult, BLANK_SEARCH_RESULT } from './types';
+import { FilterSelection } from './ResultsPage/filters';
 
 // Every time there is a breaking change in the search api, increment the version
 // This way, the backend will send back the result that frontend is expecting

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropdown } from 'semantic-ui-react';
-import { Option } from './filterTypes';
+import { Option } from './filters';
 
 interface DropdownFilter {
   title: string,

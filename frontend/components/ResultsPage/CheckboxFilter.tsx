@@ -1,6 +1,6 @@
 import React from 'react';
 import CheckboxGroup from './CheckboxGroup';
-import { Option } from './filterTypes';
+import { Option } from './filters';
 
 
 interface CheckboxFilterProps {
