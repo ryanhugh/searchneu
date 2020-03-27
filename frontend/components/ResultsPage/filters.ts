@@ -40,18 +40,22 @@ const DEFAULTS_FOR_CAT: Record<FilterCategory, any> = {
 // ============== Filter specifications ================
 // Specify which filters exist, and which category they are
 export const FILTER_SPECS = {
-  online: FilterCategories.Toggle,
-  // showUnavailable: FilterCategories.Toggle,
-  nupath: FilterCategories.Dropdown,
-  subject: FilterCategories.Dropdown,
-  classType: FilterCategories.Checkboxes,
+  online: { category: FilterCategories.Toggle, display: 'Online Classes Only', order: 3 },
+  nupath: { category: FilterCategories.Dropdown, display: 'NU Path', order: 2 },
+  subject: { category: FilterCategories.Dropdown, display: 'Subject', order: 1 },
+  classType: { category: FilterCategories.Checkboxes, display: 'Class Type', order: 4 },
+}
+type FilterSpec<C> = {
+  category: C,
+  display: string,
+  order: number
 }
 type FilterSpecs = typeof FILTER_SPECS;
 // Represents additional info for each filter
 type FilterInfo<T> = {[K in keyof FilterSpecs]: T}
 
 // Represents which categories of filters have "options" (multiple choice)
-type FilterCategoriesWithOptions = 'Dropdown' | 'Checkboxes';
+type FilterCategoriesWithOptions = FilterSpec<'Dropdown'> | FilterSpec<'Checkboxes'>;
 
 // Union type of filters that have options
 type FiltersWithOptions = FilteredKeys<FilterSpecs, FilterCategoriesWithOptions>;
@@ -70,15 +74,12 @@ export type Option = {
 }
 
 // ============== Constants For Components To Use ================
-export const QUERY_PARAM_ENCODERS: FilterInfo<QueryParamConfig<any, any>> = _.mapValues(FILTER_SPECS, (cat: FilterCategory) => ENCODERS_FOR_CAT[cat]);
-export const DEFAULT_PARAMS: FilterInfo<false | []> = _.mapValues(FILTER_SPECS, (cat: FilterCategory) => DEFAULTS_FOR_CAT[cat]);
-export const FILTER_DISPLAY_TEXT: FilterInfo<string> = {
-  subject: 'Subject',
-  nupath: 'NU Path',
-  online: 'Online Classes Only',
-  classType: 'Class Type',
-}
-export const FILTER_ORDER = ['subject', 'nupath', 'online', 'classType'];
-export const FILTERS_BY_CATEGORY: Record<FilterCategory, string[]> = _.mapValues(FilterCategories, (cat: FilterCategory) => {
-  return Object.keys(_.pickBy(FILTER_SPECS, (c:FilterCategory) => c === cat));
+export const QUERY_PARAM_ENCODERS: FilterInfo<QueryParamConfig<any, any>> = _.mapValues(FILTER_SPECS, (spec) => ENCODERS_FOR_CAT[spec.category]);
+export const DEFAULT_PARAMS: FilterInfo<false | []> = _.mapValues(FILTER_SPECS, (spec) => DEFAULTS_FOR_CAT[spec.category]);
+export const FILTERS_BY_CATEGORY: Record<FilterCategory, Partial<FilterSpecs>> = _.mapValues(FilterCategories, (cat: FilterCategory) => {
+  return _.pickBy(FILTER_SPECS, (spec) => spec.category === cat);
 });
+export const FILTERS_IN_ORDER = _(FILTER_SPECS).toPairs()
+  .map(([key, spec]) => ({ key, ...spec }))
+  .sortBy(['order'])
+  .value();

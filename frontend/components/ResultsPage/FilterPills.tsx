@@ -1,7 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { FilterSelection } from '../types';
-import { FILTER_SPECS, FILTERS_BY_CATEGORY, FILTER_DISPLAY_TEXT } from './filters';
+import { FILTERS_BY_CATEGORY, FilterSelection, FILTER_SPECS } from './filters';
 
 interface PillProps {
   verbose: string, // for desktop
@@ -34,27 +33,27 @@ interface FilterPillsProps {
   setFilters: (f: FilterSelection) => void
 }
 
-const OPTIONS_FILTERS: string[] = [...FILTERS_BY_CATEGORY.Dropdown, ...FILTERS_BY_CATEGORY.Checkboxes];
+const OPTIONS_FILTERS = { ...FILTERS_BY_CATEGORY.Dropdown, ...FILTERS_BY_CATEGORY.Checkboxes };
 
 export default function FilterPills({ filters, setFilters }: FilterPillsProps) {
   const crumbs: PillProps[] = [];
 
   // Add all the selected option filters
-  for (const key of OPTIONS_FILTERS) {
+  for (const [key, spec] of Object.entries(OPTIONS_FILTERS)) {
     for (const s of filters[key]) {
       crumbs.push({
-        verbose: `${FILTER_DISPLAY_TEXT[key]}: ${s}`,
+        verbose: `${spec.display}: ${s}`,
         compact: s,
         onClose: () => setFilters({ [key]: _.without(filters[key], s) }),
       });
     }
   }
 
-  for (const key of FILTERS_BY_CATEGORY.Toggle) {
+  for (const [key, spec] of Object.entries(FILTERS_BY_CATEGORY.Toggle)) {
     if (filters[key]) {
       crumbs.push({
-        verbose: FILTER_DISPLAY_TEXT[key],
-        compact: FILTER_DISPLAY_TEXT[key],
+        verbose: spec.display,
+        compact: spec.display,
         onClose: () => setFilters({ [key]: false }),
       })
     }

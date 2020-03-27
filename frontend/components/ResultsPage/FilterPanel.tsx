@@ -6,7 +6,7 @@ import CheckboxFilter from './CheckboxFilter';
 import DropdownFilter from './DropdownFilter';
 import ToggleFilter from './ToggleFilter';
 import {
-  FilterOptions, FilterSelection, FILTER_ORDER, FILTER_SPECS, FilterCategory, FILTER_DISPLAY_TEXT,
+  FilterOptions, FilterSelection, FILTERS_IN_ORDER,
 } from './filters';
 
 export interface FilterPanelProps {
@@ -18,20 +18,18 @@ export interface FilterPanelProps {
 function FilterPanel({ options, active, setActive }: FilterPanelProps) {
   return (
     <div className='FilterPanel'>
-      {FILTER_ORDER.map((filter) => {
-        const cat: FilterCategory = FILTER_SPECS[filter];
-        const title: string = FILTER_DISPLAY_TEXT[filter];
-        const aFilter = active[filter];
-        const setActiveFilter = (a) => setActive({ [filter]: a });
+      {FILTERS_IN_ORDER.map(({ key, display, category }) => {
+        const aFilter = active[key];
+        const setActiveFilter = (a) => setActive({ [key]: a });
 
         return (
           <>
-            {cat === 'Toggle'
-          && <ToggleFilter title={ title } active={ aFilter } setActive={ setActiveFilter } />}
-            {cat === 'Dropdown'
-          && <DropdownFilter title={ title } options={ options[filter] } active={ aFilter } setActive={ setActiveFilter } />}
-            {cat === 'Checkboxes'
-          && <CheckboxFilter title={ title } options={ options[filter] } active={ aFilter } setActive={ setActiveFilter } />}
+            {category === 'Toggle'
+          && <ToggleFilter title={ display } active={ aFilter } setActive={ setActiveFilter } />}
+            {category === 'Dropdown'
+          && <DropdownFilter title={ display } options={ options[key] } active={ aFilter } setActive={ setActiveFilter } />}
+            {category === 'Checkboxes'
+          && <CheckboxFilter title={ display } options={ options[key] } active={ aFilter } setActive={ setActiveFilter } />}
           </>
         )
       })}
