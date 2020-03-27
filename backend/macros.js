@@ -63,7 +63,7 @@ class Macros extends commonMacros {
 
 
     if (spaceCount === 0) {
-      Macros.error('0 spaces found in name', name);
+      Macros.warn('0 spaces found in name', name);
       return null;
     }
 

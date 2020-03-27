@@ -22,16 +22,14 @@ function ResultsLoader({ results, loadMore }: ResultsLoaderProps) {
       hasMore
       loader={ null }
     >
-      <div className='ui container results-loader-container'>
-        <div className='five column row'>
-          <div className='page-home'>
-            {results.map((result) => (
-              <ResultItemMemoized
-                key={ result.type === 'class' ? Keys.getClassHash(result.class) : result.employee.id }
-                result={ result }
-              />
-            ))}
-          </div>
+      <div className='five column row'>
+        <div className='page-home'>
+          {results.map((result) => (
+            <ResultItemMemoized
+              key={ result.type === 'class' ? Keys.getClassHash(result.class) : result.employee.id }
+              result={ result }
+            />
+          ))}
         </div>
       </div>
     </InfiniteScroll>

@@ -45,6 +45,7 @@ class SectionParser {
       seatsRemaining: SR.seatsAvailable,
       waitCapacity: SR.waitCapacity,
       waitRemaining: SR.waitAvailable,
+      classType: SR.scheduleTypeDescription,
       online: SR.campusDescription === 'Online',
       honors: SR.sectionAttributes.some((a) => { return a.description === 'Honors'; }),
       url: 'https://wl11gp.neu.edu/udcprod8/bwckschd.p_disp_detail_sched'

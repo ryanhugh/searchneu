@@ -1,6 +1,5 @@
 import { Dropdown } from 'semantic-ui-react';
-import React, { memo } from 'react';
-import { PropTypes } from 'prop-types';
+import React from 'react';
 
 export const termDropDownOptions = [
   {
@@ -25,7 +24,13 @@ export const termDropDownOptions = [
   },
 ];
 
-function TermDropdown({ termId, onChange, compact = false }) {
+interface TermDropdownProps {
+  termId: string,
+  onChange: (t: string) => void,
+  compact: boolean
+}
+
+function TermDropdown({ termId, onChange, compact = false }: TermDropdownProps) {
   return (
     <Dropdown
       selection
@@ -35,19 +40,9 @@ function TermDropdown({ termId, onChange, compact = false }) {
       placeholder='Spring 2020'
       className={ `termdropdown ${compact ? 'termdropdown--compact' : ''}` }
       options={ termDropDownOptions }
-      onChange={ onChange }
+      onChange={ (e, data) => onChange(data.value as string) }
     />
   );
 }
 
-TermDropdown.propTypes = {
-  termId: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  compact: PropTypes.bool,
-};
-
-TermDropdown.defaultProps = {
-  compact: false,
-};
-
-export default memo(TermDropdown);
+export default React.memo(TermDropdown);

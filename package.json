@@ -9,6 +9,7 @@
     "fetch": "./scripts/load_data.sh",
     "index": "babel-node backend/scrapers/classes/searchIndex.js; babel-node backend/scrapers/employees/searchIndex.js",
     "store": "babel-node backend/dumpProcessor.js",
+    "resetIndex": "babel-node backend/resetIndex.js",
     "script": "cd $INIT_CWD; babel-node --root-mode upward --ignore \".this_does_not_exit\"",
     "inspect": "cd $INIT_CWD;echo 'Open chrome://inspect in chrome and hit the node button';npm run -s script -- --inspect-brk",
     "profile": "yarn run build_backend && mkdir -p cache && time env NODE_ENV=prod node --heap-prof --heap-prof-dir=cache --max_old_space_size=12000 dist/backend/scrapers/classes/parsersxe/startup.js",
@@ -25,6 +26,7 @@
     "tsc": "tsc",
     "-testing-": "--------testing--------",
     "test": "./node_modules/jest-cli/bin/jest.js --testPathIgnorePatterns='(reg.js|seq.js)'",
+    "test_migrate": "npx sequelize-cli --env test db:migrate",
     "regtest": "jest reg.js",
     "seqtest": "jest -i seq.js",
     "coverage": "./node_modules/jest-cli/bin/jest.js --coverage",
@@ -86,6 +88,7 @@
     "@babel/plugin-transform-arrow-functions": "^7.2.0",
     "@babel/register": "^7.0.0",
     "@elastic/elasticsearch": "^7.0.0-rc.2",
+    "@types/lodash": "^4.14.149",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
     "@types/react-router-dom": "^5.1.3",
@@ -166,6 +169,8 @@
     "stylelint": "^10.0.1",
     "stylelint-config-standard": "^18.2.0",
     "urijs": "^1.18.8",
+    "use-deep-compare-effect": "^1.3.1",
+    "use-query-params": "^0.6.0",
     "webpack": "^4.1.0",
     "webpack-cli": "^3.0.1",
     "webpack-dev-middleware": "^3.0.1",
@@ -236,7 +241,8 @@
       "jsx",
       "json",
       "node",
-      "seq.js"
+      "tsx",
+      "ts"
     ],
     "testMatch": [
       "**/__tests__/**/*.[jt]s?(x)",

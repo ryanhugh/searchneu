@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     classAttributes: DataTypes.ARRAY(DataTypes.STRING),
     feeAmount: DataTypes.INTEGER,
     feeDescription: DataTypes.STRING,
+    nupath: DataTypes.ARRAY(DataTypes.STRING),
   }, {});
 
   Course.associate = (models) => {

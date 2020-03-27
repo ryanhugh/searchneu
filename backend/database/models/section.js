@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     seatsRemaining: DataTypes.INTEGER,
     waitCapacity: DataTypes.INTEGER,
     waitRemaining: DataTypes.INTEGER,
+    classType: DataTypes.STRING,
     online: DataTypes.BOOLEAN,
     honors: DataTypes.BOOLEAN,
     url: DataTypes.STRING,

@@ -3,6 +3,7 @@
 exports[`sectionParser should match snapshot 1`] = `
 Object {
   "classId": "2311",
+  "classType": "Lecture",
   "crn": "10259",
   "honors": true,
   "host": "neu.edu",
@@ -58,6 +59,7 @@ Object {
 exports[`sectionParser should match snapshot 2`] = `
 Object {
   "classId": "2500",
+  "classType": "Lecture",
   "crn": "30340",
   "honors": false,
   "host": "neu.edu",

@@ -24,7 +24,7 @@ describe('useSearch', () => {
   beforeEach(() => {
     fetchStuff.mockClear();
     testHook(() => {
-      search = useSearch({ mult: 1 }, asyncFetch);
+      search = useSearch({ mult: 1 }, [], asyncFetch);
     });
   });
 

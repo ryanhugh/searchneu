@@ -28,72 +28,71 @@ beforeEach(() => {
 
 it('should not have any results', async (done) => {
   mockRequest.setBenResponse(false);
-  const results = await search.search('ben', '201850', 4);
+  const { results } = await search.search('ben', '201850', {}, 4);
 
-  expect(results.results.length).toBe(0);
+  expect(results.length).toBe(0);
   done();
 });
 
 
 it('should cache the results of a given search', async (done) => {
-  const results = await search.search('ben', '201850', 4);
+  const { results } = await search.search('ben', '201850', {}, 4);
 
-  expect(results.results.length).toBe(4);
+  expect(results.length).toBe(4);
 
-  const firstResults = _.cloneDeep(results.results);
+  const firstResults = _.cloneDeep(results);
 
   // Even though we disable the response, this search module should cache it.
   mockRequest.setBenResponse(false);
 
-  const secondResults = await search.search('ben', '201850', 4);
+  const { results: secondResults } = await search.search('ben', '201850', {}, 4);
 
-  expect(secondResults.results).toEqual(firstResults);
+  expect(secondResults).toEqual(firstResults);
 
-  expect(secondResults.results.length).toBe(4);
+  expect(secondResults.length).toBe(4);
 
   done();
 });
 
 
 it('should fail if not given the right info', async (done) => {
-  const nope = await search.search('', '201810', 4);
+  const { results: invalidTermIdResults } = await search.search('ben', '567898765', {}, 4);
 
-  expect(nope.results.length).toBe(0);
+  expect(invalidTermIdResults.length).toBe(0);
 
-  const invalidTermIdResults = await search.search('ben', '567898765', 4);
+  const { results: alsoInvalidTermIdResults } = await search.search('ben', null, {}, 4);
 
-  expect(invalidTermIdResults.results.length).toBe(0);
-
-  const alsoInvalidTermIdResults = await search.search('ben', null, 4);
-
-  expect(alsoInvalidTermIdResults.results.length).toBe(0);
+  expect(alsoInvalidTermIdResults.length).toBe(0);
 
   done();
 });
 
 
 it('should be able to combine different lengths', async (done) => {
-  const results = await search.search('ben', '201850', 1);
+  const { results } = await search.search('ben', '201850', {}, 1);
 
-  expect(results.results.length).toBe(1);
+  expect(results.length).toBe(1);
 
-  const moreResults = await search.search('ben', '201850', 4);
+  const { results: moreResults } = await search.search('ben', '201850', {}, 4);
 
   // Make sure the original didn't change
-  expect(results.results.length).toBe(1);
+  expect(results.length).toBe(1);
 
   // The new results should be 4 long
-  expect(moreResults.results.length).toBe(4);
+  expect(moreResults.length).toBe(4);
 
   // Make a request to hit cache
   mockRequest.setBenResponse(false);
 
-  const resultsThatHitCache = await search.search('ben', '201850', 4);
+  const { results: resultsThatHitCache } = await search.search('ben', '201850', {}, 4);
 
-  expect(resultsThatHitCache.results).toEqual(moreResults.results);
+  expect(resultsThatHitCache).toEqual(moreResults);
 
   // Make sure the original didn't change
-  expect(results.results.length).toBe(1);
+  expect(results.length).toBe(1);
 
   done();
 });
+
+
+//TODO: add tests w/ filters
