@@ -38,8 +38,8 @@ export default function MobileSearchOverlay({
   // Hide keyboard and execute search
   const search = () => {
     if (macros.isMobile) {
-      if (document.selectedElement && document.selectedElement instanceof HTMLElement) {
-        document.selectedElement.blur();
+      if (document.activeElement && document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
       }
     }
     setQuery(controlledQuery);

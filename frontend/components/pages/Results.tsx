@@ -24,8 +24,8 @@ import useAtTop from '../ResultsPage/useAtTop';
 import {
   FilterSelection, QUERY_PARAM_ENCODERS, DEFAULT_FILTER_SELECTION, areFiltersSet,
 } from '../ResultsPage/filters';
-import { SearchResult, BLANK_SEARCH_RESULT } from '../types';
 import ResultsLoader from '../ResultsPage/ResultsLoader';
+import { BLANK_SEARCH_RESULT, SearchResult } from '../types';
 
 
 interface SearchParams {
