@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { FILTERS_BY_CATEGORY, FilterSelection } from './filters';
+import { FILTERS_BY_CATEGORY, FilterSelection, DEFAULT_FILTER_SELECTION } from './filters';
 
 interface PillProps {
   verbose: string, // for desktop
@@ -59,14 +59,13 @@ export default function FilterPills({ filters, setFilters }: FilterPillsProps) {
     }
   }
 
-  if (crumbs.length > 0) {
-    return (
-      <div className='active-filters'>
-        <span className='active-filters__label'>
-          Applied ({crumbs.length}):
-        </span>
-        <div className='active-filters__row'>
-          {
+  return (
+    <div className='active-filters'>
+      <span className='active-filters__label'>
+        Applied ({crumbs.length}):
+      </span>
+      <div className='active-filters__row'>
+        {
             crumbs.map((crumb: PillProps) => (
               <FilterPill
                 key={ crumb.verbose }
@@ -76,24 +75,15 @@ export default function FilterPills({ filters, setFilters }: FilterPillsProps) {
               />
             ))
           }
-          <button
-            className='clear-filters-button'
-            type='button'
-            onClick={ () => {
-              for (const { key } of OPTION_CATEGORIES) {
-                setFilters({ [key] : [] })
-              }
-
-              for (const { key } of BOOLEAN_CATEGORIES) {
-                setFilters({ [key]: false });
-              }
-            } }
-          >
-            Clear All
-          </button>
+        <div
+          className='active-filters__clear'
+          role='button'
+          tabIndex={ 0 }
+          onClick={ () => setFilters(DEFAULT_FILTER_SELECTION) }
+        >
+          Clear All
         </div>
       </div>
-    )
-  }
-  return null;
+    </div>
+  )
 }

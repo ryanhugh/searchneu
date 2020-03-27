@@ -45,6 +45,7 @@ export const FILTER_SPECS = {
   subject: { category: FilterCategories.Dropdown, display: 'Subject', order: 1 },
   classType: { category: FilterCategories.Checkboxes, display: 'Class Type', order: 4 },
 }
+// A specification for a filter of category C. Needed for conditional types
 type FilterSpec<C> = {
   category: C,
   display: string,
@@ -75,7 +76,7 @@ export type Option = {
 
 // ============== Constants For Components To Use ================
 export const QUERY_PARAM_ENCODERS: FilterInfo<QueryParamConfig<any, any>> = _.mapValues(FILTER_SPECS, (spec) => ENCODERS_FOR_CAT[spec.category]);
-export const DEFAULT_PARAMS: FilterInfo<false | []> = _.mapValues(FILTER_SPECS, (spec) => DEFAULTS_FOR_CAT[spec.category]);
+export const DEFAULT_FILTER_SELECTION: FilterSelection = _.mapValues(FILTER_SPECS, (spec) => DEFAULTS_FOR_CAT[spec.category]);
 export const FILTERS_BY_CATEGORY: Record<FilterCategory, Partial<FilterSpecs>> = _.mapValues(FilterCategories, (cat: FilterCategory) => {
   return _.pickBy(FILTER_SPECS, (spec) => spec.category === cat);
 });
@@ -83,3 +84,4 @@ export const FILTERS_IN_ORDER = _(FILTER_SPECS).toPairs()
   .map(([key, spec]) => ({ key, ...spec }))
   .sortBy(['order'])
   .value();
+export const areFiltersSet = (f: FilterSelection) => !_.isMatch(DEFAULT_FILTER_SELECTION, f);

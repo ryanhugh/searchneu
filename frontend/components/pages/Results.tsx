@@ -21,7 +21,9 @@ import FilterPills from '../ResultsPage/FilterPills';
 import EmptyResultsContainer from '../ResultsPage/EmptyResultsContainer';
 import MobileSearchOverlay from '../ResultsPage/MobileSearchOverlay';
 import useAtTop from '../ResultsPage/useAtTop';
-import { FilterSelection, QUERY_PARAM_ENCODERS, DEFAULT_PARAMS } from '../ResultsPage/filters';
+import {
+  FilterSelection, QUERY_PARAM_ENCODERS, DEFAULT_FILTER_SELECTION, areFiltersSet,
+} from '../ResultsPage/filters';
 import { SearchResult, BLANK_SEARCH_RESULT } from '../types';
 import ResultsLoader from '../ResultsPage/ResultsLoader';
 
@@ -61,7 +63,7 @@ export default function Results() {
   const setSearchQuery = (q: string) => { history.push(`/${termId}/${q}${history.location.search}`); }
   const setTerm = useCallback((t: string) => { history.push(`/${t}/${query}${history.location.search}`); }, [history, query])
 
-  const filters: FilterSelection = _.merge({}, DEFAULT_PARAMS, qParams);
+  const filters: FilterSelection = _.merge({}, DEFAULT_FILTER_SELECTION, qParams);
 
   const searchParams: SearchParams = { termId, query, filters };
 
@@ -124,7 +126,8 @@ export default function Results() {
           </>
         )}
         <div className='Results_Main'>
-          <FilterPills filters={ filters } setFilters={ setQParams } />
+          { areFiltersSet(filters)
+          && <FilterPills filters={ filters } setFilters={ setQParams } />}
           {!isReady && <div style={{ visibility: 'hidden' }} />}
           {isReady && results.length === 0 && <EmptyResultsContainer query={ query } />}
           {isReady && results.length > 0

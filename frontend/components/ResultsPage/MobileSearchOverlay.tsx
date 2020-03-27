@@ -4,7 +4,7 @@ import FilterPills from './FilterPills';
 import macros from '../macros';
 import LogoInput from '../images/LogoInput';
 import IconClose from '../images/IconClose';
-import { FilterSelection, FilterOptions } from './filters';
+import { FilterSelection, FilterOptions, areFiltersSet } from './filters';
 
 /**
  * setFilterPills sets the active filters
@@ -83,10 +83,12 @@ export default function MobileSearchOverlay({
       </div>
       <div className='msearch-overlay__content'>
         <div className='msearch-overlay__pills'>
-          <FilterPills
-            filters={ activeFilters }
-            setFilters={ setFilterPills }
-          />
+          {areFiltersSet(activeFilters) ? (
+            <FilterPills
+              filters={ activeFilters }
+              setFilters={ setFilterPills }
+            />
+          ) : <span>No filters set</span>}
         </div>
         <FilterPanel
           options={ filterOptions }
