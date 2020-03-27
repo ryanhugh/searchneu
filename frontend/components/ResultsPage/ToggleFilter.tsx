@@ -4,11 +4,11 @@ import _ from 'lodash';
 
 interface ToggleFilterProps {
   title: string,
-  active: boolean,
+  selected: boolean,
   setActive: (a:boolean)=>void
 }
 
-export default function ToggleFilter({ title, active, setActive }: ToggleFilterProps) {
+export default function ToggleFilter({ title, selected, setActive }: ToggleFilterProps) {
   const [id] = useState(_.uniqueId('react-switch-'));
   return (
     <div className='toggleFilter'>
@@ -19,8 +19,8 @@ export default function ToggleFilter({ title, active, setActive }: ToggleFilterP
       </div>
       <div className='toggleSwitch'>
         <input
-          checked={ active }
-          onChange={ () => { setActive(!active) } }
+          checked={ selected }
+          onChange={ () => { setActive(!selected) } }
           className='react-switch-checkbox'
           id={ id }
           type='checkbox'

@@ -81,7 +81,7 @@ export default function Results() {
     return (
       <MobileSearchOverlay
         query={ query }
-        activeFilters={ filters }
+        filterSelection={ filters }
         filterOptions={ filterOptions }
         setFilterPills={ setQParams }
         setQuery={ (q: string) => setSearchQuery(q) }
@@ -118,7 +118,7 @@ export default function Results() {
             <div className='Results_SidebarWrapper'>
               <FilterPanel
                 options={ filterOptions }
-                active={ filters }
+                selected={ filters }
                 setActive={ setQParams }
               />
             </div>

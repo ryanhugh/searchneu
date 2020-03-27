@@ -11,25 +11,25 @@ import {
 
 export interface FilterPanelProps {
   options: FilterOptions,
-  active: FilterSelection,
+  selected: FilterSelection,
   setActive: (f: FilterSelection) => void,
 }
 
-function FilterPanel({ options, active, setActive }: FilterPanelProps) {
+function FilterPanel({ options, selected, setActive }: FilterPanelProps) {
   return (
     <div className='FilterPanel'>
       {FILTERS_IN_ORDER.map(({ key, display, category }) => {
-        const aFilter = active[key];
+        const aFilter = selected[key];
         const setActiveFilter = (a) => setActive({ [key]: a });
 
         return (
           <>
             {category === 'Toggle'
-          && <ToggleFilter title={ display } active={ aFilter } setActive={ setActiveFilter } />}
+          && <ToggleFilter title={ display } selected={ aFilter } setActive={ setActiveFilter } />}
             {category === 'Dropdown'
-          && <DropdownFilter title={ display } options={ options[key] } active={ aFilter } setActive={ setActiveFilter } />}
+          && <DropdownFilter title={ display } options={ options[key] } selected={ aFilter } setActive={ setActiveFilter } />}
             {category === 'Checkboxes'
-          && <CheckboxFilter title={ display } options={ options[key] } active={ aFilter } setActive={ setActiveFilter } />}
+          && <CheckboxFilter title={ display } options={ options[key] } selected={ aFilter } setActive={ setActiveFilter } />}
           </>
         )
       })}

@@ -36,7 +36,7 @@ exports[`should render a section 1`] = `
       className="Results_SidebarWrapper"
     >
       <Memo(FilterPanel)
-        active={
+        selected={
           Object {
             "classType": Array [],
             "nupath": Array [],

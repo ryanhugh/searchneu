@@ -60,11 +60,11 @@ export default function FilterPills({ filters, setFilters }: FilterPillsProps) {
   }
 
   return (
-    <div className='active-filters'>
-      <span className='active-filters__label'>
+    <div className='selected-filters'>
+      <span className='selected-filters__label'>
         Applied ({crumbs.length}):
       </span>
-      <div className='active-filters__row'>
+      <div className='selected-filters__row'>
         {
             crumbs.map((crumb: PillProps) => (
               <FilterPill
@@ -76,7 +76,7 @@ export default function FilterPills({ filters, setFilters }: FilterPillsProps) {
             ))
           }
         <div
-          className='active-filters__clear'
+          className='selected-filters__clear'
           role='button'
           tabIndex={ 0 }
           onClick={ () => setFilters(DEFAULT_FILTER_SELECTION) }
