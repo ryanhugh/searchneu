@@ -4,8 +4,10 @@ import _ from 'lodash';
 
 import CheckboxFilter from './CheckboxFilter';
 import DropdownFilter from './DropdownFilter';
-import { FilterSelection, FilterOptions } from '../types';
 import ToggleFilter from './ToggleFilter';
+import {
+  FilterOptions, FilterSelection, FILTER_ORDER, FILTER_SPECS, FilterCategory, FILTER_DISPLAY_TEXT,
+} from './filters';
 
 export interface FilterPanelProps {
   options: FilterOptions,
@@ -16,29 +18,23 @@ export interface FilterPanelProps {
 function FilterPanel({ options, active, setActive }: FilterPanelProps) {
   return (
     <div className='FilterPanel'>
-      <DropdownFilter
-        title='Subjects'
-        options={ options.subject }
-        active={ active.subject }
-        setActive={ (a: string[]) => setActive({ subject: a }) }
-      />
-      <DropdownFilter
-        title='NU Paths'
-        options={ options.nupath }
-        active={ active.nupath }
-        setActive={ (a: string[]) => setActive({ nupath: a }) }
-      />
-      <ToggleFilter
-        title='Online Classes Only'
-        active={ active.online }
-        setActive={ (a) => setActive({ online: a }) }
-      />
-      <CheckboxFilter
-        title='Schedule Type'
-        options={ options.classType }
-        active={ active.classType }
-        setActive={ (a) => setActive({ classType: a }) }
-      />
+      {FILTER_ORDER.map((filter) => {
+        const cat: FilterCategory = FILTER_SPECS[filter];
+        const title: string = FILTER_DISPLAY_TEXT[filter];
+        const aFilter = active[filter];
+        const setActiveFilter = (a) => setActive({ [filter]: a });
+
+        return (
+          <>
+            {cat === 'Toggle'
+          && <ToggleFilter title={ title } active={ aFilter } setActive={ setActiveFilter } />}
+            {cat === 'Dropdown'
+          && <DropdownFilter title={ title } options={ options[filter] } active={ aFilter } setActive={ setActiveFilter } />}
+            {cat === 'Checkboxes'
+          && <CheckboxFilter title={ title } options={ options[filter] } active={ aFilter } setActive={ setActiveFilter } />}
+          </>
+        )
+      })}
     </div>
   );
 }

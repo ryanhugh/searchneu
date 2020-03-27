@@ -6,23 +6,24 @@ import React, { useCallback } from 'react';
 import _ from 'lodash';
 import { useHistory, useParams } from 'react-router-dom';
 import {
-  useQueryParams, BooleanParam, ArrayParam, useQueryParam,
+  useQueryParams, BooleanParam, useQueryParam,
 } from 'use-query-params';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import logo from '../images/logo.svg';
 import search from '../search';
 import macros from '../macros';
-import ResultsLoader from '../ResultsLoader';
 import SearchBar from '../ResultsPage/SearchBar';
 import TermDropdown from '../ResultsPage/TermDropdown';
 import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
 import FilterPanel from '../ResultsPage/FilterPanel';
 import FilterPills from '../ResultsPage/FilterPills';
-import { FilterSelection, BLANK_SEARCH_RESULT, SearchResult } from '../types';
 import EmptyResultsContainer from '../ResultsPage/EmptyResultsContainer';
 import MobileSearchOverlay from '../ResultsPage/MobileSearchOverlay';
 import useAtTop from '../ResultsPage/useAtTop';
+import { FilterSelection, QUERY_PARAM_ENCODERS, DEFAULT_PARAMS } from '../ResultsPage/filters';
+import { SearchResult, BLANK_SEARCH_RESULT } from '../types';
+import ResultsLoader from '../ResultsPage/ResultsLoader';
 
 
 interface SearchParams {
@@ -50,22 +51,6 @@ const fetchResults = async ({ query, termId, filters }: SearchParams, page: numb
   }
   return response;
 };
-
-const QUERY_PARAM_ENCODERS = {
-  online: BooleanParam,
-  showUnavailable: BooleanParam,
-  nupath: ArrayParam,
-  subject: ArrayParam,
-  classType: ArrayParam,
-};
-
-const DEFAULT_PARAMS: FilterSelection = {
-  online: false,
-  showUnavailable: false,
-  nupath: [],
-  subject: [],
-  classType: [],
-}
 
 export default function Results() {
   const atTop = useAtTop();

@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { FilterSelection } from '../types';
+import { FILTER_SPECS, FILTERS_BY_CATEGORY, FILTER_DISPLAY_TEXT } from './filters';
 
 interface PillProps {
   verbose: string, // for desktop
@@ -33,37 +34,27 @@ interface FilterPillsProps {
   setFilters: (f: FilterSelection) => void
 }
 
-type FilterCategorySpecification = { key: string, display: string };
-
-const OPTION_CATEGORIES: FilterCategorySpecification[] = [
-  { key: 'nupath', display: 'NU Path' },
-  { key: 'subject', display: 'Subject' },
-  { key: 'classType', display: 'Class Type' },
-];
-
-const BOOLEAN_CATEGORIES: FilterCategorySpecification[] = [
-  { key: 'online', display: 'Only Online' },
-]
+const OPTIONS_FILTERS: string[] = [...FILTERS_BY_CATEGORY.Dropdown, ...FILTERS_BY_CATEGORY.Checkboxes];
 
 export default function FilterPills({ filters, setFilters }: FilterPillsProps) {
   const crumbs: PillProps[] = [];
 
   // Add all the selected option filters
-  for (const { display, key } of OPTION_CATEGORIES) {
+  for (const key of OPTIONS_FILTERS) {
     for (const s of filters[key]) {
       crumbs.push({
-        verbose: `${display}: ${s}`,
+        verbose: `${FILTER_DISPLAY_TEXT[key]}: ${s}`,
         compact: s,
         onClose: () => setFilters({ [key]: _.without(filters[key], s) }),
       });
     }
   }
 
-  for (const { display, key } of BOOLEAN_CATEGORIES) {
+  for (const key of FILTERS_BY_CATEGORY.Toggle) {
     if (filters[key]) {
       crumbs.push({
-        verbose: display,
-        compact: display,
+        verbose: FILTER_DISPLAY_TEXT[key],
+        compact: FILTER_DISPLAY_TEXT[key],
         onClose: () => setFilters({ [key]: false }),
       })
     }
