@@ -71,13 +71,7 @@ export interface Meeting {
   endDate: number,
   where: string,
   type: string,
-  times: {
-    '1'?: MeetingTime,
-    '2'?: MeetingTime,
-    '3'?: MeetingTime,
-    '4'?: MeetingTime,
-    '5'?: MeetingTime,
-  }
+  times: Record<'0'|'1'|'2'|'3'|'4'|'5'|'6', MeetingTime>
 }
 
 // A single meeting time, ex: "9:50-11:30am"
