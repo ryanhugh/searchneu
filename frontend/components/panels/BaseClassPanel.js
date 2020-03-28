@@ -14,6 +14,7 @@ import user from '../user';
 class BaseClassPanel extends React.Component {
   static propTypes = {
     aClass: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -70,8 +71,6 @@ class BaseClassPanel extends React.Component {
   }
 
   onShowMoreClick() {
-    macros.log('Adding more sections to the bottom.');
-
     this.setState((state) => {
       // Get the length of the our sections
       const rendered = state.renderedSections;
@@ -88,7 +87,9 @@ class BaseClassPanel extends React.Component {
   }
 
   // Prevents page reload and fires off new search without reloading.
-  onReqClick(reqType, childBranch, event) {
+  onReqClick(reqType, childBranch, event, hash) {
+    this.props.history.push(hash);
+
     // Create the React element and add it to retVal
     const searchEvent = new CustomEvent(macros.searchEvent, { detail: `${childBranch.subject} ${childBranch.classId}` });
     window.dispatchEvent(searchEvent);
@@ -198,7 +199,6 @@ class BaseClassPanel extends React.Component {
             return;
           }
           processedSubjectClassIds[childBranch.desc] = true;
-
           retVal.push(childBranch.desc);
         } else {
           // Skip if already seen
@@ -209,14 +209,13 @@ class BaseClassPanel extends React.Component {
 
           // When adding support for right click-> open in new tab, we might also be able to fix the jsx-a11y/anchor-is-valid errors.
           // They are disabled for now.
-          const hash = `/${this.props.aClass.termId}/${childBranch.subject} ${childBranch.classId}`;
+          const hash = `/${this.props.aClass.termId}/${childBranch.subject}${childBranch.classId}`;
 
           const element = (
             <a
-              key={ hash }
-              href={ hash }
-              tabIndex={ 0 }
-              onClick={ (event) => { this.onReqClick(reqType, childBranch, event); } }
+              role='link'
+              tabIndex='0'
+              onClick={ (event) => { this.onReqClick(reqType, childBranch, event, hash); } }
               className='reqClassLink'
             >
               {`${childBranch.subject} ${childBranch.classId}`}

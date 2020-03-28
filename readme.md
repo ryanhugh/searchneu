@@ -22,7 +22,7 @@ If you are interested in helping make this site awesome that is fantastic! There
 
 Feel free to reach out if you have any questions! hey@searchneu.com
 
-Search NEU was originally built by [Ryan Hughes](https://github.com/ryanhugh). This fork has become the mainline and is maintained by Sandbox, Northeastern's student-led software consultancy.
+Search NEU was originally built by [Ryan Hughes](https://github.com/ryanhugh). This fork has become the mainline and is maintained by [Sandbox](https://www.sandboxnu.com/), Northeastern's student-led software consultancy.
 
 Shout out to the following folks for contributing!
 
