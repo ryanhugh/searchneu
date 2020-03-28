@@ -26,6 +26,8 @@ $EXECUTE_BTN_HEIGHT: 40px;
 
   &__pills {
     min-height: 50px;
+    display: flex;
+    align-items: center;
   }
 
   &__execute {

@@ -1,24 +1,24 @@
 import React from 'react';
 import CheckboxGroup from './CheckboxGroup';
-import { Option } from './filterTypes';
+import { Option } from './filters';
 
 
 interface CheckboxFilterProps {
   title: string,
   options: Option[],
-  active: string[],
+  selected: string[],
   setActive: (a: string[]) => void
 
 }
 
 export default function CheckboxFilter({
-  title, options, active, setActive,
+  title, options, selected, setActive,
 }: CheckboxFilterProps) {
   return (
 
     <div className='CheckboxFilter'>
       <span className='CheckboxFilter__title'>{title}</span>
-      <CheckboxGroup name='CheckboxFilter' value={ active } onChange={ setActive }>
+      <CheckboxGroup name='CheckboxFilter' value={ selected } onChange={ setActive }>
         {(Checkbox) => (
           <>
             {options.map((option) => (

@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { FilterSelection } from '../types';
+import { FILTERS_BY_CATEGORY, FilterSelection, DEFAULT_FILTER_SELECTION } from './filters';
 
 interface PillProps {
   verbose: string, // for desktop
@@ -33,50 +33,39 @@ interface FilterPillsProps {
   setFilters: (f: FilterSelection) => void
 }
 
-type FilterCategorySpecification = { key: string, display: string };
-
-const OPTION_CATEGORIES: FilterCategorySpecification[] = [
-  { key: 'nupath', display: 'NU Path' },
-  { key: 'subject', display: 'Subject' },
-  { key: 'classType', display: 'Class Type' },
-];
-
-const BOOLEAN_CATEGORIES: FilterCategorySpecification[] = [
-  { key: 'online', display: 'Only Online' },
-]
+const OPTIONS_FILTERS = { ...FILTERS_BY_CATEGORY.Dropdown, ...FILTERS_BY_CATEGORY.Checkboxes };
 
 export default function FilterPills({ filters, setFilters }: FilterPillsProps) {
   const crumbs: PillProps[] = [];
 
   // Add all the selected option filters
-  for (const { display, key } of OPTION_CATEGORIES) {
+  for (const [key, spec] of Object.entries(OPTIONS_FILTERS)) {
     for (const s of filters[key]) {
       crumbs.push({
-        verbose: `${display}: ${s}`,
+        verbose: `${spec.display}: ${s}`,
         compact: s,
         onClose: () => setFilters({ [key]: _.without(filters[key], s) }),
       });
     }
   }
 
-  for (const { display, key } of BOOLEAN_CATEGORIES) {
+  for (const [key, spec] of Object.entries(FILTERS_BY_CATEGORY.Toggle)) {
     if (filters[key]) {
       crumbs.push({
-        verbose: display,
-        compact: display,
+        verbose: spec.display,
+        compact: spec.display,
         onClose: () => setFilters({ [key]: false }),
       })
     }
   }
 
-  if (crumbs.length > 0) {
-    return (
-      <div className='active-filters'>
-        <span className='active-filters__label'>
-          Applied ({crumbs.length}):
-        </span>
-        <div className='active-filters__row'>
-          {
+  return (
+    <div className='selected-filters'>
+      <span className='selected-filters__label'>
+        Applied ({crumbs.length}):
+      </span>
+      <div className='selected-filters__row'>
+        {
             crumbs.map((crumb: PillProps) => (
               <FilterPill
                 key={ crumb.verbose }
@@ -86,24 +75,15 @@ export default function FilterPills({ filters, setFilters }: FilterPillsProps) {
               />
             ))
           }
-          <button
-            className='clear-filters-button'
-            type='button'
-            onClick={ () => {
-              for (const { key } of OPTION_CATEGORIES) {
-                setFilters({ [key] : [] })
-              }
-
-              for (const { key } of BOOLEAN_CATEGORIES) {
-                setFilters({ [key]: false });
-              }
-            } }
-          >
-            Clear All
-          </button>
+        <div
+          className='selected-filters__clear'
+          role='button'
+          tabIndex={ 0 }
+          onClick={ () => setFilters(DEFAULT_FILTER_SELECTION) }
+        >
+          Clear All
         </div>
       </div>
-    )
-  }
-  return null;
+    </div>
+  )
 }

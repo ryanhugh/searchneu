@@ -1,15 +1,15 @@
 import React from 'react';
 import { Dropdown } from 'semantic-ui-react';
-import { Option } from './filterTypes';
+import { Option } from './filters';
 
 interface DropdownFilter {
   title: string,
   options: Option[],
-  active: string[],
+  selected: string[],
   setActive: (a:string[])=>void
 }
 export default function DropdownFilter({
-  title, options, active, setActive,
+  title, options, selected, setActive,
 }: DropdownFilter) {
   return (
     <div>
@@ -18,7 +18,7 @@ export default function DropdownFilter({
         onChange={ (e, { value }) => {
           setActive(value as string[]);
         } }
-        value={ active }
+        value={ selected }
         labeled
         options={ options.map((o:Option) => ({
           key:o.value, text:o.value, value:o.value, description: o.count,

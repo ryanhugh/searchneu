@@ -6,23 +6,26 @@ import React, { useCallback } from 'react';
 import _ from 'lodash';
 import { useHistory, useParams } from 'react-router-dom';
 import {
-  useQueryParams, BooleanParam, ArrayParam, useQueryParam,
+  useQueryParams, BooleanParam, useQueryParam,
 } from 'use-query-params';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import logo from '../images/logo.svg';
 import search from '../search';
 import macros from '../macros';
-import ResultsLoader from '../ResultsLoader';
 import SearchBar from '../ResultsPage/SearchBar';
 import TermDropdown from '../ResultsPage/TermDropdown';
 import Footer from '../Footer';
 import useSearch from '../ResultsPage/useSearch';
 import FilterPanel from '../ResultsPage/FilterPanel';
 import FilterPills from '../ResultsPage/FilterPills';
-import { FilterSelection, BLANK_SEARCH_RESULT, SearchResult } from '../types';
 import EmptyResultsContainer from '../ResultsPage/EmptyResultsContainer';
 import MobileSearchOverlay from '../ResultsPage/MobileSearchOverlay';
 import useAtTop from '../ResultsPage/useAtTop';
+import {
+  FilterSelection, QUERY_PARAM_ENCODERS, DEFAULT_FILTER_SELECTION, areFiltersSet,
+} from '../ResultsPage/filters';
+import ResultsLoader from '../ResultsPage/ResultsLoader';
+import { BLANK_SEARCH_RESULT, SearchResult } from '../types';
 
 
 interface SearchParams {
@@ -51,22 +54,6 @@ const fetchResults = async ({ query, termId, filters }: SearchParams, page: numb
   return response;
 };
 
-const QUERY_PARAM_ENCODERS = {
-  online: BooleanParam,
-  showUnavailable: BooleanParam,
-  nupath: ArrayParam,
-  subject: ArrayParam,
-  classType: ArrayParam,
-};
-
-const DEFAULT_PARAMS: FilterSelection = {
-  online: false,
-  showUnavailable: false,
-  nupath: [],
-  subject: [],
-  classType: [],
-}
-
 export default function Results() {
   const atTop = useAtTop();
   const [showOverlay, setShowOverlay] = useQueryParam('overlay', BooleanParam);
@@ -76,7 +63,7 @@ export default function Results() {
   const setSearchQuery = (q: string) => { history.push(`/${termId}/${q}${history.location.search}`); }
   const setTerm = useCallback((t: string) => { history.push(`/${t}/${query}${history.location.search}`); }, [history, query])
 
-  const filters: FilterSelection = _.merge({}, DEFAULT_PARAMS, qParams);
+  const filters: FilterSelection = _.merge({}, DEFAULT_FILTER_SELECTION, qParams);
 
   const searchParams: SearchParams = { termId, query, filters };
 
@@ -94,7 +81,7 @@ export default function Results() {
     return (
       <MobileSearchOverlay
         query={ query }
-        activeFilters={ filters }
+        filterSelection={ filters }
         filterOptions={ filterOptions }
         setFilterPills={ setQParams }
         setQuery={ (q: string) => setSearchQuery(q) }
@@ -131,7 +118,7 @@ export default function Results() {
             <div className='Results_SidebarWrapper'>
               <FilterPanel
                 options={ filterOptions }
-                active={ filters }
+                selected={ filters }
                 setActive={ setQParams }
               />
             </div>
@@ -139,7 +126,8 @@ export default function Results() {
           </>
         )}
         <div className='Results_Main'>
-          <FilterPills filters={ filters } setFilters={ setQParams } />
+          { areFiltersSet(filters)
+          && <FilterPills filters={ filters } setFilters={ setQParams } />}
           {!isReady && <div style={{ visibility: 'hidden' }} />}
           {isReady && results.length === 0 && <EmptyResultsContainer query={ query } />}
           {isReady && results.length > 0

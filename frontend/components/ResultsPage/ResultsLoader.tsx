@@ -1,14 +1,14 @@
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useHistory } from 'react-router-dom';
-import { SearchItem } from './types';
-import macros from './macros';
-import EmployeePanel from './panels/EmployeePanel';
-import DesktopClassPanel from './panels/DesktopClassPanel';
-import MobileClassPanel from './panels/MobileClassPanel';
+import macros from '../macros';
+import EmployeePanel from '../panels/EmployeePanel';
+import DesktopClassPanel from '../panels/DesktopClassPanel';
+import MobileClassPanel from '../panels/MobileClassPanel';
 
-import Class from './classModels/Class';
-import Keys from '../../common/Keys';
+import Class from '../classModels/Class';
+import Keys from '../../../common/Keys';
+import { SearchItem } from '../types';
 
 interface ResultsLoaderProps {
   results: SearchItem[],
