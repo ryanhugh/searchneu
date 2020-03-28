@@ -7,7 +7,6 @@ import URI from 'urijs';
 
 import cache from '../cache';
 import macros from '../../macros';
-import Keys from '../../../common/Keys';
 import termDump from './termDump';
 import differentCollegeUrls from './differentCollegeUrls';
 import bannerv9CollegeUrls from './bannerv9CollegeUrls';
@@ -28,85 +27,6 @@ import bannerv9Parser from './parsersxe/bannerv9Parser';
 
 
 class Main {
-  waterfallIdentifyers(rootNode, attrToAdd = {}) {
-    const newChildAttr = {};
-
-    // Shallow clone the attributes to newChildAttr.
-    // Would use Object.create, but this puts the inhereted attributes on the prototype and JSON.stringify does not include properties on the prototype.
-    for (const attrName of Object.keys(attrToAdd)) {
-      newChildAttr[attrName] = attrToAdd[attrName];
-    }
-
-    // Sanity check to make sure this node is valid.
-    if (!rootNode.value || !rootNode.type) {
-      macros.error('Invalid root node', rootNode);
-      return;
-    }
-
-    // Look at this object and find any new attributes that should be copied over to children.
-    // Eg If so far we have a host, termId and a subject, and this is a class, a classId will be added to the newChildAttr object
-    // and will be carried down to all the children with the host, termId and subject
-    for (const attrName of Object.keys(rootNode.value)) {
-      if (!Keys.allKeys.includes(attrName)) {
-        continue;
-      }
-
-      // Make sure that the child object does not have a different value that would be overriden by adding all
-      // the properties from attrToAdd
-      if (rootNode.value[attrName] && newChildAttr[attrName] && rootNode.value[attrName] !== newChildAttr[attrName]) {
-        macros.error('Overriding attr?', attrName, rootNode.value, newChildAttr);
-      }
-
-      newChildAttr[attrName] = rootNode.value[attrName];
-    }
-
-    // Actually add the atributes to this obj
-    rootNode.value = { ...rootNode.value, ...newChildAttr };
-
-    // Recusion.
-    if (rootNode.deps) {
-      for (const dep of rootNode.deps) {
-        this.waterfallIdentifyers(dep, newChildAttr);
-      }
-    }
-  }
-
-
-  // Converts the PageData data structure to a term dump. Term dump has a .classes and a .sections, etc, and is used in the processors
-  pageDataStructureToTermDump(rootNode) {
-    const output = {};
-
-    let stack = [rootNode];
-    let curr = null;
-    while ((curr = stack.pop())) {
-      if (!curr.type) {
-        macros.error('no type?', curr);
-        continue;
-      }
-
-      // If the type is set to ignore, don't add it to the output, but do process this items deps
-      if (curr.type !== 'ignore') {
-        if (!output[curr.type]) {
-          output[curr.type] = [];
-        }
-
-        const item = {};
-
-        Object.assign(item, curr.value);
-
-        output[curr.type].push(item);
-      }
-
-
-      if (curr.deps) {
-        stack = stack.concat(curr.deps);
-      }
-    }
-
-    return output;
-  }
-
-
   getUrlsFromCollegeAbbrs(collegeAbbrs, listToCheck) {
     // This list is modified below, so clone it here so we don't modify the input object.
     collegeAbbrs = collegeAbbrs.slice(0);
@@ -141,12 +61,6 @@ class Main {
 
     macros.log('Processing ', urlsToProcess);
     return urlsToProcess;
-  }
-
-  // Converts the data structure used for parsing into the data structure used in the processors.
-  restructureData(rootNode) {
-    this.waterfallIdentifyers(rootNode);
-    return this.pageDataStructureToTermDump(rootNode);
   }
 
   // Runs the processors over a termDump.
