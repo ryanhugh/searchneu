@@ -22,14 +22,14 @@
     width: 25px;
     height: 25px;
     border-radius: 25px;
-    transition: 0.2s;
+    transition: 0.4s;
     background: #a0a0a0;
     box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
   }
 }
 
 .react-switch-label:active .react-switch-button {
-  width: 15px;
+  width: 25px;
 }
 
 .react-switch-checkbox:checked + .react-switch-label {

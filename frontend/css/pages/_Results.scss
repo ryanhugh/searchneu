@@ -36,7 +36,8 @@ $SIDEBAR_WIDTH: 268px;
   height: 25px;
   z-index: 10;
   cursor: pointer;
-  margin-left: 32px;
+  margin-left: 17px;
+  margin-right: 16px;
 
   @media only screen and (max-width: 767px) {
     display: none;
@@ -46,6 +47,7 @@ $SIDEBAR_WIDTH: 268px;
 .Results__searchwrapper {
   flex-basis: 538px;
   flex-shrink: 2;
+
 }
 
 .Results_Container {
